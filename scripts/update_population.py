@@ -448,8 +448,8 @@ def main():
         'active_scope': taipei['metadata']['selection_scope'],
         'excluded_historical_source_references': 'raw_data/population/historical_references.json',
         'independent_review_status': 'pending', 'quality_report': 'raw_data/population/quality_report.json',
-        'update_command': '.venv/bin/python scripts/update_population.py',
-        'offline_command': '.venv/bin/python scripts/update_population.py --offline'})
+        'update_command': 'uv run scripts/update_population.py',
+        'offline_command': 'uv run scripts/update_population.py --offline'})
     write(OUT / 'catalog.json', {'schema_version': 1, 'dataset_id': 'population_catalog',
         'metadata': {'sources': list(d.entries.values()), 'cross_source_checks': checks,
             'active_scope': taipei['metadata']['selection_scope'],

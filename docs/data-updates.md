@@ -1,23 +1,22 @@
 # 資料更新
 
-在 repo 根目錄執行，需要 Python 3.12 以上及 `curl`：
+在 repo 根目錄執行，需要 [uv](https://docs.astral.sh/uv/) 及 `curl`。Python 版本由 `.python-version` 指定，依賴鎖定在 `uv.lock`：
 
 ```bash
-python3 -m venv .venv
-.venv/bin/pip install -r requirements.txt
+uv sync
 ```
 
 ## 臺北市公車與公運處統計
 
 ```bash
 # 下載並整理
-.venv/bin/python scripts/update_data.py
+uv run scripts/update_data.py
 
 # 不連網，從原始檔重新整理
-.venv/bin/python scripts/update_data.py --offline
+uv run scripts/update_data.py --offline
 
 # 必要檢查
-.venv/bin/python -m unittest discover -s tests -p test_update_data.py -v
+uv run python -m unittest discover -s tests -p test_update_data.py -v
 ```
 
 原始檔存於 `raw_data/taipei/`、`raw_data/pto/`，來源清單為 `raw_data/taipei_bus_manifest.json`；輸出清單見 [`data/taipei_bus_catalog.json`](../data/taipei_bus_catalog.json)。下載或解析失敗時保留上一版，更新不會覆寫其他來源。

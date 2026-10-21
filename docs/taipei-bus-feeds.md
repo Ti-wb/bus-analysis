@@ -3,8 +3,8 @@
 `scripts/update_bus_feeds.py` 取得清單中的 14 份公開 `.gz` feed，保留原始壓縮檔與官方 V6.3 欄位規格，再輸出 JSON／GeoJSON。研究範圍為臺北市；來源中跨市營運的路線與站牌保留，未額外抓取新北市 feed。
 
 ```bash
-.venv/bin/python scripts/update_bus_feeds.py
-.venv/bin/python scripts/update_bus_feeds.py --offline
+uv run scripts/update_bus_feeds.py
+uv run scripts/update_bus_feeds.py --offline
 ```
 
 離線重建會檢查壓縮檔、JSON／XML 格式，再檢查欄位、筆數、識別碼與座標；線上更新會替換本組的最新快照。`--download-only` 只下載，尚未完成資料整理。完整來源、下載時間與資料時間在 `raw_data/taipei_feeds/manifest.json`。整理結果及各表品質在 `data/taipei_feeds/`；`raw_data/taipei_feeds/delivery.json` 列出輸出與限制。

@@ -497,7 +497,7 @@ def parse_curb_parking(dl,include_all=False):
     extracted.rmdir()
     reference={"dataset_id":"taipei_curb_parking_spaces","status":"source_reference_only" if not include_all else "normalized",
                "source_record_count":all_count,"output_record_count":written,"quality":qc,
-               "source":dl.entries["curb_parking_1.zip"],"rebuild_command":".venv/bin/python scripts/update_urban.py --offline --include-all-curb"}
+               "source":dl.entries["curb_parking_1.zip"],"rebuild_command":"uv run scripts/update_urban.py --offline --include-all-curb"}
     if include_all:reference["file"]="data/urban/curb_parking_spaces.geojson"
     return outputs,reference
 

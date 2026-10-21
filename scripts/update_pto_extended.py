@@ -506,7 +506,7 @@ def delivery():
             outputs.append({"path": str(path.relative_to(ROOT)), "record_count": len(obj["records"])})
             limits.extend(obj["metadata"].get("warnings", []))
         items.append({"dataset_id": dataset_id, "status": status, "output_files": outputs, "record_count": sum(x["record_count"] for x in outputs), "period": period_label, "limitations": list(dict.fromkeys(limits))})
-    write_json(RAW / "delivery.json", {"generated_at": now(), "producer_agent": "pto", "source_manifest": "raw_data/pto_extended/manifest.json", "update_command": ".venv/bin/python scripts/update_pto_extended.py", "offline_command": ".venv/bin/python scripts/update_pto_extended.py --offline", "datasets": items})
+    write_json(RAW / "delivery.json", {"generated_at": now(), "producer_agent": "pto", "source_manifest": "raw_data/pto_extended/manifest.json", "update_command": "uv run scripts/update_pto_extended.py", "offline_command": "uv run scripts/update_pto_extended.py --offline", "datasets": items})
 
 
 def main():
