@@ -14,12 +14,12 @@
 | 全市客運統計、2024 臺北市運具調查 | `data/background/` | `scripts/update_background.py` |
 | TDX 歷史及加值資料 | `data/tdx/` | `scripts/update_tdx.py` |
 
-安裝依賴見[既有更新說明](data-updates.md)。各來源獨立更新，例如：
+安裝依賴（`uv sync`）見[既有更新說明](data-updates.md)。各來源獨立更新，例如：
 
 ```bash
-.venv/bin/python scripts/update_population.py
-.venv/bin/python scripts/update_population.py --offline
-.venv/bin/python scripts/build_collection_catalog.py
+uv run scripts/update_population.py
+uv run scripts/update_population.py --offline
+uv run scripts/build_collection_catalog.py
 ```
 
 各腳本的 `--help` 列出選項。`--offline` 需要仍保留的來源檔；已移除的大型原始檔須重新下載。捷運可從保留的月彙總重組各站分時資料，無法還原完整 OD。

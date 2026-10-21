@@ -16,7 +16,7 @@
 
 歷史站序在2026-10-20與2026-10-19均回HTTP500，已留取用網址及來源缺口。
 
-更新公開目錄：`.venv/bin/python scripts/update_tdx.py`；離線重建：`.venv/bin/python scripts/update_tdx.py --offline`。
+更新公開目錄：`uv run scripts/update_tdx.py`；離線重建：`uv run scripts/update_tdx.py --offline`。
 
 用 `--offline --plan --family drts` 預覽請求；歷史取樣用 `--offline --plan --family historical --date YYYY-MM-DD --sample-top 30`。執行時改用 `--use-cached-specs --fetch` 並移除 `--offline`。金鑰從專案`.env`或環境的`TDX_CLIENT_ID`、`TDX_CLIENT_SECRET`讀取，不寫入資料檔。
 
