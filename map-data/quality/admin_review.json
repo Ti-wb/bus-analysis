@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "dataset_id": "taipei_new_taipei_admin_independent_review",
+  "metadata": {
+    "producer_task": "population",
+    "reviewed_at": "2026-10-22T00:23:58+08:00",
+    "scope": "Official Taipei and New Taipei city, district and village layers, index and manifest.",
+    "reviewed_script": "scripts/update_map_admin.py",
+    "validation_script": "map-data/raw/reviews/review_admin.py",
+    "reviewer_agent": "review_urban_background",
+    "independent_of_producer": true,
+    "status": "pass_with_limitations"
+  },
+  "records": [
+    {
+      "dataset_id": "taipei_new_taipei_admin_cities",
+      "record_count": 2,
+      "source_period": "2025-03-18",
+      "source_file": "map-data/raw/admin/cities.zip",
+      "source_page": "https://data.gov.tw/dataset/7442",
+      "checks": {
+        "source_record_count": 22,
+        "city_counts": {
+          "63000": 1,
+          "65000": 1
+        },
+        "all_source_fields_and_official_ids": "pass",
+        "all_source_geometries_preserved": "pass",
+        "verified_vertices": 40970,
+        "verified_rings": 3,
+        "invalid_geometries": 0,
+        "duplicate_ids": 0,
+        "bbox_and_coordinate_order": "pass"
+      },
+      "limitations": [
+        "來源 TWD97[2020] 由 PROJ 識別為 EPSG:3824，輸出轉 WGS84；所採轉換標示精度 1 公尺。",
+        "未簡化頂點；輸出座標取小數 9 位。官方檔名版本日期不代表所有界線的法律生效日。"
+      ],
+      "path": "map-data/admin/cities.geojson",
+      "status": "pass_with_limitations",
+      "source_periods": [
+        "2025-03-18"
+      ]
+    },
+    {
+      "dataset_id": "taipei_new_taipei_admin_districts",
+      "record_count": 41,
+      "source_period": "2025-03-18",
+      "source_file": "map-data/raw/admin/districts.zip",
+      "source_page": "https://data.gov.tw/dataset/7441",
+      "checks": {
+        "source_record_count": 368,
+        "city_counts": {
+          "63000": 12,
+          "65000": 29
+        },
+        "all_source_fields_and_official_ids": "pass",
+        "all_source_geometries_preserved": "pass",
+        "verified_vertices": 124960,
+        "verified_rings": 41,
+        "invalid_geometries": 0,
+        "duplicate_ids": 0,
+        "bbox_and_coordinate_order": "pass"
+      },
+      "limitations": [
+        "來源 TWD97[2020] 由 PROJ 識別為 EPSG:3824，輸出轉 WGS84；所採轉換標示精度 1 公尺。",
+        "未簡化頂點；輸出座標取小數 9 位。官方檔名版本日期不代表所有界線的法律生效日。"
+      ],
+      "path": "map-data/admin/districts.geojson",
+      "status": "pass_with_limitations",
+      "source_periods": [
+        "2025-03-18"
+      ]
+    },
+    {
+      "dataset_id": "taipei_new_taipei_admin_villages",
+      "record_count": 1512,
+      "source_period": "2026-08-17",
+      "source_file": "map-data/raw/admin/villages.zip",
+      "source_page": "https://data.gov.tw/dataset/7438",
+      "checks": {
+        "source_record_count": 7986,
+        "city_counts": {
+          "63000": 456,
+          "65000": 1056
+        },
+        "all_source_fields_and_official_ids": "pass",
+        "all_source_geometries_preserved": "pass",
+        "verified_vertices": 257986,
+        "verified_rings": 1514,
+        "invalid_geometries": 0,
+        "duplicate_ids": 0,
+        "bbox_and_coordinate_order": "pass"
+      },
+      "limitations": [
+        "來源 TWD97[2020] 由 PROJ 識別為 EPSG:3824，輸出轉 WGS84；所採轉換標示精度 1 公尺。",
+        "未簡化頂點；輸出座標取小數 9 位。官方檔名版本日期不代表所有界線的法律生效日。"
+      ],
+      "path": "map-data/admin/villages.geojson",
+      "status": "pass_with_limitations",
+      "source_periods": [
+        "2026-08-17"
+      ]
+    },
+    {
+      "dataset_id": "taipei_new_taipei_admin_index",
+      "record_count": 1555,
+      "checks": {
+        "all_properties_and_geometry_links": "pass",
+        "unique_official_codes": 1555,
+        "orphan_parent_codes": 0,
+        "city_district_links": 41,
+        "district_village_links": 1512,
+        "label_points_strictly_inside": 1555
+      },
+      "limitations": [
+        "標示點均在對應圖形內；僅供地圖標示，並非行政中心或人口重心。"
+      ],
+      "path": "map-data/admin/admin_index.json",
+      "status": "pass_with_limitations",
+      "source_periods": [
+        "2025-03-18",
+        "2026-08-17"
+      ]
+    },
+    {
+      "dataset_id": "taipei_new_taipei_admin_manifest",
+      "record_count": 4,
+      "checks": {
+        "all_file_paths_sizes_counts_and_sources": "pass"
+      },
+      "limitations": [],
+      "path": "map-data/admin/manifest.json",
+      "status": "pass",
+      "source_periods": [
+        "2025-03-18",
+        "2026-08-17"
+      ]
+    }
+  ],
+  "cross_layer_alignment": [
+    {
+      "parent_layer": "cities",
+      "child_layer": "districts",
+      "comparison_count": 2,
+      "nonmatching_above_one_square_metre": 0,
+      "total_children_outside_parent_m2": 0.0,
+      "total_parent_without_children_m2": 0.0,
+      "largest_differences": []
+    },
+    {
+      "parent_layer": "districts",
+      "child_layer": "villages",
+      "comparison_count": 41,
+      "nonmatching_above_one_square_metre": 0,
+      "total_children_outside_parent_m2": 0.05,
+      "total_parent_without_children_m2": 0.186,
+      "largest_differences": []
+    }
+  ],
+  "findings": [
+    {
+      "severity": "low",
+      "issue": "市／區來源版本為 2025-03-18，里界版本為 2026-08-17。實測市／區完全套合；41 區里界合併與區界均無超過 1 平方公尺差異，合計界外 0.050 平方公尺、區內未涵蓋 0.186 平方公尺。",
+      "action": "以官方代碼做父層關聯；地圖保留來源界線。空間覆蓋與面積分配應選一致的層級與版本，不把差異當資料遺漏或法律界線變動證據。"
+    }
+  ]
+}

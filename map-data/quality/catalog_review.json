@@ -1,0 +1,554 @@
+{
+  "schema_version": 1,
+  "dataset_id": "taipei_new_taipei_map_catalog_independent_review",
+  "metadata": {
+    "reviewer_agent": "review_urban_background",
+    "producer_task": "root",
+    "independent_of_producer": true,
+    "reviewed_at": "2026-10-22T00:38:21+08:00",
+    "status": "pass",
+    "scope": "Integration code, catalogue, loader, documentation and raw exclusion. OSM source semantics are covered by osm_review.json; administrative source semantics by admin_review.json.",
+    "validation_script": "map-data/raw/reviews/review_catalog.py"
+  },
+  "records": [
+    {
+      "path": "scripts/build_map_catalog.py",
+      "record_count": null,
+      "status": "pass",
+      "checks": {
+        "code_review": "paths remain inside map-data; manifest counts/sizes checked; actual source periods compared with independent receipts; output replaced only after complete build",
+        "unchanged_build": "identical to final catalog",
+        "same_count_different_source_fixture": {
+          "feature_count": 2,
+          "old_source_period": "2025-03-18",
+          "fixture_source_period": "2026-10-21",
+          "expected_and_actual_status": "pending_source_version",
+          "other_passed_datasets": 22,
+          "physical_files_changed": false
+        }
+      }
+    },
+    {
+      "path": "map-data/catalog.json",
+      "record_count": 23,
+      "status": "pass",
+      "source_periods": [
+        "2025-03-18",
+        "2026-08-17",
+        "2026-10-20T20:23:47Z"
+      ],
+      "checks": {
+        "dataset_count": 23,
+        "file_count": 27,
+        "gzip_file_count": 23,
+        "osm_feature_count": 432775,
+        "total_layer_file_bytes": 43716801,
+        "all_shard_counts_and_ids": "pass",
+        "catalog_scope_source_attribution": "pass",
+        "raw_git_exclusion": "pass",
+        "pending_source_reviews": [],
+        "files": [
+          {
+            "path": "map-data/admin/cities.geojson",
+            "record_count": 2,
+            "bytes": 1182988,
+            "uncompressed_bytes": 1182988,
+            "bbox": [
+              121.282688085,
+              24.673192106,
+              122.007502734,
+              25.300302898
+            ],
+            "checks": "path, UTF-8/gzip, count, actual geometry extent, size and source match",
+            "source_review_status": "pass_with_limitations"
+          },
+          {
+            "path": "map-data/admin/districts.geojson",
+            "record_count": 41,
+            "bytes": 3617349,
+            "uncompressed_bytes": 3617349,
+            "bbox": [
+              121.282688085,
+              24.673192106,
+              122.007502734,
+              25.300302898
+            ],
+            "checks": "path, UTF-8/gzip, count, actual geometry extent, size and source match",
+            "source_review_status": "pass_with_limitations"
+          },
+          {
+            "path": "map-data/admin/villages.geojson",
+            "record_count": 1512,
+            "bytes": 8033058,
+            "uncompressed_bytes": 8033058,
+            "bbox": [
+              121.282688085,
+              24.673192106,
+              122.007502734,
+              25.300302898
+            ],
+            "checks": "path, UTF-8/gzip, count, actual geometry extent, size and source match",
+            "source_review_status": "pass_with_limitations"
+          },
+          {
+            "path": "map-data/admin/admin_index.json",
+            "record_count": 1555,
+            "bytes": 786041,
+            "uncompressed_bytes": 786041,
+            "bbox": null,
+            "checks": "path, UTF-8/gzip, count, actual geometry extent, size and source match",
+            "source_review_status": "pass_with_limitations"
+          },
+          {
+            "path": "map-data/osm/roads.geojson.gz",
+            "record_count": 48393,
+            "bytes": 4278886,
+            "uncompressed_bytes": 25170340,
+            "bbox": [
+              121.2831755,
+              24.6923791,
+              122.0048294,
+              25.2983596
+            ],
+            "checks": "path, UTF-8/gzip, count, actual geometry extent, size and source match",
+            "source_review_status": "pass_with_source_limitations"
+          },
+          {
+            "path": "map-data/osm/roads-002.geojson.gz",
+            "record_count": 50528,
+            "bytes": 4033017,
+            "uncompressed_bytes": 25167480,
+            "bbox": [
+              121.2827311,
+              24.6732074,
+              122.004223,
+              25.2984662
+            ],
+            "checks": "path, UTF-8/gzip, count, actual geometry extent, size and source match",
+            "source_review_status": "pass_with_source_limitations"
+          },
+          {
+            "path": "map-data/osm/roads-003.geojson.gz",
+            "record_count": 44473,
+            "bytes": 2610291,
+            "uncompressed_bytes": 19428168,
+            "bbox": [
+              121.2831395,
+              24.6739402,
+              122.0064391,
+              25.2980488
+            ],
+            "checks": "path, UTF-8/gzip, count, actual geometry extent, size and source match",
+            "source_review_status": "pass_with_source_limitations"
+          },
+          {
+            "path": "map-data/osm/railways.geojson.gz",
+            "record_count": 2003,
+            "bytes": 174766,
+            "uncompressed_bytes": 949113,
+            "bbox": [
+              121.3283882,
+              24.844689,
+              121.9579732,
+              25.2040301
+            ],
+            "checks": "path, UTF-8/gzip, count, actual geometry extent, size and source match",
+            "source_review_status": "pass_with_source_limitations"
+          },
+          {
+            "path": "map-data/osm/waterways.geojson.gz",
+            "record_count": 10465,
+            "bytes": 1362137,
+            "uncompressed_bytes": 6230979,
+            "bbox": [
+              121.2844652,
+              24.6764277,
+              122.0053766,
+              25.2984694
+            ],
+            "checks": "path, UTF-8/gzip, count, actual geometry extent, size and source match",
+            "source_review_status": "pass_with_source_limitations"
+          },
+          {
+            "path": "map-data/osm/water.geojson.gz",
+            "record_count": 2132,
+            "bytes": 416147,
+            "uncompressed_bytes": 1739027,
+            "bbox": [
+              121.2860314,
+              24.6808456,
+              122.0040964,
+              25.2959228
+            ],
+            "checks": "path, UTF-8/gzip, count, actual geometry extent, size and source match",
+            "source_review_status": "pass_with_source_limitations"
+          },
+          {
+            "path": "map-data/osm/landuse.geojson.gz",
+            "record_count": 18187,
+            "bytes": 3785766,
+            "uncompressed_bytes": 16049473,
+            "bbox": [
+              121.2831603,
+              24.6731921,
+              122.0045914,
+              25.2976477
+            ],
+            "checks": "path, UTF-8/gzip, count, actual geometry extent, size and source match",
+            "source_review_status": "pass_with_source_limitations"
+          },
+          {
+            "path": "map-data/osm/protected_areas.geojson.gz",
+            "record_count": 60,
+            "bytes": 241594,
+            "uncompressed_bytes": 1037176,
+            "bbox": [
+              121.3952207,
+              24.6731921,
+              122.0056505,
+              25.3003029
+            ],
+            "checks": "path, UTF-8/gzip, count, actual geometry extent, size and source match",
+            "source_review_status": "pass_with_source_limitations"
+          },
+          {
+            "path": "map-data/osm/buildings.geojson.gz",
+            "record_count": 54219,
+            "bytes": 3883961,
+            "uncompressed_bytes": 25170235,
+            "bbox": [
+              121.2848337,
+              24.759379,
+              122.0045345,
+              25.2945457
+            ],
+            "checks": "path, UTF-8/gzip, count, actual geometry extent, size and source match",
+            "source_review_status": "pass_with_source_limitations"
+          },
+          {
+            "path": "map-data/osm/buildings-002.geojson.gz",
+            "record_count": 61435,
+            "bytes": 3349202,
+            "uncompressed_bytes": 25170375,
+            "bbox": [
+              121.2975549,
+              24.7742732,
+              122.0044352,
+              25.2975286
+            ],
+            "checks": "path, UTF-8/gzip, count, actual geometry extent, size and source match",
+            "source_review_status": "pass_with_source_limitations"
+          },
+          {
+            "path": "map-data/osm/buildings-003.geojson.gz",
+            "record_count": 14298,
+            "bytes": 817732,
+            "uncompressed_bytes": 5979538,
+            "bbox": [
+              121.2846633,
+              24.8278121,
+              122.0046892,
+              25.2984749
+            ],
+            "checks": "path, UTF-8/gzip, count, actual geometry extent, size and source match",
+            "source_review_status": "pass_with_source_limitations"
+          },
+          {
+            "path": "map-data/osm/places.geojson.gz",
+            "record_count": 2131,
+            "bytes": 60075,
+            "uncompressed_bytes": 523949,
+            "bbox": [
+              121.291712,
+              24.75022,
+              122.002463,
+              25.294862
+            ],
+            "checks": "path, UTF-8/gzip, count, actual geometry extent, size and source match",
+            "source_review_status": "pass_with_source_limitations"
+          },
+          {
+            "path": "map-data/osm/place_areas.geojson.gz",
+            "record_count": 5,
+            "bytes": 173413,
+            "uncompressed_bytes": 578693,
+            "bbox": [
+              121.2826881,
+              24.6731921,
+              122.0070799,
+              25.299671
+            ],
+            "checks": "path, UTF-8/gzip, count, actual geometry extent, size and source match",
+            "source_review_status": "pass_with_source_limitations"
+          },
+          {
+            "path": "map-data/osm/transport.geojson.gz",
+            "record_count": 10488,
+            "bytes": 283472,
+            "uncompressed_bytes": 2494840,
+            "bbox": [
+              121.2867792,
+              24.8362718,
+              122.003318,
+              25.2977122
+            ],
+            "checks": "path, UTF-8/gzip, count, actual geometry extent, size and source match",
+            "source_review_status": "pass_with_source_limitations"
+          },
+          {
+            "path": "map-data/osm/transport_areas.geojson.gz",
+            "record_count": 63,
+            "bytes": 10613,
+            "uncompressed_bytes": 40251,
+            "bbox": [
+              121.3614019,
+              24.834807,
+              121.9236935,
+              25.293656
+            ],
+            "checks": "path, UTF-8/gzip, count, actual geometry extent, size and source match",
+            "source_review_status": "pass_with_source_limitations"
+          },
+          {
+            "path": "map-data/osm/pois.geojson.gz",
+            "record_count": 58737,
+            "bytes": 1844638,
+            "uncompressed_bytes": 13775574,
+            "bbox": [
+              121.3001927,
+              24.673855,
+              122.0064353,
+              25.2984665
+            ],
+            "checks": "path, UTF-8/gzip, count, actual geometry extent, size and source match",
+            "source_review_status": "pass_with_source_limitations"
+          },
+          {
+            "path": "map-data/osm/poi_areas.geojson.gz",
+            "record_count": 12953,
+            "bytes": 1588194,
+            "uncompressed_bytes": 7229807,
+            "bbox": [
+              121.2853238,
+              24.759379,
+              122.0033505,
+              25.2985616
+            ],
+            "checks": "path, UTF-8/gzip, count, actual geometry extent, size and source match",
+            "source_review_status": "pass_with_source_limitations"
+          },
+          {
+            "path": "map-data/osm/traffic.geojson.gz",
+            "record_count": 31117,
+            "bytes": 628749,
+            "uncompressed_bytes": 7766520,
+            "bbox": [
+              121.2855376,
+              24.7749567,
+              122.0026175,
+              25.2968709
+            ],
+            "checks": "path, UTF-8/gzip, count, actual geometry extent, size and source match",
+            "source_review_status": "pass_with_source_limitations"
+          },
+          {
+            "path": "map-data/osm/traffic_areas.geojson.gz",
+            "record_count": 3846,
+            "bytes": 322263,
+            "uncompressed_bytes": 1734790,
+            "bbox": [
+              121.29691,
+              24.7593692,
+              122.0045533,
+              25.2973571
+            ],
+            "checks": "path, UTF-8/gzip, count, actual geometry extent, size and source match",
+            "source_review_status": "pass_with_source_limitations"
+          },
+          {
+            "path": "map-data/osm/natural.geojson.gz",
+            "record_count": 5747,
+            "bytes": 123730,
+            "uncompressed_bytes": 1281379,
+            "bbox": [
+              121.3136772,
+              24.6814832,
+              121.9899916,
+              25.2861899
+            ],
+            "checks": "path, UTF-8/gzip, count, actual geometry extent, size and source match",
+            "source_review_status": "pass_with_source_limitations"
+          },
+          {
+            "path": "map-data/osm/natural_areas.geojson.gz",
+            "record_count": 35,
+            "bytes": 11308,
+            "uncompressed_bytes": 36279,
+            "bbox": [
+              121.2833991,
+              24.9406657,
+              121.9499132,
+              25.295887
+            ],
+            "checks": "path, UTF-8/gzip, count, actual geometry extent, size and source match",
+            "source_review_status": "pass_with_source_limitations"
+          },
+          {
+            "path": "map-data/osm/worship.geojson.gz",
+            "record_count": 714,
+            "bytes": 26687,
+            "uncompressed_bytes": 173598,
+            "bbox": [
+              121.3345628,
+              24.8618103,
+              121.9449417,
+              25.2748939
+            ],
+            "checks": "path, UTF-8/gzip, count, actual geometry extent, size and source match",
+            "source_review_status": "pass_with_source_limitations"
+          },
+          {
+            "path": "map-data/osm/worship_areas.geojson.gz",
+            "record_count": 746,
+            "bytes": 70724,
+            "uncompressed_bytes": 334110,
+            "bbox": [
+              121.3273809,
+              24.777973,
+              122.0017922,
+              25.2920074
+            ],
+            "checks": "path, UTF-8/gzip, count, actual geometry extent, size and source match",
+            "source_review_status": "pass_with_source_limitations"
+          }
+        ],
+        "rebase_preservation": {
+          "comparison": "Git comparison with the pre-rebase tree; no geometry or decompression checks repeated.",
+          "unchanged_paths": [
+            "map-data/catalog.json",
+            "map-data/admin/cities.geojson",
+            "map-data/admin/districts.geojson",
+            "map-data/admin/villages.geojson",
+            "map-data/admin/admin_index.json",
+            "map-data/osm/",
+            "map-data/load-geojson.mjs"
+          ],
+          "result": "pass"
+        }
+      }
+    },
+    {
+      "path": "map-data/load-geojson.mjs",
+      "record_count": null,
+      "status": "pass",
+      "checks": {
+        "code_review": [
+          "HTTP failure rejects; AbortSignal passed to fetch.",
+          "Gzip detected from bytes, so already decoded responses are not decompressed again.",
+          "UTF-8 JSON decoded and FeatureCollection/features array required.",
+          "Missing DecompressionStream reports a usable fallback message."
+        ],
+        "executed_utf8_roundtrip": {
+          "source_file": "map-data/osm/places.geojson.gz",
+          "record_count": 2131,
+          "runtime": "Node.js 22.23.3 using native Response and DecompressionStream",
+          "gzip_body": "pass",
+          "already_decoded_body_at_gz_url": "pass",
+          "full_document_and_chinese_names_equal": true
+        }
+      },
+      "limitations": [
+        "The helper was exercised through Node web-standard APIs; this review did not run a full browser/GIS application."
+      ]
+    },
+    {
+      "path": "map-data/README.md",
+      "record_count": null,
+      "status": "pass",
+      "checks": {
+        "scope_and_versions": "official 2 cities, 41 districts, 1512 villages; OSM 19 layers and actual snapshot",
+        "usage": "catalog-relative paths, all shards required, gzip helper example agrees with export",
+        "source_and_license": "NLSC/government-open-data and Geofabrik/OSM ODbL attribution agree with source manifests",
+        "limitations": "clipping, snapshot IDs, null values, navigation limits, and cross-source join cautions preserved",
+        "update_instructions_link": "docs/map-updates.md"
+      }
+    },
+    {
+      "path": "docs/map-updates.md",
+      "record_count": null,
+      "status": "pass",
+      "checks": {
+        "commands_and_order": "admin before OSM clipping, independent review before final catalog",
+        "offline_and_raw_policy": "local cache optional and not committed",
+        "review_scope": "source-version changes invalidate old receipt; same-version processing changes require focused re-review",
+        "uv_command_alignment": {
+          "documented_commands": [
+            "uv run scripts/update_map_admin.py",
+            "uv run scripts/update_map_osm.py --date 2026-10-20",
+            "uv run scripts/build_map_catalog.py"
+          ],
+          "admin_script_and_manifest_commands": [
+            "uv run scripts/update_map_admin.py",
+            "uv run scripts/update_map_admin.py --offline"
+          ],
+          "admin_script_change_scope": "Only the two emitted update/offline command strings changed.",
+          "admin_manifest_changed_fields": [
+            "metadata.update_command",
+            "metadata.offline_command"
+          ],
+          "dependency_alignment": "Required map-script packages are declared in pyproject.toml; commands match docs/data-updates.md.",
+          "uv_available_in_review_environment": false,
+          "execution_evidence": "Command alignment reviewed statically. uv was not executed; earlier data-script validation used the existing .venv."
+        }
+      }
+    },
+    {
+      "path": "README.md",
+      "record_count": null,
+      "status": "pass",
+      "checks": {
+        "map_data_summary_and_local_links": "pass"
+      }
+    },
+    {
+      "path": "AGENTS.md",
+      "record_count": null,
+      "status": "pass",
+      "checks": {
+        "map_output_raw_and_review_locations": "map-data/, map-data/raw/, map-data/quality/ agree with user scope",
+        "existing_data_rules_preserved": "pass"
+      }
+    },
+    {
+      "path": ".gitignore",
+      "record_count": null,
+      "status": "pass",
+      "checks": {
+        "map_data_raw_ignored": "verified with git check-ignore",
+        "tracked_raw_files": 0,
+        "rebase_preservation": {
+          "all_origin_main_ignore_rules_preserved": true,
+          "all_pre_rebase_ignore_rules_preserved": true,
+          "research_paths_preserved": [
+            "raw_data/research/probe/",
+            "raw_data/research/seat_events/",
+            "raw_data/research/mock/",
+            "raw_data/research/derived/"
+          ],
+          "map_data_raw_still_ignored": true
+        }
+      }
+    }
+  ],
+  "resolved_findings": [
+    {
+      "issue": "Same record count could previously reuse a passing review for a different source version.",
+      "resolution": "Catalogue now compares explicit source_periods; a different-version/same-count fixture becomes pending_source_version."
+    },
+    {
+      "issue": "General AGENTS review-path rule did not mention the map-data exception.",
+      "resolution": "The rule now explicitly uses map-data/quality/ for map data."
+    }
+  ],
+  "findings": []
+}

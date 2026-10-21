@@ -6,6 +6,7 @@
 
 - `raw_data/`：原始下載檔、解壓檔、PDF 文字／OCR 與處理中的資料，按來源分目錄。
 - `data/`：整理後的 UTF-8 JSON／GeoJSON，附來源、期間、單位與必要限制。來源本身是 JSON 也要先經整理。
+- `map-data/`：雙北 OSM 地圖圖層與官方市、區、里界；[圖層目錄](map-data/catalog.json)、[讀取與更新方式](map-data/README.md)。大型原始檔不進 Git。
 - 缺值保留為 `null`；GeoJSON 使用 WGS84 `[經度, 緯度]`。即時到站預估、預定班表、實際班次與段次分開處理。
 
 Agent 協作、格式與提交規則見 [AGENTS.md](AGENTS.md)。

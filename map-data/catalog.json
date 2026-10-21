@@ -1,0 +1,941 @@
+{
+  "schema_version": 1,
+  "dataset_id": "taipei_new_taipei_map_layers",
+  "metadata": {
+    "title": "雙北 GIS 底圖與行政界",
+    "coordinate_reference_system": "EPSG:4326",
+    "coordinate_order": [
+      "longitude",
+      "latitude"
+    ],
+    "path_base": "map-data/",
+    "record_count": 23,
+    "bbox": [
+      121.282688085,
+      24.673192106,
+      122.007502734,
+      25.300302898
+    ],
+    "fit_bounds": [
+      [
+        121.282688085,
+        24.673192106
+      ],
+      [
+        122.007502734,
+        25.300302898
+      ]
+    ],
+    "admin_city_codes": [
+      "63000",
+      "65000"
+    ],
+    "total_layer_file_bytes": 43716801,
+    "attributions": [
+      {
+        "name": "政府資料開放授權條款－第1版",
+        "url": "https://data.gov.tw/license",
+        "attribution": "內政部國土測繪中心；政府資料開放平臺"
+      },
+      {
+        "name": "ODbL-1.0",
+        "url": "https://opendatacommons.org/licenses/odbl/1-0/",
+        "attribution": "© OpenStreetMap contributors; processed by Geofabrik"
+      }
+    ],
+    "notes": [
+      "files與manifest路徑皆相對map-data/；同圖層的所有files合起來才是完整圖層。",
+      "OSM採gzip壓縮GeoJSON，可使用load-geojson.mjs或先解壓；依畫面需要載入圖層。",
+      "各圖層可能描述同一設施，不可把所有圖層筆數相加當成不重複設施數。",
+      "行政界與OSM分別保留官方版本，使用限制與來源見manifest及各檔metadata。"
+    ]
+  },
+  "records": [
+    {
+      "dataset_id": "taipei_new_taipei_admin_cities",
+      "title": "雙北市界",
+      "group": "admin",
+      "format": "geojson",
+      "record_count": 2,
+      "files": [
+        {
+          "path": "admin/cities.geojson",
+          "encoding": "utf-8",
+          "record_count": 2,
+          "bytes": 1182988,
+          "uncompressed_bytes": 1182988,
+          "bbox": [
+            121.282688085,
+            24.673192106,
+            122.007502734,
+            25.300302898
+          ],
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "record_count": 2,
+            "source_periods": [
+              "2025-03-18"
+            ],
+            "report": "quality/admin_review.json"
+          }
+        }
+      ],
+      "source_periods": [
+        "2025-03-18"
+      ],
+      "manifest": "admin/manifest.json",
+      "independent_review_status": "passed"
+    },
+    {
+      "dataset_id": "taipei_new_taipei_admin_districts",
+      "title": "雙北區界",
+      "group": "admin",
+      "format": "geojson",
+      "record_count": 41,
+      "files": [
+        {
+          "path": "admin/districts.geojson",
+          "encoding": "utf-8",
+          "record_count": 41,
+          "bytes": 3617349,
+          "uncompressed_bytes": 3617349,
+          "bbox": [
+            121.282688085,
+            24.673192106,
+            122.007502734,
+            25.300302898
+          ],
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "record_count": 41,
+            "source_periods": [
+              "2025-03-18"
+            ],
+            "report": "quality/admin_review.json"
+          }
+        }
+      ],
+      "source_periods": [
+        "2025-03-18"
+      ],
+      "manifest": "admin/manifest.json",
+      "independent_review_status": "passed"
+    },
+    {
+      "dataset_id": "taipei_new_taipei_admin_villages",
+      "title": "雙北里界",
+      "group": "admin",
+      "format": "geojson",
+      "record_count": 1512,
+      "files": [
+        {
+          "path": "admin/villages.geojson",
+          "encoding": "utf-8",
+          "record_count": 1512,
+          "bytes": 8033058,
+          "uncompressed_bytes": 8033058,
+          "bbox": [
+            121.282688085,
+            24.673192106,
+            122.007502734,
+            25.300302898
+          ],
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "record_count": 1512,
+            "source_periods": [
+              "2026-08-17"
+            ],
+            "report": "quality/admin_review.json"
+          }
+        }
+      ],
+      "source_periods": [
+        "2026-08-17"
+      ],
+      "manifest": "admin/manifest.json",
+      "independent_review_status": "passed"
+    },
+    {
+      "dataset_id": "taipei_new_taipei_admin_index",
+      "title": "雙北行政區階層與地圖標籤索引",
+      "group": "admin",
+      "format": "json",
+      "record_count": 1555,
+      "files": [
+        {
+          "path": "admin/admin_index.json",
+          "encoding": "utf-8",
+          "record_count": 1555,
+          "bytes": 786041,
+          "uncompressed_bytes": 786041,
+          "bbox": null,
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "record_count": 1555,
+            "source_periods": [
+              "2025-03-18",
+              "2026-08-17"
+            ],
+            "report": "quality/admin_review.json"
+          }
+        }
+      ],
+      "source_periods": [
+        "2025-03-18",
+        "2026-08-17"
+      ],
+      "manifest": "admin/manifest.json",
+      "independent_review_status": "passed"
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_roads",
+      "title": "道路與步行路徑",
+      "group": "osm",
+      "format": "geojson",
+      "record_count": 143394,
+      "files": [
+        {
+          "path": "osm/roads.geojson.gz",
+          "encoding": "gzip",
+          "record_count": 48393,
+          "bytes": 4278886,
+          "uncompressed_bytes": 25170340,
+          "bbox": [
+            121.2831755,
+            24.6923791,
+            122.0048294,
+            25.2983596
+          ],
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "record_count": 48393,
+            "source_periods": [
+              "2026-10-20T20:23:47Z"
+            ],
+            "report": "quality/osm_review.json"
+          }
+        },
+        {
+          "path": "osm/roads-002.geojson.gz",
+          "encoding": "gzip",
+          "record_count": 50528,
+          "bytes": 4033017,
+          "uncompressed_bytes": 25167480,
+          "bbox": [
+            121.2827311,
+            24.6732074,
+            122.004223,
+            25.2984662
+          ],
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "record_count": 50528,
+            "source_periods": [
+              "2026-10-20T20:23:47Z"
+            ],
+            "report": "quality/osm_review.json"
+          }
+        },
+        {
+          "path": "osm/roads-003.geojson.gz",
+          "encoding": "gzip",
+          "record_count": 44473,
+          "bytes": 2610291,
+          "uncompressed_bytes": 19428168,
+          "bbox": [
+            121.2831395,
+            24.6739402,
+            122.0064391,
+            25.2980488
+          ],
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "record_count": 44473,
+            "source_periods": [
+              "2026-10-20T20:23:47Z"
+            ],
+            "report": "quality/osm_review.json"
+          }
+        }
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ],
+      "manifest": "osm/manifest.json",
+      "independent_review_status": "passed"
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_railways",
+      "title": "鐵路、捷運與輕軌線形",
+      "group": "osm",
+      "format": "geojson",
+      "record_count": 2003,
+      "files": [
+        {
+          "path": "osm/railways.geojson.gz",
+          "encoding": "gzip",
+          "record_count": 2003,
+          "bytes": 174766,
+          "uncompressed_bytes": 949113,
+          "bbox": [
+            121.3283882,
+            24.844689,
+            121.9579732,
+            25.2040301
+          ],
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "record_count": 2003,
+            "source_periods": [
+              "2026-10-20T20:23:47Z"
+            ],
+            "report": "quality/osm_review.json"
+          }
+        }
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ],
+      "manifest": "osm/manifest.json",
+      "independent_review_status": "passed"
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_waterways",
+      "title": "河流與水道中心線",
+      "group": "osm",
+      "format": "geojson",
+      "record_count": 10465,
+      "files": [
+        {
+          "path": "osm/waterways.geojson.gz",
+          "encoding": "gzip",
+          "record_count": 10465,
+          "bytes": 1362137,
+          "uncompressed_bytes": 6230979,
+          "bbox": [
+            121.2844652,
+            24.6764277,
+            122.0053766,
+            25.2984694
+          ],
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "record_count": 10465,
+            "source_periods": [
+              "2026-10-20T20:23:47Z"
+            ],
+            "report": "quality/osm_review.json"
+          }
+        }
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ],
+      "manifest": "osm/manifest.json",
+      "independent_review_status": "passed"
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_water",
+      "title": "河川、湖泊與水庫水面",
+      "group": "osm",
+      "format": "geojson",
+      "record_count": 2132,
+      "files": [
+        {
+          "path": "osm/water.geojson.gz",
+          "encoding": "gzip",
+          "record_count": 2132,
+          "bytes": 416147,
+          "uncompressed_bytes": 1739027,
+          "bbox": [
+            121.2860314,
+            24.6808456,
+            122.0040964,
+            25.2959228
+          ],
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "record_count": 2132,
+            "source_periods": [
+              "2026-10-20T20:23:47Z"
+            ],
+            "report": "quality/osm_review.json"
+          }
+        }
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ],
+      "manifest": "osm/manifest.json",
+      "independent_review_status": "passed"
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_landuse",
+      "title": "土地覆蓋與公園綠地",
+      "group": "osm",
+      "format": "geojson",
+      "record_count": 18187,
+      "files": [
+        {
+          "path": "osm/landuse.geojson.gz",
+          "encoding": "gzip",
+          "record_count": 18187,
+          "bytes": 3785766,
+          "uncompressed_bytes": 16049473,
+          "bbox": [
+            121.2831603,
+            24.6731921,
+            122.0045914,
+            25.2976477
+          ],
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "record_count": 18187,
+            "source_periods": [
+              "2026-10-20T20:23:47Z"
+            ],
+            "report": "quality/osm_review.json"
+          }
+        }
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ],
+      "manifest": "osm/manifest.json",
+      "independent_review_status": "passed"
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_protected_areas",
+      "title": "保護區",
+      "group": "osm",
+      "format": "geojson",
+      "record_count": 60,
+      "files": [
+        {
+          "path": "osm/protected_areas.geojson.gz",
+          "encoding": "gzip",
+          "record_count": 60,
+          "bytes": 241594,
+          "uncompressed_bytes": 1037176,
+          "bbox": [
+            121.3952207,
+            24.6731921,
+            122.0056505,
+            25.3003029
+          ],
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "record_count": 60,
+            "source_periods": [
+              "2026-10-20T20:23:47Z"
+            ],
+            "report": "quality/osm_review.json"
+          }
+        }
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ],
+      "manifest": "osm/manifest.json",
+      "independent_review_status": "passed"
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_buildings",
+      "title": "建物輪廓",
+      "group": "osm",
+      "format": "geojson",
+      "record_count": 129952,
+      "files": [
+        {
+          "path": "osm/buildings.geojson.gz",
+          "encoding": "gzip",
+          "record_count": 54219,
+          "bytes": 3883961,
+          "uncompressed_bytes": 25170235,
+          "bbox": [
+            121.2848337,
+            24.759379,
+            122.0045345,
+            25.2945457
+          ],
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "record_count": 54219,
+            "source_periods": [
+              "2026-10-20T20:23:47Z"
+            ],
+            "report": "quality/osm_review.json"
+          }
+        },
+        {
+          "path": "osm/buildings-002.geojson.gz",
+          "encoding": "gzip",
+          "record_count": 61435,
+          "bytes": 3349202,
+          "uncompressed_bytes": 25170375,
+          "bbox": [
+            121.2975549,
+            24.7742732,
+            122.0044352,
+            25.2975286
+          ],
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "record_count": 61435,
+            "source_periods": [
+              "2026-10-20T20:23:47Z"
+            ],
+            "report": "quality/osm_review.json"
+          }
+        },
+        {
+          "path": "osm/buildings-003.geojson.gz",
+          "encoding": "gzip",
+          "record_count": 14298,
+          "bytes": 817732,
+          "uncompressed_bytes": 5979538,
+          "bbox": [
+            121.2846633,
+            24.8278121,
+            122.0046892,
+            25.2984749
+          ],
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "record_count": 14298,
+            "source_periods": [
+              "2026-10-20T20:23:47Z"
+            ],
+            "report": "quality/osm_review.json"
+          }
+        }
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ],
+      "manifest": "osm/manifest.json",
+      "independent_review_status": "passed"
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_places",
+      "title": "聚落與地名標示點",
+      "group": "osm",
+      "format": "geojson",
+      "record_count": 2131,
+      "files": [
+        {
+          "path": "osm/places.geojson.gz",
+          "encoding": "gzip",
+          "record_count": 2131,
+          "bytes": 60075,
+          "uncompressed_bytes": 523949,
+          "bbox": [
+            121.291712,
+            24.75022,
+            122.002463,
+            25.294862
+          ],
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "record_count": 2131,
+            "source_periods": [
+              "2026-10-20T20:23:47Z"
+            ],
+            "report": "quality/osm_review.json"
+          }
+        }
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ],
+      "manifest": "osm/manifest.json",
+      "independent_review_status": "passed"
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_place_areas",
+      "title": "聚落與島嶼範圍",
+      "group": "osm",
+      "format": "geojson",
+      "record_count": 5,
+      "files": [
+        {
+          "path": "osm/place_areas.geojson.gz",
+          "encoding": "gzip",
+          "record_count": 5,
+          "bytes": 173413,
+          "uncompressed_bytes": 578693,
+          "bbox": [
+            121.2826881,
+            24.6731921,
+            122.0070799,
+            25.299671
+          ],
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "record_count": 5,
+            "source_periods": [
+              "2026-10-20T20:23:47Z"
+            ],
+            "report": "quality/osm_review.json"
+          }
+        }
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ],
+      "manifest": "osm/manifest.json",
+      "independent_review_status": "passed"
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_transport",
+      "title": "車站與運輸設施點",
+      "group": "osm",
+      "format": "geojson",
+      "record_count": 10488,
+      "files": [
+        {
+          "path": "osm/transport.geojson.gz",
+          "encoding": "gzip",
+          "record_count": 10488,
+          "bytes": 283472,
+          "uncompressed_bytes": 2494840,
+          "bbox": [
+            121.2867792,
+            24.8362718,
+            122.003318,
+            25.2977122
+          ],
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "record_count": 10488,
+            "source_periods": [
+              "2026-10-20T20:23:47Z"
+            ],
+            "report": "quality/osm_review.json"
+          }
+        }
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ],
+      "manifest": "osm/manifest.json",
+      "independent_review_status": "passed"
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_transport_areas",
+      "title": "車站與運輸設施範圍",
+      "group": "osm",
+      "format": "geojson",
+      "record_count": 63,
+      "files": [
+        {
+          "path": "osm/transport_areas.geojson.gz",
+          "encoding": "gzip",
+          "record_count": 63,
+          "bytes": 10613,
+          "uncompressed_bytes": 40251,
+          "bbox": [
+            121.3614019,
+            24.834807,
+            121.9236935,
+            25.293656
+          ],
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "record_count": 63,
+            "source_periods": [
+              "2026-10-20T20:23:47Z"
+            ],
+            "report": "quality/osm_review.json"
+          }
+        }
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ],
+      "manifest": "osm/manifest.json",
+      "independent_review_status": "passed"
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_pois",
+      "title": "公共設施與興趣點",
+      "group": "osm",
+      "format": "geojson",
+      "record_count": 58737,
+      "files": [
+        {
+          "path": "osm/pois.geojson.gz",
+          "encoding": "gzip",
+          "record_count": 58737,
+          "bytes": 1844638,
+          "uncompressed_bytes": 13775574,
+          "bbox": [
+            121.3001927,
+            24.673855,
+            122.0064353,
+            25.2984665
+          ],
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "record_count": 58737,
+            "source_periods": [
+              "2026-10-20T20:23:47Z"
+            ],
+            "report": "quality/osm_review.json"
+          }
+        }
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ],
+      "manifest": "osm/manifest.json",
+      "independent_review_status": "passed"
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_poi_areas",
+      "title": "公共設施與興趣點範圍",
+      "group": "osm",
+      "format": "geojson",
+      "record_count": 12953,
+      "files": [
+        {
+          "path": "osm/poi_areas.geojson.gz",
+          "encoding": "gzip",
+          "record_count": 12953,
+          "bytes": 1588194,
+          "uncompressed_bytes": 7229807,
+          "bbox": [
+            121.2853238,
+            24.759379,
+            122.0033505,
+            25.2985616
+          ],
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "record_count": 12953,
+            "source_periods": [
+              "2026-10-20T20:23:47Z"
+            ],
+            "report": "quality/osm_review.json"
+          }
+        }
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ],
+      "manifest": "osm/manifest.json",
+      "independent_review_status": "passed"
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_traffic",
+      "title": "交通與停車設施點",
+      "group": "osm",
+      "format": "geojson",
+      "record_count": 31117,
+      "files": [
+        {
+          "path": "osm/traffic.geojson.gz",
+          "encoding": "gzip",
+          "record_count": 31117,
+          "bytes": 628749,
+          "uncompressed_bytes": 7766520,
+          "bbox": [
+            121.2855376,
+            24.7749567,
+            122.0026175,
+            25.2968709
+          ],
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "record_count": 31117,
+            "source_periods": [
+              "2026-10-20T20:23:47Z"
+            ],
+            "report": "quality/osm_review.json"
+          }
+        }
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ],
+      "manifest": "osm/manifest.json",
+      "independent_review_status": "passed"
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_traffic_areas",
+      "title": "交通與停車設施範圍",
+      "group": "osm",
+      "format": "geojson",
+      "record_count": 3846,
+      "files": [
+        {
+          "path": "osm/traffic_areas.geojson.gz",
+          "encoding": "gzip",
+          "record_count": 3846,
+          "bytes": 322263,
+          "uncompressed_bytes": 1734790,
+          "bbox": [
+            121.29691,
+            24.7593692,
+            122.0045533,
+            25.2973571
+          ],
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "record_count": 3846,
+            "source_periods": [
+              "2026-10-20T20:23:47Z"
+            ],
+            "report": "quality/osm_review.json"
+          }
+        }
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ],
+      "manifest": "osm/manifest.json",
+      "independent_review_status": "passed"
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_natural",
+      "title": "自然地標點",
+      "group": "osm",
+      "format": "geojson",
+      "record_count": 5747,
+      "files": [
+        {
+          "path": "osm/natural.geojson.gz",
+          "encoding": "gzip",
+          "record_count": 5747,
+          "bytes": 123730,
+          "uncompressed_bytes": 1281379,
+          "bbox": [
+            121.3136772,
+            24.6814832,
+            121.9899916,
+            25.2861899
+          ],
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "record_count": 5747,
+            "source_periods": [
+              "2026-10-20T20:23:47Z"
+            ],
+            "report": "quality/osm_review.json"
+          }
+        }
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ],
+      "manifest": "osm/manifest.json",
+      "independent_review_status": "passed"
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_natural_areas",
+      "title": "自然地標範圍",
+      "group": "osm",
+      "format": "geojson",
+      "record_count": 35,
+      "files": [
+        {
+          "path": "osm/natural_areas.geojson.gz",
+          "encoding": "gzip",
+          "record_count": 35,
+          "bytes": 11308,
+          "uncompressed_bytes": 36279,
+          "bbox": [
+            121.2833991,
+            24.9406657,
+            121.9499132,
+            25.295887
+          ],
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "record_count": 35,
+            "source_periods": [
+              "2026-10-20T20:23:47Z"
+            ],
+            "report": "quality/osm_review.json"
+          }
+        }
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ],
+      "manifest": "osm/manifest.json",
+      "independent_review_status": "passed"
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_worship",
+      "title": "宗教設施點",
+      "group": "osm",
+      "format": "geojson",
+      "record_count": 714,
+      "files": [
+        {
+          "path": "osm/worship.geojson.gz",
+          "encoding": "gzip",
+          "record_count": 714,
+          "bytes": 26687,
+          "uncompressed_bytes": 173598,
+          "bbox": [
+            121.3345628,
+            24.8618103,
+            121.9449417,
+            25.2748939
+          ],
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "record_count": 714,
+            "source_periods": [
+              "2026-10-20T20:23:47Z"
+            ],
+            "report": "quality/osm_review.json"
+          }
+        }
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ],
+      "manifest": "osm/manifest.json",
+      "independent_review_status": "passed"
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_worship_areas",
+      "title": "宗教設施範圍",
+      "group": "osm",
+      "format": "geojson",
+      "record_count": 746,
+      "files": [
+        {
+          "path": "osm/worship_areas.geojson.gz",
+          "encoding": "gzip",
+          "record_count": 746,
+          "bytes": 70724,
+          "uncompressed_bytes": 334110,
+          "bbox": [
+            121.3273809,
+            24.777973,
+            122.0017922,
+            25.2920074
+          ],
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "record_count": 746,
+            "source_periods": [
+              "2026-10-20T20:23:47Z"
+            ],
+            "report": "quality/osm_review.json"
+          }
+        }
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ],
+      "manifest": "osm/manifest.json",
+      "independent_review_status": "passed"
+    }
+  ]
+}

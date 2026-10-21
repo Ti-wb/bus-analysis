@@ -1,0 +1,1029 @@
+{
+  "schema_version": 1,
+  "dataset_id": "osm_independent_review",
+  "metadata": {
+    "reviewer_agent": "/root/review_bus_population_tdx",
+    "independent_of_producer": true,
+    "status": "pass_with_source_limitations",
+    "reviewed_at": "2026-10-22T00:30:58+08:00",
+    "record_count": 24,
+    "source_cutoff": "2026-10-20T20:23:47Z",
+    "source_url": "https://download.geofabrik.de/asia/taiwan-261020-free.gpkg.zip",
+    "official_format_documentation": "https://download.geofabrik.de/osm-data-in-gis-formats-free.pdf",
+    "geojson_ring_reference": "https://www.rfc-editor.org/rfc/rfc7946#section-3.1.6",
+    "raw_source": "map-data/raw/osm/taiwan.gpkg",
+    "clip_boundary": "map-data/admin/cities.geojson",
+    "method": "Independent read of all source rows, bypassing producer bbox selection; all kept fields and clipped geometries compared, gzip/JSON/IDs/nulls/bboxes/rings/CRS/source time checked.",
+    "limitations": [
+      "市界版本為2025-03-18，OSM快照為2026-10-20；不是同日界線及地圖版本。",
+      "七位小數取位容許邊界約公分級偏移；不以此精度解讀法律或測量界線。",
+      "人口0是來源未知預設；限速/河寬0保守轉null，不代表實測0，也未補值。",
+      "道路和設施為製圖底圖；未檢驗通行權限、完整拓樸或跨來源公車ID關聯。"
+    ]
+  },
+  "source_layer_checks": [
+    {
+      "source_layer": "gis_osm_roads_free",
+      "source_record_count": 825260,
+      "output_record_count": 143394,
+      "clipped_feature_count": 667,
+      "source_zero_to_null_counts": {
+        "maxspeed_kmh": 138189
+      },
+      "duplicate_osm_id_excess": 0,
+      "source_repairs": 0,
+      "full_precision_fallback_count": 0
+    },
+    {
+      "source_layer": "gis_osm_railways_free",
+      "source_record_count": 8915,
+      "output_record_count": 2003,
+      "clipped_feature_count": 30,
+      "source_zero_to_null_counts": {},
+      "duplicate_osm_id_excess": 0,
+      "source_repairs": 0,
+      "full_precision_fallback_count": 0
+    },
+    {
+      "source_layer": "gis_osm_waterways_free",
+      "source_record_count": 74975,
+      "output_record_count": 10465,
+      "clipped_feature_count": 58,
+      "source_zero_to_null_counts": {
+        "width_m": 10456
+      },
+      "duplicate_osm_id_excess": 0,
+      "source_repairs": 0,
+      "full_precision_fallback_count": 0
+    },
+    {
+      "source_layer": "gis_osm_water_a_free",
+      "source_record_count": 59495,
+      "output_record_count": 2132,
+      "clipped_feature_count": 36,
+      "source_zero_to_null_counts": {},
+      "duplicate_osm_id_excess": 1,
+      "source_repairs": 0,
+      "full_precision_fallback_count": 0
+    },
+    {
+      "source_layer": "gis_osm_landuse_a_free",
+      "source_record_count": 124588,
+      "output_record_count": 18187,
+      "clipped_feature_count": 114,
+      "source_zero_to_null_counts": {},
+      "duplicate_osm_id_excess": 17,
+      "source_repairs": 0,
+      "full_precision_fallback_count": 0
+    },
+    {
+      "source_layer": "gis_osm_protected_areas_a_free",
+      "source_record_count": 329,
+      "output_record_count": 60,
+      "clipped_feature_count": 27,
+      "source_zero_to_null_counts": {},
+      "duplicate_osm_id_excess": 24,
+      "source_repairs": 0,
+      "full_precision_fallback_count": 0
+    },
+    {
+      "source_layer": "gis_osm_buildings_a_free",
+      "source_record_count": 600831,
+      "output_record_count": 129952,
+      "clipped_feature_count": 47,
+      "source_zero_to_null_counts": {},
+      "duplicate_osm_id_excess": 0,
+      "source_repairs": 0,
+      "full_precision_fallback_count": 0
+    },
+    {
+      "source_layer": "gis_osm_places_free",
+      "source_record_count": 17302,
+      "output_record_count": 2131,
+      "clipped_feature_count": 0,
+      "source_zero_to_null_counts": {
+        "population": 2088
+      },
+      "duplicate_osm_id_excess": 0,
+      "source_repairs": 0,
+      "full_precision_fallback_count": 0
+    },
+    {
+      "source_layer": "gis_osm_places_a_free",
+      "source_record_count": 91,
+      "output_record_count": 5,
+      "clipped_feature_count": 1,
+      "source_zero_to_null_counts": {
+        "population": 5
+      },
+      "duplicate_osm_id_excess": 0,
+      "source_repairs": 0,
+      "full_precision_fallback_count": 0
+    },
+    {
+      "source_layer": "gis_osm_transport_free",
+      "source_record_count": 50069,
+      "output_record_count": 10488,
+      "clipped_feature_count": 0,
+      "source_zero_to_null_counts": {},
+      "duplicate_osm_id_excess": 0,
+      "source_repairs": 0,
+      "full_precision_fallback_count": 0
+    },
+    {
+      "source_layer": "gis_osm_transport_a_free",
+      "source_record_count": 561,
+      "output_record_count": 63,
+      "clipped_feature_count": 0,
+      "source_zero_to_null_counts": {},
+      "duplicate_osm_id_excess": 0,
+      "source_repairs": 0,
+      "full_precision_fallback_count": 0
+    },
+    {
+      "source_layer": "gis_osm_pois_free",
+      "source_record_count": 155584,
+      "output_record_count": 58737,
+      "clipped_feature_count": 0,
+      "source_zero_to_null_counts": {},
+      "duplicate_osm_id_excess": 288,
+      "source_repairs": 0,
+      "full_precision_fallback_count": 0
+    },
+    {
+      "source_layer": "gis_osm_pois_a_free",
+      "source_record_count": 56011,
+      "output_record_count": 12953,
+      "clipped_feature_count": 36,
+      "source_zero_to_null_counts": {},
+      "duplicate_osm_id_excess": 65,
+      "source_repairs": 0,
+      "full_precision_fallback_count": 0
+    },
+    {
+      "source_layer": "gis_osm_traffic_free",
+      "source_record_count": 131360,
+      "output_record_count": 31117,
+      "clipped_feature_count": 0,
+      "source_zero_to_null_counts": {},
+      "duplicate_osm_id_excess": 1,
+      "source_repairs": 0,
+      "full_precision_fallback_count": 0
+    },
+    {
+      "source_layer": "gis_osm_traffic_a_free",
+      "source_record_count": 18476,
+      "output_record_count": 3846,
+      "clipped_feature_count": 25,
+      "source_zero_to_null_counts": {},
+      "duplicate_osm_id_excess": 0,
+      "source_repairs": 0,
+      "full_precision_fallback_count": 0
+    },
+    {
+      "source_layer": "gis_osm_natural_free",
+      "source_record_count": 29542,
+      "output_record_count": 5747,
+      "clipped_feature_count": 0,
+      "source_zero_to_null_counts": {},
+      "duplicate_osm_id_excess": 0,
+      "source_repairs": 0,
+      "full_precision_fallback_count": 0
+    },
+    {
+      "source_layer": "gis_osm_natural_a_free",
+      "source_record_count": 376,
+      "output_record_count": 35,
+      "clipped_feature_count": 12,
+      "source_zero_to_null_counts": {},
+      "duplicate_osm_id_excess": 0,
+      "source_repairs": 0,
+      "full_precision_fallback_count": 0
+    },
+    {
+      "source_layer": "gis_osm_pofw_free",
+      "source_record_count": 2960,
+      "output_record_count": 714,
+      "clipped_feature_count": 0,
+      "source_zero_to_null_counts": {},
+      "duplicate_osm_id_excess": 0,
+      "source_repairs": 0,
+      "full_precision_fallback_count": 0
+    },
+    {
+      "source_layer": "gis_osm_pofw_a_free",
+      "source_record_count": 4939,
+      "output_record_count": 746,
+      "clipped_feature_count": 1,
+      "source_zero_to_null_counts": {},
+      "duplicate_osm_id_excess": 0,
+      "source_repairs": 0,
+      "full_precision_fallback_count": 0
+    }
+  ],
+  "records": [
+    {
+      "file": "map-data/osm/roads.geojson.gz",
+      "record_count": 48393,
+      "status": "pass_with_source_limitations",
+      "checks": {
+        "gzip_and_json_valid": true,
+        "geometry_valid_count": 48393,
+        "unique_snapshot_ids": 48393,
+        "all_polygon_rings_follow_rfc7946": true,
+        "inside_city_union_with_rounding_tolerance_degrees": 7.2e-08,
+        "bbox": [
+          121.2831755,
+          24.6923791,
+          122.0048294,
+          25.2983596
+        ],
+        "compressed_bytes": 4278886,
+        "uncompressed_bytes": 25170340,
+        "raw_field_matches": 48393,
+        "raw_geometry_matches": 48393,
+        "source_fid_examples": [
+          "1",
+          "132012",
+          "254143"
+        ],
+        "source_line_direction_preserved_after_clipping": true
+      },
+      "limitations": [
+        "Geofabrik免費選集與來源欄位預設值不代表完整OSM或可導航路網。",
+        "只保留雙北市界內部分；圖徵ID僅在本快照有效，OSM ID可能重複。"
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ]
+    },
+    {
+      "file": "map-data/osm/roads-002.geojson.gz",
+      "record_count": 50528,
+      "status": "pass_with_source_limitations",
+      "checks": {
+        "gzip_and_json_valid": true,
+        "geometry_valid_count": 50528,
+        "unique_snapshot_ids": 50528,
+        "all_polygon_rings_follow_rfc7946": true,
+        "inside_city_union_with_rounding_tolerance_degrees": 7.2e-08,
+        "bbox": [
+          121.2827311,
+          24.6732074,
+          122.004223,
+          25.2984662
+        ],
+        "compressed_bytes": 4033017,
+        "uncompressed_bytes": 25167480,
+        "raw_field_matches": 50528,
+        "raw_geometry_matches": 50528,
+        "source_fid_examples": [
+          "254144",
+          "377125",
+          "542291"
+        ],
+        "source_line_direction_preserved_after_clipping": true
+      },
+      "limitations": [
+        "Geofabrik免費選集與來源欄位預設值不代表完整OSM或可導航路網。",
+        "只保留雙北市界內部分；圖徵ID僅在本快照有效，OSM ID可能重複。"
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ]
+    },
+    {
+      "file": "map-data/osm/roads-003.geojson.gz",
+      "record_count": 44473,
+      "status": "pass_with_source_limitations",
+      "checks": {
+        "gzip_and_json_valid": true,
+        "geometry_valid_count": 44473,
+        "unique_snapshot_ids": 44473,
+        "all_polygon_rings_follow_rfc7946": true,
+        "inside_city_union_with_rounding_tolerance_degrees": 7.2e-08,
+        "bbox": [
+          121.2831395,
+          24.6739402,
+          122.0064391,
+          25.2980488
+        ],
+        "compressed_bytes": 2610291,
+        "uncompressed_bytes": 19428168,
+        "raw_field_matches": 44473,
+        "raw_geometry_matches": 44473,
+        "source_fid_examples": [
+          "542292",
+          "722855",
+          "825258"
+        ],
+        "source_line_direction_preserved_after_clipping": true
+      },
+      "limitations": [
+        "Geofabrik免費選集與來源欄位預設值不代表完整OSM或可導航路網。",
+        "只保留雙北市界內部分；圖徵ID僅在本快照有效，OSM ID可能重複。"
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ]
+    },
+    {
+      "file": "map-data/osm/railways.geojson.gz",
+      "record_count": 2003,
+      "status": "pass_with_source_limitations",
+      "checks": {
+        "gzip_and_json_valid": true,
+        "geometry_valid_count": 2003,
+        "unique_snapshot_ids": 2003,
+        "all_polygon_rings_follow_rfc7946": true,
+        "inside_city_union_with_rounding_tolerance_degrees": 7.2e-08,
+        "bbox": [
+          121.3283882,
+          24.844689,
+          121.9579732,
+          25.2040301
+        ],
+        "compressed_bytes": 174766,
+        "uncompressed_bytes": 949113,
+        "raw_field_matches": 2003,
+        "raw_geometry_matches": 2003,
+        "source_fid_examples": [
+          "1",
+          "3853",
+          "8915"
+        ],
+        "source_line_direction_preserved_after_clipping": true
+      },
+      "limitations": [
+        "Geofabrik免費選集與來源欄位預設值不代表完整OSM或可導航路網。",
+        "只保留雙北市界內部分；圖徵ID僅在本快照有效，OSM ID可能重複。"
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ]
+    },
+    {
+      "file": "map-data/osm/waterways.geojson.gz",
+      "record_count": 10465,
+      "status": "pass_with_source_limitations",
+      "checks": {
+        "gzip_and_json_valid": true,
+        "geometry_valid_count": 10465,
+        "unique_snapshot_ids": 10465,
+        "all_polygon_rings_follow_rfc7946": true,
+        "inside_city_union_with_rounding_tolerance_degrees": 7.2e-08,
+        "bbox": [
+          121.2844652,
+          24.6764277,
+          122.0053766,
+          25.2984694
+        ],
+        "compressed_bytes": 1362137,
+        "uncompressed_bytes": 6230979,
+        "raw_field_matches": 10465,
+        "raw_geometry_matches": 10465,
+        "source_fid_examples": [
+          "1",
+          "46670",
+          "74975"
+        ],
+        "source_line_direction_preserved_after_clipping": true
+      },
+      "limitations": [
+        "Geofabrik免費選集與來源欄位預設值不代表完整OSM或可導航路網。",
+        "只保留雙北市界內部分；圖徵ID僅在本快照有效，OSM ID可能重複。"
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ]
+    },
+    {
+      "file": "map-data/osm/water.geojson.gz",
+      "record_count": 2132,
+      "status": "pass_with_source_limitations",
+      "checks": {
+        "gzip_and_json_valid": true,
+        "geometry_valid_count": 2132,
+        "unique_snapshot_ids": 2132,
+        "all_polygon_rings_follow_rfc7946": true,
+        "inside_city_union_with_rounding_tolerance_degrees": 7.2e-08,
+        "bbox": [
+          121.2860314,
+          24.6808456,
+          122.0040964,
+          25.2959228
+        ],
+        "compressed_bytes": 416147,
+        "uncompressed_bytes": 1739027,
+        "raw_field_matches": 2132,
+        "raw_geometry_matches": 2132,
+        "source_fid_examples": [
+          "19",
+          "11029",
+          "59495"
+        ]
+      },
+      "limitations": [
+        "Geofabrik免費選集與來源欄位預設值不代表完整OSM或可導航路網。",
+        "只保留雙北市界內部分；圖徵ID僅在本快照有效，OSM ID可能重複。"
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ]
+    },
+    {
+      "file": "map-data/osm/landuse.geojson.gz",
+      "record_count": 18187,
+      "status": "pass_with_source_limitations",
+      "checks": {
+        "gzip_and_json_valid": true,
+        "geometry_valid_count": 18187,
+        "unique_snapshot_ids": 18187,
+        "all_polygon_rings_follow_rfc7946": true,
+        "inside_city_union_with_rounding_tolerance_degrees": 7.2e-08,
+        "bbox": [
+          121.2831603,
+          24.6731921,
+          122.0045914,
+          25.2976477
+        ],
+        "compressed_bytes": 3785766,
+        "uncompressed_bytes": 16049473,
+        "raw_field_matches": 18187,
+        "raw_geometry_matches": 18187,
+        "source_fid_examples": [
+          "8",
+          "46194",
+          "124574"
+        ]
+      },
+      "limitations": [
+        "Geofabrik免費選集與來源欄位預設值不代表完整OSM或可導航路網。",
+        "只保留雙北市界內部分；圖徵ID僅在本快照有效，OSM ID可能重複。"
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ]
+    },
+    {
+      "file": "map-data/osm/protected_areas.geojson.gz",
+      "record_count": 60,
+      "status": "pass_with_source_limitations",
+      "checks": {
+        "gzip_and_json_valid": true,
+        "geometry_valid_count": 60,
+        "unique_snapshot_ids": 60,
+        "all_polygon_rings_follow_rfc7946": true,
+        "inside_city_union_with_rounding_tolerance_degrees": 7.2e-08,
+        "bbox": [
+          121.3952207,
+          24.6731921,
+          122.0056505,
+          25.3003029
+        ],
+        "compressed_bytes": 241594,
+        "uncompressed_bytes": 1037176,
+        "raw_field_matches": 60,
+        "raw_geometry_matches": 60,
+        "source_fid_examples": [
+          "6",
+          "138",
+          "326"
+        ]
+      },
+      "limitations": [
+        "Geofabrik免費選集與來源欄位預設值不代表完整OSM或可導航路網。",
+        "只保留雙北市界內部分；圖徵ID僅在本快照有效，OSM ID可能重複。"
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ]
+    },
+    {
+      "file": "map-data/osm/buildings.geojson.gz",
+      "record_count": 54219,
+      "status": "pass_with_source_limitations",
+      "checks": {
+        "gzip_and_json_valid": true,
+        "geometry_valid_count": 54219,
+        "unique_snapshot_ids": 54219,
+        "all_polygon_rings_follow_rfc7946": true,
+        "inside_city_union_with_rounding_tolerance_degrees": 7.2e-08,
+        "bbox": [
+          121.2848337,
+          24.759379,
+          122.0045345,
+          25.2945457
+        ],
+        "compressed_bytes": 3883961,
+        "uncompressed_bytes": 25170235,
+        "raw_field_matches": 54219,
+        "raw_geometry_matches": 54219,
+        "source_fid_examples": [
+          "6",
+          "102445",
+          "157962"
+        ]
+      },
+      "limitations": [
+        "Geofabrik免費選集與來源欄位預設值不代表完整OSM或可導航路網。",
+        "只保留雙北市界內部分；圖徵ID僅在本快照有效，OSM ID可能重複。"
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ]
+    },
+    {
+      "file": "map-data/osm/buildings-002.geojson.gz",
+      "record_count": 61435,
+      "status": "pass_with_source_limitations",
+      "checks": {
+        "gzip_and_json_valid": true,
+        "geometry_valid_count": 61435,
+        "unique_snapshot_ids": 61435,
+        "all_polygon_rings_follow_rfc7946": true,
+        "inside_city_union_with_rounding_tolerance_degrees": 7.2e-08,
+        "bbox": [
+          121.2975549,
+          24.7742732,
+          122.0044352,
+          25.2975286
+        ],
+        "compressed_bytes": 3349202,
+        "uncompressed_bytes": 25170375,
+        "raw_field_matches": 61435,
+        "raw_geometry_matches": 61435,
+        "source_fid_examples": [
+          "157963",
+          "241691",
+          "439430"
+        ]
+      },
+      "limitations": [
+        "Geofabrik免費選集與來源欄位預設值不代表完整OSM或可導航路網。",
+        "只保留雙北市界內部分；圖徵ID僅在本快照有效，OSM ID可能重複。"
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ]
+    },
+    {
+      "file": "map-data/osm/buildings-003.geojson.gz",
+      "record_count": 14298,
+      "status": "pass_with_source_limitations",
+      "checks": {
+        "gzip_and_json_valid": true,
+        "geometry_valid_count": 14298,
+        "unique_snapshot_ids": 14298,
+        "all_polygon_rings_follow_rfc7946": true,
+        "inside_city_union_with_rounding_tolerance_degrees": 7.2e-08,
+        "bbox": [
+          121.2846633,
+          24.8278121,
+          122.0046892,
+          25.2984749
+        ],
+        "compressed_bytes": 817732,
+        "uncompressed_bytes": 5979538,
+        "raw_field_matches": 14298,
+        "raw_geometry_matches": 14298,
+        "source_fid_examples": [
+          "439431",
+          "531393",
+          "600808"
+        ]
+      },
+      "limitations": [
+        "Geofabrik免費選集與來源欄位預設值不代表完整OSM或可導航路網。",
+        "只保留雙北市界內部分；圖徵ID僅在本快照有效，OSM ID可能重複。"
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ]
+    },
+    {
+      "file": "map-data/osm/places.geojson.gz",
+      "record_count": 2131,
+      "status": "pass_with_source_limitations",
+      "checks": {
+        "gzip_and_json_valid": true,
+        "geometry_valid_count": 2131,
+        "unique_snapshot_ids": 2131,
+        "all_polygon_rings_follow_rfc7946": true,
+        "inside_city_union_with_rounding_tolerance_degrees": 7.2e-08,
+        "bbox": [
+          121.291712,
+          24.75022,
+          122.002463,
+          25.294862
+        ],
+        "compressed_bytes": 60075,
+        "uncompressed_bytes": 523949,
+        "raw_field_matches": 2131,
+        "raw_geometry_matches": 2131,
+        "source_fid_examples": [
+          "4",
+          "4261",
+          "17292"
+        ]
+      },
+      "limitations": [
+        "Geofabrik免費選集與來源欄位預設值不代表完整OSM或可導航路網。",
+        "只保留雙北市界內部分；圖徵ID僅在本快照有效，OSM ID可能重複。"
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ]
+    },
+    {
+      "file": "map-data/osm/place_areas.geojson.gz",
+      "record_count": 5,
+      "status": "pass_with_source_limitations",
+      "checks": {
+        "gzip_and_json_valid": true,
+        "geometry_valid_count": 5,
+        "unique_snapshot_ids": 5,
+        "all_polygon_rings_follow_rfc7946": true,
+        "inside_city_union_with_rounding_tolerance_degrees": 7.2e-08,
+        "bbox": [
+          121.2826881,
+          24.6731921,
+          122.0070799,
+          25.299671
+        ],
+        "compressed_bytes": 173413,
+        "uncompressed_bytes": 578693,
+        "raw_field_matches": 5,
+        "raw_geometry_matches": 5,
+        "source_fid_examples": [
+          "25",
+          "54",
+          "90"
+        ]
+      },
+      "limitations": [
+        "Geofabrik免費選集與來源欄位預設值不代表完整OSM或可導航路網。",
+        "只保留雙北市界內部分；圖徵ID僅在本快照有效，OSM ID可能重複。"
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ]
+    },
+    {
+      "file": "map-data/osm/transport.geojson.gz",
+      "record_count": 10488,
+      "status": "pass_with_source_limitations",
+      "checks": {
+        "gzip_and_json_valid": true,
+        "geometry_valid_count": 10488,
+        "unique_snapshot_ids": 10488,
+        "all_polygon_rings_follow_rfc7946": true,
+        "inside_city_union_with_rounding_tolerance_degrees": 7.2e-08,
+        "bbox": [
+          121.2867792,
+          24.8362718,
+          122.003318,
+          25.2977122
+        ],
+        "compressed_bytes": 283472,
+        "uncompressed_bytes": 2494840,
+        "raw_field_matches": 10488,
+        "raw_geometry_matches": 10488,
+        "source_fid_examples": [
+          "5",
+          "17213",
+          "50065"
+        ]
+      },
+      "limitations": [
+        "Geofabrik免費選集與來源欄位預設值不代表完整OSM或可導航路網。",
+        "只保留雙北市界內部分；圖徵ID僅在本快照有效，OSM ID可能重複。"
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ]
+    },
+    {
+      "file": "map-data/osm/transport_areas.geojson.gz",
+      "record_count": 63,
+      "status": "pass_with_source_limitations",
+      "checks": {
+        "gzip_and_json_valid": true,
+        "geometry_valid_count": 63,
+        "unique_snapshot_ids": 63,
+        "all_polygon_rings_follow_rfc7946": true,
+        "inside_city_union_with_rounding_tolerance_degrees": 7.2e-08,
+        "bbox": [
+          121.3614019,
+          24.834807,
+          121.9236935,
+          25.293656
+        ],
+        "compressed_bytes": 10613,
+        "uncompressed_bytes": 40251,
+        "raw_field_matches": 63,
+        "raw_geometry_matches": 63,
+        "source_fid_examples": [
+          "30",
+          "279",
+          "556"
+        ]
+      },
+      "limitations": [
+        "Geofabrik免費選集與來源欄位預設值不代表完整OSM或可導航路網。",
+        "只保留雙北市界內部分；圖徵ID僅在本快照有效，OSM ID可能重複。"
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ]
+    },
+    {
+      "file": "map-data/osm/pois.geojson.gz",
+      "record_count": 58737,
+      "status": "pass_with_source_limitations",
+      "checks": {
+        "gzip_and_json_valid": true,
+        "geometry_valid_count": 58737,
+        "unique_snapshot_ids": 58737,
+        "all_polygon_rings_follow_rfc7946": true,
+        "inside_city_union_with_rounding_tolerance_degrees": 7.2e-08,
+        "bbox": [
+          121.3001927,
+          24.673855,
+          122.0064353,
+          25.2984665
+        ],
+        "compressed_bytes": 1844638,
+        "uncompressed_bytes": 13775574,
+        "raw_field_matches": 58737,
+        "raw_geometry_matches": 58737,
+        "source_fid_examples": [
+          "31",
+          "70906",
+          "155584"
+        ]
+      },
+      "limitations": [
+        "Geofabrik免費選集與來源欄位預設值不代表完整OSM或可導航路網。",
+        "只保留雙北市界內部分；圖徵ID僅在本快照有效，OSM ID可能重複。"
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ]
+    },
+    {
+      "file": "map-data/osm/poi_areas.geojson.gz",
+      "record_count": 12953,
+      "status": "pass_with_source_limitations",
+      "checks": {
+        "gzip_and_json_valid": true,
+        "geometry_valid_count": 12953,
+        "unique_snapshot_ids": 12953,
+        "all_polygon_rings_follow_rfc7946": true,
+        "inside_city_union_with_rounding_tolerance_degrees": 7.2e-08,
+        "bbox": [
+          121.2853238,
+          24.759379,
+          122.0033505,
+          25.2985616
+        ],
+        "compressed_bytes": 1588194,
+        "uncompressed_bytes": 7229807,
+        "raw_field_matches": 12953,
+        "raw_geometry_matches": 12953,
+        "source_fid_examples": [
+          "16",
+          "22573",
+          "56009"
+        ]
+      },
+      "limitations": [
+        "Geofabrik免費選集與來源欄位預設值不代表完整OSM或可導航路網。",
+        "只保留雙北市界內部分；圖徵ID僅在本快照有效，OSM ID可能重複。"
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ]
+    },
+    {
+      "file": "map-data/osm/traffic.geojson.gz",
+      "record_count": 31117,
+      "status": "pass_with_source_limitations",
+      "checks": {
+        "gzip_and_json_valid": true,
+        "geometry_valid_count": 31117,
+        "unique_snapshot_ids": 31117,
+        "all_polygon_rings_follow_rfc7946": true,
+        "inside_city_union_with_rounding_tolerance_degrees": 7.2e-08,
+        "bbox": [
+          121.2855376,
+          24.7749567,
+          122.0026175,
+          25.2968709
+        ],
+        "compressed_bytes": 628749,
+        "uncompressed_bytes": 7766520,
+        "raw_field_matches": 31117,
+        "raw_geometry_matches": 31117,
+        "source_fid_examples": [
+          "1",
+          "59928",
+          "131360"
+        ]
+      },
+      "limitations": [
+        "Geofabrik免費選集與來源欄位預設值不代表完整OSM或可導航路網。",
+        "只保留雙北市界內部分；圖徵ID僅在本快照有效，OSM ID可能重複。"
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ]
+    },
+    {
+      "file": "map-data/osm/traffic_areas.geojson.gz",
+      "record_count": 3846,
+      "status": "pass_with_source_limitations",
+      "checks": {
+        "gzip_and_json_valid": true,
+        "geometry_valid_count": 3846,
+        "unique_snapshot_ids": 3846,
+        "all_polygon_rings_follow_rfc7946": true,
+        "inside_city_union_with_rounding_tolerance_degrees": 7.2e-08,
+        "bbox": [
+          121.29691,
+          24.7593692,
+          122.0045533,
+          25.2973571
+        ],
+        "compressed_bytes": 322263,
+        "uncompressed_bytes": 1734790,
+        "raw_field_matches": 3846,
+        "raw_geometry_matches": 3846,
+        "source_fid_examples": [
+          "10",
+          "7261",
+          "18476"
+        ]
+      },
+      "limitations": [
+        "Geofabrik免費選集與來源欄位預設值不代表完整OSM或可導航路網。",
+        "只保留雙北市界內部分；圖徵ID僅在本快照有效，OSM ID可能重複。"
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ]
+    },
+    {
+      "file": "map-data/osm/natural.geojson.gz",
+      "record_count": 5747,
+      "status": "pass_with_source_limitations",
+      "checks": {
+        "gzip_and_json_valid": true,
+        "geometry_valid_count": 5747,
+        "unique_snapshot_ids": 5747,
+        "all_polygon_rings_follow_rfc7946": true,
+        "inside_city_union_with_rounding_tolerance_degrees": 7.2e-08,
+        "bbox": [
+          121.3136772,
+          24.6814832,
+          121.9899916,
+          25.2861899
+        ],
+        "compressed_bytes": 123730,
+        "uncompressed_bytes": 1281379,
+        "raw_field_matches": 5747,
+        "raw_geometry_matches": 5747,
+        "source_fid_examples": [
+          "1",
+          "10456",
+          "29542"
+        ]
+      },
+      "limitations": [
+        "Geofabrik免費選集與來源欄位預設值不代表完整OSM或可導航路網。",
+        "只保留雙北市界內部分；圖徵ID僅在本快照有效，OSM ID可能重複。"
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ]
+    },
+    {
+      "file": "map-data/osm/natural_areas.geojson.gz",
+      "record_count": 35,
+      "status": "pass_with_source_limitations",
+      "checks": {
+        "gzip_and_json_valid": true,
+        "geometry_valid_count": 35,
+        "unique_snapshot_ids": 35,
+        "all_polygon_rings_follow_rfc7946": true,
+        "inside_city_union_with_rounding_tolerance_degrees": 7.2e-08,
+        "bbox": [
+          121.2833991,
+          24.9406657,
+          121.9499132,
+          25.295887
+        ],
+        "compressed_bytes": 11308,
+        "uncompressed_bytes": 36279,
+        "raw_field_matches": 35,
+        "raw_geometry_matches": 35,
+        "source_fid_examples": [
+          "24",
+          "140",
+          "375"
+        ]
+      },
+      "limitations": [
+        "Geofabrik免費選集與來源欄位預設值不代表完整OSM或可導航路網。",
+        "只保留雙北市界內部分；圖徵ID僅在本快照有效，OSM ID可能重複。"
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ]
+    },
+    {
+      "file": "map-data/osm/worship.geojson.gz",
+      "record_count": 714,
+      "status": "pass_with_source_limitations",
+      "checks": {
+        "gzip_and_json_valid": true,
+        "geometry_valid_count": 714,
+        "unique_snapshot_ids": 714,
+        "all_polygon_rings_follow_rfc7946": true,
+        "inside_city_union_with_rounding_tolerance_degrees": 7.2e-08,
+        "bbox": [
+          121.3345628,
+          24.8618103,
+          121.9449417,
+          25.2748939
+        ],
+        "compressed_bytes": 26687,
+        "uncompressed_bytes": 173598,
+        "raw_field_matches": 714,
+        "raw_geometry_matches": 714,
+        "source_fid_examples": [
+          "2",
+          "1071",
+          "2960"
+        ]
+      },
+      "limitations": [
+        "Geofabrik免費選集與來源欄位預設值不代表完整OSM或可導航路網。",
+        "只保留雙北市界內部分；圖徵ID僅在本快照有效，OSM ID可能重複。"
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ]
+    },
+    {
+      "file": "map-data/osm/worship_areas.geojson.gz",
+      "record_count": 746,
+      "status": "pass_with_source_limitations",
+      "checks": {
+        "gzip_and_json_valid": true,
+        "geometry_valid_count": 746,
+        "unique_snapshot_ids": 746,
+        "all_polygon_rings_follow_rfc7946": true,
+        "inside_city_union_with_rounding_tolerance_degrees": 7.2e-08,
+        "bbox": [
+          121.3273809,
+          24.777973,
+          122.0017922,
+          25.2920074
+        ],
+        "compressed_bytes": 70724,
+        "uncompressed_bytes": 334110,
+        "raw_field_matches": 746,
+        "raw_geometry_matches": 746,
+        "source_fid_examples": [
+          "20",
+          "1392",
+          "4914"
+        ]
+      },
+      "limitations": [
+        "Geofabrik免費選集與來源欄位預設值不代表完整OSM或可導航路網。",
+        "只保留雙北市界內部分；圖徵ID僅在本快照有效，OSM ID可能重複。"
+      ],
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ]
+    },
+    {
+      "file": "map-data/osm/manifest.json",
+      "record_count": 19,
+      "status": "pass",
+      "checks": {
+        "all_19_nonadministrative_source_layers_present": true,
+        "source_and_output_counts_match": true,
+        "all_chunk_paths_match_files": true,
+        "source_time_matches_archive_readme": true,
+        "download_time_is_distinct_from_source_cutoff": true,
+        "license_and_attribution_present": true
+      },
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1125 @@
+{
+  "schema_version": 1,
+  "dataset_id": "osm_taipei_new_taipei_catalog",
+  "metadata": {
+    "generated_at": "2026-10-22T00:30:03+08:00",
+    "source": {
+      "source_page": "https://download.geofabrik.de/asia/taiwan.html",
+      "download_url": "https://download.geofabrik.de/asia/taiwan-261020-free.gpkg.zip",
+      "downloaded_at": "2026-10-22T00:16:54+08:00",
+      "http_last_modified": "Wed, 21 Oct 2026 02:40:04 GMT",
+      "download_bytes": 270502525,
+      "source_updated_at": "2026-10-20T20:23:47Z",
+      "archive_path": "map-data/raw/osm/taiwan-261020-free.gpkg.zip",
+      "format_description": "https://download.geofabrik.de/osm-data-in-gis-formats-free.pdf",
+      "license": "ODbL-1.0",
+      "license_url": "https://opendatacommons.org/licenses/odbl/1-0/",
+      "attribution": "© OpenStreetMap contributors; processed by Geofabrik"
+    },
+    "record_count": 19,
+    "clip_boundary": "map-data/admin/cities.geojson",
+    "bbox": [
+      121.282688085,
+      24.673192106,
+      122.007502734,
+      25.300302898
+    ],
+    "attribution": "© OpenStreetMap contributors; processed by Geofabrik",
+    "license": "ODbL-1.0",
+    "license_url": "https://opendatacommons.org/licenses/odbl/1-0/",
+    "excluded_source_layers": [
+      "gis_osm_adminareas_a_free: 改用admin/官方行政界"
+    ],
+    "normalization": [
+      "空字串改null；ID/code保留字串。",
+      "population來源0為未知；maxspeed與width來源0不作有效量測值，均轉null並記錄筆數。",
+      "oneway保留Geofabrik F=順線、T=逆線、B=雙向；bridge/tunnel保留T/F來源碼，可能含來源預設值。",
+      "保留全部相交的來源圖徵，線與面裁切至雙北市界；純點/線接觸不當成面積要素。"
+    ],
+    "units": {
+      "coordinates": "degrees",
+      "maxspeed_kmh": "km/h",
+      "width_m": "m",
+      "population": "persons",
+      "layer": "relative drawing order"
+    }
+  },
+  "records": [
+    {
+      "dataset_id": "osm_taipei_new_taipei_roads",
+      "title": "道路與步行路徑",
+      "source_layer": "gis_osm_roads_free",
+      "grain": "one retained source fid per feature; clipped geometry may contain multiple parts",
+      "geometry_dimension": 1,
+      "source_srs_id": 100000,
+      "outputs": [
+        {
+          "path": "map-data/osm/roads.geojson.gz",
+          "record_count": 48393,
+          "bytes": 4278886,
+          "uncompressed_bytes": 25170340,
+          "encoding": "gzip",
+          "bbox": [
+            121.2831755,
+            24.6923791,
+            122.0048294,
+            25.2983596
+          ]
+        },
+        {
+          "path": "map-data/osm/roads-002.geojson.gz",
+          "record_count": 50528,
+          "bytes": 4033017,
+          "uncompressed_bytes": 25167480,
+          "encoding": "gzip",
+          "bbox": [
+            121.2827311,
+            24.6732074,
+            122.004223,
+            25.2984662
+          ]
+        },
+        {
+          "path": "map-data/osm/roads-003.geojson.gz",
+          "record_count": 44473,
+          "bytes": 2610291,
+          "uncompressed_bytes": 19428168,
+          "encoding": "gzip",
+          "bbox": [
+            121.2831395,
+            24.6739402,
+            122.0064391,
+            25.2980488
+          ]
+        }
+      ],
+      "counts": {
+        "source_rows": 825260,
+        "output_features": 143394,
+        "clipped_features": 667
+      },
+      "classes": {
+        "busway": 74,
+        "cycleway": 2511,
+        "footway": 38900,
+        "living_street": 233,
+        "motorway": 535,
+        "motorway_link": 658,
+        "path": 10169,
+        "pedestrian": 1142,
+        "primary": 2121,
+        "primary_link": 177,
+        "residential": 14925,
+        "secondary": 3810,
+        "secondary_link": 361,
+        "service": 44648,
+        "steps": 8252,
+        "tertiary": 5103,
+        "tertiary_link": 258,
+        "track": 2752,
+        "track_grade1": 365,
+        "track_grade2": 174,
+        "track_grade3": 33,
+        "track_grade4": 36,
+        "track_grade5": 57,
+        "trunk": 570,
+        "trunk_link": 735,
+        "unclassified": 4785,
+        "unknown": 10
+      },
+      "source_zero_to_null_counts": {
+        "maxspeed_kmh": 138189
+      },
+      "repaired_source_fids": [],
+      "full_precision_fallback_fids": []
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_railways",
+      "title": "鐵路、捷運與輕軌線形",
+      "source_layer": "gis_osm_railways_free",
+      "grain": "one retained source fid per feature; clipped geometry may contain multiple parts",
+      "geometry_dimension": 1,
+      "source_srs_id": 100000,
+      "outputs": [
+        {
+          "path": "map-data/osm/railways.geojson.gz",
+          "record_count": 2003,
+          "bytes": 174766,
+          "uncompressed_bytes": 949113,
+          "encoding": "gzip",
+          "bbox": [
+            121.3283882,
+            24.844689,
+            121.9579732,
+            25.2040301
+          ]
+        }
+      ],
+      "counts": {
+        "source_rows": 8915,
+        "output_features": 2003,
+        "clipped_features": 30
+      },
+      "classes": {
+        "funicular": 2,
+        "light_rail": 202,
+        "monorail": 2,
+        "narrow_gauge": 24,
+        "rail": 708,
+        "subway": 1065
+      },
+      "source_zero_to_null_counts": {},
+      "repaired_source_fids": [],
+      "full_precision_fallback_fids": []
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_waterways",
+      "title": "河流與水道中心線",
+      "source_layer": "gis_osm_waterways_free",
+      "grain": "one retained source fid per feature; clipped geometry may contain multiple parts",
+      "geometry_dimension": 1,
+      "source_srs_id": 100000,
+      "outputs": [
+        {
+          "path": "map-data/osm/waterways.geojson.gz",
+          "record_count": 10465,
+          "bytes": 1362137,
+          "uncompressed_bytes": 6230979,
+          "encoding": "gzip",
+          "bbox": [
+            121.2844652,
+            24.6764277,
+            122.0053766,
+            25.2984694
+          ]
+        }
+      ],
+      "counts": {
+        "source_rows": 74975,
+        "output_features": 10465,
+        "clipped_features": 58
+      },
+      "classes": {
+        "canal": 160,
+        "drain": 1796,
+        "river": 934,
+        "stream": 7575
+      },
+      "source_zero_to_null_counts": {
+        "width_m": 10456
+      },
+      "repaired_source_fids": [],
+      "full_precision_fallback_fids": []
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_water",
+      "title": "河川、湖泊與水庫水面",
+      "source_layer": "gis_osm_water_a_free",
+      "grain": "one retained source fid per feature; clipped geometry may contain multiple parts",
+      "geometry_dimension": 2,
+      "source_srs_id": 100000,
+      "outputs": [
+        {
+          "path": "map-data/osm/water.geojson.gz",
+          "record_count": 2132,
+          "bytes": 416147,
+          "uncompressed_bytes": 1739027,
+          "encoding": "gzip",
+          "bbox": [
+            121.2860314,
+            24.6808456,
+            122.0040964,
+            25.2959228
+          ]
+        }
+      ],
+      "counts": {
+        "source_rows": 59495,
+        "output_features": 2132,
+        "clipped_features": 36
+      },
+      "classes": {
+        "dock": 2,
+        "reservoir": 53,
+        "riverbank": 81,
+        "water": 1881,
+        "wetland": 61,
+        "wetland_bog": 4,
+        "wetland_fen": 1,
+        "wetland_mangrove": 11,
+        "wetland_marsh": 28,
+        "wetland_reedbed": 2,
+        "wetland_saltmarsh": 1,
+        "wetland_swamp": 2,
+        "wetland_tidalflat": 1,
+        "wetland_wet_meadow": 4
+      },
+      "source_zero_to_null_counts": {},
+      "repaired_source_fids": [],
+      "full_precision_fallback_fids": []
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_landuse",
+      "title": "土地覆蓋與公園綠地",
+      "source_layer": "gis_osm_landuse_a_free",
+      "grain": "one retained source fid per feature; clipped geometry may contain multiple parts",
+      "geometry_dimension": 2,
+      "source_srs_id": 100000,
+      "outputs": [
+        {
+          "path": "map-data/osm/landuse.geojson.gz",
+          "record_count": 18187,
+          "bytes": 3785766,
+          "uncompressed_bytes": 16049473,
+          "encoding": "gzip",
+          "bbox": [
+            121.2831603,
+            24.6731921,
+            122.0045914,
+            25.2976477
+          ]
+        }
+      ],
+      "counts": {
+        "source_rows": 124588,
+        "output_features": 18187,
+        "clipped_features": 114
+      },
+      "classes": {
+        "allotments": 79,
+        "cemetery": 562,
+        "commercial": 366,
+        "farmland": 822,
+        "farmyard": 52,
+        "forest": 2521,
+        "grass": 3559,
+        "heath": 26,
+        "industrial": 1139,
+        "landfill": 7,
+        "meadow": 54,
+        "military": 130,
+        "orchard": 77,
+        "park": 2273,
+        "quarry": 4,
+        "recreation_ground": 96,
+        "residential": 6096,
+        "retail": 166,
+        "scrub": 158
+      },
+      "source_zero_to_null_counts": {},
+      "repaired_source_fids": [],
+      "full_precision_fallback_fids": []
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_protected_areas",
+      "title": "保護區",
+      "source_layer": "gis_osm_protected_areas_a_free",
+      "grain": "one retained source fid per feature; clipped geometry may contain multiple parts",
+      "geometry_dimension": 2,
+      "source_srs_id": 100000,
+      "outputs": [
+        {
+          "path": "map-data/osm/protected_areas.geojson.gz",
+          "record_count": 60,
+          "bytes": 241594,
+          "uncompressed_bytes": 1037176,
+          "encoding": "gzip",
+          "bbox": [
+            121.3952207,
+            24.6731921,
+            122.0056505,
+            25.3003029
+          ]
+        }
+      ],
+      "counts": {
+        "source_rows": 329,
+        "output_features": 60,
+        "clipped_features": 27
+      },
+      "classes": {
+        "iucn_1": 10,
+        "iucn_4": 4,
+        "iucn_5": 3,
+        "iucn_6": 6,
+        "national_park": 1,
+        "nature_reserve": 36
+      },
+      "source_zero_to_null_counts": {},
+      "repaired_source_fids": [],
+      "full_precision_fallback_fids": []
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_buildings",
+      "title": "建物輪廓",
+      "source_layer": "gis_osm_buildings_a_free",
+      "grain": "one retained source fid per feature; clipped geometry may contain multiple parts",
+      "geometry_dimension": 2,
+      "source_srs_id": 100000,
+      "outputs": [
+        {
+          "path": "map-data/osm/buildings.geojson.gz",
+          "record_count": 54219,
+          "bytes": 3883961,
+          "uncompressed_bytes": 25170235,
+          "encoding": "gzip",
+          "bbox": [
+            121.2848337,
+            24.759379,
+            122.0045345,
+            25.2945457
+          ]
+        },
+        {
+          "path": "map-data/osm/buildings-002.geojson.gz",
+          "record_count": 61435,
+          "bytes": 3349202,
+          "uncompressed_bytes": 25170375,
+          "encoding": "gzip",
+          "bbox": [
+            121.2975549,
+            24.7742732,
+            122.0044352,
+            25.2975286
+          ]
+        },
+        {
+          "path": "map-data/osm/buildings-003.geojson.gz",
+          "record_count": 14298,
+          "bytes": 817732,
+          "uncompressed_bytes": 5979538,
+          "encoding": "gzip",
+          "bbox": [
+            121.2846633,
+            24.8278121,
+            122.0046892,
+            25.2984749
+          ]
+        }
+      ],
+      "counts": {
+        "source_rows": 600831,
+        "output_features": 129952,
+        "clipped_features": 47
+      },
+      "classes": {
+        "building": 129952
+      },
+      "source_zero_to_null_counts": {},
+      "repaired_source_fids": [],
+      "full_precision_fallback_fids": []
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_places",
+      "title": "聚落與地名標示點",
+      "source_layer": "gis_osm_places_free",
+      "grain": "one retained source fid per feature; clipped geometry may contain multiple parts",
+      "geometry_dimension": 0,
+      "source_srs_id": 100000,
+      "outputs": [
+        {
+          "path": "map-data/osm/places.geojson.gz",
+          "record_count": 2131,
+          "bytes": 60075,
+          "uncompressed_bytes": 523949,
+          "encoding": "gzip",
+          "bbox": [
+            121.291712,
+            24.75022,
+            122.002463,
+            25.294862
+          ]
+        }
+      ],
+      "counts": {
+        "source_rows": 17302,
+        "output_features": 2131
+      },
+      "classes": {
+        "city": 1,
+        "farm": 2,
+        "hamlet": 1808,
+        "locality": 103,
+        "national_capital": 1,
+        "suburb": 66,
+        "village": 150
+      },
+      "source_zero_to_null_counts": {
+        "population": 2088
+      },
+      "repaired_source_fids": [],
+      "full_precision_fallback_fids": []
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_place_areas",
+      "title": "聚落與島嶼範圍",
+      "source_layer": "gis_osm_places_a_free",
+      "grain": "one retained source fid per feature; clipped geometry may contain multiple parts",
+      "geometry_dimension": 2,
+      "source_srs_id": 100000,
+      "outputs": [
+        {
+          "path": "map-data/osm/place_areas.geojson.gz",
+          "record_count": 5,
+          "bytes": 173413,
+          "uncompressed_bytes": 578693,
+          "encoding": "gzip",
+          "bbox": [
+            121.2826881,
+            24.6731921,
+            122.0070799,
+            25.299671
+          ]
+        }
+      ],
+      "counts": {
+        "source_rows": 91,
+        "output_features": 5,
+        "clipped_features": 1
+      },
+      "classes": {
+        "farm": 2,
+        "hamlet": 1,
+        "island": 2
+      },
+      "source_zero_to_null_counts": {
+        "population": 5
+      },
+      "repaired_source_fids": [],
+      "full_precision_fallback_fids": []
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_transport",
+      "title": "車站與運輸設施點",
+      "source_layer": "gis_osm_transport_free",
+      "grain": "one retained source fid per feature; clipped geometry may contain multiple parts",
+      "geometry_dimension": 0,
+      "source_srs_id": 100000,
+      "outputs": [
+        {
+          "path": "map-data/osm/transport.geojson.gz",
+          "record_count": 10488,
+          "bytes": 283472,
+          "uncompressed_bytes": 2494840,
+          "encoding": "gzip",
+          "bbox": [
+            121.2867792,
+            24.8362718,
+            122.003318,
+            25.2977122
+          ]
+        }
+      ],
+      "counts": {
+        "source_rows": 50069,
+        "output_features": 10488
+      },
+      "classes": {
+        "bus_station": 21,
+        "bus_stop": 10197,
+        "ferry_terminal": 19,
+        "railway_station": 200,
+        "taxi": 51
+      },
+      "source_zero_to_null_counts": {},
+      "repaired_source_fids": [],
+      "full_precision_fallback_fids": []
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_transport_areas",
+      "title": "車站與運輸設施範圍",
+      "source_layer": "gis_osm_transport_a_free",
+      "grain": "one retained source fid per feature; clipped geometry may contain multiple parts",
+      "geometry_dimension": 2,
+      "source_srs_id": 100000,
+      "outputs": [
+        {
+          "path": "map-data/osm/transport_areas.geojson.gz",
+          "record_count": 63,
+          "bytes": 10613,
+          "uncompressed_bytes": 40251,
+          "encoding": "gzip",
+          "bbox": [
+            121.3614019,
+            24.834807,
+            121.9236935,
+            25.293656
+          ]
+        }
+      ],
+      "counts": {
+        "source_rows": 561,
+        "output_features": 63
+      },
+      "classes": {
+        "airfield": 1,
+        "airport": 1,
+        "apron": 5,
+        "bus_station": 11,
+        "ferry_terminal": 3,
+        "helipad": 36,
+        "railway_station": 2,
+        "taxi": 4
+      },
+      "source_zero_to_null_counts": {},
+      "repaired_source_fids": [],
+      "full_precision_fallback_fids": []
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_pois",
+      "title": "公共設施與興趣點",
+      "source_layer": "gis_osm_pois_free",
+      "grain": "one retained source fid per feature; clipped geometry may contain multiple parts",
+      "geometry_dimension": 0,
+      "source_srs_id": 100000,
+      "outputs": [
+        {
+          "path": "map-data/osm/pois.geojson.gz",
+          "record_count": 58737,
+          "bytes": 1844638,
+          "uncompressed_bytes": 13775574,
+          "encoding": "gzip",
+          "bbox": [
+            121.3001927,
+            24.673855,
+            122.0064353,
+            25.2984665
+          ]
+        }
+      ],
+      "counts": {
+        "source_rows": 155584,
+        "output_features": 58737
+      },
+      "classes": {
+        "alpine_hut": 6,
+        "archaeological": 5,
+        "arts_centre": 25,
+        "artwork": 655,
+        "atm": 322,
+        "attraction": 320,
+        "bakery": 619,
+        "bank": 1724,
+        "bar": 229,
+        "battlefield": 1,
+        "beauty_shop": 295,
+        "bench": 1852,
+        "beverages": 673,
+        "bicycle_rental": 3237,
+        "bicycle_shop": 134,
+        "biergarten": 8,
+        "bookshop": 240,
+        "butcher": 67,
+        "cafe": 2799,
+        "camera_surveillance": 295,
+        "camp_site": 30,
+        "car_dealership": 153,
+        "car_rental": 44,
+        "car_sharing": 2,
+        "car_wash": 52,
+        "caravan_site": 1,
+        "chalet": 1,
+        "chemist": 444,
+        "cinema": 38,
+        "clinic": 982,
+        "clothes": 1362,
+        "college": 13,
+        "comms_tower": 47,
+        "community_centre": 162,
+        "computer_shop": 118,
+        "consulate": 5,
+        "convenience": 4096,
+        "courthouse": 7,
+        "dentist": 570,
+        "department_store": 21,
+        "doctors": 122,
+        "doityourself": 237,
+        "drinking_water": 1562,
+        "embassy": 13,
+        "fast_food": 1618,
+        "fire_station": 46,
+        "fitness_centre": 135,
+        "florist": 126,
+        "food_court": 43,
+        "fountain": 38,
+        "furniture_shop": 230,
+        "garden_centre": 6,
+        "general": 38,
+        "gift_shop": 192,
+        "golf_course": 1,
+        "greengrocer": 202,
+        "guesthouse": 7,
+        "hairdresser": 896,
+        "hospital": 14,
+        "hostel": 81,
+        "hotel": 374,
+        "hunting_stand": 2,
+        "jeweller": 241,
+        "kindergarten": 231,
+        "kiosk": 29,
+        "laundry": 317,
+        "library": 183,
+        "lighthouse": 5,
+        "mall": 35,
+        "marketplace": 69,
+        "memorial": 243,
+        "mobile_phone_shop": 241,
+        "monument": 66,
+        "motel": 12,
+        "museum": 69,
+        "nightclub": 17,
+        "nursing_home": 4,
+        "observation_tower": 3,
+        "optician": 398,
+        "outdoor_shop": 83,
+        "park": 22,
+        "pharmacy": 718,
+        "picnic_site": 39,
+        "pitch": 62,
+        "playground": 157,
+        "police": 186,
+        "post_box": 527,
+        "post_office": 286,
+        "pub": 44,
+        "recycling": 30,
+        "recycling_clothes": 74,
+        "recycling_glass": 5,
+        "restaurant": 16227,
+        "ruins": 246,
+        "school": 6,
+        "shelter": 848,
+        "shoe_shop": 238,
+        "sports_centre": 21,
+        "sports_hall": 1,
+        "sports_shop": 116,
+        "stadium": 6,
+        "stationery": 129,
+        "supermarket": 719,
+        "swimming_pool": 20,
+        "telephone": 260,
+        "theatre": 20,
+        "toilet": 1430,
+        "tourist_info": 4584,
+        "tower": 20,
+        "town_hall": 9,
+        "toy_shop": 78,
+        "track": 1,
+        "travel_agent": 33,
+        "university": 5,
+        "vending_machine": 259,
+        "vending_parking": 44,
+        "veterinary": 133,
+        "video_shop": 9,
+        "viewpoint": 638,
+        "waste_basket": 366,
+        "wastewater_plant": 2,
+        "water_mill": 6,
+        "water_tower": 25,
+        "water_well": 18,
+        "water_works": 4,
+        "wayside_shrine": 183
+      },
+      "source_zero_to_null_counts": {},
+      "repaired_source_fids": [],
+      "full_precision_fallback_fids": []
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_poi_areas",
+      "title": "公共設施與興趣點範圍",
+      "source_layer": "gis_osm_pois_a_free",
+      "grain": "one retained source fid per feature; clipped geometry may contain multiple parts",
+      "geometry_dimension": 2,
+      "source_srs_id": 100000,
+      "outputs": [
+        {
+          "path": "map-data/osm/poi_areas.geojson.gz",
+          "record_count": 12953,
+          "bytes": 1588194,
+          "uncompressed_bytes": 7229807,
+          "encoding": "gzip",
+          "bbox": [
+            121.2853238,
+            24.759379,
+            122.0033505,
+            25.2985616
+          ]
+        }
+      ],
+      "counts": {
+        "source_rows": 56011,
+        "output_features": 12953,
+        "clipped_features": 36
+      },
+      "classes": {
+        "archaeological": 1,
+        "arts_centre": 28,
+        "artwork": 45,
+        "attraction": 120,
+        "bakery": 10,
+        "bank": 38,
+        "bar": 2,
+        "beauty_shop": 4,
+        "bench": 8,
+        "beverages": 7,
+        "bicycle_rental": 60,
+        "bicycle_shop": 5,
+        "bookshop": 3,
+        "cafe": 51,
+        "camp_site": 35,
+        "car_dealership": 64,
+        "car_rental": 2,
+        "car_sharing": 1,
+        "car_wash": 36,
+        "caravan_site": 2,
+        "chalet": 5,
+        "chemist": 9,
+        "cinema": 8,
+        "clinic": 25,
+        "clothes": 18,
+        "college": 22,
+        "comms_tower": 6,
+        "community_centre": 221,
+        "computer_shop": 2,
+        "convenience": 63,
+        "courthouse": 15,
+        "dentist": 2,
+        "department_store": 32,
+        "doctors": 3,
+        "dog_park": 33,
+        "doityourself": 9,
+        "embassy": 1,
+        "fast_food": 43,
+        "fire_station": 88,
+        "fitness_centre": 8,
+        "florist": 10,
+        "food_court": 20,
+        "fort": 2,
+        "fountain": 82,
+        "furniture_shop": 20,
+        "garden_centre": 5,
+        "general": 5,
+        "gift_shop": 6,
+        "golf_course": 31,
+        "graveyard": 562,
+        "greengrocer": 3,
+        "guesthouse": 9,
+        "hairdresser": 4,
+        "hospital": 80,
+        "hostel": 31,
+        "hotel": 279,
+        "hunting_stand": 1,
+        "ice_rink": 13,
+        "jeweller": 3,
+        "kindergarten": 114,
+        "kiosk": 4,
+        "laundry": 4,
+        "library": 107,
+        "lighthouse": 3,
+        "mall": 57,
+        "marketplace": 165,
+        "memorial": 17,
+        "monument": 47,
+        "motel": 27,
+        "museum": 99,
+        "newsagent": 1,
+        "nursing_home": 2,
+        "observation_tower": 4,
+        "park": 2129,
+        "pharmacy": 8,
+        "picnic_site": 17,
+        "pitch": 2890,
+        "playground": 436,
+        "police": 179,
+        "post_office": 52,
+        "prison": 4,
+        "public_building": 3,
+        "recycling": 46,
+        "recycling_glass": 4,
+        "recycling_metal": 2,
+        "restaurant": 360,
+        "ruins": 91,
+        "school": 642,
+        "shelter": 1088,
+        "sports_centre": 136,
+        "sports_hall": 14,
+        "sports_shop": 2,
+        "stadium": 40,
+        "supermarket": 71,
+        "swimming_pool": 227,
+        "theatre": 37,
+        "theme_park": 2,
+        "toilet": 543,
+        "tourist_info": 41,
+        "tower": 21,
+        "town_hall": 51,
+        "toy_shop": 2,
+        "track": 599,
+        "university": 62,
+        "veterinary": 5,
+        "viewpoint": 87,
+        "wastewater_plant": 21,
+        "water_tower": 30,
+        "water_well": 5,
+        "water_works": 36,
+        "wayside_cross": 1,
+        "wayside_shrine": 16,
+        "zoo": 1
+      },
+      "source_zero_to_null_counts": {},
+      "repaired_source_fids": [],
+      "full_precision_fallback_fids": []
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_traffic",
+      "title": "交通與停車設施點",
+      "source_layer": "gis_osm_traffic_free",
+      "grain": "one retained source fid per feature; clipped geometry may contain multiple parts",
+      "geometry_dimension": 0,
+      "source_srs_id": 100000,
+      "outputs": [
+        {
+          "path": "map-data/osm/traffic.geojson.gz",
+          "record_count": 31117,
+          "bytes": 628749,
+          "uncompressed_bytes": 7766520,
+          "encoding": "gzip",
+          "bbox": [
+            121.2855376,
+            24.7749567,
+            122.0026175,
+            25.2968709
+          ]
+        }
+      ],
+      "counts": {
+        "source_rows": 131360,
+        "output_features": 31117
+      },
+      "classes": {
+        "bicycle_repair_station": 6,
+        "dam": 1,
+        "fuel": 115,
+        "lock_gate": 1,
+        "marina": 4,
+        "mini_roundabout": 13,
+        "motorway_junction": 222,
+        "parking": 527,
+        "parking_bicycle": 220,
+        "pedestrian_crossing": 18568,
+        "railway_crossing": 423,
+        "service": 13,
+        "slipway": 25,
+        "speed_camera": 175,
+        "stop": 368,
+        "street_lamp": 588,
+        "traffic_signals": 9458,
+        "turning_circle": 237,
+        "waterfall": 140,
+        "weir": 13
+      },
+      "source_zero_to_null_counts": {},
+      "repaired_source_fids": [],
+      "full_precision_fallback_fids": []
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_traffic_areas",
+      "title": "交通與停車設施範圍",
+      "source_layer": "gis_osm_traffic_a_free",
+      "grain": "one retained source fid per feature; clipped geometry may contain multiple parts",
+      "geometry_dimension": 2,
+      "source_srs_id": 100000,
+      "outputs": [
+        {
+          "path": "map-data/osm/traffic_areas.geojson.gz",
+          "record_count": 3846,
+          "bytes": 322263,
+          "uncompressed_bytes": 1734790,
+          "encoding": "gzip",
+          "bbox": [
+            121.29691,
+            24.7593692,
+            122.0045533,
+            25.2973571
+          ]
+        }
+      ],
+      "counts": {
+        "source_rows": 18476,
+        "output_features": 3846,
+        "clipped_features": 25
+      },
+      "classes": {
+        "bicycle_repair_station": 1,
+        "dam": 1,
+        "fuel": 158,
+        "marina": 36,
+        "parking": 3453,
+        "parking_bicycle": 171,
+        "pier": 24,
+        "service": 2
+      },
+      "source_zero_to_null_counts": {},
+      "repaired_source_fids": [],
+      "full_precision_fallback_fids": []
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_natural",
+      "title": "自然地標點",
+      "source_layer": "gis_osm_natural_free",
+      "grain": "one retained source fid per feature; clipped geometry may contain multiple parts",
+      "geometry_dimension": 0,
+      "source_srs_id": 100000,
+      "outputs": [
+        {
+          "path": "map-data/osm/natural.geojson.gz",
+          "record_count": 5747,
+          "bytes": 123730,
+          "uncompressed_bytes": 1281379,
+          "encoding": "gzip",
+          "bbox": [
+            121.3136772,
+            24.6814832,
+            121.9899916,
+            25.2861899
+          ]
+        }
+      ],
+      "counts": {
+        "source_rows": 29542,
+        "output_features": 5747
+      },
+      "classes": {
+        "beach": 1,
+        "cave_entrance": 55,
+        "cliff": 10,
+        "peak": 1151,
+        "spring": 40,
+        "tree": 4468,
+        "volcano": 22
+      },
+      "source_zero_to_null_counts": {},
+      "repaired_source_fids": [],
+      "full_precision_fallback_fids": []
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_natural_areas",
+      "title": "自然地標範圍",
+      "source_layer": "gis_osm_natural_a_free",
+      "grain": "one retained source fid per feature; clipped geometry may contain multiple parts",
+      "geometry_dimension": 2,
+      "source_srs_id": 100000,
+      "outputs": [
+        {
+          "path": "map-data/osm/natural_areas.geojson.gz",
+          "record_count": 35,
+          "bytes": 11308,
+          "uncompressed_bytes": 36279,
+          "encoding": "gzip",
+          "bbox": [
+            121.2833991,
+            24.9406657,
+            121.9499132,
+            25.295887
+          ]
+        }
+      ],
+      "counts": {
+        "source_rows": 376,
+        "output_features": 35,
+        "clipped_features": 12
+      },
+      "classes": {
+        "beach": 26,
+        "cliff": 7,
+        "spring": 2
+      },
+      "source_zero_to_null_counts": {},
+      "repaired_source_fids": [],
+      "full_precision_fallback_fids": []
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_worship",
+      "title": "宗教設施點",
+      "source_layer": "gis_osm_pofw_free",
+      "grain": "one retained source fid per feature; clipped geometry may contain multiple parts",
+      "geometry_dimension": 0,
+      "source_srs_id": 100000,
+      "outputs": [
+        {
+          "path": "map-data/osm/worship.geojson.gz",
+          "record_count": 714,
+          "bytes": 26687,
+          "uncompressed_bytes": 173598,
+          "encoding": "gzip",
+          "bbox": [
+            121.3345628,
+            24.8618103,
+            121.9449417,
+            25.2748939
+          ]
+        }
+      ],
+      "counts": {
+        "source_rows": 2960,
+        "output_features": 714
+      },
+      "classes": {
+        "buddhist": 90,
+        "christian": 302,
+        "christian_catholic": 17,
+        "christian_evangelical": 1,
+        "christian_lutheran": 1,
+        "christian_orthodox": 1,
+        "christian_protestant": 10,
+        "hindu": 10,
+        "muslim": 1,
+        "taoist": 281
+      },
+      "source_zero_to_null_counts": {},
+      "repaired_source_fids": [],
+      "full_precision_fallback_fids": []
+    },
+    {
+      "dataset_id": "osm_taipei_new_taipei_worship_areas",
+      "title": "宗教設施範圍",
+      "source_layer": "gis_osm_pofw_a_free",
+      "grain": "one retained source fid per feature; clipped geometry may contain multiple parts",
+      "geometry_dimension": 2,
+      "source_srs_id": 100000,
+      "outputs": [
+        {
+          "path": "map-data/osm/worship_areas.geojson.gz",
+          "record_count": 746,
+          "bytes": 70724,
+          "uncompressed_bytes": 334110,
+          "encoding": "gzip",
+          "bbox": [
+            121.3273809,
+            24.777973,
+            122.0017922,
+            25.2920074
+          ]
+        }
+      ],
+      "counts": {
+        "source_rows": 4939,
+        "output_features": 746,
+        "clipped_features": 1
+      },
+      "classes": {
+        "buddhist": 207,
+        "christian": 85,
+        "christian_catholic": 38,
+        "christian_evangelical": 1,
+        "christian_methodist": 2,
+        "christian_protestant": 3,
+        "hindu": 1,
+        "muslim": 3,
+        "taoist": 406
+      },
+      "source_zero_to_null_counts": {},
+      "repaired_source_fids": [],
+      "full_precision_fallback_fids": []
+    }
+  ]
+}
