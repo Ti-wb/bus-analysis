@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-10-21T23:24:31+08:00",
+  "mode": "online_refresh",
+  "timezone": "Asia/Taipei",
+  "outputs": [
+    {
+      "file": "data/bus_routes.geojson",
+      "record_count": 1028,
+      "sha256": "83db036dd62957ee21e919680c6530d250b5a0556a1464283b19175d44f27228",
+      "warnings": [
+        "以 CSV 指向的 GetBusShape.gz 為主；頁面的另一路 JSON 可能較舊，另存原檔。"
+      ]
+    },
+    {
+      "file": "data/bus_stops.geojson",
+      "record_count": 3407,
+      "sha256": "f18e8db04dce0e9172d453f9e5a199f446dcc2e738916d5c8817d8a8099b25fc",
+      "warnings": [
+        "來源頁標示 TWD97，但 ZIP 無 .prj，座標已落於臺灣經緯度範圍；推定 EPSG:4326，未再次投影。",
+        "此站牌資源頁的發布時間較舊；下載時間不代表站位更新時間。"
+      ]
+    },
+    {
+      "file": "data/bus_arrivals.json",
+      "record_count": 29429,
+      "sha256": "6f98764567013fc07dea89ebc7d384e2fe110abc2e5dedb1d5a088f89fd0633b",
+      "warnings": []
+    },
+    {
+      "file": "data/pto_tables.json",
+      "record_count": 18,
+      "sha256": "ca0c9fc9b096ac462659217fabfbc6fddfa9737ce803b6d9f6dabdfb1b0cd68d",
+      "warnings": []
+    },
+    {
+      "file": "data/bus_route_statistics.json",
+      "record_count": 364,
+      "sha256": "f8445b6fa3de9fb508e8ba2b9d4046b512518cfc7ae37465292e2dadefed0821",
+      "warnings": [
+        "行駛段次不是發車班次；年度統計路線名稱不直接等同 API RouteID，含合併路線及專車。",
+        "來源 PDF 的路線里程加總與總計有差異，原值均保留；詳見 reconciliation。"
+      ]
+    },
+    {
+      "file": "data/bus_operator_statistics.json",
+      "record_count": 30,
+      "sha256": "19aa23228d460358606ccadacda012bbe70032e2963ace2454955a137a20eef3",
+      "warnings": []
+    }
+  ],
+  "source_manifest": "raw_data/taipei_bus_manifest.json",
+  "scope_notes": [
+    "保留來源完整地理範圍，未裁切跨市路線。",
+    "此更新腳本不處理人口、行政界、路線名稱與 API ID 對照、站序及預定班表；其他來源由獨立腳本維護。",
+    "PDF 的機器抽取不等於所有統計表已完成指標標準化。"
+  ]
+}
