@@ -1,0 +1,24 @@
+[project]
+name = "bus-analysis"
+version = "0.1.0"
+description = "Taipei bus network GIS data pipeline and MVP research scripts"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "beautifulsoup4>=4.15.0",
+    "pdfplumber>=0.11.10",
+    "pypdfium2>=5.14.0",
+    "pyproj>=3.8.0",
+    "pyshp>=3.1.6",
+    "shapely>=2.2.0",
+]
+
+[dependency-groups]
+# Research scripts (mock generator etc.); installed by default with `uv sync`.
+research = [
+    "numpy>=2.0",
+]
+
+[tool.uv]
+package = false
+default-groups = ["research"]
