@@ -5,3 +5,15 @@ __pycache__/
 .update.lock
 .update-*.lock
 *.log
+
+# Credentials and temporary data are local only.
+.env
+.env.*
+!.env.example
+!.env.default
+*.part
+# Large source downloads are reproducible from the source URLs.
+raw_data/metro/od/
+raw_data/metro/staging/
+raw_data/reviews/
+raw_data/urban/curb_parking_1.zip

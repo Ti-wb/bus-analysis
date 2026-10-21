@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "datasets": {
+    "metro_hourly_od": {
+      "status": "normalized_station_flows_only",
+      "output_files": [
+        "data/metro/station_hourly_flows.json",
+        "data/metro/source_references.json"
+      ],
+      "record_count": 7670,
+      "station_date_hour_value_count": 1756430,
+      "period": {
+        "start": "2025-10-01",
+        "end": "2026-09-30"
+      },
+      "limitations": [
+        "本檔只有每日期×小時×站的進站及出站加總，並非完整OD；無法回推進出站配對人次。",
+        "保留捷運跨臺北／新北路網以支援臺北接駁分析，未按站名猜測行政界。",
+        "進站與出站來源名稱集合不對稱，分別使用entry_station_names與exit_station_names，未猜測跨字典的站ID對應。",
+        "站名保留G/O/BL等來源前綴，未逕自併站或對應公車站ID。捷運出站人次不等於公車轉乘人次。",
+        "零是來源觀測零；缺列、缺值、不在月份站名字典或跨檔衝突均為null。未出現日期／小時不補零。",
+        "來源跨月列依實際日期納入期間；跨檔同時段相同值去重，衝突值為null並保留候選。",
+        "大型原始CSV僅暫存供轉換與獨立巡檢，最後只保留清理資料及來源連結。"
+      ],
+      "quality": {
+        "source_month_count": 12,
+        "date_hour_count": 7670,
+        "entry_station_name_count": 120,
+        "exit_station_name_count": 109,
+        "station_date_hour_value_count": 1756430,
+        "entries_sum": 773307913,
+        "exits_sum": 773307913,
+        "null_entries": 6389,
+        "null_exits": 6389,
+        "duplicate_source_date_hours": [],
+        "conflicting_station_totals": []
+      }
+    },
+    "metro_exit_bus_connections": {
+      "status": "normalized_with_unmatched_route_identifiers",
+      "output_files": [
+        "data/metro/exit_bus_connections.json"
+      ],
+      "record_count": 6931,
+      "period": {
+        "source_updated_dates": [
+          "2026-08-30"
+        ]
+      },
+      "limitations": [
+        "來源沒有RouteID、StopID或步行距離，未直接連結公車資料。",
+        "單連字號標籤拆為名稱及方向候選，仍需比對；多連字號標籤不猜測。",
+        "保留來源重複關係列及序號，筆數不是獨立路線數。"
+      ],
+      "quality": {
+        "record_count": 6931,
+        "ambiguous_bus_labels": 130,
+        "duplicate_station_exit_bus_labels": 26
+      }
+    }
+  }
+}

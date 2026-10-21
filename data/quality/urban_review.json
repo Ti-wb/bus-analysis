@@ -1,0 +1,511 @@
+{
+  "schema_version": 1,
+  "dataset_id": "urban_independent_review",
+  "metadata": {
+    "reviewer_task": "review_urban_background",
+    "producer_task": "urban",
+    "reviewed_at": "2026-10-21T23:45:18+08:00",
+    "scope": "Current Taipei urban layers under the revised Taipei-only, recent-data scope.",
+    "validation_script": "raw_data/reviews/review_urban_background/review_urban.py",
+    "resolved_findings": [
+      {
+        "issue": "Rounding transformed curb-polygon coordinates to seven decimals introduced invalid geometry in eight full-source records.",
+        "resolution": "Producer removed coordinate rounding; all 633 delivered candidate polygons independently match unrounded transforms and are valid. The full all-vehicle layer is outside the revised delivery scope."
+      }
+    ]
+  },
+  "records": [
+    {
+      "dataset_id": "taipei_bus_lanes",
+      "output_path": "data/urban/bus_lanes.geojson",
+      "record_count": 15,
+      "review_status": "pass_with_limitations",
+      "checks": [
+        {
+          "name": "delivery_record_count",
+          "status": "pass",
+          "record_count": 15
+        },
+        {
+          "name": "source_files_and_provenance",
+          "status": "pass",
+          "sources": [
+            {
+              "raw_file": "raw_data/urban/bus_lanes_0.kml",
+              "file_present": true
+            }
+          ]
+        },
+        {
+          "name": "schema_identifiers_null_policy",
+          "status": "pass"
+        },
+        {
+          "name": "all_feature_geometry_and_coordinate_bounds",
+          "status": "pass",
+          "invalid_geometry_ids": [],
+          "null_geometry_ids": [],
+          "unique_feature_ids": 15
+        },
+        {
+          "name": "all_kml_coordinates_and_attributes",
+          "status": "pass",
+          "source_placemark_count": 15
+        }
+      ],
+      "findings": [],
+      "limitations": [
+        "線形不代表運量。路段名稱與路廊統計尚未做未驗證關聯。"
+      ],
+      "source_data_time": null,
+      "statistical_period": null,
+      "usable_for": "可作公車專用道現況線形；沒有路廊運量。"
+    },
+    {
+      "dataset_id": "taipei_bus_restrictions",
+      "output_path": "data/urban/bus_restrictions.json",
+      "record_count": 27,
+      "review_status": "pass_with_limitations",
+      "checks": [
+        {
+          "name": "delivery_record_count",
+          "status": "pass",
+          "record_count": 27
+        },
+        {
+          "name": "source_files_and_provenance",
+          "status": "pass",
+          "sources": [
+            {
+              "raw_file": "raw_data/urban/bus_restrictions_0.csv",
+              "file_present": true
+            }
+          ]
+        },
+        {
+          "name": "schema_identifiers_null_policy",
+          "status": "pass"
+        },
+        {
+          "name": "every_source_row_and_mapped_field",
+          "status": "pass",
+          "source_row_count": 27
+        }
+      ],
+      "findings": [],
+      "limitations": [
+        "來源只有道路文字，沒有線形或路網邊 ID；未自行地理編碼。",
+        "保留完整時段、車長及重量條件文字，不能直接當全年全天禁止所有公車。",
+        "來源項次有重複，record_id 為本快照列序識別，不是官方 ID。"
+      ],
+      "source_data_time": null,
+      "statistical_period": null,
+      "usable_for": "可依文字條件盤點大客車通行限制；沒有已核實的路段幾何。"
+    },
+    {
+      "dataset_id": "taipei_public_toilets",
+      "output_path": "data/urban/public_toilets.geojson",
+      "record_count": 1537,
+      "review_status": "pass_with_limitations",
+      "checks": [
+        {
+          "name": "delivery_record_count",
+          "status": "pass",
+          "record_count": 1537
+        },
+        {
+          "name": "source_files_and_provenance",
+          "status": "pass",
+          "sources": [
+            {
+              "raw_file": "raw_data/urban/public_toilets_0.csv",
+              "file_present": true
+            }
+          ]
+        },
+        {
+          "name": "schema_identifiers_null_policy",
+          "status": "pass"
+        },
+        {
+          "name": "all_feature_geometry_and_coordinate_bounds",
+          "status": "pass",
+          "invalid_geometry_ids": [],
+          "null_geometry_ids": [],
+          "unique_feature_ids": 1537
+        },
+        {
+          "name": "every_source_row_and_mapped_field",
+          "status": "pass",
+          "source_row_count": 1537
+        },
+        {
+          "name": "source_grade_total_conflicts_preserved",
+          "status": "pass",
+          "mismatch_count": 183
+        }
+      ],
+      "findings": [
+        {
+          "severity": "medium",
+          "issue": "183 筆來源的評級分類加總與座數不同，整理檔忠實保留原值。",
+          "action": "可使用位置及各來源欄位，避免未核實就把評級分類合計當成座數。"
+        }
+      ],
+      "limitations": [
+        "來源無官方公廁 ID；feature ID 只代表本快照列序。公廁存在不代表公車駕駛隨時可進入、停車或休息。",
+        "來源的座數和分級數可能不相等，保留原值；無障礙與親子欄位可能重疊，不相加推估總量。"
+      ],
+      "source_data_time": null,
+      "statistical_period": null,
+      "usable_for": "可作盥洗設施候選位置；來源設備與評級總數衝突未自行更正，不能推為駕駛休憩容量。"
+    },
+    {
+      "dataset_id": "taipei_parking_lots",
+      "output_path": "data/urban/parking_lots.geojson",
+      "record_count": 1771,
+      "review_status": "pass_with_limitations",
+      "checks": [
+        {
+          "name": "delivery_record_count",
+          "status": "pass",
+          "record_count": 1771
+        },
+        {
+          "name": "source_files_and_provenance",
+          "status": "pass",
+          "sources": [
+            {
+              "raw_file": "raw_data/urban/parking_2.xml",
+              "file_present": true
+            }
+          ]
+        },
+        {
+          "name": "schema_identifiers_null_policy",
+          "status": "pass"
+        },
+        {
+          "name": "all_feature_geometry_and_coordinate_bounds",
+          "status": "pass",
+          "invalid_geometry_ids": [],
+          "null_geometry_ids": [],
+          "unique_feature_ids": 1771
+        },
+        {
+          "name": "all_xml_fields_and_independent_crs_transform",
+          "status": "pass",
+          "facility_count": 1771,
+          "total_bus_spaces": 1104
+        }
+      ],
+      "findings": [],
+      "limitations": [
+        "TOTALBUS 是大客車停車位；不表示准許市區公車調度、待班或過夜。",
+        "即時資料與靜態資料分開輸出；靜態提供車位不保證即時剩餘位有回報。",
+        "設施 code 未自行轉成布林；停車費應合併 rate_type_code、week_type_raw、時段與 charge_unit 解讀。"
+      ],
+      "source_data_time": "2026-10-21T23:25:00+08:00",
+      "statistical_period": null,
+      "usable_for": "可作場站位置及公告車位數；不構成公車待班或調度許可。"
+    },
+    {
+      "dataset_id": "taipei_parking_availability",
+      "output_path": "data/urban/parking_availability.json",
+      "record_count": 1224,
+      "review_status": "pass_with_limitations",
+      "checks": [
+        {
+          "name": "delivery_record_count",
+          "status": "pass",
+          "record_count": 1224
+        },
+        {
+          "name": "source_files_and_provenance",
+          "status": "pass",
+          "sources": [
+            {
+              "raw_file": "raw_data/urban/parking_0.xml",
+              "file_present": true
+            }
+          ]
+        },
+        {
+          "name": "schema_identifiers_null_policy",
+          "status": "pass"
+        },
+        {
+          "name": "all_xml_counts_and_negative_sentinels",
+          "status": "pass",
+          "facility_count": 1224,
+          "null_sentinel_count": 5615
+        }
+      ],
+      "findings": [],
+      "limitations": [
+        "單次剩餘位快照，不是歷史供給或可用場站容量。-9 為無此類車格，輸出 null 並保留狀態。",
+        "充電槍狀態不是大客車泊位資料，本整理未輸出；原 XML 完整保留。"
+      ],
+      "source_data_time": "2026-10-21T23:20:00+08:00",
+      "statistical_period": null,
+      "usable_for": "可作下載時的停車位快照；-9 與未回報狀態保留，不能補零。"
+    },
+    {
+      "dataset_id": "taipei_bus_parking_lots",
+      "output_path": "data/urban/bus_parking_lots.geojson",
+      "record_count": 39,
+      "review_status": "pass_with_limitations",
+      "checks": [
+        {
+          "name": "delivery_record_count",
+          "status": "pass",
+          "record_count": 39
+        },
+        {
+          "name": "source_files_and_provenance",
+          "status": "pass",
+          "sources": [
+            {
+              "raw_file": "raw_data/urban/parking_2.xml",
+              "file_present": true
+            },
+            {
+              "raw_file": "raw_data/urban/parking_0.xml",
+              "file_present": true
+            }
+          ]
+        },
+        {
+          "name": "schema_identifiers_null_policy",
+          "status": "pass"
+        },
+        {
+          "name": "all_feature_geometry_and_coordinate_bounds",
+          "status": "pass",
+          "invalid_geometry_ids": [],
+          "null_geometry_ids": [],
+          "unique_feature_ids": 39
+        },
+        {
+          "name": "bus_space_filter_and_documented_exact_id_join",
+          "status": "pass",
+          "selected_facilities": 39,
+          "total_bus_spaces": 1104,
+          "availability_status_counts": {
+            "reported": 10,
+            "no_such_space_type": 13,
+            "facility_absent_from_snapshot": 16
+          }
+        }
+      ],
+      "findings": [
+        {
+          "severity": "medium",
+          "issue": "39 場站中僅 10 場站有大客車剩餘位數；16 場站不在動態快照，13 場站的靜態大客車位數與動態無此車種狀態不一致。",
+          "action": "缺值與來源矛盾保留，不能把 null 當成 0；列有停車位不構成公車待班許可。"
+        }
+      ],
+      "limitations": [
+        "TOTALBUS 是大客車停車位；不表示准許市區公車調度、待班或過夜。",
+        "即時資料與靜態資料分開輸出；靜態提供車位不保證即時剩餘位有回報。",
+        "設施 code 未自行轉成布林；停車費應合併 rate_type_code、week_type_raw、時段與 charge_unit 解讀。",
+        "部分靜態TOTALBUS>0的場站在即時檔回報-9，存在來源間矛盾；保留null及原始狀態，不把它解讀為0個剩餘位或刪除靜態容量。"
+      ],
+      "source_data_time": "2026-10-21T23:25:00+08:00",
+      "statistical_period": null,
+      "usable_for": "可作 39 處有大客車位場站候選；只有 10 處有剩餘位數，不能推為公車待班許可。"
+    },
+    {
+      "dataset_id": "taipei_road_travel_times",
+      "output_path": "data/urban/road_travel_times.json",
+      "record_count": 0,
+      "review_status": "unavailable_source_verified",
+      "checks": [
+        {
+          "name": "delivery_record_count",
+          "status": "pass",
+          "record_count": 0
+        },
+        {
+          "name": "source_files_and_provenance",
+          "status": "pass",
+          "sources": [
+            {
+              "raw_file": "raw_data/urban/tmc_travel_times_0.csv",
+              "file_present": true
+            },
+            {
+              "raw_file": "raw_data/urban/tmc_live.xml",
+              "file_present": true
+            }
+          ]
+        },
+        {
+          "name": "schema_identifiers_null_policy",
+          "status": "pass"
+        },
+        {
+          "name": "empty_xml_and_body_timestamp",
+          "status": "pass",
+          "observation_count": 0
+        }
+      ],
+      "findings": [
+        {
+          "severity": "high",
+          "confidence": "high",
+          "issue": "No travel-time observations returned; body source timestamp is 2024-12-18, independent of current HTTP modification time.",
+          "action": "Retain as unavailable evidence, exclude from travel-time analysis."
+        }
+      ],
+      "limitations": [
+        "指定 data.gov.tw/135753 descriptor 指向 ETagPairLive.xml；不是經核對的 TMC 路段碼資料。",
+        "XML observations 為空；保留空集合不代表0秒、無壅塞或無車流。",
+        "來源 body UpdateTime 為2024-12-18，HTTP Last-Modified與下載日期不代表實際觀測日期。",
+        "道路旅行時間不能當成包含停站的公車旅行時間。"
+      ],
+      "source_data_time": "2024-12-18T17:40:39.003+08:00",
+      "statistical_period": null,
+      "usable_for": "沒有可用旅行時間；僅保留來源空值與舊時間的證據。"
+    },
+    {
+      "dataset_id": "taipei_curb_large_vehicle_spaces",
+      "output_path": "data/urban/curb_large_vehicle_spaces.geojson",
+      "record_count": 633,
+      "review_status": "pass_with_limitations",
+      "checks": [
+        {
+          "name": "delivery_record_count",
+          "status": "pass",
+          "record_count": 633
+        },
+        {
+          "name": "source_files_and_provenance",
+          "status": "pass",
+          "sources": [
+            {
+              "raw_file": "raw_data/urban/curb_parking_1.zip",
+              "file_present": true
+            }
+          ]
+        },
+        {
+          "name": "schema_identifiers_null_policy",
+          "status": "pass"
+        },
+        {
+          "name": "all_feature_geometry_and_coordinate_bounds",
+          "status": "pass",
+          "invalid_geometry_ids": [],
+          "null_geometry_ids": [],
+          "unique_feature_ids": 633
+        },
+        {
+          "name": "all_candidates_original_zip_records_fields_and_unrounded_geometry",
+          "status": "pass",
+          "source_total": 334283,
+          "candidate_count": 633
+        }
+      ],
+      "findings": [],
+      "limitations": [
+        "06 為大型車，並未限定全部為大客車；23 為大客車與小型車共用，不能視為大客車專用泊位。",
+        "停車格位不代表已允許公車待班或駕駛休憩。來源可能含刪除/異動註記，未自行剔除。",
+        "網站資源更新時間不是圖層實際更新時間；source_data_time 留 null；zip member名日期僅作檔名證據。",
+        "來源存在網頁代碼表之外的代碼；保留原碼而不自行解讀。streetview系列保留來源數值，語意/單位未核實。"
+      ],
+      "source_data_time": null,
+      "statistical_period": null,
+      "usable_for": "可作 633 筆大型車或共用格位候選幾何；不得當全部為大客車專用或已允許待班。"
+    },
+    {
+      "dataset_id": "taipei_curb_parking_type_counts",
+      "output_path": "data/urban/curb_parking_type_counts.json",
+      "record_count": 30,
+      "review_status": "pass_with_limitations",
+      "checks": [
+        {
+          "name": "delivery_record_count",
+          "status": "pass",
+          "record_count": 30
+        },
+        {
+          "name": "source_files_and_provenance",
+          "status": "pass",
+          "sources": [
+            {
+              "raw_file": "raw_data/urban/curb_parking_1.zip",
+              "file_present": true
+            }
+          ]
+        },
+        {
+          "name": "schema_identifiers_null_policy",
+          "status": "pass"
+        },
+        {
+          "name": "full_source_dbf_type_reconciliation",
+          "status": "pass",
+          "source_total": 334283,
+          "type_count": 30
+        }
+      ],
+      "findings": [],
+      "limitations": [
+        "06 為大型車，並未限定全部為大客車；23 為大客車與小型車共用，不能視為大客車專用泊位。",
+        "停車格位不代表已允許公車待班或駕駛休憩。來源可能含刪除/異動註記，未自行剔除。",
+        "網站資源更新時間不是圖層實際更新時間；source_data_time 留 null；zip member名日期僅作檔名證據。",
+        "來源存在網頁代碼表之外的代碼；保留原碼而不自行解讀。streetview系列保留來源數值，語意/單位未核實。"
+      ],
+      "source_data_time": null,
+      "statistical_period": null,
+      "usable_for": "可作全來源 334,283 筆圖形的類別盤點；圖形數不是合計車位容量。"
+    },
+    {
+      "dataset_id": "taipei_commercial_short_stops",
+      "output_path": "data/urban/commercial_short_stops.geojson",
+      "record_count": 223,
+      "review_status": "pass_with_limitations",
+      "checks": [
+        {
+          "name": "delivery_record_count",
+          "status": "pass",
+          "record_count": 223
+        },
+        {
+          "name": "source_files_and_provenance",
+          "status": "pass",
+          "sources": [
+            {
+              "raw_file": "raw_data/urban/curb_parking_0.csv",
+              "file_present": true
+            }
+          ]
+        },
+        {
+          "name": "schema_identifiers_null_policy",
+          "status": "pass"
+        },
+        {
+          "name": "all_feature_geometry_and_coordinate_bounds",
+          "status": "pass",
+          "invalid_geometry_ids": [],
+          "null_geometry_ids": [],
+          "unique_feature_ids": 223
+        },
+        {
+          "name": "every_source_coordinate_and_count",
+          "status": "pass",
+          "source_row_count": 223
+        }
+      ],
+      "findings": [],
+      "limitations": [
+        "本附屬清單是營業用共用臨停區，未證實所有格位均可供大型公車使用。"
+      ],
+      "source_data_time": null,
+      "statistical_period": null,
+      "usable_for": "可作 223 處商業臨停空間位置；沒有證據表示均可供大客車使用。"
+    }
+  ]
+}

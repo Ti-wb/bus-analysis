@@ -1,0 +1,105 @@
+{
+  "generated_at": "2026-10-21T23:39:50+08:00",
+  "datasets": [
+    {
+      "dataset_id": "taipei_annual",
+      "status": "normalized",
+      "output_files": [
+        "data/background/taipei_annual.json"
+      ],
+      "record_count": 3,
+      "period": {
+        "start": "2023",
+        "end": "2025"
+      },
+      "limitations": [
+        "全市或全國彙總資料，不能直接分配至個別公車路線；原始明確數值0保留，空白及缺值符號轉null。",
+        "年度來源行駛次數單位為段次，月度來源每車每日次數單位為次；兩者未視為相同指標。",
+        "歷年路線定義或統計範圍可能改變，未以時間序列變化推斷服務變化原因。",
+        "依本次使用者範圍保留臺北近三年；來源完整時間序列僅存raw_data。",
+        "年度資料保留2023–2025完整年，2023全年不可當作2023/10以後的三個月；2026全年尚未發布。"
+      ],
+      "independent_review_status": "pending"
+    },
+    {
+      "dataset_id": "taipei_monthly",
+      "status": "normalized",
+      "output_files": [
+        "data/background/taipei_monthly.json"
+      ],
+      "record_count": 34,
+      "period": {
+        "start": "2023-10",
+        "end": "2026-07"
+      },
+      "limitations": [
+        "全市或全國彙總資料，不能直接分配至個別公車路線；原始明確數值0保留，空白及缺值符號轉null。",
+        "年度來源行駛次數單位為段次，月度來源每車每日次數單位為次；兩者未視為相同指標。",
+        "歷年路線定義或統計範圍可能改變，未以時間序列變化推斷服務變化原因。",
+        "依本次使用者範圍保留臺北近三年；來源完整時間序列僅存raw_data。",
+        "來源最新至2026/07；2026/08–09未取得，不補零。"
+      ],
+      "independent_review_status": "pending"
+    },
+    {
+      "dataset_id": "taipei_mode_survey_2024",
+      "status": "normalized",
+      "output_files": [
+        "data/background/taipei_mode_survey_2024.json"
+      ],
+      "record_count": 195,
+      "period": {
+        "start": "2024",
+        "end": "2024"
+      },
+      "limitations": [
+        "平日市話及手機抽樣調查彙總，並非逐站刷卡、乘客OD或公車轉乘實績。",
+        "各表分別以人、旅次、運具次數或旅次主運具為分母；使用table_id及欄位字典區分，不合併分母。",
+        "樣本數保留XLSX中的加權小數，並非未加權受訪人數；數值使用儲存的計算結果，不自行重算公式。",
+        "原始母表另含2009–2024比較年份；本次data只取2024資料，其他年度僅保留在raw來源。",
+        "XLSX部分合併儲存格保留非左上角舊文字；依合併範圍只採左上角顯示值。附表11 PDF第28頁已核對汽車客運欄名。",
+        "原始數字0保留為0（PDF可能以破折號顯示零），原始空白與文字缺值標記轉null。"
+      ],
+      "independent_review_status": "pending"
+    },
+    {
+      "dataset_id": "national_highway_monthly",
+      "status": "deferred_by_user_scope",
+      "output_files": [],
+      "record_count": null,
+      "period": null,
+      "reference_url": "https://data.gov.tw/dataset/30394",
+      "reference_file": "raw_data/background/references.json",
+      "limitations": [
+        "使用者要求先專注臺北市近三年，因此非臺北或較舊背景資料暫不列入active data。僅保留raw_data/background/references.json的官方來源連結與必要期間說明。"
+      ],
+      "independent_review_status": "not_applicable_deferred"
+    },
+    {
+      "dataset_id": "vehicle_cost",
+      "status": "deferred_by_user_scope",
+      "output_files": [],
+      "record_count": null,
+      "period": null,
+      "reference_url": "https://data.gov.tw/dataset/135318",
+      "reference_file": "raw_data/background/references.json",
+      "limitations": [
+        "使用者要求先專注臺北市近三年，因此非臺北或較舊背景資料暫不列入active data。僅保留raw_data/background/references.json的官方來源連結與必要期間說明。"
+      ],
+      "independent_review_status": "not_applicable_deferred"
+    },
+    {
+      "dataset_id": "operator_violations",
+      "status": "deferred_by_user_scope",
+      "output_files": [],
+      "record_count": null,
+      "period": null,
+      "reference_url": "https://www.thb.gov.tw/BusinessCoach_Content.aspx?n=308&s=886&type=1",
+      "reference_file": "raw_data/background/references.json",
+      "limitations": [
+        "使用者要求先專注臺北市近三年，因此非臺北或較舊背景資料暫不列入active data。僅保留raw_data/background/references.json的官方來源連結與必要期間說明。"
+      ],
+      "independent_review_status": "not_applicable_deferred"
+    }
+  ]
+}

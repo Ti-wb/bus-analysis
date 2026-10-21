@@ -1,0 +1,5160 @@
+{
+  "schema_version": 1,
+  "dataset_id": "taipei_mode_survey_2024",
+  "metadata": {
+    "sources": [
+      {
+        "source_page": "https://www.motc.gov.tw/ch/app/data/view?id=56&module=survey&serno=202506260000",
+        "download_url": "https://www.motc.gov.tw/ch/app/data/doc?id=56&module=survey&detailNo=1387600371488133120&serno=202506260000&type=s&preview=&aplistdn=",
+        "resolved_url": "https://www.motc.gov.tw/ch/app/data/doc?id=56&module=survey&detailNo=1387600371488133120&serno=202506260000&type=s&preview=&aplistdn=",
+        "raw_file": "raw_data/background/mode_use_survey_2024.xlsx",
+        "downloaded_at": "2026-10-21T23:27:09+08:00",
+        "source_updated_at": null,
+        "bytes": 437068
+      },
+      {
+        "source_page": "https://www.motc.gov.tw/ch/app/data/view?id=56&module=survey&serno=202506260000",
+        "download_url": "https://www.motc.gov.tw/ch/app/data/doc?id=56&module=survey&detailNo=1387600371127422976&serno=202506260000&type=s&preview=&aplistdn=",
+        "resolved_url": "https://www.motc.gov.tw/ch/app/data/doc?id=56&module=survey&detailNo=1387600371127422976&serno=202506260000&type=s&preview=&aplistdn=",
+        "raw_file": "raw_data/background/mode_use_survey_2024.pdf",
+        "downloaded_at": "2026-10-21T23:27:08+08:00",
+        "source_updated_at": null,
+        "bytes": 1813547
+      },
+      {
+        "source_page": "https://www.motc.gov.tw/ch/app/data/view?id=56&module=survey&serno=202506260000",
+        "download_url": "https://www.motc.gov.tw/ch/app/data/doc?id=56&module=survey&detailNo=1387600370984816640&serno=202506260000&type=s&preview=&aplistdn=",
+        "resolved_url": "https://www.motc.gov.tw/ch/app/data/doc?id=56&module=survey&detailNo=1387600370984816640&serno=202506260000&type=s&preview=&aplistdn=",
+        "raw_file": "raw_data/background/mode_use_survey_2024_questionnaire.pdf",
+        "downloaded_at": "2026-10-21T23:27:07+08:00",
+        "source_updated_at": null,
+        "bytes": 355931
+      }
+    ],
+    "record_count": 195,
+    "title": "113年民眾日常使用運具狀況調查：臺北市相關統計",
+    "source_updated_at": "2025-06-30",
+    "survey_year": 2024,
+    "period": {
+      "start": "2024",
+      "end": "2024"
+    },
+    "grain": "table × category_dimension × category_label × year; values fields use each table's dictionary",
+    "tables": [
+      {
+        "table_id": "a01",
+        "sheet_name": "A01",
+        "title": "附表1　民眾外出比率",
+        "population_and_grain_source": [
+          "調查對象為15歲以上民眾，以人的角度做分析。"
+        ],
+        "source_units": [
+          "單位：人；%"
+        ],
+        "fields": [
+          {
+            "field": "col_d",
+            "source_column": "D",
+            "label_path": [
+              "樣本數"
+            ],
+            "unit": "人"
+          },
+          {
+            "field": "col_e",
+            "source_column": "E",
+            "label_path": [
+              "總計"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_f",
+            "source_column": "F",
+            "label_path": [
+              "有外出"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_g",
+            "source_column": "G",
+            "label_path": [
+              "沒有外出"
+            ],
+            "unit": "%"
+          }
+        ],
+        "merged_header_ranges": [
+          "A5:C7",
+          "E5:E7",
+          "F6:F7",
+          "G6:G7",
+          "D5:D7"
+        ],
+        "record_count": 1,
+        "selection_rule": "只取2024居住縣市為臺北市的資料列；其餘全國/其他縣市只保留原始母表。"
+      },
+      {
+        "table_id": "a02",
+        "sheet_name": "A02",
+        "title": "附表2　外出民眾旅次目的占比",
+        "population_and_grain_source": [
+          "調查對象為昨天有外出的民眾，以旅次的角度做分析。"
+        ],
+        "source_units": [
+          "單位：旅次；%"
+        ],
+        "fields": [
+          {
+            "field": "col_d",
+            "source_column": "D",
+            "label_path": [
+              "樣本數"
+            ],
+            "unit": "旅次"
+          },
+          {
+            "field": "col_e",
+            "source_column": "E",
+            "label_path": [
+              "總計"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_f",
+            "source_column": "F",
+            "label_path": [
+              "通勤"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_g",
+            "source_column": "G",
+            "label_path": [
+              "通學"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_h",
+            "source_column": "H",
+            "label_path": [
+              "公(商)務"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_i",
+            "source_column": "I",
+            "label_path": [
+              "購物"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_j",
+            "source_column": "J",
+            "label_path": [
+              "家庭及個人活動"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_k",
+            "source_column": "K",
+            "label_path": [
+              "休閒"
+            ],
+            "unit": "%"
+          }
+        ],
+        "merged_header_ranges": [
+          "A5:C7",
+          "E5:E7",
+          "F6:F7",
+          "G6:G7",
+          "H6:H7",
+          "I6:I7",
+          "J6:J7",
+          "K6:K7",
+          "D5:D7"
+        ],
+        "record_count": 1,
+        "selection_rule": "只取2024居住縣市為臺北市的資料列；其餘全國/其他縣市只保留原始母表。"
+      },
+      {
+        "table_id": "a03",
+        "sheet_name": "A03",
+        "title": "附表3　 民眾旅次次數分配",
+        "population_and_grain_source": [
+          "調查對象為15歲以上民眾，以人的角度做分析。"
+        ],
+        "source_units": [
+          "單位：人；%"
+        ],
+        "fields": [
+          {
+            "field": "col_d",
+            "source_column": "D",
+            "label_path": [
+              "樣本數",
+              "全體民眾"
+            ],
+            "unit": "人"
+          },
+          {
+            "field": "col_e",
+            "source_column": "E",
+            "label_path": [
+              "樣本數",
+              "外出民眾"
+            ],
+            "unit": "人"
+          },
+          {
+            "field": "col_f",
+            "source_column": "F",
+            "label_path": [
+              "平均數",
+              "全體民眾"
+            ],
+            "unit": "次/人"
+          },
+          {
+            "field": "col_g",
+            "source_column": "G",
+            "label_path": [
+              "平均數",
+              "外出民眾"
+            ],
+            "unit": "次/人"
+          },
+          {
+            "field": "col_h",
+            "source_column": "H",
+            "label_path": [
+              "總計"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_i",
+            "source_column": "I",
+            "label_path": [
+              "0次"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_j",
+            "source_column": "J",
+            "label_path": [
+              "1次"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_k",
+            "source_column": "K",
+            "label_path": [
+              "2次"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_l",
+            "source_column": "L",
+            "label_path": [
+              "3次"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_m",
+            "source_column": "M",
+            "label_path": [
+              "4次"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_n",
+            "source_column": "N",
+            "label_path": [
+              "5次"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_o",
+            "source_column": "O",
+            "label_path": [
+              "6次"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_p",
+            "source_column": "P",
+            "label_path": [
+              "7次及以上"
+            ],
+            "unit": "%"
+          }
+        ],
+        "merged_header_ranges": [
+          "M6:M7",
+          "N6:N7",
+          "O6:O7",
+          "P6:P7",
+          "J6:J7",
+          "F5:G6",
+          "A5:C7",
+          "H5:H7",
+          "D5:E6",
+          "I6:I7",
+          "K6:K7",
+          "L6:L7"
+        ],
+        "record_count": 1,
+        "selection_rule": "只取2024居住縣市為臺北市的資料列；其餘全國/其他縣市只保留原始母表。"
+      },
+      {
+        "table_id": "a04",
+        "sheet_name": "A04",
+        "title": "附表4　外出民眾旅次地點關係",
+        "population_and_grain_source": [
+          "調查對象為昨天有外出民眾，以旅次角度做分析。"
+        ],
+        "source_units": [
+          "單位：旅次；%"
+        ],
+        "fields": [
+          {
+            "field": "col_d",
+            "source_column": "D",
+            "label_path": [
+              "樣本數"
+            ],
+            "unit": "旅次"
+          },
+          {
+            "field": "col_e",
+            "source_column": "E",
+            "label_path": [
+              "總計"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_f",
+            "source_column": "F",
+            "label_path": [
+              "同縣市"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_g",
+            "source_column": "G",
+            "label_path": [
+              "同鄉鎮市"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_h",
+            "source_column": "H",
+            "label_path": [
+              "跨鄉鎮市"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_i",
+            "source_column": "I",
+            "label_path": [
+              "跨縣市"
+            ],
+            "unit": "%"
+          }
+        ],
+        "merged_header_ranges": [
+          "A5:C7",
+          "E5:E7",
+          "F6:F7",
+          "I6:I7",
+          "D5:D7"
+        ],
+        "record_count": 1,
+        "selection_rule": "只取2024居住縣市為臺北市的資料列；其餘全國/其他縣市只保留原始母表。"
+      },
+      {
+        "table_id": "b05",
+        "sheet_name": "B05",
+        "title": "附表5　目前通勤或通學概況",
+        "population_and_grain_source": [
+          "調查對象為15歲以上民眾，以人的角度做分析。"
+        ],
+        "source_units": [
+          "單位：人；%"
+        ],
+        "fields": [
+          {
+            "field": "col_d",
+            "source_column": "D",
+            "label_path": [
+              "樣本數"
+            ],
+            "unit": "人"
+          },
+          {
+            "field": "col_e",
+            "source_column": "E",
+            "label_path": [
+              "總計"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_f",
+            "source_column": "F",
+            "label_path": [
+              "僅上班"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_g",
+            "source_column": "G",
+            "label_path": [
+              "僅上學"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_h",
+            "source_column": "H",
+            "label_path": [
+              "兩者皆有"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_i",
+            "source_column": "I",
+            "label_path": [
+              "兩者皆無"
+            ],
+            "unit": "%"
+          }
+        ],
+        "merged_header_ranges": [
+          "A5:C7",
+          "E5:E7",
+          "F6:F7",
+          "G6:G7",
+          "H6:H7",
+          "I6:I7",
+          "D5:D7"
+        ],
+        "record_count": 1,
+        "selection_rule": "只取2024居住縣市為臺北市的資料列；其餘全國/其他縣市只保留原始母表。"
+      },
+      {
+        "table_id": "b06",
+        "sheet_name": "B06",
+        "title": "附表6　通勤地點與住家地點關係",
+        "population_and_grain_source": [
+          "調查對象為目前有在工作民眾，以人的角度做分析。"
+        ],
+        "source_units": [
+          "單位：人；%"
+        ],
+        "fields": [
+          {
+            "field": "col_d",
+            "source_column": "D",
+            "label_path": [
+              "樣本數"
+            ],
+            "unit": "人"
+          },
+          {
+            "field": "col_e",
+            "source_column": "E",
+            "label_path": [
+              "總計"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_f",
+            "source_column": "F",
+            "label_path": [
+              "同縣市"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_g",
+            "source_column": "G",
+            "label_path": [
+              "同鄉鎮市"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_h",
+            "source_column": "H",
+            "label_path": [
+              "跨鄉鎮市"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_i",
+            "source_column": "I",
+            "label_path": [
+              "跨縣市"
+            ],
+            "unit": "%"
+          }
+        ],
+        "merged_header_ranges": [
+          "A5:C7",
+          "E5:E7",
+          "F6:F7",
+          "I6:I7",
+          "D5:D7"
+        ],
+        "record_count": 1,
+        "selection_rule": "只取2024居住縣市為臺北市的資料列；其餘全國/其他縣市只保留原始母表。"
+      },
+      {
+        "table_id": "b07",
+        "sheet_name": "B07",
+        "title": "附表7　通學地點與住家地點關係",
+        "population_and_grain_source": [
+          "調查對象為目前有在上學民眾，以人的角度做分析。"
+        ],
+        "source_units": [
+          "單位：人；%"
+        ],
+        "fields": [
+          {
+            "field": "col_d",
+            "source_column": "D",
+            "label_path": [
+              "樣本數"
+            ],
+            "unit": "人"
+          },
+          {
+            "field": "col_e",
+            "source_column": "E",
+            "label_path": [
+              "總計"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_f",
+            "source_column": "F",
+            "label_path": [
+              "同縣市"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_g",
+            "source_column": "G",
+            "label_path": [
+              "同鄉鎮市"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_h",
+            "source_column": "H",
+            "label_path": [
+              "跨鄉鎮市"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_i",
+            "source_column": "I",
+            "label_path": [
+              "跨縣市"
+            ],
+            "unit": "%"
+          }
+        ],
+        "merged_header_ranges": [
+          "A5:C7",
+          "E5:E7",
+          "F6:F7",
+          "I6:I7",
+          "D5:D7"
+        ],
+        "record_count": 1,
+        "selection_rule": "只取2024居住縣市為臺北市的資料列；其餘全國/其他縣市只保留原始母表。"
+      },
+      {
+        "table_id": "c08",
+        "sheet_name": "C08",
+        "title": "附表8　外出民眾運具次數市占率─按運具類別分",
+        "population_and_grain_source": [
+          "調查對象為昨天有外出民眾，以運具次數角度做分析。"
+        ],
+        "source_units": [
+          "單位：運具次數；%"
+        ],
+        "fields": [
+          {
+            "field": "col_d",
+            "source_column": "D",
+            "label_path": [
+              "樣本數"
+            ],
+            "unit": "運具次數"
+          },
+          {
+            "field": "col_e",
+            "source_column": "E",
+            "label_path": [
+              "總計"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_f",
+            "source_column": "F",
+            "label_path": [
+              "公共運輸工具"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_g",
+            "source_column": "G",
+            "label_path": [
+              "非機動運輸工具"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_h",
+            "source_column": "H",
+            "label_path": [
+              "私人機動運輸工具"
+            ],
+            "unit": "%"
+          }
+        ],
+        "merged_header_ranges": [
+          "A5:C7",
+          "E5:E7",
+          "F6:F7",
+          "G6:G7",
+          "H6:H7",
+          "D5:D7"
+        ],
+        "record_count": 1,
+        "selection_rule": "只取2024居住縣市為臺北市的資料列；其餘全國/其他縣市只保留原始母表。"
+      },
+      {
+        "table_id": "c09",
+        "sheet_name": "C09",
+        "title": "附表9　外出民眾運具次數市占率─按性別分",
+        "population_and_grain_source": [
+          "調查對象為昨天有外出民眾，以運具次數角度做分析。"
+        ],
+        "source_units": [
+          "單位：運具次數；%"
+        ],
+        "fields": [
+          {
+            "field": "col_d",
+            "source_column": "D",
+            "label_path": [
+              "男性",
+              "樣本數"
+            ],
+            "unit": "運具次數"
+          },
+          {
+            "field": "col_e",
+            "source_column": "E",
+            "label_path": [
+              "男性",
+              "總計"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_f",
+            "source_column": "F",
+            "label_path": [
+              "男性",
+              "公共運輸"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_g",
+            "source_column": "G",
+            "label_path": [
+              "男性",
+              "非機動運具"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_h",
+            "source_column": "H",
+            "label_path": [
+              "男性",
+              "私人機動運具"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_i",
+            "source_column": "I",
+            "label_path": [
+              "女性",
+              "樣本數"
+            ],
+            "unit": "運具次數"
+          },
+          {
+            "field": "col_j",
+            "source_column": "J",
+            "label_path": [
+              "女性",
+              "總計"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_k",
+            "source_column": "K",
+            "label_path": [
+              "女性",
+              "公共運輸"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_l",
+            "source_column": "L",
+            "label_path": [
+              "女性",
+              "非機動運具"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_m",
+            "source_column": "M",
+            "label_path": [
+              "女性",
+              "私人機動運具"
+            ],
+            "unit": "%"
+          }
+        ],
+        "merged_header_ranges": [
+          "D6:D8",
+          "I6:I8",
+          "A5:C8",
+          "D5:H5",
+          "I5:M5",
+          "M7:M8",
+          "F7:F8",
+          "G7:G8",
+          "L7:L8",
+          "H7:H8",
+          "E6:E8",
+          "J6:J8",
+          "K7:K8"
+        ],
+        "record_count": 1,
+        "selection_rule": "只取2024居住縣市為臺北市的資料列；其餘全國/其他縣市只保留原始母表。"
+      },
+      {
+        "table_id": "c10",
+        "sheet_name": "C10",
+        "title": "附表10　外出民眾運具次數之公共運輸市占率─按縣市別分 附表10　外出民眾運具次數之公共運輸市占率─按縣市別分(續)",
+        "population_and_grain_source": [
+          "調查對象為昨天有外出民眾，以運具次數角度做分析。"
+        ],
+        "source_units": [
+          "單位：%"
+        ],
+        "fields": [
+          {
+            "field": "col_e",
+            "source_column": "E",
+            "label_path": [
+              "臺北市"
+            ],
+            "unit": "%"
+          }
+        ],
+        "merged_header_ranges": [
+          "A5:C5"
+        ],
+        "record_count": 46,
+        "selection_rule": "縣市為欄的母表只取臺北市欄；保留2024分類列，排除年度比較。"
+      },
+      {
+        "table_id": "c11",
+        "sheet_name": "C11",
+        "title": "附表11 外出民眾運具次數市占率─按各運具分 外出民眾運具次數市占率─按各運具分(續完)",
+        "population_and_grain_source": [
+          "調查對象",
+          "為昨天有外出民眾，以運具次數角度做分析。"
+        ],
+        "source_units": [
+          "單位：運具次數；%"
+        ],
+        "fields": [
+          {
+            "field": "col_d",
+            "source_column": "D",
+            "label_path": [
+              "樣本數"
+            ],
+            "unit": "運具次數"
+          },
+          {
+            "field": "col_e",
+            "source_column": "E",
+            "label_path": [
+              "總計"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_f",
+            "source_column": "F",
+            "label_path": [
+              "公共運輸"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_g",
+            "source_column": "G",
+            "label_path": [
+              "捷運"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_h",
+            "source_column": "H",
+            "label_path": [
+              "高鐵"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_i",
+            "source_column": "I",
+            "label_path": [
+              "臺鐵"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_j",
+            "source_column": "J",
+            "label_path": [
+              "汽車客運"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_k",
+            "source_column": "K",
+            "label_path": [
+              "計程車"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_l",
+            "source_column": "L",
+            "label_path": [
+              "其他公共運輸"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_m",
+            "source_column": "M",
+            "label_path": [
+              "非機動運具"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_n",
+            "source_column": "N",
+            "label_path": [
+              "步行"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_o",
+            "source_column": "O",
+            "label_path": [
+              "自行車"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_p",
+            "source_column": "P",
+            "label_path": [
+              "微型電動二輪車"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_q",
+            "source_column": "Q",
+            "label_path": [
+              "私人機動運具"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_r",
+            "source_column": "R",
+            "label_path": [
+              "機車"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_s",
+            "source_column": "S",
+            "label_path": [
+              "自用小客車"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_t",
+            "source_column": "T",
+            "label_path": [
+              "其他私人機動運具"
+            ],
+            "unit": "%"
+          }
+        ],
+        "merged_header_ranges": [
+          "R7:R8",
+          "S7:S8",
+          "Q6:Q8",
+          "T7:T8",
+          "N7:N8",
+          "A5:C8",
+          "E5:E8",
+          "F6:F8",
+          "M6:M8",
+          "P7:P8",
+          "O7:O8",
+          "K7:K8",
+          "L7:L8",
+          "I7:I8",
+          "J7:J8",
+          "D5:D8",
+          "G7:G8",
+          "H7:H8"
+        ],
+        "record_count": 1,
+        "selection_rule": "只取2024居住縣市為臺北市的資料列；其餘全國/其他縣市只保留原始母表。"
+      },
+      {
+        "table_id": "c12",
+        "sheet_name": "C12",
+        "title": "附表12 通勤學民眾運具次數市占率─按各運具分 通勤學民眾運具次數市占率–按各運具分(續完)",
+        "population_and_grain_source": [
+          "調查對象",
+          "為昨天外出目的為通勤學民眾，以運具次數角度做分析。"
+        ],
+        "source_units": [
+          "單位：運具次數；%"
+        ],
+        "fields": [
+          {
+            "field": "col_d",
+            "source_column": "D",
+            "label_path": [
+              "樣本數"
+            ],
+            "unit": "運具次數"
+          },
+          {
+            "field": "col_e",
+            "source_column": "E",
+            "label_path": [
+              "總計"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_f",
+            "source_column": "F",
+            "label_path": [
+              "公共運輸"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_g",
+            "source_column": "G",
+            "label_path": [
+              "捷運"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_h",
+            "source_column": "H",
+            "label_path": [
+              "高鐵"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_i",
+            "source_column": "I",
+            "label_path": [
+              "臺鐵"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_j",
+            "source_column": "J",
+            "label_path": [
+              "汽車客運"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_k",
+            "source_column": "K",
+            "label_path": [
+              "計程車"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_l",
+            "source_column": "L",
+            "label_path": [
+              "其他公共運輸"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_m",
+            "source_column": "M",
+            "label_path": [
+              "非機動運具"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_n",
+            "source_column": "N",
+            "label_path": [
+              "步行"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_o",
+            "source_column": "O",
+            "label_path": [
+              "自行車"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_p",
+            "source_column": "P",
+            "label_path": [
+              "微型電動二輪車"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_q",
+            "source_column": "Q",
+            "label_path": [
+              "私人機動運具"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_r",
+            "source_column": "R",
+            "label_path": [
+              "機車"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_s",
+            "source_column": "S",
+            "label_path": [
+              "自用小客車"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_t",
+            "source_column": "T",
+            "label_path": [
+              "其他私人機動運具"
+            ],
+            "unit": "%"
+          }
+        ],
+        "merged_header_ranges": [
+          "S7:S8",
+          "Q6:Q8",
+          "O7:O8",
+          "K7:K8",
+          "T7:T8",
+          "R7:R8",
+          "A5:C8",
+          "E5:E8",
+          "F6:F8",
+          "G7:G8",
+          "H7:H8",
+          "I7:I8",
+          "J7:J8",
+          "D5:D8",
+          "N7:N8",
+          "P7:P8",
+          "L7:L8",
+          "M6:M8"
+        ],
+        "record_count": 1,
+        "selection_rule": "只取2024居住縣市為臺北市的資料列；其餘全國/其他縣市只保留原始母表。"
+      },
+      {
+        "table_id": "c13",
+        "sheet_name": "C13",
+        "title": "附表13　通勤學民眾運具次數之公共運輸市占率─按縣市別分 附表13　通勤學民眾運具次數之公共運輸市占率─按縣市別分(續)",
+        "population_and_grain_source": [
+          "調查對象為昨天外出目的為通勤學民眾，以運具次數角度做分析。"
+        ],
+        "source_units": [
+          "單位：%"
+        ],
+        "fields": [
+          {
+            "field": "col_e",
+            "source_column": "E",
+            "label_path": [
+              "臺北市"
+            ],
+            "unit": "%"
+          }
+        ],
+        "merged_header_ranges": [
+          "A5:C5"
+        ],
+        "record_count": 42,
+        "selection_rule": "縣市為欄的母表只取臺北市欄；保留2024分類列，排除年度比較。"
+      },
+      {
+        "table_id": "d14",
+        "sheet_name": "D14",
+        "title": "附表14　外出民眾主運具市占率─按運具類別分",
+        "population_and_grain_source": [
+          "調查對象為昨天有外出民眾，以旅次主運具角度做分析。"
+        ],
+        "source_units": [
+          "單位：運具次數；%"
+        ],
+        "fields": [
+          {
+            "field": "col_d",
+            "source_column": "D",
+            "label_path": [
+              "樣本數"
+            ],
+            "unit": "運具次數"
+          },
+          {
+            "field": "col_e",
+            "source_column": "E",
+            "label_path": [
+              "總計"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_f",
+            "source_column": "F",
+            "label_path": [
+              "公共運輸工具"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_g",
+            "source_column": "G",
+            "label_path": [
+              "非機動運輸工具"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_h",
+            "source_column": "H",
+            "label_path": [
+              "私人機動運輸工具"
+            ],
+            "unit": "%"
+          }
+        ],
+        "merged_header_ranges": [
+          "A5:C7",
+          "E5:E7",
+          "F6:F7",
+          "G6:G7",
+          "H6:H7",
+          "D5:D7"
+        ],
+        "record_count": 1,
+        "selection_rule": "只取2024居住縣市為臺北市的資料列；其餘全國/其他縣市只保留原始母表。"
+      },
+      {
+        "table_id": "d15",
+        "sheet_name": "D15",
+        "title": "附表15　外出民眾主運具市占率─按性別分",
+        "population_and_grain_source": [
+          "調查對象為昨天有外出民眾，以旅次主運具角度做分析。"
+        ],
+        "source_units": [
+          "單位：運具次數；%"
+        ],
+        "fields": [
+          {
+            "field": "col_d",
+            "source_column": "D",
+            "label_path": [
+              "男性",
+              "樣本數"
+            ],
+            "unit": "運具次數"
+          },
+          {
+            "field": "col_e",
+            "source_column": "E",
+            "label_path": [
+              "男性",
+              "總計"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_f",
+            "source_column": "F",
+            "label_path": [
+              "男性",
+              "公共運輸"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_g",
+            "source_column": "G",
+            "label_path": [
+              "男性",
+              "非機動運具"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_h",
+            "source_column": "H",
+            "label_path": [
+              "男性",
+              "私人機動運具"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_i",
+            "source_column": "I",
+            "label_path": [
+              "女性",
+              "樣本數"
+            ],
+            "unit": "運具次數"
+          },
+          {
+            "field": "col_j",
+            "source_column": "J",
+            "label_path": [
+              "女性",
+              "總計"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_k",
+            "source_column": "K",
+            "label_path": [
+              "女性",
+              "公共運輸"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_l",
+            "source_column": "L",
+            "label_path": [
+              "女性",
+              "非機動運具"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_m",
+            "source_column": "M",
+            "label_path": [
+              "女性",
+              "私人機動運具"
+            ],
+            "unit": "%"
+          }
+        ],
+        "merged_header_ranges": [
+          "D6:D8",
+          "I6:I8",
+          "A5:C8",
+          "D5:H5",
+          "I5:M5",
+          "E6:E8",
+          "J6:J8",
+          "F7:F8",
+          "M7:M8",
+          "G7:G8",
+          "H7:H8",
+          "K7:K8",
+          "L7:L8"
+        ],
+        "record_count": 1,
+        "selection_rule": "只取2024居住縣市為臺北市的資料列；其餘全國/其他縣市只保留原始母表。"
+      },
+      {
+        "table_id": "d16",
+        "sheet_name": "D16",
+        "title": "附表16　外出民眾主運具之公共運輸市占率─按縣市別分 附表16　外出民眾主運具之公共運輸市占率─按縣市別分(續)",
+        "population_and_grain_source": [
+          "調查對象為昨天有外出民眾，以旅次主運具角度做分析。"
+        ],
+        "source_units": [
+          "單位：%"
+        ],
+        "fields": [
+          {
+            "field": "col_e",
+            "source_column": "E",
+            "label_path": [
+              "臺北市"
+            ],
+            "unit": "%"
+          }
+        ],
+        "merged_header_ranges": [
+          "A5:C5"
+        ],
+        "record_count": 46,
+        "selection_rule": "縣市為欄的母表只取臺北市欄；保留2024分類列，排除年度比較。"
+      },
+      {
+        "table_id": "d17",
+        "sheet_name": "D17",
+        "title": "附表17 外出民眾主運具市占率─按各運具分 外出民眾主運具市占率─按各運具分(續)",
+        "population_and_grain_source": [
+          "調查對象",
+          "為昨天有外出民眾，以旅次主運具角度做分析。"
+        ],
+        "source_units": [
+          "單位：運具次數；%"
+        ],
+        "fields": [
+          {
+            "field": "col_d",
+            "source_column": "D",
+            "label_path": [
+              "樣本數"
+            ],
+            "unit": "運具次數"
+          },
+          {
+            "field": "col_e",
+            "source_column": "E",
+            "label_path": [
+              "總計"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_f",
+            "source_column": "F",
+            "label_path": [
+              "公共運輸"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_g",
+            "source_column": "G",
+            "label_path": [
+              "捷運"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_h",
+            "source_column": "H",
+            "label_path": [
+              "高鐵"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_i",
+            "source_column": "I",
+            "label_path": [
+              "臺鐵"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_j",
+            "source_column": "J",
+            "label_path": [
+              "汽車客運"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_k",
+            "source_column": "K",
+            "label_path": [
+              "計程車"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_l",
+            "source_column": "L",
+            "label_path": [
+              "其他公共運輸"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_m",
+            "source_column": "M",
+            "label_path": [
+              "非機動運具"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_n",
+            "source_column": "N",
+            "label_path": [
+              "步行"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_o",
+            "source_column": "O",
+            "label_path": [
+              "自行車"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_p",
+            "source_column": "P",
+            "label_path": [
+              "微型電動二輪車"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_q",
+            "source_column": "Q",
+            "label_path": [
+              "私人機動運具"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_r",
+            "source_column": "R",
+            "label_path": [
+              "機車"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_s",
+            "source_column": "S",
+            "label_path": [
+              "自用小客車"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_t",
+            "source_column": "T",
+            "label_path": [
+              "其他私人機動運具"
+            ],
+            "unit": "%"
+          }
+        ],
+        "merged_header_ranges": [
+          "P7:P8",
+          "R7:R8",
+          "Q6:Q8",
+          "A5:C8",
+          "E5:E8",
+          "F6:F8",
+          "S7:S8",
+          "G7:G8",
+          "H7:H8",
+          "I7:I8",
+          "J7:J8",
+          "K7:K8",
+          "M6:M8",
+          "L7:L8",
+          "T7:T8",
+          "D5:D8",
+          "N7:N8",
+          "O7:O8"
+        ],
+        "record_count": 1,
+        "selection_rule": "只取2024居住縣市為臺北市的資料列；其餘全國/其他縣市只保留原始母表。"
+      },
+      {
+        "table_id": "d18",
+        "sheet_name": "D18",
+        "title": "附表18 通勤學民眾主運具市占率─按各運具分 通勤學民眾主運具市占率─按各運具分(續)",
+        "population_and_grain_source": [
+          "調查對象為",
+          "昨天外出目的為通勤學民眾，以旅次主運具角度做分析。"
+        ],
+        "source_units": [
+          "單位：運具次數；%"
+        ],
+        "fields": [
+          {
+            "field": "col_d",
+            "source_column": "D",
+            "label_path": [
+              "樣本數"
+            ],
+            "unit": "運具次數"
+          },
+          {
+            "field": "col_e",
+            "source_column": "E",
+            "label_path": [
+              "總計"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_f",
+            "source_column": "F",
+            "label_path": [
+              "公共運輸"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_g",
+            "source_column": "G",
+            "label_path": [
+              "捷運"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_h",
+            "source_column": "H",
+            "label_path": [
+              "高鐵"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_i",
+            "source_column": "I",
+            "label_path": [
+              "臺鐵"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_j",
+            "source_column": "J",
+            "label_path": [
+              "汽車客運"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_k",
+            "source_column": "K",
+            "label_path": [
+              "計程車"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_l",
+            "source_column": "L",
+            "label_path": [
+              "其他公共運輸"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_m",
+            "source_column": "M",
+            "label_path": [
+              "非機動運具"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_n",
+            "source_column": "N",
+            "label_path": [
+              "步行"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_o",
+            "source_column": "O",
+            "label_path": [
+              "自行車"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_p",
+            "source_column": "P",
+            "label_path": [
+              "微型電動二輪車"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_q",
+            "source_column": "Q",
+            "label_path": [
+              "私人機動運具"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_r",
+            "source_column": "R",
+            "label_path": [
+              "機車"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_s",
+            "source_column": "S",
+            "label_path": [
+              "自用小客車"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_t",
+            "source_column": "T",
+            "label_path": [
+              "其他私人機動運具"
+            ],
+            "unit": "%"
+          }
+        ],
+        "merged_header_ranges": [
+          "L7:L8",
+          "N7:N8",
+          "M6:M8",
+          "T7:T8",
+          "O7:O8",
+          "P7:P8",
+          "R7:R8",
+          "Q6:Q8",
+          "S7:S8",
+          "K7:K8",
+          "A5:C8",
+          "E5:E8",
+          "F6:F8",
+          "G7:G8",
+          "H7:H8",
+          "I7:I8",
+          "J7:J8",
+          "D5:D8"
+        ],
+        "record_count": 1,
+        "selection_rule": "只取2024居住縣市為臺北市的資料列；其餘全國/其他縣市只保留原始母表。"
+      },
+      {
+        "table_id": "d19",
+        "sheet_name": "D19",
+        "title": "附表19　通勤學民眾主運具之公共運輸市占率─按縣市別分 附表19　通勤學民眾主運具之公共運輸市占率─按縣市別分(續)",
+        "population_and_grain_source": [
+          "調查對象為昨天外出目的為通勤學民眾，以旅次主運具角度做分析。"
+        ],
+        "source_units": [
+          "單位：%"
+        ],
+        "fields": [
+          {
+            "field": "col_e",
+            "source_column": "E",
+            "label_path": [
+              "臺北市"
+            ],
+            "unit": "%"
+          }
+        ],
+        "merged_header_ranges": [
+          "A5:C5"
+        ],
+        "record_count": 42,
+        "selection_rule": "縣市為欄的母表只取臺北市欄；保留2024分類列，排除年度比較。"
+      },
+      {
+        "table_id": "e20",
+        "sheet_name": "E20",
+        "title": "附表20　外出民眾全天使用運具種類數",
+        "population_and_grain_source": [
+          "調查對象為昨天有外出的民眾，以人的角度做分析。"
+        ],
+        "source_units": [
+          "單位：人；%"
+        ],
+        "fields": [
+          {
+            "field": "col_d",
+            "source_column": "D",
+            "label_path": [
+              "樣本數"
+            ],
+            "unit": "人"
+          },
+          {
+            "field": "col_e",
+            "source_column": "E",
+            "label_path": [
+              "平均數"
+            ],
+            "unit": "種類/人"
+          },
+          {
+            "field": "col_f",
+            "source_column": "F",
+            "label_path": [
+              "總計"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_g",
+            "source_column": "G",
+            "label_path": [
+              "1種"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_h",
+            "source_column": "H",
+            "label_path": [
+              "2種"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_i",
+            "source_column": "I",
+            "label_path": [
+              "3種"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_j",
+            "source_column": "J",
+            "label_path": [
+              "4種"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_k",
+            "source_column": "K",
+            "label_path": [
+              "5種"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_l",
+            "source_column": "L",
+            "label_path": [
+              "6種"
+            ],
+            "unit": "%"
+          }
+        ],
+        "merged_header_ranges": [
+          "A5:C7",
+          "E5:E7",
+          "F5:F7",
+          "G6:G7",
+          "H6:H7",
+          "I6:I7",
+          "J6:J7",
+          "K6:K7",
+          "L6:L7",
+          "D5:D7"
+        ],
+        "record_count": 1,
+        "selection_rule": "只取2024居住縣市為臺北市的資料列；其餘全國/其他縣市只保留原始母表。"
+      },
+      {
+        "table_id": "e21",
+        "sheet_name": "E21",
+        "title": "附表21　民眾全天使用各種運具次數",
+        "population_and_grain_source": [
+          "調查對象為15歲以上民眾，以人的角度做分析。"
+        ],
+        "source_units": [
+          "單位：人；%"
+        ],
+        "fields": [
+          {
+            "field": "col_d",
+            "source_column": "D",
+            "label_path": [
+              "樣本數",
+              "全體民眾"
+            ],
+            "unit": "人"
+          },
+          {
+            "field": "col_e",
+            "source_column": "E",
+            "label_path": [
+              "樣本數",
+              "外出民眾"
+            ],
+            "unit": "人"
+          },
+          {
+            "field": "col_f",
+            "source_column": "F",
+            "label_path": [
+              "平均數",
+              "全體民眾"
+            ],
+            "unit": "次/人"
+          },
+          {
+            "field": "col_g",
+            "source_column": "G",
+            "label_path": [
+              "平均數",
+              "外出民眾"
+            ],
+            "unit": "次/人"
+          },
+          {
+            "field": "col_h",
+            "source_column": "H",
+            "label_path": [
+              "總計"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_i",
+            "source_column": "I",
+            "label_path": [
+              "0次"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_j",
+            "source_column": "J",
+            "label_path": [
+              "1次"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_k",
+            "source_column": "K",
+            "label_path": [
+              "2次"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_l",
+            "source_column": "L",
+            "label_path": [
+              "3次"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_m",
+            "source_column": "M",
+            "label_path": [
+              "4次"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_n",
+            "source_column": "N",
+            "label_path": [
+              "5次"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_o",
+            "source_column": "O",
+            "label_path": [
+              "6次"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_p",
+            "source_column": "P",
+            "label_path": [
+              "7次及以上"
+            ],
+            "unit": "%"
+          }
+        ],
+        "merged_header_ranges": [
+          "F5:G6",
+          "P6:P7",
+          "A5:C7",
+          "H5:H7",
+          "D5:E6",
+          "J6:J7",
+          "K6:K7",
+          "L6:L7",
+          "M6:M7",
+          "N6:N7",
+          "O6:O7",
+          "I6:I7"
+        ],
+        "record_count": 1,
+        "selection_rule": "只取2024居住縣市為臺北市的資料列；其餘全國/其他縣市只保留原始母表。"
+      },
+      {
+        "table_id": "e22",
+        "sheet_name": "E22",
+        "title": "附表22　外出民眾平均每一旅次花費時間",
+        "population_and_grain_source": [
+          "調查對象為昨天有外出的民眾，以旅次的角度做分析。"
+        ],
+        "source_units": [
+          "單位：旅次；分鐘；%"
+        ],
+        "fields": [
+          {
+            "field": "col_d",
+            "source_column": "D",
+            "label_path": [
+              "樣本數"
+            ],
+            "unit": "旅次"
+          },
+          {
+            "field": "col_e",
+            "source_column": "E",
+            "label_path": [
+              "平均數"
+            ],
+            "unit": "分鐘"
+          },
+          {
+            "field": "col_f",
+            "source_column": "F",
+            "label_path": [
+              "總計"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_g",
+            "source_column": "G",
+            "label_path": [
+              "10分鐘內"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_h",
+            "source_column": "H",
+            "label_path": [
+              "10-20分鐘"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_i",
+            "source_column": "I",
+            "label_path": [
+              "20-30分鐘"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_j",
+            "source_column": "J",
+            "label_path": [
+              "30-40分鐘"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_k",
+            "source_column": "K",
+            "label_path": [
+              "40-50分鐘"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_l",
+            "source_column": "L",
+            "label_path": [
+              "50-60分鐘"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_m",
+            "source_column": "M",
+            "label_path": [
+              "60分鐘以上"
+            ],
+            "unit": "%"
+          }
+        ],
+        "merged_header_ranges": [
+          "K6:K7",
+          "L6:L7",
+          "M6:M7",
+          "A5:C7",
+          "E5:E7",
+          "F5:F7",
+          "G6:G7",
+          "H6:H7",
+          "I6:I7",
+          "J6:J7",
+          "D5:D7"
+        ],
+        "record_count": 1,
+        "selection_rule": "只取2024居住縣市為臺北市的資料列；其餘全國/其他縣市只保留原始母表。"
+      },
+      {
+        "table_id": "e23",
+        "sheet_name": "E23",
+        "title": "附表23　通勤學民眾平均每一旅次花費時間",
+        "population_and_grain_source": [
+          "調查對象為昨天外出目的為通勤學民眾，以旅次的角度做分析。"
+        ],
+        "source_units": [
+          "單位：旅次；分鐘；%"
+        ],
+        "fields": [
+          {
+            "field": "col_d",
+            "source_column": "D",
+            "label_path": [
+              "樣本數"
+            ],
+            "unit": "旅次"
+          },
+          {
+            "field": "col_e",
+            "source_column": "E",
+            "label_path": [
+              "平均數"
+            ],
+            "unit": "分鐘"
+          },
+          {
+            "field": "col_f",
+            "source_column": "F",
+            "label_path": [
+              "總計"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_g",
+            "source_column": "G",
+            "label_path": [
+              "10分鐘內"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_h",
+            "source_column": "H",
+            "label_path": [
+              "10-20分鐘"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_i",
+            "source_column": "I",
+            "label_path": [
+              "20-30分鐘"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_j",
+            "source_column": "J",
+            "label_path": [
+              "30-40分鐘"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_k",
+            "source_column": "K",
+            "label_path": [
+              "40-50分鐘"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_l",
+            "source_column": "L",
+            "label_path": [
+              "50-60分鐘"
+            ],
+            "unit": "%"
+          },
+          {
+            "field": "col_m",
+            "source_column": "M",
+            "label_path": [
+              "60分鐘以上"
+            ],
+            "unit": "%"
+          }
+        ],
+        "merged_header_ranges": [
+          "K6:K7",
+          "L6:L7",
+          "M6:M7",
+          "A5:C7",
+          "E5:E7",
+          "F5:F7",
+          "G6:G7",
+          "H6:H7",
+          "I6:I7",
+          "J6:J7",
+          "D5:D7"
+        ],
+        "record_count": 1,
+        "selection_rule": "只取2024居住縣市為臺北市的資料列；其餘全國/其他縣市只保留原始母表。"
+      }
+    ],
+    "methodology_notes": [
+      "說明：",
+      "1.本調查以全國22縣市市內電話及行動電話用戶為調查範圍。",
+      "   (105年以前僅調查市內電話用戶；98年調查未含金馬地區)",
+      "2.本報告之計算不含500公尺以下短行程。",
+      "3.  統計表中關聯性分析採「卡方檢定」(Chi-squareTest)。",
+      "4.  ＊表示p＜0.05，即在95%的信心水準下，基本問題與題目問項有顯著相關。",
+      "   ＊＊表示p＜0.01，即在99%的信心水準下，基本問題與題目問項有顯著相關。",
+      "   ＊＊＊表示p＜0.001，即在99.9%的信心水準下，基本問題與題目問項有顯著相關。",
+      "5.  # 表示細格期望值小於5的比例超過20%，卡方檢定結果僅作參考。",
+      "6.  各題答案如有未表態情形(如不知道、不確定、拒答)，不納入檢定。",
+      "7.  複選題型未進行卡方檢定。",
+      "8.  交叉表所列之數值為修正選項後之檢定值，不過，表中仍維持原變數選項分類。",
+      "9.  單選題橫列百分比加總應等於100%，惟因四捨五入的關係容有差異。",
+      "10.統計表中樣本數為加權後的樣本數。",
+      "13.統計表中運具別說明：",
+      " 捷運：包含捷運及輕軌。",
+      " 汽車客運：包含國道客運、一般公路客運、遊覽車、市區公車、免費公車、",
+      "  復康巴士及交通車。",
+      " 計程車：包含一般計程車及多元化計程車。",
+      " 其他公共運輸：包含飛機及渡輪。",
+      " 自行車：包含公共自行車及其他自行車。",
+      " 微型電動二輪車：原「電動自行車」，109年(含)前計入「自行車」，",
+      "                  自111年起更名並單獨列計。",
+      " 機車：包含機車及共享機車。",
+      " 自用小客車：包含自用小客車及共享汽車。",
+      " 其他私人機動運具：包含自用大客車、自用小貨車及自用大貨車。"
+    ],
+    "limitations": [
+      "平日市話及手機抽樣調查彙總，並非逐站刷卡、乘客OD或公車轉乘實績。",
+      "各表分別以人、旅次、運具次數或旅次主運具為分母；使用table_id及欄位字典區分，不合併分母。",
+      "樣本數保留XLSX中的加權小數，並非未加權受訪人數；數值使用儲存的計算結果，不自行重算公式。",
+      "原始母表另含2009–2024比較年份；本次data只取2024資料，其他年度僅保留在raw來源。",
+      "XLSX部分合併儲存格保留非左上角舊文字；依合併範圍只採左上角顯示值。附表11 PDF第28頁已核對汽車客運欄名。",
+      "原始數字0保留為0（PDF可能以破折號顯示零），原始空白與文字缺值標記轉null。"
+    ],
+    "geographic_scope": "Taipei City residents",
+    "source_record_count": 1708,
+    "source_scope": "全國母表留raw；data只留臺北市居住地列或臺北市欄，未將國家總體列當作臺北市。"
+  },
+  "records": [
+    {
+      "record_id": "a01:12",
+      "table_id": "a01",
+      "source_row": 12,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "居住縣市",
+      "category_label": "臺北市",
+      "group_significance": "***",
+      "values": {
+        "col_d": 3636.2279243168505,
+        "col_e": 100,
+        "col_f": 78.19722570171838,
+        "col_g": 21.802774298281715
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "a02:12",
+      "table_id": "a02",
+      "source_row": 12,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "居住縣市",
+      "category_label": "臺北市",
+      "group_significance": "***",
+      "values": {
+        "col_d": 6709.0416269349325,
+        "col_e": 100,
+        "col_f": 44.228144012720826,
+        "col_g": 5.231189969321224,
+        "col_h": 6.05833057266759,
+        "col_i": 14.267576547433897,
+        "col_j": 16.808786388638072,
+        "col_k": 13.405972509218461
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "a03:12",
+      "table_id": "a03",
+      "source_row": 12,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "居住縣市",
+      "category_label": "臺北市",
+      "group_significance": "***",
+      "values": {
+        "col_d": 3636.2279243168505,
+        "col_e": 2843.429357006957,
+        "col_f": 1.845055306370925,
+        "col_g": 2.359489470136509,
+        "col_h": 100,
+        "col_i": 21.802774298281715,
+        "col_j": 3.492431928971252,
+        "col_k": 56.22681027311872,
+        "col_l": 9.324336454520099,
+        "col_m": 6.929542394355874,
+        "col_n": 1.0557348849672292,
+        "col_o": 0.68024791379081,
+        "col_p": 0.48812185199422603
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "a04:12",
+      "table_id": "a04",
+      "source_row": 12,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "居住縣市",
+      "category_label": "臺北市",
+      "group_significance": "***",
+      "values": {
+        "col_d": 6709.0416269349325,
+        "col_e": 100,
+        "col_f": 85.50058718649353,
+        "col_g": 43.345662837370426,
+        "col_h": 42.15492434912329,
+        "col_i": 14.499412813506467
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "b05:12",
+      "table_id": "b05",
+      "source_row": 12,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "居住縣市",
+      "category_label": "臺北市",
+      "group_significance": "***",
+      "values": {
+        "col_d": 3636.2279243168505,
+        "col_e": 100,
+        "col_f": 55.632669119549654,
+        "col_g": 5.521763610963194,
+        "col_h": 2.0640172771167413,
+        "col_i": 36.781549992370344
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "b06:12",
+      "table_id": "b06",
+      "source_row": 12,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "居住縣市",
+      "category_label": "臺北市",
+      "group_significance": "***",
+      "values": {
+        "col_d": 2097.9830221611046,
+        "col_e": 100,
+        "col_f": 86.15261134966374,
+        "col_g": 40.982119590621586,
+        "col_h": 45.17049175904225,
+        "col_i": 13.847388650336258
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "b07:12",
+      "table_id": "b07",
+      "source_row": 12,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "居住縣市",
+      "category_label": "臺北市",
+      "group_significance": "***",
+      "values": {
+        "col_d": 275.83628292985327,
+        "col_e": 100,
+        "col_f": 87.02034848438942,
+        "col_g": 57.232619586617204,
+        "col_h": 29.787728897772222,
+        "col_i": 12.97965151561059
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c08:12",
+      "table_id": "c08",
+      "source_row": 12,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "居住縣市",
+      "category_label": "臺北市",
+      "group_significance": "***",
+      "values": {
+        "col_d": 7971.318282112988,
+        "col_e": 100,
+        "col_f": 38.33131762926991,
+        "col_g": 24.710046034714555,
+        "col_h": 36.95863633601546
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c09:12",
+      "table_id": "c09",
+      "source_row": 12,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "居住縣市",
+      "category_label": "臺北市",
+      "group_significance": null,
+      "values": {
+        "col_d": 3585.786153127178,
+        "col_e": 100,
+        "col_f": 28.335742455975787,
+        "col_g": 19.95401652836872,
+        "col_h": 51.71024101565537,
+        "col_i": 4385.532128985819,
+        "col_j": 100,
+        "col_k": 46.50409894628369,
+        "col_l": 28.598765635011322,
+        "col_m": 24.897135418704487
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:9",
+      "table_id": "c10",
+      "source_row": 9,
+      "year": 2024,
+      "row_kind": "overall",
+      "category_dimension": "全體",
+      "category_label": "全體",
+      "group_significance": null,
+      "values": {
+        "col_e": 38.33131762926991
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:11",
+      "table_id": "c10",
+      "source_row": 11,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "性別",
+      "category_label": "男",
+      "group_significance": null,
+      "values": {
+        "col_e": 28.335742455975787
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:12",
+      "table_id": "c10",
+      "source_row": 12,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "性別",
+      "category_label": "女",
+      "group_significance": null,
+      "values": {
+        "col_e": 46.50409894628369
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:14",
+      "table_id": "c10",
+      "source_row": 14,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "15-未滿18歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 57.640242377329095
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:15",
+      "table_id": "c10",
+      "source_row": 15,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "18-未滿20歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 49.921965560408346
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:16",
+      "table_id": "c10",
+      "source_row": 16,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "20-未滿30歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 43.767577448232906
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:17",
+      "table_id": "c10",
+      "source_row": 17,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "30-未滿40歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 40.07938569764174
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:18",
+      "table_id": "c10",
+      "source_row": 18,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "40-未滿50歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 32.61650993682604
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:19",
+      "table_id": "c10",
+      "source_row": 19,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "50-未滿60歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 30.485231544855356
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:20",
+      "table_id": "c10",
+      "source_row": 20,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "60-未滿65歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 31.699682636532575
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:21",
+      "table_id": "c10",
+      "source_row": 21,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "65歲及以上",
+      "group_significance": null,
+      "values": {
+        "col_e": 45.176141863301744
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:23",
+      "table_id": "c10",
+      "source_row": 23,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "小學及以下",
+      "group_significance": null,
+      "values": {
+        "col_e": 37.14652979552702
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:24",
+      "table_id": "c10",
+      "source_row": 24,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "國(初)中",
+      "group_significance": null,
+      "values": {
+        "col_e": 38.84538701696803
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:25",
+      "table_id": "c10",
+      "source_row": 25,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "高中(職)",
+      "group_significance": null,
+      "values": {
+        "col_e": 34.399555038001566
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:26",
+      "table_id": "c10",
+      "source_row": 26,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "專科",
+      "group_significance": null,
+      "values": {
+        "col_e": 29.2029437204581
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:27",
+      "table_id": "c10",
+      "source_row": 27,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "大學",
+      "group_significance": null,
+      "values": {
+        "col_e": 39.20689577005382
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:28",
+      "table_id": "c10",
+      "source_row": 28,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "研究所及以上",
+      "group_significance": null,
+      "values": {
+        "col_e": 44.762763501772874
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:29",
+      "table_id": "c10",
+      "source_row": 29,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "不知道/無意見",
+      "group_significance": null,
+      "values": {
+        "col_e": 0
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:31",
+      "table_id": "c10",
+      "source_row": 31,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "農林漁牧",
+      "group_significance": null,
+      "values": {
+        "col_e": 0
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:32",
+      "table_id": "c10",
+      "source_row": 32,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "工業",
+      "group_significance": null,
+      "values": {
+        "col_e": 29.099122899407156
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:33",
+      "table_id": "c10",
+      "source_row": 33,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "批發及零售業",
+      "group_significance": null,
+      "values": {
+        "col_e": 29.764633082691823
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:34",
+      "table_id": "c10",
+      "source_row": 34,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "住宿及餐飲業",
+      "group_significance": null,
+      "values": {
+        "col_e": 26.044577528887505
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:35",
+      "table_id": "c10",
+      "source_row": 35,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "服務事業",
+      "group_significance": null,
+      "values": {
+        "col_e": 38.71216405629431
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:36",
+      "table_id": "c10",
+      "source_row": 36,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "軍公教",
+      "group_significance": null,
+      "values": {
+        "col_e": 41.815336650731744
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:37",
+      "table_id": "c10",
+      "source_row": 37,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "學生(部分工時就業)",
+      "group_significance": null,
+      "values": {
+        "col_e": 81.35645925302963
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:38",
+      "table_id": "c10",
+      "source_row": 38,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "料理家事",
+      "group_significance": null,
+      "values": {
+        "col_e": 44.953844619531665
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:39",
+      "table_id": "c10",
+      "source_row": 39,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "退休人員",
+      "group_significance": null,
+      "values": {
+        "col_e": 37.01966899665026
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:40",
+      "table_id": "c10",
+      "source_row": 40,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "學生",
+      "group_significance": null,
+      "values": {
+        "col_e": 58.50888137539136
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:41",
+      "table_id": "c10",
+      "source_row": 41,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "未就業者",
+      "group_significance": null,
+      "values": {
+        "col_e": 33.823796792421774
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:42",
+      "table_id": "c10",
+      "source_row": 42,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "不知道/無意見",
+      "group_significance": null,
+      "values": {
+        "col_e": 0
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:45",
+      "table_id": "c10",
+      "source_row": 45,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "外出目的",
+      "category_label": "通勤",
+      "group_significance": null,
+      "values": {
+        "col_e": 36.42061405143189
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:46",
+      "table_id": "c10",
+      "source_row": 46,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "外出目的",
+      "category_label": "通學",
+      "group_significance": null,
+      "values": {
+        "col_e": 58.68803723587539
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:47",
+      "table_id": "c10",
+      "source_row": 47,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "外出目的",
+      "category_label": "公(商)務",
+      "group_significance": null,
+      "values": {
+        "col_e": 34.57716539886706
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:48",
+      "table_id": "c10",
+      "source_row": 48,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "外出目的",
+      "category_label": "購物",
+      "group_significance": null,
+      "values": {
+        "col_e": 24.672819820532602
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:49",
+      "table_id": "c10",
+      "source_row": 49,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "外出目的",
+      "category_label": "家庭及個人活動",
+      "group_significance": null,
+      "values": {
+        "col_e": 42.12538412807509
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:50",
+      "table_id": "c10",
+      "source_row": 50,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "外出目的",
+      "category_label": "休閒",
+      "group_significance": null,
+      "values": {
+        "col_e": 45.558907645151244
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:52",
+      "table_id": "c10",
+      "source_row": 52,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "7時以前",
+      "group_significance": null,
+      "values": {
+        "col_e": 26.32416944519148
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:53",
+      "table_id": "c10",
+      "source_row": 53,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "7時-未滿9時",
+      "group_significance": null,
+      "values": {
+        "col_e": 37.61795323678898
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:54",
+      "table_id": "c10",
+      "source_row": 54,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "9時-未滿11時",
+      "group_significance": null,
+      "values": {
+        "col_e": 26.729312333992254
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:55",
+      "table_id": "c10",
+      "source_row": 55,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "11時-未滿13時",
+      "group_significance": null,
+      "values": {
+        "col_e": 35.6138368872014
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:56",
+      "table_id": "c10",
+      "source_row": 56,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "13時-未滿15時",
+      "group_significance": null,
+      "values": {
+        "col_e": 41.70987622770873
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:57",
+      "table_id": "c10",
+      "source_row": 57,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "15時-未滿17時",
+      "group_significance": null,
+      "values": {
+        "col_e": 45.26085532774037
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:58",
+      "table_id": "c10",
+      "source_row": 58,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "17時-未滿19時",
+      "group_significance": null,
+      "values": {
+        "col_e": 40.50918739857735
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:59",
+      "table_id": "c10",
+      "source_row": 59,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "19時-未滿22時",
+      "group_significance": null,
+      "values": {
+        "col_e": 47.39984435969414
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:60",
+      "table_id": "c10",
+      "source_row": 60,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "22時以後",
+      "group_significance": null,
+      "values": {
+        "col_e": 38.865685676465084
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c10:61",
+      "table_id": "c10",
+      "source_row": 61,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "拒答",
+      "group_significance": null,
+      "values": {
+        "col_e": 11.096051695500755
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c11:12",
+      "table_id": "c11",
+      "source_row": 12,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "居住縣市",
+      "category_label": "臺北市",
+      "group_significance": "***",
+      "values": {
+        "col_d": 7971.318282112988,
+        "col_e": 100,
+        "col_f": 38.33131762926991,
+        "col_g": 15.99642576330035,
+        "col_h": 0.4274707500268848,
+        "col_i": 0.770653984150042,
+        "col_j": 13.660866760188046,
+        "col_k": 7.317079347672714,
+        "col_l": 0.1588210239318394,
+        "col_m": 24.710046034714555,
+        "col_n": 20.849963937844976,
+        "col_o": 3.8447329770966454,
+        "col_p": 0.015349119772891405,
+        "col_q": 36.95863633601546,
+        "col_r": 20.052987602235675,
+        "col_s": 16.31590647042341,
+        "col_t": 0.589742263356387
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c12:12",
+      "table_id": "c12",
+      "source_row": 12,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "居住縣市",
+      "category_label": "臺北市",
+      "group_significance": "***",
+      "values": {
+        "col_d": 4007.858067270504,
+        "col_e": 100,
+        "col_f": 38.87393739660653,
+        "col_g": 20.067805025471525,
+        "col_h": 0.1680660468371789,
+        "col_i": 0.7066322361003349,
+        "col_j": 15.41236284979367,
+        "col_k": 2.5190712384039164,
+        "col_l": 0,
+        "col_m": 18.35993220482469,
+        "col_n": 15.041630872676702,
+        "col_o": 3.2877731255582487,
+        "col_p": 0.030528206589740297,
+        "col_q": 42.76613039856816,
+        "col_r": 24.146634353636415,
+        "col_s": 17.790577007395097,
+        "col_t": 0.8289190375366269
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:9",
+      "table_id": "c13",
+      "source_row": 9,
+      "year": 2024,
+      "row_kind": "overall",
+      "category_dimension": "全體",
+      "category_label": "全體",
+      "group_significance": null,
+      "values": {
+        "col_e": 38.87393739660653
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:11",
+      "table_id": "c13",
+      "source_row": 11,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "性別",
+      "category_label": "男",
+      "group_significance": null,
+      "values": {
+        "col_e": 27.36371373881001
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:12",
+      "table_id": "c13",
+      "source_row": 12,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "性別",
+      "category_label": "女",
+      "group_significance": null,
+      "values": {
+        "col_e": 49.79602959315263
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:14",
+      "table_id": "c13",
+      "source_row": 14,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "15-未滿18歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 59.39090414697864
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:15",
+      "table_id": "c13",
+      "source_row": 15,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "18-未滿20歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 59.58455068366558
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:16",
+      "table_id": "c13",
+      "source_row": 16,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "20-未滿30歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 43.005403123797144
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:17",
+      "table_id": "c13",
+      "source_row": 17,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "30-未滿40歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 47.17838097977581
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:18",
+      "table_id": "c13",
+      "source_row": 18,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "40-未滿50歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 32.00686832608355
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:19",
+      "table_id": "c13",
+      "source_row": 19,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "50-未滿60歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 28.59120362603879
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:20",
+      "table_id": "c13",
+      "source_row": 20,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "60-未滿65歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 29.533919252963646
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:21",
+      "table_id": "c13",
+      "source_row": 21,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "65歲及以上",
+      "group_significance": null,
+      "values": {
+        "col_e": 48.37423786244241
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:23",
+      "table_id": "c13",
+      "source_row": 23,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "小學及以下",
+      "group_significance": null,
+      "values": {
+        "col_e": 37.6525963556246
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:24",
+      "table_id": "c13",
+      "source_row": 24,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "國(初)中",
+      "group_significance": null,
+      "values": {
+        "col_e": 5.670094900541906
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:25",
+      "table_id": "c13",
+      "source_row": 25,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "高中(職)",
+      "group_significance": null,
+      "values": {
+        "col_e": 33.951921628789684
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:26",
+      "table_id": "c13",
+      "source_row": 26,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "專科",
+      "group_significance": null,
+      "values": {
+        "col_e": 24.617288729383116
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:27",
+      "table_id": "c13",
+      "source_row": 27,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "大學",
+      "group_significance": null,
+      "values": {
+        "col_e": 41.28737978923057
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:28",
+      "table_id": "c13",
+      "source_row": 28,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "研究所及以上",
+      "group_significance": null,
+      "values": {
+        "col_e": 44.97040509974723
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:29",
+      "table_id": "c13",
+      "source_row": 29,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "不知道/無意見",
+      "group_significance": null,
+      "values": {
+        "col_e": 0
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:31",
+      "table_id": "c13",
+      "source_row": 31,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "農林漁牧",
+      "group_significance": null,
+      "values": {
+        "col_e": 0
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:32",
+      "table_id": "c13",
+      "source_row": 32,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "工業",
+      "group_significance": null,
+      "values": {
+        "col_e": 25.317819216450786
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:33",
+      "table_id": "c13",
+      "source_row": 33,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "批發及零售業",
+      "group_significance": null,
+      "values": {
+        "col_e": 31.238310399266485
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:34",
+      "table_id": "c13",
+      "source_row": 34,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "住宿及餐飲業",
+      "group_significance": null,
+      "values": {
+        "col_e": 34.805516489589365
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:35",
+      "table_id": "c13",
+      "source_row": 35,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "服務事業",
+      "group_significance": null,
+      "values": {
+        "col_e": 40.72437622553236
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:36",
+      "table_id": "c13",
+      "source_row": 36,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "軍公教",
+      "group_significance": null,
+      "values": {
+        "col_e": 43.10484017977056
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:37",
+      "table_id": "c13",
+      "source_row": 37,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "學生(部分工時就業)",
+      "group_significance": null,
+      "values": {
+        "col_e": 86.05187858342612
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:38",
+      "table_id": "c13",
+      "source_row": 38,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "料理家事",
+      "group_significance": null,
+      "values": {
+        "col_e": 0
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:39",
+      "table_id": "c13",
+      "source_row": 39,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "退休人員",
+      "group_significance": null,
+      "values": {
+        "col_e": 0
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:40",
+      "table_id": "c13",
+      "source_row": 40,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "學生",
+      "group_significance": null,
+      "values": {
+        "col_e": 57.9039813152458
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:41",
+      "table_id": "c13",
+      "source_row": 41,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "未就業者",
+      "group_significance": null,
+      "values": {
+        "col_e": 0
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:42",
+      "table_id": "c13",
+      "source_row": 42,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "不知道/無意見",
+      "group_significance": null,
+      "values": {
+        "col_e": 0
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:45",
+      "table_id": "c13",
+      "source_row": 45,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "外出目的",
+      "category_label": "通勤",
+      "group_significance": null,
+      "values": {
+        "col_e": 36.42061405143189
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:46",
+      "table_id": "c13",
+      "source_row": 46,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "外出目的",
+      "category_label": "通學",
+      "group_significance": null,
+      "values": {
+        "col_e": 58.68803723587539
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:48",
+      "table_id": "c13",
+      "source_row": 48,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "7時以前",
+      "group_significance": null,
+      "values": {
+        "col_e": 31.466286153237274
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:49",
+      "table_id": "c13",
+      "source_row": 49,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "7時-未滿9時",
+      "group_significance": null,
+      "values": {
+        "col_e": 41.4935177787383
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:50",
+      "table_id": "c13",
+      "source_row": 50,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "9時-未滿11時",
+      "group_significance": null,
+      "values": {
+        "col_e": 32.28150720452244
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:51",
+      "table_id": "c13",
+      "source_row": 51,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "11時-未滿13時",
+      "group_significance": null,
+      "values": {
+        "col_e": 45.52447225769495
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:52",
+      "table_id": "c13",
+      "source_row": 52,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "13時-未滿15時",
+      "group_significance": null,
+      "values": {
+        "col_e": 18.320693829893298
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:53",
+      "table_id": "c13",
+      "source_row": 53,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "15時-未滿17時",
+      "group_significance": null,
+      "values": {
+        "col_e": 32.17681113921089
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:54",
+      "table_id": "c13",
+      "source_row": 54,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "17時-未滿19時",
+      "group_significance": null,
+      "values": {
+        "col_e": 37.55842785878802
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:55",
+      "table_id": "c13",
+      "source_row": 55,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "19時-未滿22時",
+      "group_significance": null,
+      "values": {
+        "col_e": 47.56007796578588
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:56",
+      "table_id": "c13",
+      "source_row": 56,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "22時以後",
+      "group_significance": null,
+      "values": {
+        "col_e": 32.43793714874691
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "c13:57",
+      "table_id": "c13",
+      "source_row": 57,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "拒答",
+      "group_significance": null,
+      "values": {
+        "col_e": 5.851602261557867
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d14:12",
+      "table_id": "d14",
+      "source_row": 12,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "居住縣市",
+      "category_label": "臺北市",
+      "group_significance": "***",
+      "values": {
+        "col_d": 6711.765368770569,
+        "col_e": 100,
+        "col_f": 37.83525404243102,
+        "col_g": 19.73113914753689,
+        "col_h": 42.433606810032245
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d15:12",
+      "table_id": "d15",
+      "source_row": 12,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "居住縣市",
+      "category_label": "臺北市",
+      "group_significance": null,
+      "values": {
+        "col_d": 3149.91827907772,
+        "col_e": 100,
+        "col_f": 26.68656240407469,
+        "col_g": 15.4813554554401,
+        "col_h": 57.83208214048512,
+        "col_i": 3561.8470896928698,
+        "col_j": 100,
+        "col_k": 47.69459575338757,
+        "col_l": 23.489433930207003,
+        "col_m": 28.815970316404936
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:9",
+      "table_id": "d16",
+      "source_row": 9,
+      "year": 2024,
+      "row_kind": "overall",
+      "category_dimension": "全體",
+      "category_label": "全體",
+      "group_significance": null,
+      "values": {
+        "col_e": 37.83525404243102
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:11",
+      "table_id": "d16",
+      "source_row": 11,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "性別",
+      "category_label": "男",
+      "group_significance": null,
+      "values": {
+        "col_e": 26.68656240407469
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:12",
+      "table_id": "d16",
+      "source_row": 12,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "性別",
+      "category_label": "女",
+      "group_significance": null,
+      "values": {
+        "col_e": 47.69459575338757
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:14",
+      "table_id": "d16",
+      "source_row": 14,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "15-未滿18歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 64.180218913953
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:15",
+      "table_id": "d16",
+      "source_row": 15,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "18-未滿20歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 47.50635202500019
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:16",
+      "table_id": "d16",
+      "source_row": 16,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "20-未滿30歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 48.168928559176656
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:17",
+      "table_id": "d16",
+      "source_row": 17,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "30-未滿40歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 39.47163684934202
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:18",
+      "table_id": "d16",
+      "source_row": 18,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "40-未滿50歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 34.006175910720394
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:19",
+      "table_id": "d16",
+      "source_row": 19,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "50-未滿60歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 30.643625973939002
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:20",
+      "table_id": "d16",
+      "source_row": 20,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "60-未滿65歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 24.00617833499261
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:21",
+      "table_id": "d16",
+      "source_row": 21,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "65歲及以上",
+      "group_significance": null,
+      "values": {
+        "col_e": 42.563001313888634
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:23",
+      "table_id": "d16",
+      "source_row": 23,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "小學及以下",
+      "group_significance": null,
+      "values": {
+        "col_e": 37.0929902901023
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:24",
+      "table_id": "d16",
+      "source_row": 24,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "國(初)中",
+      "group_significance": null,
+      "values": {
+        "col_e": 34.357425574085
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:25",
+      "table_id": "d16",
+      "source_row": 25,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "高中(職)",
+      "group_significance": null,
+      "values": {
+        "col_e": 32.889233204344514
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:26",
+      "table_id": "d16",
+      "source_row": 26,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "專科",
+      "group_significance": null,
+      "values": {
+        "col_e": 27.465942028426092
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:27",
+      "table_id": "d16",
+      "source_row": 27,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "大學",
+      "group_significance": null,
+      "values": {
+        "col_e": 39.21713004536908
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:28",
+      "table_id": "d16",
+      "source_row": 28,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "研究所及以上",
+      "group_significance": null,
+      "values": {
+        "col_e": 45.515615431386706
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:29",
+      "table_id": "d16",
+      "source_row": 29,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "不知道/無意見",
+      "group_significance": null,
+      "values": {
+        "col_e": 0
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:31",
+      "table_id": "d16",
+      "source_row": 31,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "農林漁牧",
+      "group_significance": null,
+      "values": {
+        "col_e": 0
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:32",
+      "table_id": "d16",
+      "source_row": 32,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "工業",
+      "group_significance": null,
+      "values": {
+        "col_e": 29.29051300953502
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:33",
+      "table_id": "d16",
+      "source_row": 33,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "批發及零售業",
+      "group_significance": null,
+      "values": {
+        "col_e": 32.115379750721345
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:34",
+      "table_id": "d16",
+      "source_row": 34,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "住宿及餐飲業",
+      "group_significance": null,
+      "values": {
+        "col_e": 27.044978225889885
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:35",
+      "table_id": "d16",
+      "source_row": 35,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "服務事業",
+      "group_significance": null,
+      "values": {
+        "col_e": 39.45391021769911
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:36",
+      "table_id": "d16",
+      "source_row": 36,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "軍公教",
+      "group_significance": null,
+      "values": {
+        "col_e": 36.64993102926405
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:37",
+      "table_id": "d16",
+      "source_row": 37,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "學生(部分工時就業)",
+      "group_significance": null,
+      "values": {
+        "col_e": 86.78174212110271
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:38",
+      "table_id": "d16",
+      "source_row": 38,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "料理家事",
+      "group_significance": null,
+      "values": {
+        "col_e": 41.50558134303931
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:39",
+      "table_id": "d16",
+      "source_row": 39,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "退休人員",
+      "group_significance": null,
+      "values": {
+        "col_e": 34.18870749908188
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:40",
+      "table_id": "d16",
+      "source_row": 40,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "學生",
+      "group_significance": null,
+      "values": {
+        "col_e": 62.86589544009623
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:41",
+      "table_id": "d16",
+      "source_row": 41,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "未就業者",
+      "group_significance": null,
+      "values": {
+        "col_e": 34.501701232162176
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:42",
+      "table_id": "d16",
+      "source_row": 42,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "不知道/無意見",
+      "group_significance": null,
+      "values": {
+        "col_e": 0
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:45",
+      "table_id": "d16",
+      "source_row": 45,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "外出目的",
+      "category_label": "通勤",
+      "group_significance": null,
+      "values": {
+        "col_e": 37.00500512650198
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:46",
+      "table_id": "d16",
+      "source_row": 46,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "外出目的",
+      "category_label": "通學",
+      "group_significance": null,
+      "values": {
+        "col_e": 61.68580990227328
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:47",
+      "table_id": "d16",
+      "source_row": 47,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "外出目的",
+      "category_label": "公(商)務",
+      "group_significance": null,
+      "values": {
+        "col_e": 35.20562622624814
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:48",
+      "table_id": "d16",
+      "source_row": 48,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "外出目的",
+      "category_label": "購物",
+      "group_significance": null,
+      "values": {
+        "col_e": 24.743085266986217
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:49",
+      "table_id": "d16",
+      "source_row": 49,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "外出目的",
+      "category_label": "家庭及個人活動",
+      "group_significance": null,
+      "values": {
+        "col_e": 42.69209110210433
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:50",
+      "table_id": "d16",
+      "source_row": 50,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "外出目的",
+      "category_label": "休閒",
+      "group_significance": null,
+      "values": {
+        "col_e": 40.22765276206375
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:52",
+      "table_id": "d16",
+      "source_row": 52,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "7時以前",
+      "group_significance": null,
+      "values": {
+        "col_e": 20.54783934308577
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:53",
+      "table_id": "d16",
+      "source_row": 53,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "7時-未滿9時",
+      "group_significance": null,
+      "values": {
+        "col_e": 37.03967123646424
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:54",
+      "table_id": "d16",
+      "source_row": 54,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "9時-未滿11時",
+      "group_significance": null,
+      "values": {
+        "col_e": 25.842025168037846
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:55",
+      "table_id": "d16",
+      "source_row": 55,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "11時-未滿13時",
+      "group_significance": null,
+      "values": {
+        "col_e": 30.691903242444603
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:56",
+      "table_id": "d16",
+      "source_row": 56,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "13時-未滿15時",
+      "group_significance": null,
+      "values": {
+        "col_e": 41.83427951935376
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:57",
+      "table_id": "d16",
+      "source_row": 57,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "15時-未滿17時",
+      "group_significance": null,
+      "values": {
+        "col_e": 46.75410848111361
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:58",
+      "table_id": "d16",
+      "source_row": 58,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "17時-未滿19時",
+      "group_significance": null,
+      "values": {
+        "col_e": 43.56338676847014
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:59",
+      "table_id": "d16",
+      "source_row": 59,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "19時-未滿22時",
+      "group_significance": null,
+      "values": {
+        "col_e": 45.520422124222044
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:60",
+      "table_id": "d16",
+      "source_row": 60,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "22時以後",
+      "group_significance": null,
+      "values": {
+        "col_e": 37.034499590405744
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d16:61",
+      "table_id": "d16",
+      "source_row": 61,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "拒答",
+      "group_significance": null,
+      "values": {
+        "col_e": 9.079967359570094
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d17:12",
+      "table_id": "d17",
+      "source_row": 12,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "居住縣市",
+      "category_label": "臺北市",
+      "group_significance": "***",
+      "values": {
+        "col_d": 6711.765368770569,
+        "col_e": 100,
+        "col_f": 37.83525404243102,
+        "col_g": 17.95336947003538,
+        "col_h": 0.5076913773852659,
+        "col_i": 0.9002300229736003,
+        "col_j": 11.32152548426131,
+        "col_k": 6.963811765668126,
+        "col_l": 0.18862592210723814,
+        "col_m": 19.73113914753689,
+        "col_n": 15.725823645827349,
+        "col_o": 3.9870859134659735,
+        "col_p": 0.018229588243547798,
+        "col_q": 42.433606810032245,
+        "col_r": 22.599256179599468,
+        "col_s": 19.13393531086555,
+        "col_t": 0.7004153195671936
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d18:12",
+      "table_id": "d18",
+      "source_row": 12,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "居住縣市",
+      "category_label": "臺北市",
+      "group_significance": "***",
+      "values": {
+        "col_d": 3320.97104709561,
+        "col_e": 100,
+        "col_f": 39.63353341253798,
+        "col_g": 23.31570284874773,
+        "col_h": 0.20282768265617385,
+        "col_i": 0.852787232374383,
+        "col_j": 12.859558638928783,
+        "col_k": 2.4026570098309694,
+        "col_l": 0,
+        "col_m": 10.665299838684758,
+        "col_n": 7.48833763016729,
+        "col_o": 3.140119755715294,
+        "col_p": 0.03684245280216943,
+        "col_q": 49.701166748777105,
+        "col_r": 27.405564650801207,
+        "col_s": 21.295235095496096,
+        "col_t": 1.00036700247981
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:9",
+      "table_id": "d19",
+      "source_row": 9,
+      "year": 2024,
+      "row_kind": "overall",
+      "category_dimension": "全體",
+      "category_label": "全體",
+      "group_significance": null,
+      "values": {
+        "col_e": 39.63353341253798
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:11",
+      "table_id": "d19",
+      "source_row": 11,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "性別",
+      "category_label": "男",
+      "group_significance": null,
+      "values": {
+        "col_e": 26.486824050023703
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:12",
+      "table_id": "d19",
+      "source_row": 12,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "性別",
+      "category_label": "女",
+      "group_significance": null,
+      "values": {
+        "col_e": 53.05310039764547
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:14",
+      "table_id": "d19",
+      "source_row": 14,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "15-未滿18歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 62.10698703012816
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:15",
+      "table_id": "d19",
+      "source_row": 15,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "18-未滿20歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 65.20053285828062
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:16",
+      "table_id": "d19",
+      "source_row": 16,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "20-未滿30歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 47.47890378199472
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:17",
+      "table_id": "d19",
+      "source_row": 17,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "30-未滿40歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 45.474760996752586
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:18",
+      "table_id": "d19",
+      "source_row": 18,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "40-未滿50歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 35.203569182996475
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:19",
+      "table_id": "d19",
+      "source_row": 19,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "50-未滿60歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 29.6516895897859
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:20",
+      "table_id": "d19",
+      "source_row": 20,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "60-未滿65歲",
+      "group_significance": null,
+      "values": {
+        "col_e": 23.80964378797993
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:21",
+      "table_id": "d19",
+      "source_row": 21,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "年齡",
+      "category_label": "65歲及以上",
+      "group_significance": null,
+      "values": {
+        "col_e": 38.88467571923658
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:23",
+      "table_id": "d19",
+      "source_row": 23,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "小學及以下",
+      "group_significance": null,
+      "values": {
+        "col_e": 46.38521529805702
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:24",
+      "table_id": "d19",
+      "source_row": 24,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "國(初)中",
+      "group_significance": null,
+      "values": {
+        "col_e": 5.670094900541906
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:25",
+      "table_id": "d19",
+      "source_row": 25,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "高中(職)",
+      "group_significance": null,
+      "values": {
+        "col_e": 34.31398103178042
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:26",
+      "table_id": "d19",
+      "source_row": 26,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "專科",
+      "group_significance": null,
+      "values": {
+        "col_e": 26.264226194027497
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:27",
+      "table_id": "d19",
+      "source_row": 27,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "大學",
+      "group_significance": null,
+      "values": {
+        "col_e": 42.74781145168127
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:28",
+      "table_id": "d19",
+      "source_row": 28,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "研究所及以上",
+      "group_significance": null,
+      "values": {
+        "col_e": 45.490386324367
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:29",
+      "table_id": "d19",
+      "source_row": 29,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "教育程度",
+      "category_label": "不知道/無意見",
+      "group_significance": null,
+      "values": {
+        "col_e": 0
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:31",
+      "table_id": "d19",
+      "source_row": 31,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "農林漁牧",
+      "group_significance": null,
+      "values": {
+        "col_e": 0
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:32",
+      "table_id": "d19",
+      "source_row": 32,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "工業",
+      "group_significance": null,
+      "values": {
+        "col_e": 24.97022898240251
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:33",
+      "table_id": "d19",
+      "source_row": 33,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "批發及零售業",
+      "group_significance": null,
+      "values": {
+        "col_e": 33.48340047568734
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:34",
+      "table_id": "d19",
+      "source_row": 34,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "住宿及餐飲業",
+      "group_significance": null,
+      "values": {
+        "col_e": 35.91983957575057
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:35",
+      "table_id": "d19",
+      "source_row": 35,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "服務事業",
+      "group_significance": null,
+      "values": {
+        "col_e": 41.83837301336219
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:36",
+      "table_id": "d19",
+      "source_row": 36,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "軍公教",
+      "group_significance": null,
+      "values": {
+        "col_e": 39.20002447353759
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:37",
+      "table_id": "d19",
+      "source_row": 37,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "學生(部分工時就業)",
+      "group_significance": null,
+      "values": {
+        "col_e": 92.1449140836582
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:38",
+      "table_id": "d19",
+      "source_row": 38,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "料理家事",
+      "group_significance": null,
+      "values": {
+        "col_e": 0
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:39",
+      "table_id": "d19",
+      "source_row": 39,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "退休人員",
+      "group_significance": null,
+      "values": {
+        "col_e": 0
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:40",
+      "table_id": "d19",
+      "source_row": 40,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "學生",
+      "group_significance": null,
+      "values": {
+        "col_e": 60.78775055333716
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:41",
+      "table_id": "d19",
+      "source_row": 41,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "未就業者",
+      "group_significance": null,
+      "values": {
+        "col_e": 0
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:42",
+      "table_id": "d19",
+      "source_row": 42,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "職業",
+      "category_label": "不知道/無意見",
+      "group_significance": null,
+      "values": {
+        "col_e": 0
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:45",
+      "table_id": "d19",
+      "source_row": 45,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "外出目的",
+      "category_label": "通勤",
+      "group_significance": null,
+      "values": {
+        "col_e": 37.00500512650198
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:46",
+      "table_id": "d19",
+      "source_row": 46,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "外出目的",
+      "category_label": "通學",
+      "group_significance": null,
+      "values": {
+        "col_e": 61.68580990227328
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:48",
+      "table_id": "d19",
+      "source_row": 48,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "7時以前",
+      "group_significance": null,
+      "values": {
+        "col_e": 27.235931046370162
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:49",
+      "table_id": "d19",
+      "source_row": 49,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "7時-未滿9時",
+      "group_significance": null,
+      "values": {
+        "col_e": 43.88656566936574
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:50",
+      "table_id": "d19",
+      "source_row": 50,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "9時-未滿11時",
+      "group_significance": null,
+      "values": {
+        "col_e": 32.3221689934168
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:51",
+      "table_id": "d19",
+      "source_row": 51,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "11時-未滿13時",
+      "group_significance": null,
+      "values": {
+        "col_e": 33.74010061414986
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:52",
+      "table_id": "d19",
+      "source_row": 52,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "13時-未滿15時",
+      "group_significance": null,
+      "values": {
+        "col_e": 20.398911395121285
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:53",
+      "table_id": "d19",
+      "source_row": 53,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "15時-未滿17時",
+      "group_significance": null,
+      "values": {
+        "col_e": 31.79605982905158
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:54",
+      "table_id": "d19",
+      "source_row": 54,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "17時-未滿19時",
+      "group_significance": null,
+      "values": {
+        "col_e": 40.06821597981421
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:55",
+      "table_id": "d19",
+      "source_row": 55,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "19時-未滿22時",
+      "group_significance": null,
+      "values": {
+        "col_e": 45.92640560544786
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:56",
+      "table_id": "d19",
+      "source_row": 56,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "22時以後",
+      "group_significance": null,
+      "values": {
+        "col_e": 30.366861982749302
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "d19:57",
+      "table_id": "d19",
+      "source_row": 57,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "出發時間",
+      "category_label": "拒答",
+      "group_significance": null,
+      "values": {
+        "col_e": 6.228855346319032
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "e20:12",
+      "table_id": "e20",
+      "source_row": 12,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "居住縣市",
+      "category_label": "臺北市",
+      "group_significance": "***",
+      "values": {
+        "col_d": 2843.429357006957,
+        "col_e": 1.4514635540915584,
+        "col_f": 100,
+        "col_g": 69.48218786902275,
+        "col_h": 18.497941509164534,
+        "col_i": 9.493967497270157,
+        "col_j": 2.443133592718473,
+        "col_k": 0.08276953182390957,
+        "col_l": 0
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "e21:12",
+      "table_id": "e21",
+      "source_row": 12,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "居住縣市",
+      "category_label": "臺北市",
+      "group_significance": "***",
+      "values": {
+        "col_d": 3636.2279243168505,
+        "col_e": 2843.429357006957,
+        "col_f": 2.192194342055874,
+        "col_g": 2.8034170296756455,
+        "col_h": 100,
+        "col_i": 21.802774298281715,
+        "col_j": 2.6811727236117266,
+        "col_k": 45.76741463809888,
+        "col_l": 10.982888395797447,
+        "col_m": 10.907155611658252,
+        "col_n": 2.2267646729994297,
+        "col_o": 3.5956477923010532,
+        "col_p": 2.036181867251422
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "e22:12",
+      "table_id": "e22",
+      "source_row": 12,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "居住縣市",
+      "category_label": "臺北市",
+      "group_significance": "***",
+      "values": {
+        "col_d": 6687.699491835064,
+        "col_e": 26.330516166259642,
+        "col_f": 100,
+        "col_g": 8.660882261102566,
+        "col_h": 35.666810557580845,
+        "col_i": 19.73168444665764,
+        "col_j": 15.02940601165788,
+        "col_k": 8.655378666951334,
+        "col_l": 3.8582743136701056,
+        "col_m": 8.3975637423797
+      },
+      "missing_values": {}
+    },
+    {
+      "record_id": "e23:12",
+      "table_id": "e23",
+      "source_row": 12,
+      "year": 2024,
+      "row_kind": "subgroup",
+      "category_dimension": "居住縣市",
+      "category_label": "臺北市",
+      "group_significance": "***",
+      "values": {
+        "col_d": 3318.2473052599753,
+        "col_e": 26.65832917325023,
+        "col_f": 100,
+        "col_g": 5.354075551764694,
+        "col_h": 32.93269907124296,
+        "col_i": 21.286116980241996,
+        "col_j": 16.612479191345717,
+        "col_k": 11.851097467584323,
+        "col_l": 5.41610604019559,
+        "col_m": 6.547425697624643
+      },
+      "missing_values": {}
+    }
+  ]
+}

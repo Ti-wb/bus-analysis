@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document id="root_doc">
+	<name>公車專用道.kml</name>
+	<open>1</open>
+	<Schema name="公車專用道" id="公車專用道">
+		<SimpleField type="string" name="項次"></SimpleField>
+		<SimpleField type="string" name="路線"></SimpleField>
+		<SimpleField type="string" name="路段"></SimpleField>
+		<SimpleField type="string" name="起點"></SimpleField>
+		<SimpleField type="string" name="終點"></SimpleField>
+		<SimpleField type="float" name="長度公里"></SimpleField>
+		<SimpleField type="string" name="布設方式"></SimpleField>
+		<SimpleField type="string" name="行駛方向"></SimpleField>
+		<SimpleField type="string" name="實施日期"></SimpleField>
+	</Schema>
+	<Style id="s_ylw-pushpin">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ff0000aa</color>
+			<width>5</width>
+		</LineStyle>
+	</Style>
+	<Style id="s_ylw-pushpin_hl">
+		<IconStyle>
+			<scale>1.3</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ff0000aa</color>
+			<width>5</width>
+		</LineStyle>
+	</Style>
+	<StyleMap id="m_ylw-pushpin">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#s_ylw-pushpin</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#s_ylw-pushpin_hl</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Folder>
+		<name>公車專用道</name>
+		<open>1</open>
+		<Placemark>
+			<name>01松江路(民權東路-八德路)</name>
+			<styleUrl>#m_ylw-pushpin</styleUrl>
+			<ExtendedData>
+				<SchemaData schemaUrl="#公車專用道">
+					<SimpleData name="項次">1</SimpleData>
+					<SimpleData name="路線">松江路(民權東路-八德路)</SimpleData>
+					<SimpleData name="路段">松江路</SimpleData>
+					<SimpleData name="起點">民權東路</SimpleData>
+					<SimpleData name="終點">八德路</SimpleData>
+					<SimpleData name="長度公里">1.85000</SimpleData>
+					<SimpleData name="布設方式">內側快車道</SimpleData>
+					<SimpleData name="行駛方向">雙向、順向</SimpleData>
+					<SimpleData name="實施日期">85年1月</SimpleData>
+				</SchemaData>
+			</ExtendedData>
+			<LineString>
+				<altitudeMode>relativeToGround</altitudeMode>
+				<coordinates>
+					121.5331779424941,25.06242097295362,0 121.53310964885,25.0580219156093,0 121.5329989773962,25.05086456261407,0 121.5329065772626,25.04599563646924,0 121.5329036491469,25.04437498193895,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>02新生南路(忠孝東路-和平東路)</name>
+			<styleUrl>#m_ylw-pushpin</styleUrl>
+			<ExtendedData>
+				<SchemaData schemaUrl="#公車專用道">
+					<SimpleData name="項次">2</SimpleData>
+					<SimpleData name="路線">新生南路(忠孝東路-和平東路)</SimpleData>
+					<SimpleData name="路段">新生南路</SimpleData>
+					<SimpleData name="起點">忠孝東路</SimpleData>
+					<SimpleData name="終點">和平東路</SimpleData>
+					<SimpleData name="長度公里">1.78000</SimpleData>
+					<SimpleData name="布設方式">外側快車道</SimpleData>
+					<SimpleData name="行駛方向">雙向、順向</SimpleData>
+					<SimpleData name="實施日期">85年6月</SimpleData>
+				</SchemaData>
+			</ExtendedData>
+			<LineString>
+				<altitudeMode>relativeToGround</altitudeMode>
+				<coordinates>
+					121.5328980961263,25.04231267187715,0 121.5327578071413,25.03821412003006,0 121.5327146882496,25.03360875043996,0 121.534960188275,25.0268861214845,0 121.5348846230883,25.02613292694593,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>03敦化南北路(民權東路-信義路)</name>
+			<styleUrl>#m_ylw-pushpin</styleUrl>
+			<ExtendedData>
+				<SchemaData schemaUrl="#公車專用道">
+					<SimpleData name="項次">3</SimpleData>
+					<SimpleData name="路線">敦化南北路(民權東路-信義路)</SimpleData>
+					<SimpleData name="路段">敦化南北路</SimpleData>
+					<SimpleData name="起點">民權東路</SimpleData>
+					<SimpleData name="終點">信義路</SimpleData>
+					<SimpleData name="長度公里">3.15000</SimpleData>
+					<SimpleData name="布設方式">外側快車道</SimpleData>
+					<SimpleData name="行駛方向">南向順向</SimpleData>
+					<SimpleData name="實施日期">85年8月</SimpleData>
+				</SchemaData>
+			</ExtendedData>
+			<LineString>
+				<altitudeMode>relativeToGround</altitudeMode>
+				<coordinates>
+					121.5507102518627,25.06144798904072,0 121.5492748649058,25.05842345398923,0 121.5491126251042,25.05785187350306,0 121.5490349234941,25.05762888349537,0 121.5490157667122,25.05439574100684,0 121.5489763582496,25.0517995568237,0 121.5489473936553,25.04819241091978,0 121.5488851084103,25.04160073244269,0 121.5488053885363,25.03340151624154,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>04民權東路(敦化北路-承德路)</name>
+			<styleUrl>#m_ylw-pushpin</styleUrl>
+			<ExtendedData>
+				<SchemaData schemaUrl="#公車專用道">
+					<SimpleData name="項次">4</SimpleData>
+					<SimpleData name="路線">民權東路(敦化北路-承德路)</SimpleData>
+					<SimpleData name="路段">民權東路</SimpleData>
+					<SimpleData name="起點">敦化北路</SimpleData>
+					<SimpleData name="終點">承德路</SimpleData>
+					<SimpleData name="長度公里">3.60000</SimpleData>
+					<SimpleData name="布設方式">內側快車道</SimpleData>
+					<SimpleData name="行駛方向">雙向、順向</SimpleData>
+					<SimpleData name="實施日期">85年8月</SimpleData>
+				</SchemaData>
+			</ExtendedData>
+			<LineString>
+				<altitudeMode>relativeToGround</altitudeMode>
+				<coordinates>
+					121.5507624411099,25.0615231161992,0 121.5479315737191,25.06205330762593,0 121.5449091909148,25.0621207029057,0 121.5436959540828,25.06234237788942,0 121.5286876681828,25.06259157660946,0 121.5226270646932,25.06275445000041,0 121.5182452086463,25.06289815008291,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>05民權西路(承德路-延平北路)</name>
+			<styleUrl>#m_ylw-pushpin</styleUrl>
+			<ExtendedData>
+				<SchemaData schemaUrl="#公車專用道">
+					<SimpleData name="項次">5</SimpleData>
+					<SimpleData name="路線">民權西路(承德路-延平北路)</SimpleData>
+					<SimpleData name="路段">民權西路</SimpleData>
+					<SimpleData name="起點">承德路</SimpleData>
+					<SimpleData name="終點">延平北路</SimpleData>
+					<SimpleData name="長度公里">0.63999</SimpleData>
+					<SimpleData name="布設方式">內側快車道</SimpleData>
+					<SimpleData name="行駛方向">雙向、順向</SimpleData>
+					<SimpleData name="實施日期">87年11月</SimpleData>
+				</SchemaData>
+			</ExtendedData>
+			<LineString>
+				<altitudeMode>relativeToGround</altitudeMode>
+				<coordinates>
+					121.5182147972014,25.06289662593012,0 121.515974534577,25.06297626513674,0 121.5158629827323,25.06301928142964,0 121.5136027904066,25.06307355157646,0 121.5112547259773,25.06302456775021,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>06南京東路(中山北路-三民路)</name>
+			<styleUrl>#m_ylw-pushpin</styleUrl>
+			<ExtendedData>
+				<SchemaData schemaUrl="#公車專用道">
+					<SimpleData name="項次">6</SimpleData>
+					<SimpleData name="路線">南京東路(中山北路-三民路)</SimpleData>
+					<SimpleData name="路段">南京東路</SimpleData>
+					<SimpleData name="起點">中山北路</SimpleData>
+					<SimpleData name="終點">三民路</SimpleData>
+					<SimpleData name="長度公里">4.20000</SimpleData>
+					<SimpleData name="布設方式">內側快車道</SimpleData>
+					<SimpleData name="行駛方向">雙向、順向</SimpleData>
+					<SimpleData name="實施日期">85年7月(順向)、78年6月(逆向)</SimpleData>
+				</SchemaData>
+			</ExtendedData>
+			<LineString>
+				<altitudeMode>relativeToGround</altitudeMode>
+				<coordinates>
+					121.5225520055788,25.05221760936579,0 121.5307853791646,25.05205038334786,0 121.53928271175,25.05194060005789,0 121.5473762139607,25.05176210103965,0 121.5557753600536,25.05158523216128,0 121.5638071017324,25.05142505674048,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>07仁愛路(中山南路-敦化南路)</name>
+			<styleUrl>#m_ylw-pushpin</styleUrl>
+			<ExtendedData>
+				<SchemaData schemaUrl="#公車專用道">
+					<SimpleData name="項次">7</SimpleData>
+					<SimpleData name="路線">仁愛路(中山南路-敦化南路)</SimpleData>
+					<SimpleData name="路段">仁愛路</SimpleData>
+					<SimpleData name="起點">中山南路</SimpleData>
+					<SimpleData name="終點">敦化南路</SimpleData>
+					<SimpleData name="長度公里">3.10000</SimpleData>
+					<SimpleData name="布設方式">外側快車道</SimpleData>
+					<SimpleData name="行駛方向">西向順、東向逆</SimpleData>
+					<SimpleData name="實施日期">85年7月(順向)、78年6月(逆向)</SimpleData>
+				</SchemaData>
+			</ExtendedData>
+			<LineString>
+				<altitudeMode>relativeToGround</altitudeMode>
+				<coordinates>
+					121.5181130806887,25.03920507028534,0 121.5216035812625,25.03880204083878,0 121.5252018105055,25.03827593583726,0 121.5331327672613,25.0381723559546,0 121.5378929585654,25.03810375258623,0 121.5436895608954,25.03794818632165,0 121.5481578913655,25.03787248103179,0 121.5483577856282,25.03787121000721,0 121.5488446379549,25.03787138163638,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>08仁愛路延伸段(敦化南路-逸仙路)</name>
+			<styleUrl>#m_ylw-pushpin</styleUrl>
+			<ExtendedData>
+				<SchemaData schemaUrl="#公車專用道">
+					<SimpleData name="項次">8</SimpleData>
+					<SimpleData name="路線">仁愛路延伸段(敦化南路-逸仙路)</SimpleData>
+					<SimpleData name="路段">仁愛路延伸段</SimpleData>
+					<SimpleData name="起點">敦化南路</SimpleData>
+					<SimpleData name="終點">逸仙路</SimpleData>
+					<SimpleData name="長度公里">1.20000</SimpleData>
+					<SimpleData name="布設方式">外側快車道</SimpleData>
+					<SimpleData name="行駛方向">雙向、順向</SimpleData>
+					<SimpleData name="實施日期">87年1月</SimpleData>
+				</SchemaData>
+			</ExtendedData>
+			<LineString>
+				<altitudeMode>relativeToGround</altitudeMode>
+				<coordinates>
+					121.5488466356111,25.03787219757508,0 121.5577024079255,25.0376850930009,0 121.5614999875866,25.03760040694542,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>09信義路(中山南路-基隆路)</name>
+			<styleUrl>#m_ylw-pushpin</styleUrl>
+			<ExtendedData>
+				<SchemaData schemaUrl="#公車專用道">
+					<SimpleData name="項次">9</SimpleData>
+					<SimpleData name="路線">信義路(中山南路-基隆路)</SimpleData>
+					<SimpleData name="路段">信義路</SimpleData>
+					<SimpleData name="起點">中山南路</SimpleData>
+					<SimpleData name="終點">基隆路</SimpleData>
+					<SimpleData name="長度公里">4.50000</SimpleData>
+					<SimpleData name="布設方式">外側快車道</SimpleData>
+					<SimpleData name="行駛方向">東向順、西向逆</SimpleData>
+					<SimpleData name="實施日期">85年7月(順向)、78年6月(逆向)</SimpleData>
+				</SchemaData>
+			</ExtendedData>
+			<LineString>
+				<altitudeMode>relativeToGround</altitudeMode>
+				<coordinates>
+					121.5178867829003,25.03868107864799,0 121.5241849225461,25.03555017358378,0 121.5272776268019,25.03407918452607,0 121.5299772190319,25.03368393766548,0 121.532895361301,25.03361923947409,0 121.5378450749414,25.03347401790732,0 121.5436334697225,25.03338810529739,0 121.5512963946398,25.03323893999201,0 121.5587142987635,25.03304986442961,0 121.5596027375277,25.03306372983624,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>10重慶北路(酒泉街-南京西路)</name>
+			<styleUrl>#m_ylw-pushpin</styleUrl>
+			<ExtendedData>
+				<SchemaData schemaUrl="#公車專用道">
+					<SimpleData name="項次">10</SimpleData>
+					<SimpleData name="路線">重慶北路(酒泉街-南京西路)</SimpleData>
+					<SimpleData name="路段">重慶北路</SimpleData>
+					<SimpleData name="起點">酒泉街</SimpleData>
+					<SimpleData name="終點">南京西路</SimpleData>
+					<SimpleData name="長度公里">2.00000</SimpleData>
+					<SimpleData name="布設方式">內側快車道</SimpleData>
+					<SimpleData name="行駛方向">雙向、順向</SimpleData>
+					<SimpleData name="實施日期">90年1月</SimpleData>
+				</SchemaData>
+			</ExtendedData>
+			<LineString>
+				<altitudeMode>relativeToGround</altitudeMode>
+				<coordinates>
+					121.513821968308,25.07200730831128,0 121.5136928561144,25.06593886670764,0 121.5135713660283,25.06271471920926,0 121.5135557039314,25.06073649151499,0 121.5136221749806,25.05924190835096,0 121.513663042906,25.05820287731964,0 121.5137651659905,25.05700773861676,0 121.5143617543877,25.05412191960051,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>11中華路(開封街-愛國西路)</name>
+			<styleUrl>#m_ylw-pushpin</styleUrl>
+			<ExtendedData>
+				<SchemaData schemaUrl="#公車專用道">
+					<SimpleData name="項次">11</SimpleData>
+					<SimpleData name="路線">中華路(開封街-愛國西路)</SimpleData>
+					<SimpleData name="路段">中華路</SimpleData>
+					<SimpleData name="起點">開封街</SimpleData>
+					<SimpleData name="終點">愛國西路</SimpleData>
+					<SimpleData name="長度公里">1.06000</SimpleData>
+					<SimpleData name="布設方式">內側快車道</SimpleData>
+					<SimpleData name="行駛方向">雙向、順向</SimpleData>
+					<SimpleData name="實施日期">90年4月</SimpleData>
+				</SchemaData>
+			</ExtendedData>
+			<LineString>
+				<altitudeMode>relativeToGround</altitudeMode>
+				<coordinates>
+					121.5093824239031,25.04599542307557,0 121.5068110580263,25.03718648201453,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>12羅斯福路(和平西路-興隆路)</name>
+			<styleUrl>#m_ylw-pushpin</styleUrl>
+			<ExtendedData>
+				<SchemaData schemaUrl="#公車專用道">
+					<SimpleData name="項次">12</SimpleData>
+					<SimpleData name="路線">羅斯福路(和平西路-興隆路)</SimpleData>
+					<SimpleData name="路段">羅斯福路</SimpleData>
+					<SimpleData name="起點">和平西路</SimpleData>
+					<SimpleData name="終點">興隆路</SimpleData>
+					<SimpleData name="長度公里">3.10000</SimpleData>
+					<SimpleData name="布設方式">內側快車道</SimpleData>
+					<SimpleData name="行駛方向">雙向、順向</SimpleData>
+					<SimpleData name="實施日期">95年3月</SimpleData>
+				</SchemaData>
+			</ExtendedData>
+			<LineString>
+				<altitudeMode>relativeToGround</altitudeMode>
+				<coordinates>
+					121.5387545588879,25.00441957699099,0 121.5387042794442,25.00438745294914,0 121.5389864257374,25.00565054096946,0 121.5390170683042,25.00627677267536,0 121.5388761473058,25.00680180676372,0 121.537746415988,25.00892812606186,0 121.5374226325189,25.00975986885604,0 121.5371839813066,25.01087520781705,0 121.537039042172,25.01142779790155,0 121.5360398346553,25.01301810260016,0 121.53570629671,25.01345173300343,0 121.5326814556389,25.01634564672932,0 121.5304135419064,25.01857912209092,0 121.5292406638589,25.0197304679261,0 121.5267948440188,25.0219143688684,0 121.5255356550368,25.02305984069891,0 121.5248411371571,25.02386397384396,0 121.5224370155754,25.02707167114975,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>13新光路(新光路動物園前圓環-污水處理廠迴轉道)</name>
+			<styleUrl>#m_ylw-pushpin</styleUrl>
+			<ExtendedData>
+				<SchemaData schemaUrl="#公車專用道">
+					<SimpleData name="項次">13</SimpleData>
+					<SimpleData name="路線">新光路(新光路動物園前圓環-污水處理廠迴轉道)</SimpleData>
+					<SimpleData name="路段">新光路</SimpleData>
+					<SimpleData name="起點">新光路動物園前圓環</SimpleData>
+					<SimpleData name="終點">污水處理廠迴轉道</SimpleData>
+					<SimpleData name="長度公里">1.10000</SimpleData>
+					<SimpleData name="布設方式">內側快車道</SimpleData>
+					<SimpleData name="行駛方向">雙向、順向</SimpleData>
+					<SimpleData name="實施日期">99年3月</SimpleData>
+				</SchemaData>
+			</ExtendedData>
+			<LineString>
+				<altitudeMode>relativeToGround</altitudeMode>
+				<coordinates>
+					121.5741780616767,24.99509886780259,0 121.5824216022964,25.00007491292965,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>14玉門街(民族西路-酒泉街)</name>
+			<styleUrl>#m_ylw-pushpin</styleUrl>
+			<ExtendedData>
+				<SchemaData schemaUrl="#公車專用道">
+					<SimpleData name="項次">14</SimpleData>
+					<SimpleData name="路線">玉門街(民族西路-酒泉街)</SimpleData>
+					<SimpleData name="路段">玉門街</SimpleData>
+					<SimpleData name="起點">民族西路</SimpleData>
+					<SimpleData name="終點">酒泉街</SimpleData>
+					<SimpleData name="長度公里">0.40000</SimpleData>
+					<SimpleData name="布設方式">全車道</SimpleData>
+					<SimpleData name="行駛方向">雙向、順向</SimpleData>
+					<SimpleData name="實施日期">100年4月</SimpleData>
+				</SchemaData>
+			</ExtendedData>
+			<LineString>
+				<altitudeMode>relativeToGround</altitudeMode>
+				<coordinates>
+					121.5202445433439,25.0706334702449,0 121.519970701842,25.06850822022375,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>15忠孝西路(館前路-重慶北路)</name>
+			<styleUrl>#m_ylw-pushpin</styleUrl>
+			<ExtendedData>
+				<SchemaData schemaUrl="#公車專用道">
+					<SimpleData name="項次">15</SimpleData>
+					<SimpleData name="路線">忠孝西路(館前路-重慶北路)</SimpleData>
+					<SimpleData name="路段">忠孝西路</SimpleData>
+					<SimpleData name="起點">館前路</SimpleData>
+					<SimpleData name="終點">重慶北路</SimpleData>
+					<SimpleData name="長度公里">0.14000</SimpleData>
+					<SimpleData name="布設方式">外側車道</SimpleData>
+					<SimpleData name="行駛方向">西向順</SimpleData>
+					<SimpleData name="實施日期">106年4月</SimpleData>
+				</SchemaData>
+			</ExtendedData>
+			<LineString>
+				<altitudeMode>relativeToGround</altitudeMode>
+				<coordinates>
+					121.5133197105467,25.04723987991147,0 121.5150298680334,25.04682050595907,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+	</Folder>
+</Document>
+</kml>

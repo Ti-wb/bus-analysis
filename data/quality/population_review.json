@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "dataset_id": "independent_population_review",
+  "metadata": {
+    "reviewer_agent": "/root/review_bus_population_tdx",
+    "independent_of_producer": true,
+    "reviewed_at": "2026-10-21T23:36:34+08:00",
+    "scope": "人口組全部5資料檔與catalog",
+    "record_count": 6,
+    "method": "36月修訂版全量核對50652筆月人口與101歲別、月份連續性；中央人口與圖資全部欄位、幾何及加總已核對。",
+    "check_script": "raw_data/reviews/review_bus_population_tdx/review_population.py",
+    "blocking_findings": []
+  },
+  "records": [
+    {
+      "file": "data/population/taipei_village_population_age_monthly.json",
+      "record_count": 50652,
+      "status": "pass_with_limitations",
+      "checks": {
+        "raw_rows_compared": 50652,
+        "all_101_age_bins_match_source": true,
+        "age_and_sex_reconciliation_all_rows": true,
+        "unique_month_area_sex": true,
+        "periods": {
+          "start": "2023-10",
+          "end": "2026-09",
+          "continuous_month_count": 36
+        },
+        "rows_per_month": 1407,
+        "intentionally_excluded_source_rows": 12663,
+        "scope": "latest 36 complete source months"
+      },
+      "limitations": [
+        "戶籍人口不等於白天活動人口或公車搭乘需求。",
+        "全市、區、里是重疊的彙總層級；sex=total 與 male/female 亦不可相加。",
+        "區域代碼保留原值；未以名稱與其他資料的 ID 自動配對。",
+        "2024-12 統計區人口合計 2490646 人，民政局全市月人口 2490869 人，相差 -223 人。兩個官方來源皆保留原數值；差異原因尚未確認，不混用為同一基準。"
+      ]
+    },
+    {
+      "file": "data/population/taipei_statistical_population_base.json",
+      "record_count": 11490,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_xml_rows_fields_match": true,
+        "declared_row_count_matches": true,
+        "source_period": "2024-12",
+        "population_sum": 2490646,
+        "unique_area_id": true
+      },
+      "limitations": [
+        "發布區人口為戶籍人口，不代表乘車需求。",
+        "各發布層級是重疊彙總，三份資料不可加總。",
+        "官方此服務只回傳目前供應的資料期間；不以下載年份假冒統計年份。",
+        "2024-12 統計區人口合計 2490646 人，民政局全市月人口 2490869 人，相差 -223 人。兩個官方來源皆保留原數值；差異原因尚未確認，不混用為同一基準。"
+      ]
+    },
+    {
+      "file": "data/population/taipei_statistical_population_level1.json",
+      "record_count": 7672,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_xml_rows_fields_match": true,
+        "declared_row_count_matches": true,
+        "source_period": "2024-12",
+        "population_sum": 2490646,
+        "unique_area_id": true
+      },
+      "limitations": [
+        "發布區人口為戶籍人口，不代表乘車需求。",
+        "各發布層級是重疊彙總，三份資料不可加總。",
+        "官方此服務只回傳目前供應的資料期間；不以下載年份假冒統計年份。",
+        "2024-12 統計區人口合計 2490646 人，民政局全市月人口 2490869 人，相差 -223 人。兩個官方來源皆保留原數值；差異原因尚未確認，不混用為同一基準。"
+      ]
+    },
+    {
+      "file": "data/population/taipei_statistical_population_level2.json",
+      "record_count": 907,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_xml_rows_fields_match": true,
+        "declared_row_count_matches": true,
+        "source_period": "2024-12",
+        "population_sum": 2490646,
+        "unique_area_id": true
+      },
+      "limitations": [
+        "發布區人口為戶籍人口，不代表乘車需求。",
+        "各發布層級是重疊彙總，三份資料不可加總。",
+        "官方此服務只回傳目前供應的資料期間；不以下載年份假冒統計年份。",
+        "2024-12 統計區人口合計 2490646 人，民政局全市月人口 2490869 人，相差 -223 人。兩個官方來源皆保留原數值；差異原因尚未確認，不混用為同一基準。"
+      ]
+    },
+    {
+      "file": "data/population/taipei_statistical_area_boundaries.geojson",
+      "record_count": 11490,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_transformed_geometries_match_shp": true,
+        "source_prj_epsg": 3826,
+        "output_epsg": 4326,
+        "all_geometries_valid": true,
+        "boundary_filename_vintage": 2015,
+        "population_exact_base_key_matches": 11490,
+        "parent_keys_match": true,
+        "population_rollups_all_levels_match": true,
+        "statistical_population": 2490646,
+        "monthly_city_population_same_period": 2490869,
+        "source_difference_persons": -223
+      },
+      "limitations": [
+        "邊界檔名標示 2015，不代表 2026 年行政里界。",
+        "統計區代碼與行政里代碼不同，不以名稱或碼前綴直接關聯。",
+        "統計區人口為 2024-12，邊界版本不同；即使 ID 全數相符，仍應在分析結果標示兩者的版本。",
+        "2024-12 統計區人口總和比市府月人口少 223 人；保留來源差異，不補值。"
+      ]
+    },
+    {
+      "file": "data/population/catalog.json",
+      "record_count": 5,
+      "status": "pass",
+      "checks": {
+        "raw_manifest_entries_checked": 8
+      },
+      "limitations": []
+    }
+  ]
+}

@@ -1,0 +1,257 @@
+{
+  "schema_version": 1,
+  "owner": "bus_feeds",
+  "generated_at": "2026-10-21T23:37:00+08:00",
+  "review_status": "pending_separate_agent",
+  "records": [
+    {
+      "dataset_id": "taipei_route_branches",
+      "status": "normalized_with_documented_source_limitations",
+      "output_files": [
+        "data/taipei_feeds/route_branches.json"
+      ],
+      "record_count": 773,
+      "period": "2026-10-21T23:03:04+08:00",
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "主路線 ID 會因分支與業者重複，不可把此表每列視為獨立主路線。",
+        "尖離峰 Headway 顯示字串未解為最短/最長班距；詳用 headway_schedules 與文字註記。",
+        "核定總班次不是實際行駛班次，沒有明示適用日，不能跨分支列加總。"
+      ]
+    },
+    {
+      "dataset_id": "taipei_routes",
+      "status": "normalized_with_documented_source_limitations",
+      "output_files": [
+        "data/taipei_feeds/routes.json"
+      ],
+      "record_count": 416,
+      "period": "2026-10-21T23:03:04+08:00",
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "由 GetRoute 同一主路線 ID 彙整識別碼集合；未平均或加總各分支的里程與班次。"
+      ]
+    },
+    {
+      "dataset_id": "taipei_current_stops",
+      "status": "normalized_with_documented_source_limitations",
+      "output_files": [
+        "data/taipei_feeds/stops.geojson"
+      ],
+      "record_count": 28826,
+      "period": "2026-10-21T22:03:04+08:00",
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "路線站牌筆數不等於實體站位數；用 stop_location_id 連結地理站位。",
+        "來源 vector 常見 999 超出官方 0–359 定義；正規化為 null，保留來源值。"
+      ]
+    },
+    {
+      "dataset_id": "taipei_stop_locations",
+      "status": "normalized_with_documented_source_limitations",
+      "output_files": [
+        "data/taipei_feeds/stop_locations.geojson"
+      ],
+      "record_count": 5376,
+      "period": "2026-10-21T22:03:04+08:00",
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "對向或鄰近站位不因名稱相同而合併。"
+      ]
+    },
+    {
+      "dataset_id": "taipei_subroute_stop_sequences",
+      "status": "normalized_with_documented_source_limitations",
+      "output_files": [
+        "data/taipei_feeds/route_stop_sequences.json"
+      ],
+      "record_count": 43447,
+      "period": "2026-10-21T22:03:04+08:00",
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "分支站序用 PathAttributeId 與 SequenceNo；方向與主路線只透過 stop_id 精確連接 GetStop，不以名稱猜測。",
+        "Stop Type 1 出現在資料但 V6.3 只定義 0/CPT；保留並標示未知。"
+      ]
+    },
+    {
+      "dataset_id": "taipei_bus_shapes",
+      "status": "normalized_with_documented_source_limitations",
+      "output_files": [
+        "data/taipei_feeds/route_shapes.geojson"
+      ],
+      "record_count": 1028,
+      "period": {
+        "min": "2023-06-14T16:18:20+08:00",
+        "max": "2026-10-15T16:11:19+08:00"
+      },
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "SubRouteID=-1 依官方規格表示主路線，轉為 subroute_id=null 與 shape_scope=main_route，保留 source_subroute_id。",
+        "線形沒有運量；每筆 utime 為該線形更新時間，未用 HTTP Last-Modified 代替。"
+      ]
+    },
+    {
+      "dataset_id": "taipei_fixed_schedules",
+      "status": "normalized_with_documented_source_limitations",
+      "output_files": [
+        "data/taipei_feeds/fixed_schedules.json"
+      ],
+      "record_count": 35465,
+      "period": "2026-10-21T22:03:04+08:00",
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "這是計畫供給，沒有個別駕駛勤務，亦非實際發車紀錄。",
+        "TimeTable 規格定義 DateValue=1 為週日、2 為週一、7 為週六；ISO weekday 由此換算。",
+        "缺少生效起迄日期，不得假設適用所有歷史日期。"
+      ]
+    },
+    {
+      "dataset_id": "taipei_headway_schedules",
+      "status": "normalized_with_documented_source_limitations",
+      "output_files": [
+        "data/taipei_feeds/headway_schedules.json"
+      ],
+      "record_count": 3280,
+      "period": "2026-10-21T22:03:04+08:00",
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "這是計畫供給，沒有個別駕駛勤務，亦非實際發車紀錄。",
+        "TimeTable 規格定義 DateValue=1 為週日、2 為週一、7 為週六；ISO weekday 由此換算。",
+        "缺少生效起迄日期，不得假設適用所有歷史日期。",
+        "LongHeadway/LowHeadway 依原欄名保存分鐘數。文件分別標為高/低，但多數來源 LongHeadway 小於 LowHeadway；未擅自交換或定義最短/最長。",
+        "SemiTimeTable 的 DateType/DateValue 與固定班表同一日曆代碼慣例；官方該節未重複列出星期順序，ISO weekday 採 TimeTable 定義。"
+      ]
+    },
+    {
+      "dataset_id": "taipei_special_schedules",
+      "status": "normalized_with_documented_source_limitations",
+      "output_files": [
+        "data/taipei_feeds/special_schedules.json"
+      ],
+      "record_count": 5231,
+      "period": {
+        "start": "2026-10-21",
+        "end": "2026-10-23"
+      },
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "上游本次只有發車站等列出的停靠資料，不能假設為完整站站班表。",
+        "direction 字串 null 正規化為真正 null，不猜測方向。",
+        "班次沒有 TripID 時保留 null；source_timetable_index 只是原始陣列定位，不是官方班次代碼。"
+      ]
+    },
+    {
+      "dataset_id": "taipei_vehicle_positions",
+      "status": "normalized_with_documented_source_limitations",
+      "output_files": [
+        "data/taipei_feeds/vehicle_positions.geojson"
+      ],
+      "record_count": 652,
+      "period": {
+        "min": "2026-10-21T23:21:40+08:00",
+        "max": "2026-10-21T23:31:36+08:00"
+      },
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "單次快照，不能用來聲稱已取得歷史 A1/A2 或全天班距。",
+        "RouteID 在此 feed 是附屬路線 ID，已命名為 subroute_id；StationID 是車輛所屬場站，不是公車站牌/站位。",
+        "來源 RouteID=0 不在路線主檔，正規化為未指派 null 並保留原碼；未知狀態碼保留原碼，label=null。"
+      ]
+    },
+    {
+      "dataset_id": "taipei_stop_events",
+      "status": "normalized_with_documented_source_limitations",
+      "output_files": [
+        "data/taipei_feeds/stop_events.json"
+      ],
+      "record_count": 482,
+      "period": {
+        "min": "2026-10-21T23:21:54+08:00",
+        "max": "2026-10-21T23:31:35+08:00"
+      },
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "單次快照，不能用來聲稱已取得歷史 A1/A2 或全天班距。",
+        "RouteID 在此 feed 是附屬路線 ID，已命名為 subroute_id；StationID 是車輛所屬場站，不是公車站牌/站位。",
+        "來源 RouteID=0 不在路線主檔，正規化為未指派 null 並保留原碼；未知狀態碼保留原碼，label=null。"
+      ]
+    },
+    {
+      "dataset_id": "taipei_occupancy_events",
+      "status": "normalized_with_documented_source_limitations",
+      "output_files": [
+        "data/taipei_feeds/occupancy_events.json"
+      ],
+      "record_count": 482,
+      "period": {
+        "min": "2026-10-21T23:21:54+08:00",
+        "max": "2026-10-21T23:31:35+08:00"
+      },
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "單次快照，不能用來聲稱已取得歷史 A1/A2 或全天班距。",
+        "RouteID 在此 feed 是附屬路線 ID，已命名為 subroute_id；StationID 是車輛所屬場站，不是公車站牌/站位。",
+        "來源 RouteID=0 不在路線主檔，正規化為未指派 null 並保留原碼；未知狀態碼保留原碼，label=null。",
+        "RemainingNum 為車上人數（onboard_people），不是剩餘座位；無法直接分解上下車量。",
+        "未提供 RemainingNum/Level 的列保留 null，不補成 0。"
+      ]
+    },
+    {
+      "dataset_id": "taipei_estimated_arrivals",
+      "status": "normalized_with_documented_source_limitations",
+      "output_files": [
+        "data/taipei_feeds/estimated_arrivals.json"
+      ],
+      "record_count": 29429,
+      "period": "2026-10-21T23:31:35+08:00",
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "預測而非實際到站事件；負數是服務狀態，不是負等候秒數。",
+        "GoBack=2/3 是尚未發車/末班已駛離，不能誤當地理方向；direction_code 留 null。"
+      ]
+    },
+    {
+      "dataset_id": "taipei_bus_vehicles",
+      "status": "normalized_with_documented_source_limitations",
+      "output_files": [
+        "data/taipei_feeds/vehicles.json"
+      ],
+      "record_count": 4007,
+      "period": "2026-10-21T01:15:14.100000+08:00",
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "來源無每車核定載客容量，無法由車型或低地板旗標推算容量。",
+        "車輛種類代碼 4 未在 V6.3 定義，保留原碼並標示，未猜測車種。"
+      ]
+    },
+    {
+      "dataset_id": "taipei_subroute_depots",
+      "status": "normalized_with_documented_source_limitations",
+      "output_files": [
+        "data/taipei_feeds/subroute_depots.json"
+      ],
+      "record_count": 916,
+      "period": "2026-10-21T22:03:04+08:00",
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "這只是營業站 ID 對照，無場站座標、休息設備或可用容量。",
+        "不能直接把有停車格或公廁的位置視為業者可調度待班的場站。"
+      ]
+    }
+  ]
+}

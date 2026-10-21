@@ -1,0 +1,594 @@
+PAGE 1
+臺北市 Data.Taipei 平台 API 說明文件
+version:6.3
+版本. # 日期 修改描述
+1.0 2016/12 初版
+2.0 2017/02 BusEvent 欄位屬性CarOnStop 離站與進站定義調整
+3.0 2017/06 SemiTimeTable 欄位屬性 DateType 定義說明調整
+4.0 2017/07 Route 新增欄位屬性 aliasName
+4.1 2017/09 修訂 API總表網址出現空白字元(Best for Printing)
+4.2 2018/12 修正車輛期別欄位定義及車輛類型
+4.3 2020/05 路線增加路線簡圖URL
+4.4 2020/06 新增大臺北公車網站最新消息介接資訊
+4.5 2020/11 IStop欄位屬性StopId 調整為 StopLocationId
+5.0 2020/12 新增臺北市營運通阻(XML)介接資訊
+5.1 2021/05 新增臺北市最新消息(XML)介接資訊
+5.2 2021/08 新增公車路線軌跡座標資訊
+5.3 2021/09 修訂公車路線軌跡座標資訊刪除非介接必要屬性資訊
+5.4 2022/02 新增臺北市路線票價(XML)介接資訊
+5.5 2022/08 新增車上擁擠度BusSeatEvent 介接資訊
+5.6 2023/07 新增車輛基本資料(XML)介接資訊
+6.0 2024/03 新增最新消息及強制提示訊息資訊
+6.1 2025/03 新增公車特殊時刻表(XML)
+6.2 2025/04 修訂路線資訊增加類別資料
+6.3 2025/09 站牌、站位資訊，擴充 bearing 方位
+1
+PAGE 2
+API 總表
+No. 名稱 說明 網址 類型
+1 BusData 定時車機資訊 https://tcgbusfs.blob.core.windows.net/blobbus/GetBusData.gz 動態
+2 BusEvent 定點車機資訊 https://tcgbusfs.blob.core.windows.net/blobbus/GetBusEvent.gz 動態
+3 CarInfo 車輛基本資訊 https://tcgbusfs.blob.core.windows.net/blobbus/GetCarInfo.gz 靜態
+4 CarUnusual 車機異常資訊 https://tcgbusfs.blob.core.windows.net/blobbus/GetCarUnusual.gz 靜態
+5 EstimateTime 預估到站 https://tcgbusfs.blob.core.windows.net/blobbus/GetEstimateTime.gz 動態
+6 IStop 智慧型站牌 https://tcgbusfs.blob.core.windows.net/blobbus/GetIStop.gz 靜態
+7 IStopPath 智慧型站牌所屬路線 https://tcgbusfs.blob.core.windows.net/blobbus/GetIStopPath.gz 靜態
+8 OrgPathAttribute 路線、營業站對應 https://tcgbusfs.blob.core.windows.net/blobbus/GetOrgPathAttribute.gz 靜態
+9 PathDetail 附屬路線與路線對應 https://tcgbusfs.blob.core.windows.net/blobbus/GetPathDetail.gz 靜態
+10 Provider 業者營運基本資料 https://tcgbusfs.blob.core.windows.net/blobbus/GetProvider.gz 靜態
+11 Route 路線 https://tcgbusfs.blob.core.windows.net/blobbus/GetRoute.gz 靜態
+12 Stop 站牌 https://tcgbusfs.blob.core.windows.net/blobbus/GetStop.gz 靜態
+13 SemiTimeTable 機動班次時刻表 https://tcgbusfs.blob.core.windows.net/blobbus/GetSemiTimeTable.gz 靜態
+14 StopLocation 站位資訊 https://tcgbusfs.blob.core.windows.net/blobbus/GetStopLocation.gz 靜態
+15 TimeTable 預定班表資訊 靜態
+https://tcgbusfs.blob.core.windows.net/blobbus/GetTimeTable.gz
+16 LatestNews 最新消息 靜態
+https://tcgbusfs.blob.core.windows.net/blobbus/GetLatestNews.gz
+17 BusAlertList 營運通阻(XML) 靜態
+https://tcgbusfs.blob.core.windows.net/blobbus/GetBusAlertList.gz
+18 BusNewsList 最新消息(XML) https://tcgbusfs.blob.core.windows.net/blobbus/GetBusNewsList.gz 靜態
+19 BusShape 公車路線軌跡 靜態
+https://tcgbusfs.blob.core.windows.net/blobbus/GetBusShape.gz
+20 BusRouteFareList 路線票價(XML) 靜態
+https://tcgbusfs.blob.core.windows.net/blobbus/GetBusRouteFareList.gz
+21 BusSeatEvent 車上擁擠度 動態
+https://tcgbusfs.blob.core.windows.net/blobbus/BusSeatEvent.gz
+22 BusVehicleList 車輛基本資料(XML) 靜態
+https://tcgbusfs.blob.core.windows.net/blobbus/GetBusVehicleList.gz
+最新消息及強制提示
+23 LatestNews https://tcgbusfs.blob.core.windows.net/blobbus/GetLatestNews.gz 靜態
+訊息
+BusSpecificTime
+24 公車特殊時刻表 https://tcgbusfs.blob.core.windows.net/blobbus/GetSpecTimeTable.gz 靜態
+TableList
+BusData 定時車機資訊
+屬性 Type 說 明
+StationID Number 該車輛所屬之場站代碼
+CarType String 車輛類型：
+2
+PAGE 3
+0：一般、1：低底盤、2：大復康巴士、3：狗狗友善專車
+BusID String 公車車牌號碼
+ProviderID Number 公車業者代碼
+CarID Number 公車代碼
+DutyStatus String 勤務狀態 （0：正常、1：開始、2：結束）
+String 行車狀態 （0：正常、1：車禍、2：故障、3：塞車、4：緊急求援、
+BusStatus
+5：加油、99：非營運狀態）
+RouteID String 服務路線代碼(附屬路線ID)
+GoBack String 去返程 （0：去程、1：回程、2：未知）
+Longitude String 經度 / X座標
+Latitude String 緯度 / Y座標
+Speed String GPS 速度（Km/Hr）
+Azimuth String 行車方位角
+DataTime String 本筆資料觸發時間
+BusEvent 定點車機資訊
+屬性 Type 說明
+StationID Number 該車輛所屬之場站代碼
+String 車輛類型：
+CarType
+0：一般、1：低底盤、2：大復康巴士、3：狗狗友善專車
+BusID String 公車車牌號碼
+ProviderID Number 公車業者代碼
+CarID Number 公車代碼
+DutyStatus String 勤務狀態 （0：正常、1：開始、2：結束）
+String 行車狀態 （0：正常、1：車禍、2：故障、3：塞車、4：緊急求援、
+BusStatus
+5：加油、99：非營運狀態）
+RouteID String 服務路線代碼(附屬路線ID)
+GoBack String 去返程 （0：去程、1：回程、2：未知）
+StopID String 公車所在位置之站牌代碼
+CarOnStop String 到離站狀態 （0：離站、1：進站）
+DataTime String 本筆資料觸發時間
+3
+PAGE 4
+CarInfo 車輛基本資訊
+屬性 Type 說 明
+BusId Number 主索引/查詢代碼
+CarNum String 牌照號碼
+String 車輛類型：
+CarType
+0：一般、1：低底盤、2：大復康巴士、3：狗狗友善專車
+IboxId Number 車機ID
+StationId Number 所屬營業站ID (調度站 ID)
+PathAttributeId Number 所屬附屬路線ID
+String 建置時間，分為6：105年 TTIA車機、51：自購(華夏)、52：自
+BuildPeriod
+購(立皓)、53：寶錄自購(TTIA)、55：立皓自購(TTIA)
+Ctime String 建立時間
+CarUnusual 車機異常資訊
+屬性 說明
+BusID 車輛代碼
+異常狀態代碼(0正常、1：斷線、2：LED顯示器斷線 3：異常停留、
+StatusCode
+4：路線外營運)
+每筆資訊若無更新會保留二十分鐘
+EstimateTime 預估到站時間
+屬性 Type 說 明
+RouteID Number 路線代碼 (主路線 ID)
+StopID Number 站牌代碼
+String 預估到站剩餘時間（單位：秒）
+-1：尚未發車
+EstimateTime -2：交管不停靠
+-3：末班車已過
+-4：今日未營運
+GoBack String 去返程 （0：去程 1：返程 2：尚未發車 3：末班已駛離）
+4
+PAGE 5
+IStop 智慧型站牌
+屬性 Type 說明
+Id Number 主索引
+SimCardNum String SIM 卡編號
+Number 智慧型站牌編號
+DeviceId
+(站牌車機號碼15 碼)
+StopCname String 站牌中文名稱
+StopEname String 站牌英文名稱
+QueryCode String 站牌查詢代碼(4 碼)
+String 站牌建置廠商者
+Provider
+區分期別（1：1 期 2：2期 3：3期）
+StopLocationId String 站位編號
+Longitude String 經度 (WGS84，以度為單位)
+Latitude String 緯度 (WGS84，以度為單位)
+Address String 智慧型站牌地址
+TypeId Number 站牌型別編號
+FirmwarfeVersion String 韌體版本 (向站牌車機詢問)
+BootTime String 預設開機時間
+ShutdownTime String 預設關機時間
+MessageGroupId Number 訊息群組編號
+DefaultMessage String 預設訊息
+BootMessage String 開機訊息
+String 多語系顯示模式
+LanguageMode 0：關閉英文
+1：開啟英文
+DisplaySpeed String 顯示速度 0~9
+String 站距功能開關
+DistanceFunctionMode 0：關閉
+1：開啟
+String 顯示站牌查詢代碼開關
+IsShowQcode 0：關閉
+1：開啟
+String 顯示站牌名稱開關
+IsShowStopName 0：關閉
+1：開啟
+String 顯示方向及車輛所在位置開關
+IsShowDirectionLocation
+0：關閉
+5
+PAGE 6
+IStop 智慧型站牌
+屬性 Type 說明
+1：開啟
+IsShowTrafficStatus String 是否顯示行車狀況 (0：不顯示 / 1：顯示)
+IsShowArrivingInfo String 是否顯示進站中資訊 (0：不顯示 / 1：顯示)
+VcId Number 通訊伺服器ID
+String 建置時間，分為 1：1期、2：2期、3：3期、9：非動態
+BuildPeriod
+資料、10：北縣
+Memo String 備註
+Ctime String 建立時間
+IStopPath 智慧型站牌所屬路線
+屬性 Type 說明
+Id Number 主索引
+IStopId Number 路線設定名稱
+PathId Number 路線編號
+StopId Number 站牌編號
+Sequence Number 路線顯示之順序
+OrgPathAttribute 路線、營業站對應
+屬性 Type 說 明
+Id Number 主索引
+OrganizationId Number 營業站ID
+PathAttributeId Number 附屬路線ID
+6
+PAGE 7
+PathDetail 附屬路線與路線對應資訊
+屬性 Type 說 明
+Id Number 主索引
+PathAttributeId Number 附屬路線ID
+StopId Number 站牌ID
+SequenceNo Number 站序
+String 類別：0：正常
+Type
+CPT：控制點)
+String 類別屬性描述
+TypeAttribute
+(例如控制點時間之描述)
+Provider 業者營運基本資料
+屬性 Type 說明
+id Number 業者代碼
+nameZn String 業者中文名稱
+nameEn String 業者英文名稱
+email String 電子信箱
+phoneInfo String 服務電話
+stationId Number 營業站（調度站）代碼
+stationNameZn String 營業站（調度站）中文名稱
+stationNameEn String 營業站（調度站）英文名稱
+String 營運種類 （0：市區公車、1：公路客運、2：捷運、3：火車、4 ：
+type
+航空客運、5：船運）
+7
+PAGE 8
+Route 路線
+屬性 Type 說明
+Id Number 路線代碼(主路線 ID)
+providerId Number 業者代碼
+providerName String 業者中文名稱
+nameZh String 中文名稱(主路線名稱)
+nameEn String 英文名稱
+pathAttributeId Number 所屬附屬路線ID
+pathAttributeName String 所屬附屬路線中文名稱
+pathAttributeEname String 所屬附屬路線英文名稱
+String 建置時間，分為 1：1 期、2：2期、3：3 期、9：非動態
+buildPeriod
+資料、10：北縣
+departureZh String '去程第1站' 起站中文名稱
+departureEn String '去程第1站' 起站英文名稱
+destinationZh String '回程第1站' 訖站中文名稱
+destinationEn String '回程第1站' 訖站英文名稱
+realSequence String 核定總班次
+distance String 總往返里程(公里/全程)
+goFirstBusTime String 站牌顯示時使用，去程第一班發車時間(hhmm)
+backFirstBusTime String 站牌顯示時使用，回程第一班發車時間(hhmm)
+goLastBusTime String 站牌顯示時使用，去程最後一班發車時間(hhmm)
+backLastBusTime String 站牌顯示時使用，回程最後一班發車時間(hhmm)
+peakHeadway String 站牌顯示時使用，尖峰時段發車間隔(hhmm OR mm)
+offPeakHeadway String 站牌顯示時使用，離峰時段發車間隔(hhmm OR mm)
+busTimeDesc String 平日頭末班描述
+holidayGoFirstBusTime String 假日站牌顯示時使用，去程第一班發車時間(HHmm)
+holidayBackFirstBusTime String 假日站牌顯示時使用，回程第一班發車時間(HHmm)
+holidayGoLastBusTime String 假日站牌顯示時使用，去程最後一班發車時間(HHmm)
+holidayBackLastBusTime String 假日站牌顯示時使用，回程最後一班發車時間(HHmm)
+holidayBusTimeDesc String 假日頭末班描述
+headwayDesc String 平日發車間距描述
+String 假日站牌顯示時使用，尖峰時段發車間隔(mmmm OR
+holidayPeakHeadway
+mm)
+String 假日站牌顯示時使用，離峰時段發車間隔(mmmm OR
+holidayOffPeakHeadway
+mm)
+holidayHeadwayDesc String 假日發車間距描述
+8
+PAGE 9
+Route 路線
+屬性 Type 說明
+segmentBufferZh String 分段緩衝區(中文)
+segmentBufferEn String 分段緩衝區(英文)
+ticketPriceDescriptionZh String 票價描述(中文)
+ticketPriceDescriptionEn String 票價描述(英文)
+aliasName String 路線別名
+roadMapUrl String 路線簡圖URL
+路線類別( 01：一般公車(數字)、02：低地板、10：捷運
+前導公車、11：捷運紅線、12：捷運藍線、13：捷運綠
+線、14：捷運棕線、15：捷運橘線、16：捷運黃線、21：
+輕軌公車、51：山區路線(小字號)、52：通勤公車、53：
+genus String
+市民小巴、54：新巴士、55：內科通勤、56：南軟通勤、
+61：幹線公車、62：特定路線專車、63：跳蛙專車、64：
+觀光巴士、65：快速公車、66：夜間公車、71：活動專
+車、81：公路客運、99：測試)
+Stop 站牌
+屬性 Type 說明
+Id Number 站牌代碼
+routeId Number 所屬路線代碼 (主路線ID)
+nameZh String 中文名稱
+nameEn String 英文名稱
+seqNo Number 於路線上的順序
+pgp String 上下車站別 （-1：可下車、0：可上下車、1：可上車）
+goBack String 去返程 （0：去程 / 1：返程 / 2：未知）
+longitude String 經度
+latitude String 緯度
+address String 地址
+stopLocationId Number 站位ID
+showLon String 顯示用經度
+showLat String 顯示用緯度
+vector String 向量角：0~359，預設為空白
+方位(N:北向、NE:東北向、E:東向、SE:東南向、S:南向、SW:西
+bearing String
+南向、W:西向、NW:西北向)
+9
+PAGE 10
+SemiTimeTable 機動班次時刻表
+屬性 Type 說 明
+Id Number 主索引/查詢代碼
+PathAttributeId Number 附屬路線ID
+StartTime String 尖離峰時間(起)
+EndTime String 尖離峰時間(迄)
+LongHeadway String 發車間距(高)
+LowHeadway String 發車間距(低)
+DateType String 0表示星期，1表示特殊日期
+DateValue String 星期參數值
+StopLocation 站位資訊
+屬性 Type 說明
+id Number 主索引
+name String 站位名稱
+address String 站址
+lon String 經度
+lat String 緯度
+version Number 系統碼
+方位(N:北向、NE:東北向、E:東向、SE:東南向、S:南向、SW:西南
+bearing String
+向、W:西向、NW:西北向)
+TimeTable 預定班表資訊
+屬性 Type 說 明
+Id Number 主索引/查詢代碼
+PathAttributeId Number 附屬路線ID
+String 日期型別：
+DateType
+預設0：星期(WeekDay) / 1：特殊日期(SpecialdDay)
+String 星期參數值：若DATE_TYPE=WeekDay，1~7：1：星期日(預設)，
+DateValue
+2：星期一，7：星期六；若 DATE_TYPE=SpecialDay, yyyymmdd
+DepartureTime String 發車時間：hhmm(24小時制)
+IsLastBus String 是否為末班車(0：非末班車 / 1：末班車)
+10
+PAGE 11
+LatestNews 最新消息
+屬性 Type 說明
+Language String 語系
+Title String 消息標題
+Content String 內容描述
+PublishAgent String 所屬城市(1:台北市、2:新北市)
+PublishDate String 上架時間
+AttatchTitle String 附檔名
+AttatchLink String 附檔連結
+Id Number 最新消息代碼
+OffLineDate String 結束日期時間
+cTime String 更新日期時間
+ContactName String 聯絡人
+ContactPhone String 連絡電話
+newsCategory Number 消息類別
+BusNewsList 最新消息(XML)
+屬性 Type 說明
+UpdateTime String XML 更新日期時間
+UpdateInterval String 資料更新週期(秒)
+AuthorityCode String 業管機關簡碼
+NewsID String 最新消息代碼
+Language String 語系
+Department String 發布單位
+Title String 消息標題
+消息類別
+1:最新消息(預設)
+2:新聞稿
+3:營運資訊
+NewsCategory String 4:轉乘資訊
+5:活動訊息
+6:系統公告
+7:通阻資訊
+99:其他
+Description String 內容描述
+ContactName String 聯絡人
+11
+PAGE 12
+ContactPhone String 連絡電話
+AttachmentURLs String 相關網站連結
+PublishTime String 消息公告日期時間
+StartTime String 開始日期時間
+EndTime String 結束日期時間
+UpdateTime String 更新日期時間
+BusAlertList 營運通阻(XML)
+屬性 Type 說明
+UpdateTime String XML 更新日期時間
+UpdateInterval String 資料更新週期(秒)
+AuthorityCode String 業管機關簡碼
+AlertID String 通阻事件代碼
+Title String 通阻事件標題
+Description String 通阻事件描述
+Department String 發布單位
+營運狀況
+0:全部營運停止(Shut Down)
+Status String
+1:全部營運正常(Normal)
+2:有異常狀況 (Abnormal)
+原因
+1:事故(ACCIDENT)
+2:維護(MAINTENANCE)
+3:技術問題(TECHNICAL_PROBLEM)
+4:施工(CONSTRUCTION)
+5:急救(MEDICAL_EMERGENCY)
+Cause String 6:天災(WEATHER)
+7:示威遊行(DEMONSTRATION)
+8:維安(POLICE_ACTIVITY)
+9:假日(HOLIDAY)
+10:罷工(STRIKE)
+254:其他(OTHER_CAUSE)
+255:未知原因(UNKNOWN_CAUSE)
+Effect String 影響
+1:車輛改道(DETOUR)
+2:服務(班次)增加(ADDITIONAL_SERVICE)
+12
+PAGE 13
+3:服務(班次)減少(REDUCED_SERVICE)
+4:服務(班次)取消(NO_SERVICE)
+5:服務(班次)改變(MODIFIED_SERVICE)
+6:站牌不停靠(STOP_MOVED)
+7:重大延遲(SIGNIFICANT_DELAYS)
+254:其他影響(OTHER_EFFECT)
+255:未知影響(UNKNOWN_EFFECT)
+StopID String 站牌代碼
+StopName String 站位中英文名稱
+StationID String 站位代號
+PublishTime String 公告日期時間
+StartTime String 開始日期時間
+EndTime String 結束日期時間
+UpdateTime String 更新日期時間
+BusShape 路線軌跡座標資訊
+屬性 Type 說明
+UniRouteId String 大臺北路線編碼
+RouteID Number 中心主路線編號
+SubRouteID Number 中心附屬路線編號(-1 表示主路線)
+wkt String WKT格式，WGS84 座標系統
+GoBack Number 去返程(0:去程1:返程 2:迴圈)
+utime String 更新日期時間
+BusRouteFareList 路線票價(XML)
+屬性 Type 說明
+UpdateTime String XML 更新日期時間
+UpdateInterval String 資料更新週期(秒)
+AuthorityCode String 業管機關簡碼
+RouteFares Array/String 路線票價資訊(包絡多筆)
+RouteFare String 路線票價資料(單筆)
+RouteID String 主路線編號
+RouteName String 主路線名稱<Zh_tw>中文<En>英文
+OperatorID String 營運業者代碼
+13
+PAGE 14
+SubRouteID String 附屬路線編號
+SubRouteName String 附屬路線名稱<Zh_tw>中文<En>英文
+FarePricingType String 路線計費方式 SectionFares 段次計費
+IsFreeBus Boolean 是否為免費公車
+SectionFare Array/String 段次計費
+BufferZones Array/String 緩衝區資訊(包絡多筆)
+BufferZone Array/String 緩衝區資訊(單筆)
+SectionSequence String 緩衝區順序
+Direction String 方向性描述 0=去程, 1=返程,2=迴圈
+FareBufferZoneOrigin Array/String 緩衝區起點
+OriginStopID String 緩衝區起點站牌代碼
+OriginStopName String 緩衝區起點站牌名稱<Zh_tw>中文<En>英文
+FareBufferZoneDestination Array/String 緩衝區迄點
+DestinationStopID String 緩衝區迄點站牌代碼
+DestinationStopName String 緩衝區迄點站牌名稱<Zh_tw>中文<En>英文
+Fares Array/String 每段收費資訊，票價種類及費率說明
+Fare String 收費資訊
+TicketType String 票種類型
+1:一般票(Single Ride Ticket)
+2:來回票(Round Trip Ticket)
+3:電子票證(Electronic Ticket)
+FareClass String 費率等級
+1:成人(Adult)
+2:學生(Student)
+3:孩童(Child)
+4:敬老(Senior)
+5:愛心(Disabled)
+6:愛心孩童(Disabled Child)
+7:愛心優待/愛心陪伴(Disabled Concession)
+8:團體(Group)
+9:軍警(Military/Policy)
+Price String 計費價格(新臺幣)
+14
+PAGE 15
+BusSeatEvent 車上擁擠度
+屬性 Type 說明
+StationID Number 該車輛所屬之場站代碼
+String 車輛類型：
+CarType
+0：一般、1：低底盤、2：大復康巴士、3：狗狗友善專車
+BusID String 公車車牌號碼
+ProviderID Number 公車業者代碼
+CarID Number 公車代碼
+DutyStatus String 勤務狀態 （0：正常、1：開始、2：結束）
+String 行車狀態 （0：正常、1：車禍、2：故障、3：塞車、4：緊急求援、
+BusStatus
+5：加油、99：非營運狀態）
+RouteID String 服務路線代碼(附屬路線ID)
+GoBack String 去返程 （0：去程、1：回程、2：未知）
+StopID String 公車所在位置之站牌代碼
+CarOnStop String 到離站狀態 （0：離站、1：進站）
+DataTime String 本筆資料觸發時間
+RemainingNum Number 車上人數
+Level Number 擁擠等級（0：舒適、1：一般、2：擁擠）
+BusVehicleList 車輛基本資料(XML)
+屬性 Type 說明
+UpdateTime String XML更新日期時間
+UpdateInterval String 資料更新週期(秒)
+AuthorityCode String 業管機關簡碼
+Vehicles 車輛資訊(包絡多筆)
+Vehicle 車輛資料(單筆)
+PlateNumb String 車牌號碼
+OperatorID String 營運業者代碼
+OperatorCode String 營運業者簡碼
+車輛型別
+1:大型巴士(一般常見公車)
+VehicleClass String
+2:中型巴士
+3:小型巴士
+15
+PAGE 16
+車輛種類
+1:一般
+VehicleType String
+2:復康巴士
+3:專車
+讀卡機配置
+0:無配置
+CardReaderLayout String
+1:前門刷卡
+2:前後門刷卡
+IsElectric Boolean 是否為電動公車(0:否、1:是)
+IsHybrid Boolean 是否為油電混合公車(0:否、1:是)
+IsLowFloor Boolean 是否為低地板(0:否、1:是)
+HasLiftOrRamp Boolean 是否有升降或斜坡板設備(0:否、1:是)
+HasWifi Boolean 是否有提供 Wifi 服務(0:否、1:是)
+InBoxID String 車機代號
+LatestNews 最新消息及強制提示訊息
+屬性 Type 說明
+Language String 語系
+Title String 消息標題
+Content String 內容描述
+PublishAgent String 所屬城市(1:台北市、2:新北市)
+PublishDate String 上架時間
+AttatchTitle String 附檔名
+AttatchLink String 附檔連結
+Id Number 最新消息代碼
+OffLineDate String 結束日期時間
+cTime String 更新日期時間
+ContactName String 聯絡人
+ContactPhone String 連絡電話
+newsCategory Number 消息類別
+AlertPageList String 強制提示的頁面
+AlertContent String 強制提示的內容
+AlertPicLink String 強制提示的圖片連結
+16
+PAGE 17
+BusSpecificTimeTableList 公車特殊時刻表
+屬性 Type 說明
+UpdateTime Number 更新日期時間
+UpdateInterval Number 資料更新週期(秒)
+AuthorityCode String 業管機關簡碼
+EffectiveDate Number 有效起始日期
+ExpireDate String 有效終止日期
+TimeTableName String 公車特殊營運班表名稱
+ValidityDesciption String 時刻表適用情形說明
+RouteID String 機關定義路線代號
+RouteName String 路線名稱
+OperatorID String 營運業者代碼
+OperatorCode String 營運業者簡碼
+SubRouteID String 機關定義附屬路線代碼
+SubRouteName String 附屬路線名稱
+String 方向性描述
+Direction
+0=去程, 1=返程, 2=迴圈
+TripID String 班次代碼
+String 該路線班次是否使用低地板公車車輛
+IsLowFloor
+0=否, 1=是
+StopSequence Number 停靠路線站序
+StopID String 站牌代碼
+StopName String 站牌名稱
+ArrivalTime String 到站時間
+DepartureTime String 離站時間
+Date String 特殊日期
+String 營運服務狀態代碼
+ServiceStatus
+0=停止營運, 1=正常營運 , 2=加班營運
+Description String 特殊營運描述
+17

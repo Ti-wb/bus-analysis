@@ -1,0 +1,685 @@
+{
+  "schema_version": 1,
+  "dataset_id": "background_independent_review",
+  "metadata": {
+    "reviewer_task": "review_urban_background",
+    "producer_task": "background",
+    "reviewed_at": "2026-10-21T23:46:46+08:00",
+    "scope": "Taipei City recent annual/monthly statistics and 2024 survey; national/old-cost/operator sources deferred by user.",
+    "validation_script": "raw_data/reviews/review_urban_background/review_background.py"
+  },
+  "records": [
+    {
+      "dataset_id": "taipei_annual",
+      "output_path": "data/background/taipei_annual.json",
+      "record_count": 3,
+      "review_status": "pass_with_limitations",
+      "source_files": [
+        "raw_data/background/taipei_annual.csv"
+      ],
+      "period": {
+        "start": "2023",
+        "end": "2025"
+      },
+      "usable_for": "可作 2023–2025 全市完整年度基準；2023 是全年，無法拆成 10–12 月；不可分配到路線。",
+      "checks": {
+        "source_record_count": 58,
+        "selected_rows_verified": 3,
+        "numeric_cells_verified": 51,
+        "period_duplicates": 0,
+        "period_gaps_inside_available_range": 0,
+        "source_units_and_missing_values": "pass"
+      },
+      "findings": []
+    },
+    {
+      "dataset_id": "taipei_monthly",
+      "output_path": "data/background/taipei_monthly.json",
+      "record_count": 34,
+      "review_status": "pass_with_limitations",
+      "source_files": [
+        "raw_data/background/taipei_monthly.csv"
+      ],
+      "period": {
+        "start": "2023-10",
+        "end": "2026-07"
+      },
+      "usable_for": "可作 2023-10–2026-07 的 34 個月全市基準；2026-08–09 未取得，不能補零；收入單位為千元。",
+      "checks": {
+        "source_record_count": 343,
+        "selected_rows_verified": 34,
+        "numeric_cells_verified": 272,
+        "period_duplicates": 0,
+        "period_gaps_inside_available_range": 0,
+        "source_units_and_missing_values": "pass"
+      },
+      "findings": [
+        {
+          "severity": "medium",
+          "issue": "Requested period has two unavailable months.",
+          "missing_periods": [
+            "2026-08",
+            "2026-09"
+          ],
+          "action": "Exclude unavailable months from totals; output correctly does not create rows."
+        }
+      ]
+    },
+    {
+      "dataset_id": "taipei_mode_survey_2024",
+      "output_path": "data/background/taipei_mode_survey_2024.json",
+      "record_count": 195,
+      "review_status": "pass_with_limitations",
+      "source_files": [
+        "raw_data/background/mode_use_survey_2024.xlsx",
+        "raw_data/background/mode_use_survey_2024.pdf",
+        "raw_data/background/mode_use_survey_2024_questionnaire.pdf"
+      ],
+      "period": {
+        "start": "2024",
+        "end": "2024"
+      },
+      "usable_for": "可作臺北市居民旅運行為背景。依表別使用分母與加權樣本數，不能當逐站刷卡、乘客 OD 或公車轉乘實績。",
+      "checks": {
+        "source_record_count": 1708,
+        "table_count": 23,
+        "cells_verified": 365,
+        "explicit_source_zeros_preserved": 21,
+        "source_nulls_preserved": 0,
+        "tables": [
+          {
+            "table_id": "a01",
+            "source_sheet": "A01",
+            "source_record_count": 65,
+            "record_count": 1,
+            "numeric_or_null_cells_verified": 4,
+            "header_and_scope_check": "pass"
+          },
+          {
+            "table_id": "a02",
+            "source_sheet": "A02",
+            "source_record_count": 78,
+            "record_count": 1,
+            "numeric_or_null_cells_verified": 8,
+            "header_and_scope_check": "pass"
+          },
+          {
+            "table_id": "a03",
+            "source_sheet": "A03",
+            "source_record_count": 84,
+            "record_count": 1,
+            "numeric_or_null_cells_verified": 13,
+            "header_and_scope_check": "pass"
+          },
+          {
+            "table_id": "a04",
+            "source_sheet": "A04",
+            "source_record_count": 84,
+            "record_count": 1,
+            "numeric_or_null_cells_verified": 6,
+            "header_and_scope_check": "pass"
+          },
+          {
+            "table_id": "b05",
+            "source_sheet": "B05",
+            "source_record_count": 65,
+            "record_count": 1,
+            "numeric_or_null_cells_verified": 6,
+            "header_and_scope_check": "pass"
+          },
+          {
+            "table_id": "b06",
+            "source_sheet": "B06",
+            "source_record_count": 61,
+            "record_count": 1,
+            "numeric_or_null_cells_verified": 6,
+            "header_and_scope_check": "pass"
+          },
+          {
+            "table_id": "b07",
+            "source_sheet": "B07",
+            "source_record_count": 65,
+            "record_count": 1,
+            "numeric_or_null_cells_verified": 6,
+            "header_and_scope_check": "pass"
+          },
+          {
+            "table_id": "c08",
+            "source_sheet": "C08",
+            "source_record_count": 81,
+            "record_count": 1,
+            "numeric_or_null_cells_verified": 5,
+            "header_and_scope_check": "pass"
+          },
+          {
+            "table_id": "c09",
+            "source_sheet": "C09",
+            "source_record_count": 79,
+            "record_count": 1,
+            "numeric_or_null_cells_verified": 10,
+            "header_and_scope_check": "pass"
+          },
+          {
+            "table_id": "c10",
+            "source_sheet": "C10",
+            "source_record_count": 57,
+            "record_count": 46,
+            "numeric_or_null_cells_verified": 46,
+            "header_and_scope_check": "pass"
+          },
+          {
+            "table_id": "c11",
+            "source_sheet": "C11",
+            "source_record_count": 81,
+            "record_count": 1,
+            "numeric_or_null_cells_verified": 17,
+            "header_and_scope_check": "pass"
+          },
+          {
+            "table_id": "c12",
+            "source_sheet": "C12",
+            "source_record_count": 77,
+            "record_count": 1,
+            "numeric_or_null_cells_verified": 17,
+            "header_and_scope_check": "pass"
+          },
+          {
+            "table_id": "c13",
+            "source_sheet": "C13",
+            "source_record_count": 53,
+            "record_count": 42,
+            "numeric_or_null_cells_verified": 42,
+            "header_and_scope_check": "pass"
+          },
+          {
+            "table_id": "d14",
+            "source_sheet": "D14",
+            "source_record_count": 81,
+            "record_count": 1,
+            "numeric_or_null_cells_verified": 5,
+            "header_and_scope_check": "pass"
+          },
+          {
+            "table_id": "d15",
+            "source_sheet": "D15",
+            "source_record_count": 79,
+            "record_count": 1,
+            "numeric_or_null_cells_verified": 10,
+            "header_and_scope_check": "pass"
+          },
+          {
+            "table_id": "d16",
+            "source_sheet": "D16",
+            "source_record_count": 57,
+            "record_count": 46,
+            "numeric_or_null_cells_verified": 46,
+            "header_and_scope_check": "pass"
+          },
+          {
+            "table_id": "d17",
+            "source_sheet": "D17",
+            "source_record_count": 81,
+            "record_count": 1,
+            "numeric_or_null_cells_verified": 17,
+            "header_and_scope_check": "pass"
+          },
+          {
+            "table_id": "d18",
+            "source_sheet": "D18",
+            "source_record_count": 77,
+            "record_count": 1,
+            "numeric_or_null_cells_verified": 17,
+            "header_and_scope_check": "pass"
+          },
+          {
+            "table_id": "d19",
+            "source_sheet": "D19",
+            "source_record_count": 53,
+            "record_count": 42,
+            "numeric_or_null_cells_verified": 42,
+            "header_and_scope_check": "pass"
+          },
+          {
+            "table_id": "e20",
+            "source_sheet": "E20",
+            "source_record_count": 96,
+            "record_count": 1,
+            "numeric_or_null_cells_verified": 9,
+            "header_and_scope_check": "pass"
+          },
+          {
+            "table_id": "e21",
+            "source_sheet": "E21",
+            "source_record_count": 96,
+            "record_count": 1,
+            "numeric_or_null_cells_verified": 13,
+            "header_and_scope_check": "pass"
+          },
+          {
+            "table_id": "e22",
+            "source_sheet": "E22",
+            "source_record_count": 81,
+            "record_count": 1,
+            "numeric_or_null_cells_verified": 10,
+            "header_and_scope_check": "pass"
+          },
+          {
+            "table_id": "e23",
+            "source_sheet": "E23",
+            "source_record_count": 77,
+            "record_count": 1,
+            "numeric_or_null_cells_verified": 10,
+            "header_and_scope_check": "pass"
+          }
+        ],
+        "subtotal_reconciliations": [
+          {
+            "table_id": "a04",
+            "total_column": "F",
+            "component_columns": [
+              "G",
+              "H"
+            ]
+          },
+          {
+            "table_id": "a04",
+            "total_column": "E",
+            "component_columns": [
+              "F",
+              "I"
+            ]
+          },
+          {
+            "table_id": "b06",
+            "total_column": "F",
+            "component_columns": [
+              "G",
+              "H"
+            ]
+          },
+          {
+            "table_id": "b06",
+            "total_column": "E",
+            "component_columns": [
+              "F",
+              "I"
+            ]
+          },
+          {
+            "table_id": "b07",
+            "total_column": "F",
+            "component_columns": [
+              "G",
+              "H"
+            ]
+          },
+          {
+            "table_id": "b07",
+            "total_column": "E",
+            "component_columns": [
+              "F",
+              "I"
+            ]
+          },
+          {
+            "table_id": "c11",
+            "total_column": "E",
+            "component_columns": [
+              "F",
+              "M",
+              "Q"
+            ]
+          },
+          {
+            "table_id": "c11",
+            "total_column": "F",
+            "component_columns": [
+              "G",
+              "H",
+              "I",
+              "J",
+              "K",
+              "L"
+            ]
+          },
+          {
+            "table_id": "c11",
+            "total_column": "M",
+            "component_columns": [
+              "N",
+              "O",
+              "P"
+            ]
+          },
+          {
+            "table_id": "c11",
+            "total_column": "Q",
+            "component_columns": [
+              "R",
+              "S",
+              "T"
+            ]
+          },
+          {
+            "table_id": "c12",
+            "total_column": "E",
+            "component_columns": [
+              "F",
+              "M",
+              "Q"
+            ]
+          },
+          {
+            "table_id": "c12",
+            "total_column": "F",
+            "component_columns": [
+              "G",
+              "H",
+              "I",
+              "J",
+              "K",
+              "L"
+            ]
+          },
+          {
+            "table_id": "c12",
+            "total_column": "M",
+            "component_columns": [
+              "N",
+              "O",
+              "P"
+            ]
+          },
+          {
+            "table_id": "c12",
+            "total_column": "Q",
+            "component_columns": [
+              "R",
+              "S",
+              "T"
+            ]
+          },
+          {
+            "table_id": "d17",
+            "total_column": "E",
+            "component_columns": [
+              "F",
+              "M",
+              "Q"
+            ]
+          },
+          {
+            "table_id": "d17",
+            "total_column": "F",
+            "component_columns": [
+              "G",
+              "H",
+              "I",
+              "J",
+              "K",
+              "L"
+            ]
+          },
+          {
+            "table_id": "d17",
+            "total_column": "M",
+            "component_columns": [
+              "N",
+              "O",
+              "P"
+            ]
+          },
+          {
+            "table_id": "d17",
+            "total_column": "Q",
+            "component_columns": [
+              "R",
+              "S",
+              "T"
+            ]
+          },
+          {
+            "table_id": "d18",
+            "total_column": "E",
+            "component_columns": [
+              "F",
+              "M",
+              "Q"
+            ]
+          },
+          {
+            "table_id": "d18",
+            "total_column": "F",
+            "component_columns": [
+              "G",
+              "H",
+              "I",
+              "J",
+              "K",
+              "L"
+            ]
+          },
+          {
+            "table_id": "d18",
+            "total_column": "M",
+            "component_columns": [
+              "N",
+              "O",
+              "P"
+            ]
+          },
+          {
+            "table_id": "d18",
+            "total_column": "Q",
+            "component_columns": [
+              "R",
+              "S",
+              "T"
+            ]
+          },
+          {
+            "table_id": "a01",
+            "total_column": "E",
+            "component_columns": [
+              "F",
+              "G"
+            ]
+          },
+          {
+            "table_id": "a02",
+            "total_column": "E",
+            "component_columns": [
+              "F",
+              "G",
+              "H",
+              "I",
+              "J",
+              "K"
+            ]
+          },
+          {
+            "table_id": "b05",
+            "total_column": "E",
+            "component_columns": [
+              "F",
+              "G",
+              "H",
+              "I"
+            ]
+          },
+          {
+            "table_id": "c08",
+            "total_column": "E",
+            "component_columns": [
+              "F",
+              "G",
+              "H"
+            ]
+          },
+          {
+            "table_id": "d14",
+            "total_column": "E",
+            "component_columns": [
+              "F",
+              "G",
+              "H"
+            ]
+          },
+          {
+            "table_id": "c09",
+            "total_column": "E",
+            "component_columns": [
+              "F",
+              "G",
+              "H"
+            ]
+          },
+          {
+            "table_id": "c09",
+            "total_column": "J",
+            "component_columns": [
+              "K",
+              "L",
+              "M"
+            ]
+          },
+          {
+            "table_id": "d15",
+            "total_column": "E",
+            "component_columns": [
+              "F",
+              "G",
+              "H"
+            ]
+          },
+          {
+            "table_id": "d15",
+            "total_column": "J",
+            "component_columns": [
+              "K",
+              "L",
+              "M"
+            ]
+          },
+          {
+            "table_id": "a03",
+            "total_column": "H",
+            "component_columns": [
+              "I",
+              "J",
+              "K",
+              "L",
+              "M",
+              "N",
+              "O",
+              "P"
+            ]
+          },
+          {
+            "table_id": "e21",
+            "total_column": "H",
+            "component_columns": [
+              "I",
+              "J",
+              "K",
+              "L",
+              "M",
+              "N",
+              "O",
+              "P"
+            ]
+          },
+          {
+            "table_id": "e20",
+            "total_column": "F",
+            "component_columns": [
+              "G",
+              "H",
+              "I",
+              "J",
+              "K",
+              "L"
+            ]
+          },
+          {
+            "table_id": "e22",
+            "total_column": "F",
+            "component_columns": [
+              "G",
+              "H",
+              "I",
+              "J",
+              "K",
+              "L",
+              "M"
+            ]
+          },
+          {
+            "table_id": "e23",
+            "total_column": "F",
+            "component_columns": [
+              "G",
+              "H",
+              "I",
+              "J",
+              "K",
+              "L",
+              "M"
+            ]
+          }
+        ],
+        "pdf_visual_check": {
+          "source_file": "raw_data/background/mode_use_survey_2024.pdf",
+          "page": 28,
+          "result": "C11 汽車客運、其他公共運輸欄名及臺北市列數值與 XLSX 一致；沒有採用合併格內隱藏的國道客運／渡輪舊字。"
+        }
+      },
+      "findings": [
+        {
+          "severity": "medium",
+          "issue": "同表同時含總計、分類合計及子項；百分比不能全欄相加。",
+          "action": "例如 A04/B06/B07 的同縣市包含同鄉鎮市與跨鄉鎮市；C11/C12/D17/D18 的公共運輸等合計包含各運具子項。依來源表層級使用。"
+        }
+      ]
+    },
+    {
+      "dataset_id": "national_highway_monthly",
+      "output_path": null,
+      "record_count": null,
+      "review_status": "deferred_by_user_scope",
+      "source_file": "raw_data/background/references.json",
+      "checks": {
+        "reference_url_present": true,
+        "no_active_output": true
+      },
+      "findings": [],
+      "usable_for": "僅保留官方來源連結；不列入本次臺北市近三年資料成果。"
+    },
+    {
+      "dataset_id": "vehicle_cost",
+      "output_path": null,
+      "record_count": null,
+      "review_status": "deferred_by_user_scope",
+      "source_file": "raw_data/background/references.json",
+      "checks": {
+        "reference_url_present": true,
+        "no_active_output": true
+      },
+      "findings": [],
+      "usable_for": "僅保留官方來源連結；不列入本次臺北市近三年資料成果。"
+    },
+    {
+      "dataset_id": "operator_violations",
+      "output_path": null,
+      "record_count": null,
+      "review_status": "deferred_by_user_scope",
+      "source_file": "raw_data/background/references.json",
+      "checks": {
+        "reference_url_present": true,
+        "no_active_output": true
+      },
+      "findings": [],
+      "usable_for": "僅保留官方來源連結；不列入本次臺北市近三年資料成果。"
+    }
+  ]
+}

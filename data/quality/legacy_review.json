@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "dataset_id": "independent_legacy_review",
+  "metadata": {
+    "reviewer_agent": "/root/review_bus_population_tdx",
+    "independent_of_producer": true,
+    "reviewed_at": "2026-10-21T23:29:52+08:00",
+    "scope": "既有 data/ 頂層 7 份輸出",
+    "method": "全量線形、ETA、站位對照；統計加總及原始PDF首面核對。",
+    "check_script": "raw_data/reviews/review_bus_population_tdx/review_legacy.py",
+    "existing_test_suite": {
+      "command": ".venv/bin/python -m unittest discover -s tests -p test_update_data.py -v",
+      "passed": 7
+    },
+    "record_count": 7
+  },
+  "records": [
+    {
+      "file": "data/bus_routes.geojson",
+      "record_count": 1028,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_geometry_equals_source_wkt": true,
+        "unique_feature_id": true,
+        "output_crs": "EPSG:4326",
+        "negative_subroute_sentinel_count": 804,
+        "latest_source_updated_at": "2026-10-15T16:11:19+08:00"
+      },
+      "limitations": [
+        "既有版本保留 804 筆 subroute_id='-1'；不得把它當有效分支 ID 連接。新現行 feeds 優先。",
+        "未按臺北市行政邊界裁切；線形沒有運量。"
+      ]
+    },
+    {
+      "file": "data/bus_arrivals.json",
+      "record_count": 29429,
+      "status": "pass",
+      "checks": {
+        "all_eta_and_id_values_match_raw": true,
+        "status_counts": {
+          "service_ended": 20240,
+          "estimated": 7727,
+          "not_operating_today": 1272,
+          "not_stopping": 151,
+          "not_departed": 39
+        },
+        "source_updated_at": "2026-10-21T23:24:30+08:00",
+        "downloaded_at_is_separate": "2026-10-21T23:24:34+08:00"
+      },
+      "limitations": [
+        "單次預估到站快照，非歷史實際到站事件。"
+      ]
+    },
+    {
+      "file": "data/bus_stops.geojson",
+      "record_count": 3407,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_attributes_and_coordinates_match_shp": true,
+        "bounds": [
+          121.46232,
+          24.96582,
+          121.663806865668,
+          25.1847780867522
+        ],
+        "crs_inference_documented": "inferred_from_coordinate_range",
+        "source_updated_at": null,
+        "resource_published_at": "2021-04-11 19:47:33"
+      },
+      "limitations": [
+        "原始 ZIP 無 .prj；依臺北經緯度範圍推定 EPSG:4326，未把經緯度再做 TWD97 轉換。",
+        "資源頁發布時間為 2021-04-11，不能代表現行站位；新 GetStop/GetStopLocation 優先。",
+        "BSM_BUSSTO 與即時 API StopID 未驗證為同種 ID。"
+      ]
+    },
+    {
+      "file": "data/bus_route_statistics.json",
+      "record_count": 364,
+      "status": "pass_with_limitations",
+      "checks": {
+        "periods": {
+          "2025": 364
+        },
+        "independent_decimal_reconciliation": [
+          {
+            "document_id": "FC4606D9B4A6262E",
+            "period": "2025",
+            "detail_minus_total": {
+              "operated_sections": 0.0,
+              "distance_km": 14.6,
+              "passenger_trips": 0.0,
+              "revenue_twd": 0.0
+            }
+          }
+        ],
+        "pdf_header_and_first_page_visual_check": true,
+        "numeric_types_and_revised_fields_preserved": true
+      },
+      "limitations": [
+        "路線統計的原始里程明細加總比總計多 14.6 公里，其他加總一致；已保留與揭露。",
+        "年度路線名稱未臆測為 API RouteID。"
+      ]
+    },
+    {
+      "file": "data/bus_operator_statistics.json",
+      "record_count": 30,
+      "status": "pass_with_limitations",
+      "checks": {
+        "periods": {
+          "2026-02": 15,
+          "2025-10": 15
+        },
+        "independent_decimal_reconciliation": [
+          {
+            "document_id": "6AEBB46B2F8A98B8",
+            "period": "2025-10",
+            "detail_minus_total": {
+              "operated_sections": 0.0,
+              "distance_km": 0.0,
+              "passenger_trips": 0.0,
+              "revenue_twd": 0.0
+            }
+          },
+          {
+            "document_id": "7DCE1B788BAF195F",
+            "period": "2026-02",
+            "detail_minus_total": {
+              "operated_sections": 0.0,
+              "distance_km": 0.0,
+              "passenger_trips": 0.0,
+              "revenue_twd": 0.0
+            }
+          }
+        ],
+        "pdf_header_and_first_page_visual_check": true,
+        "numeric_types_and_revised_fields_preserved": true
+      },
+      "limitations": [
+        "公司月報僅含 2026-02 及 2025-10 修訂版；其他月份由擴充資料補入。",
+        "共同經營路線數不可直接加總；公司總量不可分攤為路線績效。"
+      ]
+    },
+    {
+      "file": "data/pto_tables.json",
+      "record_count": 18,
+      "status": "pass_as_layout_only",
+      "checks": {
+        "all_documents_labelled_layout_extracted_requires_review": true,
+        "text_intermediates_remain_in_raw_data": true
+      },
+      "limitations": [
+        "18 份通用 PDF 表格只完成版面與數值列抽取，未全部標準化欄名/單位/合併儲存格；不得當統一指標表。"
+      ]
+    },
+    {
+      "file": "data/taipei_bus_catalog.json",
+      "record_count": 6,
+      "status": "pass",
+      "checks": {},
+      "limitations": [
+        "此為既有更新器的目錄，不代表本次完整來源清單。"
+      ]
+    }
+  ]
+}

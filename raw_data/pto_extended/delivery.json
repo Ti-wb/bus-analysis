@@ -1,0 +1,98 @@
+{
+  "generated_at": "2026-10-21T23:40:10+08:00",
+  "producer_agent": "pto",
+  "source_manifest": "raw_data/pto_extended/manifest.json",
+  "update_command": ".venv/bin/python scripts/update_pto_extended.py",
+  "offline_command": ".venv/bin/python scripts/update_pto_extended.py --offline",
+  "datasets": [
+    {
+      "dataset_id": "annual_route_efficiency",
+      "status": "complete",
+      "output_files": [
+        {
+          "path": "data/pto_extended/route_annual.json",
+          "record_count": 364
+        }
+      ],
+      "record_count": 364,
+      "period": "2025",
+      "limitations": [
+        "Annual names have no verified correspondence to API route_id; combined routes and special services occur.",
+        "Operated sections are not departures or vehicle trips.",
+        "The published distance details differ from the total; original numbers are retained."
+      ]
+    },
+    {
+      "dataset_id": "bus_lane_monthly_statistics",
+      "status": "complete",
+      "output_files": [
+        {
+          "path": "data/pto_extended/bus_lane_monthly.json",
+          "record_count": 182
+        }
+      ],
+      "record_count": 182,
+      "period": "2025-01/2025-12 with annual totals",
+      "limitations": [
+        "Corridor passenger trips are not unique people; one trip may involve multiple corridors.",
+        "Operated sections are not departures."
+      ]
+    },
+    {
+      "dataset_id": "operator_monthly_statistics",
+      "status": "complete_for_specified_pages",
+      "output_files": [
+        {
+          "path": "data/pto_extended/operator_monthly.json",
+          "record_count": 60
+        }
+      ],
+      "record_count": 60,
+      "period": "2025-10, 2026-02, 2026-05, 2026-07; revisions retained",
+      "limitations": [
+        "Only documents on the two specified source pages are included; this is not an all-month time series.",
+        "Company totals cannot be allocated to individual routes.",
+        "Approved route counts cannot be summed because routes may be jointly operated."
+      ]
+    },
+    {
+      "dataset_id": "bus_assessment_station_facilities",
+      "status": "complete_for_requested_topics",
+      "output_files": [
+        {
+          "path": "data/pto_extended/assessment_operator_scores.json",
+          "record_count": 15
+        },
+        {
+          "path": "data/pto_extended/assessment_station_checks.json",
+          "record_count": 116
+        },
+        {
+          "path": "data/pto_extended/assessment_punctuality.json",
+          "record_count": 119
+        },
+        {
+          "path": "data/pto_extended/assessment_tables.json",
+          "record_count": 20
+        }
+      ],
+      "record_count": 270,
+      "period": "2026 term 1; observation windows differ by indicator",
+      "limitations": [
+        "Scores are historical assessment results, not real-time performance.",
+        "The 12-operator comparison excludes Tamsui, New Taipei and Royal due to small fleets.",
+        "Published rounded component scores may differ slightly from published totals; both are retained.",
+        "E3/E4 aggregate results are not arithmetic means of company scores.",
+        "The PDF does not identify inspectors; adjacent duplicate station/date columns are separate source observations and must not be deduplicated blindly.",
+        "Inspection dates are month/day only; inspection_date remains null and no year is invented.",
+        "Blank score cells remain null; the source contains a few scores above the printed weights and these are retained as source anomalies.",
+        "These are historical inspection scores, not beds, usable parking capacities, or driver duty records.",
+        "Sample survey results do not cover every trip or route.",
+        "When the source merges peak and off-peak columns, peak/off_peak values are null and original numbers are stored in unstratified fields; they are not classified as peak samples.",
+        "Blank cells in genuinely separate columns remain null, never zero.",
+        "Repeated names are distinct source rows; no API route_id has been assigned.",
+        "Company/route ratios follow the report method and need not equal ratios of pooled counts."
+      ]
+    }
+  ]
+}

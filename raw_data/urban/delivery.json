@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "prepared_at": "2026-10-21T23:37:14+08:00",
+  "datasets": [
+    {
+      "dataset_id": "taipei_bus_lanes",
+      "status": "normalized",
+      "output_files": [
+        "data/urban/bus_lanes.geojson"
+      ],
+      "record_count": 15,
+      "period": null,
+      "limitations": [
+        "線形不代表運量。路段名稱與路廊統計尚未做未驗證關聯。"
+      ],
+      "bytes": 20043
+    },
+    {
+      "dataset_id": "taipei_bus_restrictions",
+      "status": "normalized",
+      "output_files": [
+        "data/urban/bus_restrictions.json"
+      ],
+      "record_count": 27,
+      "period": null,
+      "limitations": [
+        "來源只有道路文字，沒有線形或路網邊 ID；未自行地理編碼。",
+        "保留完整時段、車長及重量條件文字，不能直接當全年全天禁止所有公車。",
+        "來源項次有重複，record_id 為本快照列序識別，不是官方 ID。"
+      ],
+      "bytes": 13002
+    },
+    {
+      "dataset_id": "taipei_public_toilets",
+      "status": "normalized",
+      "output_files": [
+        "data/urban/public_toilets.geojson"
+      ],
+      "record_count": 1537,
+      "period": null,
+      "limitations": [
+        "來源無官方公廁 ID；feature ID 只代表本快照列序。公廁存在不代表公車駕駛隨時可進入、停車或休息。",
+        "來源的座數和分級數可能不相等，保留原值；無障礙與親子欄位可能重疊，不相加推估總量。"
+      ],
+      "bytes": 1390339
+    },
+    {
+      "dataset_id": "taipei_parking_lots",
+      "status": "normalized",
+      "output_files": [
+        "data/urban/parking_lots.geojson"
+      ],
+      "record_count": 1771,
+      "period": "2026-10-21T23:25:00+08:00",
+      "limitations": [
+        "TOTALBUS 是大客車停車位；不表示准許市區公車調度、待班或過夜。",
+        "即時資料與靜態資料分開輸出；靜態提供車位不保證即時剩餘位有回報。",
+        "設施 code 未自行轉成布林；停車費應合併 rate_type_code、week_type_raw、時段與 charge_unit 解讀。"
+      ],
+      "bytes": 4266854
+    },
+    {
+      "dataset_id": "taipei_parking_availability",
+      "status": "normalized",
+      "output_files": [
+        "data/urban/parking_availability.json"
+      ],
+      "record_count": 1224,
+      "period": "2026-10-21T23:20:00+08:00",
+      "limitations": [
+        "單次剩餘位快照，不是歷史供給或可用場站容量。-9 為無此類車格，輸出 null 並保留狀態。",
+        "充電槍狀態不是大客車泊位資料，本整理未輸出；原 XML 完整保留。"
+      ],
+      "bytes": 1172262
+    },
+    {
+      "dataset_id": "taipei_bus_parking_lots",
+      "status": "normalized",
+      "output_files": [
+        "data/urban/bus_parking_lots.geojson"
+      ],
+      "record_count": 39,
+      "period": "2026-10-21T23:25:00+08:00",
+      "limitations": [
+        "TOTALBUS 是大客車停車位；不表示准許市區公車調度、待班或過夜。",
+        "即時資料與靜態資料分開輸出；靜態提供車位不保證即時剩餘位有回報。",
+        "設施 code 未自行轉成布林；停車費應合併 rate_type_code、week_type_raw、時段與 charge_unit 解讀。",
+        "部分靜態TOTALBUS>0的場站在即時檔回報-9，存在來源間矛盾；保留null及原始狀態，不把它解讀為0個剩餘位或刪除靜態容量。"
+      ],
+      "bytes": 107651
+    },
+    {
+      "dataset_id": "taipei_road_travel_times",
+      "status": "source_empty_stale",
+      "output_files": [
+        "data/urban/road_travel_times.json"
+      ],
+      "record_count": 0,
+      "period": "2024-12-18T17:40:39.003+08:00",
+      "limitations": [
+        "指定 data.gov.tw/135753 descriptor 指向 ETagPairLive.xml；不是經核對的 TMC 路段碼資料。",
+        "XML observations 為空；保留空集合不代表0秒、無壅塞或無車流。",
+        "來源 body UpdateTime 為2024-12-18，HTTP Last-Modified與下載日期不代表實際觀測日期。",
+        "道路旅行時間不能當成包含停站的公車旅行時間。"
+      ],
+      "bytes": 2338
+    },
+    {
+      "dataset_id": "taipei_curb_large_vehicle_spaces",
+      "status": "normalized",
+      "output_files": [
+        "data/urban/curb_large_vehicle_spaces.geojson"
+      ],
+      "record_count": 633,
+      "period": null,
+      "limitations": [
+        "06 為大型車，並未限定全部為大客車；23 為大客車與小型車共用，不能視為大客車專用泊位。",
+        "停車格位不代表已允許公車待班或駕駛休憩。來源可能含刪除/異動註記，未自行剔除。",
+        "網站資源更新時間不是圖層實際更新時間；source_data_time 留 null；zip member名日期僅作檔名證據。",
+        "來源存在網頁代碼表之外的代碼；保留原碼而不自行解讀。streetview系列保留來源數值，語意/單位未核實。"
+      ],
+      "bytes": 1737105
+    },
+    {
+      "dataset_id": "taipei_curb_parking_type_counts",
+      "status": "normalized",
+      "output_files": [
+        "data/urban/curb_parking_type_counts.json"
+      ],
+      "record_count": 30,
+      "period": null,
+      "limitations": [
+        "06 為大型車，並未限定全部為大客車；23 為大客車與小型車共用，不能視為大客車專用泊位。",
+        "停車格位不代表已允許公車待班或駕駛休憩。來源可能含刪除/異動註記，未自行剔除。",
+        "網站資源更新時間不是圖層實際更新時間；source_data_time 留 null；zip member名日期僅作檔名證據。",
+        "來源存在網頁代碼表之外的代碼；保留原碼而不自行解讀。streetview系列保留來源數值，語意/單位未核實。"
+      ],
+      "bytes": 9589
+    },
+    {
+      "dataset_id": "taipei_commercial_short_stops",
+      "status": "normalized",
+      "output_files": [
+        "data/urban/commercial_short_stops.geojson"
+      ],
+      "record_count": 223,
+      "period": null,
+      "limitations": [
+        "本附屬清單是營業用共用臨停區，未證實所有格位均可供大型公車使用。"
+      ],
+      "bytes": 113110
+    }
+  ],
+  "source_references": [
+    {
+      "dataset_id": "taipei_curb_parking_spaces",
+      "status": "source_reference_only",
+      "source_record_count": 334283,
+      "output_record_count": 0,
+      "quality": {
+        "source_record_count": 334283,
+        "geometry_validation_scope": "selected large-vehicle/shared candidate rows",
+        "output_candidate_count": 633,
+        "duplicate_feature_key_ids": [],
+        "invalid_output_geometry_source_rows": [],
+        "non_numeric_space_count_source_rows": [],
+        "unmapped_parking_type_codes": {
+          "71": 761,
+          "60": 3478,
+          "131": 1283,
+          "50": 3378,
+          "121": 41,
+          "70": 248,
+          "55": 156,
+          "47": 5
+        },
+        "missing_parking_type_count": 107
+      },
+      "source": {
+        "page_url": "https://data.taipei/dataset/detail?id=5a911ea5-1694-4301-808e-e1780d971611",
+        "download_url": "https://data.taipei/api/frontstage/tpeod/dataset/resource.download?rid=7e2f32a0-9201-4666-a0ed-11034e6c2b66",
+        "resolved_url": "https://data.taipei/api/frontstage/tpeod/dataset/resource.download?rid=7e2f32a0-9201-4666-a0ed-11034e6c2b66",
+        "raw_file": "raw_data/urban/curb_parking_1.zip",
+        "downloaded_at": "2026-10-21T23:26:24+08:00",
+        "source_updated_at": "2026-10-06T10:25:50+08:00",
+        "bytes": 56300005,
+        "http_last_modified": null,
+        "content_type": "application/zip;charset=UTF-8"
+      },
+      "rebuild_command": ".venv/bin/python scripts/update_urban.py --offline --include-all-curb"
+    }
+  ]
+}

@@ -1,0 +1,294 @@
+{
+  "schema_version": 1,
+  "dataset_id": "taipei_curb_parking_type_counts",
+  "metadata": {
+    "sources": [
+      {
+        "page_url": "https://data.taipei/dataset/detail?id=5a911ea5-1694-4301-808e-e1780d971611",
+        "download_url": "https://data.taipei/api/frontstage/tpeod/dataset/resource.download?rid=7e2f32a0-9201-4666-a0ed-11034e6c2b66",
+        "resolved_url": "https://data.taipei/api/frontstage/tpeod/dataset/resource.download?rid=7e2f32a0-9201-4666-a0ed-11034e6c2b66",
+        "raw_file": "raw_data/urban/curb_parking_1.zip",
+        "downloaded_at": "2026-10-21T23:26:24+08:00",
+        "bytes": 56300005,
+        "http_last_modified": null,
+        "content_type": "application/zip;charset=UTF-8",
+        "source_resource_updated_at": "2026-10-06T10:25:50+08:00",
+        "source_data_time": null
+      }
+    ],
+    "source_data_time": null,
+    "statistical_period": null,
+    "grain": "one parking type code",
+    "units": {
+      "width_m": "m",
+      "length_m": "m",
+      "space_count": "spaces"
+    },
+    "timezone": "Asia/Taipei",
+    "missing_values": "Blank source values become null; no missing values imputed as zero.",
+    "limitations": [
+      "06 為大型車，並未限定全部為大客車；23 為大客車與小型車共用，不能視為大客車專用泊位。",
+      "停車格位不代表已允許公車待班或駕駛休憩。來源可能含刪除/異動註記，未自行剔除。",
+      "網站資源更新時間不是圖層實際更新時間；source_data_time 留 null；zip member名日期僅作檔名證據。",
+      "來源存在網頁代碼表之外的代碼；保留原碼而不自行解讀。streetview系列保留來源數值，語意/單位未核實。"
+    ],
+    "source_crs": "EPSG:3826",
+    "source_prj_archive_member": "park01_202610021742.prj",
+    "source_prj_wkt": "PROJCS[\"TWD_1997_TM_Taiwan\",GEOGCS[\"GCS_TWD_1997\",DATUM[\"D_TWD_1997\",SPHEROID[\"GRS_1980\",6378137.0,298.257222101]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"False_Easting\",250000.0],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",121.0],PARAMETER[\"Scale_Factor\",0.9999],PARAMETER[\"Latitude_Of_Origin\",0.0],UNIT[\"Meter\",1.0]]",
+    "source_archive_members": [
+      "park01_202610021742.prj",
+      "park01_202610021742.dbf",
+      "park01_202610021742.shx",
+      "park01_202610021742.cpg",
+      "park01_202610021742.shp"
+    ],
+    "field_mapping": {
+      "parking_type_code": "pktype",
+      "parking_type_label_source": "pktype1",
+      "parking_space_id": "pkid",
+      "document_id": "pkdoc",
+      "note": "pknote",
+      "responsible_staff": "pkpern",
+      "source_installation_date_raw": "pkdate",
+      "work_description": "pkwork",
+      "group_code": "pkgoup",
+      "zone_code": "zone",
+      "rate_description": "pkrate",
+      "time_description": "pktime",
+      "deletion_date_raw": "pkdel",
+      "application_description": "pkaply",
+      "redraw_date_raw": "pkredw",
+      "alteration_description": "pkaltr",
+      "address": "pkadrs",
+      "parking_zone_code": "pkzone",
+      "space_numbers_description": "pknos",
+      "parking_orientation_code": "pkkind",
+      "road_section_name": "pkroad",
+      "space_count_raw": "pknum",
+      "inspection_description": "pkchk",
+      "edited_by": "editby",
+      "feature_key_id": "keyid",
+      "work_key_id": "workc_keyi",
+      "work_user_id": "workc_in_u",
+      "work_date": "workc_in_t",
+      "edit_date": "edittime",
+      "road_code": "rdcode",
+      "road_network_key_id": "mainnet_ke",
+      "width_m": "width",
+      "length_m": "len",
+      "work_unit": "workunit",
+      "parking_reference_key_id": "park11keyi",
+      "area_key_id": "areakeyid",
+      "motorcycle_conversion_code": "motoctol",
+      "conversion_date_raw": "ctoldate",
+      "line_reconstruction_description": "linereco",
+      "hardware_reconstruction_description": "hardreco",
+      "parking_term_description": "pkterm",
+      "variant_code": "varcode",
+      "road_name": "roadname",
+      "district": "area_name",
+      "village": "village_na",
+      "bike_slot_code": "bike_slot_",
+      "bike_slot_description": "bike_slo_1"
+    },
+    "code_tables": {
+      "parking_type_code": {
+        "01": "小型車",
+        "02": "機車",
+        "03": "身心障礙專用（汽）",
+        "04": "身心障礙專用（機）",
+        "05": "警車",
+        "06": "大型車",
+        "07": "貨車裝卸專用",
+        "08": "計程車",
+        "09": "限時停車",
+        "10": "時段性禁停汽車",
+        "11": "機慢車停放區",
+        "12": "公用汽車",
+        "13": "公用機車",
+        "14": "警用機車",
+        "15": "汽車停車彎",
+        "16": "機慢車停放區（警車）",
+        "17": "消防車",
+        "18": "機慢車停放區（身心障礙專用）",
+        "19": "時段禁停機車",
+        "20": "限時停車機車",
+        "21": "垃圾車專用（時段管制）",
+        "22": "汽機車彈性共用",
+        "23": "大客車與小型車共用格位"
+      }
+    },
+    "selection": "All source records; no Taipei clipping needed because this source is Taipei curb parking.",
+    "quality": {
+      "source_record_count": 334283,
+      "geometry_validation_scope": "selected large-vehicle/shared candidate rows",
+      "output_candidate_count": 633,
+      "duplicate_feature_key_ids": [],
+      "invalid_output_geometry_source_rows": [],
+      "non_numeric_space_count_source_rows": [],
+      "unmapped_parking_type_codes": {
+        "71": 761,
+        "60": 3478,
+        "131": 1283,
+        "50": 3378,
+        "121": 41,
+        "70": 248,
+        "55": 156,
+        "47": 5
+      },
+      "missing_parking_type_count": 107
+    }
+  },
+  "records": [
+    {
+      "parking_type_code": null,
+      "parking_type_label": null,
+      "source_polygon_count": 107
+    },
+    {
+      "parking_type_code": "01",
+      "parking_type_label": "小型車",
+      "source_polygon_count": 54938
+    },
+    {
+      "parking_type_code": "02",
+      "parking_type_label": "機車",
+      "source_polygon_count": 241591
+    },
+    {
+      "parking_type_code": "03",
+      "parking_type_label": "身心障礙專用（汽）",
+      "source_polygon_count": 1695
+    },
+    {
+      "parking_type_code": "04",
+      "parking_type_label": "身心障礙專用（機）",
+      "source_polygon_count": 1653
+    },
+    {
+      "parking_type_code": "05",
+      "parking_type_label": "警車",
+      "source_polygon_count": 303
+    },
+    {
+      "parking_type_code": "06",
+      "parking_type_label": "大型車",
+      "source_polygon_count": 596
+    },
+    {
+      "parking_type_code": "07",
+      "parking_type_label": "貨車裝卸專用",
+      "source_polygon_count": 2073
+    },
+    {
+      "parking_type_code": "08",
+      "parking_type_label": "計程車",
+      "source_polygon_count": 517
+    },
+    {
+      "parking_type_code": "09",
+      "parking_type_label": "限時停車",
+      "source_polygon_count": 201
+    },
+    {
+      "parking_type_code": "10",
+      "parking_type_label": "時段性禁停汽車",
+      "source_polygon_count": 968
+    },
+    {
+      "parking_type_code": "11",
+      "parking_type_label": "機慢車停放區",
+      "source_polygon_count": 5809
+    },
+    {
+      "parking_type_code": "121",
+      "parking_type_label": null,
+      "source_polygon_count": 41
+    },
+    {
+      "parking_type_code": "131",
+      "parking_type_label": null,
+      "source_polygon_count": 1283
+    },
+    {
+      "parking_type_code": "14",
+      "parking_type_label": "警用機車",
+      "source_polygon_count": 914
+    },
+    {
+      "parking_type_code": "15",
+      "parking_type_label": "汽車停車彎",
+      "source_polygon_count": 201
+    },
+    {
+      "parking_type_code": "16",
+      "parking_type_label": "機慢車停放區（警車）",
+      "source_polygon_count": 222
+    },
+    {
+      "parking_type_code": "17",
+      "parking_type_label": "消防車",
+      "source_polygon_count": 18
+    },
+    {
+      "parking_type_code": "18",
+      "parking_type_label": "機慢車停放區（身心障礙專用）",
+      "source_polygon_count": 9
+    },
+    {
+      "parking_type_code": "19",
+      "parking_type_label": "時段禁停機車",
+      "source_polygon_count": 730
+    },
+    {
+      "parking_type_code": "20",
+      "parking_type_label": "限時停車機車",
+      "source_polygon_count": 253
+    },
+    {
+      "parking_type_code": "21",
+      "parking_type_label": "垃圾車專用（時段管制）",
+      "source_polygon_count": 22
+    },
+    {
+      "parking_type_code": "22",
+      "parking_type_label": "汽機車彈性共用",
+      "source_polygon_count": 12076
+    },
+    {
+      "parking_type_code": "23",
+      "parking_type_label": "大客車與小型車共用格位",
+      "source_polygon_count": 37
+    },
+    {
+      "parking_type_code": "47",
+      "parking_type_label": null,
+      "source_polygon_count": 5
+    },
+    {
+      "parking_type_code": "50",
+      "parking_type_label": null,
+      "source_polygon_count": 3378
+    },
+    {
+      "parking_type_code": "55",
+      "parking_type_label": null,
+      "source_polygon_count": 156
+    },
+    {
+      "parking_type_code": "60",
+      "parking_type_label": null,
+      "source_polygon_count": 3478
+    },
+    {
+      "parking_type_code": "70",
+      "parking_type_label": null,
+      "source_polygon_count": 248
+    },
+    {
+      "parking_type_code": "71",
+      "parking_type_label": null,
+      "source_polygon_count": 761
+    }
+  ]
+}

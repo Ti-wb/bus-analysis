@@ -1,0 +1,209 @@
+{
+  "schema_version": 1,
+  "dataset_id": "taipei_annual",
+  "metadata": {
+    "sources": [
+      {
+        "source_page": "https://data.taipei/dataset/detail?id=90dd063e-2aca-49aa-a7fb-73130610313c",
+        "download_url": "https://tsis.dbas.gov.taipei/statis/webMain.aspx?sys=220&ymf=5700&kind=21&type=0&funid=a05023701&cycle=4&outmode=12&compmode=0&outkind=1&deflst=2&nzo=1",
+        "resolved_url": "https://tsis.dbas.gov.taipei/statis/webMain.aspx?sys=220&ymf=5700&kind=21&type=0&funid=a05023701&cycle=4&outmode=12&compmode=0&outkind=1&deflst=2&nzo=1",
+        "raw_file": "raw_data/background/taipei_annual.csv",
+        "downloaded_at": "2026-10-21T23:27:06+08:00",
+        "source_updated_at": null,
+        "bytes": 6607
+      }
+    ],
+    "record_count": 3,
+    "title": "臺北市聯營公共汽車客運業務 OD",
+    "source_updated_at": null,
+    "period": {
+      "start": "2023",
+      "end": "2025"
+    },
+    "grain": "calendar_year",
+    "geographic_scope": "Taipei City",
+    "encoding": "utf-8-sig",
+    "fields": [
+      {
+        "field": "joint_route_count",
+        "source_column": "路線數/聯營[線]",
+        "unit": "線"
+      },
+      {
+        "field": "reciprocal_route_count",
+        "source_column": "路線數/對開[線]",
+        "unit": "線"
+      },
+      {
+        "field": "minibus_route_count",
+        "source_column": "路線數/小型[線]",
+        "unit": "線"
+      },
+      {
+        "field": "operating_route_length_km",
+        "source_column": "營業公里[公里]",
+        "unit": "公里"
+      },
+      {
+        "field": "average_operated_vehicle_days",
+        "source_column": "行駛車輛數[平均行駛延日車數]",
+        "unit": "平均行駛延日車數"
+      },
+      {
+        "field": "operated_sections",
+        "source_column": "行駛次數[段次]",
+        "unit": "段次"
+      },
+      {
+        "field": "sections_per_vehicle_day",
+        "source_column": "平均每車每日行駛次數[段次]",
+        "unit": "段次/車日"
+      },
+      {
+        "field": "distance_km",
+        "source_column": "行駛車公里[公里]",
+        "unit": "車公里"
+      },
+      {
+        "field": "distance_per_vehicle_day_km",
+        "source_column": "平均每車每日行駛車公里[公里]",
+        "unit": "公里/車日"
+      },
+      {
+        "field": "distance_per_vehicle_section_km",
+        "source_column": "平均每車每次行駛車公里[公里]",
+        "unit": "公里/車段次"
+      },
+      {
+        "field": "passenger_trips",
+        "source_column": "客運人次[人次]",
+        "unit": "人次"
+      },
+      {
+        "field": "passenger_trips_per_day",
+        "source_column": "平均每日客運人次[人次]",
+        "unit": "人次/日"
+      },
+      {
+        "field": "passenger_trips_per_vehicle_day",
+        "source_column": "平均每車每日客運人次[人次]",
+        "unit": "人次/車日"
+      },
+      {
+        "field": "passenger_trips_per_vehicle_section",
+        "source_column": "平均每車每次客運人次[人次]",
+        "unit": "人次/車段次"
+      },
+      {
+        "field": "revenue_twd",
+        "source_column": "客運收入[元]",
+        "unit": "元"
+      },
+      {
+        "field": "smart_stop_sign_count",
+        "source_column": "智慧型公車站牌數[座]",
+        "unit": "座"
+      },
+      {
+        "field": "accessible_minibus_count",
+        "source_column": "身心障礙者小型冷氣車輛數[輛]",
+        "unit": "輛"
+      }
+    ],
+    "limitations": [
+      "全市或全國彙總資料，不能直接分配至個別公車路線；原始明確數值0保留，空白及缺值符號轉null。",
+      "年度來源行駛次數單位為段次，月度來源每車每日次數單位為次；兩者未視為相同指標。",
+      "歷年路線定義或統計範圍可能改變，未以時間序列變化推斷服務變化原因。",
+      "依本次使用者範圍保留臺北近三年；來源完整時間序列僅存raw_data。",
+      "年度資料保留2023–2025完整年，2023全年不可當作2023/10以後的三個月；2026全年尚未發布。"
+    ],
+    "source_record_count": 58,
+    "source_period": {
+      "start": "1968",
+      "end": "2025"
+    },
+    "requested_period": {
+      "start": "2023-10",
+      "end": "2026-09"
+    },
+    "selection_rule": "2023–2025完整年度（未把年度拆成月）",
+    "missing_requested_months": null
+  },
+  "records": [
+    {
+      "period": "2023",
+      "year": 2023,
+      "month": null,
+      "source_period": "112年",
+      "source_row": 57,
+      "missing_values": {},
+      "joint_route_count": 265,
+      "reciprocal_route_count": 23,
+      "minibus_route_count": 25,
+      "operating_route_length_km": 4954,
+      "average_operated_vehicle_days": 2857,
+      "operated_sections": 14141977,
+      "sections_per_vehicle_day": 13.6,
+      "distance_km": 136983159,
+      "distance_per_vehicle_day_km": 131.4,
+      "distance_per_vehicle_section_km": 9.7,
+      "passenger_trips": 390668187,
+      "passenger_trips_per_day": 1070324,
+      "passenger_trips_per_vehicle_day": 375,
+      "passenger_trips_per_vehicle_section": 28,
+      "revenue_twd": 9209752647,
+      "smart_stop_sign_count": 2722,
+      "accessible_minibus_count": 328
+    },
+    {
+      "period": "2024",
+      "year": 2024,
+      "month": null,
+      "source_period": "113年",
+      "source_row": 58,
+      "missing_values": {},
+      "joint_route_count": 267,
+      "reciprocal_route_count": 19,
+      "minibus_route_count": 26,
+      "operating_route_length_km": 5330,
+      "average_operated_vehicle_days": 2987,
+      "operated_sections": 13928656,
+      "sections_per_vehicle_day": 12.7,
+      "distance_km": 135049064,
+      "distance_per_vehicle_day_km": 123.5,
+      "distance_per_vehicle_section_km": 9.7,
+      "passenger_trips": 398938511,
+      "passenger_trips_per_day": 1089996,
+      "passenger_trips_per_vehicle_day": 365,
+      "passenger_trips_per_vehicle_section": 29,
+      "revenue_twd": 9380730710,
+      "smart_stop_sign_count": 2768,
+      "accessible_minibus_count": 328
+    },
+    {
+      "period": "2025",
+      "year": 2025,
+      "month": null,
+      "source_period": "114年",
+      "source_row": 59,
+      "missing_values": {},
+      "joint_route_count": 266,
+      "reciprocal_route_count": 19,
+      "minibus_route_count": 26,
+      "operating_route_length_km": 5336,
+      "average_operated_vehicle_days": 2986,
+      "operated_sections": 13864619,
+      "sections_per_vehicle_day": 12.7,
+      "distance_km": 134278070,
+      "distance_per_vehicle_day_km": 123.2,
+      "distance_per_vehicle_section_km": 9.7,
+      "passenger_trips": 400173518,
+      "passenger_trips_per_day": 1096366,
+      "passenger_trips_per_vehicle_day": 367,
+      "passenger_trips_per_vehicle_section": 29,
+      "revenue_twd": 10054663033,
+      "smart_stop_sign_count": 2790,
+      "accessible_minibus_count": 328
+    }
+  ]
+}

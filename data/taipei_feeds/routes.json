@@ -1,0 +1,7462 @@
+{
+  "schema_version": 1,
+  "dataset_id": "taipei_routes",
+  "metadata": {
+    "source": {
+      "source_page": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579",
+      "download_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetRoute.gz",
+      "resolved_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetRoute.gz",
+      "raw_file": "raw_data/taipei_feeds/GetRoute.gz",
+      "downloaded_at": "2026-10-21T23:31:38+08:00",
+      "http_last_modified": "Wed, 21 Oct 2026 15:03:08 GMT",
+      "bytes": 77393,
+      "source_data_time": "2026-10-21T23:03:04+08:00"
+    },
+    "source_data_time": "2026-10-21T23:03:04+08:00",
+    "source_period": null,
+    "timezone": "Asia/Taipei",
+    "grain": "one main route ID",
+    "units": {},
+    "geographic_scope": "Taipei authority feed; routes may extend beyond Taipei City",
+    "research_scope": "Taipei City; current feeds support the recent-three-year study, but contain no three-year history",
+    "snapshot_only": false,
+    "specification": {
+      "version": "6.3",
+      "source_page": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579",
+      "raw_file": "raw_data/taipei_feeds/api_spec_v6_3.pdf"
+    },
+    "missing_value_policy": "null; original missing tokens and absent-field status retained in source_missing_values; invalid values retained separately",
+    "limitations": [
+      "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+      "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+      "由 GetRoute 同一主路線 ID 彙整識別碼集合；未平均或加總各分支的里程與班次。"
+    ],
+    "quality": {
+      "record_count": 416,
+      "key_fields": [
+        "route_id"
+      ],
+      "duplicate_key_rows": 0,
+      "null_counts": {
+        "normalized_branch_rows": 0,
+        "operator_ids": 0,
+        "route_id": 0,
+        "route_names_zh": 0,
+        "route_nids": 0,
+        "source_branch_rows": 0,
+        "subroute_ids": 0
+      },
+      "quality_flag_counts": {},
+      "null_geometry_count": 0
+    }
+  },
+  "records": [
+    {
+      "route_id": "10142",
+      "route_names_zh": [
+        "南環幹線"
+      ],
+      "route_nids": [
+        "0113000100"
+      ],
+      "operator_ids": [
+        "100"
+      ],
+      "subroute_ids": [
+        "10142",
+        "157758",
+        "162499",
+        "162500"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "16172",
+      "route_names_zh": [
+        "懷恩專車S31"
+      ],
+      "route_nids": [
+        "0162001000"
+      ],
+      "operator_ids": [
+        "100"
+      ],
+      "subroute_ids": [
+        "155956"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "16508",
+      "route_names_zh": [
+        "懷恩專車S33"
+      ],
+      "route_nids": [
+        "0162001200"
+      ],
+      "operator_ids": [
+        "100"
+      ],
+      "subroute_ids": [
+        "157541"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "17018",
+      "route_names_zh": [
+        "懷恩專車S32"
+      ],
+      "route_nids": [
+        "0162001100"
+      ],
+      "operator_ids": [
+        "100"
+      ],
+      "subroute_ids": [
+        "158145"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "19648",
+      "route_names_zh": [
+        "懷恩專車S34"
+      ],
+      "route_nids": [
+        "0162001300"
+      ],
+      "operator_ids": [
+        "100"
+      ],
+      "subroute_ids": [
+        "162247"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10221",
+      "route_names_zh": [
+        "618"
+      ],
+      "route_nids": [
+        "0100061800"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "102210"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10328",
+      "route_names_zh": [
+        "643"
+      ],
+      "route_nids": [
+        "0100064300"
+      ],
+      "operator_ids": [
+        "300"
+      ],
+      "subroute_ids": [
+        "10328"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10326",
+      "route_names_zh": [
+        "648"
+      ],
+      "route_nids": [
+        "0100064800"
+      ],
+      "operator_ids": [
+        "300"
+      ],
+      "subroute_ids": [
+        "103260"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10332",
+      "route_names_zh": [
+        "松江新生幹線"
+      ],
+      "route_nids": [
+        "0161000400"
+      ],
+      "operator_ids": [
+        "300"
+      ],
+      "subroute_ids": [
+        "10332"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10333",
+      "route_names_zh": [
+        "644"
+      ],
+      "route_nids": [
+        "0100064400"
+      ],
+      "operator_ids": [
+        "300"
+      ],
+      "subroute_ids": [
+        "10333"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10334",
+      "route_names_zh": [
+        "基隆路幹線"
+      ],
+      "route_nids": [
+        "0161001500"
+      ],
+      "operator_ids": [
+        "300"
+      ],
+      "subroute_ids": [
+        "10334"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10331",
+      "route_names_zh": [
+        "647"
+      ],
+      "route_nids": [
+        "0100064700"
+      ],
+      "operator_ids": [
+        "300"
+      ],
+      "subroute_ids": [
+        "103310"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10415",
+      "route_names_zh": [
+        "221"
+      ],
+      "route_nids": [
+        "0100022100"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "104150"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10416",
+      "route_names_zh": [
+        "232"
+      ],
+      "route_nids": [
+        "0100023200"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "104160"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10417",
+      "route_names_zh": [
+        "忠孝幹線"
+      ],
+      "route_nids": [
+        "0161001100"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "104170"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10419",
+      "route_names_zh": [
+        "232快"
+      ],
+      "route_nids": [
+        "0100023250"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "104190"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10422",
+      "route_names_zh": [
+        "617"
+      ],
+      "route_nids": [
+        "0100061700"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "104220",
+        "162533",
+        "162534"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "10423",
+      "route_names_zh": [
+        "622"
+      ],
+      "route_nids": [
+        "0100062200"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "104230"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10441",
+      "route_names_zh": [
+        "508"
+      ],
+      "route_nids": [
+        "0100050800"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "104410"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15678",
+      "route_names_zh": [
+        "內科通勤專車12"
+      ],
+      "route_nids": [
+        "0152001200"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "155837",
+        "155913"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "17800",
+      "route_names_zh": [
+        "臺北觀光巴士紅線"
+      ],
+      "route_nids": [
+        "0162003400"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "159145"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "17801",
+      "route_names_zh": [
+        "臺北觀光巴士藍線"
+      ],
+      "route_nids": [
+        "0162003500"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "159146",
+        "161298"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "17952",
+      "route_names_zh": [
+        "617副"
+      ],
+      "route_nids": [
+        "0100061710"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "159454"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10471",
+      "route_names_zh": [
+        "615"
+      ],
+      "route_nids": [
+        "0100061500"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "104710"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10472",
+      "route_names_zh": [
+        "111"
+      ],
+      "route_nids": [
+        "0100011100"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "104720",
+        "161107",
+        "161108"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "810",
+      "route_names_zh": [
+        "敦化幹線"
+      ],
+      "route_nids": [
+        "0161000500"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "810"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10811",
+      "route_names_zh": [
+        "685"
+      ],
+      "route_nids": [
+        "0100068500"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "10811",
+        "159203"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "10883",
+      "route_names_zh": [
+        "市民小巴7"
+      ],
+      "route_nids": [
+        "0153000700"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "108820",
+        "157762"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "16707",
+      "route_names_zh": [
+        "757"
+      ],
+      "route_nids": [
+        "0100150400"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "157799",
+        "160560"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "16706",
+      "route_names_zh": [
+        "758"
+      ],
+      "route_nids": [
+        "0100150300"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "157798",
+        "158475"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "15312",
+      "route_names_zh": [
+        "紅2"
+      ],
+      "route_nids": [
+        "0111000200"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "15312"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15314",
+      "route_names_zh": [
+        "203"
+      ],
+      "route_nids": [
+        "0100020300"
+      ],
+      "operator_ids": [
+        "5300",
+        "5500"
+      ],
+      "subroute_ids": [
+        "15314",
+        "157526"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "15690",
+      "route_names_zh": [
+        "內科通勤專車7"
+      ],
+      "route_nids": [
+        "0152000700"
+      ],
+      "operator_ids": [
+        "5400"
+      ],
+      "subroute_ids": [
+        "155850",
+        "157749"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "17709",
+      "route_names_zh": [
+        "955"
+      ],
+      "route_nids": [
+        "0100095500"
+      ],
+      "operator_ids": [
+        "5400"
+      ],
+      "subroute_ids": [
+        "158892",
+        "159523",
+        "162600"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "15512",
+      "route_names_zh": [
+        "675"
+      ],
+      "route_nids": [
+        "0100067500"
+      ],
+      "operator_ids": [
+        "5500"
+      ],
+      "subroute_ids": [
+        "155120"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15513",
+      "route_names_zh": [
+        "711"
+      ],
+      "route_nids": [
+        "0100071100"
+      ],
+      "operator_ids": [
+        "5500"
+      ],
+      "subroute_ids": [
+        "155130",
+        "162472"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "15515",
+      "route_names_zh": [
+        "668"
+      ],
+      "route_nids": [
+        "0100066800"
+      ],
+      "operator_ids": [
+        "5500"
+      ],
+      "subroute_ids": [
+        "155150",
+        "162523",
+        "162524"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "15514",
+      "route_names_zh": [
+        "605"
+      ],
+      "route_nids": [
+        "0100060500"
+      ],
+      "operator_ids": [
+        "5500"
+      ],
+      "subroute_ids": [
+        "155716"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15517",
+      "route_names_zh": [
+        "605副"
+      ],
+      "route_nids": [
+        "0100060510"
+      ],
+      "operator_ids": [
+        "5500"
+      ],
+      "subroute_ids": [
+        "155717"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15518",
+      "route_names_zh": [
+        "605新台五"
+      ],
+      "route_nids": [
+        "0100060590"
+      ],
+      "operator_ids": [
+        "5500"
+      ],
+      "subroute_ids": [
+        "155718"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15516",
+      "route_names_zh": [
+        "605快"
+      ],
+      "route_nids": [
+        "0100060550"
+      ],
+      "operator_ids": [
+        "5500"
+      ],
+      "subroute_ids": [
+        "155719"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15563",
+      "route_names_zh": [
+        "311"
+      ],
+      "route_nids": [
+        "0100031100"
+      ],
+      "operator_ids": [
+        "5500"
+      ],
+      "subroute_ids": [
+        "15563",
+        "157450",
+        "161877",
+        "162518"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "15561",
+      "route_names_zh": [
+        "214"
+      ],
+      "route_nids": [
+        "0100021400"
+      ],
+      "operator_ids": [
+        "5500"
+      ],
+      "subroute_ids": [
+        "155610",
+        "162514",
+        "162515"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "15562",
+      "route_names_zh": [
+        "214直"
+      ],
+      "route_nids": [
+        "0100021430"
+      ],
+      "operator_ids": [
+        "5500"
+      ],
+      "subroute_ids": [
+        "155620",
+        "162516",
+        "162517"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "15694",
+      "route_names_zh": [
+        "南軟通勤專車中和線"
+      ],
+      "route_nids": [
+        "0152003000"
+      ],
+      "operator_ids": [
+        "5500"
+      ],
+      "subroute_ids": [
+        "155827",
+        "157465"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "15685",
+      "route_names_zh": [
+        "內科通勤專車2"
+      ],
+      "route_nids": [
+        "0152000200"
+      ],
+      "operator_ids": [
+        "5500"
+      ],
+      "subroute_ids": [
+        "155845",
+        "155909"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "15691",
+      "route_names_zh": [
+        "內科通勤專車8"
+      ],
+      "route_nids": [
+        "0152000800"
+      ],
+      "operator_ids": [
+        "5300",
+        "5500"
+      ],
+      "subroute_ids": [
+        "155851",
+        "155911"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "15693",
+      "route_names_zh": [
+        "內科快線2"
+      ],
+      "route_nids": [
+        "0152000B00"
+      ],
+      "operator_ids": [
+        "100",
+        "1000",
+        "1100",
+        "400",
+        "5300",
+        "5500"
+      ],
+      "subroute_ids": [
+        "155824",
+        "157818",
+        "157819",
+        "157820",
+        "158466",
+        "158518",
+        "158519",
+        "161727"
+      ],
+      "source_branch_rows": 10,
+      "normalized_branch_rows": 10
+    },
+    {
+      "route_id": "17390",
+      "route_names_zh": [
+        "950"
+      ],
+      "route_nids": [
+        "0100095000"
+      ],
+      "operator_ids": [
+        "5500"
+      ],
+      "subroute_ids": [
+        "158544",
+        "158584",
+        "160287"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "17512",
+      "route_names_zh": [
+        "311區"
+      ],
+      "route_nids": [
+        "0100031120"
+      ],
+      "operator_ids": [
+        "5500"
+      ],
+      "subroute_ids": [
+        "158675",
+        "162519",
+        "162520"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "19721",
+      "route_names_zh": [
+        "雙園巴士"
+      ],
+      "route_nids": [
+        "0152005400"
+      ],
+      "operator_ids": [
+        "100",
+        "1000",
+        "1100",
+        "200",
+        "400",
+        "5300",
+        "5500",
+        "700",
+        "800",
+        "900"
+      ],
+      "subroute_ids": [
+        "162406",
+        "162407",
+        "162408",
+        "162409",
+        "162410",
+        "162411"
+      ],
+      "source_branch_rows": 12,
+      "normalized_branch_rows": 11
+    },
+    {
+      "route_id": "10132",
+      "route_names_zh": [
+        "234"
+      ],
+      "route_nids": [
+        "0100023400"
+      ],
+      "operator_ids": [
+        "100"
+      ],
+      "subroute_ids": [
+        "101320"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "18015",
+      "route_names_zh": [
+        "內科通勤專車21"
+      ],
+      "route_nids": [
+        "0152002100"
+      ],
+      "operator_ids": [
+        "100"
+      ],
+      "subroute_ids": [
+        "159636",
+        "159637"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "16111",
+      "route_names_zh": [
+        "307"
+      ],
+      "route_nids": [
+        "0100030700"
+      ],
+      "operator_ids": [
+        "100",
+        "200"
+      ],
+      "subroute_ids": [
+        "157462",
+        "157463"
+      ],
+      "source_branch_rows": 8,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "19108",
+      "route_names_zh": [
+        "307西藏三民"
+      ],
+      "route_nids": [
+        "0100030790"
+      ],
+      "operator_ids": [
+        "100",
+        "200"
+      ],
+      "subroute_ids": [
+        "161407",
+        "161408"
+      ],
+      "source_branch_rows": 8,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "10181",
+      "route_names_zh": [
+        "205"
+      ],
+      "route_nids": [
+        "0100020500"
+      ],
+      "operator_ids": [
+        "100"
+      ],
+      "subroute_ids": [
+        "101810"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10932",
+      "route_names_zh": [
+        "仁愛幹線"
+      ],
+      "route_nids": [
+        "0161000200"
+      ],
+      "operator_ids": [
+        "100"
+      ],
+      "subroute_ids": [
+        "101910",
+        "109320",
+        "157451",
+        "157452",
+        "157833",
+        "157834",
+        "157835"
+      ],
+      "source_branch_rows": 7,
+      "normalized_branch_rows": 7
+    },
+    {
+      "route_id": "10231",
+      "route_names_zh": [
+        "民權幹線"
+      ],
+      "route_nids": [
+        "0161001300"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "10231",
+        "162593",
+        "162594"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "15702",
+      "route_names_zh": [
+        "內科快線1"
+      ],
+      "route_nids": [
+        "0152000A00"
+      ],
+      "operator_ids": [
+        "200",
+        "5300",
+        "5500",
+        "800"
+      ],
+      "subroute_ids": [
+        "155835",
+        "155916",
+        "157709",
+        "157710",
+        "157711",
+        "157712"
+      ],
+      "source_branch_rows": 8,
+      "normalized_branch_rows": 8
+    },
+    {
+      "route_id": "19539",
+      "route_names_zh": [
+        "通勤29"
+      ],
+      "route_nids": [
+        "0152005300"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "162058",
+        "162059"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "11221",
+      "route_names_zh": [
+        "284"
+      ],
+      "route_nids": [
+        "0100028400"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "11221"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10251",
+      "route_names_zh": [
+        "南京幹線"
+      ],
+      "route_nids": [
+        "0161001400"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "10251",
+        "159929",
+        "159930"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "10232",
+      "route_names_zh": [
+        "紅25"
+      ],
+      "route_nids": [
+        "0111002500"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "102320"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10253",
+      "route_names_zh": [
+        "內科通勤專車22"
+      ],
+      "route_nids": [
+        "0100002100"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "102530",
+        "162424"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "19298",
+      "route_names_zh": [
+        "紅25區"
+      ],
+      "route_nids": [
+        "0111002520"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "161667"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11202",
+      "route_names_zh": [
+        "紅7區"
+      ],
+      "route_nids": [
+        "0111000720"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "11202",
+        "157629",
+        "157630"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "10262",
+      "route_names_zh": [
+        "2"
+      ],
+      "route_nids": [
+        "0100000200"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "102620"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10263",
+      "route_names_zh": [
+        "536"
+      ],
+      "route_nids": [
+        "0100053600"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "102630"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11203",
+      "route_names_zh": [
+        "26"
+      ],
+      "route_nids": [
+        "0100002600"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "112030"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "17022",
+      "route_names_zh": [
+        "紅57"
+      ],
+      "route_nids": [
+        "0111005700"
+      ],
+      "operator_ids": [
+        "100",
+        "200"
+      ],
+      "subroute_ids": [
+        "158149"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "19720",
+      "route_names_zh": [
+        "536區"
+      ],
+      "route_nids": [
+        "0100053620"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "162405"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10283",
+      "route_names_zh": [
+        "235"
+      ],
+      "route_nids": [
+        "0100023500"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "10283"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10282",
+      "route_names_zh": [
+        "663"
+      ],
+      "route_nids": [
+        "0100066300"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "102820"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10291",
+      "route_names_zh": [
+        "棕1"
+      ],
+      "route_nids": [
+        "0114000100"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "10291"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10292",
+      "route_names_zh": [
+        "藍10"
+      ],
+      "route_nids": [
+        "0112001000"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "10292"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10293",
+      "route_names_zh": [
+        "民生幹線"
+      ],
+      "route_nids": [
+        "0161000300"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "10293",
+        "162597",
+        "162598"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "15734",
+      "route_names_zh": [
+        "市民小巴10"
+      ],
+      "route_nids": [
+        "0153001000"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "155888"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "16166",
+      "route_names_zh": [
+        "紅50"
+      ],
+      "route_nids": [
+        "0111005000"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "155935",
+        "159663"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "10421",
+      "route_names_zh": [
+        "紅9"
+      ],
+      "route_nids": [
+        "0111000900"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "10421"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10443",
+      "route_names_zh": [
+        "225"
+      ],
+      "route_nids": [
+        "0100022500"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "10443",
+        "159519",
+        "162531",
+        "162532"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "10414",
+      "route_names_zh": [
+        "261"
+      ],
+      "route_nids": [
+        "0100026100"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "104140",
+        "162278"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "10473",
+      "route_names_zh": [
+        "306"
+      ],
+      "route_nids": [
+        "0100030600"
+      ],
+      "operator_ids": [
+        "400",
+        "800"
+      ],
+      "subroute_ids": [
+        "104730",
+        "118520"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "15689",
+      "route_names_zh": [
+        "內科通勤專車6"
+      ],
+      "route_nids": [
+        "0152000600"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "155849",
+        "157748"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "10442",
+      "route_names_zh": [
+        "508區"
+      ],
+      "route_nids": [
+        "0100050820"
+      ],
+      "operator_ids": [
+        "400",
+        "800"
+      ],
+      "subroute_ids": [
+        "104420",
+        "155894",
+        "159695",
+        "162556"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "16128",
+      "route_names_zh": [
+        "225區"
+      ],
+      "route_nids": [
+        "0100022520"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "155898"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "16164",
+      "route_names_zh": [
+        "市民小巴12"
+      ],
+      "route_nids": [
+        "0153001200"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "155931"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "18039",
+      "route_names_zh": [
+        "通勤9"
+      ],
+      "route_nids": [
+        "0162000900"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "159671"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "19678",
+      "route_names_zh": [
+        "261預"
+      ],
+      "route_nids": [],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "162277"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10452",
+      "route_names_zh": [
+        "641"
+      ],
+      "route_nids": [
+        "0100064100"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "104520"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10431",
+      "route_names_zh": [
+        "紅31"
+      ],
+      "route_nids": [
+        "0111003100"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "10431"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10432",
+      "route_names_zh": [
+        "藍26"
+      ],
+      "route_nids": [
+        "0112002600"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "10432",
+        "157848",
+        "157849",
+        "159403"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "10461",
+      "route_names_zh": [
+        "645"
+      ],
+      "route_nids": [
+        "0100064500"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "104610",
+        "161507"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "10462",
+      "route_names_zh": [
+        "645副"
+      ],
+      "route_nids": [
+        "0100064510"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "104620"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15683",
+      "route_names_zh": [
+        "內科通勤專車18"
+      ],
+      "route_nids": [
+        "0152001800"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "155843",
+        "157753"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "15684",
+      "route_names_zh": [
+        "內科通勤專車19"
+      ],
+      "route_nids": [
+        "0152001900"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "155844",
+        "157754"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "15711",
+      "route_names_zh": [
+        "市民小巴9"
+      ],
+      "route_nids": [
+        "0153000900"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "155859",
+        "158148"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "15724",
+      "route_names_zh": [
+        "128"
+      ],
+      "route_nids": [
+        "0100012800"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "155874",
+        "159502",
+        "159704"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "10481",
+      "route_names_zh": [
+        "265經中央路"
+      ],
+      "route_nids": [
+        "0100026500"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "104810"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10482",
+      "route_names_zh": [
+        "265區"
+      ],
+      "route_nids": [
+        "0100026520"
+      ],
+      "operator_ids": [
+        "1100",
+        "400"
+      ],
+      "subroute_ids": [
+        "104820",
+        "157694",
+        "162535",
+        "162536"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "16131",
+      "route_names_zh": [
+        "265夜"
+      ],
+      "route_nids": [
+        "0100026540"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "155928"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11411",
+      "route_names_zh": [
+        "299"
+      ],
+      "route_nids": [
+        "0100029900"
+      ],
+      "operator_ids": [
+        "400",
+        "800"
+      ],
+      "subroute_ids": [
+        "11411",
+        "157461",
+        "159807",
+        "159808",
+        "159809",
+        "159810"
+      ],
+      "source_branch_rows": 6,
+      "normalized_branch_rows": 6
+    },
+    {
+      "route_id": "11421",
+      "route_names_zh": [
+        "513"
+      ],
+      "route_nids": [
+        "0100051300"
+      ],
+      "operator_ids": [
+        "400"
+      ],
+      "subroute_ids": [
+        "11421"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10712",
+      "route_names_zh": [
+        "251"
+      ],
+      "route_nids": [
+        "0100025100"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "10712"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11763",
+      "route_names_zh": [
+        "236區"
+      ],
+      "route_nids": [
+        "0100023620"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "11763"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11764",
+      "route_names_zh": [
+        "251區"
+      ],
+      "route_nids": [
+        "0100025120"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "11764"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "17967",
+      "route_names_zh": [
+        "通勤7"
+      ],
+      "route_nids": [
+        "0162000700"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "159542",
+        "159543",
+        "159630"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "10722",
+      "route_names_zh": [
+        "藍29"
+      ],
+      "route_nids": [
+        "0112002900"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "10722"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10723",
+      "route_names_zh": [
+        "1"
+      ],
+      "route_nids": [
+        "0100000100"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "10723",
+        "160559"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "10726",
+      "route_names_zh": [
+        "18"
+      ],
+      "route_nids": [
+        "0100001800"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "10726"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10724",
+      "route_names_zh": [
+        "907"
+      ],
+      "route_nids": [
+        "0100090700"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "107240"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10725",
+      "route_names_zh": [
+        "568"
+      ],
+      "route_nids": [
+        "0100056800"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "107250"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "17928",
+      "route_names_zh": [
+        "907通勤"
+      ],
+      "route_nids": [
+        "0100090790"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "159412",
+        "161812",
+        "161813",
+        "161814",
+        "162432"
+      ],
+      "source_branch_rows": 5,
+      "normalized_branch_rows": 5
+    },
+    {
+      "route_id": "10735",
+      "route_names_zh": [
+        "253"
+      ],
+      "route_nids": [
+        "0100025300"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "10735",
+        "160377"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "10736",
+      "route_names_zh": [
+        "671"
+      ],
+      "route_nids": [
+        "0100067100"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "10736"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10734",
+      "route_names_zh": [
+        "景美-榮總(快)"
+      ],
+      "route_nids": [
+        "0162000400"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "107340"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "19776",
+      "route_names_zh": [
+        "綠18"
+      ],
+      "route_nids": [
+        "0113001800"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "162507"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10711",
+      "route_names_zh": [
+        "羅斯福路幹線"
+      ],
+      "route_nids": [
+        "0161001600"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "10711"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10733",
+      "route_names_zh": [
+        "棕2"
+      ],
+      "route_nids": [
+        "0114000200"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "10733"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10742",
+      "route_names_zh": [
+        "棕6"
+      ],
+      "route_nids": [
+        "0114000600"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "10742",
+        "159516"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "10721",
+      "route_names_zh": [
+        "藍28"
+      ],
+      "route_nids": [
+        "0112002800"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "10721",
+        "159425"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "10751",
+      "route_names_zh": [
+        "棕12"
+      ],
+      "route_nids": [
+        "0114001200"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "10751"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10754",
+      "route_names_zh": [
+        "915"
+      ],
+      "route_nids": [
+        "0100091500"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "10754"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10792",
+      "route_names_zh": [
+        "52"
+      ],
+      "route_nids": [
+        "0100005200"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "10792"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10752",
+      "route_names_zh": [
+        "278"
+      ],
+      "route_nids": [
+        "0100027800"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "107520"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10791",
+      "route_names_zh": [
+        "市民小巴5"
+      ],
+      "route_nids": [
+        "0153000500"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "107910",
+        "157527"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "16439",
+      "route_names_zh": [
+        "278區"
+      ],
+      "route_nids": [
+        "0100027820"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "157441"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "16747",
+      "route_names_zh": [
+        "棕22"
+      ],
+      "route_nids": [
+        "0114002200"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "157857"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "18228",
+      "route_names_zh": [
+        "通勤13"
+      ],
+      "route_nids": [
+        "0152003700"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "160117",
+        "160118"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "10763",
+      "route_names_zh": [
+        "903"
+      ],
+      "route_nids": [
+        "0100090300"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "107630",
+        "107660"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "10764",
+      "route_names_zh": [
+        "531"
+      ],
+      "route_nids": [
+        "0100053100"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "107640"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10765",
+      "route_names_zh": [
+        "646"
+      ],
+      "route_nids": [
+        "0100064600"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "107650"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10767",
+      "route_names_zh": [
+        "53"
+      ],
+      "route_nids": [
+        "0100005300"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "107670"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "18428",
+      "route_names_zh": [
+        "通勤16"
+      ],
+      "route_nids": [
+        "0152003800"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "160347",
+        "160348",
+        "161997",
+        "161998"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "10861",
+      "route_names_zh": [
+        "630"
+      ],
+      "route_nids": [
+        "0100063000"
+      ],
+      "operator_ids": [
+        "700",
+        "800"
+      ],
+      "subroute_ids": [
+        "160877",
+        "160878",
+        "160879",
+        "160880"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "10771",
+      "route_names_zh": [
+        "670"
+      ],
+      "route_nids": [
+        "0100067000"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "107710"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10783",
+      "route_names_zh": [
+        "254"
+      ],
+      "route_nids": [
+        "0100025400"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "10783"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10782",
+      "route_names_zh": [
+        "673"
+      ],
+      "route_nids": [
+        "0100067300"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "107820"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10785",
+      "route_names_zh": [
+        "672"
+      ],
+      "route_nids": [
+        "0100067200"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "107850"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "16169",
+      "route_names_zh": [
+        "672區"
+      ],
+      "route_nids": [
+        "0100067220"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "155938"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "16709",
+      "route_names_zh": [
+        "254區"
+      ],
+      "route_nids": [
+        "0100025420"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "157801"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10821",
+      "route_names_zh": [
+        "紅5"
+      ],
+      "route_nids": [
+        "0111000500"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "10821",
+        "157609",
+        "157610",
+        "158419",
+        "158420"
+      ],
+      "source_branch_rows": 5,
+      "normalized_branch_rows": 5
+    },
+    {
+      "route_id": "10822",
+      "route_names_zh": [
+        "108"
+      ],
+      "route_nids": [
+        "0100010800"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "108220"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10824",
+      "route_names_zh": [
+        "260區"
+      ],
+      "route_nids": [
+        "0100026020"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "108240",
+        "108260",
+        "158748",
+        "161497"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "10823",
+      "route_names_zh": [
+        "260"
+      ],
+      "route_nids": [
+        "0100026000"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "155895",
+        "155896"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "16168",
+      "route_names_zh": [
+        "108區"
+      ],
+      "route_nids": [
+        "0100010820"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "155937"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "17580",
+      "route_names_zh": [
+        "花季專車124"
+      ],
+      "route_nids": [
+        "0171002000"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "158751"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "19178",
+      "route_names_zh": [
+        "260區預"
+      ],
+      "route_nids": [],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "161498"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10841",
+      "route_names_zh": [
+        "0東"
+      ],
+      "route_nids": [
+        "0100000A00"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "108410",
+        "159514"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "10842",
+      "route_names_zh": [
+        "222"
+      ],
+      "route_nids": [
+        "0100022200"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "108420"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10847",
+      "route_names_zh": [
+        "63"
+      ],
+      "route_nids": [
+        "0100006300"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "108470"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10848",
+      "route_names_zh": [
+        "505"
+      ],
+      "route_nids": [
+        "0100050500"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "108480"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15679",
+      "route_names_zh": [
+        "內科通勤專車13"
+      ],
+      "route_nids": [
+        "0152001300"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "155838",
+        "155912"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "15687",
+      "route_names_zh": [
+        "內科通勤專車3"
+      ],
+      "route_nids": [
+        "0152000300"
+      ],
+      "operator_ids": [
+        "100",
+        "800"
+      ],
+      "subroute_ids": [
+        "155847",
+        "155918"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "10851",
+      "route_names_zh": [
+        "內湖幹線"
+      ],
+      "route_nids": [
+        "0161000100"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "108510"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10853",
+      "route_names_zh": [
+        "287區"
+      ],
+      "route_nids": [
+        "0100028720"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "108530"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10856",
+      "route_names_zh": [
+        "281"
+      ],
+      "route_nids": [
+        "0100028100"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "108560"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10862",
+      "route_names_zh": [
+        "38"
+      ],
+      "route_nids": [
+        "0100003800"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "108620"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10863",
+      "route_names_zh": [
+        "38區"
+      ],
+      "route_nids": [
+        "0100003820"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "108630"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10864",
+      "route_names_zh": [
+        "12"
+      ],
+      "route_nids": [
+        "0100001200"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "108640",
+        "161499",
+        "162541",
+        "162542"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "10831",
+      "route_names_zh": [
+        "藍5"
+      ],
+      "route_nids": [
+        "0112000500"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "10831",
+        "157811",
+        "159500",
+        "159501"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "10832",
+      "route_names_zh": [
+        "22"
+      ],
+      "route_nids": [
+        "0100002200"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "10832"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10874",
+      "route_names_zh": [
+        "277"
+      ],
+      "route_nids": [
+        "0100027700"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "10874"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11091",
+      "route_names_zh": [
+        "37"
+      ],
+      "route_nids": [
+        "0100003700"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "11091"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11093",
+      "route_names_zh": [
+        "612"
+      ],
+      "route_nids": [
+        "0100061200"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "11093"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10872",
+      "route_names_zh": [
+        "46"
+      ],
+      "route_nids": [
+        "0100004600"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "108720"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "19448",
+      "route_names_zh": [
+        "市民小巴17"
+      ],
+      "route_nids": [
+        "0153001700"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "161907"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10893",
+      "route_names_zh": [
+        "274"
+      ],
+      "route_nids": [
+        "0100027400"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "10893"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10891",
+      "route_names_zh": [
+        "14"
+      ],
+      "route_nids": [
+        "0100001400"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "108910"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10942",
+      "route_names_zh": [
+        "257"
+      ],
+      "route_nids": [
+        "0100025700"
+      ],
+      "operator_ids": [
+        "900"
+      ],
+      "subroute_ids": [
+        "10942",
+        "159596"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "15677",
+      "route_names_zh": [
+        "內科通勤專車11"
+      ],
+      "route_nids": [
+        "0152001100"
+      ],
+      "operator_ids": [
+        "900"
+      ],
+      "subroute_ids": [
+        "155836",
+        "157751"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "10911",
+      "route_names_zh": [
+        "212直"
+      ],
+      "route_nids": [
+        "0100021230"
+      ],
+      "operator_ids": [
+        "900"
+      ],
+      "subroute_ids": [
+        "10911"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10912",
+      "route_names_zh": [
+        "212"
+      ],
+      "route_nids": [
+        "0100021200"
+      ],
+      "operator_ids": [
+        "900"
+      ],
+      "subroute_ids": [
+        "10912"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "16132",
+      "route_names_zh": [
+        "212夜"
+      ],
+      "route_nids": [
+        "0100021240"
+      ],
+      "operator_ids": [
+        "900"
+      ],
+      "subroute_ids": [
+        "157442"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11021",
+      "route_names_zh": [
+        "棕5"
+      ],
+      "route_nids": [
+        "0114000500"
+      ],
+      "operator_ids": [
+        "1000"
+      ],
+      "subroute_ids": [
+        "11021",
+        "159273"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "11022",
+      "route_names_zh": [
+        "綠11"
+      ],
+      "route_nids": [
+        "0113001100"
+      ],
+      "operator_ids": [
+        "1000"
+      ],
+      "subroute_ids": [
+        "11022",
+        "158714"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "11023",
+      "route_names_zh": [
+        "298"
+      ],
+      "route_nids": [
+        "0100029800"
+      ],
+      "operator_ids": [
+        "1000"
+      ],
+      "subroute_ids": [
+        "110230"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11071",
+      "route_names_zh": [
+        "小10"
+      ],
+      "route_nids": [
+        "0151001000"
+      ],
+      "operator_ids": [
+        "1000"
+      ],
+      "subroute_ids": [
+        "110710",
+        "110720"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "11073",
+      "route_names_zh": [
+        "小11"
+      ],
+      "route_nids": [
+        "0151001100"
+      ],
+      "operator_ids": [
+        "1000"
+      ],
+      "subroute_ids": [
+        "110730",
+        "157882",
+        "157883"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "17020",
+      "route_names_zh": [
+        "小30"
+      ],
+      "route_nids": [
+        "0151003000"
+      ],
+      "operator_ids": [
+        "1000"
+      ],
+      "subroute_ids": [
+        "158146"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "18040",
+      "route_names_zh": [
+        "小10區"
+      ],
+      "route_nids": [
+        "0151001020"
+      ],
+      "operator_ids": [
+        "1000"
+      ],
+      "subroute_ids": [
+        "159672",
+        "159673"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "11011",
+      "route_names_zh": [
+        "紅29"
+      ],
+      "route_nids": [
+        "0111002900"
+      ],
+      "operator_ids": [
+        "1000"
+      ],
+      "subroute_ids": [
+        "11011"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11031",
+      "route_names_zh": [
+        "棕10"
+      ],
+      "route_nids": [
+        "0114001000"
+      ],
+      "operator_ids": [
+        "1000"
+      ],
+      "subroute_ids": [
+        "11031"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11051",
+      "route_names_zh": [
+        "小1"
+      ],
+      "route_nids": [
+        "0151000100"
+      ],
+      "operator_ids": [
+        "1000"
+      ],
+      "subroute_ids": [
+        "110510"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11052",
+      "route_names_zh": [
+        "小12"
+      ],
+      "route_nids": [
+        "0151001200"
+      ],
+      "operator_ids": [
+        "1000"
+      ],
+      "subroute_ids": [
+        "110520",
+        "157460"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "11055",
+      "route_names_zh": [
+        "小2"
+      ],
+      "route_nids": [
+        "0151000200"
+      ],
+      "operator_ids": [
+        "1000"
+      ],
+      "subroute_ids": [
+        "110550"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11056",
+      "route_names_zh": [
+        "552"
+      ],
+      "route_nids": [
+        "0100055200"
+      ],
+      "operator_ids": [
+        "1000"
+      ],
+      "subroute_ids": [
+        "110560"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11057",
+      "route_names_zh": [
+        "小2區"
+      ],
+      "route_nids": [
+        "0151000220"
+      ],
+      "operator_ids": [
+        "1000"
+      ],
+      "subroute_ids": [
+        "110570"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11058",
+      "route_names_zh": [
+        "小3"
+      ],
+      "route_nids": [
+        "0151000300"
+      ],
+      "operator_ids": [
+        "1000"
+      ],
+      "subroute_ids": [
+        "110580"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11059",
+      "route_names_zh": [
+        "小5"
+      ],
+      "route_nids": [
+        "0151000500"
+      ],
+      "operator_ids": [
+        "1000"
+      ],
+      "subroute_ids": [
+        "110590"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11061",
+      "route_names_zh": [
+        "小5區"
+      ],
+      "route_nids": [
+        "0151000520"
+      ],
+      "operator_ids": [
+        "1000"
+      ],
+      "subroute_ids": [
+        "110610"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11062",
+      "route_names_zh": [
+        "小1區"
+      ],
+      "route_nids": [
+        "0151000120"
+      ],
+      "operator_ids": [
+        "1000"
+      ],
+      "subroute_ids": [
+        "110620",
+        "110630"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "15688",
+      "route_names_zh": [
+        "內科通勤專車5"
+      ],
+      "route_nids": [
+        "0152000500"
+      ],
+      "operator_ids": [
+        "1000"
+      ],
+      "subroute_ids": [
+        "155848",
+        "155910"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "15572",
+      "route_names_zh": [
+        "207"
+      ],
+      "route_nids": [
+        "0100020700"
+      ],
+      "operator_ids": [
+        "1000"
+      ],
+      "subroute_ids": [
+        "155854",
+        "157760",
+        "157761",
+        "159706"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "16153",
+      "route_names_zh": [
+        "棕19"
+      ],
+      "route_nids": [
+        "0114001900"
+      ],
+      "operator_ids": [
+        "1000"
+      ],
+      "subroute_ids": [
+        "155904"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "16440",
+      "route_names_zh": [
+        "藍50"
+      ],
+      "route_nids": [
+        "0112005000"
+      ],
+      "operator_ids": [
+        "1000"
+      ],
+      "subroute_ids": [
+        "157444"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "16506",
+      "route_names_zh": [
+        "藍51"
+      ],
+      "route_nids": [
+        "0112005100"
+      ],
+      "operator_ids": [
+        "1000"
+      ],
+      "subroute_ids": [
+        "157539"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11111",
+      "route_names_zh": [
+        "藍27"
+      ],
+      "route_nids": [
+        "0112002700"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "11111",
+        "157692",
+        "157693"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "15686",
+      "route_names_zh": [
+        "內科通勤專車20"
+      ],
+      "route_nids": [
+        "0152002000"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "155846",
+        "157755"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "16174",
+      "route_names_zh": [
+        "棕20"
+      ],
+      "route_nids": [
+        "0114002000"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "155942",
+        "160468"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "16649",
+      "route_names_zh": [
+        "市民小巴15"
+      ],
+      "route_nids": [
+        "0153001500"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "157714"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11114",
+      "route_names_zh": [
+        "551"
+      ],
+      "route_nids": [
+        "0100055100"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "157763",
+        "157815",
+        "161418",
+        "161419"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "11854",
+      "route_names_zh": [
+        "市民小巴6"
+      ],
+      "route_nids": [
+        "0153000600"
+      ],
+      "operator_ids": [
+        "1100",
+        "800"
+      ],
+      "subroute_ids": [
+        "118540",
+        "118550",
+        "157766",
+        "157767"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "18508",
+      "route_names_zh": [
+        "棕20預"
+      ],
+      "route_nids": [],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "160469"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11121",
+      "route_names_zh": [
+        "紅35"
+      ],
+      "route_nids": [
+        "0111003500"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "11121"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11122",
+      "route_names_zh": [
+        "小23"
+      ],
+      "route_nids": [
+        "0151002300"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "111220",
+        "162439"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "11123",
+      "route_names_zh": [
+        "550"
+      ],
+      "route_nids": [
+        "0100055000"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "111230"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11124",
+      "route_names_zh": [
+        "223"
+      ],
+      "route_nids": [
+        "0100022300"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "111240",
+        "162398"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "11125",
+      "route_names_zh": [
+        "302"
+      ],
+      "route_nids": [
+        "0100030200"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "111250",
+        "161128"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "11161",
+      "route_names_zh": [
+        "529"
+      ],
+      "route_nids": [
+        "0100052900"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "111610"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15681",
+      "route_names_zh": [
+        "內科通勤專車16"
+      ],
+      "route_nids": [
+        "0152001600"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "155840",
+        "155915"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "16750",
+      "route_names_zh": [
+        "紅55區"
+      ],
+      "route_nids": [
+        "0111005520"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "157859"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "16749",
+      "route_names_zh": [
+        "紅55"
+      ],
+      "route_nids": [
+        "0111005500"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "157860"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "18868",
+      "route_names_zh": [
+        "紅35區"
+      ],
+      "route_nids": [
+        "0111003520"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "161017"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "19717",
+      "route_names_zh": [
+        "302區"
+      ],
+      "route_nids": [
+        "0100030220"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "162399",
+        "162400"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "11141",
+      "route_names_zh": [
+        "216"
+      ],
+      "route_nids": [
+        "0100021600"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "11141",
+        "162592"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "11064",
+      "route_names_zh": [
+        "小36"
+      ],
+      "route_nids": [
+        "0151003600"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "110640",
+        "111330",
+        "162610",
+        "162611",
+        "162612"
+      ],
+      "source_branch_rows": 5,
+      "normalized_branch_rows": 5
+    },
+    {
+      "route_id": "11134",
+      "route_names_zh": [
+        "小8"
+      ],
+      "route_nids": [
+        "0151000800"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "111340"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11135",
+      "route_names_zh": [
+        "小14"
+      ],
+      "route_nids": [
+        "0151001400"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "111350"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11136",
+      "route_names_zh": [
+        "小21"
+      ],
+      "route_nids": [
+        "0151002100"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "111360",
+        "161317"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "11137",
+      "route_names_zh": [
+        "小22"
+      ],
+      "route_nids": [
+        "0151002200"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "111370"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11138",
+      "route_names_zh": [
+        "小25"
+      ],
+      "route_nids": [
+        "0151002500"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "111380",
+        "155906",
+        "162607",
+        "162608",
+        "162609"
+      ],
+      "source_branch_rows": 5,
+      "normalized_branch_rows": 5
+    },
+    {
+      "route_id": "11139",
+      "route_names_zh": [
+        "小6"
+      ],
+      "route_nids": [
+        "0151000600"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "111390",
+        "159382"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "11145",
+      "route_names_zh": [
+        "小7"
+      ],
+      "route_nids": [
+        "0151000700"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "111410",
+        "111450",
+        "159274",
+        "159702"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "11142",
+      "route_names_zh": [
+        "小9(台灣好行-北投竹子湖)"
+      ],
+      "route_nids": [
+        "0151000900"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "111420"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11143",
+      "route_names_zh": [
+        "小26"
+      ],
+      "route_nids": [
+        "0151002600"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "111430"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11151",
+      "route_names_zh": [
+        "230"
+      ],
+      "route_nids": [
+        "0100023000"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "111510",
+        "162604",
+        "162605",
+        "162606"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "15726",
+      "route_names_zh": [
+        "129"
+      ],
+      "route_nids": [
+        "0100012900"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "155875"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "19418",
+      "route_names_zh": [
+        "小8區"
+      ],
+      "route_nids": [
+        "0151000820"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "161870"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11146",
+      "route_names_zh": [
+        "市民小巴2"
+      ],
+      "route_nids": [
+        "0153000200"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "111460"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11152",
+      "route_names_zh": [
+        "承德幹線"
+      ],
+      "route_nids": [
+        "0161000900"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "111520",
+        "157863",
+        "157864"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "11156",
+      "route_names_zh": [
+        "218"
+      ],
+      "route_nids": [
+        "0100021800"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "111560"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11157",
+      "route_names_zh": [
+        "218直"
+      ],
+      "route_nids": [
+        "0100021830"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "111570"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11158",
+      "route_names_zh": [
+        "218區"
+      ],
+      "route_nids": [
+        "0100021820"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "111580"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15696",
+      "route_names_zh": [
+        "南軟通勤專車北投線"
+      ],
+      "route_nids": [
+        "0152003200"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "155829",
+        "157182"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "15735",
+      "route_names_zh": [
+        "602"
+      ],
+      "route_nids": [
+        "0100060200"
+      ],
+      "operator_ids": [
+        "1100",
+        "5500"
+      ],
+      "subroute_ids": [
+        "155889",
+        "155890",
+        "159458",
+        "159459"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "16648",
+      "route_names_zh": [
+        "小28"
+      ],
+      "route_nids": [
+        "0151002800"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "157713"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "19408",
+      "route_names_zh": [
+        "通勤27"
+      ],
+      "route_nids": [
+        "0152005100"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "161868",
+        "161869"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "16133",
+      "route_names_zh": [
+        "小9區"
+      ],
+      "route_nids": [
+        "0151000920"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "161957"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "19716",
+      "route_names_zh": [
+        "小39"
+      ],
+      "route_nids": [
+        "0151003900"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "162397"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11171",
+      "route_names_zh": [
+        "265經明德路"
+      ],
+      "route_nids": [
+        "0100026590"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "111710"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10261",
+      "route_names_zh": [
+        "紅33"
+      ],
+      "route_nids": [
+        "0111003300"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "10261"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11201",
+      "route_names_zh": [
+        "紅7"
+      ],
+      "route_nids": [
+        "0111000700"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "11201"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10272",
+      "route_names_zh": [
+        "303"
+      ],
+      "route_nids": [
+        "0100030300"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "102720",
+        "102750",
+        "162473",
+        "162510",
+        "162511",
+        "162512",
+        "162513"
+      ],
+      "source_branch_rows": 7,
+      "normalized_branch_rows": 7
+    },
+    {
+      "route_id": "10273",
+      "route_names_zh": [
+        "303區"
+      ],
+      "route_nids": [
+        "0100030320"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "102730",
+        "102760",
+        "157453",
+        "159697",
+        "159698",
+        "159699",
+        "162486"
+      ],
+      "source_branch_rows": 7,
+      "normalized_branch_rows": 7
+    },
+    {
+      "route_id": "10277",
+      "route_names_zh": [
+        "542"
+      ],
+      "route_nids": [
+        "0100054200"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "102770",
+        "159918",
+        "160608",
+        "161077"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "11204",
+      "route_names_zh": [
+        "68"
+      ],
+      "route_nids": [
+        "0100006800"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "112040"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11206",
+      "route_names_zh": [
+        "小15"
+      ],
+      "route_nids": [
+        "0151001500"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "112060",
+        "159288",
+        "162487",
+        "162488",
+        "162489",
+        "162595",
+        "162596"
+      ],
+      "source_branch_rows": 7,
+      "normalized_branch_rows": 7
+    },
+    {
+      "route_id": "11207",
+      "route_names_zh": [
+        "小15區"
+      ],
+      "route_nids": [
+        "0151001520"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "112070",
+        "159436",
+        "162319"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "11208",
+      "route_names_zh": [
+        "小16"
+      ],
+      "route_nids": [
+        "0151001600"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "112080",
+        "158476",
+        "158478",
+        "158479",
+        "158794",
+        "160667",
+        "160668",
+        "160669",
+        "160670",
+        "162470"
+      ],
+      "source_branch_rows": 10,
+      "normalized_branch_rows": 10
+    },
+    {
+      "route_id": "11209",
+      "route_names_zh": [
+        "小17"
+      ],
+      "route_nids": [
+        "0151001700"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "112090",
+        "112120"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "11211",
+      "route_names_zh": [
+        "小18"
+      ],
+      "route_nids": [
+        "0151001800"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "112110"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11213",
+      "route_names_zh": [
+        "小19"
+      ],
+      "route_nids": [
+        "0151001900"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "112130",
+        "112150"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "11217",
+      "route_names_zh": [
+        "市民小巴1"
+      ],
+      "route_nids": [
+        "0153000100"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "112170",
+        "157454",
+        "157455"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "11251",
+      "route_names_zh": [
+        "棕13"
+      ],
+      "route_nids": [
+        "0114001300"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "112510"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11252",
+      "route_names_zh": [
+        "255"
+      ],
+      "route_nids": [
+        "0100025500"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "112520"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11253",
+      "route_names_zh": [
+        "255區"
+      ],
+      "route_nids": [
+        "0100025520"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "112530",
+        "159512",
+        "159513"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "17929",
+      "route_names_zh": [
+        "紅68"
+      ],
+      "route_nids": [
+        "0111006800"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "159413",
+        "161201",
+        "161202",
+        "162404"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "18348",
+      "route_names_zh": [
+        "542預"
+      ],
+      "route_nids": [],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "160269"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "19028",
+      "route_names_zh": [
+        "通勤26"
+      ],
+      "route_nids": [
+        "0152005000"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "161287",
+        "161288"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "19698",
+      "route_names_zh": [
+        "小15區預"
+      ],
+      "route_nids": [],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "162320"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "19719",
+      "route_names_zh": [
+        "紅68預"
+      ],
+      "route_nids": [],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "162403"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11212",
+      "route_names_zh": [
+        "204"
+      ],
+      "route_nids": [
+        "0100020400"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "11212",
+        "157877",
+        "157878"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "17556",
+      "route_names_zh": [
+        "綠17"
+      ],
+      "route_nids": [
+        "0113001700"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "158726"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10241",
+      "route_names_zh": [
+        "藍36"
+      ],
+      "route_nids": [
+        "0112003600"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "10241",
+        "159927",
+        "159928"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "11246",
+      "route_names_zh": [
+        "292"
+      ],
+      "route_nids": [
+        "0100029200"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "11246"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11231",
+      "route_names_zh": [
+        "621"
+      ],
+      "route_nids": [
+        "0100062100"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "112310"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11232",
+      "route_names_zh": [
+        "211"
+      ],
+      "route_nids": [
+        "0100021100"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "112320"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "16158",
+      "route_names_zh": [
+        "292副"
+      ],
+      "route_nids": [
+        "0100029210"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "155924"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11245",
+      "route_names_zh": [
+        "226"
+      ],
+      "route_nids": [
+        "0100022600"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "11245"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10278",
+      "route_names_zh": [
+        "669"
+      ],
+      "route_nids": [
+        "0100066900"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "102780",
+        "159520"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "11241",
+      "route_names_zh": [
+        "662"
+      ],
+      "route_nids": [
+        "0100066200"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "112410"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11811",
+      "route_names_zh": [
+        "0南"
+      ],
+      "route_nids": [
+        "0100000B00"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "118110"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11813",
+      "route_names_zh": [
+        "109"
+      ],
+      "route_nids": [
+        "0100010900"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "118130"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11815",
+      "route_names_zh": [
+        "606"
+      ],
+      "route_nids": [
+        "0100060600"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "118150"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11812",
+      "route_names_zh": [
+        "和平幹線"
+      ],
+      "route_nids": [
+        "0161000700"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "155925",
+        "162475"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "19798",
+      "route_names_zh": [
+        "606通勤"
+      ],
+      "route_nids": [
+        "0100060690"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "162616"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10873",
+      "route_names_zh": [
+        "20"
+      ],
+      "route_nids": [
+        "0100002000"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "10873"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10845",
+      "route_names_zh": [
+        "286"
+      ],
+      "route_nids": [
+        "0100028600"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "108450"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10846",
+      "route_names_zh": [
+        "286副"
+      ],
+      "route_nids": [
+        "0100028610"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "108460"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11066",
+      "route_names_zh": [
+        "32"
+      ],
+      "route_nids": [
+        "0100003200"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "110660"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11821",
+      "route_names_zh": [
+        "33"
+      ],
+      "route_nids": [
+        "0100003300"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "118210",
+        "162167"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "17555",
+      "route_names_zh": [
+        "東環幹線"
+      ],
+      "route_nids": [
+        "0113001600"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "158725",
+        "161717"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "11833",
+      "route_names_zh": [
+        "復興幹線"
+      ],
+      "route_nids": [
+        "0161000800"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "11833",
+        "162549",
+        "162550"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "11834",
+      "route_names_zh": [
+        "688"
+      ],
+      "route_nids": [
+        "0100068800"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "11834",
+        "162545",
+        "162546"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "11831",
+      "route_names_zh": [
+        "49"
+      ],
+      "route_nids": [
+        "0100004900"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "118310"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11841",
+      "route_names_zh": [
+        "270"
+      ],
+      "route_nids": [
+        "0100027000"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "118410",
+        "157449"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "11842",
+      "route_names_zh": [
+        "270區"
+      ],
+      "route_nids": [
+        "0100027020"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "118420"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15698",
+      "route_names_zh": [
+        "南軟通勤專車雙和線"
+      ],
+      "route_nids": [
+        "0152003400"
+      ],
+      "operator_ids": [
+        "100",
+        "800"
+      ],
+      "subroute_ids": [
+        "155831",
+        "157466",
+        "159827",
+        "159828"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "11851",
+      "route_names_zh": [
+        "276"
+      ],
+      "route_nids": [
+        "0100027600"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "118510"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11853",
+      "route_names_zh": [
+        "306區"
+      ],
+      "route_nids": [
+        "0100030620"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "118530"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11861",
+      "route_names_zh": [
+        "5"
+      ],
+      "route_nids": [
+        "0100000500"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "11861"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10962",
+      "route_names_zh": [
+        "262區"
+      ],
+      "route_nids": [
+        "0100026220"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "108570",
+        "159597",
+        "160077",
+        "160078"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "11041",
+      "route_names_zh": [
+        "297"
+      ],
+      "route_nids": [
+        "0100029700"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "110410",
+        "161479"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "18198",
+      "route_names_zh": [
+        "通勤11"
+      ],
+      "route_nids": [
+        "0152003500"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "160069",
+        "160070"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "18199",
+      "route_names_zh": [
+        "通勤12"
+      ],
+      "route_nids": [
+        "0152003600"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "160073"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "19159",
+      "route_names_zh": [
+        "297預"
+      ],
+      "route_nids": [],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "161480"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15111",
+      "route_names_zh": [
+        "202"
+      ],
+      "route_nids": [
+        "0100020200"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "15111"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15112",
+      "route_names_zh": [
+        "208"
+      ],
+      "route_nids": [
+        "0100020800"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "15112",
+        "162474"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "15113",
+      "route_names_zh": [
+        "208區"
+      ],
+      "route_nids": [
+        "0100020820"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "15113"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "16157",
+      "route_names_zh": [
+        "208直"
+      ],
+      "route_nids": [
+        "0100020830"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "155919"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15151",
+      "route_names_zh": [
+        "308"
+      ],
+      "route_nids": [
+        "0100030800"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "151510"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "16504",
+      "route_names_zh": [
+        "756"
+      ],
+      "route_nids": [
+        "0100075600"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "157534"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15162",
+      "route_names_zh": [
+        "282"
+      ],
+      "route_nids": [
+        "0100028200"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "15162"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15164",
+      "route_names_zh": [
+        "530"
+      ],
+      "route_nids": [
+        "0100053000"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "15164",
+        "162540"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "15161",
+      "route_names_zh": [
+        "676"
+      ],
+      "route_nids": [
+        "0100067600"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "151610"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15172",
+      "route_names_zh": [
+        "556"
+      ],
+      "route_nids": [
+        "0100055600"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "151720"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "16127",
+      "route_names_zh": [
+        "679"
+      ],
+      "route_nids": [
+        "0100067900"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "157862",
+        "159599"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "18708",
+      "route_names_zh": [
+        "通勤24"
+      ],
+      "route_nids": [
+        "0152004700"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "160767"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15183",
+      "route_names_zh": [
+        "905"
+      ],
+      "route_nids": [
+        "0100090500"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "15183",
+        "159707",
+        "159708"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "15184",
+      "route_names_zh": [
+        "905副"
+      ],
+      "route_nids": [
+        "0100090510"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "15184",
+        "162416"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "15185",
+      "route_names_zh": [
+        "202區"
+      ],
+      "route_nids": [
+        "0100020220"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "15185"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15676",
+      "route_names_zh": [
+        "內科通勤專車10"
+      ],
+      "route_nids": [
+        "0152001000"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "155820",
+        "157750"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "15191",
+      "route_names_zh": [
+        "660"
+      ],
+      "route_nids": [
+        "0100066000"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "15191"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15173",
+      "route_names_zh": [
+        "912"
+      ],
+      "route_nids": [
+        "0100091200"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "151730"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "17363",
+      "route_names_zh": [
+        "949"
+      ],
+      "route_nids": [
+        "0100094900"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "158510"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "17825",
+      "route_names_zh": [
+        "660區"
+      ],
+      "route_nids": [
+        "0100066020"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "159189"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15221",
+      "route_names_zh": [
+        "682"
+      ],
+      "route_nids": [
+        "0100068200"
+      ],
+      "operator_ids": [
+        "5200"
+      ],
+      "subroute_ids": [
+        "152210"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15331",
+      "route_names_zh": [
+        "紅3區"
+      ],
+      "route_nids": [
+        "0111000320"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "15331"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15381",
+      "route_names_zh": [
+        "246"
+      ],
+      "route_nids": [
+        "0100024600"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "153810",
+        "162048"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "17436",
+      "route_names_zh": [
+        "紅3"
+      ],
+      "route_nids": [
+        "0111000300"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "158592"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "19528",
+      "route_names_zh": [
+        "246預"
+      ],
+      "route_nids": [],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "162047"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15313",
+      "route_names_zh": [
+        "521"
+      ],
+      "route_nids": [
+        "0100052100"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "153130",
+        "159237"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "15332",
+      "route_names_zh": [
+        "267"
+      ],
+      "route_nids": [
+        "0100026700"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "153320",
+        "159628",
+        "159629"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "15355",
+      "route_names_zh": [
+        "240直"
+      ],
+      "route_nids": [
+        "0100024030"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "153550"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15358",
+      "route_names_zh": [
+        "247區"
+      ],
+      "route_nids": [
+        "0100024720"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "153580"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15359",
+      "route_names_zh": [
+        "681"
+      ],
+      "route_nids": [
+        "0100068100"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "153590",
+        "157542",
+        "159518",
+        "159522"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "15571",
+      "route_names_zh": [
+        "600"
+      ],
+      "route_nids": [
+        "0100060000"
+      ],
+      "operator_ids": [
+        "5300",
+        "5500"
+      ],
+      "subroute_ids": [
+        "155710",
+        "157781",
+        "157881"
+      ],
+      "source_branch_rows": 6,
+      "normalized_branch_rows": 6
+    },
+    {
+      "route_id": "15695",
+      "route_names_zh": [
+        "南軟通勤專車天母線"
+      ],
+      "route_nids": [
+        "0152003100"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "155828",
+        "157181"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "16125",
+      "route_names_zh": [
+        "藍20"
+      ],
+      "route_nids": [
+        "0112002020"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "155892",
+        "159239"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "15353",
+      "route_names_zh": [
+        "247"
+      ],
+      "route_nids": [
+        "0100024700"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "157765"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15352",
+      "route_names_zh": [
+        "268"
+      ],
+      "route_nids": [
+        "0100026800"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "153520"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15361",
+      "route_names_zh": [
+        "藍7"
+      ],
+      "route_nids": [
+        "0112000700"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "157468"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "18044",
+      "route_names_zh": [
+        "藍7副"
+      ],
+      "route_nids": [
+        "0112000710"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "159688"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "19759",
+      "route_names_zh": [
+        "通勤30"
+      ],
+      "route_nids": [
+        "0152005500"
+      ],
+      "operator_ids": [
+        "5300",
+        "5500"
+      ],
+      "subroute_ids": [
+        "162482"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "15341",
+      "route_names_zh": [
+        "紅19"
+      ],
+      "route_nids": [
+        "0111001900"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "15341",
+        "161958"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "15372",
+      "route_names_zh": [
+        "206"
+      ],
+      "route_nids": [
+        "0100020600"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "15372"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15373",
+      "route_names_zh": [
+        "中山幹線"
+      ],
+      "route_nids": [
+        "0161000600"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "15373",
+        "162347",
+        "162348"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "15375",
+      "route_names_zh": [
+        "224"
+      ],
+      "route_nids": [
+        "0100022400"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "15375"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15680",
+      "route_names_zh": [
+        "內科通勤專車15"
+      ],
+      "route_nids": [
+        "0152001500"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "155839",
+        "155914"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "15731",
+      "route_names_zh": [
+        "市民小巴11"
+      ],
+      "route_nids": [
+        "0153001100"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "155883"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "17908",
+      "route_names_zh": [
+        "市民小巴16"
+      ],
+      "route_nids": [
+        "0153001600"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "159369"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "19779",
+      "route_names_zh": [
+        "北士科1"
+      ],
+      "route_nids": [
+        "0162001500"
+      ],
+      "operator_ids": [
+        "5300",
+        "5500"
+      ],
+      "subroute_ids": [
+        "162537",
+        "162551",
+        "162552"
+      ],
+      "source_branch_rows": 9,
+      "normalized_branch_rows": 6
+    },
+    {
+      "route_id": "15391",
+      "route_names_zh": [
+        "279"
+      ],
+      "route_nids": [
+        "0100027900"
+      ],
+      "operator_ids": [
+        "5300",
+        "5500"
+      ],
+      "subroute_ids": [
+        "15391",
+        "157756",
+        "159517",
+        "159521"
+      ],
+      "source_branch_rows": 8,
+      "normalized_branch_rows": 8
+    },
+    {
+      "route_id": "15541",
+      "route_names_zh": [
+        "紅15"
+      ],
+      "route_nids": [
+        "0111001500"
+      ],
+      "operator_ids": [
+        "5500"
+      ],
+      "subroute_ids": [
+        "15541"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15546",
+      "route_names_zh": [
+        "280"
+      ],
+      "route_nids": [
+        "0100028000"
+      ],
+      "operator_ids": [
+        "5500"
+      ],
+      "subroute_ids": [
+        "15546",
+        "162521",
+        "162522"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "15657",
+      "route_names_zh": [
+        "280直"
+      ],
+      "route_nids": [
+        "0100028030"
+      ],
+      "operator_ids": [
+        "5500"
+      ],
+      "subroute_ids": [
+        "15657"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15551",
+      "route_names_zh": [
+        "紅30"
+      ],
+      "route_nids": [
+        "0111003000"
+      ],
+      "operator_ids": [
+        "5500"
+      ],
+      "subroute_ids": [
+        "15551"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15532",
+      "route_names_zh": [
+        "300"
+      ],
+      "route_nids": [
+        "0100030000"
+      ],
+      "operator_ids": [
+        "5500"
+      ],
+      "subroute_ids": [
+        "155320"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15553",
+      "route_names_zh": [
+        "304承德"
+      ],
+      "route_nids": [
+        "0100030400"
+      ],
+      "operator_ids": [
+        "5500"
+      ],
+      "subroute_ids": [
+        "155530",
+        "161177"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "15554",
+      "route_names_zh": [
+        "304重慶"
+      ],
+      "route_nids": [
+        "0100030490"
+      ],
+      "operator_ids": [
+        "5500"
+      ],
+      "subroute_ids": [
+        "155540",
+        "162509",
+        "162525"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "15521",
+      "route_names_zh": [
+        "227"
+      ],
+      "route_nids": [
+        "0100022700"
+      ],
+      "operator_ids": [
+        "5500"
+      ],
+      "subroute_ids": [
+        "15521"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15522",
+      "route_names_zh": [
+        "227區"
+      ],
+      "route_nids": [
+        "0100022720"
+      ],
+      "operator_ids": [
+        "5500"
+      ],
+      "subroute_ids": [
+        "15522"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15321",
+      "route_names_zh": [
+        "紅10"
+      ],
+      "route_nids": [
+        "0111001000"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "15321"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15322",
+      "route_names_zh": [
+        "215"
+      ],
+      "route_nids": [
+        "0100021500"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "15322"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "17993",
+      "route_names_zh": [
+        "紅10區"
+      ],
+      "route_nids": [
+        "0111001020"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "159588"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "19488",
+      "route_names_zh": [
+        "通勤28"
+      ],
+      "route_nids": [
+        "0152005200"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "162007"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10882",
+      "route_names_zh": [
+        "9"
+      ],
+      "route_nids": [
+        "0100000900"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "10882"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11871",
+      "route_names_zh": [
+        "41"
+      ],
+      "route_nids": [
+        "0100004100"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "11871",
+        "161197",
+        "161198",
+        "161747"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "11881",
+      "route_names_zh": [
+        "重慶幹線"
+      ],
+      "route_nids": [
+        "0161001000"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "11881",
+        "162547",
+        "162548"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "17805",
+      "route_names_zh": [
+        "559"
+      ],
+      "route_nids": [
+        "0100055900"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "159150",
+        "159435"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "15708",
+      "route_names_zh": [
+        "信義幹線"
+      ],
+      "route_nids": [
+        "0161001200"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "102330"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15581",
+      "route_names_zh": [
+        "616"
+      ],
+      "route_nids": [
+        "0100061600"
+      ],
+      "operator_ids": [
+        "5500"
+      ],
+      "subroute_ids": [
+        "15581",
+        "159390"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "16121",
+      "route_names_zh": [
+        "604"
+      ],
+      "route_nids": [
+        "0100060400"
+      ],
+      "operator_ids": [
+        "100"
+      ],
+      "subroute_ids": [
+        "16121"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "16122",
+      "route_names_zh": [
+        "651"
+      ],
+      "route_nids": [
+        "0100065100"
+      ],
+      "operator_ids": [
+        "100"
+      ],
+      "subroute_ids": [
+        "157447",
+        "16122"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "16112",
+      "route_names_zh": [
+        "310"
+      ],
+      "route_nids": [
+        "0100031000"
+      ],
+      "operator_ids": [
+        "100"
+      ],
+      "subroute_ids": [
+        "158872",
+        "158873",
+        "16112"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "19688",
+      "route_names_zh": [
+        "310區"
+      ],
+      "route_nids": [
+        "0100031020"
+      ],
+      "operator_ids": [
+        "100"
+      ],
+      "subroute_ids": [
+        "162308"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10844",
+      "route_names_zh": [
+        "652"
+      ],
+      "route_nids": [
+        "0100065200"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "108440",
+        "162543",
+        "162544"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "19755",
+      "route_names_zh": [
+        "新莊-臺北車站"
+      ],
+      "route_nids": [
+        "0163000000"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "162471"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15362",
+      "route_names_zh": [
+        "72"
+      ],
+      "route_nids": [
+        "0100007200"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "15362"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "16184",
+      "route_names_zh": [
+        "680"
+      ],
+      "route_nids": [
+        "0100068000"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "157886"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15171",
+      "route_names_zh": [
+        "902"
+      ],
+      "route_nids": [
+        "0100090200"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "151710",
+        "161607",
+        "162067"
+      ],
+      "source_branch_rows": 3,
+      "normalized_branch_rows": 3
+    },
+    {
+      "route_id": "19718",
+      "route_names_zh": [
+        "902區"
+      ],
+      "route_nids": [
+        "0100090220"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "162402"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "16746",
+      "route_names_zh": [
+        "1717"
+      ],
+      "route_nids": [
+        "0100171700"
+      ],
+      "operator_ids": [
+        "16123"
+      ],
+      "subroute_ids": [
+        "157855",
+        "157856",
+        "158754",
+        "159507",
+        "159508",
+        "159509"
+      ],
+      "source_branch_rows": 12,
+      "normalized_branch_rows": 6
+    },
+    {
+      "route_id": "17740",
+      "route_names_zh": [
+        "957"
+      ],
+      "route_nids": [
+        "0100095700"
+      ],
+      "operator_ids": [
+        "5100",
+        "5200"
+      ],
+      "subroute_ids": [
+        "159045",
+        "159591"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "10961",
+      "route_names_zh": [
+        "262"
+      ],
+      "route_nids": [
+        "0100026200"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "109610",
+        "161157"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "11242",
+      "route_names_zh": [
+        "539"
+      ],
+      "route_nids": [
+        "0100053900"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "112420",
+        "161888"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "11243",
+      "route_names_zh": [
+        "39"
+      ],
+      "route_nids": [
+        "0100003900"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "112430"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15664",
+      "route_names_zh": [
+        "39夜"
+      ],
+      "route_nids": [
+        "0100003940"
+      ],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "155808"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "19438",
+      "route_names_zh": [
+        "539預"
+      ],
+      "route_nids": [],
+      "operator_ids": [
+        "200"
+      ],
+      "subroute_ids": [
+        "161887"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "17944",
+      "route_names_zh": [
+        "66"
+      ],
+      "route_nids": [
+        "0100006600"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "159442"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15334",
+      "route_names_zh": [
+        "北環幹線"
+      ],
+      "route_nids": [
+        "0100062000"
+      ],
+      "operator_ids": [
+        "5300",
+        "900"
+      ],
+      "subroute_ids": [
+        "109510",
+        "153340",
+        "159600",
+        "162433",
+        "162434"
+      ],
+      "source_branch_rows": 10,
+      "normalized_branch_rows": 10
+    },
+    {
+      "route_id": "15333",
+      "route_names_zh": [
+        "250"
+      ],
+      "route_nids": [
+        "0100025000"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "153330"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15335",
+      "route_names_zh": [
+        "683"
+      ],
+      "route_nids": [
+        "0100068300"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "153350",
+        "161938"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "15682",
+      "route_names_zh": [
+        "內科通勤專車17"
+      ],
+      "route_nids": [
+        "0152001700"
+      ],
+      "operator_ids": [
+        "5300",
+        "5500"
+      ],
+      "subroute_ids": [
+        "155841",
+        "157752"
+      ],
+      "source_branch_rows": 4,
+      "normalized_branch_rows": 4
+    },
+    {
+      "route_id": "15573",
+      "route_names_zh": [
+        "市民小巴8"
+      ],
+      "route_nids": [
+        "0153000800"
+      ],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "155856",
+        "160399"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "17560",
+      "route_names_zh": [
+        "兒樂1號線"
+      ],
+      "route_nids": [
+        "0162003000"
+      ],
+      "operator_ids": [
+        "5300",
+        "5500"
+      ],
+      "subroute_ids": [
+        "158730"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "17561",
+      "route_names_zh": [
+        "兒樂2號線"
+      ],
+      "route_nids": [
+        "0162003100"
+      ],
+      "operator_ids": [
+        "5300",
+        "5500"
+      ],
+      "subroute_ids": [
+        "158731"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "19458",
+      "route_names_zh": [
+        "683預"
+      ],
+      "route_nids": [],
+      "operator_ids": [
+        "5300"
+      ],
+      "subroute_ids": [
+        "161937"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15531",
+      "route_names_zh": [
+        "紅12"
+      ],
+      "route_nids": [
+        "0111001200"
+      ],
+      "operator_ids": [
+        "5500"
+      ],
+      "subroute_ids": [
+        "15531"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "17333",
+      "route_names_zh": [
+        "557"
+      ],
+      "route_nids": [
+        "0100055700"
+      ],
+      "operator_ids": [
+        "5500"
+      ],
+      "subroute_ids": [
+        "158480"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10741",
+      "route_names_zh": [
+        "棕3"
+      ],
+      "route_nids": [
+        "0114000300"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "10741"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10743",
+      "route_names_zh": [
+        "棕11"
+      ],
+      "route_nids": [
+        "0114001100"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "10743"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10744",
+      "route_names_zh": [
+        "棕15"
+      ],
+      "route_nids": [
+        "0114001500"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "10744"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10746",
+      "route_names_zh": [
+        "252"
+      ],
+      "route_nids": [
+        "0100025200"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "10746"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10749",
+      "route_names_zh": [
+        "棕11副"
+      ],
+      "route_nids": [
+        "0114001110"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "10749"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11742",
+      "route_names_zh": [
+        "611"
+      ],
+      "route_nids": [
+        "0100061100"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "11742"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10745",
+      "route_names_zh": [
+        "237"
+      ],
+      "route_nids": [
+        "0100023700"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "107450",
+        "159401"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "10747",
+      "route_names_zh": [
+        "294"
+      ],
+      "route_nids": [
+        "0100029400"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "107470"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10748",
+      "route_names_zh": [
+        "295"
+      ],
+      "route_nids": [
+        "0100029500"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "107480"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11741",
+      "route_names_zh": [
+        "貓空右線"
+      ],
+      "route_nids": [
+        "0162002000"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "155857"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15730",
+      "route_names_zh": [
+        "棕18"
+      ],
+      "route_nids": [
+        "0114001800"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "155881",
+        "159230"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "16163",
+      "route_names_zh": [
+        "貓空左線(動物園)"
+      ],
+      "route_nids": [
+        "0162002200"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "155930",
+        "162417"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "16140",
+      "route_names_zh": [
+        "貓空左線(指南宮)"
+      ],
+      "route_nids": [
+        "0162002100"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "155933",
+        "162297"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "16568",
+      "route_names_zh": [
+        "棕21"
+      ],
+      "route_nids": [
+        "0114002100"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "157608",
+        "159455"
+      ],
+      "source_branch_rows": 2,
+      "normalized_branch_rows": 2
+    },
+    {
+      "route_id": "18057",
+      "route_names_zh": [
+        "295副"
+      ],
+      "route_nids": [
+        "0100029510"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "159715"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "18648",
+      "route_names_zh": [
+        "通勤22"
+      ],
+      "route_nids": [
+        "0152004200"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "160697"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "18658",
+      "route_names_zh": [
+        "通勤21"
+      ],
+      "route_nids": [
+        "0152004400"
+      ],
+      "operator_ids": [
+        "700"
+      ],
+      "subroute_ids": [
+        "160717"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "19618",
+      "route_names_zh": [
+        "市民小巴18"
+      ],
+      "route_nids": [
+        "0153001800"
+      ],
+      "operator_ids": [
+        "800"
+      ],
+      "subroute_ids": [
+        "162177"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15141",
+      "route_names_zh": [
+        "28"
+      ],
+      "route_nids": [
+        "0100002800"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "151410"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15142",
+      "route_names_zh": [
+        "42"
+      ],
+      "route_nids": [
+        "0100004200"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "151420"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "15143",
+      "route_names_zh": [
+        "256"
+      ],
+      "route_nids": [
+        "0100025600"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "151430"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "16559",
+      "route_names_zh": [
+        "42區"
+      ],
+      "route_nids": [
+        "0100004220"
+      ],
+      "operator_ids": [
+        "5100"
+      ],
+      "subroute_ids": [
+        "157594"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10941",
+      "route_names_zh": [
+        "藍25"
+      ],
+      "route_nids": [
+        "0112002500"
+      ],
+      "operator_ids": [
+        "900"
+      ],
+      "subroute_ids": [
+        "10941"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "10971",
+      "route_names_zh": [
+        "88"
+      ],
+      "route_nids": [
+        "0100008800"
+      ],
+      "operator_ids": [
+        "900"
+      ],
+      "subroute_ids": [
+        "109710"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "17869",
+      "route_names_zh": [
+        "88區"
+      ],
+      "route_nids": [
+        "0100008820"
+      ],
+      "operator_ids": [
+        "900"
+      ],
+      "subroute_ids": [
+        "159297"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    },
+    {
+      "route_id": "11165",
+      "route_names_zh": [
+        "288"
+      ],
+      "route_nids": [
+        "0100028800"
+      ],
+      "operator_ids": [
+        "1100"
+      ],
+      "subroute_ids": [
+        "111650"
+      ],
+      "source_branch_rows": 1,
+      "normalized_branch_rows": 1
+    }
+  ]
+}

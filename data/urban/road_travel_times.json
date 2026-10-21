@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "dataset_id": "taipei_road_travel_times",
+  "metadata": {
+    "sources": [
+      {
+        "page_url": "https://data.gov.tw/dataset/135753",
+        "download_url": "https://data.taipei/api/dataset/6ccdeddb-c66a-4cf5-8742-46c322f01b3b/resource/1eecf5ff-4ab8-4c1f-8abe-4e3d404979e3/download",
+        "resolved_url": "https://data.taipei/api/dataset/6ccdeddb-c66a-4cf5-8742-46c322f01b3b/resource/1eecf5ff-4ab8-4c1f-8abe-4e3d404979e3/download",
+        "raw_file": "raw_data/urban/tmc_travel_times_0.csv",
+        "downloaded_at": "2026-10-21T23:26:26+08:00",
+        "bytes": 371,
+        "http_last_modified": null,
+        "content_type": "text/plain;charset=BIG-5",
+        "source_resource_updated_at": null,
+        "source_data_time": null,
+        "source_encoding": "cp950"
+      },
+      {
+        "page_url": "https://data.gov.tw/dataset/135753",
+        "download_url": "https://tcgbusfs.blob.core.windows.net/blobtisv/ETagPairLive.xml",
+        "resolved_url": "https://tcgbusfs.blob.core.windows.net/blobtisv/ETagPairLive.xml",
+        "raw_file": "raw_data/urban/tmc_live.xml",
+        "downloaded_at": "2026-10-21T23:27:09+08:00",
+        "bytes": 452,
+        "http_last_modified": "Wed, 21 Oct 2026 15:27:05 GMT",
+        "content_type": "application/octet-stream",
+        "source_resource_updated_at": null,
+        "source_data_time": "2024-12-18T17:40:39.003+08:00"
+      }
+    ],
+    "source_data_time": "2024-12-18T17:40:39.003+08:00",
+    "statistical_period": null,
+    "grain": "ETag paired-road vehicle travel-time observation (none returned)",
+    "units": {},
+    "timezone": "Asia/Taipei",
+    "missing_values": "Blank source values become null; no missing values imputed as zero.",
+    "limitations": [
+      "指定 data.gov.tw/135753 descriptor 指向 ETagPairLive.xml；不是經核對的 TMC 路段碼資料。",
+      "XML observations 為空；保留空集合不代表0秒、無壅塞或無車流。",
+      "來源 body UpdateTime 為2024-12-18，HTTP Last-Modified與下載日期不代表實際觀測日期。",
+      "道路旅行時間不能當成包含停站的公車旅行時間。"
+    ],
+    "acquisition_status": "source_empty_stale",
+    "source_reported_update_interval_seconds": 300,
+    "authority_code": "TPE",
+    "observation_count": 0
+  },
+  "records": []
+}

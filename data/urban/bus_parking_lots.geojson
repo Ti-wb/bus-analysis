@@ -1,0 +1,2915 @@
+{
+  "type": "FeatureCollection",
+  "schema_version": 1,
+  "dataset_id": "taipei_bus_parking_lots",
+  "metadata": {
+    "crs": "EPSG:4326",
+    "coordinate_order": [
+      "longitude",
+      "latitude"
+    ],
+    "sources": [
+      {
+        "page_url": "https://data.taipei/dataset/detail?id=d5c0656b-5250-4179-a491-c94daa56ef2c",
+        "download_url": "https://tcgbusfs.blob.core.windows.net/blobtcmsv/TCMSV_alldesc.xml",
+        "resolved_url": "https://tcgbusfs.blob.core.windows.net/blobtcmsv/TCMSV_alldesc.xml",
+        "raw_file": "raw_data/urban/parking_2.xml",
+        "downloaded_at": "2026-10-21T23:26:20+08:00",
+        "bytes": 4112534,
+        "http_last_modified": "Wed, 21 Oct 2026 15:26:12 GMT",
+        "content_type": "application/octet-stream",
+        "source_resource_updated_at": null,
+        "source_data_time": "2026-10-21T23:25:00+08:00"
+      },
+      {
+        "page_url": "https://data.taipei/dataset/detail?id=d5c0656b-5250-4179-a491-c94daa56ef2c",
+        "download_url": "https://tcgbusfs.blob.core.windows.net/blobtcmsv/TCMSV_allavailable.xml",
+        "resolved_url": "https://tcgbusfs.blob.core.windows.net/blobtcmsv/TCMSV_allavailable.xml",
+        "raw_file": "raw_data/urban/parking_0.xml",
+        "downloaded_at": "2026-10-21T23:26:19+08:00",
+        "bytes": 684937,
+        "http_last_modified": "Wed, 21 Oct 2026 15:21:48 GMT",
+        "content_type": "application/octet-stream",
+        "source_resource_updated_at": null,
+        "source_data_time": "2026-10-21T23:20:00+08:00"
+      }
+    ],
+    "source_data_time": "2026-10-21T23:25:00+08:00",
+    "statistical_period": null,
+    "grain": "one parking facility",
+    "units": {
+      "total_car_spaces": "spaces",
+      "total_motorcycle_spaces": "spaces",
+      "total_bus_spaces": "spaces",
+      "pregnancy_priority_spaces": "spaces",
+      "disability_priority_spaces": "spaces",
+      "total_heavy_motorcycle_spaces": "spaces"
+    },
+    "timezone": "Asia/Taipei",
+    "missing_values": "Blank source values become null; no missing values imputed as zero.",
+    "limitations": [
+      "TOTALBUS 是大客車停車位；不表示准許市區公車調度、待班或過夜。",
+      "即時資料與靜態資料分開輸出；靜態提供車位不保證即時剩餘位有回報。",
+      "設施 code 未自行轉成布林；停車費應合併 rate_type_code、week_type_raw、時段與 charge_unit 解讀。",
+      "部分靜態TOTALBUS>0的場站在即時檔回報-9，存在來源間矛盾；保留null及原始狀態，不把它解讀為0個剩餘位或刪除靜態容量。"
+    ],
+    "source_crs": "EPSG:3826 TWD97 / TM2 zone 121 inferred from TW97X/TW97Y field names and Taipei easting/northing bounds",
+    "field_mapping": {
+      "parking_id": "ID",
+      "district": "AREA",
+      "name": "NAME",
+      "availability_type_code": "TYPE",
+      "ownership_type": "TYPE2",
+      "parking_type_code": "PTYPE",
+      "space_summary": "SUMMARY",
+      "address": "ADDRESS",
+      "telephone": "TEL",
+      "fee_description": "PAYEX",
+      "service_time_description": "SERVICETIME",
+      "twd97_x": "TW97X",
+      "twd97_y": "TW97Y",
+      "total_car_spaces": "TOTALCAR",
+      "total_motorcycle_spaces": "TOTALMOTOR",
+      "total_bus_spaces": "TOTALBUS",
+      "pregnancy_priority_spaces": "Pregnancy_First",
+      "disability_priority_spaces": "Handicap_First",
+      "total_heavy_motorcycle_spaces": "TOTALLARGEMOTOR",
+      "charging_station_count": "ChargingStation",
+      "taxi_one_hour_free_code": "Taxi_OneHR_Free",
+      "aed_equipment_code": "AED_Equipment",
+      "cell_signal_enhancement_code": "CellSignal_Enhancement",
+      "accessibility_elevator_code": "Accessibility_Elevator",
+      "phone_charge_code": "Phone_Charge",
+      "child_pickup_area_code": "Child_Pickup_Area",
+      "disability_discount_description": "Handicap_Discount"
+    },
+    "entrance_coordinate_note": "Nested Xcod is latitude and Ycod is longitude, determined from explicit value ranges; source values retained.",
+    "quality": {
+      "invalid_main_coordinate_ids": [],
+      "unique_parking_ids": true,
+      "bus_availability_status_counts": {
+        "reported": 10,
+        "no_such_space_type": 13,
+        "facility_absent_from_snapshot": 16
+      },
+      "static_bus_spaces_but_live_no_such_type_ids": [
+        "TPE0033",
+        "TPE0050",
+        "TPE0382",
+        "TPE0383",
+        "TPE0464",
+        "TPE0736",
+        "TPE0784",
+        "TPE1190",
+        "TPE1432",
+        "TPE1516",
+        "TPE1524",
+        "TPE1639",
+        "TPE1661"
+      ]
+    },
+    "selection": "total_bus_spaces > 0; exact parking_id left join to live snapshot; source page explicitly defines shared ID",
+    "availability_source_data_time": "2026-10-21T23:20:00+08:00",
+    "record_count": 39,
+    "all_static_record_count": 1771
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "TPE0005",
+      "properties": {
+        "parking_id": "TPE0005",
+        "district": "文山區",
+        "name": "嘟嘟房動物園堤外站停車場",
+        "availability_type_code": "1",
+        "ownership_type": "市屬機關學校委外",
+        "parking_type_code": "D",
+        "space_summary": "大型車:8格，小型車:1228格(含身心障礙停車位26格，孕婦、育有六歲以下兒童停車位26格)，機車:0格",
+        "address": "新光路2段2號河川高灘地",
+        "telephone": "0226550818",
+        "fee_description": "計時：小型車週六至週日60元/時(06-18)、10元/時(18-06)，停車全程以半小時計。計次：小型車週一至週五50元/次，大客車週一至週五100元/次。月租：小型車全日週一至週五3,600元/月，日間500元/月。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 308306.085,
+        "twd97_y": 2765672.15,
+        "total_car_spaces": 1228,
+        "total_motorcycle_spaces": 0,
+        "total_bus_spaces": 8,
+        "pregnancy_priority_spaces": 26,
+        "disability_priority_spaces": 26,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "1",
+            "week_type_raw": "6,7",
+            "chargeable_start_time_raw": "06",
+            "chargeable_end_time_raw": "18",
+            "parking_rates_twd": 60,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "1",
+            "week_type_raw": "6,7",
+            "chargeable_start_time_raw": "18",
+            "chargeable_end_time_raw": "06",
+            "parking_rates_twd": 10,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "2",
+            "week_type_raw": "1,2,3,4,5",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 50,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "3",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 3600,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "3",
+            "week_type_raw": "1,2,3,4,5",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 3600,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "T",
+            "rate_type_code": "2",
+            "week_type_raw": "1,2,3,4,5",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 100,
+            "charge_unit": null
+          }
+        ],
+        "fare_info_rules": [],
+        "entrances": [
+          {
+            "source_xcod": 24.9983,
+            "source_ycod": 121.5791,
+            "description": "入口",
+            "coordinates": [
+              121.5791,
+              24.9983
+            ]
+          }
+        ],
+        "available_bus_spaces": 0,
+        "available_bus_status": "reported",
+        "availability_source_time": "2026-10-21T23:20:00+08:00",
+        "availability_source_sentinel": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5776151,
+          24.997927
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE0033",
+      "properties": {
+        "parking_id": "TPE0033",
+        "district": "信義區",
+        "name": "嘟嘟房世貿站停車場",
+        "availability_type_code": "1",
+        "ownership_type": "中央機關學校委外",
+        "parking_type_code": "D",
+        "space_summary": "大型車:9格，小型車:382格(含身心障礙停車位8格，孕婦、育有六歲以下兒童停車位7格)，機車:0格，充電格位:8格",
+        "address": "信義路5段1號地下1至地下2層",
+        "telephone": null,
+        "fee_description": "計時：小型車60元/時，大客車150元/時，停車未滿1小時以1小時計，逾1小時以上，未滿半小時以半小時計。月租：小型車全日6,000元/月，大客車全日25,000元/月。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 306596.5591,
+        "twd97_y": 2769569.75,
+        "total_car_spaces": 382,
+        "total_motorcycle_spaces": 0,
+        "total_bus_spaces": 9,
+        "pregnancy_priority_spaces": 7,
+        "disability_priority_spaces": 8,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 8,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 60,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "3",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 6000,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "9",
+            "week_type_raw": "1,2,3,4,5,6,7,8",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 10,
+            "charge_unit": "kWh"
+          },
+          {
+            "parking_type_code": "T",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 150,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "T",
+            "rate_type_code": "3",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 25000,
+            "charge_unit": null
+          }
+        ],
+        "fare_info_rules": [],
+        "entrances": [
+          {
+            "source_xcod": 25.0342,
+            "source_ycod": 121.5608,
+            "description": "入口",
+            "coordinates": [
+              121.5608,
+              25.0342
+            ]
+          }
+        ],
+        "available_bus_spaces": null,
+        "available_bus_status": "no_such_space_type",
+        "availability_source_time": "2026-10-21T23:20:00+08:00",
+        "availability_source_sentinel": -9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.56084,
+          25.033179
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE0050",
+      "properties": {
+        "parking_id": "TPE0050",
+        "district": "北投區",
+        "name": "臺北榮民總醫院地面停車場",
+        "availability_type_code": "1",
+        "ownership_type": "民營停車場",
+        "parking_type_code": "S",
+        "space_summary": "大型車:3格，小型車:209格(含身心障礙停車位4格，孕婦、育有六歲以下兒童停車位4格)，機車:0格，充電格位:3格",
+        "address": "石牌路2段201號",
+        "telephone": "0228712121#27614",
+        "fee_description": "小型車：計時 40元/時(07-23)，20元/時(23-07)，停車未滿1小時以1小時計，逾1小時以上，未滿半小時以半小時計，大客車收費同小型車，進場未滿30分鐘離場不收費。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 302454.382,
+        "twd97_y": 2779295.341,
+        "total_car_spaces": 209,
+        "total_motorcycle_spaces": 0,
+        "total_bus_spaces": 3,
+        "pregnancy_priority_spaces": 4,
+        "disability_priority_spaces": 4,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 3,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "07",
+            "chargeable_end_time_raw": "23",
+            "parking_rates_twd": 40,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "23",
+            "chargeable_end_time_raw": "07",
+            "parking_rates_twd": 20,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "9",
+            "week_type_raw": "1,2,3,4,5,6,7,8",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 10,
+            "charge_unit": "hour"
+          }
+        ],
+        "fare_info_rules": [],
+        "entrances": [
+          {
+            "source_xcod": 25.1212,
+            "source_ycod": 121.5202,
+            "description": "入口1",
+            "coordinates": [
+              121.5202,
+              25.1212
+            ]
+          },
+          {
+            "source_xcod": 25.1214,
+            "source_ycod": 121.5195,
+            "description": "入口2",
+            "coordinates": [
+              121.5195,
+              25.1214
+            ]
+          }
+        ],
+        "available_bus_spaces": null,
+        "available_bus_status": "no_such_space_type",
+        "availability_source_time": "2026-10-21T23:20:00+08:00",
+        "availability_source_sentinel": -9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5201656,
+          25.12113
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE0074",
+      "properties": {
+        "parking_id": "TPE0074",
+        "district": "南港區",
+        "name": "南港遠東智慧科學園區管理委員會停車場",
+        "availability_type_code": "2",
+        "ownership_type": "民營停車場",
+        "parking_type_code": "D",
+        "space_summary": "大型車:7格，小型車:25格(含身心障礙停車位1格)，機車:0格",
+        "address": "南港路3段50巷1-33號",
+        "telephone": "02-27885282",
+        "fee_description": "小型車：計時 60元/時，未滿1小時以1小時計，逾1小時以上，未滿半小時以半小時計，30分鐘內免費。貨車50元/時(1小時內免費)；20呎貨櫃車100元/時(1小時內免費)，40呎貨櫃車200元/時(1小時內免費)停車2小時以上未滿1小時以1小時計。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 309690.2974,
+        "twd97_y": 2771986.261,
+        "total_car_spaces": 25,
+        "total_motorcycle_spaces": 0,
+        "total_bus_spaces": 7,
+        "pregnancy_priority_spaces": 0,
+        "disability_priority_spaces": 1,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [],
+        "fare_info_rules": [],
+        "entrances": [],
+        "available_bus_spaces": null,
+        "available_bus_status": "facility_absent_from_snapshot",
+        "availability_source_time": null,
+        "availability_source_sentinel": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5916006,
+          25.054876
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE0076",
+      "properties": {
+        "parking_id": "TPE0076",
+        "district": "中山區",
+        "name": "圓山大飯店停車場",
+        "availability_type_code": "2",
+        "ownership_type": "民營停車場",
+        "parking_type_code": "S",
+        "space_summary": "大型車:7格，小型車:345格(含身心障礙停車位9格，孕婦、育有六歲以下兒童停車位2格)，機車:0格，充電格位:4格",
+        "address": "中山北路4段1巷1號",
+        "telephone": "022886-8888",
+        "fee_description": "計時：小型車(含大型重型機車)100元/時，大客車300元/時，停車未滿1小時以1小時計，逾1小時以上，未滿半小時以半小時計。為敦親睦鄰，每日4時至10時登山運動人員及停放免費停車區之車輛免收停車費。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 303051.84,
+        "twd97_y": 2774494.585,
+        "total_car_spaces": 345,
+        "total_motorcycle_spaces": 0,
+        "total_bus_spaces": 7,
+        "pregnancy_priority_spaces": 2,
+        "disability_priority_spaces": 9,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 4,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [],
+        "fare_info_rules": [],
+        "entrances": [],
+        "available_bus_spaces": null,
+        "available_bus_status": "facility_absent_from_snapshot",
+        "availability_source_time": null,
+        "availability_source_sentinel": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5259047,
+          25.0777685
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE0131",
+      "properties": {
+        "parking_id": "TPE0131",
+        "district": "萬華區",
+        "name": "華中橋堤外停車場",
+        "availability_type_code": "1",
+        "ownership_type": "市屬機關學校委外",
+        "parking_type_code": "S",
+        "space_summary": "大型車:105格，小型車:641格(含身心障礙停車位13格)，機車:0格",
+        "address": "華中橋堤外",
+        "telephone": "23077130#7124",
+        "fee_description": "計時：小型車20元/時，當日單次停車最高收費上限150元/日，隔日另計，以00時為基準，大客車40元/時，當日單次停車最高收費上限300元/日，隔日另計，以00時為基準，停車15分鐘內免費，逾15分鐘以上，未滿半小時以半小時計。月租：里民1,800元，市區公車3,431元，大客、貨車4,800元，市場承銷業者自用車及小型採購車1,500元，理貨分包採購車3,500元。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 300086.1411,
+        "twd97_y": 2767615.877,
+        "total_car_spaces": 641,
+        "total_motorcycle_spaces": 0,
+        "total_bus_spaces": 105,
+        "pregnancy_priority_spaces": 0,
+        "disability_priority_spaces": 13,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 20,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "T",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 40,
+            "charge_unit": null
+          }
+        ],
+        "fare_info_rules": [],
+        "entrances": [
+          {
+            "source_xcod": 25.0158,
+            "source_ycod": 121.4962,
+            "description": "入口",
+            "coordinates": [
+              121.4962,
+              25.0158
+            ]
+          }
+        ],
+        "available_bus_spaces": 0,
+        "available_bus_status": "reported",
+        "availability_source_time": "2026-10-21T23:20:00+08:00",
+        "availability_source_sentinel": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.4962565,
+          25.0157689
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE0132",
+      "properties": {
+        "parking_id": "TPE0132",
+        "district": "大同區",
+        "name": "三號水門堤外停車場",
+        "availability_type_code": "2",
+        "ownership_type": "本處自營停車場(委託路邊兼開)",
+        "parking_type_code": "D",
+        "space_summary": "大型車:17格，小型車:167格(含身心障礙停車位4格，孕婦、育有六歲以下兒童停車位1格)，機車:0格",
+        "address": "鄭州路、民生西路底堤防外",
+        "telephone": "2759-0666",
+        "fee_description": "計時:小型車30元，大型車40元，全程以半小時計費。月租:小型車全日2,400元月(三、五號水門堤外通用)，大型車全日5,760元。",
+        "service_time_description": "周一至周日07時至16時",
+        "twd97_x": 301087.0256,
+        "twd97_y": 2771633.553,
+        "total_car_spaces": 167,
+        "total_motorcycle_spaces": 0,
+        "total_bus_spaces": 17,
+        "pregnancy_priority_spaces": 1,
+        "disability_priority_spaces": 4,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [],
+        "fare_info_rules": [],
+        "entrances": [],
+        "available_bus_spaces": null,
+        "available_bus_status": "facility_absent_from_snapshot",
+        "availability_source_time": null,
+        "availability_source_sentinel": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5063219,
+          25.052007
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE0158",
+      "properties": {
+        "parking_id": "TPE0158",
+        "district": "北投區",
+        "name": "歐特儀股份有限公司小油坑停車場",
+        "availability_type_code": "1",
+        "ownership_type": "中央機關學校委外",
+        "parking_type_code": "D",
+        "space_summary": "大型車:6格，小型車:60格(含身心障礙停車位2格，孕婦、育有六歲以下兒童停車位2格)，機車:23格(含身心障礙停車位2格)",
+        "address": "竹子湖路69號",
+        "telephone": "0227057716",
+        "fee_description": "小型車：計時 30元/時，大客車60元/時，停車全程以半小時計。機車：20元/次，隔日另計。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 305155.265,
+        "twd97_y": 2785499.555,
+        "total_car_spaces": 60,
+        "total_motorcycle_spaces": 23,
+        "total_bus_spaces": 6,
+        "pregnancy_priority_spaces": 2,
+        "disability_priority_spaces": 2,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 30,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "M",
+            "rate_type_code": "2",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 20,
+            "charge_unit": null
+          }
+        ],
+        "fare_info_rules": [],
+        "entrances": [
+          {
+            "source_xcod": 25.1779,
+            "source_ycod": 121.5474,
+            "description": "入口",
+            "coordinates": [
+              121.5474,
+              25.1779
+            ]
+          }
+        ],
+        "available_bus_spaces": 5,
+        "available_bus_status": "reported",
+        "availability_source_time": "2026-10-21T23:20:00+08:00",
+        "availability_source_sentinel": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5471977,
+          25.177044
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE0181",
+      "properties": {
+        "parking_id": "TPE0181",
+        "district": "士林區",
+        "name": "歐特儀股份有限公司擎天崗停車場",
+        "availability_type_code": "1",
+        "ownership_type": "中央機關學校委外",
+        "parking_type_code": "D",
+        "space_summary": "大型車:2格，小型車:81格(含身心障礙停車位4格，孕婦、育有六歲以下兒童停車位2格)，機車:87格(含身心障礙停車位1格)",
+        "address": "菁山路101巷246號",
+        "telephone": "0227057716",
+        "fee_description": "小型車：計時 30元/時，大客車60元/時，停車全程以半小時計。機車：20元/次，隔日另計。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 307853.501,
+        "twd97_y": 2784365.113,
+        "total_car_spaces": 81,
+        "total_motorcycle_spaces": 87,
+        "total_bus_spaces": 2,
+        "pregnancy_priority_spaces": 2,
+        "disability_priority_spaces": 4,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 30,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "M",
+            "rate_type_code": "2",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 20,
+            "charge_unit": null
+          }
+        ],
+        "fare_info_rules": [],
+        "entrances": [
+          {
+            "source_xcod": 25.1669,
+            "source_ycod": 121.5736,
+            "description": "入口",
+            "coordinates": [
+              121.5736,
+              25.1669
+            ]
+          }
+        ],
+        "available_bus_spaces": 2,
+        "available_bus_status": "reported",
+        "availability_source_time": "2026-10-21T23:20:00+08:00",
+        "availability_source_sentinel": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5739181,
+          25.1667012
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE0240",
+      "properties": {
+        "parking_id": "TPE0240",
+        "district": "中山區",
+        "name": "基隆河大佳段河濱公園停車場",
+        "availability_type_code": "2",
+        "ownership_type": "本處自營停車場(委託路邊兼開)",
+        "parking_type_code": "D",
+        "space_summary": "大型車:31格，小型車:269格(含身心障礙停車位5格)，機車:163格(含身心障礙停車位5格)",
+        "address": "自大佳網球場至大直橋",
+        "telephone": "2759-0666",
+        "fee_description": "計時:小型車星期一至星期五20元/時，當日當次收費上限100元(隔日另計)，星期六及星期日20元/時，全程以半小時計費。計次:大型車100元/次(隔日另計)。機車免費。",
+        "service_time_description": "09:00 :00-17:00:00",
+        "twd97_x": 304637.5836,
+        "twd97_y": 2774058.196,
+        "total_car_spaces": 269,
+        "total_motorcycle_spaces": 163,
+        "total_bus_spaces": 31,
+        "pregnancy_priority_spaces": 0,
+        "disability_priority_spaces": 5,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [],
+        "fare_info_rules": [],
+        "entrances": [],
+        "available_bus_spaces": null,
+        "available_bus_status": "facility_absent_from_snapshot",
+        "availability_source_time": null,
+        "availability_source_sentinel": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5416064,
+          25.0737723
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE0256",
+      "properties": {
+        "parking_id": "TPE0256",
+        "district": "中山區",
+        "name": "第一停車場",
+        "availability_type_code": "1",
+        "ownership_type": "市屬機關學校委外",
+        "parking_type_code": "D",
+        "space_summary": "大型車:4格，小型車:315格(含身心障礙停車位7格，孕婦、育有六歲以下兒童停車位7格)，機車:128格(含身心障礙停車位3格)，充電格位:7格",
+        "address": "民權東路2段145號",
+        "telephone": "0227057716",
+        "fee_description": "計時：小型車(含大型重型機車)40元/時(07-21)、10元/時(21-07)，機車10元/時，當日單次停車最高收費上限20元/次，大客車60元/時(07-21)、20元/時(21-07)，停車全程以半小時計。月租：小型車全日5,000元/月，機車全日300元/月。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 304029.136,
+        "twd97_y": 2772905.528,
+        "total_car_spaces": 315,
+        "total_motorcycle_spaces": 128,
+        "total_bus_spaces": 4,
+        "pregnancy_priority_spaces": 7,
+        "disability_priority_spaces": 7,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 7,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [
+          {
+            "parking_type_code": "CM",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "07",
+            "chargeable_end_time_raw": "21",
+            "parking_rates_twd": 40,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "CM",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "21",
+            "chargeable_end_time_raw": "07",
+            "parking_rates_twd": 10,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "CM",
+            "rate_type_code": "3",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 5000,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "CM",
+            "rate_type_code": "9",
+            "week_type_raw": "1,2,3,4,5,6,7,8",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 10,
+            "charge_unit": "kWh"
+          },
+          {
+            "parking_type_code": "M",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 10,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "M",
+            "rate_type_code": "3",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 300,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "T",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "07",
+            "chargeable_end_time_raw": "21",
+            "parking_rates_twd": 60,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "T",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "21",
+            "chargeable_end_time_raw": "07",
+            "parking_rates_twd": 20,
+            "charge_unit": null
+          }
+        ],
+        "fare_info_rules": [],
+        "entrances": [
+          {
+            "source_xcod": 25.0629,
+            "source_ycod": 121.5369,
+            "description": "入口1",
+            "coordinates": [
+              121.5369,
+              25.0629
+            ]
+          },
+          {
+            "source_xcod": 25.0625,
+            "source_ycod": 121.5353,
+            "description": "入口2",
+            "coordinates": [
+              121.5353,
+              25.0625
+            ]
+          }
+        ],
+        "available_bus_spaces": 4,
+        "available_bus_status": "reported",
+        "availability_source_time": "2026-10-21T23:20:00+08:00",
+        "availability_source_sentinel": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.53553,
+          25.063388
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE0377",
+      "properties": {
+        "parking_id": "TPE0377",
+        "district": "士林區",
+        "name": "故宮廣場平面停車場",
+        "availability_type_code": "1",
+        "ownership_type": "本處委外停車場",
+        "parking_type_code": "D",
+        "space_summary": "大型車:103格，小型車:87格(含身心障礙停車位3格，孕婦、育有六歲以下兒童停車位1格)，機車:179格(含身心障礙停車位4格)，充電格位:2格",
+        "address": "至善路2段〔故宮博物院斜對面，至善天下旁〕",
+        "telephone": "0222740068",
+        "fee_description": "小型車：計時 週六~週日、行政機關放假之紀念日與民俗日40元/時，停車全程以半小時計；計次 週一~週五50元/次，隔日另計；月租 全日3,000元，大型車：週一至週五當日100元/次，週六、週日及政府行政機關放假之紀念日與民俗日60元/時，月租5,500元。機車：10元/時，當日單次停車最高收費上限20元/次，隔日另計，以00時為基準；月租300元/月。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 305312.072,
+        "twd97_y": 2776806.863,
+        "total_car_spaces": 87,
+        "total_motorcycle_spaces": 179,
+        "total_bus_spaces": 103,
+        "pregnancy_priority_spaces": 1,
+        "disability_priority_spaces": 3,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 2,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "1",
+            "week_type_raw": "6,7,8",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 40,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "2",
+            "week_type_raw": "1,2,3,4,5",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 50,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "3",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 3000,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "M",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 10,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "M",
+            "rate_type_code": "3",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 300,
+            "charge_unit": null
+          }
+        ],
+        "fare_info_rules": [],
+        "entrances": [
+          {
+            "source_xcod": 25.0993,
+            "source_ycod": 121.5492,
+            "description": "入口",
+            "coordinates": [
+              121.5492,
+              25.0993
+            ]
+          }
+        ],
+        "available_bus_spaces": 74,
+        "available_bus_status": "reported",
+        "availability_source_time": "2026-10-21T23:20:00+08:00",
+        "availability_source_sentinel": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5484027,
+          25.0985623
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE0382",
+      "properties": {
+        "parking_id": "TPE0382",
+        "district": "北投區",
+        "name": "陽明山花鐘停車場",
+        "availability_type_code": "1",
+        "ownership_type": "本處委外停車場",
+        "parking_type_code": "D",
+        "space_summary": "大型車:12格，小型車:34格(含身心障礙停車位4格，孕婦、育有六歲以下兒童停車位1格)，機車:0格，充電格位:2格",
+        "address": "湖山路2段(陽明山公園花鐘前)",
+        "telephone": "0227057716",
+        "fee_description": "計時：小型車(含大型重型機車)週一至週五20元/時，週六至週日及政府行政機關放假之紀念日、民俗節日30元/時，大客車週一至週五40元/時，週六至週日及政府行政機關放假之紀念日、民俗節日60元/時，停車全程以半小時計，收費時段為每日7至19時(其餘時段開放免費停車)。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 304394.5751,
+        "twd97_y": 2783346.69,
+        "total_car_spaces": 34,
+        "total_motorcycle_spaces": 0,
+        "total_bus_spaces": 12,
+        "pregnancy_priority_spaces": 1,
+        "disability_priority_spaces": 4,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 2,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [
+          {
+            "parking_type_code": "CM",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 20,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "CM",
+            "rate_type_code": "1",
+            "week_type_raw": "6,7,8",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 30,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "CM",
+            "rate_type_code": "9",
+            "week_type_raw": "1,2,3,4,5,6,7,8",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 8,
+            "charge_unit": "kWh"
+          },
+          {
+            "parking_type_code": "T",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 40,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "T",
+            "rate_type_code": "1",
+            "week_type_raw": "6,7,8",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 60,
+            "charge_unit": null
+          }
+        ],
+        "fare_info_rules": [],
+        "entrances": [
+          {
+            "source_xcod": 25.1568,
+            "source_ycod": 121.5397,
+            "description": "入口",
+            "coordinates": [
+              121.5397,
+              25.1568
+            ]
+          }
+        ],
+        "available_bus_spaces": null,
+        "available_bus_status": "no_such_space_type",
+        "availability_source_time": "2026-10-21T23:20:00+08:00",
+        "availability_source_sentinel": -9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5395656,
+          25.1576361
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE0383",
+      "properties": {
+        "parking_id": "TPE0383",
+        "district": "北投區",
+        "name": "陽明山第二停車場",
+        "availability_type_code": "1",
+        "ownership_type": "本處委外停車場",
+        "parking_type_code": "D",
+        "space_summary": "大型車:83格，小型車:112格(含身心障礙停車位7格，孕婦、育有六歲以下兒童停車位1格)，機車:149格(含身心障礙停車位3格)，充電格位:3格",
+        "address": "陽金公路(陽明山國家公園遊客服務中心對面)",
+        "telephone": "0227057716",
+        "fee_description": "計時：小型車(含大型重型機車)週一至週五20元/時，週六至週日及政府行政機關放假之紀念日、民俗節日30元/時，大客車週一至週五40元/時，週六至週日及政府行政機關放假之紀念日、民俗節日60元/時，停車全程以半小時計，收費時段為每日7時至19時（其餘時段開放免費停車）。計次：機車20元/次。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 304998.4912,
+        "twd97_y": 2783042.714,
+        "total_car_spaces": 112,
+        "total_motorcycle_spaces": 149,
+        "total_bus_spaces": 83,
+        "pregnancy_priority_spaces": 1,
+        "disability_priority_spaces": 7,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 3,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [
+          {
+            "parking_type_code": "CM",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 20,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "CM",
+            "rate_type_code": "1",
+            "week_type_raw": "6,7,8",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 30,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "CM",
+            "rate_type_code": "9",
+            "week_type_raw": "1,2,3,4,5,6,7,8",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 8,
+            "charge_unit": "kWh"
+          },
+          {
+            "parking_type_code": "M",
+            "rate_type_code": "2",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 20,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "T",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 40,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "T",
+            "rate_type_code": "1",
+            "week_type_raw": "6,7,8",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 60,
+            "charge_unit": null
+          }
+        ],
+        "fare_info_rules": [],
+        "entrances": [
+          {
+            "source_xcod": 25.1554,
+            "source_ycod": 121.5458,
+            "description": "入口",
+            "coordinates": [
+              121.5458,
+              25.1554
+            ]
+          }
+        ],
+        "available_bus_spaces": null,
+        "available_bus_status": "no_such_space_type",
+        "availability_source_time": "2026-10-21T23:20:00+08:00",
+        "availability_source_sentinel": -9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5455437,
+          25.1548699
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE0399",
+      "properties": {
+        "parking_id": "TPE0399",
+        "district": "北投區",
+        "name": "關渡水岸自然公園平面停車場",
+        "availability_type_code": "1",
+        "ownership_type": "本處委外停車場",
+        "parking_type_code": "D",
+        "space_summary": "大型車:18格，小型車:309格(含身心障礙停車位7格，孕婦、育有六歲以下兒童停車位1格)，機車:142格(含身心障礙停車位4格)，充電格位:9格",
+        "address": "知行路360號(關渡宮)對面空地",
+        "telephone": "(02)27057716",
+        "fee_description": "計時：小型車週六至週日及政府行政機關放假之紀念日、民俗節日30元/時，週一至週五20元/時，大客車週一至週五40元/時，週六至週日及政府行政機關放假之紀念日、民俗節日60元/時，停車全程以半小時計。免費停車：機車。30分鐘內離場免費。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 296635.1157,
+        "twd97_y": 2779002.998,
+        "total_car_spaces": 309,
+        "total_motorcycle_spaces": 142,
+        "total_bus_spaces": 18,
+        "pregnancy_priority_spaces": 1,
+        "disability_priority_spaces": 7,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 9,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 20,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "1",
+            "week_type_raw": "6,7,8",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 30,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "9",
+            "week_type_raw": "1,2,3,4,5,6,7,8",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 8,
+            "charge_unit": "kWh"
+          },
+          {
+            "parking_type_code": "M",
+            "rate_type_code": "4",
+            "week_type_raw": "1,2,3,4,5,6,7,8",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 0,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "T",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 40,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "T",
+            "rate_type_code": "1",
+            "week_type_raw": "6,7,8",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 60,
+            "charge_unit": null
+          }
+        ],
+        "fare_info_rules": [],
+        "entrances": [
+          {
+            "source_xcod": 25.1176,
+            "source_ycod": 121.4633,
+            "description": "入口",
+            "coordinates": [
+              121.4633,
+              25.1176
+            ]
+          }
+        ],
+        "available_bus_spaces": 7,
+        "available_bus_status": "reported",
+        "availability_source_time": "2026-10-21T23:20:00+08:00",
+        "availability_source_sentinel": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.4624503,
+          25.118682
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE0464",
+      "properties": {
+        "parking_id": "TPE0464",
+        "district": "中山區",
+        "name": "樂群臨時平面停車場",
+        "availability_type_code": "1",
+        "ownership_type": "本處自營停車場(委託路邊兼開)",
+        "parking_type_code": "D",
+        "space_summary": "大型車:9格，小型車:150格(含身心障礙停車位4格)，機車:0格",
+        "address": "敬業四路與樂群三路口",
+        "telephone": "022759-0666",
+        "fee_description": "計時：小型車週六至週日及政府行政機關放假之紀念日、民俗節日、調整放假日30元/時(10-20)，週一至週五20元/時(10-20)，停車全程以半小時計。計次：大客車100元/次，隔日另計，以00時為基準。",
+        "service_time_description": "周一至周日，10時至20時",
+        "twd97_x": 306376.583,
+        "twd97_y": 2775028.977,
+        "total_car_spaces": 150,
+        "total_motorcycle_spaces": 0,
+        "total_bus_spaces": 9,
+        "pregnancy_priority_spaces": 0,
+        "disability_priority_spaces": 4,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "是",
+        "max_info_fare_rules": [
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5",
+            "chargeable_start_time_raw": "10",
+            "chargeable_end_time_raw": "20",
+            "parking_rates_twd": 20,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "1",
+            "week_type_raw": "6,7,8",
+            "chargeable_start_time_raw": "10",
+            "chargeable_end_time_raw": "20",
+            "parking_rates_twd": 30,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "T",
+            "rate_type_code": "2",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 100,
+            "charge_unit": null
+          }
+        ],
+        "fare_info_rules": [],
+        "entrances": [
+          {
+            "source_xcod": 25.0826,
+            "source_ycod": 121.5588,
+            "description": "入口",
+            "coordinates": [
+              121.5588,
+              25.0826
+            ]
+          }
+        ],
+        "available_bus_spaces": null,
+        "available_bus_status": "no_such_space_type",
+        "availability_source_time": "2026-10-21T23:20:00+08:00",
+        "availability_source_sentinel": -9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5588837,
+          25.0824725
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE0503",
+      "properties": {
+        "parking_id": "TPE0503",
+        "district": "松山區",
+        "name": "基隆河迎風段河濱公園停車場",
+        "availability_type_code": "2",
+        "ownership_type": "本處自營停車場(委託路邊兼開)",
+        "parking_type_code": "D",
+        "space_summary": "大型車:22格，小型車:470格(含身心障礙停車位13格，孕婦、育有六歲以下兒童停車位6格)，機車:270格(含身心障礙停車位8格)",
+        "address": "自大直橋至總統手植區",
+        "telephone": "0227590666",
+        "fee_description": "計時：小型車週一至週五20元/時，當日單次停車最高收費上限100元/次，隔日另計，以00時為基準，週六至週日20元/時，停車全程以半小時計。計次：大客車100元/次。免費停車：機車。本場未出售月票。",
+        "service_time_description": "收費日：週一至週日，收費時間：09-17",
+        "twd97_x": 305715.1984,
+        "twd97_y": 2774100.643,
+        "total_car_spaces": 470,
+        "total_motorcycle_spaces": 270,
+        "total_bus_spaces": 22,
+        "pregnancy_priority_spaces": 6,
+        "disability_priority_spaces": 13,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [],
+        "fare_info_rules": [],
+        "entrances": [],
+        "available_bus_spaces": null,
+        "available_bus_status": "facility_absent_from_snapshot",
+        "availability_source_time": null,
+        "availability_source_sentinel": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5522898,
+          25.0741161
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE0508",
+      "properties": {
+        "parking_id": "TPE0508",
+        "district": "士林區",
+        "name": "歐特儀股份有限公司冷水坑1號停車場",
+        "availability_type_code": "1",
+        "ownership_type": "中央機關學校委外",
+        "parking_type_code": "S",
+        "space_summary": "大型車:6格，小型車:80格(含身心障礙停車位2格，孕婦、育有六歲以下兒童停車位1格)，機車:39格(含身心障礙停車位2格)",
+        "address": "菁山路101巷170號",
+        "telephone": "0227057716",
+        "fee_description": "小型車：計時 30元/時，大客車60元/時，停車全程以半小時計。機車：20元/次，隔日另計。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 306828.362,
+        "twd97_y": 2784282.915,
+        "total_car_spaces": 80,
+        "total_motorcycle_spaces": 39,
+        "total_bus_spaces": 6,
+        "pregnancy_priority_spaces": 1,
+        "disability_priority_spaces": 2,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 30,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "M",
+            "rate_type_code": "2",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 20,
+            "charge_unit": null
+          }
+        ],
+        "fare_info_rules": [],
+        "entrances": [
+          {
+            "source_xcod": 25.1657,
+            "source_ycod": 121.5636,
+            "description": "入口",
+            "coordinates": [
+              121.5636,
+              25.1657
+            ]
+          }
+        ],
+        "available_bus_spaces": 1,
+        "available_bus_status": "reported",
+        "availability_source_time": "2026-10-21T23:20:00+08:00",
+        "availability_source_sentinel": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5637455,
+          25.1659982
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE0682",
+      "properties": {
+        "parking_id": "TPE0682",
+        "district": "文山區",
+        "name": "義芳第五停車場",
+        "availability_type_code": "2",
+        "ownership_type": "民營停車場",
+        "parking_type_code": "S",
+        "space_summary": "大型車:13格，小型車:20格(含身心障礙停車位2格)，機車:0格",
+        "address": "興隆路1段與興順街口",
+        "telephone": "2306-2131",
+        "fee_description": "小型車：月租 全日3,000元，大型車6000元",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 304871.1453,
+        "twd97_y": 2765949.546,
+        "total_car_spaces": 20,
+        "total_motorcycle_spaces": 0,
+        "total_bus_spaces": 13,
+        "pregnancy_priority_spaces": 0,
+        "disability_priority_spaces": 2,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [],
+        "fare_info_rules": [],
+        "entrances": [],
+        "available_bus_spaces": null,
+        "available_bus_status": "facility_absent_from_snapshot",
+        "availability_source_time": null,
+        "availability_source_sentinel": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5435988,
+          25.0005595
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE0736",
+      "properties": {
+        "parking_id": "TPE0736",
+        "district": "中正區",
+        "name": "行一大客車平面停車場",
+        "availability_type_code": "1",
+        "ownership_type": "本處自營停車場(委託路邊兼開)",
+        "parking_type_code": "D",
+        "space_summary": "大型車:42格，小型車:0格，機車:0格",
+        "address": "北平東路天津街口",
+        "telephone": "27590666",
+        "fee_description": "計時：60元/時，全程以半小時計費。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 302639.1783,
+        "twd97_y": 2771134.571,
+        "total_car_spaces": 0,
+        "total_motorcycle_spaces": 0,
+        "total_bus_spaces": 42,
+        "pregnancy_priority_spaces": 0,
+        "disability_priority_spaces": 0,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "是",
+        "max_info_fare_rules": [],
+        "fare_info_rules": [],
+        "entrances": [
+          {
+            "source_xcod": 25.0473,
+            "source_ycod": 121.5222,
+            "description": "入口",
+            "coordinates": [
+              121.5222,
+              25.0473
+            ]
+          }
+        ],
+        "available_bus_spaces": null,
+        "available_bus_status": "no_such_space_type",
+        "availability_source_time": "2026-10-21T23:20:00+08:00",
+        "availability_source_sentinel": -9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5216857,
+          25.0474489
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE0784",
+      "properties": {
+        "parking_id": "TPE0784",
+        "district": "大同區",
+        "name": "敦煌路大型車平面停車場",
+        "availability_type_code": "1",
+        "ownership_type": "本處自營停車場(委託路邊兼開)",
+        "parking_type_code": "D",
+        "space_summary": "大型車:12格，小型車:0格，機車:0格",
+        "address": "敦煌路21巷內",
+        "telephone": "2759-0666",
+        "fee_description": "計時：30元/時(每日最高收費120元)，全程以半小時計費。",
+        "service_time_description": "星期一到星期日8時至22時",
+        "twd97_x": 302258.2195,
+        "twd97_y": 2774286.414,
+        "total_car_spaces": 0,
+        "total_motorcycle_spaces": 0,
+        "total_bus_spaces": 12,
+        "pregnancy_priority_spaces": 0,
+        "disability_priority_spaces": 0,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "是",
+        "max_info_fare_rules": [],
+        "fare_info_rules": [],
+        "entrances": [
+          {
+            "source_xcod": 25.0768,
+            "source_ycod": 121.5173,
+            "description": "入口",
+            "coordinates": [
+              121.5173,
+              25.0768
+            ]
+          }
+        ],
+        "available_bus_spaces": null,
+        "available_bus_status": "no_such_space_type",
+        "availability_source_time": "2026-10-21T23:20:00+08:00",
+        "availability_source_sentinel": -9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5180299,
+          25.0759168
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE0820",
+      "properties": {
+        "parking_id": "TPE0820",
+        "district": "松山區",
+        "name": "臺北國際航空站大客車收費停車場",
+        "availability_type_code": "1",
+        "ownership_type": "中央機關學校自營",
+        "parking_type_code": "D",
+        "space_summary": "大型車:11格，小型車:0格，機車:0格",
+        "address": "敦化北路390號",
+        "telephone": "8770-3415",
+        "fee_description": "計時：80元/時(08-21)，20元/時(21-08)，全程以半小時計費。月租：非駐站單位7,700元/月，駐站單位4,000元/月。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 305536.2051,
+        "twd97_y": 2772907.514,
+        "total_car_spaces": 0,
+        "total_motorcycle_spaces": 0,
+        "total_bus_spaces": 11,
+        "pregnancy_priority_spaces": 0,
+        "disability_priority_spaces": 0,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [],
+        "fare_info_rules": [],
+        "entrances": [
+          {
+            "source_xcod": 25.0632,
+            "source_ycod": 121.5507,
+            "description": "入口",
+            "coordinates": [
+              121.5507,
+              25.0632
+            ]
+          }
+        ],
+        "available_bus_spaces": 11,
+        "available_bus_status": "reported",
+        "availability_source_time": "2026-10-21T23:20:00+08:00",
+        "availability_source_sentinel": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5504674,
+          25.0633513
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE0853",
+      "properties": {
+        "parking_id": "TPE0853",
+        "district": "士林區",
+        "name": "福林公園大客車平面停車場",
+        "availability_type_code": "1",
+        "ownership_type": "本處自營停車場",
+        "parking_type_code": "D",
+        "space_summary": "大型車:7格，小型車:0格，機車:0格",
+        "address": "中正路17號空地",
+        "telephone": "0227590666",
+        "fee_description": "小型車：計時 60元/時(08時~22時)，20元/時(22時~08時)，停車全程以半小時計，本時段收費上限100元，本場未出售月票。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 303408.7594,
+        "twd97_y": 2776479.512,
+        "total_car_spaces": 0,
+        "total_motorcycle_spaces": 0,
+        "total_bus_spaces": 7,
+        "pregnancy_priority_spaces": 0,
+        "disability_priority_spaces": 0,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "是",
+        "max_info_fare_rules": [
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "08",
+            "chargeable_end_time_raw": "22",
+            "parking_rates_twd": 60,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "22",
+            "chargeable_end_time_raw": "08",
+            "parking_rates_twd": 20,
+            "charge_unit": null
+          }
+        ],
+        "fare_info_rules": [],
+        "entrances": [
+          {
+            "source_xcod": 25.0966,
+            "source_ycod": 121.5332,
+            "description": "入口",
+            "coordinates": [
+              121.5332,
+              25.0966
+            ]
+          }
+        ],
+        "available_bus_spaces": 7,
+        "available_bus_status": "reported",
+        "availability_source_time": "2026-10-21T23:20:00+08:00",
+        "availability_source_sentinel": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5295199,
+          25.0956756
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE0898",
+      "properties": {
+        "parking_id": "TPE0898",
+        "district": "信義區",
+        "name": "國雲智慧停車D1停車場",
+        "availability_type_code": "1",
+        "ownership_type": "民營停車場",
+        "parking_type_code": "D",
+        "space_summary": "大型車:7格，小型車:35格(含身心障礙停車位1格)，機車:0格",
+        "address": "松勤街41號旁",
+        "telephone": "0225573722",
+        "fee_description": "計時：大型車200元/小時，小型車100元/時，停車全程以半小時計。月租：大型車12,000元/月，小型車6,000元/月。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 306701.0596,
+        "twd97_y": 2769471.213,
+        "total_car_spaces": 35,
+        "total_motorcycle_spaces": 0,
+        "total_bus_spaces": 7,
+        "pregnancy_priority_spaces": 0,
+        "disability_priority_spaces": 1,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 100,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "3",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 6000,
+            "charge_unit": null
+          }
+        ],
+        "fare_info_rules": [],
+        "entrances": [
+          {
+            "source_xcod": 0,
+            "source_ycod": 0,
+            "description": "入口",
+            "coordinates": null
+          }
+        ],
+        "available_bus_spaces": null,
+        "available_bus_status": "facility_absent_from_snapshot",
+        "availability_source_time": null,
+        "availability_source_sentinel": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5618714,
+          25.0322855
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE1028",
+      "properties": {
+        "parking_id": "TPE1028",
+        "district": "士林區",
+        "name": "欣翰士林官邸大樓收費停車場",
+        "availability_type_code": "2",
+        "ownership_type": "民營停車場",
+        "parking_type_code": "S",
+        "space_summary": "大型車:120格，小型車:0格，機車:122格(含身心障礙停車位3格)",
+        "address": "中山北路5段532號地下1至2層",
+        "telephone": "0228820010",
+        "fee_description": "計時：大客車120元/時，停車未滿1小時以1小時計，逾1小時以上，未滿半小時以半小時計，中型巴士100元/時。計次：機車200元/次，至當晚8時止。停放過夜每晚加收500元。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 303299.1347,
+        "twd97_y": 2776259.282,
+        "total_car_spaces": 0,
+        "total_motorcycle_spaces": 122,
+        "total_bus_spaces": 120,
+        "pregnancy_priority_spaces": 0,
+        "disability_priority_spaces": 0,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [],
+        "fare_info_rules": [],
+        "entrances": [],
+        "available_bus_spaces": null,
+        "available_bus_status": "facility_absent_from_snapshot",
+        "availability_source_time": null,
+        "availability_source_sentinel": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5284245,
+          25.0936913
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE1154",
+      "properties": {
+        "parking_id": "TPE1154",
+        "district": "萬華區",
+        "name": "雙園堤外平面停車場",
+        "availability_type_code": "2",
+        "ownership_type": "本處自營停車場(委託路邊兼開)",
+        "parking_type_code": "D",
+        "space_summary": "大型車:35格，小型車:748格(含身心障礙停車位16格)，機車:242格(含身心障礙停車位6格)",
+        "address": "長順街底堤外",
+        "telephone": "2302-4504",
+        "fee_description": "小型車：計時 20元/時，停車全程以半小時計；月租 全日3,000元，雙園堤外平面與雙園平面停車場月票可互通使用。大型車：計時40元/時。機車：免費停車。",
+        "service_time_description": "星期一至星期六 9時至17時",
+        "twd97_x": 299210.126,
+        "twd97_y": 2769482.363,
+        "total_car_spaces": 748,
+        "total_motorcycle_spaces": 242,
+        "total_bus_spaces": 35,
+        "pregnancy_priority_spaces": 0,
+        "disability_priority_spaces": 16,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [],
+        "fare_info_rules": [],
+        "entrances": [],
+        "available_bus_spaces": null,
+        "available_bus_status": "facility_absent_from_snapshot",
+        "availability_source_time": null,
+        "availability_source_sentinel": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.4876437,
+          25.0326483
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE1165",
+      "properties": {
+        "parking_id": "TPE1165",
+        "district": "信義區",
+        "name": "臺北南山廣場停車場",
+        "availability_type_code": "2",
+        "ownership_type": "民營停車場",
+        "parking_type_code": "S",
+        "space_summary": "大型車:31格，小型車:0格，機車:0格",
+        "address": "松仁路100號、松智路17號地下2層",
+        "telephone": null,
+        "fee_description": "計時：大客車80元/時，當日單次停車最高收費上限400元/日，停車未滿1小時以1小時計，逾1小時以上，未滿半小時以半小時計。月租：大客車全日12,000元/月。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 307285.1984,
+        "twd97_y": 2769719.83,
+        "total_car_spaces": 0,
+        "total_motorcycle_spaces": 0,
+        "total_bus_spaces": 31,
+        "pregnancy_priority_spaces": 0,
+        "disability_priority_spaces": 0,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [],
+        "fare_info_rules": [],
+        "entrances": [],
+        "available_bus_spaces": null,
+        "available_bus_status": "facility_absent_from_snapshot",
+        "availability_source_time": null,
+        "availability_source_sentinel": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.56767,
+          25.034508
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE1190",
+      "properties": {
+        "parking_id": "TPE1190",
+        "district": "士林區",
+        "name": "福林路大客車平面停車場",
+        "availability_type_code": "1",
+        "ownership_type": "本處自營停車場(委託路邊兼開)",
+        "parking_type_code": "D",
+        "space_summary": "大型車:12格，小型車:0格，機車:0格",
+        "address": "福林路中正路交叉口北側",
+        "telephone": "0227590666",
+        "fee_description": "小型車：計時 60元/時(08時~22時)，20元/時(22時~08時)，當日單次停車最高收費上限100元/次，隔日另計，以NaN時為基準，停車未滿1小時以1小時計，逾1小時以上，未滿半小時以半小時計，大客車：60元/時，全程以半小時計。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 303790.6929,
+        "twd97_y": 2776614.292,
+        "total_car_spaces": 0,
+        "total_motorcycle_spaces": 0,
+        "total_bus_spaces": 12,
+        "pregnancy_priority_spaces": 0,
+        "disability_priority_spaces": 0,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "是",
+        "max_info_fare_rules": [
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "08",
+            "chargeable_end_time_raw": "22",
+            "parking_rates_twd": 60,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "22",
+            "chargeable_end_time_raw": "08",
+            "parking_rates_twd": 20,
+            "charge_unit": null
+          }
+        ],
+        "fare_info_rules": [],
+        "entrances": [
+          {
+            "source_xcod": 25.0966,
+            "source_ycod": 121.5332,
+            "description": "入口",
+            "coordinates": [
+              121.5332,
+              25.0966
+            ]
+          }
+        ],
+        "available_bus_spaces": null,
+        "available_bus_status": "no_such_space_type",
+        "availability_source_time": "2026-10-21T23:20:00+08:00",
+        "availability_source_sentinel": -9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5333117,
+          25.0968788
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE1245",
+      "properties": {
+        "parking_id": "TPE1245",
+        "district": "萬華區",
+        "name": "華中橋西側棒壘球停車場",
+        "availability_type_code": "2",
+        "ownership_type": "市屬機關學校委外",
+        "parking_type_code": "S",
+        "space_summary": "大型車:40格，小型車:135格(含身心障礙停車位2格，孕婦、育有六歲以下兒童停車位2格)，機車:49格(含身心障礙停車位1格)",
+        "address": "華中橋堤外",
+        "telephone": "0905362212",
+        "fee_description": "月租：承銷業者採購車輛2,000元/月、臺北市市區公車3,431元/月。免費停車：機車。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 299917.499,
+        "twd97_y": 2767615.809,
+        "total_car_spaces": 135,
+        "total_motorcycle_spaces": 49,
+        "total_bus_spaces": 40,
+        "pregnancy_priority_spaces": 2,
+        "disability_priority_spaces": 2,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [],
+        "fare_info_rules": [],
+        "entrances": [],
+        "available_bus_spaces": null,
+        "available_bus_status": "facility_absent_from_snapshot",
+        "availability_source_time": null,
+        "availability_source_sentinel": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.4945857,
+          25.0157738
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE1432",
+      "properties": {
+        "parking_id": "TPE1432",
+        "district": "士林區",
+        "name": "基河路大客車平面停車場",
+        "availability_type_code": "1",
+        "ownership_type": "本處自營停車場(委託路邊兼開)",
+        "parking_type_code": "D",
+        "space_summary": "大型車:16格，小型車:0格，機車:0格",
+        "address": "基河路與美崙街交叉口",
+        "telephone": "0227590666",
+        "fee_description": "大客車：60元/時，全程以半小時計費。本場未出售月票。",
+        "service_time_description": "收費日：星期一至星期日，收費時間：09-17",
+        "twd97_x": 302340.263,
+        "twd97_y": 2776417.517,
+        "total_car_spaces": 0,
+        "total_motorcycle_spaces": 0,
+        "total_bus_spaces": 16,
+        "pregnancy_priority_spaces": 0,
+        "disability_priority_spaces": 0,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "是",
+        "max_info_fare_rules": [],
+        "fare_info_rules": [],
+        "entrances": [
+          {
+            "source_xcod": 25.0947,
+            "source_ycod": 121.5188,
+            "description": "入口",
+            "coordinates": [
+              121.5188,
+              25.0947
+            ]
+          }
+        ],
+        "available_bus_spaces": null,
+        "available_bus_status": "no_such_space_type",
+        "availability_source_time": "2026-10-21T23:20:00+08:00",
+        "availability_source_sentinel": -9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5189243,
+          25.0951534
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE1516",
+      "properties": {
+        "parking_id": "TPE1516",
+        "district": "信義區",
+        "name": "台泥基隆路臨時平面停車場",
+        "availability_type_code": "1",
+        "ownership_type": "民營停車場",
+        "parking_type_code": "D",
+        "space_summary": "大型車:48格，小型車:278格(含身心障礙停車位6格)，機車:0格",
+        "address": "基隆路1段52號",
+        "telephone": "2753-0071，承辦2788-8750#8813",
+        "fee_description": "計時:小型車40元/時，大型車60元/時，全程以半小時計。月租:小型車5,000元/月，大型車8,000元/月。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 307344.0702,
+        "twd97_y": 2771238.66,
+        "total_car_spaces": 278,
+        "total_motorcycle_spaces": 0,
+        "total_bus_spaces": 48,
+        "pregnancy_priority_spaces": 0,
+        "disability_priority_spaces": 6,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [],
+        "fare_info_rules": [],
+        "entrances": [
+          {
+            "source_xcod": 25.0482,
+            "source_ycod": 121.5685,
+            "description": "入口",
+            "coordinates": [
+              121.5685,
+              25.0482
+            ]
+          }
+        ],
+        "available_bus_spaces": null,
+        "available_bus_status": "no_such_space_type",
+        "availability_source_time": "2026-10-21T23:20:00+08:00",
+        "availability_source_sentinel": -9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5683166,
+          25.0482176
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE1524",
+      "properties": {
+        "parking_id": "TPE1524",
+        "district": "信義區",
+        "name": "嘟嘟房富邦信義A25站停車場",
+        "availability_type_code": "1",
+        "ownership_type": "民營停車場",
+        "parking_type_code": "D",
+        "space_summary": "大型車:44格，小型車:278格(含身心障礙停車位7格)，機車:536格(含身心障礙停車位11格)，充電格位:4格",
+        "address": "松勇路1、3號地下1至4層",
+        "telephone": "(02)26550818",
+        "fee_description": "計時：小型車120元/時，機車30元/時，大客車40元/時，停車全程以半小時計。月租：小型車全日12,000元/月，機車全日1,000元/月，大客車全日19,200元/月。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 307552.2967,
+        "twd97_y": 2770254.366,
+        "total_car_spaces": 278,
+        "total_motorcycle_spaces": 536,
+        "total_bus_spaces": 44,
+        "pregnancy_priority_spaces": 0,
+        "disability_priority_spaces": 7,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 4,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 120,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "3",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 12000,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "9",
+            "week_type_raw": "1,2,3,4,5,6,7,8",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 15,
+            "charge_unit": "kWh"
+          },
+          {
+            "parking_type_code": "M",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 30,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "M",
+            "rate_type_code": "3",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 1000,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "T",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 40,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "T",
+            "rate_type_code": "3",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 19200,
+            "charge_unit": null
+          }
+        ],
+        "fare_info_rules": [],
+        "entrances": [
+          {
+            "source_xcod": 25.0403,
+            "source_ycod": 121.5698,
+            "description": "入口",
+            "coordinates": [
+              121.5698,
+              25.0403
+            ]
+          }
+        ],
+        "available_bus_spaces": null,
+        "available_bus_status": "no_such_space_type",
+        "availability_source_time": "2026-10-21T23:20:00+08:00",
+        "availability_source_sentinel": -9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.570339,
+          25.0393236
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE1556",
+      "properties": {
+        "parking_id": "TPE1556",
+        "district": "內湖區",
+        "name": "大港墘公園大客車平面停車場",
+        "availability_type_code": "2",
+        "ownership_type": "本處自營停車場(委託路邊兼開)",
+        "parking_type_code": "D",
+        "space_summary": "大型車:4格，小型車:0格，機車:0格",
+        "address": "洲子街18號旁",
+        "telephone": "0227590666",
+        "fee_description": "小型車：，計時：大型車60元/時。",
+        "service_time_description": "星期一至星期六(9-17)",
+        "twd97_x": 307873.1622,
+        "twd97_y": 2774611.937,
+        "total_car_spaces": 0,
+        "total_motorcycle_spaces": 0,
+        "total_bus_spaces": 4,
+        "pregnancy_priority_spaces": 0,
+        "disability_priority_spaces": 0,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [],
+        "fare_info_rules": [],
+        "entrances": [],
+        "available_bus_spaces": null,
+        "available_bus_status": "facility_absent_from_snapshot",
+        "availability_source_time": null,
+        "availability_source_sentinel": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5737018,
+          25.0786509
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE1639",
+      "properties": {
+        "parking_id": "TPE1639",
+        "district": "萬華區",
+        "name": "臺北市環南綜合市場自治會",
+        "availability_type_code": "1",
+        "ownership_type": "市屬機關學校委外",
+        "parking_type_code": "D",
+        "space_summary": "大型車:9格，小型車:483格(含身心障礙停車位10格)，機車:0格",
+        "address": "環河南路2段245號地下1至2、地上1層",
+        "telephone": "23621685",
+        "fee_description": "計時：小型車30元/時，大客車30元/時，停車全程以半小時計。月租：小型車全日7,200元/月。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 299373.985,
+        "twd97_y": 2769076.846,
+        "total_car_spaces": 483,
+        "total_motorcycle_spaces": 0,
+        "total_bus_spaces": 9,
+        "pregnancy_priority_spaces": 0,
+        "disability_priority_spaces": 10,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 30,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "3",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 7200,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "T",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 30,
+            "charge_unit": null
+          }
+        ],
+        "fare_info_rules": [],
+        "entrances": [
+          {
+            "source_xcod": 0,
+            "source_ycod": 0,
+            "description": "入口",
+            "coordinates": null
+          }
+        ],
+        "available_bus_spaces": null,
+        "available_bus_status": "no_such_space_type",
+        "availability_source_time": "2026-10-21T23:20:00+08:00",
+        "availability_source_sentinel": -9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.4892529,
+          25.0289819
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE1661",
+      "properties": {
+        "parking_id": "TPE1661",
+        "district": "信義區",
+        "name": "臺北大巨蛋園區停車場",
+        "availability_type_code": "1",
+        "ownership_type": "民營停車場",
+        "parking_type_code": "D",
+        "space_summary": "大型車:56格，小型車:1902格(含身心障礙停車位39格，孕婦、育有六歲以下兒童停車位60格)，機車:3800格(含身心障礙停車位76格)，充電格位:20格",
+        "address": "忠孝東路4段515號地下1、3至5層",
+        "telephone": "0222461708",
+        "fee_description": "計時：小型車150元/時，機車20元/時，大客車150元/時，停車全程以半小時計。月租：小型車全日9,600元/月，機車全日600元/月。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 306457.2977,
+        "twd97_y": 2770545.258,
+        "total_car_spaces": 1902,
+        "total_motorcycle_spaces": 3800,
+        "total_bus_spaces": 56,
+        "pregnancy_priority_spaces": 60,
+        "disability_priority_spaces": 39,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 20,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "否",
+        "max_info_fare_rules": [
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 150,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "3",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 9600,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "C",
+            "rate_type_code": "9",
+            "week_type_raw": "1,2,3,4,5,6,7,8",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 10,
+            "charge_unit": "kWh"
+          },
+          {
+            "parking_type_code": "M",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 20,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "M",
+            "rate_type_code": "3",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 600,
+            "charge_unit": null
+          },
+          {
+            "parking_type_code": "T",
+            "rate_type_code": "1",
+            "week_type_raw": "1,2,3,4,5,6,7",
+            "chargeable_start_time_raw": "00",
+            "chargeable_end_time_raw": "24",
+            "parking_rates_twd": 150,
+            "charge_unit": null
+          }
+        ],
+        "fare_info_rules": [],
+        "entrances": [
+          {
+            "source_xcod": 25.0413,
+            "source_ycod": 121.5617,
+            "description": "入口",
+            "coordinates": [
+              121.5617,
+              25.0413
+            ]
+          }
+        ],
+        "available_bus_spaces": null,
+        "available_bus_status": "no_such_space_type",
+        "availability_source_time": "2026-10-21T23:20:00+08:00",
+        "availability_source_sentinel": -9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5595,
+          25.041991
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE1781",
+      "properties": {
+        "parking_id": "TPE1781",
+        "district": "內湖區",
+        "name": "拓鑫安美大型車停車場",
+        "availability_type_code": "2",
+        "ownership_type": "民營停車場",
+        "parking_type_code": "S",
+        "space_summary": "大型車:42格，小型車:0格，機車:0格",
+        "address": "安美街181號旁空地",
+        "telephone": "0958388960",
+        "fee_description": "大型車：月租8,000元。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 310715.885,
+        "twd97_y": 2772573.692,
+        "total_car_spaces": 0,
+        "total_motorcycle_spaces": 0,
+        "total_bus_spaces": 42,
+        "pregnancy_priority_spaces": 0,
+        "disability_priority_spaces": 0,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [],
+        "fare_info_rules": [],
+        "entrances": [],
+        "available_bus_spaces": null,
+        "available_bus_status": "facility_absent_from_snapshot",
+        "availability_source_time": null,
+        "availability_source_sentinel": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.6017908,
+          25.0601384
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE1794",
+      "properties": {
+        "parking_id": "TPE1794",
+        "district": "內湖區",
+        "name": "安康停車場",
+        "availability_type_code": "2",
+        "ownership_type": "民營停車場",
+        "parking_type_code": "S",
+        "space_summary": "大型車:20格，小型車:0格，機車:0格",
+        "address": "安康路12號旁空地",
+        "telephone": null,
+        "fee_description": "月租：大客車全日10,000元/月。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 309772.9146,
+        "twd97_y": 2772690.995,
+        "total_car_spaces": 0,
+        "total_motorcycle_spaces": 0,
+        "total_bus_spaces": 20,
+        "pregnancy_priority_spaces": 0,
+        "disability_priority_spaces": 0,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [],
+        "fare_info_rules": [],
+        "entrances": [],
+        "available_bus_spaces": null,
+        "available_bus_status": "facility_absent_from_snapshot",
+        "availability_source_time": null,
+        "availability_source_sentinel": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.59245,
+          25.061235
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE1956",
+      "properties": {
+        "parking_id": "TPE1956",
+        "district": "內湖區",
+        "name": "168停車聯盟-行善六場",
+        "availability_type_code": "2",
+        "ownership_type": "中央機關學校委外",
+        "parking_type_code": "D",
+        "space_summary": "大型車:53格，小型車:0格，機車:0格",
+        "address": "行善路263號對面空地",
+        "telephone": "0227546661",
+        "fee_description": "計時：大客車150元/時，停車全程以半小時計。月租：大客車全日15,000元/月。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 308936.0485,
+        "twd97_y": 2772793.915,
+        "total_car_spaces": 0,
+        "total_motorcycle_spaces": 0,
+        "total_bus_spaces": 53,
+        "pregnancy_priority_spaces": 0,
+        "disability_priority_spaces": 0,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [],
+        "fare_info_rules": [],
+        "entrances": [],
+        "available_bus_spaces": null,
+        "available_bus_status": "facility_absent_from_snapshot",
+        "availability_source_time": null,
+        "availability_source_sentinel": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.58416,
+          25.062197
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "TPE1964",
+      "properties": {
+        "parking_id": "TPE1964",
+        "district": "內湖區",
+        "name": "168停車聯盟-行善五場",
+        "availability_type_code": "2",
+        "ownership_type": "中央機關學校委外",
+        "parking_type_code": "D",
+        "space_summary": "大型車:30格，小型車:0格，機車:0格",
+        "address": "行善路263號對面空地",
+        "telephone": "0227546661",
+        "fee_description": "計時：大客車150元/時，停車全程以半小時計。月租：大客車全日15,000元/月。",
+        "service_time_description": "00:00:00-23:59:59",
+        "twd97_x": 308855.6785,
+        "twd97_y": 2772713.815,
+        "total_car_spaces": 0,
+        "total_motorcycle_spaces": 0,
+        "total_bus_spaces": 30,
+        "pregnancy_priority_spaces": 0,
+        "disability_priority_spaces": 0,
+        "total_heavy_motorcycle_spaces": 0,
+        "charging_station_count": 0,
+        "taxi_one_hour_free_code": "0",
+        "aed_equipment_code": "0",
+        "cell_signal_enhancement_code": "0",
+        "accessibility_elevator_code": "0",
+        "phone_charge_code": "0",
+        "child_pickup_area_code": "0",
+        "disability_discount_description": "依現場公告",
+        "max_info_fare_rules": [],
+        "fare_info_rules": [],
+        "entrances": [],
+        "available_bus_spaces": null,
+        "available_bus_status": "facility_absent_from_snapshot",
+        "availability_source_time": null,
+        "availability_source_sentinel": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.58336,
+          25.061477
+        ]
+      }
+    }
+  ]
+}
