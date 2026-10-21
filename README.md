@@ -21,6 +21,8 @@ Agent 協作、格式與提交規則見 [AGENTS.md](AGENTS.md)。
 
 公車資料的範圍、來源時間與品質限制見 [資料目錄](data/taipei_bus_catalog.json) 及各檔案的 `metadata`。
 
+新增的現行公車、近三年人口與營運統計、捷運一年分時進出量、設施及 TDX 資料，見[整合資料目錄](data/catalog.json)與[整理及更新說明](docs/data-collection.md)。大型資料僅保留必要彙總或來源連結；各來源均另附獨立巡檢結果。
+
 ## 更新
 
 安裝、執行與自動更新方式見 [資料更新說明](docs/data-updates.md)。

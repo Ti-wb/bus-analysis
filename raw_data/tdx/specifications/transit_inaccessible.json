@@ -1,0 +1,219 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "運輸指標-跨域",
+    "description": "本平臺提供涵蓋全國尺度之交通旅運資料服務API，歡迎各產政學單位介接使用。\n<br><span class=swagger-description-indicatation>利用本平臺開放資料進行各項應用服務開發時，請考量不同特性使用者(如：性別/身心障礙/老幼等)的需求，並歡迎回饋寶貴意見</span>。\n<br>計費方式：\n<br>計次：10次/1點\n<br>計量：1MB/10點\n---\n##### API使用說明與注意事項：\n1. 如您尚未註冊平臺會員帳號，或未以帳號登入，您將僅能以「訪客模式」使用平臺服務，包含：限以瀏覽器存取，限使用`【基礎服務】`，且限制每個呼叫來源端IP每日存取至多20次。。\n2. 如您已註冊平臺會員帳號，請務必確保在存取服務(包含瀏覽器、程式呼叫API)時帶入您的API金鑰，方能以「會員模式」使用完整平臺服務，包含平臺各類資料服務，如`【基礎服務】`、`【進階服務】`、`【加值服務】`、`【歷史服務】`、`【圖資服務】`、`【第三方服務】`等。\n3. 建議您立即[註冊平臺會員帳號](/register)，依您用量需求訂閱服務方案，並於[【會員中心->資料服務->API金鑰】](/user/dataservice/key)取得API金鑰(即Client Id和Client Secret資訊)。\n4. 會員訂閱服務方案之級別不同，將決定其API金鑰之存取頻率有不同限制，各個方案的存取頻率限制說明請參考[訂閱收費](/pricing)。\n5. 以瀏覽器帶入API金鑰之操作方式：請點選Swagger UI上的Authorize按鈕，依指示填入Client Id和Client Secret資訊並進行驗證，驗證完成後可開始於Swagger UI使用API。\n6. 以程式呼叫API帶入API金鑰之操作方式：請參考[範例程式](https://github.com/tdxmotc/SampleCode)。\n7. 不論您是以瀏覽器或是以程式呼叫API，所有服務存取行為均將被記錄並定期檢視，以確保系統資源使用的合理分配與避免遭受濫用。\n\nAPI OAS文本 :[請點我](https://tdx.transportdata.tw/webapi/File/Swagger/V3/3b31f053-e920-4dc7-80f2-fefc4650a2d9)",
+    "termsOfService": "https://tdx.transportdata.tw/term",
+    "contact": {
+      "name": "TDX客服信箱",
+      "email": "tdx@motc.gov.tw"
+    },
+    "version": "v3"
+  },
+  "servers": [
+    {
+      "url": "https://tdx.transportdata.tw/api/premium"
+    }
+  ],
+  "paths": {
+    "/V3/Map/Governance/InAccessibility/Transit/Household/City/{City}/TownCode/{TownCode}": {
+      "get": {
+        "tags": [
+          "Governance"
+        ],
+        "summary": "取得公共運輸服務不可及分布情形",
+        "description": "取得公共運輸服務不可及分布情形<br />\r\n            鄉鎮市區代碼 參考 <a target=\"_blank\" href=\"#!/District/District_03003\">取得全臺市區鄉鎮界圖資</a><br />",
+        "operationId": "TransportNetwork_03028",
+        "parameters": [
+          {
+            "name": "City",
+            "in": "path",
+            "description": "欲查詢縣市",
+            "required": true,
+            "schema": {
+              "enum": [
+                "Taipei",
+                "NewTaipei",
+                "Taoyuan",
+                "Taichung",
+                "Tainan",
+                "Kaohsiung",
+                "Keelung",
+                "Hsinchu",
+                "HsinchuCounty",
+                "MiaoliCounty",
+                "ChanghuaCounty",
+                "NantouCounty",
+                "YunlinCounty",
+                "ChiayiCounty",
+                "Chiayi",
+                "PingtungCounty",
+                "YilanCounty",
+                "HualienCounty",
+                "TaitungCounty",
+                "KinmenCounty",
+                "PenghuCounty",
+                "LienchiangCounty"
+              ],
+              "type": "string",
+              "default": "MiaoliCounty"
+            },
+            "x-enum": {
+              "Taipei": "臺北市",
+              "NewTaipei": "新北市",
+              "Taoyuan": "桃園市",
+              "Taichung": "臺中市",
+              "Tainan": "臺南市",
+              "Kaohsiung": "高雄市",
+              "Keelung": "基隆市",
+              "Hsinchu": "新竹市",
+              "HsinchuCounty": "新竹縣",
+              "MiaoliCounty": "苗栗縣",
+              "ChanghuaCounty": "彰化縣",
+              "NantouCounty": "南投縣",
+              "YunlinCounty": "雲林縣",
+              "ChiayiCounty": "嘉義縣",
+              "Chiayi": "嘉義市",
+              "PingtungCounty": "屏東縣",
+              "YilanCounty": "宜蘭縣",
+              "HualienCounty": "花蓮縣",
+              "TaitungCounty": "臺東縣",
+              "KinmenCounty": "金門縣",
+              "PenghuCounty": "澎湖縣",
+              "LienchiangCounty": "連江縣"
+            }
+          },
+          {
+            "name": "TownCode",
+            "in": "path",
+            "description": "鄉鎮市區代碼",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "10005110"
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "挑選",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "過濾",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$format",
+            "in": "query",
+            "description": "JSON / XML / GEOJSON",
+            "required": true,
+            "schema": {
+              "enum": [
+                "JSON",
+                "XML",
+                "GEOJSON"
+              ],
+              "type": "string",
+              "default": "GEOJSON"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "呼叫成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicTransportInAccessibility"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicTransportInAccessibility"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": { },
+              "application/xml": { }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": { },
+              "application/xml": { }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PublicTransportInAccessibility": {
+        "title": "PublicTransportInAccessibility",
+        "type": "object",
+        "properties": {
+          "UpdateDate": {
+            "type": "string",
+            "description": "系統更新時間"
+          },
+          "NumberOfHouseholds": {
+            "type": "integer",
+            "description": "家戶數",
+            "format": "int32"
+          },
+          "ReasonableHouseholdNumbers": {
+            "type": "integer",
+            "description": "合理家戶數量",
+            "format": "int32"
+          },
+          "InaccessibleRate": {
+            "type": "number",
+            "description": "不可及之家戶比例",
+            "format": "double"
+          },
+          "Geometry": {
+            "type": "string",
+            "description": "不可及家戶分布空間資訊"
+          }
+        },
+        "description": "不可及分布情形"
+      }
+    },
+    "securitySchemes": {
+      "TDX": {
+        "type": "oauth2",
+        "description": "TDX會員可至【會員專區-資料服務-服務金鑰】功能頁面，從預設金鑰(或建立新的金鑰)取得Client Id和Client Secret資訊，分別輸入至下方client_id和client_secret欄位、按下Authorize按鈕，即可開始於Swagger介面呼叫TDX API。",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://tdx.transportdata.tw/auth/realms/TDXConnect/protocol/openid-connect/token",
+            "scopes": { }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "TDX": [ ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "Governance",
+      "description": "治理"
+    }
+  ]
+}

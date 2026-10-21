@@ -1,0 +1,6666 @@
+{
+  "schema_version": 1,
+  "dataset_id": "tdx_api_catalog",
+  "metadata": {
+    "evidence_type": "official_specification_only",
+    "business_data_downloaded": false,
+    "source_updated_at": null,
+    "statistical_period": null,
+    "geographic_scope": [
+      "Taipei",
+      "NewTaipei"
+    ],
+    "sources": [
+      {
+        "source_id": "historical",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/historical/39472fde-f790-42b9-9c8b-88282118e6b1",
+        "download_url": "https://tdx.transportdata.tw/webapi/File/Swagger/V3/39472fde-f790-42b9-9c8b-88282118e6b1",
+        "raw_file": "raw_data/tdx/specifications/historical.json",
+        "downloaded_at": "2026-10-21T23:31:29+08:00",
+        "source_updated_at": null,
+        "bytes": 352587,
+        "http_last_modified": null,
+        "content_type": "text/plain; charset=utf-8",
+        "evidence_type": "official_specification"
+      },
+      {
+        "source_id": "travel_time",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+        "download_url": "https://tdx.transportdata.tw/webapi/File/Swagger/V3/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+        "raw_file": "raw_data/tdx/specifications/travel_time.json",
+        "downloaded_at": "2026-10-21T23:31:29+08:00",
+        "source_updated_at": null,
+        "bytes": 25891,
+        "http_last_modified": null,
+        "content_type": "text/plain; charset=utf-8",
+        "evidence_type": "official_specification"
+      },
+      {
+        "source_id": "stop_distance",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/e2437b20-8f4a-4e71-875d-53466e94dae8",
+        "download_url": "https://tdx.transportdata.tw/webapi/File/Swagger/V3/e2437b20-8f4a-4e71-875d-53466e94dae8",
+        "raw_file": "raw_data/tdx/specifications/stop_distance.json",
+        "downloaded_at": "2026-10-21T23:31:29+08:00",
+        "source_updated_at": null,
+        "bytes": 12206,
+        "http_last_modified": null,
+        "content_type": "text/plain; charset=utf-8",
+        "evidence_type": "official_specification"
+      },
+      {
+        "source_id": "bus_uncovered",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/366e56ed-55c8-4297-8ba6-4b7acb7e1d32",
+        "download_url": "https://tdx.transportdata.tw/webapi/File/Swagger/V3/366e56ed-55c8-4297-8ba6-4b7acb7e1d32",
+        "raw_file": "raw_data/tdx/specifications/bus_uncovered.json",
+        "downloaded_at": "2026-10-21T23:31:30+08:00",
+        "source_updated_at": null,
+        "bytes": 8462,
+        "http_last_modified": null,
+        "content_type": "text/plain; charset=utf-8",
+        "evidence_type": "official_specification"
+      },
+      {
+        "source_id": "transit_inaccessible",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/3b31f053-e920-4dc7-80f2-fefc4650a2d9",
+        "download_url": "https://tdx.transportdata.tw/webapi/File/Swagger/V3/3b31f053-e920-4dc7-80f2-fefc4650a2d9",
+        "raw_file": "raw_data/tdx/specifications/transit_inaccessible.json",
+        "downloaded_at": "2026-10-21T23:31:31+08:00",
+        "source_updated_at": null,
+        "bytes": 8564,
+        "http_last_modified": null,
+        "content_type": "text/plain; charset=utf-8",
+        "evidence_type": "official_specification"
+      },
+      {
+        "source_id": "bus_v3",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/basic/939d7b26-14d6-40bc-bdc9-a076e3f8d4dc",
+        "download_url": "https://tdx.transportdata.tw/webapi/File/Swagger/V3/939d7b26-14d6-40bc-bdc9-a076e3f8d4dc",
+        "raw_file": "raw_data/tdx/specifications/bus_v3.json",
+        "downloaded_at": "2026-10-21T23:31:32+08:00",
+        "source_updated_at": null,
+        "bytes": 795576,
+        "http_last_modified": null,
+        "content_type": "text/plain; charset=utf-8",
+        "evidence_type": "official_specification"
+      }
+    ],
+    "limitations": [
+      "參數 enum 代表規格接受值，不代表該縣市確有資料。",
+      "官方歷史服務簡介的 2021 年是整體平台起期；雙北各資料起期以供應目錄逐項為準。",
+      "呼叫次數與傳輸量都可能扣點；本程式不訂購方案、不增加額度。"
+    ],
+    "grain": "one API operation"
+  },
+  "records": [
+    {
+      "specification_id": "historical",
+      "service_category": "historical",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/historical",
+      "path_template": "/v2/Historical/Bus/RealTimeByFrequency/City/{City}",
+      "summary": "取得指定[日期],[縣市]的市區公車定時歷史資料(A1)",
+      "operation_id": "HistoricalCityBus_RealTimeByFrequency",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 20,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "指定城市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taoyuan",
+            "Taichung",
+            "Tainan",
+            "Kaohsiung",
+            "Keelung",
+            "Hsinchu",
+            "HsinchuCounty",
+            "MiaoliCounty",
+            "ChanghuaCounty",
+            "NantouCounty",
+            "YunlinCounty",
+            "ChiayiCounty",
+            "Chiayi",
+            "PingtungCounty",
+            "YilanCounty",
+            "HualienCounty",
+            "TaitungCounty",
+            "KinmenCounty",
+            "PenghuCounty",
+            "LienchiangCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "Dates",
+          "location": "query",
+          "required": true,
+          "description": "本歷史資料提供範圍為2021年6月至昨天(每天早上8點更新)，欲查詢之日期 / 區間(日期格式為: 'yyyy-MM-dd'，查詢多筆使用逗號','分隔，查詢區間使用波浪號'~'分隔，查詢天數最多7日，例如: '2021-06-01,2021-06-03~2021-06-05')",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSONL",
+            "CSV"
+          ],
+          "default": null
+        },
+        {
+          "name": "Meta",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?Meta=true'即可查詢此API服務的統計資訊",
+          "value_type": "string",
+          "allowed_values": [
+            "true"
+          ],
+          "default": ""
+        }
+      ],
+      "response_formats": [
+        "text/ndjson",
+        "text/csv"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "historical"
+    },
+    {
+      "specification_id": "historical",
+      "service_category": "historical",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/historical",
+      "path_template": "/v2/Historical/Bus/RealTimeNearStop/City/{City}",
+      "summary": "取得指定[日期],[縣市]的市區公車定點歷史資料(A2)",
+      "operation_id": "HistoricalCityBus_RealTimeNearStop",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 20,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "指定城市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taoyuan",
+            "Taichung",
+            "Tainan",
+            "Kaohsiung",
+            "Keelung",
+            "Hsinchu",
+            "HsinchuCounty",
+            "MiaoliCounty",
+            "ChanghuaCounty",
+            "NantouCounty",
+            "YunlinCounty",
+            "ChiayiCounty",
+            "Chiayi",
+            "PingtungCounty",
+            "YilanCounty",
+            "HualienCounty",
+            "TaitungCounty",
+            "KinmenCounty",
+            "PenghuCounty",
+            "LienchiangCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "Dates",
+          "location": "query",
+          "required": true,
+          "description": "本歷史資料提供範圍為2021年6月至昨天(每天早上8點更新)，欲查詢之日期 / 區間(日期格式為: 'yyyy-MM-dd'，查詢多筆使用逗號','分隔，查詢區間使用波浪號'~'分隔，查詢天數最多7日，例如: '2021-06-01,2021-06-03~2021-06-05')",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSONL",
+            "CSV"
+          ],
+          "default": null
+        },
+        {
+          "name": "Meta",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?Meta=true'即可查詢此API服務的統計資訊",
+          "value_type": "string",
+          "allowed_values": [
+            "true"
+          ],
+          "default": ""
+        }
+      ],
+      "response_formats": [
+        "text/ndjson",
+        "text/csv"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "historical"
+    },
+    {
+      "specification_id": "historical",
+      "service_category": "historical",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/historical",
+      "path_template": "/v2/Historical/Bus/News/City/{City}",
+      "summary": "取得指定[日期],[縣市]的市區公車最新消息歷史資料",
+      "operation_id": "HistoricalCityBus_News",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 20,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "指定城市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taoyuan",
+            "Taichung",
+            "Tainan",
+            "Kaohsiung",
+            "Keelung",
+            "Hsinchu",
+            "HsinchuCounty",
+            "MiaoliCounty",
+            "ChanghuaCounty",
+            "NantouCounty",
+            "YunlinCounty",
+            "ChiayiCounty",
+            "Chiayi",
+            "PingtungCounty",
+            "YilanCounty",
+            "HualienCounty",
+            "TaitungCounty",
+            "KinmenCounty",
+            "PenghuCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "Dates",
+          "location": "query",
+          "required": true,
+          "description": "本歷史資料提供範圍為2021年6月至昨天(每天早上8點更新)，欲查詢之日期 / 區間(日期格式為: 'yyyy-MM-dd'，查詢多筆使用逗號','分隔，查詢區間使用波浪號'~'分隔，查詢天數最多180日，例如: '2021-06-01,2021-06-03~2021-06-05')",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSONL",
+            "CSV"
+          ],
+          "default": null
+        },
+        {
+          "name": "Meta",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?Meta=true'即可查詢此API服務的統計資訊",
+          "value_type": "string",
+          "allowed_values": [
+            "true"
+          ],
+          "default": ""
+        }
+      ],
+      "response_formats": [
+        "text/ndjson",
+        "text/csv"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "historical"
+    },
+    {
+      "specification_id": "historical",
+      "service_category": "historical",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/historical",
+      "path_template": "/v2/Historical/Bus/Stop/DataVersion/SDate/{SDate}/EDate/{EDate}/City/{City}",
+      "summary": "取得指定[縣市],[起迄日期區間]的市區公車站牌資料版本清單",
+      "operation_id": "DataVersionCityBus_Stop",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 20,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "指定城市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taoyuan",
+            "Taichung",
+            "Tainan",
+            "Kaohsiung",
+            "Keelung",
+            "Hsinchu",
+            "HsinchuCounty",
+            "MiaoliCounty",
+            "ChanghuaCounty",
+            "NantouCounty",
+            "YunlinCounty",
+            "ChiayiCounty",
+            "Chiayi",
+            "PingtungCounty",
+            "YilanCounty",
+            "HualienCounty",
+            "TaitungCounty",
+            "KinmenCounty",
+            "PenghuCounty",
+            "LienchiangCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "SDate",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢之起始日期，例如:'2023-12-11'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "EDate",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢之結束日期，例如:'2023-12-12'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "historical"
+    },
+    {
+      "specification_id": "historical",
+      "service_category": "historical",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/historical",
+      "path_template": "/v2/Historical/Bus/Stop/Date/{Date}/City/{City}",
+      "summary": "取得指定[縣市],[日期]的市區公車站牌歷史資料",
+      "operation_id": "HistoricalCityBus_Stop",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 20,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "指定城市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taoyuan",
+            "Taichung",
+            "Tainan",
+            "Kaohsiung",
+            "Keelung",
+            "Hsinchu",
+            "HsinchuCounty",
+            "MiaoliCounty",
+            "ChanghuaCounty",
+            "NantouCounty",
+            "YunlinCounty",
+            "ChiayiCounty",
+            "Chiayi",
+            "PingtungCounty",
+            "YilanCounty",
+            "HualienCounty",
+            "TaitungCounty",
+            "KinmenCounty",
+            "PenghuCounty",
+            "LienchiangCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "Date",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢日期，例如:'2023-12-11'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "CSV",
+            "JSON"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "text/csv",
+        "application/json"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "historical"
+    },
+    {
+      "specification_id": "historical",
+      "service_category": "historical",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/historical",
+      "path_template": "/v2/Historical/Bus/Station/DataVersion/SDate/{SDate}/EDate/{EDate}/City/{City}",
+      "summary": "取得指定[縣市],[起迄日期區間]的市區公車站位資料版本清單",
+      "operation_id": "DataVersionCityBus_Station",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 20,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "指定城市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taoyuan",
+            "Taichung",
+            "Tainan",
+            "Kaohsiung",
+            "Keelung",
+            "Hsinchu",
+            "HsinchuCounty",
+            "MiaoliCounty",
+            "ChanghuaCounty",
+            "NantouCounty",
+            "YunlinCounty",
+            "ChiayiCounty",
+            "Chiayi",
+            "PingtungCounty",
+            "YilanCounty",
+            "HualienCounty",
+            "TaitungCounty",
+            "KinmenCounty",
+            "PenghuCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "SDate",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢之起始日期，例如:'2023-12-11'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "EDate",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢之結束日期，例如:'2023-12-12'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "historical"
+    },
+    {
+      "specification_id": "historical",
+      "service_category": "historical",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/historical",
+      "path_template": "/v2/Historical/Bus/Station/Date/{Date}/City/{City}",
+      "summary": "取得指定[縣市],[日期]的市區公車站位歷史資料",
+      "operation_id": "HistoricalCityBus_Station",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 20,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "指定城市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taoyuan",
+            "Taichung",
+            "Tainan",
+            "Kaohsiung",
+            "Keelung",
+            "Hsinchu",
+            "HsinchuCounty",
+            "MiaoliCounty",
+            "ChanghuaCounty",
+            "NantouCounty",
+            "YunlinCounty",
+            "ChiayiCounty",
+            "Chiayi",
+            "PingtungCounty",
+            "YilanCounty",
+            "HualienCounty",
+            "TaitungCounty",
+            "KinmenCounty",
+            "PenghuCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "Date",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢日期，例如:'2023-12-11'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "CSV",
+            "JSON"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "text/csv",
+        "application/json"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "historical"
+    },
+    {
+      "specification_id": "historical",
+      "service_category": "historical",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/historical",
+      "path_template": "/v2/Historical/Bus/DisplayStopOfRoute/DataVersion/SDate/{SDate}/EDate/{EDate}/City/{City}",
+      "summary": "取得指定[縣市],[起迄日期區間]的市區公車顯示用路線站序資料版本清單",
+      "operation_id": "DataVersionCityBus_DisplayStopOfRoute",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 20,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "指定城市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Tainan"
+          ],
+          "default": null
+        },
+        {
+          "name": "SDate",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢之起始日期，例如:'2023-12-11'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "EDate",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢之結束日期，例如:'2023-12-12'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "historical"
+    },
+    {
+      "specification_id": "historical",
+      "service_category": "historical",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/historical",
+      "path_template": "/v2/Historical/Bus/DisplayStopOfRoute/Date/{Date}/City/{City}",
+      "summary": "取得指定[日期],[縣市]的市區公車顯示用路線站序歷史資料",
+      "operation_id": "HistoricalCityBus_DisplayStopOfRoute",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 20,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "指定城市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Tainan"
+          ],
+          "default": null
+        },
+        {
+          "name": "Date",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢日期，例如:'2023-12-11'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "CSV",
+            "JSON"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "text/csv",
+        "application/json"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "historical"
+    },
+    {
+      "specification_id": "historical",
+      "service_category": "historical",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/historical",
+      "path_template": "/v2/Historical/Bus/FirstLastTripInfo/DataVersion/SDate/{SDate}/EDate/{EDate}/City/{City}",
+      "summary": "取得指定[縣市],[起迄日期區間]的市區公車首末班車資料版本清單",
+      "operation_id": "DataVersionCityBus_FirstLastTripInfo",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 20,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "指定城市",
+          "value_type": "string",
+          "allowed_values": [
+            "KinmenCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "SDate",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢之起始日期，例如:'2023-12-11'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "EDate",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢之結束日期，例如:'2023-12-12'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "historical"
+    },
+    {
+      "specification_id": "historical",
+      "service_category": "historical",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/historical",
+      "path_template": "/v2/Historical/Bus/FirstLastTripInfo/Date/{Date}/City/{City}",
+      "summary": "取得指定[日期],[縣市]的市區公車首末班車歷史資料",
+      "operation_id": "HistoricalCityBus_FirstLastTripInfo",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 20,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "指定城市",
+          "value_type": "string",
+          "allowed_values": [
+            "KinmenCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "Date",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢日期，例如:'2023-12-11'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "CSV",
+            "JSON"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "text/csv",
+        "application/json"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "historical"
+    },
+    {
+      "specification_id": "historical",
+      "service_category": "historical",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/historical",
+      "path_template": "/v2/Historical/Bus/Route/DataVersion/SDate/{SDate}/EDate/{EDate}/City/{City}",
+      "summary": "取得指定[縣市],[起迄日期區間]的市區公車路線資料版本清單",
+      "operation_id": "DataVersionCityBus_Route",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 20,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "指定城市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taoyuan",
+            "Taichung",
+            "Tainan",
+            "Kaohsiung",
+            "Keelung",
+            "Hsinchu",
+            "HsinchuCounty",
+            "MiaoliCounty",
+            "ChanghuaCounty",
+            "NantouCounty",
+            "YunlinCounty",
+            "ChiayiCounty",
+            "Chiayi",
+            "PingtungCounty",
+            "YilanCounty",
+            "HualienCounty",
+            "TaitungCounty",
+            "KinmenCounty",
+            "PenghuCounty",
+            "LienchiangCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "SDate",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢之起始日期，例如:'2023-12-11'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "EDate",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢之結束日期，例如:'2023-12-12'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "historical"
+    },
+    {
+      "specification_id": "historical",
+      "service_category": "historical",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/historical",
+      "path_template": "/v2/Historical/Bus/Route/Date/{Date}/City/{City}",
+      "summary": "取得指定[日期],[縣市]的市區公車路線歷史資料",
+      "operation_id": "HistoricalCityBus_Route",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 20,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "指定城市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taoyuan",
+            "Taichung",
+            "Tainan",
+            "Kaohsiung",
+            "Keelung",
+            "Hsinchu",
+            "HsinchuCounty",
+            "MiaoliCounty",
+            "ChanghuaCounty",
+            "NantouCounty",
+            "YunlinCounty",
+            "ChiayiCounty",
+            "Chiayi",
+            "PingtungCounty",
+            "YilanCounty",
+            "HualienCounty",
+            "TaitungCounty",
+            "KinmenCounty",
+            "PenghuCounty",
+            "LienchiangCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "Date",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢日期，例如:'2023-12-11'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "CSV",
+            "JSON"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "text/csv",
+        "application/json"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "historical"
+    },
+    {
+      "specification_id": "historical",
+      "service_category": "historical",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/historical",
+      "path_template": "/v2/Historical/Bus/RouteFare/DataVersion/SDate/{SDate}/EDate/{EDate}/City/{City}",
+      "summary": "取得指定[縣市],[起迄日期區間]的市區公車路線票價資料版本清單",
+      "operation_id": "DataVersionCityBus_RouteFare",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 20,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "指定城市",
+          "value_type": "string",
+          "allowed_values": [
+            "Hsinchu",
+            "HsinchuCounty",
+            "MiaoliCounty",
+            "ChanghuaCounty",
+            "NantouCounty",
+            "YunlinCounty",
+            "ChiayiCounty",
+            "Chiayi",
+            "PingtungCounty",
+            "YilanCounty",
+            "HualienCounty",
+            "TaitungCounty",
+            "KinmenCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "SDate",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢之起始日期，例如:'2023-12-11'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "EDate",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢之結束日期，例如:'2023-12-12'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "historical"
+    },
+    {
+      "specification_id": "historical",
+      "service_category": "historical",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/historical",
+      "path_template": "/v2/Historical/Bus/RouteFare/Date/{Date}/City/{City}",
+      "summary": "取得指定[日期],[縣市]的市區公車路線票價歷史資料",
+      "operation_id": "HistoricalCityBus_RouteFare",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 20,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "指定城市",
+          "value_type": "string",
+          "allowed_values": [
+            "Hsinchu",
+            "HsinchuCounty",
+            "MiaoliCounty",
+            "ChanghuaCounty",
+            "NantouCounty",
+            "YunlinCounty",
+            "ChiayiCounty",
+            "Chiayi",
+            "PingtungCounty",
+            "YilanCounty",
+            "HualienCounty",
+            "TaitungCounty",
+            "KinmenCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "Date",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢日期，例如:'2023-12-11'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "historical"
+    },
+    {
+      "specification_id": "historical",
+      "service_category": "historical",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/historical",
+      "path_template": "/v2/Historical/Bus/Schedule/DataVersion/SDate/{SDate}/EDate/{EDate}/City/{City}",
+      "summary": "取得指定[縣市],[起迄日期區間]的市區公車路線班表資料版本清單",
+      "operation_id": "DataVersionCityBus_Schedule",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 20,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "指定城市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taoyuan",
+            "Taichung",
+            "Tainan",
+            "Kaohsiung",
+            "Keelung",
+            "Hsinchu",
+            "HsinchuCounty",
+            "MiaoliCounty",
+            "ChanghuaCounty",
+            "NantouCounty",
+            "YunlinCounty",
+            "ChiayiCounty",
+            "Chiayi",
+            "PingtungCounty",
+            "YilanCounty",
+            "HualienCounty",
+            "TaitungCounty",
+            "KinmenCounty",
+            "PenghuCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "SDate",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢之起始日期，例如:'2023-12-11'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "EDate",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢之結束日期，例如:'2023-12-12'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "historical"
+    },
+    {
+      "specification_id": "historical",
+      "service_category": "historical",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/historical",
+      "path_template": "/v2/Historical/Bus/Schedule/Date/{Date}/City/{City}",
+      "summary": "取得指定[日期],[縣市]的市區公車路線班表歷史資料",
+      "operation_id": "HistoricalCityBus_Schedule",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 20,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "指定城市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taoyuan",
+            "Taichung",
+            "Tainan",
+            "Kaohsiung",
+            "Keelung",
+            "Hsinchu",
+            "HsinchuCounty",
+            "MiaoliCounty",
+            "ChanghuaCounty",
+            "NantouCounty",
+            "YunlinCounty",
+            "ChiayiCounty",
+            "Chiayi",
+            "PingtungCounty",
+            "YilanCounty",
+            "HualienCounty",
+            "TaitungCounty",
+            "KinmenCounty",
+            "PenghuCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "Date",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢日期，例如:'2023-12-11'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "historical"
+    },
+    {
+      "specification_id": "historical",
+      "service_category": "historical",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/historical",
+      "path_template": "/v2/Historical/Bus/Shape/DataVersion/SDate/{SDate}/EDate/{EDate}/City/{City}",
+      "summary": "取得指定[縣市],[起迄日期區間]的市區公車線型資料版本清單",
+      "operation_id": "DataVersionCityBus_Shape",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 20,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "指定城市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taoyuan",
+            "Taichung",
+            "Tainan",
+            "Kaohsiung",
+            "Keelung",
+            "Hsinchu",
+            "HsinchuCounty",
+            "MiaoliCounty",
+            "ChanghuaCounty",
+            "NantouCounty",
+            "YunlinCounty",
+            "ChiayiCounty",
+            "Chiayi",
+            "PingtungCounty",
+            "YilanCounty",
+            "HualienCounty",
+            "TaitungCounty",
+            "KinmenCounty",
+            "PenghuCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "SDate",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢之起始日期，例如:'2023-12-11'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "EDate",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢之結束日期，例如:'2023-12-12'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "historical"
+    },
+    {
+      "specification_id": "historical",
+      "service_category": "historical",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/historical",
+      "path_template": "/v2/Historical/Bus/Shape/Date/{Date}/City/{City}",
+      "summary": "取得指定[日期],[縣市]的市區公車線型歷史資料",
+      "operation_id": "HistoricalCityBus_Shape",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 20,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "指定城市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taoyuan",
+            "Taichung",
+            "Tainan",
+            "Kaohsiung",
+            "Keelung",
+            "Hsinchu",
+            "HsinchuCounty",
+            "MiaoliCounty",
+            "ChanghuaCounty",
+            "NantouCounty",
+            "YunlinCounty",
+            "ChiayiCounty",
+            "Chiayi",
+            "PingtungCounty",
+            "YilanCounty",
+            "HualienCounty",
+            "TaitungCounty",
+            "KinmenCounty",
+            "PenghuCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "Date",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢日期，例如:'2023-12-11'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "CSV",
+            "JSON"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "text/csv",
+        "application/json"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "historical"
+    },
+    {
+      "specification_id": "historical",
+      "service_category": "historical",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/historical",
+      "path_template": "/v2/Historical/Bus/StationGroup/DataVersion/SDate/{SDate}/EDate/{EDate}/City/{City}",
+      "summary": "取得指定[縣市],[起迄日期區間]的市區公車組站位資料版本清單",
+      "operation_id": "DataVersionCityBus_StationGroup",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 20,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "指定城市",
+          "value_type": "string",
+          "allowed_values": [
+            "Hsinchu",
+            "HsinchuCounty",
+            "MiaoliCounty",
+            "ChanghuaCounty",
+            "NantouCounty",
+            "YunlinCounty",
+            "ChiayiCounty",
+            "Chiayi",
+            "PingtungCounty",
+            "YilanCounty",
+            "HualienCounty",
+            "TaitungCounty",
+            "PenghuCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "SDate",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢之起始日期，例如:'2023-12-11'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "EDate",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢之結束日期，例如:'2023-12-12'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "historical"
+    },
+    {
+      "specification_id": "historical",
+      "service_category": "historical",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/historical",
+      "path_template": "/v2/Historical/Bus/StationGroup/Date/{Date}/City/{City}",
+      "summary": "取得指定[日期],[縣市]的市區公車組站位歷史資料",
+      "operation_id": "HistoricalCityBus_StationGroup",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 20,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "指定城市",
+          "value_type": "string",
+          "allowed_values": [
+            "Hsinchu",
+            "HsinchuCounty",
+            "MiaoliCounty",
+            "ChanghuaCounty",
+            "NantouCounty",
+            "YunlinCounty",
+            "ChiayiCounty",
+            "Chiayi",
+            "PingtungCounty",
+            "YilanCounty",
+            "HualienCounty",
+            "TaitungCounty",
+            "PenghuCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "Date",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢日期，例如:'2023-12-11'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "CSV",
+            "JSON"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "text/csv",
+        "application/json"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "historical"
+    },
+    {
+      "specification_id": "historical",
+      "service_category": "historical",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/historical",
+      "path_template": "/v2/Historical/Bus/StopOfRoute/DataVersion/SDate/{SDate}/EDate/{EDate}/City/{City}",
+      "summary": "取得指定[縣市],[起迄日期區間]的市區公車路線站序資料版本清單",
+      "operation_id": "DataVersionCityBus_StopOfRoute",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 20,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "指定城市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taoyuan",
+            "Taichung",
+            "Tainan",
+            "Kaohsiung",
+            "Keelung",
+            "Hsinchu",
+            "HsinchuCounty",
+            "MiaoliCounty",
+            "ChanghuaCounty",
+            "NantouCounty",
+            "YunlinCounty",
+            "ChiayiCounty",
+            "Chiayi",
+            "PingtungCounty",
+            "YilanCounty",
+            "HualienCounty",
+            "TaitungCounty",
+            "KinmenCounty",
+            "PenghuCounty",
+            "LienchiangCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "SDate",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢之起始日期，例如:'2023-12-11'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "EDate",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢之結束日期，例如:'2023-12-12'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "historical"
+    },
+    {
+      "specification_id": "historical",
+      "service_category": "historical",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/historical",
+      "path_template": "/v2/Historical/Bus/StopOfRoute/Date/{Date}/City/{City}",
+      "summary": "取得指定[日期],[縣市]的市區公車路線站序歷史資料",
+      "operation_id": "HistoricalCityBus_StopOfRoute",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 20,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "指定城市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taoyuan",
+            "Taichung",
+            "Tainan",
+            "Kaohsiung",
+            "Keelung",
+            "Hsinchu",
+            "HsinchuCounty",
+            "MiaoliCounty",
+            "ChanghuaCounty",
+            "NantouCounty",
+            "YunlinCounty",
+            "ChiayiCounty",
+            "Chiayi",
+            "PingtungCounty",
+            "YilanCounty",
+            "HualienCounty",
+            "TaitungCounty",
+            "KinmenCounty",
+            "PenghuCounty",
+            "LienchiangCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "Date",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢日期，例如:'2023-12-11'，本歷史資料提供之時間範圍可至[TDX官網](https://tdx.transportdata.tw/data-service/historical)查詢",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "CSV",
+            "JSON"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "text/csv",
+        "application/json"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "historical"
+    },
+    {
+      "specification_id": "travel_time",
+      "service_category": "premium",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/premium",
+      "path_template": "/V3/Map/Estimation/Bus/Schedule/City/{City}/RouteName/{RouteName}",
+      "summary": "取得指定[縣市][公車路線]之歷史推估班表",
+      "operation_id": "TransportNetwork_03023",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 1,
+        "volume_points": 10,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taoyuan",
+            "Taichung",
+            "Tainan",
+            "Kaohsiung",
+            "Keelung",
+            "Hsinchu",
+            "HsinchuCounty",
+            "MiaoliCounty",
+            "ChanghuaCounty",
+            "NantouCounty",
+            "YunlinCounty",
+            "ChiayiCounty",
+            "Chiayi",
+            "PingtungCounty",
+            "YilanCounty",
+            "HualienCounty",
+            "TaitungCounty",
+            "KinmenCounty",
+            "PenghuCounty",
+            "LienchiangCounty"
+          ],
+          "default": "Taipei"
+        },
+        {
+          "name": "RouteName",
+          "location": "path",
+          "required": true,
+          "description": "路線名稱",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": "南環幹線"
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "JSON / XML",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": "JSON"
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "travel_time"
+    },
+    {
+      "specification_id": "travel_time",
+      "service_category": "premium",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/premium",
+      "path_template": "/V3/Map/Estimation/Bus/S2STravelTime/City/{City}/RouteName/{RouteName}",
+      "summary": "取得指定[縣市][公車路線]站間旅行時間資訊(歷史推估)",
+      "operation_id": "TransportNetwork_03025",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 1,
+        "volume_points": 10,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taoyuan",
+            "Taichung",
+            "Tainan",
+            "Kaohsiung",
+            "Keelung",
+            "Hsinchu",
+            "HsinchuCounty",
+            "MiaoliCounty",
+            "ChanghuaCounty",
+            "NantouCounty",
+            "YunlinCounty",
+            "ChiayiCounty",
+            "Chiayi",
+            "PingtungCounty",
+            "YilanCounty",
+            "HualienCounty",
+            "TaitungCounty",
+            "KinmenCounty",
+            "PenghuCounty",
+            "LienchiangCounty"
+          ],
+          "default": "Taipei"
+        },
+        {
+          "name": "RouteName",
+          "location": "path",
+          "required": true,
+          "description": "路線名稱",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": "南環幹線"
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "JSON / XML",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": "JSON"
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "travel_time"
+    },
+    {
+      "specification_id": "stop_distance",
+      "service_category": "premium",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/premium",
+      "path_template": "/S2SDistance/City/{City}/RouteID/{RouteID}",
+      "summary": "取得指定[縣市]、市區公車[路線代碼]之站牌站間距離資訊",
+      "operation_id": "Stop2StopDistanceOfRoute_CityBus_S2SDist",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 1,
+        "volume_points": 10,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢縣市<br>Taipei = 臺北市, <br>Taichung = 臺中市, <br>Keelung = 基隆市, <br>Tainan = 臺南市, <br>Kaohsiung = 高雄市, <br>NewTaipei = 新北市, <br>YilanCounty = 宜蘭縣, <br>Taoyuan = 桃園市, <br>Chiayi = 嘉義市, <br>HsinchuCounty = 新竹縣, <br>MiaoliCounty = 苗栗縣, <br>NantouCounty = 南投縣, <br>ChanghuaCounty = 彰化縣, <br>Hsinchu = 新竹市, <br>YunlinCounty = 雲林縣, <br>ChiayiCounty = 嘉義縣, <br>PingtungCounty = 屏東縣, <br>HualienCounty = 花蓮縣, <br>TaitungCounty = 臺東縣, <br>KinmenCounty = 金門縣, <br>PenghuCounty = 澎湖縣, <br>LienchiangCounty = 連江縣, <br>InterCity = 公路客運",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taoyuan",
+            "Taichung",
+            "Tainan",
+            "Kaohsiung",
+            "Keelung",
+            "Hsinchu",
+            "HsinchuCounty",
+            "MiaoliCounty",
+            "ChanghuaCounty",
+            "NantouCounty",
+            "YunlinCounty",
+            "ChiayiCounty",
+            "Chiayi",
+            "PingtungCounty",
+            "YilanCounty",
+            "HualienCounty",
+            "TaitungCounty",
+            "KinmenCounty",
+            "PenghuCounty",
+            "LienchiangCounty",
+            "InterCity"
+          ],
+          "default": null
+        },
+        {
+          "name": "RouteID",
+          "location": "path",
+          "required": true,
+          "description": "地區既用中之路線代碼(為原資料內碼)",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "text/json",
+        "application/xml",
+        "text/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "stop_distance"
+    },
+    {
+      "specification_id": "bus_uncovered",
+      "service_category": "premium",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/premium",
+      "path_template": "/V3/Map/Governance/RoadUnCoverage/Bus/City/{City}/TownCode/{TownCode}",
+      "summary": "取得公車路線空間服務未涵蓋率",
+      "operation_id": "TransportNetwork_03027",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 1,
+        "volume_points": 10,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taoyuan",
+            "Taichung",
+            "Tainan",
+            "Kaohsiung",
+            "Keelung",
+            "Hsinchu",
+            "HsinchuCounty",
+            "MiaoliCounty",
+            "ChanghuaCounty",
+            "NantouCounty",
+            "YunlinCounty",
+            "ChiayiCounty",
+            "Chiayi",
+            "PingtungCounty",
+            "YilanCounty",
+            "HualienCounty",
+            "TaitungCounty",
+            "KinmenCounty",
+            "PenghuCounty",
+            "LienchiangCounty"
+          ],
+          "default": "Hsinchu"
+        },
+        {
+          "name": "TownCode",
+          "location": "path",
+          "required": true,
+          "description": "鄉鎮市區代碼",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": "10018030"
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "JSON / XML / GEOJSON",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML",
+            "GEOJSON"
+          ],
+          "default": "GEOJSON"
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_uncovered"
+    },
+    {
+      "specification_id": "transit_inaccessible",
+      "service_category": "premium",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/premium",
+      "path_template": "/V3/Map/Governance/InAccessibility/Transit/Household/City/{City}/TownCode/{TownCode}",
+      "summary": "取得公共運輸服務不可及分布情形",
+      "operation_id": "TransportNetwork_03028",
+      "billing_policy": {
+        "request_base_calls": 10,
+        "request_points": 1,
+        "volume_base_mb": 1,
+        "volume_points": 10,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "欲查詢縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taoyuan",
+            "Taichung",
+            "Tainan",
+            "Kaohsiung",
+            "Keelung",
+            "Hsinchu",
+            "HsinchuCounty",
+            "MiaoliCounty",
+            "ChanghuaCounty",
+            "NantouCounty",
+            "YunlinCounty",
+            "ChiayiCounty",
+            "Chiayi",
+            "PingtungCounty",
+            "YilanCounty",
+            "HualienCounty",
+            "TaitungCounty",
+            "KinmenCounty",
+            "PenghuCounty",
+            "LienchiangCounty"
+          ],
+          "default": "MiaoliCounty"
+        },
+        {
+          "name": "TownCode",
+          "location": "path",
+          "required": true,
+          "description": "鄉鎮市區代碼",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": "10005110"
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "JSON / XML / GEOJSON",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML",
+            "GEOJSON"
+          ],
+          "default": "GEOJSON"
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "transit_inaccessible"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/Stop/City/{City}",
+      "summary": "取得指定[縣市]的DRTS公車站牌資料",
+      "operation_id": "BusApi_DRTS_Stop_3039",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taichung",
+            "Tainan",
+            "HualienCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/Station/City/{City}",
+      "summary": "取得指定[縣市]的DRTS公車站位資料",
+      "operation_id": "BusApi_DRTS_Station_3040",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taichung",
+            "Tainan",
+            "HualienCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/Operator/City/{City}",
+      "summary": "取得指定[縣市]的DRTS公車營運業者資料",
+      "operation_id": "BusApi_DRTS_Operator_3041",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taichung",
+            "Tainan",
+            "HualienCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/Route/City/{City}",
+      "summary": "取得指定[縣市]的DRTS公車路線資料",
+      "operation_id": "BusApi_DRTS_Route_3042",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taichung",
+            "Tainan",
+            "HualienCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/BookingRule/City/{City}",
+      "summary": "取得指定[縣市]的DRTS公車預約條件資料",
+      "operation_id": "BusApi_DRTS_BookingRule_3043",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taichung",
+            "Tainan",
+            "HualienCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/StopOfRoute/City/{City}",
+      "summary": "取得指定[縣市]的DRTS公車路線站序資料",
+      "operation_id": "BusApi_DRTS_StopOfRoute_3044",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taichung",
+            "Tainan",
+            "HualienCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/StopOfRoute/City/{City}/{RouteName}",
+      "summary": "取得指定[縣市],[路線名稱]的DRTS公車路線站序資料",
+      "operation_id": "BusApi_DRTS_StopOfRoute_3044_1",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taichung",
+            "Tainan",
+            "HualienCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "RouteName",
+          "location": "path",
+          "required": true,
+          "description": "繁體中文路線名稱",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/RouteFare/City/{City}",
+      "summary": "取得指定[縣市]的DRTS公車路線票價資料",
+      "operation_id": "BusApi_DRTS_RouteFare_3045",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taichung",
+            "Tainan"
+          ],
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/RouteFare/City/{City}/{RouteName}",
+      "summary": "取得指定[縣市],[路線名稱]的DRTS公車路線票價資料",
+      "operation_id": "BusApi_DRTS_RouteFare_3045_1",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taichung",
+            "Tainan"
+          ],
+          "default": null
+        },
+        {
+          "name": "RouteName",
+          "location": "path",
+          "required": true,
+          "description": "繁體中文路線名稱",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/Schedule/City/{City}",
+      "summary": "取得指定[縣市]的DRTS公車定期營運班表資料",
+      "operation_id": "BusApi_DRTS_Schedule_3046",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taichung",
+            "Tainan",
+            "HualienCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/Schedule/City/{City}/{RouteName}",
+      "summary": "取得指定[縣市],[路線名稱]的DRTS公車定期營運班表資料",
+      "operation_id": "BusApi_DRTS_Schedule_3046_1",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taichung",
+            "Tainan",
+            "HualienCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "RouteName",
+          "location": "path",
+          "required": true,
+          "description": "繁體中文路線名稱",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/Shape/City/{City}",
+      "summary": "取得指定[縣市]的DRTS公車線形資料",
+      "operation_id": "BusApi_DRTS_Shape_3047",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taichung",
+            "Tainan"
+          ],
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/Shape/City/{City}/{RouteName}",
+      "summary": "取得指定[縣市],[路線名稱]的DRTS公車線形資料",
+      "operation_id": "BusApi_DRTS_Shape_3047_1",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taichung",
+            "Tainan"
+          ],
+          "default": null
+        },
+        {
+          "name": "RouteName",
+          "location": "path",
+          "required": true,
+          "description": "繁體中文路線名稱",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/S2STravelTime/City/{City}",
+      "summary": "取得指定[縣市]的DRTS公車路線站間旅行時間基本資料",
+      "operation_id": "BusApi_DRTS_S2STravelTime_3048",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taichung",
+            "Tainan"
+          ],
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/Vehicle/City/{City}",
+      "summary": "取得指定[縣市]的DRTS公車車輛基本資料",
+      "operation_id": "BusApi_DRTS_Vehicle_3049",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taichung",
+            "Tainan",
+            "HualienCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/Alert/City/{City}",
+      "summary": "取得指定[縣市]的DRTS公車通阻資料",
+      "operation_id": "BusApi_DRTS_Alert_3050",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taichung",
+            "Tainan",
+            "HualienCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/RealTimeByFrequency/City/{City}",
+      "summary": "取得指定[縣市]的DRTS公車動態定時資料(A1)",
+      "operation_id": "BusApi_DRTS_RealTimeByFrequency_3051",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taichung",
+            "Tainan"
+          ],
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/RealTimeByFrequency/City/{City}/{RouteName}",
+      "summary": "取得指定[縣市],[路線名稱]的DRTS公車動態定時資料(A1)",
+      "operation_id": "BusApi_DRTS_RealTimeByFrequency_3051_1",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taichung",
+            "Tainan"
+          ],
+          "default": null
+        },
+        {
+          "name": "RouteName",
+          "location": "path",
+          "required": true,
+          "description": "繁體中文路線名稱",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/RealTimeNearStop/City/{City}",
+      "summary": "取得指定[縣市]的DRTS公車動態定點資料(A2)",
+      "operation_id": "BusApi_DRTS_RealTimeNearStop_3052",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taichung",
+            "Tainan"
+          ],
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/RealTimeNearStop/City/{City}/{RouteName}",
+      "summary": "取得指定[縣市],[路線名稱]的DRTS公車動態定點資料(A2)",
+      "operation_id": "BusApi_DRTS_RealTimeNearStop_3052_1",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taichung",
+            "Tainan"
+          ],
+          "default": null
+        },
+        {
+          "name": "RouteName",
+          "location": "path",
+          "required": true,
+          "description": "繁體中文路線名稱",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/EstimatedTimeOfArrival/City/{City}",
+      "summary": "取得指定[縣市]的DRTS公車預估到站資料(N1)",
+      "operation_id": "BusApi_DRTS_EstimatedTimeOfArrival_3053",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taichung",
+            "Tainan"
+          ],
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/EstimatedTimeOfArrival/City/{City}/{RouteName}",
+      "summary": "取得指定[縣市],[路線名稱]的DRTS公車預估到站資料(N1)",
+      "operation_id": "BusApi_DRTS_EstimatedTimeOfArrival_3053_1",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "NewTaipei",
+            "Taichung",
+            "Tainan"
+          ],
+          "default": null
+        },
+        {
+          "name": "RouteName",
+          "location": "path",
+          "required": true,
+          "description": "繁體中文路線名稱",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/SubRoute/City/{City}",
+      "summary": "取得指定[縣市]的DRTS公車附屬路線資料",
+      "operation_id": "BusApi_DRTS_SubRoute_3054",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "Taichung",
+            "HualienCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/SubRoute/City/{City}/{RouteName}",
+      "summary": "取得指定[縣市],[路線名稱]的DRTS公車附屬路線資料",
+      "operation_id": "BusApi_DRTS_SubRoute_3054_1",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taipei",
+            "Taichung",
+            "HualienCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "RouteName",
+          "location": "path",
+          "required": true,
+          "description": "繁體中文路線名稱",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/StationGroup/City/{City}",
+      "summary": "取得指定[縣市]的DRTS公車組站位資料",
+      "operation_id": "BusApi_DRTS_StationGroup_3056",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taichung"
+          ],
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/DailyTimeTable/City/{City}",
+      "summary": "取得指定[縣市]的DRTS公車每日營運時刻表資料",
+      "operation_id": "BusApi_DRTS_DailyTimeTable_3057",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taichung"
+          ],
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/DailyTimeTable/City/{City}/{RouteName}",
+      "summary": "取得指定[縣市],[路線名稱]的DRTS公車每日營運時刻表資料",
+      "operation_id": "BusApi_DRTS_DailyTimeTable_3057_1",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taichung"
+          ],
+          "default": null
+        },
+        {
+          "name": "RouteName",
+          "location": "path",
+          "required": true,
+          "description": "繁體中文路線名稱",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/GeneralStopTimeTable/City/{City}",
+      "summary": "取得指定[縣市]的DRTS公車定期站別時刻表資料",
+      "operation_id": "BusApi_DRTS_GeneralStopTimeTable_3058",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taichung"
+          ],
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/GeneralStopTimeTable/City/{City}/{RouteName}",
+      "summary": "取得指定[縣市],[路線名稱]的DRTS公車定期站別時刻表資料",
+      "operation_id": "BusApi_DRTS_GeneralStopTimeTable_3058_1",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taichung"
+          ],
+          "default": null
+        },
+        {
+          "name": "RouteName",
+          "location": "path",
+          "required": true,
+          "description": "繁體中文路線名稱",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/DailyStopTimeTable/City/{City}",
+      "summary": "取得指定[縣市]的DRTS公車每日站別時刻表資料",
+      "operation_id": "BusApi_DRTS_DailyStopTimeTable_3059",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taichung"
+          ],
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/DailyStopTimeTable/City/{City}/{RouteName}",
+      "summary": "取得指定[縣市],[路線名稱]的DRTS公車每日站別時刻表資料",
+      "operation_id": "BusApi_DRTS_DailyStopTimeTable_3059_1",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taichung"
+          ],
+          "default": null
+        },
+        {
+          "name": "RouteName",
+          "location": "path",
+          "required": true,
+          "description": "繁體中文路線名稱",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/Location/City/{City}",
+      "summary": "取得指定[縣市]的DRTS公車乘車位置資料",
+      "operation_id": "BusApi_DRTS_Location_3060",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taichung",
+            "HualienCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    },
+    {
+      "specification_id": "bus_v3",
+      "service_category": "basic",
+      "method": "GET",
+      "base_url": "https://tdx.transportdata.tw/api/basic",
+      "path_template": "/v3/Bus/DRTS/LocationGroup/City/{City}",
+      "summary": "取得指定[縣市]的DRTS公車乘車位置集合資料",
+      "operation_id": "BusApi_DRTS_LocationGroup_3061",
+      "billing_policy": {
+        "request_base_calls": 1500,
+        "request_points": 1,
+        "volume_base_mb": 150,
+        "volume_points": 1,
+        "verified_from": "official_openapi_info_description",
+        "account_balance_verified": false
+      },
+      "parameters": [
+        {
+          "name": "City",
+          "location": "path",
+          "required": true,
+          "description": "縣市",
+          "value_type": "string",
+          "allowed_values": [
+            "Taichung",
+            "HualienCounty"
+          ],
+          "default": null
+        },
+        {
+          "name": "$select",
+          "location": "query",
+          "required": false,
+          "description": "挑選",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$filter",
+          "location": "query",
+          "required": false,
+          "description": "過濾",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$orderby",
+          "location": "query",
+          "required": false,
+          "description": "排序",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$top",
+          "location": "query",
+          "required": false,
+          "description": "取前幾筆",
+          "value_type": "integer",
+          "allowed_values": null,
+          "default": 30
+        },
+        {
+          "name": "$skip",
+          "location": "query",
+          "required": false,
+          "description": "跳過前幾筆",
+          "value_type": "string",
+          "allowed_values": null,
+          "default": null
+        },
+        {
+          "name": "$count",
+          "location": "query",
+          "required": false,
+          "description": "查詢數量",
+          "value_type": "boolean",
+          "allowed_values": [
+            true,
+            false
+          ],
+          "default": null
+        },
+        {
+          "name": "health",
+          "location": "query",
+          "required": false,
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "value_type": "string",
+          "allowed_values": [
+            "true",
+            "false"
+          ],
+          "default": null
+        },
+        {
+          "name": "$format",
+          "location": "query",
+          "required": true,
+          "description": "指定來源格式",
+          "value_type": "string",
+          "allowed_values": [
+            "JSON",
+            "XML"
+          ],
+          "default": null
+        }
+      ],
+      "response_formats": [
+        "application/json",
+        "application/xml"
+      ],
+      "requires_member_credentials_for_script": true,
+      "scope_verified": "specification_only_not_live_business_data",
+      "source_id": "bus_v3"
+    }
+  ]
+}

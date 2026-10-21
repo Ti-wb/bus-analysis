@@ -1,0 +1,935 @@
+{
+  "schema_version": 1,
+  "dataset_id": "tdx_Taipei_DRTS_Route",
+  "metadata": {
+    "grain": "one DRTS route",
+    "units": {
+      "route_distance": null
+    },
+    "unit_notes": {
+      "route_distance": "Official supplied schema describes route length without a unit; do not assume km until independently confirmed."
+    },
+    "sources": [
+      {
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/basic/939d7b26-14d6-40bc-bdc9-a076e3f8d4dc",
+        "download_url": "https://tdx.transportdata.tw/api/basic/v3/Bus/DRTS/Route/City/Taipei?%24format=JSON&%24top=1000&%24skip=0&%24count=true",
+        "raw_file": "raw_data/tdx/responses/Taipei_DRTS_Route_offset_0.json",
+        "downloaded_at": "2026-10-21T23:42:20+08:00",
+        "source_updated_at": null,
+        "bytes": 15929,
+        "content_type": "application/json; charset=utf-8",
+        "evidence_type": "business_api_response",
+        "http_status": 200,
+        "usage_headers": {
+          "x-ratelimit-limit-minute": "5",
+          "x-ratelimit-remaining-minute": "4"
+        }
+      }
+    ],
+    "request": {
+      "family": "drts",
+      "specification_id": "bus_v3",
+      "request_url": "https://tdx.transportdata.tw/api/basic/v3/Bus/DRTS/Route/City/Taipei?%24format=JSON&%24top=1000&%24skip=0&%24count=true",
+      "path_values": {
+        "City": "Taipei"
+      },
+      "query_parameters": {
+        "$format": "JSON",
+        "$top": 1000,
+        "$skip": 0,
+        "$count": "true"
+      },
+      "label": "Taipei_DRTS_Route",
+      "sample_only": false,
+      "documented_top_default": 30,
+      "request_limit": 20,
+      "max_response_bytes": 5242880
+    },
+    "source_updated_at": "2026-10-20T05:35:55+08:00",
+    "statistical_period": {
+      "requested_date": null,
+      "version_start": null,
+      "version_end": null
+    },
+    "response_metadata": {
+      "update_time": "2026-10-20T05:35:55+08:00",
+      "update_interval": -1,
+      "src_update_time": "2026-10-20T01:25:06+08:00",
+      "src_update_interval": 86400,
+      "authority_code": "TPE",
+      "count": 12
+    },
+    "record_count": 12,
+    "time_zone": "Asia/Taipei",
+    "time_zone_note": "Asia/Taipei identifies the requested civil day. Each source timestamp retains its own original UTC offset.",
+    "scope_status": "complete_requested_endpoint_by_exhausted_page",
+    "limitations": [
+      "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+      "未知/缺漏不補零；狀態碼原值保留。"
+    ],
+    "field_dictionary": "data/tdx/field_dictionary.json"
+  },
+  "records": [
+    {
+      "route_id": "11041",
+      "route_name": {
+        "zh_tw": "297",
+        "en": "297"
+      },
+      "has_sub_routes": 1,
+      "operators": [
+        {
+          "operator_id": "800",
+          "operator_code": "MetropolitanBus"
+        }
+      ],
+      "route_type": 11,
+      "service_type": {
+        "is_free_bus": 0,
+        "is_taiwan_trip_bus": 0,
+        "is_tour_bus": 0,
+        "is_tourist_bus": 0,
+        "is_brt_bus": 0,
+        "is_medical_bus": 0,
+        "is_night_bus": 0,
+        "is_trunk_bus": 0,
+        "is_metro_shuttle_bus": 0,
+        "is_thsr_shuttle_bus": 0,
+        "is_tra_shuttle_bus": 0,
+        "is_airport_shuttle_bus": 0,
+        "is_activity_shuttle_bus": 0
+      },
+      "ticket_price_description": {
+        "zh_tw": "兩段票",
+        "en": "2 segments"
+      },
+      "departure_stop_name": {
+        "zh_tw": "中和站",
+        "en": "Zhonghe Sta."
+      },
+      "destination_stop_name": {
+        "zh_tw": "成功中學",
+        "en": "Chenggong High School"
+      },
+      "fare_buffer_zone_description": {
+        "zh_tw": "捷運頂溪站－廈門街口",
+        "en": "MRT Dingxi Station－XiaMen St. Entrance"
+      },
+      "start_stop": {
+        "stop_id": "24254",
+        "stop_name": {
+          "zh_tw": "中和保養廠",
+          "en": "Zhonghe Maintenance Plant"
+        }
+      },
+      "end_stop": {
+        "stop_id": "24276",
+        "stop_name": {
+          "zh_tw": "成功中學(濟南)",
+          "en": "Chenggong High School (Jinan)"
+        }
+      },
+      "is_circular": 1,
+      "route_distance": 17.4,
+      "has_drts_service": 1,
+      "drts_type": 9,
+      "drts_run_type": {
+        "is_fixed_line": 1,
+        "has_fixed_schedule": 1,
+        "has_reserved_schedule": 1,
+        "has_fixed_stop": 1,
+        "has_reserved_stop": 0,
+        "has_continuous_pickup": 0,
+        "has_continuous_dropoff": 0
+      },
+      "drts_description": "預約班次：平常日：06:30/15:00/16:30∕例假日：18:30(可透過APP或電話預約，須於搭乘前2小時預約，無人預約不發車)"
+    },
+    {
+      "route_id": "10277",
+      "route_name": {
+        "zh_tw": "542",
+        "en": "542"
+      },
+      "has_sub_routes": 1,
+      "operators": [
+        {
+          "operator_id": "200",
+          "operator_code": "CapitalBus"
+        }
+      ],
+      "route_type": 11,
+      "service_type": {
+        "is_free_bus": 0,
+        "is_taiwan_trip_bus": 0,
+        "is_tour_bus": 0,
+        "is_tourist_bus": 0,
+        "is_brt_bus": 0,
+        "is_medical_bus": 0,
+        "is_night_bus": 0,
+        "is_trunk_bus": 0,
+        "is_metro_shuttle_bus": 0,
+        "is_thsr_shuttle_bus": 0,
+        "is_tra_shuttle_bus": 0,
+        "is_airport_shuttle_bus": 0,
+        "is_activity_shuttle_bus": 0
+      },
+      "ticket_price_description": {
+        "zh_tw": "一段票",
+        "en": "1 segment"
+      },
+      "departure_stop_name": {
+        "zh_tw": "捷運圓山站",
+        "en": "MRT Yuanshan Sta."
+      },
+      "destination_stop_name": {
+        "zh_tw": "捷運中山國中站",
+        "en": "MRT ZhongShan Junior High Sch. Sta."
+      },
+      "start_stop": {
+        "stop_id": "208034",
+        "stop_name": {
+          "zh_tw": "民族西路",
+          "en": "Minzu W. Rd."
+        }
+      },
+      "end_stop": {
+        "stop_id": "35390",
+        "stop_name": {
+          "zh_tw": "捷運中山國中站",
+          "en": "MRT Zhongshan Junior High School Sta."
+        }
+      },
+      "is_circular": 1,
+      "route_distance": 15.6,
+      "has_drts_service": 1,
+      "drts_type": 0,
+      "drts_run_type": {
+        "is_fixed_line": 1,
+        "has_fixed_schedule": 1,
+        "has_reserved_schedule": 1,
+        "has_fixed_stop": 1,
+        "has_reserved_stop": 0,
+        "has_continuous_pickup": 0,
+        "has_continuous_dropoff": 0
+      },
+      "drts_description": "固定班次平日3班次，逢周四、五加開延駛民族西路1班次，預約班次平日2班次(06:30、14:00)，例假日停駛"
+    },
+    {
+      "route_id": "15221",
+      "route_name": {
+        "zh_tw": "682",
+        "en": "682"
+      },
+      "has_sub_routes": 1,
+      "operators": [
+        {
+          "operator_id": "5200",
+          "operator_code": "TamshuiBus"
+        }
+      ],
+      "route_type": 11,
+      "service_type": {
+        "is_free_bus": 0,
+        "is_taiwan_trip_bus": 0,
+        "is_tour_bus": 0,
+        "is_tourist_bus": 0,
+        "is_brt_bus": 0,
+        "is_medical_bus": 0,
+        "is_night_bus": 0,
+        "is_trunk_bus": 0,
+        "is_metro_shuttle_bus": 0,
+        "is_thsr_shuttle_bus": 0,
+        "is_tra_shuttle_bus": 0,
+        "is_airport_shuttle_bus": 0,
+        "is_activity_shuttle_bus": 0
+      },
+      "ticket_price_description": {
+        "zh_tw": "兩段票",
+        "en": "2 segments"
+      },
+      "departure_stop_name": {
+        "zh_tw": "八里",
+        "en": "Bali"
+      },
+      "destination_stop_name": {
+        "zh_tw": "社子",
+        "en": "Shezi"
+      },
+      "fare_buffer_zone_description": {
+        "zh_tw": "關渡大橋－關渡國小(臺北城市科技大學)",
+        "en": "Guandu Bridge－Guandu Elementary School(Taipei Chengshih University of Science & Technology)"
+      },
+      "start_stop": {
+        "stop_id": "223991",
+        "stop_name": {
+          "zh_tw": "淡水客運八里站",
+          "en": "Tamsui Bus Bali Station"
+        }
+      },
+      "end_stop": {
+        "stop_id": "152792",
+        "stop_name": {
+          "zh_tw": "永倫里(社中)",
+          "en": "Yonglun Village (Shezhong)"
+        }
+      },
+      "is_circular": 1,
+      "route_distance": 58,
+      "has_drts_service": 1,
+      "drts_type": 9,
+      "drts_run_type": {
+        "is_fixed_line": 1,
+        "has_fixed_schedule": 1,
+        "has_reserved_schedule": 1,
+        "has_fixed_stop": 1,
+        "has_reserved_stop": 0,
+        "has_continuous_pickup": 0,
+        "has_continuous_dropoff": 0
+      },
+      "drts_description": "預約班次：平常日：19:40∕例假日：19:00(可透過APP或電話預約，須於搭乘前2小時預約，無人預約不發車)"
+    },
+    {
+      "route_id": "15381",
+      "route_name": {
+        "zh_tw": "246",
+        "en": "246"
+      },
+      "has_sub_routes": 1,
+      "operators": [
+        {
+          "operator_id": "5300",
+          "operator_code": "KuangHuaBus"
+        }
+      ],
+      "route_type": 11,
+      "service_type": {
+        "is_free_bus": 0,
+        "is_taiwan_trip_bus": 0,
+        "is_tour_bus": 0,
+        "is_tourist_bus": 0,
+        "is_brt_bus": 0,
+        "is_medical_bus": 0,
+        "is_night_bus": 0,
+        "is_trunk_bus": 0,
+        "is_metro_shuttle_bus": 0,
+        "is_thsr_shuttle_bus": 0,
+        "is_tra_shuttle_bus": 0,
+        "is_airport_shuttle_bus": 0,
+        "is_activity_shuttle_bus": 0
+      },
+      "ticket_price_description": {
+        "zh_tw": "兩段票",
+        "en": "2 segments"
+      },
+      "departure_stop_name": {
+        "zh_tw": "普濟堂",
+        "en": "Puji Temple"
+      },
+      "destination_stop_name": {
+        "zh_tw": "東園",
+        "en": "Dongyuan"
+      },
+      "fare_buffer_zone_description": {
+        "zh_tw": "去程:捷運善導寺站－小南門 返程:捷運西門站－北平林森路口",
+        "en": "To:MRT Shandao Temple Sta.－Xiaonanmen Return:MRT Ximen Sta.－Beiping and Linsen Itersection"
+      },
+      "start_stop": {
+        "stop_id": "44973",
+        "stop_name": {
+          "zh_tw": "普濟堂",
+          "en": "Puji Temple"
+        }
+      },
+      "end_stop": {
+        "stop_id": "152738",
+        "stop_name": {
+          "zh_tw": "華中河濱公園",
+          "en": "Huazhong Riverside Park"
+        }
+      },
+      "is_circular": 1,
+      "route_distance": 38.1,
+      "has_drts_service": 1,
+      "drts_type": 9,
+      "drts_run_type": {
+        "is_fixed_line": 1,
+        "has_fixed_schedule": 1,
+        "has_reserved_schedule": 1,
+        "has_fixed_stop": 1,
+        "has_reserved_stop": 0,
+        "has_continuous_pickup": 0,
+        "has_continuous_dropoff": 0
+      },
+      "drts_description": "預約班次：週六07:00/13:00;週日及國定假日07:00(發車前2小時如無人預約，該車次於當日不發車)"
+    },
+    {
+      "route_id": "11207",
+      "route_name": {
+        "zh_tw": "小15區",
+        "en": "S15Shuttle"
+      },
+      "route_description": "為維本路線行車間距平穩性，視路(客)況於往程末端「菁山遊憩區」機動調整返程行車間距；山仔后至菁山遊憩園區於平直白線路段明顯處及駕駛長確認當下安全無虞狀況實施隨招隨停。紅線路段、轉彎處、上下坡、前後車距離過近等狀況下無法實施隨招隨停服務。",
+      "has_sub_routes": 1,
+      "operators": [
+        {
+          "operator_id": "200",
+          "operator_code": "CapitalBus"
+        }
+      ],
+      "route_type": 11,
+      "service_type": {
+        "is_free_bus": 0,
+        "is_taiwan_trip_bus": 0,
+        "is_tour_bus": 0,
+        "is_tourist_bus": 0,
+        "is_brt_bus": 0,
+        "is_medical_bus": 0,
+        "is_night_bus": 0,
+        "is_trunk_bus": 0,
+        "is_metro_shuttle_bus": 0,
+        "is_thsr_shuttle_bus": 0,
+        "is_tra_shuttle_bus": 0,
+        "is_airport_shuttle_bus": 0,
+        "is_activity_shuttle_bus": 0
+      },
+      "ticket_price_description": {
+        "zh_tw": "一段票",
+        "en": "1 segment"
+      },
+      "departure_stop_name": {
+        "zh_tw": "捷運劍潭站",
+        "en": "MRT Jiantan Sta."
+      },
+      "destination_stop_name": {
+        "zh_tw": "菁山遊憩園區",
+        "en": "Jingshan Campsite"
+      },
+      "start_stop": {
+        "stop_id": "26389",
+        "stop_name": {
+          "zh_tw": "捷運劍潭站(北藝中心)",
+          "en": "MRT Jiantan Sta. (Taipei Performing Arts Center)"
+        }
+      },
+      "end_stop": {
+        "stop_id": "26424",
+        "stop_name": {
+          "zh_tw": "菁山遊憩區",
+          "en": "Jingshan Recreation Area"
+        }
+      },
+      "is_circular": 1,
+      "route_distance": 27.4,
+      "has_drts_service": 1,
+      "drts_type": 9,
+      "drts_run_type": {
+        "is_fixed_line": 1,
+        "has_fixed_schedule": 1,
+        "has_reserved_schedule": 1,
+        "has_fixed_stop": 1,
+        "has_reserved_stop": 0,
+        "has_continuous_pickup": 1,
+        "has_continuous_dropoff": 1
+      },
+      "drts_description": "平常日預約班次：10:10(倘於發車前2小時確認無人預約，本車次當日停駛)，山仔后至菁山遊憩區於平直白線路段明顯處及駕駛長確認當下安全無虞狀況實施隨招隨停，紅線路段、轉彎處、上下坡、前後車距離過近等狀況下無法實施隨招隨停服務"
+    },
+    {
+      "route_id": "15335",
+      "route_name": {
+        "zh_tw": "683",
+        "en": "683"
+      },
+      "has_sub_routes": 1,
+      "operators": [
+        {
+          "operator_id": "5300",
+          "operator_code": "KuangHuaBus"
+        }
+      ],
+      "route_type": 11,
+      "service_type": {
+        "is_free_bus": 0,
+        "is_taiwan_trip_bus": 0,
+        "is_tour_bus": 0,
+        "is_tourist_bus": 0,
+        "is_brt_bus": 0,
+        "is_medical_bus": 0,
+        "is_night_bus": 0,
+        "is_trunk_bus": 0,
+        "is_metro_shuttle_bus": 0,
+        "is_thsr_shuttle_bus": 0,
+        "is_tra_shuttle_bus": 0,
+        "is_airport_shuttle_bus": 0,
+        "is_activity_shuttle_bus": 0
+      },
+      "ticket_price_description": {
+        "zh_tw": "兩段票",
+        "en": "2 segments"
+      },
+      "departure_stop_name": {
+        "zh_tw": "北士科",
+        "en": "Beitou & Shilin Tech Park"
+      },
+      "destination_stop_name": {
+        "zh_tw": "南港高工",
+        "en": "Nangang Vocational High School"
+      },
+      "fare_buffer_zone_description": {
+        "zh_tw": "外雙溪(故宮)－美麗華",
+        "en": "Waishuangxi(Gugong)－Miramar"
+      },
+      "start_stop": {
+        "stop_id": "207180",
+        "stop_name": {
+          "zh_tw": "福美站",
+          "en": "Fu Mei Stop"
+        }
+      },
+      "end_stop": {
+        "stop_id": "44864",
+        "stop_name": {
+          "zh_tw": "南港高工(南港路)",
+          "en": "Nangang Vocational High School (Nangang Rd.)"
+        }
+      },
+      "is_circular": 1,
+      "route_distance": 37,
+      "has_drts_service": 1,
+      "drts_type": 9,
+      "drts_run_type": {
+        "is_fixed_line": 1,
+        "has_fixed_schedule": 1,
+        "has_reserved_schedule": 1,
+        "has_fixed_stop": 1,
+        "has_reserved_stop": 0,
+        "has_continuous_pickup": 0,
+        "has_continuous_dropoff": 0
+      },
+      "drts_description": "預約班次：星期日：09:00(可透過APP或電話預約，須於搭乘前2小時預約，無人預約不發車)"
+    },
+    {
+      "route_id": "10824",
+      "route_name": {
+        "zh_tw": "260區",
+        "en": "260Shuttle"
+      },
+      "has_sub_routes": 1,
+      "operators": [
+        {
+          "operator_id": "800",
+          "operator_code": "MetropolitanBus"
+        }
+      ],
+      "route_type": 11,
+      "service_type": {
+        "is_free_bus": 0,
+        "is_taiwan_trip_bus": 0,
+        "is_tour_bus": 0,
+        "is_tourist_bus": 0,
+        "is_brt_bus": 0,
+        "is_medical_bus": 0,
+        "is_night_bus": 0,
+        "is_trunk_bus": 0,
+        "is_metro_shuttle_bus": 0,
+        "is_thsr_shuttle_bus": 0,
+        "is_tra_shuttle_bus": 0,
+        "is_airport_shuttle_bus": 0,
+        "is_activity_shuttle_bus": 0
+      },
+      "ticket_price_description": {
+        "zh_tw": "兩段票",
+        "en": "2 segments"
+      },
+      "departure_stop_name": {
+        "zh_tw": "陽明山",
+        "en": "Yangmingshan"
+      },
+      "destination_stop_name": {
+        "zh_tw": "臺北車站",
+        "en": "Taipei Main Sta."
+      },
+      "fare_buffer_zone_description": {
+        "zh_tw": "岩山里－劍潭",
+        "en": "Yanshan Li－Jiantan"
+      },
+      "start_stop": {
+        "stop_id": "39114",
+        "stop_name": {
+          "zh_tw": "陽明山總站",
+          "en": "Yangmingshan Bus Terminal"
+        }
+      },
+      "end_stop": {
+        "stop_id": "188522",
+        "stop_name": {
+          "zh_tw": "臺北車站(忠孝)",
+          "en": "Taipei Main Sta. (Zhongxiao)"
+        }
+      },
+      "is_circular": 1,
+      "route_distance": 33.5,
+      "has_drts_service": 1,
+      "drts_type": 9,
+      "drts_run_type": {
+        "is_fixed_line": 1,
+        "has_fixed_schedule": 1,
+        "has_reserved_schedule": 1,
+        "has_fixed_stop": 1,
+        "has_reserved_stop": 0,
+        "has_continuous_pickup": 0,
+        "has_continuous_dropoff": 0
+      },
+      "drts_description": "花鐘線預約班次：07:10(可透過APP或電話預約，須於搭乘前2小時預約，無人預約不發車)"
+    },
+    {
+      "route_id": "17929",
+      "route_name": {
+        "zh_tw": "紅68",
+        "en": "R68"
+      },
+      "has_sub_routes": 1,
+      "operators": [
+        {
+          "operator_id": "200",
+          "operator_code": "CapitalBus"
+        }
+      ],
+      "route_type": 11,
+      "service_type": {
+        "is_free_bus": 0,
+        "is_taiwan_trip_bus": 0,
+        "is_tour_bus": 0,
+        "is_tourist_bus": 0,
+        "is_brt_bus": 0,
+        "is_medical_bus": 0,
+        "is_night_bus": 0,
+        "is_trunk_bus": 0,
+        "is_metro_shuttle_bus": 1,
+        "is_thsr_shuttle_bus": 0,
+        "is_tra_shuttle_bus": 0,
+        "is_airport_shuttle_bus": 0,
+        "is_activity_shuttle_bus": 0
+      },
+      "ticket_price_description": {
+        "zh_tw": "一段票",
+        "en": "1 segment"
+      },
+      "departure_stop_name": {
+        "zh_tw": "北投士林科技園區",
+        "en": "Beitou Shilin Technology Park"
+      },
+      "destination_stop_name": {
+        "zh_tw": "捷運芝山站",
+        "en": "MRT Zhishan Sta."
+      },
+      "start_stop": {
+        "stop_id": "198204",
+        "stop_name": {
+          "zh_tw": "洲美里",
+          "en": "Zhoumei Village"
+        }
+      },
+      "end_stop": {
+        "stop_id": "196867",
+        "stop_name": {
+          "zh_tw": "捷運芝山站(福華)",
+          "en": "MRT Zhishan Sta. (Fuhua)"
+        }
+      },
+      "is_circular": 1,
+      "route_distance": 7.8,
+      "has_drts_service": 1,
+      "drts_type": 9,
+      "drts_run_type": {
+        "is_fixed_line": 1,
+        "has_fixed_schedule": 1,
+        "has_reserved_schedule": 1,
+        "has_fixed_stop": 1,
+        "has_reserved_stop": 0,
+        "has_continuous_pickup": 0,
+        "has_continuous_dropoff": 0
+      },
+      "drts_description": "平常日預約班次：05:50/19:30 *19:30往程班次繞駛中鼎第二總部大樓 (預約班次倘於發車前2小時確認無人預約，本車次當日停駛)"
+    },
+    {
+      "route_id": "11242",
+      "route_name": {
+        "zh_tw": "539",
+        "en": "539"
+      },
+      "has_sub_routes": 1,
+      "operators": [
+        {
+          "operator_id": "200",
+          "operator_code": "CapitalBus"
+        }
+      ],
+      "route_type": 11,
+      "service_type": {
+        "is_free_bus": 0,
+        "is_taiwan_trip_bus": 0,
+        "is_tour_bus": 0,
+        "is_tourist_bus": 0,
+        "is_brt_bus": 0,
+        "is_medical_bus": 0,
+        "is_night_bus": 0,
+        "is_trunk_bus": 0,
+        "is_metro_shuttle_bus": 0,
+        "is_thsr_shuttle_bus": 0,
+        "is_tra_shuttle_bus": 0,
+        "is_airport_shuttle_bus": 0,
+        "is_activity_shuttle_bus": 0
+      },
+      "ticket_price_description": {
+        "zh_tw": "一段票",
+        "en": "1 segment"
+      },
+      "departure_stop_name": {
+        "zh_tw": "三重",
+        "en": "Sanchong"
+      },
+      "destination_stop_name": {
+        "zh_tw": "馬偕醫院",
+        "en": "Mackay Memorial Hospital"
+      },
+      "start_stop": {
+        "stop_id": "208484",
+        "stop_name": {
+          "zh_tw": "虛擬站",
+          "en": "Virtual Stop"
+        }
+      },
+      "end_stop": {
+        "stop_id": "208026",
+        "stop_name": {
+          "zh_tw": "馬偕醫院",
+          "en": "Mackay Memorial Hospital"
+        }
+      },
+      "is_circular": 1,
+      "route_distance": 15.3,
+      "has_drts_service": 1,
+      "drts_type": 9,
+      "drts_run_type": {
+        "is_fixed_line": 1,
+        "has_fixed_schedule": 1,
+        "has_reserved_schedule": 1,
+        "has_fixed_stop": 1,
+        "has_reserved_stop": 0,
+        "has_continuous_pickup": 0,
+        "has_continuous_dropoff": 0
+      },
+      "drts_description": "平常日預約班次：10:00/11:00/12:00/13:00/14:00/15:00/16:00/20:00/21:00∕例假日預約班次：06:00/07:00/08:00/13:00/14:00/15:00/19:00/20:00/21:00(預約班次倘於發車前2小時確認無人預約，本車次當日停駛)"
+    },
+    {
+      "route_id": "10414",
+      "route_name": {
+        "zh_tw": "261",
+        "en": "261"
+      },
+      "has_sub_routes": 1,
+      "operators": [
+        {
+          "operator_id": "400",
+          "operator_code": "SanChungBus"
+        }
+      ],
+      "route_type": 11,
+      "service_type": {
+        "is_free_bus": 0,
+        "is_taiwan_trip_bus": 0,
+        "is_tour_bus": 0,
+        "is_tourist_bus": 0,
+        "is_brt_bus": 0,
+        "is_medical_bus": 0,
+        "is_night_bus": 0,
+        "is_trunk_bus": 0,
+        "is_metro_shuttle_bus": 0,
+        "is_thsr_shuttle_bus": 0,
+        "is_tra_shuttle_bus": 0,
+        "is_airport_shuttle_bus": 0,
+        "is_activity_shuttle_bus": 0
+      },
+      "ticket_price_description": {
+        "zh_tw": "一段票",
+        "en": "1 segments"
+      },
+      "departure_stop_name": {
+        "zh_tw": "蘆洲",
+        "en": "Luzhou"
+      },
+      "destination_stop_name": {
+        "zh_tw": "臺大醫院",
+        "en": "NTU Hospital"
+      },
+      "start_stop": {
+        "stop_id": "21194",
+        "stop_name": {
+          "zh_tw": "蘆洲總站",
+          "en": "Luzhou Bus Terminal"
+        }
+      },
+      "end_stop": {
+        "stop_id": "21230",
+        "stop_name": {
+          "zh_tw": "臺大醫院",
+          "en": "NTU Hospital"
+        }
+      },
+      "is_circular": 1,
+      "route_distance": 27.4,
+      "has_drts_service": 1,
+      "drts_type": 9,
+      "drts_run_type": {
+        "is_fixed_line": 1,
+        "has_fixed_schedule": 1,
+        "has_reserved_schedule": 1,
+        "has_fixed_stop": 1,
+        "has_reserved_stop": 0,
+        "has_continuous_pickup": 0,
+        "has_continuous_dropoff": 0
+      },
+      "drts_description": "預約班次：例假日：05:30(可透過APP或電話預約，須於搭乘前2小時預約，無人預約不發車)"
+    },
+    {
+      "route_id": "16174",
+      "route_name": {
+        "zh_tw": "棕20",
+        "en": "BR20"
+      },
+      "has_sub_routes": 1,
+      "operators": [
+        {
+          "operator_id": "1100",
+          "operator_code": "DananBus"
+        }
+      ],
+      "route_type": 11,
+      "service_type": {
+        "is_free_bus": 0,
+        "is_taiwan_trip_bus": 0,
+        "is_tour_bus": 0,
+        "is_tourist_bus": 0,
+        "is_brt_bus": 0,
+        "is_medical_bus": 0,
+        "is_night_bus": 0,
+        "is_trunk_bus": 0,
+        "is_metro_shuttle_bus": 1,
+        "is_thsr_shuttle_bus": 0,
+        "is_tra_shuttle_bus": 0,
+        "is_airport_shuttle_bus": 0,
+        "is_activity_shuttle_bus": 0
+      },
+      "ticket_price_description": {
+        "zh_tw": "一段票",
+        "en": "1 segment"
+      },
+      "departure_stop_name": {
+        "zh_tw": "內科",
+        "en": "Neihu Tech. Park"
+      },
+      "destination_stop_name": {
+        "zh_tw": "故宮博物院",
+        "en": "National Palace Museum"
+      },
+      "start_stop": {
+        "stop_id": "197095",
+        "stop_name": {
+          "zh_tw": "行善行愛路口",
+          "en": "Xingshan & Xingai Intersection"
+        }
+      },
+      "end_stop": {
+        "stop_id": "59211",
+        "stop_name": {
+          "zh_tw": "故宮博物院(正館)",
+          "en": "National Palace Museum"
+        }
+      },
+      "is_circular": 1,
+      "route_distance": 18,
+      "has_drts_service": 1,
+      "drts_type": 9,
+      "drts_run_type": {
+        "is_fixed_line": 1,
+        "has_fixed_schedule": 1,
+        "has_reserved_schedule": 1,
+        "has_fixed_stop": 1,
+        "has_reserved_stop": 0,
+        "has_continuous_pickup": 0,
+        "has_continuous_dropoff": 0
+      },
+      "drts_description": "繞駛美堤碼頭預約班次：09:05/13:45/14:55/16:40/18:25(可透過APP或電話預約，須於搭乘前2小時預約，無人預約不繞駛)"
+    },
+    {
+      "route_id": "11135",
+      "route_name": {
+        "zh_tw": "小14",
+        "en": "S14"
+      },
+      "has_sub_routes": 1,
+      "operators": [
+        {
+          "operator_id": "1100",
+          "operator_code": "DananBus"
+        }
+      ],
+      "route_type": 11,
+      "service_type": {
+        "is_free_bus": 0,
+        "is_taiwan_trip_bus": 0,
+        "is_tour_bus": 0,
+        "is_tourist_bus": 0,
+        "is_brt_bus": 0,
+        "is_medical_bus": 0,
+        "is_night_bus": 0,
+        "is_trunk_bus": 0,
+        "is_metro_shuttle_bus": 0,
+        "is_thsr_shuttle_bus": 0,
+        "is_tra_shuttle_bus": 0,
+        "is_airport_shuttle_bus": 0,
+        "is_activity_shuttle_bus": 0
+      },
+      "ticket_price_description": {
+        "zh_tw": "一段票",
+        "en": "1 segment"
+      },
+      "departure_stop_name": {
+        "zh_tw": "北投",
+        "en": "Beitou"
+      },
+      "destination_stop_name": {
+        "zh_tw": "照明寺",
+        "en": "Zhaoming Temple"
+      },
+      "start_stop": {
+        "stop_id": "25693",
+        "stop_name": {
+          "zh_tw": "致遠新村",
+          "en": "Zhiyuan New Village"
+        }
+      },
+      "end_stop": {
+        "stop_id": "25705",
+        "stop_name": {
+          "zh_tw": "照明寺",
+          "en": "Zhaoming Temple"
+        }
+      },
+      "is_circular": 1,
+      "route_distance": 13,
+      "has_drts_service": 1,
+      "drts_type": 0,
+      "drts_run_type": {
+        "is_fixed_line": 1,
+        "has_fixed_schedule": 1,
+        "has_reserved_schedule": 0,
+        "has_fixed_stop": 1,
+        "has_reserved_stop": 0,
+        "has_continuous_pickup": 1,
+        "has_continuous_dropoff": 1
+      },
+      "drts_description": "固定班次每日3班，山區路段隨招隨停，市區路段停靠固定站位"
+    }
+  ]
+}

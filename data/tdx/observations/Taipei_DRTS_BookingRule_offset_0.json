@@ -1,0 +1,266 @@
+{
+  "schema_version": 1,
+  "dataset_id": "tdx_Taipei_DRTS_BookingRule",
+  "metadata": {
+    "grain": "one DRTS booking rule",
+    "units": {
+      "min_minutes_in_advanced": "minutes",
+      "latest_day_for_booking": "days",
+      "earliest_day_for_booking": "days",
+      "min_passenger": "persons"
+    },
+    "sources": [
+      {
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/basic/939d7b26-14d6-40bc-bdc9-a076e3f8d4dc",
+        "download_url": "https://tdx.transportdata.tw/api/basic/v3/Bus/DRTS/BookingRule/City/Taipei?%24format=JSON&%24top=1000&%24skip=0&%24count=true",
+        "raw_file": "raw_data/tdx/responses/Taipei_DRTS_BookingRule_offset_0.json",
+        "downloaded_at": "2026-10-21T23:42:20+08:00",
+        "source_updated_at": null,
+        "bytes": 5830,
+        "content_type": "application/json; charset=utf-8",
+        "evidence_type": "business_api_response",
+        "http_status": 200,
+        "usage_headers": {
+          "x-ratelimit-limit-minute": "5",
+          "x-ratelimit-remaining-minute": "3"
+        }
+      }
+    ],
+    "request": {
+      "family": "drts",
+      "specification_id": "bus_v3",
+      "request_url": "https://tdx.transportdata.tw/api/basic/v3/Bus/DRTS/BookingRule/City/Taipei?%24format=JSON&%24top=1000&%24skip=0&%24count=true",
+      "path_values": {
+        "City": "Taipei"
+      },
+      "query_parameters": {
+        "$format": "JSON",
+        "$top": 1000,
+        "$skip": 0,
+        "$count": "true"
+      },
+      "label": "Taipei_DRTS_BookingRule",
+      "sample_only": false,
+      "documented_top_default": 30,
+      "request_limit": 20,
+      "max_response_bytes": 5242880
+    },
+    "source_updated_at": "2026-10-20T05:35:55+08:00",
+    "statistical_period": {
+      "requested_date": null,
+      "version_start": null,
+      "version_end": null
+    },
+    "response_metadata": {
+      "update_time": "2026-10-20T05:35:55+08:00",
+      "update_interval": -1,
+      "src_update_time": "2026-10-20T01:27:05+08:00",
+      "src_update_interval": 86400,
+      "authority_code": "TPE",
+      "count": 11
+    },
+    "record_count": 11,
+    "time_zone": "Asia/Taipei",
+    "time_zone_note": "Asia/Taipei identifies the requested civil day. Each source timestamp retains its own original UTC offset.",
+    "scope_status": "complete_requested_endpoint_by_exhausted_page",
+    "limitations": [
+      "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+      "未知/缺漏不補零；狀態碼原值保留。"
+    ],
+    "field_dictionary": "data/tdx/field_dictionary.json"
+  },
+  "records": [
+    {
+      "booking_rule_id": "TPE_246",
+      "booking_type": 1,
+      "min_minutes_in_advanced": 120,
+      "latest_day_for_booking": 0,
+      "earliest_day_for_booking": 14,
+      "earliest_time_for_booking": "00:00",
+      "min_passenger": 1,
+      "booking_method": {
+        "phone": "02-2823-0188",
+        "website": "https://www.taipeidrts.org.tw/",
+        "app": {
+          "i_os": "https://apps.apple.com/tw/app/%E8%87%BA%E5%8C%97%E5%B8%82%E9%A0%90%E7%B4%84%E5%85%AC%E8%BB%8A/id1494075669",
+          "android": "https://play.google.com/store/apps/details?id=com.jw.bus&hl=zh_TW&gl=TW"
+        }
+      },
+      "description": "發車前2小時如無人預約，該車次於當日不發車"
+    },
+    {
+      "booking_rule_id": "TPE_260Shuttle",
+      "booking_type": 1,
+      "min_minutes_in_advanced": 120,
+      "latest_day_for_booking": 0,
+      "earliest_day_for_booking": 14,
+      "earliest_time_for_booking": "00:00",
+      "min_passenger": 1,
+      "booking_method": {
+        "phone": "2861-6206",
+        "app": {
+          "i_os": "https://apps.apple.com/tw/app/%E8%87%BA%E5%8C%97%E5%B8%82%E9%A0%90%E7%B4%84%E5%85%AC%E8%BB%8A/id1494075669",
+          "android": "https://play.google.com/store/apps/details?id=com.jw.bus&hl=zh_TW&gl=TW"
+        }
+      },
+      "description": "須於搭乘前2小時預約，無人預約不發車"
+    },
+    {
+      "booking_rule_id": "TPE_261",
+      "booking_type": 1,
+      "min_minutes_in_advanced": 120,
+      "latest_day_for_booking": 0,
+      "earliest_day_for_booking": 14,
+      "earliest_time_for_booking": "00:00",
+      "min_passenger": 1,
+      "booking_method": {
+        "phone": "2282-1429",
+        "app": {
+          "i_os": "https://apps.apple.com/tw/app/%E8%87%BA%E5%8C%97%E5%B8%82%E9%A0%90%E7%B4%84%E5%85%AC%E8%BB%8A/id1494075669",
+          "android": "https://play.google.com/store/apps/details?id=com.jw.bus&hl=zh_TW&gl=TW"
+        }
+      },
+      "description": "須於搭乘前2小時預約，無人預約不發車"
+    },
+    {
+      "booking_rule_id": "TPE_297",
+      "booking_type": 1,
+      "min_minutes_in_advanced": 120,
+      "latest_day_for_booking": 0,
+      "earliest_day_for_booking": 14,
+      "earliest_time_for_booking": "00:00",
+      "min_passenger": 1,
+      "booking_method": {
+        "phone": "2248-1968",
+        "app": {
+          "i_os": "https://apps.apple.com/tw/app/%E8%87%BA%E5%8C%97%E5%B8%82%E9%A0%90%E7%B4%84%E5%85%AC%E8%BB%8A/id1494075669",
+          "android": "https://play.google.com/store/apps/details?id=com.jw.bus&hl=zh_TW&gl=TW"
+        }
+      },
+      "description": "須於搭乘前2小時預約，無人預約不發車"
+    },
+    {
+      "booking_rule_id": "TPE_539",
+      "booking_type": 1,
+      "min_minutes_in_advanced": 120,
+      "latest_day_for_booking": 0,
+      "earliest_day_for_booking": 14,
+      "earliest_time_for_booking": "00:00",
+      "min_passenger": 1,
+      "booking_method": {
+        "phone": "2281-9186",
+        "website": "https://www.taipeidrts.org.tw/",
+        "app": {
+          "i_os": "https://apps.apple.com/tw/app/%E8%87%BA%E5%8C%97%E5%B8%82%E9%A0%90%E7%B4%84%E5%85%AC%E8%BB%8A/id1494075669",
+          "android": "https://play.google.com/store/apps/details?id=com.jw.bus&hl=zh_TW&gl=TW"
+        }
+      },
+      "description": "倘於發車前2小時確認無人預約，本車次當日停駛"
+    },
+    {
+      "booking_rule_id": "TPE_542",
+      "booking_type": 1,
+      "min_minutes_in_advanced": 120,
+      "latest_day_for_booking": 0,
+      "earliest_day_for_booking": 14,
+      "earliest_time_for_booking": "00:00",
+      "min_passenger": 1,
+      "booking_method": {
+        "phone": "2834-5022",
+        "website": "https://www.taipeidrts.org.tw/",
+        "app": {
+          "i_os": "https://apps.apple.com/tw/app/%E8%87%BA%E5%8C%97%E5%B8%82%E9%A0%90%E7%B4%84%E5%85%AC%E8%BB%8A/id1494075669",
+          "android": "https://play.google.com/store/apps/details?id=com.jw.bus&hl=zh_TW&gl=TW"
+        }
+      },
+      "description": "倘於搭乘前2小時確認無人預約，本車次當日停駛"
+    },
+    {
+      "booking_rule_id": "TPE_682",
+      "booking_type": 1,
+      "min_minutes_in_advanced": 120,
+      "latest_day_for_booking": 0,
+      "earliest_day_for_booking": 14,
+      "earliest_time_for_booking": "00:00",
+      "min_passenger": 1,
+      "booking_method": {
+        "phone": "2610-4393",
+        "app": {
+          "i_os": "https://apps.apple.com/tw/app/%E8%87%BA%E5%8C%97%E5%B8%82%E9%A0%90%E7%B4%84%E5%85%AC%E8%BB%8A/id1494075669",
+          "android": "https://play.google.com/store/apps/details?id=com.jw.bus&hl=zh_TW&gl=TW"
+        }
+      },
+      "description": "須於搭乘前2小時預約，無人預約不發車"
+    },
+    {
+      "booking_rule_id": "TPE_683",
+      "booking_type": 1,
+      "min_minutes_in_advanced": 120,
+      "latest_day_for_booking": 0,
+      "earliest_day_for_booking": 14,
+      "earliest_time_for_booking": "00:00",
+      "min_passenger": 1,
+      "booking_method": {
+        "phone": "2820-2588",
+        "app": {
+          "i_os": "https://apps.apple.com/tw/app/%E8%87%BA%E5%8C%97%E5%B8%82%E9%A0%90%E7%B4%84%E5%85%AC%E8%BB%8A/id1494075669",
+          "android": "https://play.google.com/store/apps/details?id=com.jw.bus&hl=zh_TW&gl=TW"
+        }
+      },
+      "description": "須於搭乘前2小時預約，無人預約不發車"
+    },
+    {
+      "booking_rule_id": "TPE_S15Shuttle",
+      "booking_type": 1,
+      "min_minutes_in_advanced": 120,
+      "latest_day_for_booking": 0,
+      "earliest_day_for_booking": 14,
+      "earliest_time_for_booking": "00:00",
+      "min_passenger": 1,
+      "booking_method": {
+        "phone": "2834-5022",
+        "website": "https://www.taipeidrts.org.tw/",
+        "app": {
+          "i_os": "https://apps.apple.com/tw/app/%E8%87%BA%E5%8C%97%E5%B8%82%E9%A0%90%E7%B4%84%E5%85%AC%E8%BB%8A/id1494075669",
+          "android": "https://play.google.com/store/apps/details?id=com.jw.bus&hl=zh_TW&gl=TW"
+        }
+      },
+      "description": "倘於搭乘前2小時確認無人預約，本車次當日停駛"
+    },
+    {
+      "booking_rule_id": "TPE_BR20",
+      "booking_type": 1,
+      "min_minutes_in_advanced": 120,
+      "latest_day_for_booking": 0,
+      "earliest_day_for_booking": 14,
+      "earliest_time_for_booking": "00:00",
+      "min_passenger": 1,
+      "booking_method": {
+        "phone": "2792-9840",
+        "app": {
+          "i_os": "https://apps.apple.com/tw/app/%E8%87%BA%E5%8C%97%E5%B8%82%E9%A0%90%E7%B4%84%E5%85%AC%E8%BB%8A/id1494075669",
+          "android": "https://play.google.com/store/apps/details?id=com.jw.bus&hl=zh_TW&gl=TW"
+        }
+      },
+      "description": "須於搭乘前2小時預約，無人預約不繞駛"
+    },
+    {
+      "booking_rule_id": "TPE_R68",
+      "booking_type": 1,
+      "min_minutes_in_advanced": 120,
+      "latest_day_for_booking": 0,
+      "earliest_day_for_booking": 14,
+      "earliest_time_for_booking": "00:00",
+      "min_passenger": 1,
+      "booking_method": {
+        "phone": "2834-5022",
+        "website": "https://www.taipeidrts.org.tw/",
+        "app": {
+          "i_os": "https://apps.apple.com/tw/app/%E8%87%BA%E5%8C%97%E5%B8%82%E9%A0%90%E7%B4%84%E5%85%AC%E8%BB%8A/id1494075669",
+          "android": "https://play.google.com/store/apps/details?id=com.jw.bus&hl=zh_TW&gl=TW"
+        }
+      },
+      "description": "預約班次倘於發車前2小時確認無人預約，本車次當日停駛"
+    }
+  ]
+}

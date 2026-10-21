@@ -1,0 +1,1438 @@
+{
+  "schema_version": 1,
+  "sources": {
+    "historical": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/historical/39472fde-f790-42b9-9c8b-88282118e6b1",
+      "download_url": "https://tdx.transportdata.tw/webapi/File/Swagger/V3/39472fde-f790-42b9-9c8b-88282118e6b1",
+      "raw_file": "raw_data/tdx/specifications/historical.json",
+      "downloaded_at": "2026-10-21T23:31:29+08:00",
+      "source_updated_at": null,
+      "bytes": 352587,
+      "http_last_modified": null,
+      "content_type": "text/plain; charset=utf-8",
+      "evidence_type": "official_specification"
+    },
+    "travel_time": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+      "download_url": "https://tdx.transportdata.tw/webapi/File/Swagger/V3/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+      "raw_file": "raw_data/tdx/specifications/travel_time.json",
+      "downloaded_at": "2026-10-21T23:31:29+08:00",
+      "source_updated_at": null,
+      "bytes": 25891,
+      "http_last_modified": null,
+      "content_type": "text/plain; charset=utf-8",
+      "evidence_type": "official_specification"
+    },
+    "stop_distance": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/e2437b20-8f4a-4e71-875d-53466e94dae8",
+      "download_url": "https://tdx.transportdata.tw/webapi/File/Swagger/V3/e2437b20-8f4a-4e71-875d-53466e94dae8",
+      "raw_file": "raw_data/tdx/specifications/stop_distance.json",
+      "downloaded_at": "2026-10-21T23:31:29+08:00",
+      "source_updated_at": null,
+      "bytes": 12206,
+      "http_last_modified": null,
+      "content_type": "text/plain; charset=utf-8",
+      "evidence_type": "official_specification"
+    },
+    "bus_uncovered": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/366e56ed-55c8-4297-8ba6-4b7acb7e1d32",
+      "download_url": "https://tdx.transportdata.tw/webapi/File/Swagger/V3/366e56ed-55c8-4297-8ba6-4b7acb7e1d32",
+      "raw_file": "raw_data/tdx/specifications/bus_uncovered.json",
+      "downloaded_at": "2026-10-21T23:31:30+08:00",
+      "source_updated_at": null,
+      "bytes": 8462,
+      "http_last_modified": null,
+      "content_type": "text/plain; charset=utf-8",
+      "evidence_type": "official_specification"
+    },
+    "transit_inaccessible": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/3b31f053-e920-4dc7-80f2-fefc4650a2d9",
+      "download_url": "https://tdx.transportdata.tw/webapi/File/Swagger/V3/3b31f053-e920-4dc7-80f2-fefc4650a2d9",
+      "raw_file": "raw_data/tdx/specifications/transit_inaccessible.json",
+      "downloaded_at": "2026-10-21T23:31:31+08:00",
+      "source_updated_at": null,
+      "bytes": 8564,
+      "http_last_modified": null,
+      "content_type": "text/plain; charset=utf-8",
+      "evidence_type": "official_specification"
+    },
+    "bus_v3": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/basic/939d7b26-14d6-40bc-bdc9-a076e3f8d4dc",
+      "download_url": "https://tdx.transportdata.tw/webapi/File/Swagger/V3/939d7b26-14d6-40bc-bdc9-a076e3f8d4dc",
+      "raw_file": "raw_data/tdx/specifications/bus_v3.json",
+      "downloaded_at": "2026-10-21T23:31:32+08:00",
+      "source_updated_at": null,
+      "bytes": 795576,
+      "http_last_modified": null,
+      "content_type": "text/plain; charset=utf-8",
+      "evidence_type": "official_specification"
+    },
+    "historical_supply": {
+      "source_page": "https://tdx.transportdata.tw/data-service/historical",
+      "download_url": "https://tdx.transportdata.tw/webapi/service?category=historical",
+      "raw_file": "raw_data/tdx/historical_supply.json",
+      "downloaded_at": "2026-10-21T23:31:33+08:00",
+      "source_updated_at": null,
+      "bytes": 565241,
+      "http_last_modified": null,
+      "content_type": "application/json; charset=utf-8",
+      "evidence_type": "official_supply_catalog"
+    },
+    "business_Taipei_DRTS_Route_offset_0": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/basic/939d7b26-14d6-40bc-bdc9-a076e3f8d4dc",
+      "download_url": "https://tdx.transportdata.tw/api/basic/v3/Bus/DRTS/Route/City/Taipei?%24format=JSON&%24top=1000&%24skip=0&%24count=true",
+      "raw_file": "raw_data/tdx/responses/Taipei_DRTS_Route_offset_0.json",
+      "downloaded_at": "2026-10-21T23:42:20+08:00",
+      "source_updated_at": null,
+      "bytes": 15929,
+      "content_type": "application/json; charset=utf-8",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-limit-minute": "5",
+        "x-ratelimit-remaining-minute": "4"
+      },
+      "request": {
+        "family": "drts",
+        "specification_id": "bus_v3",
+        "request_url": "https://tdx.transportdata.tw/api/basic/v3/Bus/DRTS/Route/City/Taipei?%24format=JSON&%24top=1000&%24skip=0&%24count=true",
+        "path_values": {
+          "City": "Taipei"
+        },
+        "query_parameters": {
+          "$format": "JSON",
+          "$top": 1000,
+          "$skip": 0,
+          "$count": "true"
+        },
+        "label": "Taipei_DRTS_Route",
+        "sample_only": false,
+        "documented_top_default": 30,
+        "request_limit": 20,
+        "max_response_bytes": 5242880
+      },
+      "parsed": true
+    },
+    "business_Taipei_DRTS_BookingRule_offset_0": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/basic/939d7b26-14d6-40bc-bdc9-a076e3f8d4dc",
+      "download_url": "https://tdx.transportdata.tw/api/basic/v3/Bus/DRTS/BookingRule/City/Taipei?%24format=JSON&%24top=1000&%24skip=0&%24count=true",
+      "raw_file": "raw_data/tdx/responses/Taipei_DRTS_BookingRule_offset_0.json",
+      "downloaded_at": "2026-10-21T23:42:20+08:00",
+      "source_updated_at": null,
+      "bytes": 5830,
+      "content_type": "application/json; charset=utf-8",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-limit-minute": "5",
+        "x-ratelimit-remaining-minute": "3"
+      },
+      "request": {
+        "family": "drts",
+        "specification_id": "bus_v3",
+        "request_url": "https://tdx.transportdata.tw/api/basic/v3/Bus/DRTS/BookingRule/City/Taipei?%24format=JSON&%24top=1000&%24skip=0&%24count=true",
+        "path_values": {
+          "City": "Taipei"
+        },
+        "query_parameters": {
+          "$format": "JSON",
+          "$top": 1000,
+          "$skip": 0,
+          "$count": "true"
+        },
+        "label": "Taipei_DRTS_BookingRule",
+        "sample_only": false,
+        "documented_top_default": 30,
+        "request_limit": 20,
+        "max_response_bytes": 5242880
+      },
+      "parsed": true
+    },
+    "business_Taipei_2026-10-20_RealTimeByFrequency_meta": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/historical/39472fde-f790-42b9-9c8b-88282118e6b1",
+      "download_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/RealTimeByFrequency/City/Taipei?Dates=2026-10-20&%24format=JSONL&Meta=true",
+      "raw_file": "raw_data/tdx/responses/Taipei_2026-10-20_RealTimeByFrequency_meta.json",
+      "downloaded_at": "2026-10-21T23:43:12+08:00",
+      "source_updated_at": null,
+      "bytes": 65,
+      "content_type": "text/ndjson; charset=utf-8",
+      "evidence_type": "api_availability_statistics",
+      "http_status": 249,
+      "usage_headers": {
+        "x-ratelimit-remaining-minute": "4",
+        "x-ratelimit-limit-minute": "5"
+      },
+      "request": {
+        "family": "historical",
+        "specification_id": "historical",
+        "request_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/RealTimeByFrequency/City/Taipei?Dates=2026-10-20&%24format=JSONL&Meta=true",
+        "path_values": {
+          "City": "Taipei"
+        },
+        "query_parameters": {
+          "Dates": "2026-10-20",
+          "$format": "JSONL",
+          "Meta": "true"
+        },
+        "label": "Taipei_2026-10-20_RealTimeByFrequency",
+        "sample_only": false,
+        "documented_top_default": 30,
+        "request_limit": 20,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_2026-10-20_RealTimeNearStop_meta": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/historical/39472fde-f790-42b9-9c8b-88282118e6b1",
+      "download_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/RealTimeNearStop/City/Taipei?Dates=2026-10-20&%24format=JSONL&Meta=true",
+      "raw_file": "raw_data/tdx/responses/Taipei_2026-10-20_RealTimeNearStop_meta.json",
+      "downloaded_at": "2026-10-21T23:43:25+08:00",
+      "source_updated_at": null,
+      "bytes": 65,
+      "content_type": "text/ndjson; charset=utf-8",
+      "evidence_type": "api_availability_statistics",
+      "http_status": 249,
+      "usage_headers": {
+        "x-ratelimit-remaining-minute": "3",
+        "x-ratelimit-limit-minute": "5"
+      },
+      "request": {
+        "family": "historical",
+        "specification_id": "historical",
+        "request_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/RealTimeNearStop/City/Taipei?Dates=2026-10-20&%24format=JSONL&Meta=true",
+        "path_values": {
+          "City": "Taipei"
+        },
+        "query_parameters": {
+          "Dates": "2026-10-20",
+          "$format": "JSONL",
+          "Meta": "true"
+        },
+        "label": "Taipei_2026-10-20_RealTimeNearStop",
+        "sample_only": false,
+        "documented_top_default": 30,
+        "request_limit": 20,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_2026-10-20_RealTimeByFrequency_sample_30": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/historical/39472fde-f790-42b9-9c8b-88282118e6b1",
+      "download_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/RealTimeByFrequency/City/Taipei?Dates=2026-10-20&%24format=JSONL&%24top=30",
+      "raw_file": "raw_data/tdx/responses/Taipei_2026-10-20_RealTimeByFrequency_sample_30.jsonl",
+      "downloaded_at": "2026-10-21T23:43:55+08:00",
+      "source_updated_at": null,
+      "bytes": 15285,
+      "content_type": "text/ndjson; charset=utf-8",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-limit-minute": "5",
+        "x-ratelimit-remaining-minute": "2"
+      },
+      "request": {
+        "family": "historical",
+        "specification_id": "historical",
+        "request_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/RealTimeByFrequency/City/Taipei?Dates=2026-10-20&%24format=JSONL&%24top=30",
+        "path_values": {
+          "City": "Taipei"
+        },
+        "query_parameters": {
+          "Dates": "2026-10-20",
+          "$format": "JSONL",
+          "$top": 30
+        },
+        "label": "Taipei_2026-10-20_RealTimeByFrequency",
+        "sample_only": true,
+        "documented_top_default": 30,
+        "request_limit": 20,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_2026-10-20_RealTimeNearStop_sample_30": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/historical/39472fde-f790-42b9-9c8b-88282118e6b1",
+      "download_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/RealTimeNearStop/City/Taipei?Dates=2026-10-20&%24format=JSONL&%24top=30",
+      "raw_file": "raw_data/tdx/responses/Taipei_2026-10-20_RealTimeNearStop_sample_30.jsonl",
+      "downloaded_at": "2026-10-21T23:44:07+08:00",
+      "source_updated_at": null,
+      "bytes": 18194,
+      "content_type": "text/ndjson; charset=utf-8",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-remaining-minute": "4",
+        "x-ratelimit-limit-minute": "5"
+      },
+      "request": {
+        "family": "historical",
+        "specification_id": "historical",
+        "request_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/RealTimeNearStop/City/Taipei?Dates=2026-10-20&%24format=JSONL&%24top=30",
+        "path_values": {
+          "City": "Taipei"
+        },
+        "query_parameters": {
+          "Dates": "2026-10-20",
+          "$format": "JSONL",
+          "$top": 30
+        },
+        "label": "Taipei_2026-10-20_RealTimeNearStop",
+        "sample_only": true,
+        "documented_top_default": 30,
+        "request_limit": 20,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_2026-10-20_Route_top_100000": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/historical/39472fde-f790-42b9-9c8b-88282118e6b1",
+      "download_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/Route/Date/2026-10-20/City/Taipei?%24format=JSON&%24top=100000",
+      "raw_file": "raw_data/tdx/responses/Taipei_2026-10-20_Route_top_100000.json",
+      "downloaded_at": "2026-10-21T23:45:25+08:00",
+      "source_updated_at": null,
+      "bytes": 599182,
+      "content_type": "application/json; charset=utf-8",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-limit-minute": "5",
+        "x-ratelimit-remaining-minute": "4"
+      },
+      "request": {
+        "family": "historical",
+        "specification_id": "historical",
+        "request_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/Route/Date/2026-10-20/City/Taipei?%24format=JSON&%24top=100000",
+        "path_values": {
+          "City": "Taipei",
+          "Date": "2026-10-20"
+        },
+        "query_parameters": {
+          "$format": "JSON",
+          "$top": 100000
+        },
+        "label": "Taipei_2026-10-20_Route",
+        "sample_only": false,
+        "documented_top_default": 30,
+        "request_limit": 20,
+        "max_response_bytes": 5242880
+      },
+      "parsed": true
+    },
+    "business_Taipei_S2STravelTime_307": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/307?%24format=JSON",
+      "raw_file": "raw_data/tdx/responses/Taipei_S2STravelTime_307.json",
+      "downloaded_at": "2026-10-21T23:47:11+08:00",
+      "source_updated_at": null,
+      "bytes": 679153,
+      "content_type": "application/json; charset=utf-8",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-limit-minute": "5",
+        "x-ratelimit-remaining-minute": "4"
+      },
+      "request": {
+        "family": "travel_time_distance",
+        "specification_id": "travel_time",
+        "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/307?%24format=JSON",
+        "path_values": {
+          "City": "Taipei",
+          "RouteName": "307"
+        },
+        "query_parameters": {
+          "$format": "JSON"
+        },
+        "label": "Taipei_S2STravelTime_307",
+        "sample_only": false,
+        "documented_top_default": null,
+        "request_limit": 20,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_distance_16111": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/e2437b20-8f4a-4e71-875d-53466e94dae8",
+      "download_url": "https://tdx.transportdata.tw/api/premium/S2SDistance/City/Taipei/RouteID/16111?%24format=JSON",
+      "raw_file": "raw_data/tdx/responses/Taipei_distance_16111.html",
+      "downloaded_at": "2026-10-21T23:48:04+08:00",
+      "source_updated_at": null,
+      "bytes": 247,
+      "content_type": "text/html; charset=utf-8",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-limit-minute": "5",
+        "x-ratelimit-remaining-minute": "4"
+      },
+      "request": {
+        "family": "travel_time_distance",
+        "specification_id": "stop_distance",
+        "request_url": "https://tdx.transportdata.tw/api/premium/S2SDistance/City/Taipei/RouteID/16111?%24format=JSON",
+        "path_values": {
+          "City": "Taipei",
+          "RouteID": "16111"
+        },
+        "query_parameters": {
+          "$format": "JSON"
+        },
+        "label": "Taipei_distance_16111",
+        "sample_only": false,
+        "documented_top_default": null,
+        "request_limit": 20,
+        "max_response_bytes": 2097152
+      },
+      "parsed": false,
+      "parse_status": "provider_request_rejected_html"
+    },
+    "business_Taipei_2026-10-20_Stop_sample_30": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/historical/39472fde-f790-42b9-9c8b-88282118e6b1",
+      "download_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/Stop/Date/2026-10-20/City/Taipei?%24format=JSON&%24top=30",
+      "raw_file": "raw_data/tdx/responses/Taipei_2026-10-20_Stop_sample_30.json",
+      "downloaded_at": "2026-10-21T23:50:09+08:00",
+      "source_updated_at": null,
+      "bytes": 11260,
+      "content_type": "application/json; charset=utf-8",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-remaining-minute": "4",
+        "x-ratelimit-limit-minute": "5"
+      },
+      "request": {
+        "family": "historical",
+        "specification_id": "historical",
+        "request_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/Stop/Date/2026-10-20/City/Taipei?%24format=JSON&%24top=30",
+        "path_values": {
+          "City": "Taipei",
+          "Date": "2026-10-20"
+        },
+        "query_parameters": {
+          "$format": "JSON",
+          "$top": 30
+        },
+        "label": "Taipei_2026-10-20_Stop",
+        "sample_only": true,
+        "documented_top_default": 30,
+        "request_limit": 20,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_2026-10-20_Station_sample_30": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/historical/39472fde-f790-42b9-9c8b-88282118e6b1",
+      "download_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/Station/Date/2026-10-20/City/Taipei?%24format=JSON&%24top=30",
+      "raw_file": "raw_data/tdx/responses/Taipei_2026-10-20_Station_sample_30.json",
+      "downloaded_at": "2026-10-21T23:50:23+08:00",
+      "source_updated_at": null,
+      "bytes": 47648,
+      "content_type": "application/json; charset=utf-8",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-remaining-minute": "3",
+        "x-ratelimit-limit-minute": "5"
+      },
+      "request": {
+        "family": "historical",
+        "specification_id": "historical",
+        "request_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/Station/Date/2026-10-20/City/Taipei?%24format=JSON&%24top=30",
+        "path_values": {
+          "City": "Taipei",
+          "Date": "2026-10-20"
+        },
+        "query_parameters": {
+          "$format": "JSON",
+          "$top": 30
+        },
+        "label": "Taipei_2026-10-20_Station",
+        "sample_only": true,
+        "documented_top_default": 30,
+        "request_limit": 20,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_2026-10-20_Shape_sample_30": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/historical/39472fde-f790-42b9-9c8b-88282118e6b1",
+      "download_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/Shape/Date/2026-10-20/City/Taipei?%24format=JSON&%24top=30",
+      "raw_file": "raw_data/tdx/responses/Taipei_2026-10-20_Shape_sample_30.json",
+      "downloaded_at": "2026-10-21T23:50:48+08:00",
+      "source_updated_at": null,
+      "bytes": 405295,
+      "content_type": "application/json; charset=utf-8",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-limit-minute": "5",
+        "x-ratelimit-remaining-minute": "1"
+      },
+      "request": {
+        "family": "historical",
+        "specification_id": "historical",
+        "request_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/Shape/Date/2026-10-20/City/Taipei?%24format=JSON&%24top=30",
+        "path_values": {
+          "City": "Taipei",
+          "Date": "2026-10-20"
+        },
+        "query_parameters": {
+          "$format": "JSON",
+          "$top": 30
+        },
+        "label": "Taipei_2026-10-20_Shape",
+        "sample_only": true,
+        "documented_top_default": 30,
+        "request_limit": 20,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_2026-10-20_Schedule_sample_30": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/historical/39472fde-f790-42b9-9c8b-88282118e6b1",
+      "download_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/Schedule/Date/2026-10-20/City/Taipei?%24format=JSON&%24top=30",
+      "raw_file": "raw_data/tdx/responses/Taipei_2026-10-20_Schedule_sample_30.json",
+      "downloaded_at": "2026-10-21T23:51:02+08:00",
+      "source_updated_at": null,
+      "bytes": 650396,
+      "content_type": "application/json; charset=utf-8",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-remaining-minute": "4",
+        "x-ratelimit-limit-minute": "5"
+      },
+      "request": {
+        "family": "historical",
+        "specification_id": "historical",
+        "request_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/Schedule/Date/2026-10-20/City/Taipei?%24format=JSON&%24top=30",
+        "path_values": {
+          "City": "Taipei",
+          "Date": "2026-10-20"
+        },
+        "query_parameters": {
+          "$format": "JSON",
+          "$top": 30
+        },
+        "label": "Taipei_2026-10-20_Schedule",
+        "sample_only": true,
+        "documented_top_default": 30,
+        "request_limit": 20,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_63000010_bus_uncovered": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/366e56ed-55c8-4297-8ba6-4b7acb7e1d32",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/RoadUnCoverage/Bus/City/Taipei/TownCode/63000010?%24format=GEOJSON",
+      "raw_file": "raw_data/tdx/responses/Taipei_63000010_bus_uncovered.json",
+      "downloaded_at": "2026-10-21T23:52:24+08:00",
+      "source_updated_at": null,
+      "bytes": 19007,
+      "content_type": "application/geo+json",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-limit-minute": "5",
+        "x-ratelimit-remaining-minute": "4"
+      },
+      "request": {
+        "family": "accessibility",
+        "specification_id": "bus_uncovered",
+        "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/RoadUnCoverage/Bus/City/Taipei/TownCode/63000010?%24format=GEOJSON",
+        "path_values": {
+          "City": "Taipei",
+          "TownCode": "63000010"
+        },
+        "query_parameters": {
+          "$format": "GEOJSON"
+        },
+        "label": "Taipei_63000010_bus_uncovered",
+        "sample_only": false,
+        "documented_top_default": null,
+        "request_limit": 20,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_63000010_transit_inaccessible": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/3b31f053-e920-4dc7-80f2-fefc4650a2d9",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000010?%24format=GEOJSON",
+      "raw_file": "raw_data/tdx/responses/Taipei_63000010_transit_inaccessible.json",
+      "downloaded_at": "2026-10-21T23:52:48+08:00",
+      "source_updated_at": null,
+      "bytes": 278,
+      "content_type": "application/geo+json",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-remaining-minute": "3",
+        "x-ratelimit-limit-minute": "5"
+      },
+      "request": {
+        "family": "accessibility",
+        "specification_id": "transit_inaccessible",
+        "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000010?%24format=GEOJSON",
+        "path_values": {
+          "City": "Taipei",
+          "TownCode": "63000010"
+        },
+        "query_parameters": {
+          "$format": "GEOJSON"
+        },
+        "label": "Taipei_63000010_transit_inaccessible",
+        "sample_only": false,
+        "documented_top_default": null,
+        "request_limit": 20,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_63000020_bus_uncovered": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/366e56ed-55c8-4297-8ba6-4b7acb7e1d32",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/RoadUnCoverage/Bus/City/Taipei/TownCode/63000020?%24format=GEOJSON",
+      "raw_file": "raw_data/tdx/responses/Taipei_63000020_bus_uncovered.json",
+      "downloaded_at": "2026-10-21T23:53:43+08:00",
+      "source_updated_at": null,
+      "bytes": 52700,
+      "content_type": "application/geo+json",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-limit-minute": "5",
+        "x-ratelimit-remaining-minute": "4"
+      },
+      "request": {
+        "family": "accessibility",
+        "specification_id": "bus_uncovered",
+        "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/RoadUnCoverage/Bus/City/Taipei/TownCode/63000020?%24format=GEOJSON",
+        "path_values": {
+          "City": "Taipei",
+          "TownCode": "63000020"
+        },
+        "query_parameters": {
+          "$format": "GEOJSON"
+        },
+        "label": "Taipei_63000020_bus_uncovered",
+        "sample_only": false,
+        "documented_top_default": null,
+        "request_limit": 30,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_63000020_transit_inaccessible": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/3b31f053-e920-4dc7-80f2-fefc4650a2d9",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000020?%24format=GEOJSON",
+      "raw_file": "raw_data/tdx/responses/Taipei_63000020_transit_inaccessible.json",
+      "downloaded_at": "2026-10-21T23:54:12+08:00",
+      "source_updated_at": null,
+      "bytes": 5307,
+      "content_type": "application/geo+json",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-remaining-minute": "3",
+        "x-ratelimit-limit-minute": "5"
+      },
+      "request": {
+        "family": "accessibility",
+        "specification_id": "transit_inaccessible",
+        "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000020?%24format=GEOJSON",
+        "path_values": {
+          "City": "Taipei",
+          "TownCode": "63000020"
+        },
+        "query_parameters": {
+          "$format": "GEOJSON"
+        },
+        "label": "Taipei_63000020_transit_inaccessible",
+        "sample_only": false,
+        "documented_top_default": null,
+        "request_limit": 30,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_63000030_bus_uncovered": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/366e56ed-55c8-4297-8ba6-4b7acb7e1d32",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/RoadUnCoverage/Bus/City/Taipei/TownCode/63000030?%24format=GEOJSON",
+      "raw_file": "raw_data/tdx/responses/Taipei_63000030_bus_uncovered.json",
+      "downloaded_at": "2026-10-21T23:54:12+08:00",
+      "source_updated_at": null,
+      "bytes": 39930,
+      "content_type": "application/geo+json",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-limit-minute": "5",
+        "x-ratelimit-remaining-minute": "4"
+      },
+      "request": {
+        "family": "accessibility",
+        "specification_id": "bus_uncovered",
+        "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/RoadUnCoverage/Bus/City/Taipei/TownCode/63000030?%24format=GEOJSON",
+        "path_values": {
+          "City": "Taipei",
+          "TownCode": "63000030"
+        },
+        "query_parameters": {
+          "$format": "GEOJSON"
+        },
+        "label": "Taipei_63000030_bus_uncovered",
+        "sample_only": false,
+        "documented_top_default": null,
+        "request_limit": 30,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_63000030_transit_inaccessible": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/3b31f053-e920-4dc7-80f2-fefc4650a2d9",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000030?%24format=GEOJSON",
+      "raw_file": "raw_data/tdx/responses/Taipei_63000030_transit_inaccessible.json",
+      "downloaded_at": "2026-10-21T23:54:38+08:00",
+      "source_updated_at": null,
+      "bytes": 243,
+      "content_type": "application/geo+json",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-remaining-minute": "3",
+        "x-ratelimit-limit-minute": "5"
+      },
+      "request": {
+        "family": "accessibility",
+        "specification_id": "transit_inaccessible",
+        "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000030?%24format=GEOJSON",
+        "path_values": {
+          "City": "Taipei",
+          "TownCode": "63000030"
+        },
+        "query_parameters": {
+          "$format": "GEOJSON"
+        },
+        "label": "Taipei_63000030_transit_inaccessible",
+        "sample_only": false,
+        "documented_top_default": null,
+        "request_limit": 30,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_63000040_bus_uncovered": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/366e56ed-55c8-4297-8ba6-4b7acb7e1d32",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/RoadUnCoverage/Bus/City/Taipei/TownCode/63000040?%24format=GEOJSON",
+      "raw_file": "raw_data/tdx/responses/Taipei_63000040_bus_uncovered.json",
+      "downloaded_at": "2026-10-21T23:54:39+08:00",
+      "source_updated_at": null,
+      "bytes": 42843,
+      "content_type": "application/geo+json",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-limit-minute": "5",
+        "x-ratelimit-remaining-minute": "2"
+      },
+      "request": {
+        "family": "accessibility",
+        "specification_id": "bus_uncovered",
+        "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/RoadUnCoverage/Bus/City/Taipei/TownCode/63000040?%24format=GEOJSON",
+        "path_values": {
+          "City": "Taipei",
+          "TownCode": "63000040"
+        },
+        "query_parameters": {
+          "$format": "GEOJSON"
+        },
+        "label": "Taipei_63000040_bus_uncovered",
+        "sample_only": false,
+        "documented_top_default": null,
+        "request_limit": 30,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_63000040_transit_inaccessible": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/3b31f053-e920-4dc7-80f2-fefc4650a2d9",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000040?%24format=GEOJSON",
+      "raw_file": "raw_data/tdx/responses/Taipei_63000040_transit_inaccessible.json",
+      "downloaded_at": "2026-10-21T23:55:05+08:00",
+      "source_updated_at": null,
+      "bytes": 521,
+      "content_type": "application/geo+json",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-limit-minute": "5",
+        "x-ratelimit-remaining-minute": "1"
+      },
+      "request": {
+        "family": "accessibility",
+        "specification_id": "transit_inaccessible",
+        "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000040?%24format=GEOJSON",
+        "path_values": {
+          "City": "Taipei",
+          "TownCode": "63000040"
+        },
+        "query_parameters": {
+          "$format": "GEOJSON"
+        },
+        "label": "Taipei_63000040_transit_inaccessible",
+        "sample_only": false,
+        "documented_top_default": null,
+        "request_limit": 30,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_63000050_bus_uncovered": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/366e56ed-55c8-4297-8ba6-4b7acb7e1d32",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/RoadUnCoverage/Bus/City/Taipei/TownCode/63000050?%24format=GEOJSON",
+      "raw_file": "raw_data/tdx/responses/Taipei_63000050_bus_uncovered.json",
+      "downloaded_at": "2026-10-21T23:55:06+08:00",
+      "source_updated_at": null,
+      "bytes": 53184,
+      "content_type": "application/geo+json",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-limit-minute": "5",
+        "x-ratelimit-remaining-minute": "4"
+      },
+      "request": {
+        "family": "accessibility",
+        "specification_id": "bus_uncovered",
+        "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/RoadUnCoverage/Bus/City/Taipei/TownCode/63000050?%24format=GEOJSON",
+        "path_values": {
+          "City": "Taipei",
+          "TownCode": "63000050"
+        },
+        "query_parameters": {
+          "$format": "GEOJSON"
+        },
+        "label": "Taipei_63000050_bus_uncovered",
+        "sample_only": false,
+        "documented_top_default": null,
+        "request_limit": 30,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_63000050_transit_inaccessible": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/3b31f053-e920-4dc7-80f2-fefc4650a2d9",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000050?%24format=GEOJSON",
+      "raw_file": "raw_data/tdx/responses/Taipei_63000050_transit_inaccessible.json",
+      "downloaded_at": "2026-10-21T23:55:31+08:00",
+      "source_updated_at": null,
+      "bytes": 241,
+      "content_type": "application/geo+json",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-limit-minute": "5",
+        "x-ratelimit-remaining-minute": "3"
+      },
+      "request": {
+        "family": "accessibility",
+        "specification_id": "transit_inaccessible",
+        "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000050?%24format=GEOJSON",
+        "path_values": {
+          "City": "Taipei",
+          "TownCode": "63000050"
+        },
+        "query_parameters": {
+          "$format": "GEOJSON"
+        },
+        "label": "Taipei_63000050_transit_inaccessible",
+        "sample_only": false,
+        "documented_top_default": null,
+        "request_limit": 30,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_63000060_bus_uncovered": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/366e56ed-55c8-4297-8ba6-4b7acb7e1d32",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/RoadUnCoverage/Bus/City/Taipei/TownCode/63000060?%24format=GEOJSON",
+      "raw_file": "raw_data/tdx/responses/Taipei_63000060_bus_uncovered.json",
+      "downloaded_at": "2026-10-21T23:55:32+08:00",
+      "source_updated_at": null,
+      "bytes": 37452,
+      "content_type": "application/geo+json",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-limit-minute": "5",
+        "x-ratelimit-remaining-minute": "2"
+      },
+      "request": {
+        "family": "accessibility",
+        "specification_id": "bus_uncovered",
+        "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/RoadUnCoverage/Bus/City/Taipei/TownCode/63000060?%24format=GEOJSON",
+        "path_values": {
+          "City": "Taipei",
+          "TownCode": "63000060"
+        },
+        "query_parameters": {
+          "$format": "GEOJSON"
+        },
+        "label": "Taipei_63000060_bus_uncovered",
+        "sample_only": false,
+        "documented_top_default": null,
+        "request_limit": 30,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_63000060_transit_inaccessible": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/3b31f053-e920-4dc7-80f2-fefc4650a2d9",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000060?%24format=GEOJSON",
+      "raw_file": "raw_data/tdx/responses/Taipei_63000060_transit_inaccessible.json",
+      "downloaded_at": "2026-10-21T23:55:55+08:00",
+      "source_updated_at": null,
+      "bytes": 241,
+      "content_type": "application/geo+json",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-limit-minute": "5",
+        "x-ratelimit-remaining-minute": "1"
+      },
+      "request": {
+        "family": "accessibility",
+        "specification_id": "transit_inaccessible",
+        "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000060?%24format=GEOJSON",
+        "path_values": {
+          "City": "Taipei",
+          "TownCode": "63000060"
+        },
+        "query_parameters": {
+          "$format": "GEOJSON"
+        },
+        "label": "Taipei_63000060_transit_inaccessible",
+        "sample_only": false,
+        "documented_top_default": null,
+        "request_limit": 30,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_63000070_bus_uncovered": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/366e56ed-55c8-4297-8ba6-4b7acb7e1d32",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/RoadUnCoverage/Bus/City/Taipei/TownCode/63000070?%24format=GEOJSON",
+      "raw_file": "raw_data/tdx/responses/Taipei_63000070_bus_uncovered.json",
+      "downloaded_at": "2026-10-21T23:55:58+08:00",
+      "source_updated_at": null,
+      "bytes": 51019,
+      "content_type": "application/geo+json",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-limit-minute": "5",
+        "x-ratelimit-remaining-minute": "0"
+      },
+      "request": {
+        "family": "accessibility",
+        "specification_id": "bus_uncovered",
+        "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/RoadUnCoverage/Bus/City/Taipei/TownCode/63000070?%24format=GEOJSON",
+        "path_values": {
+          "City": "Taipei",
+          "TownCode": "63000070"
+        },
+        "query_parameters": {
+          "$format": "GEOJSON"
+        },
+        "label": "Taipei_63000070_bus_uncovered",
+        "sample_only": false,
+        "documented_top_default": null,
+        "request_limit": 30,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_63000070_transit_inaccessible": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/3b31f053-e920-4dc7-80f2-fefc4650a2d9",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000070?%24format=GEOJSON",
+      "raw_file": "raw_data/tdx/responses/Taipei_63000070_transit_inaccessible.json",
+      "downloaded_at": "2026-10-21T23:56:23+08:00",
+      "source_updated_at": null,
+      "bytes": 241,
+      "content_type": "application/geo+json",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-limit-minute": "5",
+        "x-ratelimit-remaining-minute": "4"
+      },
+      "request": {
+        "family": "accessibility",
+        "specification_id": "transit_inaccessible",
+        "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000070?%24format=GEOJSON",
+        "path_values": {
+          "City": "Taipei",
+          "TownCode": "63000070"
+        },
+        "query_parameters": {
+          "$format": "GEOJSON"
+        },
+        "label": "Taipei_63000070_transit_inaccessible",
+        "sample_only": false,
+        "documented_top_default": null,
+        "request_limit": 30,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_63000080_bus_uncovered": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/366e56ed-55c8-4297-8ba6-4b7acb7e1d32",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/RoadUnCoverage/Bus/City/Taipei/TownCode/63000080?%24format=GEOJSON",
+      "raw_file": "raw_data/tdx/responses/Taipei_63000080_bus_uncovered.json",
+      "downloaded_at": "2026-10-21T23:56:24+08:00",
+      "source_updated_at": null,
+      "bytes": 78923,
+      "content_type": "application/geo+json",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-remaining-minute": "3",
+        "x-ratelimit-limit-minute": "5"
+      },
+      "request": {
+        "family": "accessibility",
+        "specification_id": "bus_uncovered",
+        "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/RoadUnCoverage/Bus/City/Taipei/TownCode/63000080?%24format=GEOJSON",
+        "path_values": {
+          "City": "Taipei",
+          "TownCode": "63000080"
+        },
+        "query_parameters": {
+          "$format": "GEOJSON"
+        },
+        "label": "Taipei_63000080_bus_uncovered",
+        "sample_only": false,
+        "documented_top_default": null,
+        "request_limit": 30,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_63000080_transit_inaccessible": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/3b31f053-e920-4dc7-80f2-fefc4650a2d9",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000080?%24format=GEOJSON",
+      "raw_file": "raw_data/tdx/responses/Taipei_63000080_transit_inaccessible.json",
+      "downloaded_at": "2026-10-21T23:56:50+08:00",
+      "source_updated_at": null,
+      "bytes": 3571,
+      "content_type": "application/geo+json",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-remaining-minute": "2",
+        "x-ratelimit-limit-minute": "5"
+      },
+      "request": {
+        "family": "accessibility",
+        "specification_id": "transit_inaccessible",
+        "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000080?%24format=GEOJSON",
+        "path_values": {
+          "City": "Taipei",
+          "TownCode": "63000080"
+        },
+        "query_parameters": {
+          "$format": "GEOJSON"
+        },
+        "label": "Taipei_63000080_transit_inaccessible",
+        "sample_only": false,
+        "documented_top_default": null,
+        "request_limit": 30,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_63000090_bus_uncovered": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/366e56ed-55c8-4297-8ba6-4b7acb7e1d32",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/RoadUnCoverage/Bus/City/Taipei/TownCode/63000090?%24format=GEOJSON",
+      "raw_file": "raw_data/tdx/responses/Taipei_63000090_bus_uncovered.json",
+      "downloaded_at": "2026-10-21T23:56:50+08:00",
+      "source_updated_at": null,
+      "bytes": 35585,
+      "content_type": "application/geo+json",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-limit-minute": "5",
+        "x-ratelimit-remaining-minute": "1"
+      },
+      "request": {
+        "family": "accessibility",
+        "specification_id": "bus_uncovered",
+        "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/RoadUnCoverage/Bus/City/Taipei/TownCode/63000090?%24format=GEOJSON",
+        "path_values": {
+          "City": "Taipei",
+          "TownCode": "63000090"
+        },
+        "query_parameters": {
+          "$format": "GEOJSON"
+        },
+        "label": "Taipei_63000090_bus_uncovered",
+        "sample_only": false,
+        "documented_top_default": null,
+        "request_limit": 30,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_63000090_transit_inaccessible": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/3b31f053-e920-4dc7-80f2-fefc4650a2d9",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000090?%24format=GEOJSON",
+      "raw_file": "raw_data/tdx/responses/Taipei_63000090_transit_inaccessible.json",
+      "downloaded_at": "2026-10-21T23:57:14+08:00",
+      "source_updated_at": null,
+      "bytes": 7735,
+      "content_type": "application/geo+json",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-remaining-minute": "4",
+        "x-ratelimit-limit-minute": "5"
+      },
+      "request": {
+        "family": "accessibility",
+        "specification_id": "transit_inaccessible",
+        "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000090?%24format=GEOJSON",
+        "path_values": {
+          "City": "Taipei",
+          "TownCode": "63000090"
+        },
+        "query_parameters": {
+          "$format": "GEOJSON"
+        },
+        "label": "Taipei_63000090_transit_inaccessible",
+        "sample_only": false,
+        "documented_top_default": null,
+        "request_limit": 30,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_63000100_bus_uncovered": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/366e56ed-55c8-4297-8ba6-4b7acb7e1d32",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/RoadUnCoverage/Bus/City/Taipei/TownCode/63000100?%24format=GEOJSON",
+      "raw_file": "raw_data/tdx/responses/Taipei_63000100_bus_uncovered.json",
+      "downloaded_at": "2026-10-21T23:57:16+08:00",
+      "source_updated_at": null,
+      "bytes": 73658,
+      "content_type": "application/geo+json",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-limit-minute": "5",
+        "x-ratelimit-remaining-minute": "3"
+      },
+      "request": {
+        "family": "accessibility",
+        "specification_id": "bus_uncovered",
+        "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/RoadUnCoverage/Bus/City/Taipei/TownCode/63000100?%24format=GEOJSON",
+        "path_values": {
+          "City": "Taipei",
+          "TownCode": "63000100"
+        },
+        "query_parameters": {
+          "$format": "GEOJSON"
+        },
+        "label": "Taipei_63000100_bus_uncovered",
+        "sample_only": false,
+        "documented_top_default": null,
+        "request_limit": 30,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_63000100_transit_inaccessible": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/3b31f053-e920-4dc7-80f2-fefc4650a2d9",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000100?%24format=GEOJSON",
+      "raw_file": "raw_data/tdx/responses/Taipei_63000100_transit_inaccessible.json",
+      "downloaded_at": "2026-10-21T23:57:42+08:00",
+      "source_updated_at": null,
+      "bytes": 9595,
+      "content_type": "application/geo+json",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-remaining-minute": "2",
+        "x-ratelimit-limit-minute": "5"
+      },
+      "request": {
+        "family": "accessibility",
+        "specification_id": "transit_inaccessible",
+        "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000100?%24format=GEOJSON",
+        "path_values": {
+          "City": "Taipei",
+          "TownCode": "63000100"
+        },
+        "query_parameters": {
+          "$format": "GEOJSON"
+        },
+        "label": "Taipei_63000100_transit_inaccessible",
+        "sample_only": false,
+        "documented_top_default": null,
+        "request_limit": 30,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_63000110_bus_uncovered": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/366e56ed-55c8-4297-8ba6-4b7acb7e1d32",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/RoadUnCoverage/Bus/City/Taipei/TownCode/63000110?%24format=GEOJSON",
+      "raw_file": "raw_data/tdx/responses/Taipei_63000110_bus_uncovered.json",
+      "downloaded_at": "2026-10-21T23:57:42+08:00",
+      "source_updated_at": null,
+      "bytes": 151494,
+      "content_type": "application/geo+json",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-remaining-minute": "1",
+        "x-ratelimit-limit-minute": "5"
+      },
+      "request": {
+        "family": "accessibility",
+        "specification_id": "bus_uncovered",
+        "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/RoadUnCoverage/Bus/City/Taipei/TownCode/63000110?%24format=GEOJSON",
+        "path_values": {
+          "City": "Taipei",
+          "TownCode": "63000110"
+        },
+        "query_parameters": {
+          "$format": "GEOJSON"
+        },
+        "label": "Taipei_63000110_bus_uncovered",
+        "sample_only": false,
+        "documented_top_default": null,
+        "request_limit": 30,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_63000110_transit_inaccessible": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/3b31f053-e920-4dc7-80f2-fefc4650a2d9",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000110?%24format=GEOJSON",
+      "raw_file": "raw_data/tdx/responses/Taipei_63000110_transit_inaccessible.json",
+      "downloaded_at": "2026-10-21T23:58:11+08:00",
+      "source_updated_at": null,
+      "bytes": 5968,
+      "content_type": "application/geo+json",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-limit-minute": "5",
+        "x-ratelimit-remaining-minute": "0"
+      },
+      "request": {
+        "family": "accessibility",
+        "specification_id": "transit_inaccessible",
+        "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000110?%24format=GEOJSON",
+        "path_values": {
+          "City": "Taipei",
+          "TownCode": "63000110"
+        },
+        "query_parameters": {
+          "$format": "GEOJSON"
+        },
+        "label": "Taipei_63000110_transit_inaccessible",
+        "sample_only": false,
+        "documented_top_default": null,
+        "request_limit": 30,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_63000120_bus_uncovered": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/366e56ed-55c8-4297-8ba6-4b7acb7e1d32",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/RoadUnCoverage/Bus/City/Taipei/TownCode/63000120?%24format=GEOJSON",
+      "raw_file": "raw_data/tdx/responses/Taipei_63000120_bus_uncovered.json",
+      "downloaded_at": "2026-10-21T23:58:11+08:00",
+      "source_updated_at": null,
+      "bytes": 273788,
+      "content_type": "application/geo+json",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-limit-minute": "5",
+        "x-ratelimit-remaining-minute": "4"
+      },
+      "request": {
+        "family": "accessibility",
+        "specification_id": "bus_uncovered",
+        "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/RoadUnCoverage/Bus/City/Taipei/TownCode/63000120?%24format=GEOJSON",
+        "path_values": {
+          "City": "Taipei",
+          "TownCode": "63000120"
+        },
+        "query_parameters": {
+          "$format": "GEOJSON"
+        },
+        "label": "Taipei_63000120_bus_uncovered",
+        "sample_only": false,
+        "documented_top_default": null,
+        "request_limit": 30,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    },
+    "business_Taipei_63000120_transit_inaccessible": {
+      "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/3b31f053-e920-4dc7-80f2-fefc4650a2d9",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000120?%24format=GEOJSON",
+      "raw_file": "raw_data/tdx/responses/Taipei_63000120_transit_inaccessible.json",
+      "downloaded_at": "2026-10-21T23:58:37+08:00",
+      "source_updated_at": null,
+      "bytes": 8135,
+      "content_type": "application/geo+json",
+      "evidence_type": "business_api_response",
+      "http_status": 200,
+      "usage_headers": {
+        "x-ratelimit-limit-minute": "5",
+        "x-ratelimit-remaining-minute": "3"
+      },
+      "request": {
+        "family": "accessibility",
+        "specification_id": "transit_inaccessible",
+        "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000120?%24format=GEOJSON",
+        "path_values": {
+          "City": "Taipei",
+          "TownCode": "63000120"
+        },
+        "query_parameters": {
+          "$format": "GEOJSON"
+        },
+        "label": "Taipei_63000120_transit_inaccessible",
+        "sample_only": false,
+        "documented_top_default": null,
+        "request_limit": 30,
+        "max_response_bytes": 2097152
+      },
+      "parsed": true
+    }
+  },
+  "failures": {
+    "Taipei_2026-10-20_Stop_top_100000": {
+      "request": {
+        "family": "historical",
+        "specification_id": "historical",
+        "request_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/Stop/Date/2026-10-20/City/Taipei?%24format=JSON&%24top=100000",
+        "path_values": {
+          "City": "Taipei",
+          "Date": "2026-10-20"
+        },
+        "query_parameters": {
+          "$format": "JSON",
+          "$top": 100000
+        },
+        "label": "Taipei_2026-10-20_Stop",
+        "sample_only": false,
+        "documented_top_default": 30,
+        "request_limit": 20,
+        "max_response_bytes": 5242880
+      },
+      "checked_at": "2026-10-21T23:49:08+08:00",
+      "reason": "response_exceeds_local_size_limit_reference_only",
+      "max_response_bytes": 5242880,
+      "partial_file_retained": false
+    },
+    "Taipei_2026-10-20_Station_top_100000": {
+      "request": {
+        "family": "historical",
+        "specification_id": "historical",
+        "request_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/Station/Date/2026-10-20/City/Taipei?%24format=JSON&%24top=100000",
+        "path_values": {
+          "City": "Taipei",
+          "Date": "2026-10-20"
+        },
+        "query_parameters": {
+          "$format": "JSON",
+          "$top": 100000
+        },
+        "label": "Taipei_2026-10-20_Station",
+        "sample_only": false,
+        "documented_top_default": 30,
+        "request_limit": 20,
+        "max_response_bytes": 5242880
+      },
+      "checked_at": "2026-10-21T23:49:21+08:00",
+      "reason": "response_exceeds_local_size_limit_reference_only",
+      "max_response_bytes": 4194304,
+      "partial_file_retained": false
+    },
+    "Taipei_2026-10-20_StopOfRoute_sample_30": {
+      "request": {
+        "family": "historical",
+        "specification_id": "historical",
+        "request_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/StopOfRoute/Date/2026-10-20/City/Taipei?%24format=JSON&%24top=30",
+        "path_values": {
+          "City": "Taipei",
+          "Date": "2026-10-20"
+        },
+        "query_parameters": {
+          "$format": "JSON",
+          "$top": 30
+        },
+        "label": "Taipei_2026-10-20_StopOfRoute",
+        "sample_only": true,
+        "documented_top_default": 30,
+        "request_limit": 20,
+        "max_response_bytes": 2097152
+      },
+      "checked_at": "2026-10-21T23:50:36+08:00",
+      "http_status": 500,
+      "reason": "provider_http_error",
+      "response_body_saved": false
+    },
+    "Taipei_Schedule_307": {
+      "request": {
+        "family": "travel_time_distance",
+        "specification_id": "travel_time",
+        "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/Schedule/City/Taipei/RouteName/307?%24format=JSON",
+        "path_values": {
+          "City": "Taipei",
+          "RouteName": "307"
+        },
+        "query_parameters": {
+          "$format": "JSON"
+        },
+        "label": "Taipei_Schedule_307",
+        "sample_only": false,
+        "documented_top_default": null,
+        "request_limit": 20,
+        "max_response_bytes": 8388608
+      },
+      "checked_at": "2026-10-21T23:52:05+08:00",
+      "reason": "response_exceeds_local_size_limit_reference_only",
+      "max_response_bytes": 8388608,
+      "partial_file_retained": false
+    },
+    "Taipei_2026-10-19_StopOfRoute_sample_30": {
+      "request": {
+        "family": "historical",
+        "specification_id": "historical",
+        "request_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/StopOfRoute/Date/2026-10-19/City/Taipei?%24format=JSON&%24top=30",
+        "path_values": {
+          "City": "Taipei",
+          "Date": "2026-10-19"
+        },
+        "query_parameters": {
+          "$format": "JSON",
+          "$top": 30
+        },
+        "label": "Taipei_2026-10-19_StopOfRoute",
+        "sample_only": true,
+        "documented_top_default": 30,
+        "request_limit": 2,
+        "max_response_bytes": 2097152
+      },
+      "checked_at": "2026-10-21T23:58:50+08:00",
+      "http_status": 500,
+      "reason": "provider_http_error",
+      "response_body_saved": false
+    }
+  }
+}

@@ -1,0 +1,1801 @@
+{
+  "schema_version": 1,
+  "dataset_id": "taipei_bus_analysis_collection",
+  "metadata": {
+    "scope": {
+      "focus": "臺北市公車路網評估",
+      "monthly_series": "2023-10 至 2026-09；以實際已發布期間為準",
+      "metro_series": "2025-10 至 2026-09，僅各站分時進出量，非完整 OD",
+      "annual_series": "2023 至 2025 完整年",
+      "static_data": "採目前官方可取得版本，保留實際版本日期",
+      "cross_boundary_services": "保留臺北主管來源的跨市路線與捷運旅次；未以站名猜測行政區裁切"
+    },
+    "record_count": 46,
+    "pending_source_groups": [],
+    "preferred_current_bus_data": "data/taipei_feeds/",
+    "legacy_stop_map": "data/bus_stops.geojson 是 2021 年舊圖資，現行站牌請用 data/taipei_feeds/stops.geojson",
+    "missing_data": [
+      "完整公車逐站分時上下車量與乘客 OD",
+      "個別駕駛勤務",
+      "每車核定載客容量",
+      "可供公車使用的場站即時容量"
+    ],
+    "note": "各資料粒度不同，不可將本目錄的筆數相加當成同一統計量；限制及單位以各檔 metadata 為準。"
+  },
+  "records": [
+    {
+      "dataset_id": "taipei_route_branches",
+      "group": "taipei_feeds",
+      "group_title": "現行公車路網、班表、車輛與快照",
+      "status": "normalized_with_documented_source_limitations",
+      "period": "2026-10-21T23:03:04+08:00",
+      "outputs": [
+        {
+          "path": "data/taipei_feeds/route_branches.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/bus_feeds_review.json",
+            "record_count": 773
+          },
+          "record_count": 773
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "主路線 ID 會因分支與業者重複，不可把此表每列視為獨立主路線。",
+        "尖離峰 Headway 顯示字串未解為最短/最長班距；詳用 headway_schedules 與文字註記。",
+        "核定總班次不是實際行駛班次，沒有明示適用日，不能跨分支列加總。"
+      ],
+      "source_delivery": "raw_data/taipei_feeds/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_routes",
+      "group": "taipei_feeds",
+      "group_title": "現行公車路網、班表、車輛與快照",
+      "status": "normalized_with_documented_source_limitations",
+      "period": "2026-10-21T23:03:04+08:00",
+      "outputs": [
+        {
+          "path": "data/taipei_feeds/routes.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/bus_feeds_review.json",
+            "record_count": 416
+          },
+          "record_count": 416
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "由 GetRoute 同一主路線 ID 彙整識別碼集合；未平均或加總各分支的里程與班次。"
+      ],
+      "source_delivery": "raw_data/taipei_feeds/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_current_stops",
+      "group": "taipei_feeds",
+      "group_title": "現行公車路網、班表、車輛與快照",
+      "status": "normalized_with_documented_source_limitations",
+      "period": "2026-10-21T22:03:04+08:00",
+      "outputs": [
+        {
+          "path": "data/taipei_feeds/stops.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/bus_feeds_review.json",
+            "record_count": 28826
+          },
+          "record_count": 28826
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "路線站牌筆數不等於實體站位數；用 stop_location_id 連結地理站位。",
+        "來源 vector 常見 999 超出官方 0–359 定義；正規化為 null，保留來源值。"
+      ],
+      "source_delivery": "raw_data/taipei_feeds/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_stop_locations",
+      "group": "taipei_feeds",
+      "group_title": "現行公車路網、班表、車輛與快照",
+      "status": "normalized_with_documented_source_limitations",
+      "period": "2026-10-21T22:03:04+08:00",
+      "outputs": [
+        {
+          "path": "data/taipei_feeds/stop_locations.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/bus_feeds_review.json",
+            "record_count": 5376
+          },
+          "record_count": 5376
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "對向或鄰近站位不因名稱相同而合併。"
+      ],
+      "source_delivery": "raw_data/taipei_feeds/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_subroute_stop_sequences",
+      "group": "taipei_feeds",
+      "group_title": "現行公車路網、班表、車輛與快照",
+      "status": "normalized_with_documented_source_limitations",
+      "period": "2026-10-21T22:03:04+08:00",
+      "outputs": [
+        {
+          "path": "data/taipei_feeds/route_stop_sequences.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/bus_feeds_review.json",
+            "record_count": 43447
+          },
+          "record_count": 43447
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "分支站序用 PathAttributeId 與 SequenceNo；方向與主路線只透過 stop_id 精確連接 GetStop，不以名稱猜測。",
+        "Stop Type 1 出現在資料但 V6.3 只定義 0/CPT；保留並標示未知。"
+      ],
+      "source_delivery": "raw_data/taipei_feeds/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_bus_shapes",
+      "group": "taipei_feeds",
+      "group_title": "現行公車路網、班表、車輛與快照",
+      "status": "normalized_with_documented_source_limitations",
+      "period": {
+        "min": "2023-06-14T16:18:20+08:00",
+        "max": "2026-10-15T16:11:19+08:00"
+      },
+      "outputs": [
+        {
+          "path": "data/taipei_feeds/route_shapes.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/bus_feeds_review.json",
+            "record_count": 1028
+          },
+          "record_count": 1028
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "SubRouteID=-1 依官方規格表示主路線，轉為 subroute_id=null 與 shape_scope=main_route，保留 source_subroute_id。",
+        "線形沒有運量；每筆 utime 為該線形更新時間，未用 HTTP Last-Modified 代替。"
+      ],
+      "source_delivery": "raw_data/taipei_feeds/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_fixed_schedules",
+      "group": "taipei_feeds",
+      "group_title": "現行公車路網、班表、車輛與快照",
+      "status": "normalized_with_documented_source_limitations",
+      "period": "2026-10-21T22:03:04+08:00",
+      "outputs": [
+        {
+          "path": "data/taipei_feeds/fixed_schedules.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/bus_feeds_review.json",
+            "record_count": 35465
+          },
+          "record_count": 35465
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "這是計畫供給，沒有個別駕駛勤務，亦非實際發車紀錄。",
+        "TimeTable 規格定義 DateValue=1 為週日、2 為週一、7 為週六；ISO weekday 由此換算。",
+        "缺少生效起迄日期，不得假設適用所有歷史日期。"
+      ],
+      "source_delivery": "raw_data/taipei_feeds/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_headway_schedules",
+      "group": "taipei_feeds",
+      "group_title": "現行公車路網、班表、車輛與快照",
+      "status": "normalized_with_documented_source_limitations",
+      "period": "2026-10-21T22:03:04+08:00",
+      "outputs": [
+        {
+          "path": "data/taipei_feeds/headway_schedules.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/bus_feeds_review.json",
+            "record_count": 3280
+          },
+          "record_count": 3280
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "這是計畫供給，沒有個別駕駛勤務，亦非實際發車紀錄。",
+        "TimeTable 規格定義 DateValue=1 為週日、2 為週一、7 為週六；ISO weekday 由此換算。",
+        "缺少生效起迄日期，不得假設適用所有歷史日期。",
+        "LongHeadway/LowHeadway 依原欄名保存分鐘數。文件分別標為高/低，但多數來源 LongHeadway 小於 LowHeadway；未擅自交換或定義最短/最長。",
+        "SemiTimeTable 的 DateType/DateValue 與固定班表同一日曆代碼慣例；官方該節未重複列出星期順序，ISO weekday 採 TimeTable 定義。"
+      ],
+      "source_delivery": "raw_data/taipei_feeds/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_special_schedules",
+      "group": "taipei_feeds",
+      "group_title": "現行公車路網、班表、車輛與快照",
+      "status": "normalized_with_documented_source_limitations",
+      "period": {
+        "start": "2026-10-21",
+        "end": "2026-10-23"
+      },
+      "outputs": [
+        {
+          "path": "data/taipei_feeds/special_schedules.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/bus_feeds_review.json",
+            "record_count": 5231
+          },
+          "record_count": 5231
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "上游本次只有發車站等列出的停靠資料，不能假設為完整站站班表。",
+        "direction 字串 null 正規化為真正 null，不猜測方向。",
+        "班次沒有 TripID 時保留 null；source_timetable_index 只是原始陣列定位，不是官方班次代碼。"
+      ],
+      "source_delivery": "raw_data/taipei_feeds/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_vehicle_positions",
+      "group": "taipei_feeds",
+      "group_title": "現行公車路網、班表、車輛與快照",
+      "status": "normalized_with_documented_source_limitations",
+      "period": {
+        "min": "2026-10-21T23:21:40+08:00",
+        "max": "2026-10-21T23:31:36+08:00"
+      },
+      "outputs": [
+        {
+          "path": "data/taipei_feeds/vehicle_positions.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/bus_feeds_review.json",
+            "record_count": 652
+          },
+          "record_count": 652
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "單次快照，不能用來聲稱已取得歷史 A1/A2 或全天班距。",
+        "RouteID 在此 feed 是附屬路線 ID，已命名為 subroute_id；StationID 是車輛所屬場站，不是公車站牌/站位。",
+        "來源 RouteID=0 不在路線主檔，正規化為未指派 null 並保留原碼；未知狀態碼保留原碼，label=null。"
+      ],
+      "source_delivery": "raw_data/taipei_feeds/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_stop_events",
+      "group": "taipei_feeds",
+      "group_title": "現行公車路網、班表、車輛與快照",
+      "status": "normalized_with_documented_source_limitations",
+      "period": {
+        "min": "2026-10-21T23:21:54+08:00",
+        "max": "2026-10-21T23:31:35+08:00"
+      },
+      "outputs": [
+        {
+          "path": "data/taipei_feeds/stop_events.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/bus_feeds_review.json",
+            "record_count": 482
+          },
+          "record_count": 482
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "單次快照，不能用來聲稱已取得歷史 A1/A2 或全天班距。",
+        "RouteID 在此 feed 是附屬路線 ID，已命名為 subroute_id；StationID 是車輛所屬場站，不是公車站牌/站位。",
+        "來源 RouteID=0 不在路線主檔，正規化為未指派 null 並保留原碼；未知狀態碼保留原碼，label=null。"
+      ],
+      "source_delivery": "raw_data/taipei_feeds/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_occupancy_events",
+      "group": "taipei_feeds",
+      "group_title": "現行公車路網、班表、車輛與快照",
+      "status": "normalized_with_documented_source_limitations",
+      "period": {
+        "min": "2026-10-21T23:21:54+08:00",
+        "max": "2026-10-21T23:31:35+08:00"
+      },
+      "outputs": [
+        {
+          "path": "data/taipei_feeds/occupancy_events.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/bus_feeds_review.json",
+            "record_count": 482
+          },
+          "record_count": 482
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "單次快照，不能用來聲稱已取得歷史 A1/A2 或全天班距。",
+        "RouteID 在此 feed 是附屬路線 ID，已命名為 subroute_id；StationID 是車輛所屬場站，不是公車站牌/站位。",
+        "來源 RouteID=0 不在路線主檔，正規化為未指派 null 並保留原碼；未知狀態碼保留原碼，label=null。",
+        "RemainingNum 為車上人數（onboard_people），不是剩餘座位；無法直接分解上下車量。",
+        "未提供 RemainingNum/Level 的列保留 null，不補成 0。"
+      ],
+      "source_delivery": "raw_data/taipei_feeds/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_estimated_arrivals",
+      "group": "taipei_feeds",
+      "group_title": "現行公車路網、班表、車輛與快照",
+      "status": "normalized_with_documented_source_limitations",
+      "period": "2026-10-21T23:31:35+08:00",
+      "outputs": [
+        {
+          "path": "data/taipei_feeds/estimated_arrivals.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/bus_feeds_review.json",
+            "record_count": 29429
+          },
+          "record_count": 29429
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "預測而非實際到站事件；負數是服務狀態，不是負等候秒數。",
+        "GoBack=2/3 是尚未發車/末班已駛離，不能誤當地理方向；direction_code 留 null。"
+      ],
+      "source_delivery": "raw_data/taipei_feeds/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_bus_vehicles",
+      "group": "taipei_feeds",
+      "group_title": "現行公車路網、班表、車輛與快照",
+      "status": "normalized_with_documented_source_limitations",
+      "period": "2026-10-21T01:15:14.100000+08:00",
+      "outputs": [
+        {
+          "path": "data/taipei_feeds/vehicles.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/bus_feeds_review.json",
+            "record_count": 4007
+          },
+          "record_count": 4007
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "來源無每車核定載客容量，無法由車型或低地板旗標推算容量。",
+        "車輛種類代碼 4 未在 V6.3 定義，保留原碼並標示，未猜測車種。"
+      ],
+      "source_delivery": "raw_data/taipei_feeds/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_subroute_depots",
+      "group": "taipei_feeds",
+      "group_title": "現行公車路網、班表、車輛與快照",
+      "status": "normalized_with_documented_source_limitations",
+      "period": "2026-10-21T22:03:04+08:00",
+      "outputs": [
+        {
+          "path": "data/taipei_feeds/subroute_depots.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/bus_feeds_review.json",
+            "record_count": 916
+          },
+          "record_count": 916
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+        "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+        "這只是營業站 ID 對照，無場站座標、休息設備或可用容量。",
+        "不能直接把有停車格或公廁的位置視為業者可調度待班的場站。"
+      ],
+      "source_delivery": "raw_data/taipei_feeds/delivery.json"
+    },
+    {
+      "dataset_id": "annual_route_efficiency",
+      "group": "pto_extended",
+      "group_title": "路線及公司營運、專用道與公車評鑑",
+      "status": "complete",
+      "period": "2025",
+      "outputs": [
+        {
+          "path": "data/pto_extended/route_annual.json",
+          "record_count": 364,
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "report": "data/quality/pto_review.json",
+            "record_count": 364
+          }
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "Annual names have no verified correspondence to API route_id; combined routes and special services occur.",
+        "Operated sections are not departures or vehicle trips.",
+        "The published distance details differ from the total; original numbers are retained."
+      ],
+      "source_delivery": "raw_data/pto_extended/delivery.json"
+    },
+    {
+      "dataset_id": "bus_lane_monthly_statistics",
+      "group": "pto_extended",
+      "group_title": "路線及公司營運、專用道與公車評鑑",
+      "status": "complete",
+      "period": "2025-01/2025-12 with annual totals",
+      "outputs": [
+        {
+          "path": "data/pto_extended/bus_lane_monthly.json",
+          "record_count": 182,
+          "independent_review": {
+            "status": "pass",
+            "report": "data/quality/pto_review.json",
+            "record_count": 182
+          }
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "Corridor passenger trips are not unique people; one trip may involve multiple corridors.",
+        "Operated sections are not departures."
+      ],
+      "source_delivery": "raw_data/pto_extended/delivery.json"
+    },
+    {
+      "dataset_id": "operator_monthly_statistics",
+      "group": "pto_extended",
+      "group_title": "路線及公司營運、專用道與公車評鑑",
+      "status": "complete_for_specified_pages",
+      "period": "2025-10, 2026-02, 2026-05, 2026-07; revisions retained",
+      "outputs": [
+        {
+          "path": "data/pto_extended/operator_monthly.json",
+          "record_count": 60,
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "report": "data/quality/pto_review.json",
+            "record_count": 60
+          }
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "Only documents on the two specified source pages are included; this is not an all-month time series.",
+        "Company totals cannot be allocated to individual routes.",
+        "Approved route counts cannot be summed because routes may be jointly operated."
+      ],
+      "source_delivery": "raw_data/pto_extended/delivery.json"
+    },
+    {
+      "dataset_id": "bus_assessment_station_facilities",
+      "group": "pto_extended",
+      "group_title": "路線及公司營運、專用道與公車評鑑",
+      "status": "complete_for_requested_topics",
+      "period": "2026 term 1; observation windows differ by indicator",
+      "outputs": [
+        {
+          "path": "data/pto_extended/assessment_operator_scores.json",
+          "record_count": 15,
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "report": "data/quality/pto_review.json",
+            "record_count": 15
+          }
+        },
+        {
+          "path": "data/pto_extended/assessment_station_checks.json",
+          "record_count": 116,
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "report": "data/quality/pto_review.json",
+            "record_count": 116
+          }
+        },
+        {
+          "path": "data/pto_extended/assessment_punctuality.json",
+          "record_count": 119,
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "report": "data/quality/pto_review.json",
+            "record_count": 119
+          }
+        },
+        {
+          "path": "data/pto_extended/assessment_tables.json",
+          "record_count": 20,
+          "independent_review": {
+            "status": "pass",
+            "report": "data/quality/pto_review.json",
+            "record_count": 20
+          }
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "Scores are historical assessment results, not real-time performance.",
+        "The 12-operator comparison excludes Tamsui, New Taipei and Royal due to small fleets.",
+        "Published rounded component scores may differ slightly from published totals; both are retained.",
+        "E3/E4 aggregate results are not arithmetic means of company scores.",
+        "The PDF does not identify inspectors; adjacent duplicate station/date columns are separate source observations and must not be deduplicated blindly.",
+        "Inspection dates are month/day only; inspection_date remains null and no year is invented.",
+        "Blank score cells remain null; the source contains a few scores above the printed weights and these are retained as source anomalies.",
+        "These are historical inspection scores, not beds, usable parking capacities, or driver duty records.",
+        "Sample survey results do not cover every trip or route.",
+        "When the source merges peak and off-peak columns, peak/off_peak values are null and original numbers are stored in unstratified fields; they are not classified as peak samples.",
+        "Blank cells in genuinely separate columns remain null, never zero.",
+        "Repeated names are distinct source rows; no API route_id has been assigned.",
+        "Company/route ratios follow the report method and need not equal ratios of pooled counts."
+      ],
+      "source_delivery": "raw_data/pto_extended/delivery.json"
+    },
+    {
+      "dataset_id": "metro_hourly_od",
+      "group": "metro",
+      "group_title": "捷運各站分時進出量與出口公車資訊",
+      "status": "normalized_station_flows_only",
+      "period": {
+        "start": "2025-10-01",
+        "end": "2026-09-30"
+      },
+      "outputs": [
+        {
+          "path": "data/metro/station_hourly_flows.json",
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "report": "data/quality/metro_review.json",
+            "record_count": 7670
+          },
+          "record_count": 7670
+        },
+        {
+          "path": "data/metro/source_references.json",
+          "independent_review": {
+            "status": "pass",
+            "report": "data/quality/metro_review.json",
+            "record_count": 12
+          },
+          "record_count": 12
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "本檔只有每日期×小時×站的進站及出站加總，並非完整OD；無法回推進出站配對人次。",
+        "保留捷運跨臺北／新北路網以支援臺北接駁分析，未按站名猜測行政界。",
+        "進站與出站來源名稱集合不對稱，分別使用entry_station_names與exit_station_names，未猜測跨字典的站ID對應。",
+        "站名保留G/O/BL等來源前綴，未逕自併站或對應公車站ID。捷運出站人次不等於公車轉乘人次。",
+        "零是來源觀測零；缺列、缺值、不在月份站名字典或跨檔衝突均為null。未出現日期／小時不補零。",
+        "來源跨月列依實際日期納入期間；跨檔同時段相同值去重，衝突值為null並保留候選。",
+        "大型原始CSV僅暫存供轉換與獨立巡檢，最後只保留清理資料及來源連結。"
+      ],
+      "source_delivery": "raw_data/metro/delivery.json"
+    },
+    {
+      "dataset_id": "metro_exit_bus_connections",
+      "group": "metro",
+      "group_title": "捷運各站分時進出量與出口公車資訊",
+      "status": "normalized_with_unmatched_route_identifiers",
+      "period": {
+        "source_updated_dates": [
+          "2026-08-30"
+        ]
+      },
+      "outputs": [
+        {
+          "path": "data/metro/exit_bus_connections.json",
+          "independent_review": {
+            "status": "pass_with_source_limitations",
+            "report": "data/quality/metro_review.json",
+            "record_count": 6931
+          },
+          "record_count": 6931
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "來源沒有RouteID、StopID或步行距離，未直接連結公車資料。",
+        "單連字號標籤拆為名稱及方向候選，仍需比對；多連字號標籤不猜測。",
+        "保留來源重複關係列及序號，筆數不是獨立路線數。"
+      ],
+      "source_delivery": "raw_data/metro/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_village_population_age_monthly",
+      "group": "population",
+      "group_title": "臺北市人口、年齡與統計區界",
+      "status": "normalized",
+      "period": {
+        "start": "2023-10",
+        "end": "2026-09",
+        "months": 36
+      },
+      "outputs": [
+        {
+          "path": "data/population/taipei_village_population_age_monthly.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/population_review.json",
+            "record_count": 50652
+          },
+          "record_count": 50652
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "戶籍人口不等於白天活動人口或公車搭乘需求。",
+        "全市、區、里是重疊的彙總層級；sex=total 與 male/female 亦不可相加。",
+        "區域代碼保留原值；未以名稱與其他資料的 ID 自動配對。",
+        "2024-12 統計區人口合計 2490646 人，民政局全市月人口 2490869 人，相差 -223 人。兩個官方來源皆保留原數值；差異原因尚未確認，不混用為同一基準。"
+      ],
+      "source_delivery": "raw_data/population/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_statistical_population_level1",
+      "group": "population",
+      "group_title": "臺北市人口、年齡與統計區界",
+      "status": "normalized",
+      "period": {
+        "start": "2024-12",
+        "end": "2024-12"
+      },
+      "outputs": [
+        {
+          "path": "data/population/taipei_statistical_population_level1.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/population_review.json",
+            "record_count": 7672
+          },
+          "record_count": 7672
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "發布區人口為戶籍人口，不代表乘車需求。",
+        "各發布層級是重疊彙總，三份資料不可加總。",
+        "官方此服務只回傳目前供應的資料期間；不以下載年份假冒統計年份。",
+        "2024-12 統計區人口合計 2490646 人，民政局全市月人口 2490869 人，相差 -223 人。兩個官方來源皆保留原數值；差異原因尚未確認，不混用為同一基準。"
+      ],
+      "source_delivery": "raw_data/population/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_statistical_population_base",
+      "group": "population",
+      "group_title": "臺北市人口、年齡與統計區界",
+      "status": "normalized",
+      "period": {
+        "start": "2024-12",
+        "end": "2024-12"
+      },
+      "outputs": [
+        {
+          "path": "data/population/taipei_statistical_population_base.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/population_review.json",
+            "record_count": 11490
+          },
+          "record_count": 11490
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "發布區人口為戶籍人口，不代表乘車需求。",
+        "各發布層級是重疊彙總，三份資料不可加總。",
+        "官方此服務只回傳目前供應的資料期間；不以下載年份假冒統計年份。",
+        "2024-12 統計區人口合計 2490646 人，民政局全市月人口 2490869 人，相差 -223 人。兩個官方來源皆保留原數值；差異原因尚未確認，不混用為同一基準。"
+      ],
+      "source_delivery": "raw_data/population/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_statistical_population_level2",
+      "group": "population",
+      "group_title": "臺北市人口、年齡與統計區界",
+      "status": "normalized",
+      "period": {
+        "start": "2024-12",
+        "end": "2024-12"
+      },
+      "outputs": [
+        {
+          "path": "data/population/taipei_statistical_population_level2.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/population_review.json",
+            "record_count": 907
+          },
+          "record_count": 907
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "發布區人口為戶籍人口，不代表乘車需求。",
+        "各發布層級是重疊彙總，三份資料不可加總。",
+        "官方此服務只回傳目前供應的資料期間；不以下載年份假冒統計年份。",
+        "2024-12 統計區人口合計 2490646 人，民政局全市月人口 2490869 人，相差 -223 人。兩個官方來源皆保留原數值；差異原因尚未確認，不混用為同一基準。"
+      ],
+      "source_delivery": "raw_data/population/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_statistical_area_boundaries",
+      "group": "population",
+      "group_title": "臺北市人口、年齡與統計區界",
+      "status": "normalized",
+      "period": null,
+      "outputs": [
+        {
+          "path": "data/population/taipei_statistical_area_boundaries.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/population_review.json",
+            "record_count": 11490
+          },
+          "record_count": 11490
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "邊界檔名標示 2015，不代表 2026 年行政里界。",
+        "統計區代碼與行政里代碼不同，不以名稱或碼前綴直接關聯。",
+        "統計區人口為 2024-12，邊界版本不同；即使 ID 全數相符，仍應在分析結果標示兩者的版本。"
+      ],
+      "source_delivery": "raw_data/population/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_bus_lanes",
+      "group": "urban",
+      "group_title": "臺北市專用道、停車、通行限制與公廁",
+      "status": "normalized",
+      "period": null,
+      "outputs": [
+        {
+          "path": "data/urban/bus_lanes.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/urban_review.json",
+            "record_count": 15
+          },
+          "record_count": 15
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "線形不代表運量。路段名稱與路廊統計尚未做未驗證關聯。"
+      ],
+      "source_delivery": "raw_data/urban/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_bus_restrictions",
+      "group": "urban",
+      "group_title": "臺北市專用道、停車、通行限制與公廁",
+      "status": "normalized",
+      "period": null,
+      "outputs": [
+        {
+          "path": "data/urban/bus_restrictions.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/urban_review.json",
+            "record_count": 27
+          },
+          "record_count": 27
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "來源只有道路文字，沒有線形或路網邊 ID；未自行地理編碼。",
+        "保留完整時段、車長及重量條件文字，不能直接當全年全天禁止所有公車。",
+        "來源項次有重複，record_id 為本快照列序識別，不是官方 ID。"
+      ],
+      "source_delivery": "raw_data/urban/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_public_toilets",
+      "group": "urban",
+      "group_title": "臺北市專用道、停車、通行限制與公廁",
+      "status": "normalized",
+      "period": null,
+      "outputs": [
+        {
+          "path": "data/urban/public_toilets.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/urban_review.json",
+            "record_count": 1537
+          },
+          "record_count": 1537
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "來源無官方公廁 ID；feature ID 只代表本快照列序。公廁存在不代表公車駕駛隨時可進入、停車或休息。",
+        "來源的座數和分級數可能不相等，保留原值；無障礙與親子欄位可能重疊，不相加推估總量。"
+      ],
+      "source_delivery": "raw_data/urban/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_parking_lots",
+      "group": "urban",
+      "group_title": "臺北市專用道、停車、通行限制與公廁",
+      "status": "normalized",
+      "period": "2026-10-21T23:25:00+08:00",
+      "outputs": [
+        {
+          "path": "data/urban/parking_lots.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/urban_review.json",
+            "record_count": 1771
+          },
+          "record_count": 1771
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "TOTALBUS 是大客車停車位；不表示准許市區公車調度、待班或過夜。",
+        "即時資料與靜態資料分開輸出；靜態提供車位不保證即時剩餘位有回報。",
+        "設施 code 未自行轉成布林；停車費應合併 rate_type_code、week_type_raw、時段與 charge_unit 解讀。"
+      ],
+      "source_delivery": "raw_data/urban/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_parking_availability",
+      "group": "urban",
+      "group_title": "臺北市專用道、停車、通行限制與公廁",
+      "status": "normalized",
+      "period": "2026-10-21T23:20:00+08:00",
+      "outputs": [
+        {
+          "path": "data/urban/parking_availability.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/urban_review.json",
+            "record_count": 1224
+          },
+          "record_count": 1224
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "單次剩餘位快照，不是歷史供給或可用場站容量。-9 為無此類車格，輸出 null 並保留狀態。",
+        "充電槍狀態不是大客車泊位資料，本整理未輸出；原 XML 完整保留。"
+      ],
+      "source_delivery": "raw_data/urban/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_bus_parking_lots",
+      "group": "urban",
+      "group_title": "臺北市專用道、停車、通行限制與公廁",
+      "status": "normalized",
+      "period": "2026-10-21T23:25:00+08:00",
+      "outputs": [
+        {
+          "path": "data/urban/bus_parking_lots.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/urban_review.json",
+            "record_count": 39
+          },
+          "record_count": 39
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "TOTALBUS 是大客車停車位；不表示准許市區公車調度、待班或過夜。",
+        "即時資料與靜態資料分開輸出；靜態提供車位不保證即時剩餘位有回報。",
+        "設施 code 未自行轉成布林；停車費應合併 rate_type_code、week_type_raw、時段與 charge_unit 解讀。",
+        "部分靜態TOTALBUS>0的場站在即時檔回報-9，存在來源間矛盾；保留null及原始狀態，不把它解讀為0個剩餘位或刪除靜態容量。"
+      ],
+      "source_delivery": "raw_data/urban/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_road_travel_times",
+      "group": "urban",
+      "group_title": "臺北市專用道、停車、通行限制與公廁",
+      "status": "source_empty_stale",
+      "period": "2024-12-18T17:40:39.003+08:00",
+      "outputs": [
+        {
+          "path": "data/urban/road_travel_times.json",
+          "independent_review": {
+            "status": "unavailable_source_verified",
+            "report": "data/quality/urban_review.json",
+            "record_count": 0
+          },
+          "record_count": 0
+        }
+      ],
+      "independent_review_status": "verified_source_unavailable",
+      "limitations": [
+        "指定 data.gov.tw/135753 descriptor 指向 ETagPairLive.xml；不是經核對的 TMC 路段碼資料。",
+        "XML observations 為空；保留空集合不代表0秒、無壅塞或無車流。",
+        "來源 body UpdateTime 為2024-12-18，HTTP Last-Modified與下載日期不代表實際觀測日期。",
+        "道路旅行時間不能當成包含停站的公車旅行時間。"
+      ],
+      "source_delivery": "raw_data/urban/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_curb_large_vehicle_spaces",
+      "group": "urban",
+      "group_title": "臺北市專用道、停車、通行限制與公廁",
+      "status": "normalized",
+      "period": null,
+      "outputs": [
+        {
+          "path": "data/urban/curb_large_vehicle_spaces.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/urban_review.json",
+            "record_count": 633
+          },
+          "record_count": 633
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "06 為大型車，並未限定全部為大客車；23 為大客車與小型車共用，不能視為大客車專用泊位。",
+        "停車格位不代表已允許公車待班或駕駛休憩。來源可能含刪除/異動註記，未自行剔除。",
+        "網站資源更新時間不是圖層實際更新時間；source_data_time 留 null；zip member名日期僅作檔名證據。",
+        "來源存在網頁代碼表之外的代碼；保留原碼而不自行解讀。streetview系列保留來源數值，語意/單位未核實。"
+      ],
+      "source_delivery": "raw_data/urban/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_curb_parking_type_counts",
+      "group": "urban",
+      "group_title": "臺北市專用道、停車、通行限制與公廁",
+      "status": "normalized",
+      "period": null,
+      "outputs": [
+        {
+          "path": "data/urban/curb_parking_type_counts.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/urban_review.json",
+            "record_count": 30
+          },
+          "record_count": 30
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "06 為大型車，並未限定全部為大客車；23 為大客車與小型車共用，不能視為大客車專用泊位。",
+        "停車格位不代表已允許公車待班或駕駛休憩。來源可能含刪除/異動註記，未自行剔除。",
+        "網站資源更新時間不是圖層實際更新時間；source_data_time 留 null；zip member名日期僅作檔名證據。",
+        "來源存在網頁代碼表之外的代碼；保留原碼而不自行解讀。streetview系列保留來源數值，語意/單位未核實。"
+      ],
+      "source_delivery": "raw_data/urban/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_commercial_short_stops",
+      "group": "urban",
+      "group_title": "臺北市專用道、停車、通行限制與公廁",
+      "status": "normalized",
+      "period": null,
+      "outputs": [
+        {
+          "path": "data/urban/commercial_short_stops.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/urban_review.json",
+            "record_count": 223
+          },
+          "record_count": 223
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "本附屬清單是營業用共用臨停區，未證實所有格位均可供大型公車使用。"
+      ],
+      "source_delivery": "raw_data/urban/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_annual",
+      "group": "background",
+      "group_title": "臺北市客運統計與運具使用調查",
+      "status": "normalized",
+      "period": {
+        "start": "2023",
+        "end": "2025"
+      },
+      "outputs": [
+        {
+          "path": "data/background/taipei_annual.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/background_review.json",
+            "record_count": 3
+          },
+          "record_count": 3
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "全市或全國彙總資料，不能直接分配至個別公車路線；原始明確數值0保留，空白及缺值符號轉null。",
+        "年度來源行駛次數單位為段次，月度來源每車每日次數單位為次；兩者未視為相同指標。",
+        "歷年路線定義或統計範圍可能改變，未以時間序列變化推斷服務變化原因。",
+        "依本次使用者範圍保留臺北近三年；來源完整時間序列僅存raw_data。",
+        "年度資料保留2023–2025完整年，2023全年不可當作2023/10以後的三個月；2026全年尚未發布。"
+      ],
+      "source_delivery": "raw_data/background/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_monthly",
+      "group": "background",
+      "group_title": "臺北市客運統計與運具使用調查",
+      "status": "normalized",
+      "period": {
+        "start": "2023-10",
+        "end": "2026-07"
+      },
+      "outputs": [
+        {
+          "path": "data/background/taipei_monthly.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/background_review.json",
+            "record_count": 34
+          },
+          "record_count": 34
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "全市或全國彙總資料，不能直接分配至個別公車路線；原始明確數值0保留，空白及缺值符號轉null。",
+        "年度來源行駛次數單位為段次，月度來源每車每日次數單位為次；兩者未視為相同指標。",
+        "歷年路線定義或統計範圍可能改變，未以時間序列變化推斷服務變化原因。",
+        "依本次使用者範圍保留臺北近三年；來源完整時間序列僅存raw_data。",
+        "來源最新至2026/07；2026/08–09未取得，不補零。"
+      ],
+      "source_delivery": "raw_data/background/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_mode_survey_2024",
+      "group": "background",
+      "group_title": "臺北市客運統計與運具使用調查",
+      "status": "normalized",
+      "period": {
+        "start": "2024",
+        "end": "2024"
+      },
+      "outputs": [
+        {
+          "path": "data/background/taipei_mode_survey_2024.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/background_review.json",
+            "record_count": 195
+          },
+          "record_count": 195
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "平日市話及手機抽樣調查彙總，並非逐站刷卡、乘客OD或公車轉乘實績。",
+        "各表分別以人、旅次、運具次數或旅次主運具為分母；使用table_id及欄位字典區分，不合併分母。",
+        "樣本數保留XLSX中的加權小數，並非未加權受訪人數；數值使用儲存的計算結果，不自行重算公式。",
+        "原始母表另含2009–2024比較年份；本次data只取2024資料，其他年度僅保留在raw來源。",
+        "XLSX部分合併儲存格保留非左上角舊文字；依合併範圍只採左上角顯示值。附表11 PDF第28頁已核對汽車客運欄名。",
+        "原始數字0保留為0（PDF可能以破折號顯示零），原始空白與文字缺值標記轉null。"
+      ],
+      "source_delivery": "raw_data/background/delivery.json"
+    },
+    {
+      "dataset_id": "national_highway_monthly",
+      "group": "background",
+      "group_title": "臺北市客運統計與運具使用調查",
+      "status": "deferred_by_user_scope",
+      "period": null,
+      "outputs": [],
+      "independent_review_status": "not_applicable_no_observations_delivered",
+      "limitations": [
+        "使用者要求先專注臺北市近三年，因此非臺北或較舊背景資料暫不列入active data。僅保留raw_data/background/references.json的官方來源連結與必要期間說明。"
+      ],
+      "source_delivery": "raw_data/background/delivery.json",
+      "reference_url": "https://data.gov.tw/dataset/30394",
+      "reference_file": "raw_data/background/references.json"
+    },
+    {
+      "dataset_id": "vehicle_cost",
+      "group": "background",
+      "group_title": "臺北市客運統計與運具使用調查",
+      "status": "deferred_by_user_scope",
+      "period": null,
+      "outputs": [],
+      "independent_review_status": "not_applicable_no_observations_delivered",
+      "limitations": [
+        "使用者要求先專注臺北市近三年，因此非臺北或較舊背景資料暫不列入active data。僅保留raw_data/background/references.json的官方來源連結與必要期間說明。"
+      ],
+      "source_delivery": "raw_data/background/delivery.json",
+      "reference_url": "https://data.gov.tw/dataset/135318",
+      "reference_file": "raw_data/background/references.json"
+    },
+    {
+      "dataset_id": "operator_violations",
+      "group": "background",
+      "group_title": "臺北市客運統計與運具使用調查",
+      "status": "deferred_by_user_scope",
+      "period": null,
+      "outputs": [],
+      "independent_review_status": "not_applicable_no_observations_delivered",
+      "limitations": [
+        "使用者要求先專注臺北市近三年，因此非臺北或較舊背景資料暫不列入active data。僅保留raw_data/background/references.json的官方來源連結與必要期間說明。"
+      ],
+      "source_delivery": "raw_data/background/delivery.json",
+      "reference_url": "https://www.thb.gov.tw/BusinessCoach_Content.aspx?n=308&s=886&type=1",
+      "reference_file": "raw_data/background/references.json"
+    },
+    {
+      "dataset_id": "tdx_historical",
+      "group": "tdx",
+      "group_title": "TDX 歷史與加值服務",
+      "status": "sample_and_reference",
+      "period": [
+        "2026-10-20"
+      ],
+      "outputs": [
+        {
+          "path": "data/tdx/observations/Taipei_2026-10-20_RealTimeByFrequency_sample_30.json",
+          "independent_review": {
+            "status": "pass_as_sample_only",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 30
+          },
+          "record_count": 30
+        },
+        {
+          "path": "data/tdx/observations/Taipei_2026-10-20_RealTimeNearStop_sample_30.json",
+          "independent_review": {
+            "status": "pass_as_sample_only",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 30
+          },
+          "record_count": 30
+        },
+        {
+          "path": "data/tdx/observations/Taipei_2026-10-20_Route_top_100000.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 416
+          },
+          "record_count": 416
+        },
+        {
+          "path": "data/tdx/observations/Taipei_2026-10-20_Stop_sample_30.json",
+          "independent_review": {
+            "status": "pass_as_sample_only",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 30
+          },
+          "record_count": 30
+        },
+        {
+          "path": "data/tdx/observations/Taipei_2026-10-20_Station_sample_30.json",
+          "independent_review": {
+            "status": "pass_as_sample_only",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 30
+          },
+          "record_count": 30
+        },
+        {
+          "path": "data/tdx/observations/Taipei_2026-10-20_Shape_sample_30.geojson",
+          "independent_review": {
+            "status": "pass_as_sample_only",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 30
+          },
+          "record_count": 30
+        },
+        {
+          "path": "data/tdx/observations/Taipei_2026-10-20_Schedule_sample_30.json",
+          "independent_review": {
+            "status": "pass_as_sample_only",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 30
+          },
+          "record_count": 30
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "近三年保留完整供應reference，實際歷史僅明列日期；$top樣本為前N筆，只供格式與串接驗證，非隨機或整日代表。"
+      ],
+      "source_delivery": "raw_data/tdx/delivery.json",
+      "reference_files": [
+        "data/tdx/reference_catalog.json",
+        "data/tdx/api_catalog.json",
+        "data/tdx/field_dictionary.json",
+        "data/tdx/historical_supply.json",
+        "data/tdx/availability/Taipei_2026-10-20_RealTimeByFrequency_meta.json",
+        "data/tdx/availability/Taipei_2026-10-20_RealTimeNearStop_meta.json"
+      ]
+    },
+    {
+      "dataset_id": "tdx_travel_time_distance",
+      "group": "tdx",
+      "group_title": "TDX 歷史與加值服務",
+      "status": "selected_route_and_reference",
+      "period": [
+        {
+          "requested_date": null,
+          "version_start": null,
+          "version_end": null,
+          "effective_dates": [
+            "2026-10-01"
+          ],
+          "expire_dates": [
+            "2026-10-31"
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "path": "data/tdx/observations/Taipei_S2STravelTime_307.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 2
+          },
+          "record_count": 2
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "僅下載307路線已成功取得的加值資料；416條路線保留完整取用reference，沒有全市加值覆蓋。"
+      ],
+      "source_delivery": "raw_data/tdx/delivery.json",
+      "reference_files": [
+        "data/tdx/reference_catalog.json",
+        "data/tdx/api_catalog.json",
+        "data/tdx/field_dictionary.json"
+      ]
+    },
+    {
+      "dataset_id": "tdx_accessibility",
+      "group": "tdx",
+      "group_title": "TDX 歷史與加值服務",
+      "status": "downloaded_requested_scope",
+      "period": [
+        {
+          "requested_date": null,
+          "version_start": null,
+          "version_end": null,
+          "source_update_dates": [
+            "2026-10-21"
+          ],
+          "source_info_dates": [
+            "2026-10-21"
+          ]
+        },
+        {
+          "requested_date": null,
+          "version_start": null,
+          "version_end": null,
+          "source_update_dates": [
+            "2026-09-01"
+          ]
+        },
+        {
+          "requested_date": null,
+          "version_start": null,
+          "version_end": null,
+          "source_update_dates": [
+            "2026-10-21"
+          ],
+          "source_info_dates": [
+            "2026-10-21"
+          ]
+        },
+        {
+          "requested_date": null,
+          "version_start": null,
+          "version_end": null,
+          "source_update_dates": [
+            "2026-09-01"
+          ]
+        },
+        {
+          "requested_date": null,
+          "version_start": null,
+          "version_end": null,
+          "source_update_dates": [
+            "2026-10-21"
+          ],
+          "source_info_dates": [
+            "2026-10-21"
+          ]
+        },
+        {
+          "requested_date": null,
+          "version_start": null,
+          "version_end": null,
+          "source_update_dates": [
+            "2026-09-01"
+          ]
+        },
+        {
+          "requested_date": null,
+          "version_start": null,
+          "version_end": null,
+          "source_update_dates": [
+            "2026-10-21"
+          ],
+          "source_info_dates": [
+            "2026-10-21"
+          ]
+        },
+        {
+          "requested_date": null,
+          "version_start": null,
+          "version_end": null,
+          "source_update_dates": [
+            "2026-09-01"
+          ]
+        },
+        {
+          "requested_date": null,
+          "version_start": null,
+          "version_end": null,
+          "source_update_dates": [
+            "2026-10-21"
+          ],
+          "source_info_dates": [
+            "2026-10-21"
+          ]
+        },
+        {
+          "requested_date": null,
+          "version_start": null,
+          "version_end": null,
+          "source_update_dates": [
+            "2026-09-01"
+          ]
+        },
+        {
+          "requested_date": null,
+          "version_start": null,
+          "version_end": null,
+          "source_update_dates": [
+            "2026-10-21"
+          ],
+          "source_info_dates": [
+            "2026-10-21"
+          ]
+        },
+        {
+          "requested_date": null,
+          "version_start": null,
+          "version_end": null,
+          "source_update_dates": [
+            "2026-09-01"
+          ]
+        },
+        {
+          "requested_date": null,
+          "version_start": null,
+          "version_end": null,
+          "source_update_dates": [
+            "2026-10-21"
+          ],
+          "source_info_dates": [
+            "2026-10-21"
+          ]
+        },
+        {
+          "requested_date": null,
+          "version_start": null,
+          "version_end": null,
+          "source_update_dates": [
+            "2026-09-01"
+          ]
+        },
+        {
+          "requested_date": null,
+          "version_start": null,
+          "version_end": null,
+          "source_update_dates": [
+            "2026-10-21"
+          ],
+          "source_info_dates": [
+            "2026-10-21"
+          ]
+        },
+        {
+          "requested_date": null,
+          "version_start": null,
+          "version_end": null,
+          "source_update_dates": [
+            "2026-09-01"
+          ]
+        },
+        {
+          "requested_date": null,
+          "version_start": null,
+          "version_end": null,
+          "source_update_dates": [
+            "2026-10-21"
+          ],
+          "source_info_dates": [
+            "2026-10-21"
+          ]
+        },
+        {
+          "requested_date": null,
+          "version_start": null,
+          "version_end": null,
+          "source_update_dates": [
+            "2026-09-01"
+          ]
+        },
+        {
+          "requested_date": null,
+          "version_start": null,
+          "version_end": null,
+          "source_update_dates": [
+            "2026-10-21"
+          ],
+          "source_info_dates": [
+            "2026-10-21"
+          ]
+        },
+        {
+          "requested_date": null,
+          "version_start": null,
+          "version_end": null,
+          "source_update_dates": [
+            "2026-09-01"
+          ]
+        },
+        {
+          "requested_date": null,
+          "version_start": null,
+          "version_end": null,
+          "source_update_dates": [
+            "2026-10-21"
+          ],
+          "source_info_dates": [
+            "2026-10-21"
+          ]
+        },
+        {
+          "requested_date": null,
+          "version_start": null,
+          "version_end": null,
+          "source_update_dates": [
+            "2026-09-01"
+          ]
+        },
+        {
+          "requested_date": null,
+          "version_start": null,
+          "version_end": null,
+          "source_update_dates": [
+            "2026-10-21"
+          ],
+          "source_info_dates": [
+            "2026-10-21"
+          ]
+        },
+        {
+          "requested_date": null,
+          "version_start": null,
+          "version_end": null,
+          "source_update_dates": [
+            "2026-09-01"
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "path": "data/tdx/observations/Taipei_63000010_bus_uncovered.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 3
+          },
+          "record_count": 3
+        },
+        {
+          "path": "data/tdx/observations/Taipei_63000010_transit_inaccessible.geojson",
+          "independent_review": {
+            "status": "pass_with_spatial_use_restriction",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 1
+          },
+          "record_count": 1
+        },
+        {
+          "path": "data/tdx/observations/Taipei_63000020_bus_uncovered.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 4
+          },
+          "record_count": 4
+        },
+        {
+          "path": "data/tdx/observations/Taipei_63000020_transit_inaccessible.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 1
+          },
+          "record_count": 1
+        },
+        {
+          "path": "data/tdx/observations/Taipei_63000030_bus_uncovered.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 4
+          },
+          "record_count": 4
+        },
+        {
+          "path": "data/tdx/observations/Taipei_63000030_transit_inaccessible.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 1
+          },
+          "record_count": 1
+        },
+        {
+          "path": "data/tdx/observations/Taipei_63000040_bus_uncovered.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 4
+          },
+          "record_count": 4
+        },
+        {
+          "path": "data/tdx/observations/Taipei_63000040_transit_inaccessible.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 1
+          },
+          "record_count": 1
+        },
+        {
+          "path": "data/tdx/observations/Taipei_63000050_bus_uncovered.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 4
+          },
+          "record_count": 4
+        },
+        {
+          "path": "data/tdx/observations/Taipei_63000050_transit_inaccessible.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 1
+          },
+          "record_count": 1
+        },
+        {
+          "path": "data/tdx/observations/Taipei_63000060_bus_uncovered.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 4
+          },
+          "record_count": 4
+        },
+        {
+          "path": "data/tdx/observations/Taipei_63000060_transit_inaccessible.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 1
+          },
+          "record_count": 1
+        },
+        {
+          "path": "data/tdx/observations/Taipei_63000070_bus_uncovered.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 4
+          },
+          "record_count": 4
+        },
+        {
+          "path": "data/tdx/observations/Taipei_63000070_transit_inaccessible.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 1
+          },
+          "record_count": 1
+        },
+        {
+          "path": "data/tdx/observations/Taipei_63000080_bus_uncovered.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 5
+          },
+          "record_count": 5
+        },
+        {
+          "path": "data/tdx/observations/Taipei_63000080_transit_inaccessible.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 1
+          },
+          "record_count": 1
+        },
+        {
+          "path": "data/tdx/observations/Taipei_63000090_bus_uncovered.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 4
+          },
+          "record_count": 4
+        },
+        {
+          "path": "data/tdx/observations/Taipei_63000090_transit_inaccessible.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 1
+          },
+          "record_count": 1
+        },
+        {
+          "path": "data/tdx/observations/Taipei_63000100_bus_uncovered.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 4
+          },
+          "record_count": 4
+        },
+        {
+          "path": "data/tdx/observations/Taipei_63000100_transit_inaccessible.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 1
+          },
+          "record_count": 1
+        },
+        {
+          "path": "data/tdx/observations/Taipei_63000110_bus_uncovered.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 6
+          },
+          "record_count": 6
+        },
+        {
+          "path": "data/tdx/observations/Taipei_63000110_transit_inaccessible.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 1
+          },
+          "record_count": 1
+        },
+        {
+          "path": "data/tdx/observations/Taipei_63000120_bus_uncovered.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 3
+          },
+          "record_count": 3
+        },
+        {
+          "path": "data/tdx/observations/Taipei_63000120_transit_inaccessible.geojson",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 1
+          },
+          "record_count": 1
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "已取得臺北12區的請求回應，但不代表幾何已完整落於各區。松山不可及Point超出松山參考邊界，須待來源釐清才可作區內分布圖；其他區只通過bbox篩檢。合理家戶數量不可直接當作可及戶數，也不可用兩戶數欄位差值推估不可及戶數。"
+      ],
+      "source_delivery": "raw_data/tdx/delivery.json",
+      "reference_files": [
+        "data/tdx/reference_catalog.json",
+        "data/tdx/api_catalog.json",
+        "data/tdx/field_dictionary.json"
+      ]
+    },
+    {
+      "dataset_id": "tdx_drts",
+      "group": "tdx",
+      "group_title": "TDX 歷史與加值服務",
+      "status": "downloaded_requested_scope",
+      "period": null,
+      "outputs": [
+        {
+          "path": "data/tdx/observations/Taipei_DRTS_Route_offset_0.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 12
+          },
+          "record_count": 12
+        },
+        {
+          "path": "data/tdx/observations/Taipei_DRTS_BookingRule_offset_0.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/tdx_review.json",
+            "record_count": 11
+          },
+          "record_count": 11
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "僅代表明列請求範圍與來源期間。"
+      ],
+      "source_delivery": "raw_data/tdx/delivery.json",
+      "reference_files": [
+        "data/tdx/reference_catalog.json",
+        "data/tdx/api_catalog.json",
+        "data/tdx/field_dictionary.json"
+      ]
+    }
+  ]
+}

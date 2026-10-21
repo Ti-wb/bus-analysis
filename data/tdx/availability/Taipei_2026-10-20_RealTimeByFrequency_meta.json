@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "dataset_id": "tdx_Taipei_2026-10-20_RealTimeByFrequency",
+  "metadata": {
+    "grain": "one service and requested date",
+    "units": {
+      "count": "records",
+      "size_bytes": "bytes"
+    },
+    "sources": [
+      {
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/historical/39472fde-f790-42b9-9c8b-88282118e6b1",
+        "download_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/RealTimeByFrequency/City/Taipei?Dates=2026-10-20&%24format=JSONL&Meta=true",
+        "raw_file": "raw_data/tdx/responses/Taipei_2026-10-20_RealTimeByFrequency_meta.json",
+        "downloaded_at": "2026-10-21T23:43:12+08:00",
+        "source_updated_at": null,
+        "bytes": 65,
+        "content_type": "text/ndjson; charset=utf-8",
+        "evidence_type": "api_availability_statistics",
+        "http_status": 249,
+        "usage_headers": {
+          "x-ratelimit-remaining-minute": "4",
+          "x-ratelimit-limit-minute": "5"
+        }
+      }
+    ],
+    "request": {
+      "family": "historical",
+      "specification_id": "historical",
+      "request_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/RealTimeByFrequency/City/Taipei?Dates=2026-10-20&%24format=JSONL&Meta=true",
+      "path_values": {
+        "City": "Taipei"
+      },
+      "query_parameters": {
+        "Dates": "2026-10-20",
+        "$format": "JSONL",
+        "Meta": "true"
+      },
+      "label": "Taipei_2026-10-20_RealTimeByFrequency",
+      "sample_only": false,
+      "documented_top_default": 30,
+      "request_limit": 20,
+      "max_response_bytes": 2097152
+    },
+    "source_updated_at": null,
+    "statistical_period": {
+      "requested_date": "2026-10-20",
+      "version_start": null,
+      "version_end": null
+    },
+    "response_metadata": {},
+    "record_count": 1,
+    "time_zone": "Asia/Taipei",
+    "time_zone_note": "Asia/Taipei identifies the requested civil day. Each source timestamp retains its own original UTC offset.",
+    "scope_status": "availability_statistics_only",
+    "limitations": [
+      "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+      "未知/缺漏不補零；狀態碼原值保留。"
+    ],
+    "field_dictionary": "data/tdx/field_dictionary.json"
+  },
+  "records": [
+    {
+      "dates": "2026-10-20",
+      "count": 6648792,
+      "size_bytes": 3176636931
+    }
+  ]
+}

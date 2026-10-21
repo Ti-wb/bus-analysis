@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "dataset_id": "collection_catalog_independent_review",
+  "metadata": {
+    "reviewer": "population agent, independently reviewing root integration",
+    "review_status": "passed",
+    "scope": "scripts/build_collection_catalog.py, data/catalog.json, docs/data-collection.md, README.md and AGENTS.md",
+    "limitations": [
+      "This review verifies integration and the published catalogue; per-source correctness is covered by the independently authored source review reports.",
+      "A passed review does not imply complete three-year observations. Source periods, samples, unavailable data and deferred scope remain explicit."
+    ]
+  },
+  "records": [
+    {
+      "file": "scripts/build_collection_catalog.py",
+      "status": "pass",
+      "findings": [],
+      "checks": [
+        "Producer delivery list and object schemas are supported.",
+        "Counts are computed per output; source status and period are preserved.",
+        "Reference, specification and availability files are merged without loss; source_delivery links to complete scope and gap information.",
+        "Local output/reference paths are validated, and review statuses distinguish unavailable sources and deferred observations."
+      ]
+    },
+    {
+      "file": "data/catalog.json",
+      "status": "pass",
+      "record_count": 46,
+      "findings": [],
+      "checks": [
+        "The saved catalogue equals a fresh build from current deliveries and review reports.",
+        "All 77 output counts match the referenced JSON/GeoJSON records or features.",
+        "All outputs, seven distinct reference files, delivery links, review links and 138 local metadata paths exist.",
+        "All output review statuses and counts match their independent review reports."
+      ],
+      "review_status_counts": {
+        "passed": 42,
+        "verified_source_unavailable": 1,
+        "not_applicable_no_observations_delivered": 3
+      },
+      "pending_source_groups": []
+    },
+    {
+      "file": "docs/data-collection.md",
+      "status": "pass",
+      "findings": [],
+      "checks": [
+        "Taipei latest-three-year scope and metro 2025-10 to 2026-09 station-hour inflow/outflow scope are explicit.",
+        "Separate metro station dictionaries, TDX sampling limits, partial periods and static boundary versions are described accurately.",
+        "All local document links exist."
+      ]
+    },
+    {
+      "file": "README.md",
+      "status": "pass",
+      "findings": [],
+      "checks": [
+        "Summary and links match the final collection, and each delivered source has an independent review."
+      ]
+    },
+    {
+      "file": "AGENTS.md",
+      "status": "pass",
+      "findings": [],
+      "checks": [
+        "Each dataset requires a reviewer other than its producer.",
+        "Source separation, necessary provenance, scope and data-format rules match the current user instructions."
+      ]
+    }
+  ]
+}

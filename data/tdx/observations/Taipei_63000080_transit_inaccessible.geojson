@@ -1,0 +1,440 @@
+{
+  "type": "FeatureCollection",
+  "schema_version": 1,
+  "dataset_id": "tdx_Taipei_63000080_transit_inaccessible",
+  "metadata": {
+    "grain": "one source spatial feature returned for the requested district; actual containment is not guaranteed",
+    "units": {
+      "number_of_households": "households",
+      "reasonable_household_numbers": "households",
+      "road_legth": null,
+      "un_coverage_rate": null,
+      "inaccessible_rate": null
+    },
+    "unit_notes": "Supplied specification does not state the road-length unit or whether rate is a fraction/percentage; preserve raw values without scaling.",
+    "underlying_household_statistical_period": null,
+    "period_note": "UpdateDate is a system update date; it does not establish the statistical period of the underlying household counts.",
+    "household_interpretation": "ReasonableHouseholdNumbers is only defined as a reasonable household count; it is not verified as an accessible-household count. Do not subtract it from NumberOfHouseholds to infer inaccessible households.",
+    "sources": [
+      {
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/3b31f053-e920-4dc7-80f2-fefc4650a2d9",
+        "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000080?%24format=GEOJSON",
+        "raw_file": "raw_data/tdx/responses/Taipei_63000080_transit_inaccessible.json",
+        "downloaded_at": "2026-10-21T23:56:50+08:00",
+        "source_updated_at": null,
+        "bytes": 3571,
+        "content_type": "application/geo+json",
+        "evidence_type": "business_api_response",
+        "http_status": 200,
+        "usage_headers": {
+          "x-ratelimit-remaining-minute": "2",
+          "x-ratelimit-limit-minute": "5"
+        }
+      }
+    ],
+    "request": {
+      "family": "accessibility",
+      "specification_id": "transit_inaccessible",
+      "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000080?%24format=GEOJSON",
+      "path_values": {
+        "City": "Taipei",
+        "TownCode": "63000080"
+      },
+      "query_parameters": {
+        "$format": "GEOJSON"
+      },
+      "label": "Taipei_63000080_transit_inaccessible",
+      "sample_only": false,
+      "documented_top_default": null,
+      "request_limit": 30,
+      "max_response_bytes": 2097152
+    },
+    "source_updated_at": "2026-09-01",
+    "statistical_period": {
+      "requested_date": null,
+      "version_start": null,
+      "version_end": null,
+      "source_update_dates": [
+        "2026-09-01"
+      ]
+    },
+    "response_metadata": {
+      "type": "FeatureCollection"
+    },
+    "record_count": 1,
+    "time_zone": "Asia/Taipei",
+    "time_zone_note": "Asia/Taipei identifies the requested civil day. Each source timestamp retains its own original UTC offset.",
+    "scope_status": "requested_scope_response",
+    "limitations": [
+      "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+      "未知/缺漏不補零；狀態碼原值保留。"
+    ],
+    "field_dictionary": "data/tdx/field_dictionary.json",
+    "empty_geometry_count": 0,
+    "geometry_screening": {
+      "reference_file": "data/population/taipei_statistical_area_boundaries.geojson",
+      "reference_bounds": [
+        121.5307274769496,
+        24.96034836282032,
+        121.61998822587536,
+        25.015743659292202
+      ],
+      "outside_bounds_feature_indexes": [],
+      "method": "bounding-box screening against saved statistical-area boundaries; this is not full district-polygon containment validation"
+    },
+    "geometry_use_status": "passes_bbox_screening_only_not_full_containment_validation",
+    "coordinate_reference_system": "EPSG:4326; GeoJSON order [longitude, latitude]; range validated"
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPoint",
+        "coordinates": [
+          [
+            121.55942353077137,
+            24.975975089578753
+          ],
+          [
+            121.55944498859537,
+            24.97605532529309
+          ],
+          [
+            121.55950733139832,
+            24.97638197524799
+          ],
+          [
+            121.55975702636579,
+            24.97638089156493
+          ],
+          [
+            121.55983938178213,
+            24.976321838482136
+          ],
+          [
+            121.55999992875377,
+            24.976289371157577
+          ],
+          [
+            121.56003282685356,
+            24.975428744241185
+          ],
+          [
+            121.56013197980712,
+            24.975337594354528
+          ],
+          [
+            121.56017303565716,
+            24.975299852506225
+          ],
+          [
+            121.56032496532498,
+            24.975299461301177
+          ],
+          [
+            121.56033376069456,
+            24.9752607679701
+          ],
+          [
+            121.56034271704277,
+            24.9752139942305
+          ],
+          [
+            121.56060124245346,
+            24.975218621242448
+          ],
+          [
+            121.56074408537131,
+            24.974822011226877
+          ],
+          [
+            121.56074770963914,
+            24.97511327016133
+          ],
+          [
+            121.56081806630073,
+            24.975477995613062
+          ],
+          [
+            121.56086479507428,
+            24.975416651956948
+          ],
+          [
+            121.56090260527105,
+            24.975355846994773
+          ],
+          [
+            121.56094991590601,
+            24.974180136304312
+          ],
+          [
+            121.56095281352157,
+            24.974901629106967
+          ],
+          [
+            121.56095770583352,
+            24.972709340963377
+          ],
+          [
+            121.56103721849286,
+            24.974866430541397
+          ],
+          [
+            121.56143084455789,
+            24.97395661520568
+          ],
+          [
+            121.56203780330202,
+            24.973961721556236
+          ],
+          [
+            121.56290049416259,
+            24.973392069388524
+          ],
+          [
+            121.56329890731877,
+            24.971385405811873
+          ],
+          [
+            121.56423618255383,
+            24.972935381063053
+          ],
+          [
+            121.56457474133128,
+            24.973051134602258
+          ],
+          [
+            121.56483090512222,
+            24.972737305382395
+          ],
+          [
+            121.56490461085912,
+            24.9718689272093
+          ],
+          [
+            121.56610913402938,
+            24.97530078600255
+          ],
+          [
+            121.56769960125564,
+            24.97561189297454
+          ],
+          [
+            121.56784412230843,
+            24.975357173494785
+          ],
+          [
+            121.56786907849528,
+            24.975540534468166
+          ],
+          [
+            121.56793278107307,
+            24.975659030939596
+          ],
+          [
+            121.56793772824358,
+            24.975425605607256
+          ],
+          [
+            121.56794604247591,
+            24.97555559271649
+          ],
+          [
+            121.56897297562239,
+            24.972208469845043
+          ],
+          [
+            121.56931266574702,
+            24.972897341539124
+          ],
+          [
+            121.56938862968161,
+            24.97255305408021
+          ],
+          [
+            121.56942914234116,
+            24.9727026607992
+          ],
+          [
+            121.56945245996314,
+            24.97275799518536
+          ],
+          [
+            121.56953726063614,
+            24.972508529545053
+          ],
+          [
+            121.56961256626698,
+            24.972701953932074
+          ],
+          [
+            121.5754671806659,
+            25.00618589636207
+          ],
+          [
+            121.57554147725739,
+            25.006080018278283
+          ],
+          [
+            121.57562837874673,
+            25.006057402127453
+          ],
+          [
+            121.57566623301034,
+            25.00870408532535
+          ],
+          [
+            121.57578028862952,
+            25.006010349598
+          ],
+          [
+            121.57603028217181,
+            25.005980260980323
+          ],
+          [
+            121.57621651288184,
+            25.005903779935522
+          ],
+          [
+            121.57647653836159,
+            25.005740922605526
+          ],
+          [
+            121.57683418345084,
+            25.005176611511445
+          ],
+          [
+            121.57685474285222,
+            25.005147065184985
+          ],
+          [
+            121.57688089873454,
+            25.005113163441763
+          ],
+          [
+            121.59281428994757,
+            24.99019661498187
+          ],
+          [
+            121.59286805141949,
+            24.992412638032874
+          ],
+          [
+            121.5929349888587,
+            24.990233080692178
+          ],
+          [
+            121.59356850728079,
+            24.988973387711724
+          ],
+          [
+            121.59383855120825,
+            24.99180314589853
+          ],
+          [
+            121.59430150960702,
+            24.991967930475653
+          ],
+          [
+            121.5945726021439,
+            24.987459849392565
+          ],
+          [
+            121.59468915428113,
+            24.983909627227547
+          ],
+          [
+            121.5947079294275,
+            24.994788878004385
+          ],
+          [
+            121.59476425666514,
+            24.99529452722072
+          ],
+          [
+            121.5948393581499,
+            24.994681913539523
+          ],
+          [
+            121.59486599337095,
+            24.983887470630293
+          ],
+          [
+            121.59537127116732,
+            24.977422424305473
+          ],
+          [
+            121.5954482189602,
+            24.986766283237444
+          ],
+          [
+            121.5966739886137,
+            24.988849777695123
+          ],
+          [
+            121.59682778617344,
+            24.989046435144928
+          ],
+          [
+            121.5968759628555,
+            24.988039218735025
+          ],
+          [
+            121.5974759086863,
+            24.99041105742441
+          ],
+          [
+            121.59752949568974,
+            24.990615797081432
+          ],
+          [
+            121.59756005195493,
+            24.990235207588796
+          ],
+          [
+            121.59782962553686,
+            24.977997673853622
+          ],
+          [
+            121.59788098312094,
+            24.991290605177312
+          ],
+          [
+            121.59815456767922,
+            24.991035342507075
+          ],
+          [
+            121.59828908107625,
+            24.982656963348234
+          ],
+          [
+            121.59831155243626,
+            24.989306324827055
+          ],
+          [
+            121.59958539085312,
+            24.983703448655262
+          ],
+          [
+            121.5996499127134,
+            24.98432011917822
+          ],
+          [
+            121.60716145423783,
+            24.964968856327687
+          ],
+          [
+            121.61487249506968,
+            24.97072310278901
+          ]
+        ]
+      },
+      "properties": {
+        "update_date": "2026-09-01",
+        "number_of_households": 101298,
+        "reasonable_household_numbers": 101380,
+        "inaccessible_rate": 0.0008
+      }
+    }
+  ]
+}

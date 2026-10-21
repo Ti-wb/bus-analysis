@@ -1,0 +1,3406 @@
+{
+  "schema_version": 1,
+  "dataset_id": "tdx_Taipei_2026-10-20_Station",
+  "metadata": {
+    "grain": "one source entity within the requested historical version; nested stops/trips retained",
+    "units": {
+      "stop_position": "longitude/latitude degrees",
+      "geometry": "WGS84 longitude/latitude degrees"
+    },
+    "sources": [
+      {
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/historical/39472fde-f790-42b9-9c8b-88282118e6b1",
+        "download_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/Station/Date/2026-10-20/City/Taipei?%24format=JSON&%24top=30",
+        "raw_file": "raw_data/tdx/responses/Taipei_2026-10-20_Station_sample_30.json",
+        "downloaded_at": "2026-10-21T23:50:23+08:00",
+        "source_updated_at": null,
+        "bytes": 47648,
+        "content_type": "application/json; charset=utf-8",
+        "evidence_type": "business_api_response",
+        "http_status": 200,
+        "usage_headers": {
+          "x-ratelimit-remaining-minute": "3",
+          "x-ratelimit-limit-minute": "5"
+        }
+      }
+    ],
+    "request": {
+      "family": "historical",
+      "specification_id": "historical",
+      "request_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/Station/Date/2026-10-20/City/Taipei?%24format=JSON&%24top=30",
+      "path_values": {
+        "City": "Taipei",
+        "Date": "2026-10-20"
+      },
+      "query_parameters": {
+        "$format": "JSON",
+        "$top": 30
+      },
+      "label": "Taipei_2026-10-20_Station",
+      "sample_only": true,
+      "documented_top_default": 30,
+      "request_limit": 20,
+      "max_response_bytes": 2097152
+    },
+    "source_updated_at": null,
+    "statistical_period": {
+      "requested_date": "2026-10-20",
+      "version_start": "2026-10-20T00:00:00+08:00",
+      "version_end": "2026-10-20T23:59:59+08:00"
+    },
+    "response_metadata": {
+      "start_date": "2026-10-20T00:00:00+08:00",
+      "end_date": "2026-10-20T23:59:59+08:00",
+      "version_id": "20261020",
+      "count": 5375,
+      "size": 7693062
+    },
+    "record_count": 30,
+    "time_zone": "Asia/Taipei",
+    "time_zone_note": "Asia/Taipei identifies the requested civil day. Each source timestamp retains its own original UTC offset.",
+    "scope_status": "sample_only",
+    "limitations": [
+      "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+      "未知/缺漏不補零；狀態碼原值保留。"
+    ],
+    "field_dictionary": "data/tdx/field_dictionary.json"
+  },
+  "records": [
+    {
+      "station_uid": "TPE1000164",
+      "station_id": "1000164",
+      "station_name": {
+        "zh_tw": "中山女高"
+      },
+      "station_position": {
+        "position_lat": 25.04827992,
+        "position_lon": 121.5381002
+      },
+      "station_address": "臺北市中山區八德路二段(向東)",
+      "stops": [
+        {
+          "stop_uid": "TPE19118",
+          "stop_id": "19118",
+          "stop_name": {
+            "zh_tw": "中山女高",
+            "en": "Zhongshan Girls High School"
+          },
+          "route_uid": "TPE15111",
+          "route_id": "15111",
+          "route_name": {
+            "zh_tw": "202",
+            "en": "202"
+          }
+        }
+      ],
+      "bearing": "E",
+      "location_city_code": "TPE"
+    },
+    {
+      "station_uid": "TPE1000195",
+      "station_id": "1000195",
+      "station_name": {
+        "zh_tw": "南京東路口"
+      },
+      "station_position": {
+        "position_lat": 25.051132,
+        "position_lon": 121.530156
+      },
+      "station_address": "吉林路39號(向北)",
+      "stops": [
+        {
+          "stop_uid": "TPE17127",
+          "stop_id": "17127",
+          "stop_name": {
+            "zh_tw": "南京東路口",
+            "en": "Nanjing E. Rd. Entrance"
+          },
+          "route_uid": "TPE10792",
+          "route_id": "10792",
+          "route_name": {
+            "zh_tw": "52",
+            "en": "52"
+          }
+        },
+        {
+          "stop_uid": "TPE56113",
+          "stop_id": "56113",
+          "stop_name": {
+            "zh_tw": "南京東路口",
+            "en": "Nanjing E. Rd. Entrance"
+          },
+          "route_uid": "TPE15711",
+          "route_id": "15711",
+          "route_name": {
+            "zh_tw": "市民小巴9",
+            "en": "M9"
+          }
+        }
+      ],
+      "bearing": "N",
+      "location_city_code": "TPE"
+    },
+    {
+      "station_uid": "TPE1000287",
+      "station_id": "1000287",
+      "station_name": {
+        "zh_tw": "國盛國宅"
+      },
+      "station_position": {
+        "position_lat": 25.02762806,
+        "position_lon": 121.5075488
+      },
+      "station_address": "南海路(向南)",
+      "stops": [
+        {
+          "stop_uid": "TPE17850",
+          "stop_id": "17850",
+          "stop_name": {
+            "zh_tw": "國盛國宅",
+            "en": "Guosheng Public Housing"
+          },
+          "route_uid": "TPE10736",
+          "route_id": "10736",
+          "route_name": {
+            "zh_tw": "671",
+            "en": "671"
+          }
+        },
+        {
+          "stop_uid": "TPE23674",
+          "stop_id": "23674",
+          "stop_name": {
+            "zh_tw": "國盛國宅",
+            "en": "Guosheng Public Housing"
+          },
+          "route_uid": "TPE10861",
+          "route_id": "10861",
+          "route_name": {
+            "zh_tw": "630",
+            "en": "630"
+          }
+        },
+        {
+          "stop_uid": "TPE18250",
+          "stop_id": "18250",
+          "stop_name": {
+            "zh_tw": "國盛國宅",
+            "en": "Guosheng Public Housing"
+          },
+          "route_uid": "TPE11212",
+          "route_id": "11212",
+          "route_name": {
+            "zh_tw": "204",
+            "en": "204"
+          }
+        }
+      ],
+      "bearing": "SW",
+      "location_city_code": "TPE"
+    },
+    {
+      "station_uid": "TPE1000396",
+      "station_id": "1000396",
+      "station_name": {
+        "zh_tw": "捷運忠孝新生站"
+      },
+      "station_position": {
+        "position_lat": 25.040288,
+        "position_lon": 121.532693
+      },
+      "station_address": "新生南路公車專用道(向南)",
+      "stops": [
+        {
+          "stop_uid": "TPE14490",
+          "stop_id": "14490",
+          "stop_name": {
+            "zh_tw": "捷運忠孝新生站",
+            "en": "MRT Zhongxiao Xinsheng Sta."
+          },
+          "route_uid": "TPE10328",
+          "route_id": "10328",
+          "route_name": {
+            "zh_tw": "643",
+            "en": "643"
+          }
+        },
+        {
+          "stop_uid": "TPE14294",
+          "stop_id": "14294",
+          "stop_name": {
+            "zh_tw": "捷運忠孝新生站",
+            "en": "MRT Zhongxiao Xinsheng Sta."
+          },
+          "route_uid": "TPE10332",
+          "route_id": "10332",
+          "route_name": {
+            "zh_tw": "松江新生幹線",
+            "en": "Songjiang Xinsheng Metro Bus"
+          }
+        },
+        {
+          "stop_uid": "TPE17666",
+          "stop_id": "17666",
+          "stop_name": {
+            "zh_tw": "捷運忠孝新生站",
+            "en": "MRT Zhongxiao Xinsheng Sta."
+          },
+          "route_uid": "TPE10783",
+          "route_id": "10783",
+          "route_name": {
+            "zh_tw": "254",
+            "en": "254"
+          }
+        },
+        {
+          "stop_uid": "TPE22929",
+          "stop_id": "22929",
+          "stop_name": {
+            "zh_tw": "捷運忠孝新生站",
+            "en": "MRT Zhongxiao Xinsheng Sta."
+          },
+          "route_uid": "TPE10842",
+          "route_id": "10842",
+          "route_name": {
+            "zh_tw": "222",
+            "en": "222"
+          }
+        },
+        {
+          "stop_uid": "TPE39500",
+          "stop_id": "39500",
+          "stop_name": {
+            "zh_tw": "捷運忠孝新生站",
+            "en": "MRT Zhongxiao Xinsheng Sta."
+          },
+          "route_uid": "TPE10848",
+          "route_id": "10848",
+          "route_name": {
+            "zh_tw": "505",
+            "en": "505"
+          }
+        },
+        {
+          "stop_uid": "TPE18373",
+          "stop_id": "18373",
+          "stop_name": {
+            "zh_tw": "捷運忠孝新生站",
+            "en": "MRT Zhongxiao Xinsheng Sta."
+          },
+          "route_uid": "TPE11245",
+          "route_id": "11245",
+          "route_name": {
+            "zh_tw": "226",
+            "en": "226"
+          }
+        },
+        {
+          "stop_uid": "TPE43291",
+          "stop_id": "43291",
+          "stop_name": {
+            "zh_tw": "捷運忠孝新生站",
+            "en": "MRT Zhongxiao Xinsheng Sta."
+          },
+          "route_uid": "TPE11813",
+          "route_id": "11813",
+          "route_name": {
+            "zh_tw": "109",
+            "en": "109"
+          }
+        },
+        {
+          "stop_uid": "TPE27593",
+          "stop_id": "27593",
+          "stop_name": {
+            "zh_tw": "捷運忠孝新生站",
+            "en": "MRT Zhongxiao Xinsheng Sta."
+          },
+          "route_uid": "TPE15161",
+          "route_id": "15161",
+          "route_name": {
+            "zh_tw": "676",
+            "en": "676"
+          }
+        },
+        {
+          "stop_uid": "TPE16258",
+          "stop_id": "16258",
+          "stop_name": {
+            "zh_tw": "捷運忠孝新生站",
+            "en": "MRT Zhongxiao Xinsheng Sta."
+          },
+          "route_uid": "TPE15362",
+          "route_id": "15362",
+          "route_name": {
+            "zh_tw": "72",
+            "en": "72"
+          }
+        },
+        {
+          "stop_uid": "TPE28966",
+          "stop_id": "28966",
+          "stop_name": {
+            "zh_tw": "捷運忠孝新生站",
+            "en": "MRT Zhongxiao Xinsheng Sta."
+          },
+          "route_uid": "TPE15512",
+          "route_id": "15512",
+          "route_name": {
+            "zh_tw": "675",
+            "en": "675"
+          }
+        },
+        {
+          "stop_uid": "TPE45235",
+          "stop_id": "45235",
+          "stop_name": {
+            "zh_tw": "捷運忠孝新生站",
+            "en": "MRT Zhongxiao Xinsheng Sta."
+          },
+          "route_uid": "TPE15515",
+          "route_id": "15515",
+          "route_name": {
+            "zh_tw": "668",
+            "en": "668"
+          }
+        },
+        {
+          "stop_uid": "TPE13275",
+          "stop_id": "13275",
+          "stop_name": {
+            "zh_tw": "捷運忠孝新生站",
+            "en": "MRT Zhongxiao Xinsheng Sta."
+          },
+          "route_uid": "TPE15546",
+          "route_id": "15546",
+          "route_name": {
+            "zh_tw": "280",
+            "en": "280"
+          }
+        },
+        {
+          "stop_uid": "TPE30521",
+          "stop_id": "30521",
+          "stop_name": {
+            "zh_tw": "捷運忠孝新生站",
+            "en": "MRT Zhongxiao Xinsheng Sta."
+          },
+          "route_uid": "TPE15561",
+          "route_id": "15561",
+          "route_name": {
+            "zh_tw": "214",
+            "en": "214"
+          }
+        },
+        {
+          "stop_uid": "TPE30647",
+          "stop_id": "30647",
+          "stop_name": {
+            "zh_tw": "捷運忠孝新生站",
+            "en": "MRT Zhongxiao Xinsheng Sta."
+          },
+          "route_uid": "TPE15562",
+          "route_id": "15562",
+          "route_name": {
+            "zh_tw": "214直",
+            "en": "214Express"
+          }
+        },
+        {
+          "stop_uid": "TPE18457",
+          "stop_id": "18457",
+          "stop_name": {
+            "zh_tw": "捷運忠孝新生站",
+            "en": "MRT Zhongxiao Xinsheng Sta."
+          },
+          "route_uid": "TPE15657",
+          "route_id": "15657",
+          "route_name": {
+            "zh_tw": "280直",
+            "en": "280Express"
+          }
+        },
+        {
+          "stop_uid": "TPE59676",
+          "stop_id": "59676",
+          "stop_name": {
+            "zh_tw": "捷運忠孝新生站",
+            "en": "MRT Zhongxiao Xinsheng Sta."
+          },
+          "route_uid": "TPE16184",
+          "route_id": "16184",
+          "route_name": {
+            "zh_tw": "680",
+            "en": "680"
+          }
+        }
+      ],
+      "bearing": "S",
+      "location_city_code": "TPE"
+    },
+    {
+      "station_uid": "TPE1000420",
+      "station_id": "1000420",
+      "station_name": {
+        "zh_tw": "埔墘(三民路)"
+      },
+      "station_position": {
+        "position_lat": 25.017161,
+        "position_lon": 121.47911
+      },
+      "station_address": "三民路2段72號(向南)",
+      "stops": [
+        {
+          "stop_uid": "TPE37039",
+          "stop_id": "37039",
+          "stop_name": {
+            "zh_tw": "埔墘(三民路)",
+            "en": "Puqian(Sanmin Rd.)"
+          },
+          "route_uid": "TPE10481",
+          "route_id": "10481",
+          "route_name": {
+            "zh_tw": "265經中央路",
+            "en": "265Zhongyang Rd."
+          }
+        },
+        {
+          "stop_uid": "TPE42442",
+          "stop_id": "42442",
+          "stop_name": {
+            "zh_tw": "埔墘(三民路)",
+            "en": "Puqian(Sanmin Rd.)"
+          },
+          "route_uid": "TPE11171",
+          "route_id": "11171",
+          "route_name": {
+            "zh_tw": "265經明德路",
+            "en": "265Mingde Rd."
+          }
+        }
+      ],
+      "bearing": "S",
+      "location_city_code": "NWT"
+    },
+    {
+      "station_uid": "TPE1000706",
+      "station_id": "1000706",
+      "station_name": {
+        "zh_tw": "光華新村(安康路)"
+      },
+      "station_position": {
+        "position_lat": 24.96414395,
+        "position_lon": 121.5182441
+      },
+      "station_address": "安康路1段308號(向西)",
+      "stops": [
+        {
+          "stop_uid": "TPE16987",
+          "stop_id": "16987",
+          "stop_name": {
+            "zh_tw": "光華新村(安康路)",
+            "en": "Guanghua New Village(Ankang Rd.)"
+          },
+          "route_uid": "TPE10142",
+          "route_id": "10142",
+          "route_name": {
+            "zh_tw": "南環幹線",
+            "en": "Nanhuan Metro Bus"
+          }
+        },
+        {
+          "stop_uid": "TPE35579",
+          "stop_id": "35579",
+          "stop_name": {
+            "zh_tw": "光華新村(安康路)",
+            "en": "Guanghua New Village(Ankang Rd.)"
+          },
+          "route_uid": "TPE10326",
+          "route_id": "10326",
+          "route_name": {
+            "zh_tw": "648",
+            "en": "648"
+          }
+        },
+        {
+          "stop_uid": "TPE14519",
+          "stop_id": "14519",
+          "stop_name": {
+            "zh_tw": "光華新村(安康路)",
+            "en": "Guanghua New Village(Ankang Rd.)"
+          },
+          "route_uid": "TPE10328",
+          "route_id": "10328",
+          "route_name": {
+            "zh_tw": "643",
+            "en": "643"
+          }
+        },
+        {
+          "stop_uid": "TPE21182",
+          "stop_id": "21182",
+          "stop_name": {
+            "zh_tw": "光華新村(安康路)",
+            "en": "Guanghua New Village(Ankang Rd.)"
+          },
+          "route_uid": "TPE15183",
+          "route_id": "15183",
+          "route_name": {
+            "zh_tw": "905",
+            "en": "905"
+          }
+        },
+        {
+          "stop_uid": "TPE54523",
+          "stop_id": "54523",
+          "stop_name": {
+            "zh_tw": "光華新村(安康路)",
+            "en": "Guanghua New Village(Ankang Rd.)"
+          },
+          "route_uid": "TPE15676",
+          "route_id": "15676",
+          "route_name": {
+            "zh_tw": "內科通勤專車10",
+            "en": "NH10"
+          }
+        }
+      ],
+      "bearing": "W",
+      "location_city_code": "NWT"
+    },
+    {
+      "station_uid": "TPE1000762",
+      "station_id": "1000762",
+      "station_name": {
+        "zh_tw": "水源路口"
+      },
+      "station_position": {
+        "position_lat": 25.0214728907771,
+        "position_lon": 121.525083045325
+      },
+      "station_address": "汀州路二段(向北)",
+      "stops": [
+        {
+          "stop_uid": "TPE58934",
+          "stop_id": "58934",
+          "stop_name": {
+            "zh_tw": "水源路口",
+            "en": "Shuiyuan Rd. Entrance"
+          },
+          "route_uid": "TPE10736",
+          "route_id": "10736",
+          "route_name": {
+            "zh_tw": "671",
+            "en": "671"
+          }
+        },
+        {
+          "stop_uid": "TPE38731",
+          "stop_id": "38731",
+          "stop_name": {
+            "zh_tw": "水源路口",
+            "en": "Shuiyuan Rd. Entrance"
+          },
+          "route_uid": "TPE10782",
+          "route_id": "10782",
+          "route_name": {
+            "zh_tw": "673",
+            "en": "673"
+          }
+        },
+        {
+          "stop_uid": "TPE59111",
+          "stop_id": "59111",
+          "stop_name": {
+            "zh_tw": "水源路口",
+            "en": "Shuiyuan Rd. Entrance"
+          },
+          "route_uid": "TPE11041",
+          "route_id": "11041",
+          "route_name": {
+            "zh_tw": "297",
+            "en": "297"
+          }
+        },
+        {
+          "stop_uid": "TPE155442",
+          "stop_id": "155442",
+          "stop_name": {
+            "zh_tw": "水源路口",
+            "en": "Shuiyuan Rd. Entrance"
+          },
+          "route_uid": "TPE16747",
+          "route_id": "16747",
+          "route_name": {
+            "zh_tw": "棕22",
+            "en": "BR22"
+          }
+        },
+        {
+          "stop_uid": "TPE213863",
+          "stop_id": "213863",
+          "stop_name": {
+            "zh_tw": "水源路口",
+            "en": "Shuiyuan Rd. Entrance"
+          },
+          "route_uid": "TPE19159",
+          "route_id": "19159",
+          "route_name": {
+            "zh_tw": "297預",
+            "en": "297B"
+          }
+        }
+      ],
+      "bearing": "NW",
+      "location_city_code": "TPE"
+    },
+    {
+      "station_uid": "TPE1000108",
+      "station_id": "1000108",
+      "station_name": {
+        "zh_tw": "臺北郵局"
+      },
+      "station_position": {
+        "position_lat": 25.04676505924,
+        "position_lon": 121.51129364418
+      },
+      "station_address": "博愛路12號對面(向北)",
+      "stops": [
+        {
+          "stop_uid": "TPE35940",
+          "stop_id": "35940",
+          "stop_name": {
+            "zh_tw": "臺北郵局",
+            "en": "Taipei Post Office"
+          },
+          "route_uid": "TPE10416",
+          "route_id": "10416",
+          "route_name": {
+            "zh_tw": "232",
+            "en": "232"
+          }
+        },
+        {
+          "stop_uid": "TPE16982",
+          "stop_id": "16982",
+          "stop_name": {
+            "zh_tw": "臺北郵局",
+            "en": "Taipei Post Office"
+          },
+          "route_uid": "TPE10726",
+          "route_id": "10726",
+          "route_name": {
+            "zh_tw": "18",
+            "en": "18"
+          }
+        },
+        {
+          "stop_uid": "TPE11729",
+          "stop_id": "11729",
+          "stop_name": {
+            "zh_tw": "臺北郵局",
+            "en": "Taipei Post Office"
+          },
+          "route_uid": "TPE10832",
+          "route_id": "10832",
+          "route_name": {
+            "zh_tw": "22",
+            "en": "22"
+          }
+        },
+        {
+          "stop_uid": "TPE23259",
+          "stop_id": "23259",
+          "stop_name": {
+            "zh_tw": "臺北郵局",
+            "en": "Taipei Post Office"
+          },
+          "route_uid": "TPE10851",
+          "route_id": "10851",
+          "route_name": {
+            "zh_tw": "內湖幹線",
+            "en": "Neihu Metro Bus"
+          }
+        },
+        {
+          "stop_uid": "TPE10940",
+          "stop_id": "10940",
+          "stop_name": {
+            "zh_tw": "臺北郵局",
+            "en": "Taipei Post Office"
+          },
+          "route_uid": "TPE10942",
+          "route_id": "10942",
+          "route_name": {
+            "zh_tw": "257",
+            "en": "257"
+          }
+        },
+        {
+          "stop_uid": "TPE40543",
+          "stop_id": "40543",
+          "stop_name": {
+            "zh_tw": "臺北郵局",
+            "en": "Taipei Post Office"
+          },
+          "route_uid": "TPE10961",
+          "route_id": "10961",
+          "route_name": {
+            "zh_tw": "262",
+            "en": "262"
+          }
+        },
+        {
+          "stop_uid": "TPE40670",
+          "stop_id": "40670",
+          "stop_name": {
+            "zh_tw": "臺北郵局",
+            "en": "Taipei Post Office"
+          },
+          "route_uid": "TPE10962",
+          "route_id": "10962",
+          "route_name": {
+            "zh_tw": "262區",
+            "en": "262Shuttle"
+          }
+        },
+        {
+          "stop_uid": "TPE10328",
+          "stop_id": "10328",
+          "stop_name": {
+            "zh_tw": "臺北郵局",
+            "en": "Taipei Post Office"
+          },
+          "route_uid": "TPE11421",
+          "route_id": "11421",
+          "route_name": {
+            "zh_tw": "513",
+            "en": "513"
+          }
+        },
+        {
+          "stop_uid": "TPE43187",
+          "stop_id": "43187",
+          "stop_name": {
+            "zh_tw": "臺北郵局",
+            "en": "Taipei Post Office"
+          },
+          "route_uid": "TPE11812",
+          "route_id": "11812",
+          "route_name": {
+            "zh_tw": "和平幹線",
+            "en": "Heping Metro Bus"
+          }
+        },
+        {
+          "stop_uid": "TPE43864",
+          "stop_id": "43864",
+          "stop_name": {
+            "zh_tw": "臺北郵局",
+            "en": "Taipei Post Office"
+          },
+          "route_uid": "TPE11831",
+          "route_id": "11831",
+          "route_name": {
+            "zh_tw": "49",
+            "en": "49"
+          }
+        },
+        {
+          "stop_uid": "TPE44159",
+          "stop_id": "44159",
+          "stop_name": {
+            "zh_tw": "臺北郵局",
+            "en": "Taipei Post Office"
+          },
+          "route_uid": "TPE11851",
+          "route_id": "11851",
+          "route_name": {
+            "zh_tw": "276",
+            "en": "276"
+          }
+        },
+        {
+          "stop_uid": "TPE213575",
+          "stop_id": "213575",
+          "stop_name": {
+            "zh_tw": "臺北郵局",
+            "en": "Taipei Post Office"
+          },
+          "route_uid": "TPE15353",
+          "route_id": "15353",
+          "route_name": {
+            "zh_tw": "247",
+            "en": "247"
+          }
+        }
+      ],
+      "bearing": "N",
+      "location_city_code": "TPE"
+    },
+    {
+      "station_uid": "TPE1000204",
+      "station_id": "1000204",
+      "station_name": {
+        "zh_tw": "內湖焚化廠(安康)"
+      },
+      "station_position": {
+        "position_lat": 25.063126,
+        "position_lon": 121.603153
+      },
+      "station_address": "安康路228號對面(向西)",
+      "stops": [
+        {
+          "stop_uid": "TPE22617",
+          "stop_id": "22617",
+          "stop_name": {
+            "zh_tw": "內湖焚化廠(安康)",
+            "en": "Neihu Incinerator (Ankang)"
+          },
+          "route_uid": "TPE10764",
+          "route_id": "10764",
+          "route_name": {
+            "zh_tw": "531",
+            "en": "531"
+          }
+        },
+        {
+          "stop_uid": "TPE38365",
+          "stop_id": "38365",
+          "stop_name": {
+            "zh_tw": "內湖焚化廠(安康)",
+            "en": "Neihu Incinerator (Ankang)"
+          },
+          "route_uid": "TPE10767",
+          "route_id": "10767",
+          "route_name": {
+            "zh_tw": "53",
+            "en": "53"
+          }
+        },
+        {
+          "stop_uid": "TPE207718",
+          "stop_id": "207718",
+          "stop_name": {
+            "zh_tw": "內湖焚化廠(安康)",
+            "en": "Neihu Incinerator (Ankang)"
+          },
+          "route_uid": "TPE15355",
+          "route_id": "15355",
+          "route_name": {
+            "zh_tw": "240直",
+            "en": "240Express"
+          }
+        },
+        {
+          "stop_uid": "TPE213739",
+          "stop_id": "213739",
+          "stop_name": {
+            "zh_tw": "內湖焚化廠(安康)",
+            "en": "Neihu Incinerator (Ankang)"
+          },
+          "route_uid": "TPE15358",
+          "route_id": "15358",
+          "route_name": {
+            "zh_tw": "247區",
+            "en": "247Shuttle"
+          }
+        },
+        {
+          "stop_uid": "TPE13151",
+          "stop_id": "13151",
+          "stop_name": {
+            "zh_tw": "內湖焚化廠(安康)",
+            "en": "Neihu Incinerator (Ankang)"
+          },
+          "route_uid": "TPE15391",
+          "route_id": "15391",
+          "route_name": {
+            "zh_tw": "279",
+            "en": "279"
+          }
+        }
+      ],
+      "bearing": "W",
+      "location_city_code": "TPE"
+    },
+    {
+      "station_uid": "TPE1000221",
+      "station_id": "1000221",
+      "station_name": {
+        "zh_tw": "南松山(塔悠)"
+      },
+      "station_position": {
+        "position_lat": 25.051932,
+        "position_lon": 121.570154
+      },
+      "station_address": "塔悠路80號(向南)",
+      "stops": [
+        {
+          "stop_uid": "TPE13379",
+          "stop_id": "13379",
+          "stop_name": {
+            "zh_tw": "南松山(塔悠)",
+            "en": "Nansongshan (Tayou)"
+          },
+          "route_uid": "TPE10291",
+          "route_id": "10291",
+          "route_name": {
+            "zh_tw": "棕1",
+            "en": "BR1"
+          }
+        },
+        {
+          "stop_uid": "TPE19071",
+          "stop_id": "19071",
+          "stop_name": {
+            "zh_tw": "南松山(塔悠)",
+            "en": "Nansongshan (Tayou)"
+          },
+          "route_uid": "TPE10293",
+          "route_id": "10293",
+          "route_name": {
+            "zh_tw": "民生幹線",
+            "en": "Minsheng Metro Bus"
+          }
+        },
+        {
+          "stop_uid": "TPE24084",
+          "stop_id": "24084",
+          "stop_name": {
+            "zh_tw": "南松山(塔悠)",
+            "en": "Nansongshan (Tayou)"
+          },
+          "route_uid": "TPE10846",
+          "route_id": "10846",
+          "route_name": {
+            "zh_tw": "286副",
+            "en": "286Sub"
+          }
+        },
+        {
+          "stop_uid": "TPE39459",
+          "stop_id": "39459",
+          "stop_name": {
+            "zh_tw": "南松山(塔悠)",
+            "en": "Nansongshan (Tayou)"
+          },
+          "route_uid": "TPE10847",
+          "route_id": "10847",
+          "route_name": {
+            "zh_tw": "63",
+            "en": "63"
+          }
+        },
+        {
+          "stop_uid": "TPE16047",
+          "stop_id": "16047",
+          "stop_name": {
+            "zh_tw": "南松山(塔悠)",
+            "en": "Nansongshan (Tayou)"
+          },
+          "route_uid": "TPE11111",
+          "route_id": "11111",
+          "route_name": {
+            "zh_tw": "藍27",
+            "en": "BL27"
+          }
+        },
+        {
+          "stop_uid": "TPE15301",
+          "stop_id": "15301",
+          "stop_name": {
+            "zh_tw": "南松山(塔悠)",
+            "en": "Nansongshan (Tayou)"
+          },
+          "route_uid": "TPE16111",
+          "route_id": "16111",
+          "route_name": {
+            "zh_tw": "307",
+            "en": "307"
+          }
+        }
+      ],
+      "bearing": "S",
+      "location_city_code": "TPE"
+    },
+    {
+      "station_uid": "TPE1000411",
+      "station_id": "1000411",
+      "station_name": {
+        "zh_tw": "水井尾"
+      },
+      "station_position": {
+        "position_lat": 25.146038,
+        "position_lon": 121.531789
+      },
+      "station_address": "紗帽路21-2號對面(向南)",
+      "stops": [
+        {
+          "stop_uid": "TPE29221",
+          "stop_id": "29221",
+          "stop_name": {
+            "zh_tw": "水井尾",
+            "en": "Shuijingwei"
+          },
+          "route_uid": "TPE11064",
+          "route_id": "11064",
+          "route_name": {
+            "zh_tw": "小36",
+            "en": "S36"
+          }
+        },
+        {
+          "stop_uid": "TPE58215",
+          "stop_id": "58215",
+          "stop_name": {
+            "zh_tw": "水井尾",
+            "en": "Shuijingwei"
+          },
+          "route_uid": "TPE11138",
+          "route_id": "11138",
+          "route_name": {
+            "zh_tw": "小25",
+            "en": "S25"
+          }
+        },
+        {
+          "stop_uid": "TPE41455",
+          "stop_id": "41455",
+          "stop_name": {
+            "zh_tw": "水井尾",
+            "en": "Shuijingwei"
+          },
+          "route_uid": "TPE11151",
+          "route_id": "11151",
+          "route_name": {
+            "zh_tw": "230",
+            "en": "230"
+          }
+        },
+        {
+          "stop_uid": "TPE151090",
+          "stop_id": "151090",
+          "stop_name": {
+            "zh_tw": "水井尾",
+            "en": "Shuijingwei"
+          },
+          "route_uid": "TPE15724",
+          "route_id": "15724",
+          "route_name": {
+            "zh_tw": "128",
+            "en": "128"
+          }
+        }
+      ],
+      "bearing": "S",
+      "location_city_code": "TPE"
+    },
+    {
+      "station_uid": "TPE1000501",
+      "station_id": "1000501",
+      "station_name": {
+        "zh_tw": "敬業三路一"
+      },
+      "station_position": {
+        "position_lat": 25.0831610051795,
+        "position_lon": 121.556430509921
+      },
+      "station_address": "敬業三路20號旁(向北)",
+      "stops": [
+        {
+          "stop_uid": "TPE12225",
+          "stop_id": "12225",
+          "stop_name": {
+            "zh_tw": "敬業三路一",
+            "en": "Jingye 3rd Rd. 1"
+          },
+          "route_uid": "TPE15331",
+          "route_id": "15331",
+          "route_name": {
+            "zh_tw": "紅3區",
+            "en": "R3Shuttle"
+          }
+        },
+        {
+          "stop_uid": "TPE59207",
+          "stop_id": "59207",
+          "stop_name": {
+            "zh_tw": "敬業三路一",
+            "en": "Jingye 3rd Rd. 1"
+          },
+          "route_uid": "TPE16174",
+          "route_id": "16174",
+          "route_name": {
+            "zh_tw": "棕20",
+            "en": "BR20"
+          }
+        },
+        {
+          "stop_uid": "TPE174552",
+          "stop_id": "174552",
+          "stop_name": {
+            "zh_tw": "敬業三路一",
+            "en": "Jingye 3rd Rd. 1"
+          },
+          "route_uid": "TPE17436",
+          "route_id": "17436",
+          "route_name": {
+            "zh_tw": "紅3",
+            "en": "R3"
+          }
+        },
+        {
+          "stop_uid": "TPE207227",
+          "stop_id": "207227",
+          "stop_name": {
+            "zh_tw": "敬業三路一",
+            "en": "Jingye 3rd Rd. 1"
+          },
+          "route_uid": "TPE18508",
+          "route_id": "18508",
+          "route_name": {
+            "zh_tw": "棕20預",
+            "en": "BR20B"
+          }
+        }
+      ],
+      "bearing": "N",
+      "location_city_code": "TPE"
+    },
+    {
+      "station_uid": "TPE1000513",
+      "station_id": "1000513",
+      "station_name": {
+        "zh_tw": "中正二分局"
+      },
+      "station_position": {
+        "position_lat": 25.0326456333347,
+        "position_lon": 121.514086870192
+      },
+      "station_address": "重慶南路二段(向北)",
+      "stops": [
+        {
+          "stop_uid": "TPE40540",
+          "stop_id": "40540",
+          "stop_name": {
+            "zh_tw": "中正二分局",
+            "en": "Zhongzheng 2nd Police Dist."
+          },
+          "route_uid": "TPE10961",
+          "route_id": "10961",
+          "route_name": {
+            "zh_tw": "262",
+            "en": "262"
+          }
+        },
+        {
+          "stop_uid": "TPE40667",
+          "stop_id": "40667",
+          "stop_name": {
+            "zh_tw": "中正二分局",
+            "en": "Zhongzheng 2nd Police Dist."
+          },
+          "route_uid": "TPE10962",
+          "route_id": "10962",
+          "route_name": {
+            "zh_tw": "262區",
+            "en": "262Shuttle"
+          }
+        },
+        {
+          "stop_uid": "TPE45356",
+          "stop_id": "45356",
+          "stop_name": {
+            "zh_tw": "中正二分局",
+            "en": "Zhongzheng 2nd Police Dist."
+          },
+          "route_uid": "TPE15553",
+          "route_id": "15553",
+          "route_name": {
+            "zh_tw": "304承德",
+            "en": "304Chengde"
+          }
+        },
+        {
+          "stop_uid": "TPE45452",
+          "stop_id": "45452",
+          "stop_name": {
+            "zh_tw": "中正二分局",
+            "en": "Zhongzheng 2nd Police Dist."
+          },
+          "route_uid": "TPE15554",
+          "route_id": "15554",
+          "route_name": {
+            "zh_tw": "304重慶",
+            "en": "304Chongqing N."
+          }
+        }
+      ],
+      "bearing": "NW",
+      "location_city_code": "TPE"
+    },
+    {
+      "station_uid": "TPE1000555",
+      "station_id": "1000555",
+      "station_name": {
+        "zh_tw": "涼州重慶路口"
+      },
+      "station_position": {
+        "position_lat": 25.060697,
+        "position_lon": 121.512933
+      },
+      "station_address": "涼州街30號往東30公尺處(同向)(向東)",
+      "stops": [
+        {
+          "stop_uid": "TPE11580",
+          "stop_id": "11580",
+          "stop_name": {
+            "zh_tw": "涼州重慶路口",
+            "en": "Liangzhou and Chongqing Intersection"
+          },
+          "route_uid": "TPE10882",
+          "route_id": "10882",
+          "route_name": {
+            "zh_tw": "9",
+            "en": "9"
+          }
+        },
+        {
+          "stop_uid": "TPE11876",
+          "stop_id": "11876",
+          "stop_name": {
+            "zh_tw": "涼州重慶路口",
+            "en": "Liangzhou and Chongqing Intersection"
+          },
+          "route_uid": "TPE11871",
+          "route_id": "11871",
+          "route_name": {
+            "zh_tw": "41",
+            "en": "41"
+          }
+        }
+      ],
+      "bearing": "E",
+      "location_city_code": "TPE"
+    },
+    {
+      "station_uid": "TPE1000622",
+      "station_id": "1000622",
+      "station_name": {
+        "zh_tw": "白雲山莊"
+      },
+      "station_position": {
+        "position_lat": 25.1230700246186,
+        "position_lon": 121.55146530005
+      },
+      "station_address": "仰德大道三段122號(向北)",
+      "stops": [
+        {
+          "stop_uid": "TPE20665",
+          "stop_id": "20665",
+          "stop_name": {
+            "zh_tw": "白雲山莊",
+            "en": "Baiyun Shanzhuang"
+          },
+          "route_uid": "TPE10272",
+          "route_id": "10272",
+          "route_name": {
+            "zh_tw": "303",
+            "en": "303"
+          }
+        },
+        {
+          "stop_uid": "TPE20810",
+          "stop_id": "20810",
+          "stop_name": {
+            "zh_tw": "白雲山莊",
+            "en": "Baiyun Shanzhuang"
+          },
+          "route_uid": "TPE10273",
+          "route_id": "10273",
+          "route_name": {
+            "zh_tw": "303區",
+            "en": "303Shuttle"
+          }
+        },
+        {
+          "stop_uid": "TPE184031",
+          "stop_id": "184031",
+          "stop_name": {
+            "zh_tw": "白雲山莊",
+            "en": "Baiyun Shanzhuang"
+          },
+          "route_uid": "TPE10472",
+          "route_id": "10472",
+          "route_name": {
+            "zh_tw": "111",
+            "en": "111"
+          }
+        },
+        {
+          "stop_uid": "TPE11159",
+          "stop_id": "11159",
+          "stop_name": {
+            "zh_tw": "白雲山莊",
+            "en": "Baiyun Shanzhuang"
+          },
+          "route_uid": "TPE10821",
+          "route_id": "10821",
+          "route_name": {
+            "zh_tw": "紅5",
+            "en": "R5"
+          }
+        },
+        {
+          "stop_uid": "TPE39092",
+          "stop_id": "39092",
+          "stop_name": {
+            "zh_tw": "白雲山莊",
+            "en": "Baiyun Shanzhuang"
+          },
+          "route_uid": "TPE10823",
+          "route_id": "10823",
+          "route_name": {
+            "zh_tw": "260",
+            "en": "260"
+          }
+        },
+        {
+          "stop_uid": "TPE39180",
+          "stop_id": "39180",
+          "stop_name": {
+            "zh_tw": "白雲山莊",
+            "en": "Baiyun Shanzhuang"
+          },
+          "route_uid": "TPE10824",
+          "route_id": "10824",
+          "route_name": {
+            "zh_tw": "260區",
+            "en": "260Shuttle"
+          }
+        },
+        {
+          "stop_uid": "TPE26318",
+          "stop_id": "26318",
+          "stop_name": {
+            "zh_tw": "白雲山莊",
+            "en": "Baiyun Shanzhuang"
+          },
+          "route_uid": "TPE11206",
+          "route_id": "11206",
+          "route_name": {
+            "zh_tw": "小15",
+            "en": "S15"
+          }
+        },
+        {
+          "stop_uid": "TPE26409",
+          "stop_id": "26409",
+          "stop_name": {
+            "zh_tw": "白雲山莊",
+            "en": "Baiyun Shanzhuang"
+          },
+          "route_uid": "TPE11207",
+          "route_id": "11207",
+          "route_name": {
+            "zh_tw": "小15區",
+            "en": "S15Shuttle"
+          }
+        },
+        {
+          "stop_uid": "TPE184066",
+          "stop_id": "184066",
+          "stop_name": {
+            "zh_tw": "白雲山莊",
+            "en": "Baiyun Shanzhuang"
+          },
+          "route_uid": "TPE11813",
+          "route_id": "11813",
+          "route_name": {
+            "zh_tw": "109",
+            "en": "109"
+          }
+        },
+        {
+          "stop_uid": "TPE44962",
+          "stop_id": "44962",
+          "stop_name": {
+            "zh_tw": "白雲山莊",
+            "en": "Baiyun Shanzhuang"
+          },
+          "route_uid": "TPE15359",
+          "route_id": "15359",
+          "route_name": {
+            "zh_tw": "681",
+            "en": "681"
+          }
+        },
+        {
+          "stop_uid": "TPE155295",
+          "stop_id": "155295",
+          "stop_name": {
+            "zh_tw": "白雲山莊",
+            "en": "Baiyun Shanzhuang"
+          },
+          "route_uid": "TPE16746",
+          "route_id": "16746",
+          "route_name": {
+            "zh_tw": "1717",
+            "en": "1717"
+          }
+        },
+        {
+          "stop_uid": "TPE214158",
+          "stop_id": "214158",
+          "stop_name": {
+            "zh_tw": "白雲山莊",
+            "en": "Baiyun Shanzhuang"
+          },
+          "route_uid": "TPE19178",
+          "route_id": "19178",
+          "route_name": {
+            "zh_tw": "260區預",
+            "en": "260Shuttle B"
+          }
+        },
+        {
+          "stop_uid": "TPE219965",
+          "stop_id": "219965",
+          "stop_name": {
+            "zh_tw": "白雲山莊",
+            "en": "Baiyun Shanzhuang"
+          },
+          "route_uid": "TPE19698",
+          "route_id": "19698",
+          "route_name": {
+            "zh_tw": "小15區預",
+            "en": "S15Shuttle B"
+          }
+        }
+      ],
+      "bearing": "NW",
+      "location_city_code": "TPE"
+    },
+    {
+      "station_uid": "TPE1000630",
+      "station_id": "1000630",
+      "station_name": {
+        "zh_tw": "塔悠路"
+      },
+      "station_position": {
+        "position_lat": 25.060955,
+        "position_lon": 121.56886
+      },
+      "station_address": "塔悠路(向北)",
+      "stops": [
+        {
+          "stop_uid": "TPE55744",
+          "stop_id": "55744",
+          "stop_name": {
+            "zh_tw": "塔悠路",
+            "en": "Tayou Rd."
+          },
+          "route_uid": "TPE10961",
+          "route_id": "10961",
+          "route_name": {
+            "zh_tw": "262",
+            "en": "262"
+          }
+        },
+        {
+          "stop_uid": "TPE40690",
+          "stop_id": "40690",
+          "stop_name": {
+            "zh_tw": "塔悠路",
+            "en": "Tayou Rd."
+          },
+          "route_uid": "TPE10962",
+          "route_id": "10962",
+          "route_name": {
+            "zh_tw": "262區",
+            "en": "262Shuttle"
+          }
+        }
+      ],
+      "bearing": "N",
+      "location_city_code": "TPE"
+    },
+    {
+      "station_uid": "TPE1000019",
+      "station_id": "1000019",
+      "station_name": {
+        "zh_tw": "健康新城"
+      },
+      "station_position": {
+        "position_lat": 25.054217211063,
+        "position_lon": 121.56216251653
+      },
+      "station_address": "健康路246號前(向西)",
+      "stops": [
+        {
+          "stop_uid": "TPE22332",
+          "stop_id": "22332",
+          "stop_name": {
+            "zh_tw": "健康新城",
+            "en": "Jiankang New Village"
+          },
+          "route_uid": "TPE10752",
+          "route_id": "10752",
+          "route_name": {
+            "zh_tw": "278",
+            "en": "278"
+          }
+        },
+        {
+          "stop_uid": "TPE38905",
+          "stop_id": "38905",
+          "stop_name": {
+            "zh_tw": "健康新城",
+            "en": "Jiankang New Village"
+          },
+          "route_uid": "TPE10785",
+          "route_id": "10785",
+          "route_name": {
+            "zh_tw": "672",
+            "en": "672"
+          }
+        },
+        {
+          "stop_uid": "TPE22794",
+          "stop_id": "22794",
+          "stop_name": {
+            "zh_tw": "健康新城",
+            "en": "Jiankang New Village"
+          },
+          "route_uid": "TPE10841",
+          "route_id": "10841",
+          "route_name": {
+            "zh_tw": "0東",
+            "en": "0East"
+          }
+        },
+        {
+          "stop_uid": "TPE125262",
+          "stop_id": "125262",
+          "stop_name": {
+            "zh_tw": "健康新城",
+            "en": "Jiankang New Village"
+          },
+          "route_uid": "TPE16439",
+          "route_id": "16439",
+          "route_name": {
+            "zh_tw": "278區",
+            "en": "278Shuttle"
+          }
+        }
+      ],
+      "bearing": "W",
+      "location_city_code": "TPE"
+    },
+    {
+      "station_uid": "TPE1000081",
+      "station_id": "1000081",
+      "station_name": {
+        "zh_tw": "菜寮(重陽路)"
+      },
+      "station_position": {
+        "position_lat": 25.0580096673922,
+        "position_lon": 121.48651605944
+      },
+      "station_address": "重陽路一段66號(向南)",
+      "stops": [
+        {
+          "stop_uid": "TPE35932",
+          "stop_id": "35932",
+          "stop_name": {
+            "zh_tw": "菜寮(重陽路)",
+            "en": "Cailiao(Chongyang Rd.)"
+          },
+          "route_uid": "TPE10416",
+          "route_id": "10416",
+          "route_name": {
+            "zh_tw": "232",
+            "en": "232"
+          }
+        },
+        {
+          "stop_uid": "TPE36050",
+          "stop_id": "36050",
+          "stop_name": {
+            "zh_tw": "菜寮(重陽路)",
+            "en": "Cailiao(Chongyang Rd.)"
+          },
+          "route_uid": "TPE10417",
+          "route_id": "10417",
+          "route_name": {
+            "zh_tw": "忠孝幹線",
+            "en": "Zhongxiao Metro Bus"
+          }
+        },
+        {
+          "stop_uid": "TPE40115",
+          "stop_id": "40115",
+          "stop_name": {
+            "zh_tw": "菜寮(重陽路)",
+            "en": "Cailiao(Chongyang Rd.)"
+          },
+          "route_uid": "TPE10891",
+          "route_id": "10891",
+          "route_name": {
+            "zh_tw": "14",
+            "en": "14"
+          }
+        },
+        {
+          "stop_uid": "TPE26953",
+          "stop_id": "26953",
+          "stop_name": {
+            "zh_tw": "菜寮(重陽路)",
+            "en": "Cailiao(Chongyang Rd.)"
+          },
+          "route_uid": "TPE11231",
+          "route_id": "11231",
+          "route_name": {
+            "zh_tw": "621",
+            "en": "621"
+          }
+        },
+        {
+          "stop_uid": "TPE27082",
+          "stop_id": "27082",
+          "stop_name": {
+            "zh_tw": "菜寮(重陽路)",
+            "en": "Cailiao(Chongyang Rd.)"
+          },
+          "route_uid": "TPE11241",
+          "route_id": "11241",
+          "route_name": {
+            "zh_tw": "662",
+            "en": "662"
+          }
+        },
+        {
+          "stop_uid": "TPE18948",
+          "stop_id": "18948",
+          "stop_name": {
+            "zh_tw": "菜寮(重陽路)",
+            "en": "Cailiao(Chongyang Rd.)"
+          },
+          "route_uid": "TPE11246",
+          "route_id": "11246",
+          "route_name": {
+            "zh_tw": "292",
+            "en": "292"
+          }
+        },
+        {
+          "stop_uid": "TPE12924",
+          "stop_id": "12924",
+          "stop_name": {
+            "zh_tw": "菜寮(重陽路)",
+            "en": "Cailiao(Chongyang Rd.)"
+          },
+          "route_uid": "TPE15521",
+          "route_id": "15521",
+          "route_name": {
+            "zh_tw": "227",
+            "en": "227"
+          }
+        },
+        {
+          "stop_uid": "TPE13016",
+          "stop_id": "13016",
+          "stop_name": {
+            "zh_tw": "菜寮(重陽路)",
+            "en": "Cailiao(Chongyang Rd.)"
+          },
+          "route_uid": "TPE15522",
+          "route_id": "15522",
+          "route_name": {
+            "zh_tw": "227區",
+            "en": "227Shuttle"
+          }
+        },
+        {
+          "stop_uid": "TPE58456",
+          "stop_id": "58456",
+          "stop_name": {
+            "zh_tw": "菜寮(重陽路)",
+            "en": "Cailiao(Chongyang Rd.)"
+          },
+          "route_uid": "TPE16158",
+          "route_id": "16158",
+          "route_name": {
+            "zh_tw": "292副",
+            "en": "292Sub"
+          }
+        }
+      ],
+      "bearing": "S",
+      "location_city_code": "NWT"
+    },
+    {
+      "station_uid": "TPE1000114",
+      "station_id": "1000114",
+      "station_name": {
+        "zh_tw": "圓山皇宮大廈"
+      },
+      "station_position": {
+        "position_lat": 25.08335644,
+        "position_lon": 121.523596
+      },
+      "station_address": "承德路四段93號(向北)",
+      "stops": [
+        {
+          "stop_uid": "TPE20063",
+          "stop_id": "20063",
+          "stop_name": {
+            "zh_tw": "圓山皇宮大廈",
+            "en": "Yuanshan Royal Building"
+          },
+          "route_uid": "TPE10221",
+          "route_id": "10221",
+          "route_name": {
+            "zh_tw": "618",
+            "en": "618"
+          }
+        },
+        {
+          "stop_uid": "TPE41606",
+          "stop_id": "41606",
+          "stop_name": {
+            "zh_tw": "圓山皇宮大廈",
+            "en": "Yuanshan Royal Building"
+          },
+          "route_uid": "TPE11152",
+          "route_id": "11152",
+          "route_name": {
+            "zh_tw": "承德幹線",
+            "en": "Chengde Metro Bus"
+          }
+        },
+        {
+          "stop_uid": "TPE42012",
+          "stop_id": "42012",
+          "stop_name": {
+            "zh_tw": "圓山皇宮大廈",
+            "en": "Yuanshan Royal Building"
+          },
+          "route_uid": "TPE11161",
+          "route_id": "11161",
+          "route_name": {
+            "zh_tw": "529",
+            "en": "529"
+          }
+        },
+        {
+          "stop_uid": "TPE42372",
+          "stop_id": "42372",
+          "stop_name": {
+            "zh_tw": "圓山皇宮大廈",
+            "en": "Yuanshan Royal Building"
+          },
+          "route_uid": "TPE11165",
+          "route_id": "11165",
+          "route_name": {
+            "zh_tw": "288",
+            "en": "288"
+          }
+        },
+        {
+          "stop_uid": "TPE26223",
+          "stop_id": "26223",
+          "stop_name": {
+            "zh_tw": "圓山皇宮大廈",
+            "en": "Yuanshan Royal Building"
+          },
+          "route_uid": "TPE11203",
+          "route_id": "11203",
+          "route_name": {
+            "zh_tw": "26",
+            "en": "26"
+          }
+        },
+        {
+          "stop_uid": "TPE11922",
+          "stop_id": "11922",
+          "stop_name": {
+            "zh_tw": "圓山皇宮大廈",
+            "en": "Yuanshan Royal Building"
+          },
+          "route_uid": "TPE11871",
+          "route_id": "11871",
+          "route_name": {
+            "zh_tw": "41",
+            "en": "41"
+          }
+        },
+        {
+          "stop_uid": "TPE13313",
+          "stop_id": "13313",
+          "stop_name": {
+            "zh_tw": "圓山皇宮大廈",
+            "en": "Yuanshan Royal Building"
+          },
+          "route_uid": "TPE15546",
+          "route_id": "15546",
+          "route_name": {
+            "zh_tw": "280",
+            "en": "280"
+          }
+        },
+        {
+          "stop_uid": "TPE45373",
+          "stop_id": "45373",
+          "stop_name": {
+            "zh_tw": "圓山皇宮大廈",
+            "en": "Yuanshan Royal Building"
+          },
+          "route_uid": "TPE15553",
+          "route_id": "15553",
+          "route_name": {
+            "zh_tw": "304承德",
+            "en": "304Chengde"
+          }
+        },
+        {
+          "stop_uid": "TPE45962",
+          "stop_id": "45962",
+          "stop_name": {
+            "zh_tw": "圓山皇宮大廈",
+            "en": "Yuanshan Royal Building"
+          },
+          "route_uid": "TPE15573",
+          "route_id": "15573",
+          "route_name": {
+            "zh_tw": "市民小巴8",
+            "en": "M8"
+          }
+        },
+        {
+          "stop_uid": "TPE13518",
+          "stop_id": "13518",
+          "stop_name": {
+            "zh_tw": "圓山皇宮大廈",
+            "en": "Yuanshan Royal Building"
+          },
+          "route_uid": "TPE15581",
+          "route_id": "15581",
+          "route_name": {
+            "zh_tw": "616",
+            "en": "616"
+          }
+        },
+        {
+          "stop_uid": "TPE129914",
+          "stop_id": "129914",
+          "stop_name": {
+            "zh_tw": "圓山皇宮大廈",
+            "en": "YuanshanRoyalBuilding"
+          },
+          "route_uid": "TPE16504",
+          "route_id": "16504",
+          "route_name": {
+            "zh_tw": "756",
+            "en": "756"
+          }
+        }
+      ],
+      "bearing": "N",
+      "location_city_code": "TPE"
+    },
+    {
+      "station_uid": "TPE1000128",
+      "station_id": "1000128",
+      "station_name": {
+        "zh_tw": "民權東路口"
+      },
+      "station_position": {
+        "position_lat": 25.06158785,
+        "position_lon": 121.5496186
+      },
+      "station_address": "民權東路三段(向東)",
+      "stops": [
+        {
+          "stop_uid": "TPE43556",
+          "stop_id": "43556",
+          "stop_name": {
+            "zh_tw": "民權東路口",
+            "en": "Minquan E. Rd. Entrance"
+          },
+          "route_uid": "TPE11821",
+          "route_id": "11821",
+          "route_name": {
+            "zh_tw": "33",
+            "en": "33"
+          }
+        },
+        {
+          "stop_uid": "TPE57742",
+          "stop_id": "57742",
+          "stop_name": {
+            "zh_tw": "民權東路口",
+            "en": "Minquan E. Rd. Entrance"
+          },
+          "route_uid": "TPE11834",
+          "route_id": "11834",
+          "route_name": {
+            "zh_tw": "688",
+            "en": "688"
+          }
+        },
+        {
+          "stop_uid": "TPE18229",
+          "stop_id": "18229",
+          "stop_name": {
+            "zh_tw": "民權東路口",
+            "en": "Minquan E. Rd. Entrance"
+          },
+          "route_uid": "TPE810",
+          "route_id": "810",
+          "route_name": {
+            "zh_tw": "敦化幹線",
+            "en": "Dunhua Metro Bus"
+          }
+        }
+      ],
+      "bearing": "E",
+      "location_city_code": "TPE"
+    },
+    {
+      "station_uid": "TPE1000183",
+      "station_id": "1000183",
+      "station_name": {
+        "zh_tw": "台北銀行"
+      },
+      "station_position": {
+        "position_lat": 25.0563427,
+        "position_lon": 121.5300534
+      },
+      "station_address": "吉林路109號對面(向南)",
+      "stops": [
+        {
+          "stop_uid": "TPE56098",
+          "stop_id": "56098",
+          "stop_name": {
+            "zh_tw": "台北銀行",
+            "en": "Taipei Bank"
+          },
+          "route_uid": "TPE15711",
+          "route_id": "15711",
+          "route_name": {
+            "zh_tw": "市民小巴9",
+            "en": "M9"
+          }
+        }
+      ],
+      "bearing": "S",
+      "location_city_code": "TPE"
+    },
+    {
+      "station_uid": "TPE1000334",
+      "station_id": "1000334",
+      "station_name": {
+        "zh_tw": "中和區公所(景平路)"
+      },
+      "station_position": {
+        "position_lat": 24.99880695334873,
+        "position_lon": 121.49960332023917
+      },
+      "station_address": "景平路513號對面(向西)",
+      "stops": [
+        {
+          "stop_uid": "TPE40611",
+          "stop_id": "40611",
+          "stop_name": {
+            "zh_tw": "中和區公所(景平路)",
+            "en": "Zhonghe Dist. Office (Jingping Rd.)"
+          },
+          "route_uid": "TPE10961",
+          "route_id": "10961",
+          "route_name": {
+            "zh_tw": "262",
+            "en": "262"
+          }
+        },
+        {
+          "stop_uid": "TPE40738",
+          "stop_id": "40738",
+          "stop_name": {
+            "zh_tw": "中和區公所(景平路)",
+            "en": "Zhonghe Dist. Office (Jingping Rd.)"
+          },
+          "route_uid": "TPE10962",
+          "route_id": "10962",
+          "route_name": {
+            "zh_tw": "262區",
+            "en": "262Shuttle"
+          }
+        },
+        {
+          "stop_uid": "TPE19210",
+          "stop_id": "19210",
+          "stop_name": {
+            "zh_tw": "中和區公所(景平路)",
+            "en": "Zhonghe Dist. Office (Jingping Rd.)"
+          },
+          "route_uid": "TPE15185",
+          "route_id": "15185",
+          "route_name": {
+            "zh_tw": "202區",
+            "en": "202Shuttle"
+          }
+        },
+        {
+          "stop_uid": "TPE205041",
+          "stop_id": "205041",
+          "stop_name": {
+            "zh_tw": "中和區公所(景平路)",
+            "en": "Zhonghe Dist. Office (Jingping Rd.)"
+          },
+          "route_uid": "TPE18198",
+          "route_id": "18198",
+          "route_name": {
+            "zh_tw": "通勤11",
+            "en": "CB11"
+          }
+        }
+      ],
+      "bearing": "NW",
+      "location_city_code": "NWT"
+    },
+    {
+      "station_uid": "TPE1000380",
+      "station_id": "1000380",
+      "station_name": {
+        "zh_tw": "大茅埔"
+      },
+      "station_position": {
+        "position_lat": 24.95431753,
+        "position_lon": 121.4946626
+      },
+      "station_address": "安康路二段385、385-1號(向北)",
+      "stops": [
+        {
+          "stop_uid": "TPE16823",
+          "stop_id": "16823",
+          "stop_name": {
+            "zh_tw": "大茅埔",
+            "en": "Damaopu"
+          },
+          "route_uid": "TPE10142",
+          "route_id": "10142",
+          "route_name": {
+            "zh_tw": "南環幹線",
+            "en": "Nanhuan Metro Bus"
+          }
+        },
+        {
+          "stop_uid": "TPE35507",
+          "stop_id": "35507",
+          "stop_name": {
+            "zh_tw": "大茅埔",
+            "en": "Damaopu"
+          },
+          "route_uid": "TPE10326",
+          "route_id": "10326",
+          "route_name": {
+            "zh_tw": "648",
+            "en": "648"
+          }
+        },
+        {
+          "stop_uid": "TPE14382",
+          "stop_id": "14382",
+          "stop_name": {
+            "zh_tw": "大茅埔",
+            "en": "Damaopu"
+          },
+          "route_uid": "TPE10328",
+          "route_id": "10328",
+          "route_name": {
+            "zh_tw": "643",
+            "en": "643"
+          }
+        },
+        {
+          "stop_uid": "TPE20770",
+          "stop_id": "20770",
+          "stop_name": {
+            "zh_tw": "大茅埔",
+            "en": "Damaopu"
+          },
+          "route_uid": "TPE15183",
+          "route_id": "15183",
+          "route_name": {
+            "zh_tw": "905",
+            "en": "905"
+          }
+        },
+        {
+          "stop_uid": "TPE21334",
+          "stop_id": "21334",
+          "stop_name": {
+            "zh_tw": "大茅埔",
+            "en": "Damaopu"
+          },
+          "route_uid": "TPE15184",
+          "route_id": "15184",
+          "route_name": {
+            "zh_tw": "905副",
+            "en": "905Sub"
+          }
+        },
+        {
+          "stop_uid": "TPE19187",
+          "stop_id": "19187",
+          "stop_name": {
+            "zh_tw": "大茅埔",
+            "en": "Damaopu"
+          },
+          "route_uid": "TPE15185",
+          "route_id": "15185",
+          "route_name": {
+            "zh_tw": "202區",
+            "en": "202Shuttle"
+          }
+        },
+        {
+          "stop_uid": "TPE54456",
+          "stop_id": "54456",
+          "stop_name": {
+            "zh_tw": "大茅埔",
+            "en": "Damaopu"
+          },
+          "route_uid": "TPE15676",
+          "route_id": "15676",
+          "route_name": {
+            "zh_tw": "內科通勤專車10",
+            "en": "NH10"
+          }
+        }
+      ],
+      "bearing": "NE",
+      "location_city_code": "NWT"
+    },
+    {
+      "station_uid": "TPE1000777",
+      "station_id": "1000777",
+      "station_name": {
+        "zh_tw": "頭前國小"
+      },
+      "station_position": {
+        "position_lat": 25.053343,
+        "position_lon": 121.466381
+      },
+      "station_address": "化成路542號(向北)",
+      "stops": [
+        {
+          "stop_uid": "TPE20046",
+          "stop_id": "20046",
+          "stop_name": {
+            "zh_tw": "頭前國小",
+            "en": "Touqian Elementary School"
+          },
+          "route_uid": "TPE10221",
+          "route_id": "10221",
+          "route_name": {
+            "zh_tw": "618",
+            "en": "618"
+          }
+        },
+        {
+          "stop_uid": "TPE10169",
+          "stop_id": "10169",
+          "stop_name": {
+            "zh_tw": "頭前國小",
+            "en": "Touqian Elementary School"
+          },
+          "route_uid": "TPE11411",
+          "route_id": "11411",
+          "route_name": {
+            "zh_tw": "299",
+            "en": "299"
+          }
+        }
+      ],
+      "bearing": "N",
+      "location_city_code": "NWT"
+    },
+    {
+      "station_uid": "TPE1000046",
+      "station_id": "1000046",
+      "station_name": {
+        "zh_tw": "臺灣科技大學"
+      },
+      "station_position": {
+        "position_lat": 25.013398935169228,
+        "position_lon": 121.54013379820495
+      },
+      "station_address": "基隆路四段43號對面(155巷口對面)(向東)",
+      "stops": [
+        {
+          "stop_uid": "TPE14744",
+          "stop_id": "14744",
+          "stop_name": {
+            "zh_tw": "臺灣科技大學",
+            "en": "NTUST"
+          },
+          "route_uid": "TPE10334",
+          "route_id": "10334",
+          "route_name": {
+            "zh_tw": "基隆路幹線",
+            "en": "Keelung Rd. Metro Bus"
+          }
+        },
+        {
+          "stop_uid": "TPE16876",
+          "stop_id": "16876",
+          "stop_name": {
+            "zh_tw": "臺灣科技大學",
+            "en": "NTUST"
+          },
+          "route_uid": "TPE10723",
+          "route_id": "10723",
+          "route_name": {
+            "zh_tw": "1",
+            "en": "1"
+          }
+        },
+        {
+          "stop_uid": "TPE37692",
+          "stop_id": "37692",
+          "stop_name": {
+            "zh_tw": "臺灣科技大學",
+            "en": "NTUST"
+          },
+          "route_uid": "TPE10724",
+          "route_id": "10724",
+          "route_name": {
+            "zh_tw": "907",
+            "en": "907"
+          }
+        },
+        {
+          "stop_uid": "TPE16509",
+          "stop_id": "16509",
+          "stop_name": {
+            "zh_tw": "臺灣科技大學",
+            "en": "NTUST"
+          },
+          "route_uid": "TPE10751",
+          "route_id": "10751",
+          "route_name": {
+            "zh_tw": "棕12",
+            "en": "BR12"
+          }
+        },
+        {
+          "stop_uid": "TPE38784",
+          "stop_id": "38784",
+          "stop_name": {
+            "zh_tw": "臺灣科技大學",
+            "en": "NTUST"
+          },
+          "route_uid": "TPE10782",
+          "route_id": "10782",
+          "route_name": {
+            "zh_tw": "673",
+            "en": "673"
+          }
+        },
+        {
+          "stop_uid": "TPE17600",
+          "stop_id": "17600",
+          "stop_name": {
+            "zh_tw": "臺灣科技大學",
+            "en": "NTUST"
+          },
+          "route_uid": "TPE10783",
+          "route_id": "10783",
+          "route_name": {
+            "zh_tw": "254",
+            "en": "254"
+          }
+        },
+        {
+          "stop_uid": "TPE15663",
+          "stop_id": "15663",
+          "stop_name": {
+            "zh_tw": "臺灣科技大學",
+            "en": "NTUST"
+          },
+          "route_uid": "TPE11022",
+          "route_id": "11022",
+          "route_name": {
+            "zh_tw": "綠11",
+            "en": "G11"
+          }
+        },
+        {
+          "stop_uid": "TPE55470",
+          "stop_id": "55470",
+          "stop_name": {
+            "zh_tw": "臺灣科技大學",
+            "en": "NTUST"
+          },
+          "route_uid": "TPE15698",
+          "route_id": "15698",
+          "route_name": {
+            "zh_tw": "南軟通勤專車雙和線",
+            "en": "NS-Shuanghe"
+          }
+        },
+        {
+          "stop_uid": "TPE155467",
+          "stop_id": "155467",
+          "stop_name": {
+            "zh_tw": "臺灣科技大學",
+            "en": "NTUST"
+          },
+          "route_uid": "TPE16747",
+          "route_id": "16747",
+          "route_name": {
+            "zh_tw": "棕22",
+            "en": "BR22"
+          }
+        },
+        {
+          "stop_uid": "TPE163321",
+          "stop_id": "163321",
+          "stop_name": {
+            "zh_tw": "臺灣科技大學",
+            "en": "NTUST"
+          },
+          "route_uid": "TPE17020",
+          "route_id": "17020",
+          "route_name": {
+            "zh_tw": "小30",
+            "en": "S30"
+          }
+        },
+        {
+          "stop_uid": "TPE196771",
+          "stop_id": "196771",
+          "stop_name": {
+            "zh_tw": "臺灣科技大學",
+            "en": "NTUST"
+          },
+          "route_uid": "TPE17928",
+          "route_id": "17928",
+          "route_name": {
+            "zh_tw": "907通勤",
+            "en": "907CB"
+          }
+        },
+        {
+          "stop_uid": "TPE196811",
+          "stop_id": "196811",
+          "stop_name": {
+            "zh_tw": "臺灣科技大學",
+            "en": "NTUST"
+          },
+          "route_uid": "TPE17928",
+          "route_id": "17928",
+          "route_name": {
+            "zh_tw": "907通勤",
+            "en": "907CB"
+          }
+        },
+        {
+          "stop_uid": "TPE205283",
+          "stop_id": "205283",
+          "stop_name": {
+            "zh_tw": "臺灣科技大學",
+            "en": "NTUST"
+          },
+          "route_uid": "TPE18228",
+          "route_id": "18228",
+          "route_name": {
+            "zh_tw": "通勤13",
+            "en": "CB13"
+          }
+        }
+      ],
+      "bearing": "NE",
+      "location_city_code": "TPE"
+    },
+    {
+      "station_uid": "TPE1000078",
+      "station_id": "1000078",
+      "station_name": {
+        "zh_tw": "中華路北站"
+      },
+      "station_position": {
+        "position_lat": 25.0455115050969,
+        "position_lon": 121.509144127644
+      },
+      "station_address": "中華路一段94號專用道(向南)",
+      "stops": [
+        {
+          "stop_uid": "TPE34727",
+          "stop_id": "34727",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE10181",
+          "route_id": "10181",
+          "route_name": {
+            "zh_tw": "205",
+            "en": "205"
+          }
+        },
+        {
+          "stop_uid": "TPE17494",
+          "stop_id": "17494",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE10735",
+          "route_id": "10735",
+          "route_name": {
+            "zh_tw": "253",
+            "en": "253"
+          }
+        },
+        {
+          "stop_uid": "TPE37931",
+          "stop_id": "37931",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE10746",
+          "route_id": "10746",
+          "route_name": {
+            "zh_tw": "252",
+            "en": "252"
+          }
+        },
+        {
+          "stop_uid": "TPE39042",
+          "stop_id": "39042",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE10823",
+          "route_id": "10823",
+          "route_name": {
+            "zh_tw": "260",
+            "en": "260"
+          }
+        },
+        {
+          "stop_uid": "TPE39901",
+          "stop_id": "39901",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE10864",
+          "route_id": "10864",
+          "route_name": {
+            "zh_tw": "12",
+            "en": "12"
+          }
+        },
+        {
+          "stop_uid": "TPE10796",
+          "stop_id": "10796",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE10911",
+          "route_id": "10911",
+          "route_name": {
+            "zh_tw": "212直",
+            "en": "212Express"
+          }
+        },
+        {
+          "stop_uid": "TPE10655",
+          "stop_id": "10655",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE10912",
+          "route_id": "10912",
+          "route_name": {
+            "zh_tw": "212",
+            "en": "212"
+          }
+        },
+        {
+          "stop_uid": "TPE40590",
+          "stop_id": "40590",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE10961",
+          "route_id": "10961",
+          "route_name": {
+            "zh_tw": "262",
+            "en": "262"
+          }
+        },
+        {
+          "stop_uid": "TPE40717",
+          "stop_id": "40717",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE10962",
+          "route_id": "10962",
+          "route_name": {
+            "zh_tw": "262區",
+            "en": "262Shuttle"
+          }
+        },
+        {
+          "stop_uid": "TPE41194",
+          "stop_id": "41194",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE11124",
+          "route_id": "11124",
+          "route_name": {
+            "zh_tw": "223",
+            "en": "223"
+          }
+        },
+        {
+          "stop_uid": "TPE27087",
+          "stop_id": "27087",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE11241",
+          "route_id": "11241",
+          "route_name": {
+            "zh_tw": "662",
+            "en": "662"
+          }
+        },
+        {
+          "stop_uid": "TPE12378",
+          "stop_id": "12378",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE11881",
+          "route_id": "11881",
+          "route_name": {
+            "zh_tw": "重慶幹線",
+            "en": "Chongqing Metro Bus"
+          }
+        },
+        {
+          "stop_uid": "TPE19153",
+          "stop_id": "19153",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE15111",
+          "route_id": "15111",
+          "route_name": {
+            "zh_tw": "202",
+            "en": "202"
+          }
+        },
+        {
+          "stop_uid": "TPE19237",
+          "stop_id": "19237",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE15185",
+          "route_id": "15185",
+          "route_name": {
+            "zh_tw": "202區",
+            "en": "202Shuttle"
+          }
+        },
+        {
+          "stop_uid": "TPE20226",
+          "stop_id": "20226",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE15191",
+          "route_id": "15191",
+          "route_name": {
+            "zh_tw": "660",
+            "en": "660"
+          }
+        },
+        {
+          "stop_uid": "TPE28169",
+          "stop_id": "28169",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE15333",
+          "route_id": "15333",
+          "route_name": {
+            "zh_tw": "250",
+            "en": "250"
+          }
+        },
+        {
+          "stop_uid": "TPE16429",
+          "stop_id": "16429",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE15372",
+          "route_id": "15372",
+          "route_name": {
+            "zh_tw": "206",
+            "en": "206"
+          }
+        },
+        {
+          "stop_uid": "TPE199200",
+          "stop_id": "199200",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE15373",
+          "route_id": "15373",
+          "route_name": {
+            "zh_tw": "中山幹線",
+            "en": "Zhongshan Metro Bus"
+          }
+        },
+        {
+          "stop_uid": "TPE45006",
+          "stop_id": "45006",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE15381",
+          "route_id": "15381",
+          "route_name": {
+            "zh_tw": "246",
+            "en": "246"
+          }
+        },
+        {
+          "stop_uid": "TPE45327",
+          "stop_id": "45327",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE15553",
+          "route_id": "15553",
+          "route_name": {
+            "zh_tw": "304承德",
+            "en": "304Chengde"
+          }
+        },
+        {
+          "stop_uid": "TPE45423",
+          "stop_id": "45423",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE15554",
+          "route_id": "15554",
+          "route_name": {
+            "zh_tw": "304重慶",
+            "en": "304Chongqing N."
+          }
+        },
+        {
+          "stop_uid": "TPE15316",
+          "stop_id": "15316",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE16111",
+          "route_id": "16111",
+          "route_name": {
+            "zh_tw": "307",
+            "en": "307"
+          }
+        },
+        {
+          "stop_uid": "TPE15458",
+          "stop_id": "15458",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE16112",
+          "route_id": "16112",
+          "route_name": {
+            "zh_tw": "310",
+            "en": "310"
+          }
+        },
+        {
+          "stop_uid": "TPE15608",
+          "stop_id": "15608",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE16121",
+          "route_id": "16121",
+          "route_name": {
+            "zh_tw": "604",
+            "en": "604"
+          }
+        },
+        {
+          "stop_uid": "TPE125337",
+          "stop_id": "125337",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE16132",
+          "route_id": "16132",
+          "route_name": {
+            "zh_tw": "212夜",
+            "en": "212Night"
+          }
+        },
+        {
+          "stop_uid": "TPE200330",
+          "stop_id": "200330",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE18015",
+          "route_id": "18015",
+          "route_name": {
+            "zh_tw": "內科通勤專車21",
+            "en": "NH21"
+          }
+        },
+        {
+          "stop_uid": "TPE213086",
+          "stop_id": "213086",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE19108",
+          "route_id": "19108",
+          "route_name": {
+            "zh_tw": "307西藏三民",
+            "en": "307Xizang Sanmin"
+          }
+        },
+        {
+          "stop_uid": "TPE218322",
+          "stop_id": "218322",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE19528",
+          "route_id": "19528",
+          "route_name": {
+            "zh_tw": "246預",
+            "en": "246B"
+          }
+        },
+        {
+          "stop_uid": "TPE219892",
+          "stop_id": "219892",
+          "stop_name": {
+            "zh_tw": "中華路北站",
+            "en": "Zhonghua Rd. N. Stop"
+          },
+          "route_uid": "TPE19688",
+          "route_id": "19688",
+          "route_name": {
+            "zh_tw": "310區",
+            "en": "310Shuttle"
+          }
+        }
+      ],
+      "bearing": "S",
+      "location_city_code": "TPE"
+    },
+    {
+      "station_uid": "TPE10001486",
+      "station_id": "10001486",
+      "station_name": {
+        "zh_tw": "振興公園"
+      },
+      "station_position": {
+        "position_lat": 25.11876,
+        "position_lon": 121.52352
+      },
+      "station_address": "天母西路109號對面(向東)",
+      "stops": [
+        {
+          "stop_uid": "TPE149138",
+          "stop_id": "149138",
+          "stop_name": {
+            "zh_tw": "振興公園",
+            "en": "Cheng Hsin Park"
+          },
+          "route_uid": "TPE10461",
+          "route_id": "10461",
+          "route_name": {
+            "zh_tw": "645",
+            "en": "645"
+          }
+        },
+        {
+          "stop_uid": "TPE149142",
+          "stop_id": "149142",
+          "stop_name": {
+            "zh_tw": "振興公園",
+            "en": "Cheng Hsin Park"
+          },
+          "route_uid": "TPE10462",
+          "route_id": "10462",
+          "route_name": {
+            "zh_tw": "645副",
+            "en": "645Sub"
+          }
+        },
+        {
+          "stop_uid": "TPE149139",
+          "stop_id": "149139",
+          "stop_name": {
+            "zh_tw": "振興公園",
+            "en": "Cheng Hsin Park"
+          },
+          "route_uid": "TPE11815",
+          "route_id": "11815",
+          "route_name": {
+            "zh_tw": "606",
+            "en": "606"
+          }
+        },
+        {
+          "stop_uid": "TPE149141",
+          "stop_id": "149141",
+          "stop_name": {
+            "zh_tw": "振興公園",
+            "en": "Cheng Hsin Park"
+          },
+          "route_uid": "TPE15171",
+          "route_id": "15171",
+          "route_name": {
+            "zh_tw": "902",
+            "en": "902"
+          }
+        },
+        {
+          "stop_uid": "TPE180053",
+          "stop_id": "180053",
+          "stop_name": {
+            "zh_tw": "振興公園",
+            "en": "Cheng Hsin Park"
+          },
+          "route_uid": "TPE15341",
+          "route_id": "15341",
+          "route_name": {
+            "zh_tw": "紅19",
+            "en": "R19"
+          }
+        },
+        {
+          "stop_uid": "TPE180054",
+          "stop_id": "180054",
+          "stop_name": {
+            "zh_tw": "振興公園",
+            "en": "Cheng Hsin Park"
+          },
+          "route_uid": "TPE15531",
+          "route_id": "15531",
+          "route_name": {
+            "zh_tw": "紅12",
+            "en": "R12"
+          }
+        },
+        {
+          "stop_uid": "TPE225275",
+          "stop_id": "225275",
+          "stop_name": {
+            "zh_tw": "振興公園",
+            "en": "Cheng Hsin Park"
+          },
+          "route_uid": "TPE19798",
+          "route_id": "19798",
+          "route_name": {
+            "zh_tw": "606通勤",
+            "en": "606CB"
+          }
+        },
+        {
+          "stop_uid": "TPE149140",
+          "stop_id": "149140",
+          "stop_name": {
+            "zh_tw": "振興公園",
+            "en": "Cheng Hsin Park"
+          },
+          "route_uid": "TPE810",
+          "route_id": "810",
+          "route_name": {
+            "zh_tw": "敦化幹線",
+            "en": "Dunhua Metro Bus"
+          }
+        }
+      ],
+      "bearing": "E",
+      "location_city_code": "TPE"
+    },
+    {
+      "station_uid": "TPE1000237",
+      "station_id": "1000237",
+      "station_name": {
+        "zh_tw": "芝麻大廈"
+      },
+      "station_position": {
+        "position_lat": 25.049009,
+        "position_lon": 121.54397
+      },
+      "station_address": "復興南路一段(向北)",
+      "stops": [
+        {
+          "stop_uid": "TPE22549",
+          "stop_id": "22549",
+          "stop_name": {
+            "zh_tw": "芝麻大廈",
+            "en": "Zhima Building"
+          },
+          "route_uid": "TPE10763",
+          "route_id": "10763",
+          "route_name": {
+            "zh_tw": "903",
+            "en": "903"
+          }
+        },
+        {
+          "stop_uid": "TPE12508",
+          "stop_id": "12508",
+          "stop_name": {
+            "zh_tw": "芝麻大廈",
+            "en": "Zhima Building"
+          },
+          "route_uid": "TPE10811",
+          "route_id": "10811",
+          "route_name": {
+            "zh_tw": "685",
+            "en": "685"
+          }
+        },
+        {
+          "stop_uid": "TPE12052",
+          "stop_id": "12052",
+          "stop_name": {
+            "zh_tw": "芝麻大廈",
+            "en": "Zhima Building"
+          },
+          "route_uid": "TPE11833",
+          "route_id": "11833",
+          "route_name": {
+            "zh_tw": "復興幹線",
+            "en": "Fuxing Metro Bus"
+          }
+        },
+        {
+          "stop_uid": "TPE192422",
+          "stop_id": "192422",
+          "stop_name": {
+            "zh_tw": "芝麻大廈",
+            "en": "Zhima Building"
+          },
+          "route_uid": "TPE15313",
+          "route_id": "15313",
+          "route_name": {
+            "zh_tw": "521",
+            "en": "521"
+          }
+        }
+      ],
+      "bearing": "N",
+      "location_city_code": "TPE"
+    },
+    {
+      "station_uid": "TPE1000254",
+      "station_id": "1000254",
+      "station_name": {
+        "zh_tw": "土地公廟"
+      },
+      "station_position": {
+        "position_lat": 25.0544903819023,
+        "position_lon": 121.595509916336
+      },
+      "station_address": "台北市南港路二段290號(向西)",
+      "stops": [
+        {
+          "stop_uid": "TPE34701",
+          "stop_id": "34701",
+          "stop_name": {
+            "zh_tw": "土地公廟",
+            "en": "Tudigong Temple"
+          },
+          "route_uid": "TPE10181",
+          "route_id": "10181",
+          "route_name": {
+            "zh_tw": "205",
+            "en": "205"
+          }
+        },
+        {
+          "stop_uid": "TPE36923",
+          "stop_id": "36923",
+          "stop_name": {
+            "zh_tw": "土地公廟",
+            "en": "Tudigong Temple"
+          },
+          "route_uid": "TPE10473",
+          "route_id": "10473",
+          "route_name": {
+            "zh_tw": "306",
+            "en": "306"
+          }
+        },
+        {
+          "stop_uid": "TPE39683",
+          "stop_id": "39683",
+          "stop_name": {
+            "zh_tw": "土地公廟",
+            "en": "Tudigong Temple"
+          },
+          "route_uid": "TPE10856",
+          "route_id": "10856",
+          "route_name": {
+            "zh_tw": "281",
+            "en": "281"
+          }
+        },
+        {
+          "stop_uid": "TPE10614",
+          "stop_id": "10614",
+          "stop_name": {
+            "zh_tw": "土地公廟",
+            "en": "Tudigong Temple"
+          },
+          "route_uid": "TPE10912",
+          "route_id": "10912",
+          "route_name": {
+            "zh_tw": "212",
+            "en": "212"
+          }
+        },
+        {
+          "stop_uid": "TPE24867",
+          "stop_id": "24867",
+          "stop_name": {
+            "zh_tw": "土地公廟",
+            "en": "Tudigong Temple"
+          },
+          "route_uid": "TPE11059",
+          "route_id": "11059",
+          "route_name": {
+            "zh_tw": "小5",
+            "en": "S5"
+          }
+        },
+        {
+          "stop_uid": "TPE24927",
+          "stop_id": "24927",
+          "stop_name": {
+            "zh_tw": "土地公廟",
+            "en": "Tudigong Temple"
+          },
+          "route_uid": "TPE11061",
+          "route_id": "11061",
+          "route_name": {
+            "zh_tw": "小5區",
+            "en": "S5Shuttle"
+          }
+        },
+        {
+          "stop_uid": "TPE24991",
+          "stop_id": "24991",
+          "stop_name": {
+            "zh_tw": "土地公廟",
+            "en": "Tudigong Temple"
+          },
+          "route_uid": "TPE11062",
+          "route_id": "11062",
+          "route_name": {
+            "zh_tw": "小1區",
+            "en": "S1Shuttle"
+          }
+        },
+        {
+          "stop_uid": "TPE152678",
+          "stop_id": "152678",
+          "stop_name": {
+            "zh_tw": "土地公廟",
+            "en": "Tudigong Temple"
+          },
+          "route_uid": "TPE11114",
+          "route_id": "11114",
+          "route_name": {
+            "zh_tw": "551",
+            "en": "551"
+          }
+        },
+        {
+          "stop_uid": "TPE44132",
+          "stop_id": "44132",
+          "stop_name": {
+            "zh_tw": "土地公廟",
+            "en": "Tudigong Temple"
+          },
+          "route_uid": "TPE11851",
+          "route_id": "11851",
+          "route_name": {
+            "zh_tw": "276",
+            "en": "276"
+          }
+        },
+        {
+          "stop_uid": "TPE44366",
+          "stop_id": "44366",
+          "stop_name": {
+            "zh_tw": "土地公廟",
+            "en": "Tudigong Temple"
+          },
+          "route_uid": "TPE11853",
+          "route_id": "11853",
+          "route_name": {
+            "zh_tw": "306區",
+            "en": "306Shuttle"
+          }
+        },
+        {
+          "stop_uid": "TPE12722",
+          "stop_id": "12722",
+          "stop_name": {
+            "zh_tw": "土地公廟",
+            "en": "Tudigong Temple"
+          },
+          "route_uid": "TPE15314",
+          "route_id": "15314",
+          "route_name": {
+            "zh_tw": "203",
+            "en": "203"
+          }
+        },
+        {
+          "stop_uid": "TPE45106",
+          "stop_id": "45106",
+          "stop_name": {
+            "zh_tw": "土地公廟",
+            "en": "Tudigong Temple"
+          },
+          "route_uid": "TPE15513",
+          "route_id": "15513",
+          "route_name": {
+            "zh_tw": "711",
+            "en": "711"
+          }
+        },
+        {
+          "stop_uid": "TPE45993",
+          "stop_id": "45993",
+          "stop_name": {
+            "zh_tw": "土地公廟",
+            "en": "Tudigong Temple"
+          },
+          "route_uid": "TPE15514",
+          "route_id": "15514",
+          "route_name": {
+            "zh_tw": "605",
+            "en": "605"
+          }
+        },
+        {
+          "stop_uid": "TPE45215",
+          "stop_id": "45215",
+          "stop_name": {
+            "zh_tw": "土地公廟",
+            "en": "Tudigong Temple"
+          },
+          "route_uid": "TPE15515",
+          "route_id": "15515",
+          "route_name": {
+            "zh_tw": "668",
+            "en": "668"
+          }
+        },
+        {
+          "stop_uid": "TPE46092",
+          "stop_id": "46092",
+          "stop_name": {
+            "zh_tw": "土地公廟",
+            "en": "Tudigong Temple"
+          },
+          "route_uid": "TPE15518",
+          "route_id": "15518",
+          "route_name": {
+            "zh_tw": "605新台五",
+            "en": "605Xintaiwu"
+          }
+        },
+        {
+          "stop_uid": "TPE45535",
+          "stop_id": "45535",
+          "stop_name": {
+            "zh_tw": "土地公廟",
+            "en": "Tudigong Temple"
+          },
+          "route_uid": "TPE15571",
+          "route_id": "15571",
+          "route_name": {
+            "zh_tw": "600",
+            "en": "600"
+          }
+        }
+      ],
+      "bearing": "W",
+      "location_city_code": "TPE"
+    },
+    {
+      "station_uid": "TPE1000401",
+      "station_id": "1000401",
+      "station_name": {
+        "zh_tw": "浪漫貴族"
+      },
+      "station_position": {
+        "position_lat": 24.960016,
+        "position_lon": 121.511483
+      },
+      "station_address": "安康路二段180號對面(向北)",
+      "stops": [
+        {
+          "stop_uid": "TPE16835",
+          "stop_id": "16835",
+          "stop_name": {
+            "zh_tw": "浪漫貴族",
+            "en": "Langmanguizu"
+          },
+          "route_uid": "TPE10142",
+          "route_id": "10142",
+          "route_name": {
+            "zh_tw": "南環幹線",
+            "en": "Nanhuan Metro Bus"
+          }
+        },
+        {
+          "stop_uid": "TPE35513",
+          "stop_id": "35513",
+          "stop_name": {
+            "zh_tw": "浪漫貴族",
+            "en": "Langmanguizu"
+          },
+          "route_uid": "TPE10326",
+          "route_id": "10326",
+          "route_name": {
+            "zh_tw": "648",
+            "en": "648"
+          }
+        },
+        {
+          "stop_uid": "TPE14394",
+          "stop_id": "14394",
+          "stop_name": {
+            "zh_tw": "浪漫貴族",
+            "en": "Langmanguizu"
+          },
+          "route_uid": "TPE10328",
+          "route_id": "10328",
+          "route_name": {
+            "zh_tw": "643",
+            "en": "643"
+          }
+        },
+        {
+          "stop_uid": "TPE20776",
+          "stop_id": "20776",
+          "stop_name": {
+            "zh_tw": "浪漫貴族",
+            "en": "Langmanguizu"
+          },
+          "route_uid": "TPE15183",
+          "route_id": "15183",
+          "route_name": {
+            "zh_tw": "905",
+            "en": "905"
+          }
+        },
+        {
+          "stop_uid": "TPE21422",
+          "stop_id": "21422",
+          "stop_name": {
+            "zh_tw": "浪漫貴族",
+            "en": "Langmanguizu"
+          },
+          "route_uid": "TPE15184",
+          "route_id": "15184",
+          "route_name": {
+            "zh_tw": "905副",
+            "en": "905Sub"
+          }
+        },
+        {
+          "stop_uid": "TPE19193",
+          "stop_id": "19193",
+          "stop_name": {
+            "zh_tw": "浪漫貴族",
+            "en": "Langmanguizu"
+          },
+          "route_uid": "TPE15185",
+          "route_id": "15185",
+          "route_name": {
+            "zh_tw": "202區",
+            "en": "202Shuttle"
+          }
+        },
+        {
+          "stop_uid": "TPE54462",
+          "stop_id": "54462",
+          "stop_name": {
+            "zh_tw": "浪漫貴族",
+            "en": "Langmanguizu"
+          },
+          "route_uid": "TPE15676",
+          "route_id": "15676",
+          "route_name": {
+            "zh_tw": "內科通勤專車10",
+            "en": "NH10"
+          }
+        }
+      ],
+      "bearing": "NE",
+      "location_city_code": "NWT"
+    }
+  ]
+}

@@ -1,0 +1,326 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "加值資訊-公車-站間距離",
+    "description": "本平臺提供涵蓋全國尺度之交通旅運資料服務API，歡迎各產政學單位介接使用。\n<br><span class=swagger-description-indicatation>利用本平臺開放資料進行各項應用服務開發時，請考量不同特性使用者(如：性別/身心障礙/老幼等)的需求，並歡迎回饋寶貴意見</span>。\n<br>計費方式：\n<br>計次：10次/1點\n<br>計量：1MB/10點\n---\n##### API使用說明與注意事項：\n1. 如您尚未註冊平臺會員帳號，或未以帳號登入，您將僅能以「訪客模式」使用平臺服務，包含：限以瀏覽器存取，限使用`【基礎服務】`，且限制每個呼叫來源端IP每日存取至多20次。。\n2. 如您已註冊平臺會員帳號，請務必確保在存取服務(包含瀏覽器、程式呼叫API)時帶入您的API金鑰，方能以「會員模式」使用完整平臺服務，包含平臺各類資料服務，如`【基礎服務】`、`【進階服務】`、`【加值服務】`、`【歷史服務】`、`【圖資服務】`、`【第三方服務】`等。\n3. 建議您立即[註冊平臺會員帳號](/register)，依您用量需求訂閱服務方案，並於[【會員中心->資料服務->API金鑰】](/user/dataservice/key)取得API金鑰(即Client Id和Client Secret資訊)。\n4. 會員訂閱服務方案之級別不同，將決定其API金鑰之存取頻率有不同限制，各個方案的存取頻率限制說明請參考[訂閱收費](/pricing)。\n5. 以瀏覽器帶入API金鑰之操作方式：請點選Swagger UI上的Authorize按鈕，依指示填入Client Id和Client Secret資訊並進行驗證，驗證完成後可開始於Swagger UI使用API。\n6. 以程式呼叫API帶入API金鑰之操作方式：請參考[範例程式](https://github.com/tdxmotc/SampleCode)。\n7. 不論您是以瀏覽器或是以程式呼叫API，所有服務存取行為均將被記錄並定期檢視，以確保系統資源使用的合理分配與避免遭受濫用。\n\nAPI OAS文本 :[請點我](https://tdx.transportdata.tw/webapi/File/Swagger/V3/e2437b20-8f4a-4e71-875d-53466e94dae8)",
+    "termsOfService": "https://tdx.transportdata.tw/term",
+    "contact": {
+      "name": "TDX客服信箱",
+      "email": "tdx@motc.gov.tw"
+    },
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://tdx.transportdata.tw/api/premium"
+    }
+  ],
+  "paths": {
+    "/S2SDistance/City/{City}/RouteID/{RouteID}": {
+      "get": {
+        "tags": [
+          "Stop2StopDistanceOfRoute"
+        ],
+        "summary": "取得指定[縣市]、市區公車[路線代碼]之站牌站間距離資訊",
+        "description": "取得指定[縣市]、市區公車[路線代碼]之站牌站間距離資訊",
+        "operationId": "Stop2StopDistanceOfRoute_CityBus_S2SDist",
+        "parameters": [
+          {
+            "name": "City",
+            "in": "path",
+            "description": "欲查詢縣市<br>Taipei = 臺北市, <br>Taichung = 臺中市, <br>Keelung = 基隆市, <br>Tainan = 臺南市, <br>Kaohsiung = 高雄市, <br>NewTaipei = 新北市, <br>YilanCounty = 宜蘭縣, <br>Taoyuan = 桃園市, <br>Chiayi = 嘉義市, <br>HsinchuCounty = 新竹縣, <br>MiaoliCounty = 苗栗縣, <br>NantouCounty = 南投縣, <br>ChanghuaCounty = 彰化縣, <br>Hsinchu = 新竹市, <br>YunlinCounty = 雲林縣, <br>ChiayiCounty = 嘉義縣, <br>PingtungCounty = 屏東縣, <br>HualienCounty = 花蓮縣, <br>TaitungCounty = 臺東縣, <br>KinmenCounty = 金門縣, <br>PenghuCounty = 澎湖縣, <br>LienchiangCounty = 連江縣, <br>InterCity = 公路客運",
+            "required": true,
+            "schema": {
+              "enum": [
+                "Taipei",
+                "NewTaipei",
+                "Taoyuan",
+                "Taichung",
+                "Tainan",
+                "Kaohsiung",
+                "Keelung",
+                "Hsinchu",
+                "HsinchuCounty",
+                "MiaoliCounty",
+                "ChanghuaCounty",
+                "NantouCounty",
+                "YunlinCounty",
+                "ChiayiCounty",
+                "Chiayi",
+                "PingtungCounty",
+                "YilanCounty",
+                "HualienCounty",
+                "TaitungCounty",
+                "KinmenCounty",
+                "PenghuCounty",
+                "LienchiangCounty",
+                "InterCity"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "RouteID",
+            "in": "path",
+            "description": "地區既用中之路線代碼(為原資料內碼)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$format",
+            "in": "query",
+            "description": "指定來源格式",
+            "required": true,
+            "schema": {
+              "enum": [
+                "JSON",
+                "XML"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/S2SDist"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/S2SDist"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/S2SDist"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/S2SDist"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": { },
+              "text/json": { },
+              "application/xml": { },
+              "text/xml": { }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": { },
+              "text/json": { },
+              "application/xml": { },
+              "text/xml": { }
+            }
+          }
+        }
+      }
+    },
+    "/S2SDistance/InterCity/RouteID/{RouteID}": {
+      "get": {
+        "tags": [
+          "Stop2StopDistanceOfRoute"
+        ],
+        "summary": "取得指定公路客運[路線代碼]之站牌站間距離資訊",
+        "description": "取得指定公路客運[路線代碼]之站牌站間距離資訊",
+        "operationId": "Stop2StopDistanceOfRoute_InterCity_S2SDist",
+        "parameters": [
+          {
+            "name": "RouteID",
+            "in": "path",
+            "description": "地區既用中之路線代碼(為原資料內碼)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$format",
+            "in": "query",
+            "description": "指定來源格式",
+            "required": true,
+            "schema": {
+              "enum": [
+                "JSON",
+                "XML"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/S2SDist"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/S2SDist"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/S2SDist"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/S2SDist"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": { },
+              "text/json": { },
+              "application/xml": { },
+              "text/xml": { }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": { },
+              "text/json": { },
+              "application/xml": { },
+              "text/xml": { }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "S2SDist": {
+        "title": "S2SDist",
+        "type": "object",
+        "properties": {
+          "City": {
+            "type": "string"
+          },
+          "RouteUID": {
+            "type": "string",
+            "description": "路線唯一識別代碼，規則為 {業管機關簡碼} + {RouteID}其中 {業管機關簡碼} 可於Authority API(PTX)中的AuthorityCode欄位查詢"
+          },
+          "RouteID": {
+            "type": "string",
+            "description": "地區既用中之路線代碼"
+          },
+          "RouteName": {
+            "$ref": "#/components/schemas/NameType"
+          },
+          "SubRouteUID": {
+            "type": "string",
+            "description": "附屬路線唯一識別代碼，規則為 {業管機關簡碼} + {SubRouteID}，其中 {業管機關簡碼} 可於Authority API中的AuthorityCode欄位查詢"
+          },
+          "SubRouteID": {
+            "type": "string",
+            "description": "地區既用中之附屬路線代碼(為原資料內碼)"
+          },
+          "SubRouteName": {
+            "$ref": "#/components/schemas/NameType"
+          },
+          "Direction": {
+            "type": "integer",
+            "description": "去返程 : [0:'去程',1:'返程',2:'迴圈',255:'未知']",
+            "format": "int32"
+          },
+          "UpdateTime": {
+            "type": "string",
+            "description": "TDX平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)",
+            "format": "date-time"
+          },
+          "Stops": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Stop"
+            },
+            "description": "所有經過站牌"
+          }
+        },
+        "description": "站間距離"
+      },
+      "NameType": {
+        "title": "NameType",
+        "type": "object",
+        "properties": {
+          "Zh_tw": {
+            "type": "string",
+            "description": "中文繁體名稱"
+          },
+          "En": {
+            "type": "string",
+            "description": "英文名稱"
+          }
+        },
+        "description": "名稱類別"
+      },
+      "Stop": {
+        "title": "Stop",
+        "type": "object",
+        "properties": {
+          "Sequence": {
+            "type": "integer",
+            "description": "站間序號",
+            "format": "int32"
+          },
+          "FromStopID": {
+            "type": "string",
+            "description": "起站站牌代碼"
+          },
+          "ToStopID": {
+            "type": "string",
+            "description": "迄站站牌代碼"
+          },
+          "Distance": {
+            "type": "string",
+            "description": "站間距離(公尺)"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "TDX": {
+        "type": "oauth2",
+        "description": "TDX會員可至【會員專區-資料服務-服務金鑰】功能頁面，從預設金鑰(或建立新的金鑰)取得Client Id和Client Secret資訊，分別輸入至下方client_id和client_secret欄位、按下Authorize按鈕，即可開始於Swagger介面呼叫TDX API。",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://tdx.transportdata.tw/auth/realms/TDXConnect/protocol/openid-connect/token",
+            "scopes": { }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "TDX": [ ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "Stop2StopDistanceOfRoute",
+      "description": "路線站牌站間距離"
+    }
+  ]
+}

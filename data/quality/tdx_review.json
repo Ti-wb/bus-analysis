@@ -1,0 +1,1041 @@
+{
+  "schema_version": 1,
+  "dataset_id": "independent_tdx_review",
+  "metadata": {
+    "reviewer_agent": "/root/review_bus_population_tdx",
+    "independent_of_producer": true,
+    "reviewed_at": "2026-10-22T00:06:37+08:00",
+    "scope": "TDX 官方規格/供應目錄與已取得的臺北市業務回應",
+    "method": "官方目錄逐項比對；所有業務回應逐列逐欄比raw，核城市、時間、Count、樣本標示、單位與粒度。",
+    "record_count": 40,
+    "check_script": "raw_data/reviews/review_bus_population_tdx/review_tdx.py",
+    "business_observations_reviewed": true,
+    "observations_check_script": "raw_data/reviews/review_bus_population_tdx/review_tdx_observations.py",
+    "business_observation_file_count": 34,
+    "availability_file_count": 2
+  },
+  "records": [
+    {
+      "file": "data/tdx/api_catalog.json",
+      "record_count": 61,
+      "status": "pass_as_specification_only",
+      "checks": {
+        "all_selected_official_paths_present_once": true,
+        "all_parameter_types_defaults_and_enums_match": true,
+        "by_specification": {
+          "historical": 23,
+          "travel_time": 2,
+          "stop_distance": 1,
+          "bus_uncovered": 1,
+          "transit_inaccessible": 1,
+          "bus_v3": 33
+        }
+      },
+      "limitations": [
+        "此檔為 API 規格，不是公車明細；City enum 不保證該市實際有資料。",
+        "歷史端點的官方 $top 預設為 30，未核對 Count 不能宣稱全量。"
+      ]
+    },
+    {
+      "file": "data/tdx/field_dictionary.json",
+      "record_count": 1289,
+      "status": "pass_as_specification_only",
+      "checks": {
+        "all_field_types_descriptions_nullable_and_format_match_official_schema": true,
+        "unique_specification_model_field_keys": true
+      },
+      "limitations": [
+        "欄位字典描述規格；真實回應仍須另查缺漏及型別。"
+      ]
+    },
+    {
+      "file": "data/tdx/historical_supply.json",
+      "record_count": 32,
+      "status": "pass_as_supply_catalog_only",
+      "checks": {
+        "all_city_service_ids_names_and_supply_dates_match": true,
+        "taipei_service_count": 16,
+        "taipei_supply_periods": [
+          {
+            "service": "臺北市市區公車定時歷史資料(A1)",
+            "start": "2024-02-10T00:00:00",
+            "end": "2026-10-20T00:00:00"
+          },
+          {
+            "service": "臺北市市區公車定點歷史資料(A2)",
+            "start": "2023-12-17T00:00:00",
+            "end": "2026-10-20T00:00:00"
+          },
+          {
+            "service": "臺北市市區公車線形歷史資料",
+            "start": "2024-01-02T00:00:00",
+            "end": "2026-10-20T00:00:00"
+          },
+          {
+            "service": "臺北市市區公車路線歷史資料",
+            "start": "2024-01-02T00:00:00",
+            "end": "2026-10-20T00:00:00"
+          },
+          {
+            "service": "臺北市市區公車路線班表歷史資料",
+            "start": "2024-01-02T00:00:00",
+            "end": "2026-10-20T00:00:00"
+          },
+          {
+            "service": "臺北市市區公車路線站序歷史資料",
+            "start": "2024-01-02T00:00:00",
+            "end": "2026-10-20T00:00:00"
+          },
+          {
+            "service": "臺北市市區公車顯示用路線站序歷史資料",
+            "start": "2024-01-02T00:00:00",
+            "end": "2026-10-20T00:00:00"
+          },
+          {
+            "service": "臺北市市區公車站位歷史資料",
+            "start": "2024-01-02T00:00:00",
+            "end": "2026-10-20T00:00:00"
+          },
+          {
+            "service": "臺北市市區公車站牌歷史資料",
+            "start": "2024-01-02T00:00:00",
+            "end": "2026-10-20T00:00:00"
+          },
+          {
+            "service": "臺北市市區公車站位資料版本清單",
+            "start": "2024-01-02T00:00:00",
+            "end": "2026-10-20T00:00:00"
+          },
+          {
+            "service": "臺北市市區公車站牌資料版本清單",
+            "start": "2024-01-02T00:00:00",
+            "end": "2026-10-20T00:00:00"
+          },
+          {
+            "service": "臺北市市區公車線形資料版本清單",
+            "start": "2024-01-02T00:00:00",
+            "end": "2026-10-20T00:00:00"
+          },
+          {
+            "service": "臺北市市區公車路線班表資料版本清單",
+            "start": "2024-01-02T00:00:00",
+            "end": "2026-10-20T00:00:00"
+          },
+          {
+            "service": "臺北市市區公車路線站序資料版本清單",
+            "start": "2024-01-02T00:00:00",
+            "end": "2026-10-20T00:00:00"
+          },
+          {
+            "service": "臺北市市區公車路線資料版本清單",
+            "start": "2024-01-02T00:00:00",
+            "end": "2026-10-20T00:00:00"
+          },
+          {
+            "service": "臺北市市區公車顯示用路線站序資料版本清單",
+            "start": "2024-01-02T00:00:00",
+            "end": "2026-10-20T00:00:00"
+          }
+        ]
+      },
+      "limitations": [
+        "供應期間不等於逐日完整性；臺北 A1 自 2024-02-10、A2 自 2023-12-17、主要歷史路網班表自 2024-01-02。",
+        "雙北供應目錄僅供參考；本次業務資料的選取範圍為臺北。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_2026-10-20_RealTimeByFrequency_sample_30.json",
+      "record_count": 30,
+      "status": "pass_as_sample_only",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_2026-10-20_RealTimeByFrequency_sample_30.jsonl",
+        "scope_status": "sample_only",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "key_profile": {
+          "fields": [
+            "plate_numb",
+            "gps_time",
+            "route_uid",
+            "direction"
+          ],
+          "distinct_count": 30,
+          "missing_count": 0
+        },
+        "coordinate_count_and_range_valid": 30,
+        "gps_time_range_asia_taipei": {
+          "start": "2026-10-20T10:00:00+08:00",
+          "end": "2026-10-20T10:01:38+08:00"
+        },
+        "gps_dates_match_requested_civil_day": true
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。",
+        "只驗證指定日期 API 所回傳的前幾筆樣本；不代表整日、完整三年或隨機抽樣。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_2026-10-20_RealTimeNearStop_sample_30.json",
+      "record_count": 30,
+      "status": "pass_as_sample_only",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_2026-10-20_RealTimeNearStop_sample_30.jsonl",
+        "scope_status": "sample_only",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "key_profile": {
+          "fields": [
+            "plate_numb",
+            "gps_time",
+            "route_uid",
+            "direction",
+            "stop_uid",
+            "a2_event_type"
+          ],
+          "distinct_count": 30,
+          "missing_count": 0
+        },
+        "gps_time_range_asia_taipei": {
+          "start": "2026-10-20T17:00:16+08:00",
+          "end": "2026-10-20T21:59:53+08:00"
+        },
+        "gps_dates_match_requested_civil_day": true
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。",
+        "只驗證指定日期 API 所回傳的前幾筆樣本；不代表整日、完整三年或隨機抽樣。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_2026-10-20_Route_top_100000.json",
+      "record_count": 416,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_2026-10-20_Route_top_100000.json",
+        "scope_status": "complete_requested_date_by_response_count",
+        "response_count": 416,
+        "declared_grain_and_units_present": true,
+        "key_profile": {
+          "fields": [
+            "route_uid"
+          ],
+          "distinct_count": 416,
+          "missing_count": 0
+        }
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_2026-10-20_Schedule_sample_30.json",
+      "record_count": 30,
+      "status": "pass_as_sample_only",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_2026-10-20_Schedule_sample_30.json",
+        "scope_status": "sample_only",
+        "response_count": 600,
+        "declared_grain_and_units_present": true,
+        "key_profile": {
+          "fields": [
+            "sub_route_uid",
+            "direction"
+          ],
+          "distinct_count": 30,
+          "missing_count": 0
+        }
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。",
+        "只驗證指定日期 API 所回傳的前幾筆樣本；不代表整日、完整三年或隨機抽樣。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_2026-10-20_Shape_sample_30.geojson",
+      "record_count": 30,
+      "status": "pass_as_sample_only",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_2026-10-20_Shape_sample_30.json",
+        "scope_status": "sample_only",
+        "response_count": 1028,
+        "declared_grain_and_units_present": true,
+        "key_profile": {
+          "fields": [
+            "route_uid",
+            "direction"
+          ],
+          "distinct_count": 24,
+          "missing_count": 0
+        },
+        "empty_geometries_preserved": 0
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。",
+        "來源 WKT 無獨立 CRS 定義，依臺灣經緯度範圍判讀為 WGS84，未重投影。",
+        "本30筆Shape樣本只有24組(route_uid,direction)；來源包含同主路線同方向的不同分支，且未提供分支ID，不可將該組合視為唯一鍵或任意折疊。",
+        "只驗證指定日期 API 所回傳的前幾筆樣本；不代表整日、完整三年或隨機抽樣。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_2026-10-20_Station_sample_30.json",
+      "record_count": 30,
+      "status": "pass_as_sample_only",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_2026-10-20_Station_sample_30.json",
+        "scope_status": "sample_only",
+        "response_count": 5375,
+        "declared_grain_and_units_present": true,
+        "key_profile": {
+          "fields": [
+            "station_uid"
+          ],
+          "distinct_count": 30,
+          "missing_count": 0
+        },
+        "coordinate_count_and_range_valid": 30
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。",
+        "只驗證指定日期 API 所回傳的前幾筆樣本；不代表整日、完整三年或隨機抽樣。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_2026-10-20_Stop_sample_30.json",
+      "record_count": 30,
+      "status": "pass_as_sample_only",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_2026-10-20_Stop_sample_30.json",
+        "scope_status": "sample_only",
+        "response_count": 28823,
+        "declared_grain_and_units_present": true,
+        "key_profile": {
+          "fields": [
+            "stop_uid"
+          ],
+          "distinct_count": 30,
+          "missing_count": 0
+        },
+        "coordinate_count_and_range_valid": 30
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。",
+        "只驗證指定日期 API 所回傳的前幾筆樣本；不代表整日、完整三年或隨機抽樣。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_63000010_bus_uncovered.geojson",
+      "record_count": 3,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_63000010_bus_uncovered.json",
+        "scope_status": "requested_scope_response",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "key_profile": {
+          "fields": [
+            "road_class"
+          ],
+          "distinct_count": 3,
+          "missing_count": 0
+        },
+        "empty_geometries_preserved": 1
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_63000010_transit_inaccessible.geojson",
+      "record_count": 1,
+      "status": "pass_with_spatial_use_restriction",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_63000010_transit_inaccessible.json",
+        "scope_status": "requested_scope_response",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "empty_geometries_preserved": 0,
+        "district_geometry_check": {
+          "reference_file": "data/population/taipei_statistical_area_boundaries.geojson",
+          "reference_boundary_vintage": "2015",
+          "requested_district_id": "63000010",
+          "reference_bbox": [
+            121.53849100003767,
+            25.044343207945083,
+            121.58010288232275,
+            25.075846927143832
+          ],
+          "source_point": [
+            121.60139296791124,
+            24.995736695092432
+          ],
+          "outside_reference_bbox": true
+        }
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。",
+        "來源幾何超出所請求行政區的參考邊界範圍；保留原座標，不可直接視為該區不可及戶數分布。",
+        "官規只稱家戶數與合理家戶數量；後者可能大於前者，不將兩欄差值解讀為不可及戶數或自行重算比例。",
+        "松山請求回傳的單點明顯落於松山區2015統計區外包範圍之外；原始回應也相同，屬來源空間歸屬疑義。保留原值，只能作API回應參考，不能據此判定松山不可及家戶位置。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_63000020_bus_uncovered.geojson",
+      "record_count": 4,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_63000020_bus_uncovered.json",
+        "scope_status": "requested_scope_response",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "key_profile": {
+          "fields": [
+            "road_class"
+          ],
+          "distinct_count": 4,
+          "missing_count": 0
+        },
+        "empty_geometries_preserved": 3
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_63000020_transit_inaccessible.geojson",
+      "record_count": 1,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_63000020_transit_inaccessible.json",
+        "scope_status": "requested_scope_response",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "empty_geometries_preserved": 0
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。",
+        "官規只稱家戶數與合理家戶數量；後者可能大於前者，不將兩欄差值解讀為不可及戶數或自行重算比例。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_63000030_bus_uncovered.geojson",
+      "record_count": 4,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_63000030_bus_uncovered.json",
+        "scope_status": "requested_scope_response",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "key_profile": {
+          "fields": [
+            "road_class"
+          ],
+          "distinct_count": 4,
+          "missing_count": 0
+        },
+        "empty_geometries_preserved": 2
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_63000030_transit_inaccessible.geojson",
+      "record_count": 1,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_63000030_transit_inaccessible.json",
+        "scope_status": "requested_scope_response",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "empty_geometries_preserved": 1
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。",
+        "官規只稱家戶數與合理家戶數量；後者可能大於前者，不將兩欄差值解讀為不可及戶數或自行重算比例。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_63000040_bus_uncovered.geojson",
+      "record_count": 4,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_63000040_bus_uncovered.json",
+        "scope_status": "requested_scope_response",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "key_profile": {
+          "fields": [
+            "road_class"
+          ],
+          "distinct_count": 4,
+          "missing_count": 0
+        },
+        "empty_geometries_preserved": 1
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_63000040_transit_inaccessible.geojson",
+      "record_count": 1,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_63000040_transit_inaccessible.json",
+        "scope_status": "requested_scope_response",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "empty_geometries_preserved": 0
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。",
+        "官規只稱家戶數與合理家戶數量；後者可能大於前者，不將兩欄差值解讀為不可及戶數或自行重算比例。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_63000050_bus_uncovered.geojson",
+      "record_count": 4,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_63000050_bus_uncovered.json",
+        "scope_status": "requested_scope_response",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "key_profile": {
+          "fields": [
+            "road_class"
+          ],
+          "distinct_count": 4,
+          "missing_count": 0
+        },
+        "empty_geometries_preserved": 0
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_63000050_transit_inaccessible.geojson",
+      "record_count": 1,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_63000050_transit_inaccessible.json",
+        "scope_status": "requested_scope_response",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "empty_geometries_preserved": 1
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。",
+        "官規只稱家戶數與合理家戶數量；後者可能大於前者，不將兩欄差值解讀為不可及戶數或自行重算比例。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_63000060_bus_uncovered.geojson",
+      "record_count": 4,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_63000060_bus_uncovered.json",
+        "scope_status": "requested_scope_response",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "key_profile": {
+          "fields": [
+            "road_class"
+          ],
+          "distinct_count": 4,
+          "missing_count": 0
+        },
+        "empty_geometries_preserved": 1
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_63000060_transit_inaccessible.geojson",
+      "record_count": 1,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_63000060_transit_inaccessible.json",
+        "scope_status": "requested_scope_response",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "empty_geometries_preserved": 1
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。",
+        "官規只稱家戶數與合理家戶數量；後者可能大於前者，不將兩欄差值解讀為不可及戶數或自行重算比例。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_63000070_bus_uncovered.geojson",
+      "record_count": 4,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_63000070_bus_uncovered.json",
+        "scope_status": "requested_scope_response",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "key_profile": {
+          "fields": [
+            "road_class"
+          ],
+          "distinct_count": 4,
+          "missing_count": 0
+        },
+        "empty_geometries_preserved": 1
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_63000070_transit_inaccessible.geojson",
+      "record_count": 1,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_63000070_transit_inaccessible.json",
+        "scope_status": "requested_scope_response",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "empty_geometries_preserved": 1
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。",
+        "官規只稱家戶數與合理家戶數量；後者可能大於前者，不將兩欄差值解讀為不可及戶數或自行重算比例。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_63000080_bus_uncovered.geojson",
+      "record_count": 5,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_63000080_bus_uncovered.json",
+        "scope_status": "requested_scope_response",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "key_profile": {
+          "fields": [
+            "road_class"
+          ],
+          "distinct_count": 5,
+          "missing_count": 0
+        },
+        "empty_geometries_preserved": 2
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_63000080_transit_inaccessible.geojson",
+      "record_count": 1,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_63000080_transit_inaccessible.json",
+        "scope_status": "requested_scope_response",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "empty_geometries_preserved": 0
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。",
+        "官規只稱家戶數與合理家戶數量；後者可能大於前者，不將兩欄差值解讀為不可及戶數或自行重算比例。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_63000090_bus_uncovered.geojson",
+      "record_count": 4,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_63000090_bus_uncovered.json",
+        "scope_status": "requested_scope_response",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "key_profile": {
+          "fields": [
+            "road_class"
+          ],
+          "distinct_count": 4,
+          "missing_count": 0
+        },
+        "empty_geometries_preserved": 1
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_63000090_transit_inaccessible.geojson",
+      "record_count": 1,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_63000090_transit_inaccessible.json",
+        "scope_status": "requested_scope_response",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "empty_geometries_preserved": 0
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。",
+        "官規只稱家戶數與合理家戶數量；後者可能大於前者，不將兩欄差值解讀為不可及戶數或自行重算比例。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_63000100_bus_uncovered.geojson",
+      "record_count": 4,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_63000100_bus_uncovered.json",
+        "scope_status": "requested_scope_response",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "key_profile": {
+          "fields": [
+            "road_class"
+          ],
+          "distinct_count": 4,
+          "missing_count": 0
+        },
+        "empty_geometries_preserved": 2
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_63000100_transit_inaccessible.geojson",
+      "record_count": 1,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_63000100_transit_inaccessible.json",
+        "scope_status": "requested_scope_response",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "empty_geometries_preserved": 0
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。",
+        "官規只稱家戶數與合理家戶數量；後者可能大於前者，不將兩欄差值解讀為不可及戶數或自行重算比例。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_63000110_bus_uncovered.geojson",
+      "record_count": 6,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_63000110_bus_uncovered.json",
+        "scope_status": "requested_scope_response",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "key_profile": {
+          "fields": [
+            "road_class"
+          ],
+          "distinct_count": 6,
+          "missing_count": 0
+        },
+        "empty_geometries_preserved": 2
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_63000110_transit_inaccessible.geojson",
+      "record_count": 1,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_63000110_transit_inaccessible.json",
+        "scope_status": "requested_scope_response",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "empty_geometries_preserved": 0
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。",
+        "官規只稱家戶數與合理家戶數量；後者可能大於前者，不將兩欄差值解讀為不可及戶數或自行重算比例。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_63000120_bus_uncovered.geojson",
+      "record_count": 3,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_63000120_bus_uncovered.json",
+        "scope_status": "requested_scope_response",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "key_profile": {
+          "fields": [
+            "road_class"
+          ],
+          "distinct_count": 3,
+          "missing_count": 0
+        },
+        "empty_geometries_preserved": 2
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_63000120_transit_inaccessible.geojson",
+      "record_count": 1,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_63000120_transit_inaccessible.json",
+        "scope_status": "requested_scope_response",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "empty_geometries_preserved": 0
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。",
+        "官規只稱家戶數與合理家戶數量；後者可能大於前者，不將兩欄差值解讀為不可及戶數或自行重算比例。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_DRTS_BookingRule_offset_0.json",
+      "record_count": 11,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_DRTS_BookingRule_offset_0.json",
+        "scope_status": "complete_requested_endpoint_by_exhausted_page",
+        "response_count": 11,
+        "declared_grain_and_units_present": true,
+        "key_profile": {
+          "fields": [
+            "booking_rule_id"
+          ],
+          "distinct_count": 11,
+          "missing_count": 0
+        }
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_DRTS_Route_offset_0.json",
+      "record_count": 12,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_DRTS_Route_offset_0.json",
+        "scope_status": "complete_requested_endpoint_by_exhausted_page",
+        "response_count": 12,
+        "declared_grain_and_units_present": true,
+        "key_profile": {
+          "fields": [
+            "route_id"
+          ],
+          "distinct_count": 12,
+          "missing_count": 0
+        }
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。"
+      ]
+    },
+    {
+      "file": "data/tdx/observations/Taipei_S2STravelTime_307.json",
+      "record_count": 2,
+      "status": "pass_with_limitations",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_S2STravelTime_307.json",
+        "scope_status": "requested_scope_response",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "key_profile": {
+          "fields": [
+            "sub_route_uid",
+            "direction"
+          ],
+          "distinct_count": 2,
+          "missing_count": 0
+        },
+        "nested_travel_times": {
+          "record_count": 5500,
+          "run_time_count": 5414,
+          "run_time_null_count": 86,
+          "run_time_seconds_min": 11,
+          "run_time_seconds_max": 486
+        },
+        "source_missing_fields_normalized_null": {
+          "from_stop_id": 86,
+          "run_time": 86
+        }
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。"
+      ]
+    },
+    {
+      "file": "data/tdx/availability/Taipei_2026-10-20_RealTimeByFrequency_meta.json",
+      "record_count": 1,
+      "status": "pass_as_availability_only",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_2026-10-20_RealTimeByFrequency_meta.json",
+        "scope_status": "availability_statistics_only",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "available_records": 6648792,
+        "available_bytes": 3176636931
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。",
+        "此檔只有供應筆數及大小，並未保存所列數量的實際觀測。"
+      ]
+    },
+    {
+      "file": "data/tdx/availability/Taipei_2026-10-20_RealTimeNearStop_meta.json",
+      "record_count": 1,
+      "status": "pass_as_availability_only",
+      "checks": {
+        "all_raw_records_and_fields_match": true,
+        "request_city": "Taipei",
+        "raw_file": "raw_data/tdx/responses/Taipei_2026-10-20_RealTimeNearStop_meta.json",
+        "scope_status": "availability_statistics_only",
+        "response_count": null,
+        "declared_grain_and_units_present": true,
+        "available_records": 1921329,
+        "available_bytes": 1129991416
+      },
+      "limitations": [
+        "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+        "未知/缺漏不補零；狀態碼原值保留。",
+        "此檔只有供應筆數及大小，並未保存所列數量的實際觀測。"
+      ]
+    },
+    {
+      "file": "data/tdx/reference_catalog.json",
+      "record_count": 1280,
+      "status": "pass_as_reference_only",
+      "checks": {
+        "category_counts": {
+          "historical": 8,
+          "travel_time_distance": 1248,
+          "accessibility": 24
+        },
+        "all_reference_urls_match_official_endpoint_templates": true,
+        "route_ids_match_retained_tdx_route_source": true,
+        "district_ids_match_boundary_source": true,
+        "historical_intervals_match_official_supply": true,
+        "monthly_partitions_contiguous": true,
+        "retained_file_links_exist_and_were_independently_reviewed": true,
+        "unusable_distance_response_is_html_and_has_no_data_output": true
+      },
+      "limitations": [
+        "1280筆是取用reference，並非1280份完整業務資料；歷史期間未逐日驗證供應完整性。",
+        "StopOfRoute於2026-10-19與2026-10-20回HTTP500；來源失敗資訊留存，但未取得站序觀測。",
+        "Stop/Station全量及307加值班表超本機大小限制，只保留reference；距離端點回HTTP200 HTML Request Rejected，無可用距離資料。"
+      ]
+    }
+  ]
+}

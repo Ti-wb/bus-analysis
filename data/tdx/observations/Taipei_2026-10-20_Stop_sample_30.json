@@ -1,0 +1,640 @@
+{
+  "schema_version": 1,
+  "dataset_id": "tdx_Taipei_2026-10-20_Stop",
+  "metadata": {
+    "grain": "one source entity within the requested historical version; nested stops/trips retained",
+    "units": {
+      "stop_position": "longitude/latitude degrees",
+      "geometry": "WGS84 longitude/latitude degrees"
+    },
+    "sources": [
+      {
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/historical/39472fde-f790-42b9-9c8b-88282118e6b1",
+        "download_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/Stop/Date/2026-10-20/City/Taipei?%24format=JSON&%24top=30",
+        "raw_file": "raw_data/tdx/responses/Taipei_2026-10-20_Stop_sample_30.json",
+        "downloaded_at": "2026-10-21T23:50:09+08:00",
+        "source_updated_at": null,
+        "bytes": 11260,
+        "content_type": "application/json; charset=utf-8",
+        "evidence_type": "business_api_response",
+        "http_status": 200,
+        "usage_headers": {
+          "x-ratelimit-remaining-minute": "4",
+          "x-ratelimit-limit-minute": "5"
+        }
+      }
+    ],
+    "request": {
+      "family": "historical",
+      "specification_id": "historical",
+      "request_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/Stop/Date/2026-10-20/City/Taipei?%24format=JSON&%24top=30",
+      "path_values": {
+        "City": "Taipei",
+        "Date": "2026-10-20"
+      },
+      "query_parameters": {
+        "$format": "JSON",
+        "$top": 30
+      },
+      "label": "Taipei_2026-10-20_Stop",
+      "sample_only": true,
+      "documented_top_default": 30,
+      "request_limit": 20,
+      "max_response_bytes": 2097152
+    },
+    "source_updated_at": null,
+    "statistical_period": {
+      "requested_date": "2026-10-20",
+      "version_start": "2026-10-20T00:00:00+08:00",
+      "version_end": "2026-10-20T23:59:59+08:00"
+    },
+    "response_metadata": {
+      "start_date": "2026-10-20T00:00:00+08:00",
+      "end_date": "2026-10-20T23:59:59+08:00",
+      "version_id": "20261020",
+      "count": 28823,
+      "size": 10696997
+    },
+    "record_count": 30,
+    "time_zone": "Asia/Taipei",
+    "time_zone_note": "Asia/Taipei identifies the requested civil day. Each source timestamp retains its own original UTC offset.",
+    "scope_status": "sample_only",
+    "limitations": [
+      "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+      "未知/缺漏不補零；狀態碼原值保留。"
+    ],
+    "field_dictionary": "data/tdx/field_dictionary.json"
+  },
+  "records": [
+    {
+      "stop_uid": "TPE10106",
+      "stop_id": "10106",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "民權吉林路口",
+        "en": "Minquan and Jilin Intersection"
+      },
+      "stop_position": {
+        "position_lat": 25.062636,
+        "position_lon": 121.529148
+      },
+      "stop_address": "民權東路二段(向西)",
+      "bearing": "W",
+      "station_id": "1000162",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "TPE"
+    },
+    {
+      "stop_uid": "TPE10183",
+      "stop_id": "10183",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "頂好市場",
+        "en": "Dinghao Market"
+      },
+      "stop_position": {
+        "position_lat": 25.0414444737459,
+        "position_lon": 121.547609588359
+      },
+      "stop_address": "忠孝東路四段120號同向(向東)",
+      "bearing": "E",
+      "station_id": "3915",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "TPE"
+    },
+    {
+      "stop_uid": "TPE10190",
+      "stop_id": "10190",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "松隆路口",
+        "en": "Songlong Rd. Entrance"
+      },
+      "stop_position": {
+        "position_lat": 25.044968,
+        "position_lon": 121.569714
+      },
+      "stop_address": "松隆路100號同向(向東)",
+      "bearing": "NE",
+      "station_id": "2104",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "TPE"
+    },
+    {
+      "stop_uid": "TPE10219",
+      "stop_id": "10219",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "康福里",
+        "en": "Kangfu Village"
+      },
+      "stop_position": {
+        "position_lat": 25.069658,
+        "position_lon": 121.637965
+      },
+      "stop_address": "福德三路3號對面(向西)",
+      "bearing": "W",
+      "station_id": "7652",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "NWT"
+    },
+    {
+      "stop_uid": "TPE10220",
+      "stop_id": "10220",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "捷運國父紀念館站(忠孝)",
+        "en": "MRT Sun Yat-sen Memorial Hall Sta. (Zhongxiao)"
+      },
+      "stop_position": {
+        "position_lat": 25.04148364593397,
+        "position_lon": 121.55900840485135
+      },
+      "stop_address": "臺北市信義區忠孝光復路口北側往東120尺(向西)",
+      "bearing": "W",
+      "station_id": "389",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "TPE"
+    },
+    {
+      "stop_uid": "TPE10241",
+      "stop_id": "10241",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "明湖國中",
+        "en": "Minghu Junior High School"
+      },
+      "stop_position": {
+        "position_lat": 25.0702607638519,
+        "position_lon": 121.611642249953
+      },
+      "stop_address": "康寧路三段169號同向(向北)",
+      "bearing": "NW",
+      "station_id": "8534",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "TPE"
+    },
+    {
+      "stop_uid": "TPE10307",
+      "stop_id": "10307",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "金龍國小(康寧街)",
+        "en": "Jinlong Elementary School(Kangning St.)"
+      },
+      "stop_position": {
+        "position_lat": 25.067351,
+        "position_lon": 121.627395
+      },
+      "stop_address": "康寧街328號(向東)",
+      "bearing": "E",
+      "station_id": "7638",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "NWT"
+    },
+    {
+      "stop_uid": "TPE10323",
+      "stop_id": "10323",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "柏克力托兒所",
+        "en": "Bokeli Day Care Center"
+      },
+      "stop_position": {
+        "position_lat": 25.066706,
+        "position_lon": 121.636377
+      },
+      "stop_address": "福德一路156號同向(向南)",
+      "bearing": "SW",
+      "station_id": "2784",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "NWT"
+    },
+    {
+      "stop_uid": "TPE10337",
+      "stop_id": "10337",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "衡陽路",
+        "en": "Hengyang Rd."
+      },
+      "stop_position": {
+        "position_lat": 25.04227,
+        "position_lon": 121.51021
+      },
+      "stop_address": "衡陽路91號(兆豐商銀前)(向西)",
+      "bearing": "W",
+      "station_id": "1165606055",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "TPE"
+    },
+    {
+      "stop_uid": "TPE10185",
+      "stop_id": "10185",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "阿波羅大廈",
+        "en": "Apollo Building"
+      },
+      "stop_position": {
+        "position_lat": 25.041262,
+        "position_lon": 121.553619
+      },
+      "stop_address": "忠孝東路四段220號同向(向東)",
+      "bearing": "E",
+      "station_id": "2272",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "TPE"
+    },
+    {
+      "stop_uid": "TPE10245",
+      "stop_id": "10245",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "捷運葫洲站(康寧大學)",
+        "en": "MRT Huzhou Sta. (University of Kang Ning)"
+      },
+      "stop_position": {
+        "position_lat": 25.0726213066526,
+        "position_lon": 121.607610913193
+      },
+      "stop_address": "康寧路三段37號同向(向西)",
+      "bearing": "NW",
+      "station_id": "1165606697",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "TPE"
+    },
+    {
+      "stop_uid": "TPE10044",
+      "stop_id": "10044",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "民權中山路口",
+        "en": "Minquan and Zhongshan Intersection"
+      },
+      "stop_position": {
+        "position_lat": 25.06271419,
+        "position_lon": 121.5223009
+      },
+      "stop_address": "民權東路一段上近中山北路(向東)",
+      "bearing": "E",
+      "station_id": "1235",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "TPE"
+    },
+    {
+      "stop_uid": "TPE10058",
+      "stop_id": "10058",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "捷運中山國中站",
+        "en": "MRT Zhongshan Junior High School Sta."
+      },
+      "stop_position": {
+        "position_lat": 25.06148096,
+        "position_lon": 121.5440343
+      },
+      "stop_address": "復興北路386號同向(向南)",
+      "bearing": "S",
+      "station_id": "1574",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "TPE"
+    },
+    {
+      "stop_uid": "TPE10098",
+      "stop_id": "10098",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "民權復興路口",
+        "en": "Minquan and Fuxing Intersection"
+      },
+      "stop_position": {
+        "position_lat": 25.06222037,
+        "position_lon": 121.5446524
+      },
+      "stop_address": "民權東路三段(向西)",
+      "bearing": "W",
+      "station_id": "1000329",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "TPE"
+    },
+    {
+      "stop_uid": "TPE10110",
+      "stop_id": "10110",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "民權中山路口",
+        "en": "Minquan and Zhongshan Intersection"
+      },
+      "stop_position": {
+        "position_lat": 25.06285356,
+        "position_lon": 121.5230024
+      },
+      "stop_address": "民權東路一段上近中山北路(向西)",
+      "bearing": "W",
+      "station_id": "1236",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "TPE"
+    },
+    {
+      "stop_uid": "TPE10116",
+      "stop_id": "10116",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "長生街口",
+        "en": "Changsheng St. Entrance"
+      },
+      "stop_position": {
+        "position_lat": 25.0669346622284,
+        "position_lon": 121.50123787463
+      },
+      "stop_address": "三和路二段19號同向",
+      "bearing": "NW",
+      "station_id": "58041",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "NWT"
+    },
+    {
+      "stop_uid": "TPE10148",
+      "stop_id": "10148",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "蘆洲總站",
+        "en": "Luzhou Bus Terminal"
+      },
+      "stop_position": {
+        "position_lat": 25.0891287596823,
+        "position_lon": 121.465970849851
+      },
+      "stop_address": "中正路260號",
+      "bearing": "NW",
+      "station_id": "15067",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "NWT"
+    },
+    {
+      "stop_uid": "TPE10172",
+      "stop_id": "10172",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "新北大道化成路口",
+        "en": "New Taipei Blvd. & Huacheng Intersection"
+      },
+      "stop_position": {
+        "position_lat": 25.061164,
+        "position_lon": 121.465274
+      },
+      "stop_address": "新北大道二段135號(向東)",
+      "bearing": "E",
+      "station_id": "1000842",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "NWT"
+    },
+    {
+      "stop_uid": "TPE10173",
+      "stop_id": "10173",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "新北大道中興路口",
+        "en": "Zhongshan Rd and Zhongxing Rd Intersection"
+      },
+      "stop_position": {
+        "position_lat": 25.0613446467768,
+        "position_lon": 121.468148097399
+      },
+      "stop_address": "新北大道二段83號(向東)",
+      "bearing": "E",
+      "station_id": "3495",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "NWT"
+    },
+    {
+      "stop_uid": "TPE10207",
+      "stop_id": "10207",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "北峰國小",
+        "en": "Beifeng Elementary School"
+      },
+      "stop_position": {
+        "position_lat": 25.06338,
+        "position_lon": 121.63165
+      },
+      "stop_address": "福德一路296號同向",
+      "bearing": "NE",
+      "station_id": "6753",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "NWT"
+    },
+    {
+      "stop_uid": "TPE10218",
+      "stop_id": "10218",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "聯合報",
+        "en": "United Daily News"
+      },
+      "stop_position": {
+        "position_lat": 25.04132664,
+        "position_lon": 121.5630899
+      },
+      "stop_address": "忠孝東路四段550號對向(向西)",
+      "bearing": "W",
+      "station_id": "3929",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "TPE"
+    },
+    {
+      "stop_uid": "TPE10282",
+      "stop_id": "10282",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "新泰中正路口",
+        "en": "Xintai & Zhongzheng Intersection"
+      },
+      "stop_position": {
+        "position_lat": 25.036201,
+        "position_lon": 121.448147
+      },
+      "stop_address": "新泰路125號同向(向南)",
+      "bearing": "SE",
+      "station_id": "3566",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "NWT"
+    },
+    {
+      "stop_uid": "TPE10303",
+      "stop_id": "10303",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "經貿園區",
+        "en": "Economic & Trade Park"
+      },
+      "stop_position": {
+        "position_lat": 25.0666077871618,
+        "position_lon": 121.622098011234
+      },
+      "stop_address": "康寧街163號同向",
+      "bearing": "E",
+      "station_id": "7636",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "NWT"
+    },
+    {
+      "stop_uid": "TPE10310",
+      "stop_id": "10310",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "金陵女中",
+        "en": "Ginling Girls' High School"
+      },
+      "stop_position": {
+        "position_lat": 25.0427471,
+        "position_lon": 121.4665635
+      },
+      "stop_address": "重新路五段656號同向(向北)",
+      "bearing": "NE",
+      "station_id": "13207",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "NWT"
+    },
+    {
+      "stop_uid": "TPE10226",
+      "stop_id": "10226",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "捷運忠孝敦化站",
+        "en": "MRT Zhongxiao Dunhua Sta."
+      },
+      "stop_position": {
+        "position_lat": 25.0416333,
+        "position_lon": 121.5501789
+      },
+      "stop_address": "忠孝東路四段163號同向(向西)",
+      "bearing": "W",
+      "station_id": "372",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "TPE"
+    },
+    {
+      "stop_uid": "TPE10260",
+      "stop_id": "10260",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "幸福思源路口",
+        "en": "Xingfu & Siyuan Intersection"
+      },
+      "stop_position": {
+        "position_lat": 25.04948317165274,
+        "position_lon": 121.45786333734011
+      },
+      "stop_address": "幸福路42號同向(向西)",
+      "bearing": "W",
+      "station_id": "3540",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "NWT"
+    },
+    {
+      "stop_uid": "TPE10268",
+      "stop_id": "10268",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "中華路",
+        "en": "Zhonghua Rd."
+      },
+      "stop_position": {
+        "position_lat": 25.04652,
+        "position_lon": 121.45338
+      },
+      "stop_address": "中華路二段39號同向(向南)",
+      "bearing": "SE",
+      "station_id": "3509",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "NWT"
+    },
+    {
+      "stop_uid": "TPE10290",
+      "stop_id": "10290",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "建國一路",
+        "en": "Jianguo 1st. Rd."
+      },
+      "stop_position": {
+        "position_lat": 25.02983961,
+        "position_lon": 121.4345539
+      },
+      "stop_address": "建國一路96號同向(向南)",
+      "bearing": "S",
+      "station_id": "3546",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "NWT"
+    },
+    {
+      "stop_uid": "TPE10028",
+      "stop_id": "10028",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "厚德派出所",
+        "en": "Houde Police Station"
+      },
+      "stop_position": {
+        "position_lat": 25.07293,
+        "position_lon": 121.492963
+      },
+      "stop_address": "三和路三段160號同向(向東)",
+      "bearing": "SE",
+      "station_id": "3438",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "NWT"
+    },
+    {
+      "stop_uid": "TPE10084",
+      "stop_id": "10084",
+      "authority_id": "004",
+      "stop_name": {
+        "zh_tw": "聯合二村",
+        "en": "Lianhe Village 2"
+      },
+      "stop_position": {
+        "position_lat": 25.0586249332513,
+        "position_lon": 121.558923442523
+      },
+      "stop_address": "民生東路五段81號(向西)",
+      "bearing": "W",
+      "station_id": "1000075",
+      "city": "Taipei",
+      "city_code": "TPE",
+      "location_city_code": "TPE"
+    }
+  ]
+}

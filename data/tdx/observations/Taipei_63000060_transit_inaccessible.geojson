@@ -1,0 +1,103 @@
+{
+  "type": "FeatureCollection",
+  "schema_version": 1,
+  "dataset_id": "tdx_Taipei_63000060_transit_inaccessible",
+  "metadata": {
+    "grain": "one source spatial feature returned for the requested district; actual containment is not guaranteed",
+    "units": {
+      "number_of_households": "households",
+      "reasonable_household_numbers": "households",
+      "road_legth": null,
+      "un_coverage_rate": null,
+      "inaccessible_rate": null
+    },
+    "unit_notes": "Supplied specification does not state the road-length unit or whether rate is a fraction/percentage; preserve raw values without scaling.",
+    "underlying_household_statistical_period": null,
+    "period_note": "UpdateDate is a system update date; it does not establish the statistical period of the underlying household counts.",
+    "household_interpretation": "ReasonableHouseholdNumbers is only defined as a reasonable household count; it is not verified as an accessible-household count. Do not subtract it from NumberOfHouseholds to infer inaccessible households.",
+    "sources": [
+      {
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/3b31f053-e920-4dc7-80f2-fefc4650a2d9",
+        "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000060?%24format=GEOJSON",
+        "raw_file": "raw_data/tdx/responses/Taipei_63000060_transit_inaccessible.json",
+        "downloaded_at": "2026-10-21T23:55:55+08:00",
+        "source_updated_at": null,
+        "bytes": 241,
+        "content_type": "application/geo+json",
+        "evidence_type": "business_api_response",
+        "http_status": 200,
+        "usage_headers": {
+          "x-ratelimit-limit-minute": "5",
+          "x-ratelimit-remaining-minute": "1"
+        }
+      }
+    ],
+    "request": {
+      "family": "accessibility",
+      "specification_id": "transit_inaccessible",
+      "request_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Governance/InAccessibility/Transit/Household/City/Taipei/TownCode/63000060?%24format=GEOJSON",
+      "path_values": {
+        "City": "Taipei",
+        "TownCode": "63000060"
+      },
+      "query_parameters": {
+        "$format": "GEOJSON"
+      },
+      "label": "Taipei_63000060_transit_inaccessible",
+      "sample_only": false,
+      "documented_top_default": null,
+      "request_limit": 30,
+      "max_response_bytes": 2097152
+    },
+    "source_updated_at": "2026-09-01",
+    "statistical_period": {
+      "requested_date": null,
+      "version_start": null,
+      "version_end": null,
+      "source_update_dates": [
+        "2026-09-01"
+      ]
+    },
+    "response_metadata": {
+      "type": "FeatureCollection"
+    },
+    "record_count": 1,
+    "time_zone": "Asia/Taipei",
+    "time_zone_note": "Asia/Taipei identifies the requested civil day. Each source timestamp retains its own original UTC offset.",
+    "scope_status": "requested_scope_response",
+    "limitations": [
+      "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+      "未知/缺漏不補零；狀態碼原值保留。"
+    ],
+    "field_dictionary": "data/tdx/field_dictionary.json",
+    "empty_geometry_count": 1,
+    "geometry_screening": {
+      "reference_file": "data/population/taipei_statistical_area_boundaries.geojson",
+      "reference_bounds": [
+        121.50468101551522,
+        25.047986822578274,
+        121.52233269237811,
+        25.080253392824815
+      ],
+      "outside_bounds_feature_indexes": [],
+      "method": "bounding-box screening against saved statistical-area boundaries; this is not full district-polygon containment validation"
+    },
+    "geometry_use_status": "passes_bbox_screening_only_not_full_containment_validation",
+    "coordinate_reference_system": "EPSG:4326; GeoJSON order [longitude, latitude]; range validated"
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": []
+      },
+      "properties": {
+        "update_date": "2026-09-01",
+        "number_of_households": 58551,
+        "reasonable_household_numbers": 58551,
+        "inaccessible_rate": 0.0
+      }
+    }
+  ]
+}

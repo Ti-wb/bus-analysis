@@ -1,0 +1,1087 @@
+{
+  "schema_version": 1,
+  "dataset_id": "tdx_Taipei_2026-10-20_RealTimeNearStop",
+  "metadata": {
+    "grain": "one vehicle position/event observation",
+    "units": {
+      "speed": "km/h",
+      "azimuth": "degrees",
+      "position_lat": "degrees_north",
+      "position_lon": "degrees_east"
+    },
+    "sample_interpretation": "First N source records only; no random sampling and no representativeness for the day or three-year period.",
+    "sources": [
+      {
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/historical/39472fde-f790-42b9-9c8b-88282118e6b1",
+        "download_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/RealTimeNearStop/City/Taipei?Dates=2026-10-20&%24format=JSONL&%24top=30",
+        "raw_file": "raw_data/tdx/responses/Taipei_2026-10-20_RealTimeNearStop_sample_30.jsonl",
+        "downloaded_at": "2026-10-21T23:44:07+08:00",
+        "source_updated_at": null,
+        "bytes": 18194,
+        "content_type": "text/ndjson; charset=utf-8",
+        "evidence_type": "business_api_response",
+        "http_status": 200,
+        "usage_headers": {
+          "x-ratelimit-remaining-minute": "4",
+          "x-ratelimit-limit-minute": "5"
+        }
+      }
+    ],
+    "request": {
+      "family": "historical",
+      "specification_id": "historical",
+      "request_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/RealTimeNearStop/City/Taipei?Dates=2026-10-20&%24format=JSONL&%24top=30",
+      "path_values": {
+        "City": "Taipei"
+      },
+      "query_parameters": {
+        "Dates": "2026-10-20",
+        "$format": "JSONL",
+        "$top": 30
+      },
+      "label": "Taipei_2026-10-20_RealTimeNearStop",
+      "sample_only": true,
+      "documented_top_default": 30,
+      "request_limit": 20,
+      "max_response_bytes": 2097152
+    },
+    "source_updated_at": null,
+    "statistical_period": {
+      "requested_date": "2026-10-20",
+      "version_start": null,
+      "version_end": null
+    },
+    "response_metadata": {},
+    "record_count": 30,
+    "time_zone": "Asia/Taipei",
+    "time_zone_note": "Asia/Taipei identifies the requested civil day. Each source timestamp retains its own original UTC offset.",
+    "scope_status": "sample_only",
+    "limitations": [
+      "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+      "未知/缺漏不補零；狀態碼原值保留。"
+    ],
+    "field_dictionary": "data/tdx/field_dictionary.json",
+    "source_record_update_times": [
+      "2026-10-20T09:00:30+00:00",
+      "2026-10-20T09:00:50+00:00",
+      "2026-10-20T09:01:05+00:00",
+      "2026-10-20T09:01:45+00:00",
+      "2026-10-20T09:02:00+00:00",
+      "2026-10-20T09:02:05+00:00",
+      "2026-10-20T09:02:20+00:00",
+      "2026-10-20T09:02:30+00:00",
+      "2026-10-20T13:50:10+00:00",
+      "2026-10-20T13:51:10+00:00",
+      "2026-10-20T13:51:20+00:00",
+      "2026-10-20T13:51:35+00:00",
+      "2026-10-20T13:52:45+00:00",
+      "2026-10-20T13:53:05+00:00",
+      "2026-10-20T13:53:10+00:00",
+      "2026-10-20T13:55:00+00:00",
+      "2026-10-20T13:55:20+00:00",
+      "2026-10-20T13:55:40+00:00",
+      "2026-10-20T13:56:15+00:00",
+      "2026-10-20T13:56:50+00:00",
+      "2026-10-20T13:57:10+00:00",
+      "2026-10-20T13:57:20+00:00",
+      "2026-10-20T13:57:45+00:00",
+      "2026-10-20T13:58:00+00:00",
+      "2026-10-20T13:58:05+00:00",
+      "2026-10-20T13:58:10+00:00",
+      "2026-10-20T13:58:15+00:00",
+      "2026-10-20T13:59:20+00:00",
+      "2026-10-20T14:00:00+00:00"
+    ]
+  },
+  "records": [
+    {
+      "plate_numb": "EAL-2088",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 1,
+      "stop_uid": "TPE33286",
+      "stop_id": "33286",
+      "stop_name": {
+        "zh_tw": "僑中一街",
+        "en": "Qiaozhong 1st. St."
+      },
+      "stop_sequence": 38,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 1,
+      "gps_time": "2026-10-20T13:50:01+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T20:55:23+08:00",
+      "src_update_time": "2026-10-20T13:50:05+00:00",
+      "update_time": "2026-10-20T13:50:10+00:00"
+    },
+    {
+      "plate_numb": "EAL-2090",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 0,
+      "stop_uid": "TPE33245",
+      "stop_id": "33245",
+      "stop_name": {
+        "zh_tw": "峨眉街口(中醫院區)",
+        "en": "Emei St. Entrance"
+      },
+      "stop_sequence": 36,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 1,
+      "gps_time": "2026-10-20T13:51:01+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T21:00:15+08:00",
+      "src_update_time": "2026-10-20T13:51:05+00:00",
+      "update_time": "2026-10-20T13:51:10+00:00"
+    },
+    {
+      "plate_numb": "EAL-2079",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 1,
+      "stop_uid": "TPE33250",
+      "stop_id": "33250",
+      "stop_name": {
+        "zh_tw": "桂林昆明街口",
+        "en": "Guilin and Kunming Intersection"
+      },
+      "stop_sequence": 4,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 1,
+      "gps_time": "2026-10-20T13:51:10+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T21:45:17+08:00",
+      "src_update_time": "2026-10-20T13:51:15+00:00",
+      "update_time": "2026-10-20T13:51:20+00:00"
+    },
+    {
+      "plate_numb": "EAL-2090",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 0,
+      "stop_uid": "TPE33245",
+      "stop_id": "33245",
+      "stop_name": {
+        "zh_tw": "峨眉街口(中醫院區)",
+        "en": "Emei St. Entrance"
+      },
+      "stop_sequence": 36,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 0,
+      "gps_time": "2026-10-20T13:51:26+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T21:00:15+08:00",
+      "src_update_time": "2026-10-20T13:51:30+00:00",
+      "update_time": "2026-10-20T13:51:35+00:00"
+    },
+    {
+      "plate_numb": "EAL-2096",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 1,
+      "stop_uid": "TPE33286",
+      "stop_id": "33286",
+      "stop_name": {
+        "zh_tw": "僑中一街",
+        "en": "Qiaozhong 1st. St."
+      },
+      "stop_sequence": 38,
+      "duty_status": 2,
+      "a2_event_type": 0,
+      "gps_time": "2026-10-20T13:52:36+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T20:45:28+08:00",
+      "src_update_time": "2026-10-20T13:52:40+00:00",
+      "update_time": "2026-10-20T13:52:45+00:00"
+    },
+    {
+      "plate_numb": "EAL-2078",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 0,
+      "stop_uid": "TPE33219",
+      "stop_id": "33219",
+      "stop_name": {
+        "zh_tw": "南雅站",
+        "en": "Nanya Stop"
+      },
+      "stop_sequence": 9,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 0,
+      "gps_time": "2026-10-20T13:52:57+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T21:41:19+08:00",
+      "src_update_time": "2026-10-20T13:53:00+00:00",
+      "update_time": "2026-10-20T13:53:05+00:00"
+    },
+    {
+      "plate_numb": "EAL-2078",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 0,
+      "stop_uid": "TPE33220",
+      "stop_id": "33220",
+      "stop_name": {
+        "zh_tw": "亞東科技大學",
+        "en": "Oriental University of Science & Technology"
+      },
+      "stop_sequence": 10,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 1,
+      "gps_time": "2026-10-20T13:53:01+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T21:41:19+08:00",
+      "src_update_time": "2026-10-20T13:53:05+00:00",
+      "update_time": "2026-10-20T13:53:10+00:00"
+    },
+    {
+      "plate_numb": "EAL-2087",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 0,
+      "stop_uid": "TPE33231",
+      "stop_id": "33231",
+      "stop_name": {
+        "zh_tw": "中山漢生路口",
+        "en": "Zhongshan Hansheng Rd. Intersection"
+      },
+      "stop_sequence": 21,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 1,
+      "gps_time": "2026-10-20T13:54:50+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T21:20:14+08:00",
+      "src_update_time": "2026-10-20T13:54:55+00:00",
+      "update_time": "2026-10-20T13:55:00+00:00"
+    },
+    {
+      "plate_numb": "EAL-2078",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 0,
+      "stop_uid": "TPE33221",
+      "stop_id": "33221",
+      "stop_name": {
+        "zh_tw": "豫章工商",
+        "en": "Yu Chang Technical & Commercial Vocational Senior High School"
+      },
+      "stop_sequence": 11,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 1,
+      "gps_time": "2026-10-20T13:55:13+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T21:41:19+08:00",
+      "src_update_time": "2026-10-20T13:55:15+00:00",
+      "update_time": "2026-10-20T13:55:20+00:00"
+    },
+    {
+      "plate_numb": "EAL-2078",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 0,
+      "stop_uid": "TPE33221",
+      "stop_id": "33221",
+      "stop_name": {
+        "zh_tw": "豫章工商",
+        "en": "Yu Chang Technical & Commercial Vocational Senior High School"
+      },
+      "stop_sequence": 11,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 0,
+      "gps_time": "2026-10-20T13:55:32+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T21:41:19+08:00",
+      "src_update_time": "2026-10-20T13:55:35+00:00",
+      "update_time": "2026-10-20T13:55:40+00:00"
+    },
+    {
+      "plate_numb": "EAL-2078",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 0,
+      "stop_uid": "TPE33222",
+      "stop_id": "33222",
+      "stop_name": {
+        "zh_tw": "仁愛新村",
+        "en": "Renai New Village"
+      },
+      "stop_sequence": 12,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 0,
+      "gps_time": "2026-10-20T13:56:08+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T21:41:19+08:00",
+      "src_update_time": "2026-10-20T13:56:10+00:00",
+      "update_time": "2026-10-20T13:56:15+00:00"
+    },
+    {
+      "plate_numb": "EAL-2078",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 0,
+      "stop_uid": "TPE33223",
+      "stop_id": "33223",
+      "stop_name": {
+        "zh_tw": "福星里",
+        "en": "Fuxing Village"
+      },
+      "stop_sequence": 13,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 0,
+      "gps_time": "2026-10-20T13:56:40+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T21:41:19+08:00",
+      "src_update_time": "2026-10-20T13:56:45+00:00",
+      "update_time": "2026-10-20T13:56:50+00:00"
+    },
+    {
+      "plate_numb": "EAL-2087",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 0,
+      "stop_uid": "TPE33232",
+      "stop_id": "33232",
+      "stop_name": {
+        "zh_tw": "西安里",
+        "en": "Xian Li"
+      },
+      "stop_sequence": 22,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 0,
+      "gps_time": "2026-10-20T13:57:04+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T21:20:14+08:00",
+      "src_update_time": "2026-10-20T13:57:05+00:00",
+      "update_time": "2026-10-20T13:57:10+00:00"
+    },
+    {
+      "plate_numb": "EAL-2087",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 0,
+      "stop_uid": "TPE180862",
+      "stop_id": "180862",
+      "stop_name": {
+        "zh_tw": "中山民生路口",
+        "en": "Zhongshan and Minsheng Intersection"
+      },
+      "stop_sequence": 23,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 1,
+      "gps_time": "2026-10-20T13:57:14+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T21:20:14+08:00",
+      "src_update_time": "2026-10-20T13:57:15+00:00",
+      "update_time": "2026-10-20T13:57:20+00:00"
+    },
+    {
+      "plate_numb": "EAL-2079",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 1,
+      "stop_uid": "TPE33253",
+      "stop_id": "33253",
+      "stop_name": {
+        "zh_tw": "大理服飾",
+        "en": "Dali Garments"
+      },
+      "stop_sequence": 7,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 1,
+      "gps_time": "2026-10-20T13:57:37+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T21:45:17+08:00",
+      "src_update_time": "2026-10-20T13:57:40+00:00",
+      "update_time": "2026-10-20T13:57:45+00:00"
+    },
+    {
+      "plate_numb": "EAL-2096",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 0,
+      "stop_uid": "TPE33210",
+      "stop_id": "33210",
+      "stop_name": {
+        "zh_tw": "歡仔園",
+        "en": "Huanziyuan"
+      },
+      "stop_sequence": 1,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 0,
+      "gps_time": "2026-10-20T13:57:54+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T21:57:54+08:00",
+      "src_update_time": "2026-10-20T13:57:55+00:00",
+      "update_time": "2026-10-20T13:58:00+00:00"
+    },
+    {
+      "plate_numb": "EAL-2087",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 0,
+      "stop_uid": "TPE33233",
+      "stop_id": "33233",
+      "stop_name": {
+        "zh_tw": "埔墘國小",
+        "en": "Puqian Elementary School"
+      },
+      "stop_sequence": 24,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 1,
+      "gps_time": "2026-10-20T13:57:57+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T21:20:14+08:00",
+      "src_update_time": "2026-10-20T13:58:00+00:00",
+      "update_time": "2026-10-20T13:58:05+00:00"
+    },
+    {
+      "plate_numb": "EAL-2079",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 1,
+      "stop_uid": "TPE33254",
+      "stop_id": "33254",
+      "stop_name": {
+        "zh_tw": "西園29服飾基地",
+        "en": "Fashion Institute of Taipei"
+      },
+      "stop_sequence": 8,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 1,
+      "gps_time": "2026-10-20T13:58:04+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T21:45:17+08:00",
+      "src_update_time": "2026-10-20T13:58:05+00:00",
+      "update_time": "2026-10-20T13:58:10+00:00"
+    },
+    {
+      "plate_numb": "EAL-2090",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 1,
+      "stop_uid": "TPE33247",
+      "stop_id": "33247",
+      "stop_name": {
+        "zh_tw": "中華路北站",
+        "en": "Zhonghua Rd. N. Stop"
+      },
+      "stop_sequence": 1,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 0,
+      "gps_time": "2026-10-20T13:58:09+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T21:58:09+08:00",
+      "src_update_time": "2026-10-20T13:58:10+00:00",
+      "update_time": "2026-10-20T13:58:15+00:00"
+    },
+    {
+      "plate_numb": "EAL-2090",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 1,
+      "stop_uid": "TPE33248",
+      "stop_id": "33248",
+      "stop_name": {
+        "zh_tw": "捷運西門站",
+        "en": "MRT Ximen Sta."
+      },
+      "stop_sequence": 2,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 0,
+      "gps_time": "2026-10-20T13:59:14+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T21:58:09+08:00",
+      "src_update_time": "2026-10-20T13:59:15+00:00",
+      "update_time": "2026-10-20T13:59:20+00:00"
+    },
+    {
+      "plate_numb": "EAL-2083",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 1,
+      "stop_uid": "TPE33265",
+      "stop_id": "33265",
+      "stop_name": {
+        "zh_tw": "新北市政府(新府路)",
+        "en": "New Taipei City Hall(Xinfu Rd.)"
+      },
+      "stop_sequence": 20,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 0,
+      "gps_time": "2026-10-20T13:59:53+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T21:25:03+08:00",
+      "src_update_time": "2026-10-20T13:59:55+00:00",
+      "update_time": "2026-10-20T14:00:00+00:00"
+    },
+    {
+      "plate_numb": "EAL-2087",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 0,
+      "stop_uid": "TPE33240",
+      "stop_id": "33240",
+      "stop_name": {
+        "zh_tw": "大理服飾",
+        "en": "Dali Garments"
+      },
+      "stop_sequence": 31,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 0,
+      "gps_time": "2026-10-20T09:00:16+00:00",
+      "trip_start_time_type": 1,
+      "trip_start_time": "2026-10-20T16:01:20+08:00",
+      "src_update_time": "2026-10-20T09:00:25+00:00",
+      "update_time": "2026-10-20T09:00:30+00:00"
+    },
+    {
+      "plate_numb": "EAL-2093",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 0,
+      "stop_uid": "TPE33223",
+      "stop_id": "33223",
+      "stop_name": {
+        "zh_tw": "福星里",
+        "en": "Fuxing Village"
+      },
+      "stop_sequence": 13,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 1,
+      "gps_time": "2026-10-20T09:00:40+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T16:35:34+08:00",
+      "src_update_time": "2026-10-20T09:00:45+00:00",
+      "update_time": "2026-10-20T09:00:50+00:00"
+    },
+    {
+      "plate_numb": "EAL-2091",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 1,
+      "stop_uid": "TPE33257",
+      "stop_id": "33257",
+      "stop_name": {
+        "zh_tw": "光復橋",
+        "en": "Guangfu Bridge"
+      },
+      "stop_sequence": 11,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 1,
+      "gps_time": "2026-10-20T09:00:42+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T16:44:53+08:00",
+      "src_update_time": "2026-10-20T09:00:45+00:00",
+      "update_time": "2026-10-20T09:00:50+00:00"
+    },
+    {
+      "plate_numb": "EAL-2096",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 0,
+      "stop_uid": "TPE33217",
+      "stop_id": "33217",
+      "stop_name": {
+        "zh_tw": "力行新村",
+        "en": "Lixing New Village"
+      },
+      "stop_sequence": 8,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 1,
+      "gps_time": "2026-10-20T09:00:59+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T16:54:05+08:00",
+      "src_update_time": "2026-10-20T09:01:00+00:00",
+      "update_time": "2026-10-20T09:01:05+00:00"
+    },
+    {
+      "plate_numb": "EAL-2092",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 0,
+      "stop_uid": "TPE33245",
+      "stop_id": "33245",
+      "stop_name": {
+        "zh_tw": "峨眉街口(中醫院區)",
+        "en": "Emei St. Entrance"
+      },
+      "stop_sequence": 36,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 0,
+      "gps_time": "2026-10-20T09:01:37+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T16:49:27+08:00",
+      "src_update_time": "2026-10-20T09:01:40+00:00",
+      "update_time": "2026-10-20T09:01:45+00:00"
+    },
+    {
+      "plate_numb": "EAL-2088",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 1,
+      "stop_uid": "TPE33264",
+      "stop_id": "33264",
+      "stop_name": {
+        "zh_tw": "新北板橋公車站",
+        "en": "NTPC Banqiao Bus Station"
+      },
+      "stop_sequence": 19,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 0,
+      "gps_time": "2026-10-20T09:01:54+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T16:28:28+08:00",
+      "src_update_time": "2026-10-20T09:01:55+00:00",
+      "update_time": "2026-10-20T09:02:00+00:00"
+    },
+    {
+      "plate_numb": "EAL-2095",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 1,
+      "stop_uid": "TPE33255",
+      "stop_id": "33255",
+      "stop_name": {
+        "zh_tw": "華江高中(西園)",
+        "en": "Huajiang High School (Xiyuan)"
+      },
+      "stop_sequence": 9,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 1,
+      "gps_time": "2026-10-20T09:01:59+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T16:48:35+08:00",
+      "src_update_time": "2026-10-20T09:02:00+00:00",
+      "update_time": "2026-10-20T09:02:05+00:00"
+    },
+    {
+      "plate_numb": "EAL-2085",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 0,
+      "stop_uid": "TPE33234",
+      "stop_id": "33234",
+      "stop_name": {
+        "zh_tw": "埔墘(中山路)",
+        "en": "Puqian(Zhongshan Rd.)"
+      },
+      "stop_sequence": 25,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 0,
+      "gps_time": "2026-10-20T09:02:13+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T16:10:55+08:00",
+      "src_update_time": "2026-10-20T09:02:15+00:00",
+      "update_time": "2026-10-20T09:02:20+00:00"
+    },
+    {
+      "plate_numb": "EAL-2091",
+      "operator_id": "100",
+      "operator_no": "1407",
+      "route_uid": "TPE10132",
+      "route_id": "10132",
+      "route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "sub_route_uid": "TPE101320",
+      "sub_route_id": "101320",
+      "sub_route_name": {
+        "zh_tw": "234",
+        "en": "234"
+      },
+      "direction": 1,
+      "stop_uid": "TPE33257",
+      "stop_id": "33257",
+      "stop_name": {
+        "zh_tw": "光復橋",
+        "en": "Guangfu Bridge"
+      },
+      "stop_sequence": 11,
+      "duty_status": 1,
+      "bus_status": 0,
+      "a2_event_type": 0,
+      "gps_time": "2026-10-20T09:02:18+00:00",
+      "trip_start_time_type": 0,
+      "trip_start_time": "2026-10-20T16:44:53+08:00",
+      "src_update_time": "2026-10-20T09:02:25+00:00",
+      "update_time": "2026-10-20T09:02:30+00:00"
+    }
+  ]
+}
