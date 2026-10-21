@@ -25,7 +25,7 @@ Agent 協作、格式與提交規則見 [AGENTS.md](AGENTS.md)。
 
 ## 更新
 
-安裝、執行與自動更新方式見 [資料更新說明](docs/data-updates.md)。
+安裝、執行與自動更新方式見 [資料更新說明](docs/data-updates.md)。專案用 uv 管理 Python 與依賴，不熟悉的話請先看 [uv 快速上手](docs/uv.md)。
 
 ## 研究文件（MVP 預研究）
 

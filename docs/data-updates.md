@@ -1,6 +1,6 @@
 # 資料更新
 
-在 repo 根目錄執行，需要 [uv](https://docs.astral.sh/uv/) 及 `curl`。Python 版本由 `.python-version` 指定，依賴鎖定在 `uv.lock`：
+在 repo 根目錄執行，需要 [uv](https://docs.astral.sh/uv/) 及 `curl`。Python 版本由 `.python-version` 指定，依賴鎖定在 `uv.lock`。第一次使用 uv 請先看 [uv 快速上手](uv.md)：
 
 ```bash
 uv sync

@@ -1,6 +1,6 @@
 # 研究腳本說明
 
-這些是 MVP 預研究用的腳本，在 repo 根目錄執行。先執行 `uv sync`（預設會安裝 `research` 依賴群組，也就是 numpy），再用 `uv run` 執行。輸出都在 `raw_data/research/`，且已列入 gitignore。
+這些是 MVP 預研究用的腳本，在 repo 根目錄執行。先執行 `uv sync`（預設會安裝 `research` 依賴群組，也就是 numpy），再用 `uv run` 執行（uv 的基本用法見 [uv 快速上手](uv.md)）。輸出都在 `raw_data/research/`，且已列入 gitignore。
 
 | 腳本 | 功能 | 輸入 → 輸出 |
 | --- | --- | --- |
