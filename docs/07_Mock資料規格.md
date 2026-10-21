@@ -12,7 +12,7 @@
 ## 2. 產生方式
 
 ```bash
-uv run --no-project --with numpy python -I scripts/gen_mock_ridership.py . --seed 42
+uv run scripts/gen_mock_ridership.py . --seed 42
 ```
 
 - 先決條件：`raw_data/taipei_feeds/*.gz`（遠端管線）、`raw_data/research/mrt_exits.csv`、`data/pto_extended/route_annual.json`。
@@ -85,7 +85,7 @@ w = LogNormal(0, 0.6)                         # 個別站位的隨機差異
 
 1. **路線之間的運量分配**：加上 `--calib <route_annual.json>` 後，有 332/416 條路線（以名稱完全比對）改用 **2025 年真實年運量**。換算方式：真實年運量 ÷（250 + 115 × 0.65）個平日等效日 ÷ 方向數，得到每個方向的平日運量。其餘 84 條比對不到的路線（例如名稱寫法不同、新北路線）維持隨機抽樣，再縮放到已校準路線的中位數。輸出中的 `route_total_calibrated` 欄位標示每條路線是否已校準。
    - 實測（2026-10-22）：平日上車合計 1,350,427 人次，共 701,359 筆紀錄、5,355 個站位。
-   - 指令：`uv run --no-project --with numpy python -I scripts/gen_mock_ridership.py .`（預設就會校準）
+   - 指令：`uv run scripts/gen_mock_ridership.py .`（預設就會校準）
    - 名稱比對不到的路線，**需要建立別名對照表**（待辦 B2）。
 2. 總量 114 萬人次包含聯營路線在新北境內的路段，口徑並不精確。
 3. 沒有轉乘、沒有 OD 鏈；`P` 矩陣只是用來保持上下車守恆的簡化。

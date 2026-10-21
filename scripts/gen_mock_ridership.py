@@ -3,7 +3,7 @@
 Real stop/route geometry comes from the 公運處 feeds in raw_data/taipei_feeds/; the ridership numbers are SYNTHETIC.
 See docs/07_Mock資料規格.md for the model and its assumptions.
 
-Run:  uv run --no-project --with numpy python -I scripts/gen_mock_ridership.py [repo_root] [--seed 42] [--calib PATH|""]
+Run:  uv run scripts/gen_mock_ridership.py [repo_root] [--seed 42] [--calib PATH|""]
 Out:  raw_data/research/mock/mock_stop_hourly.csv           (route x direction x stop x daytype x hour)
       raw_data/research/mock/mock_stoplocation_hourly.csv   (aggregated to physical stop location)
 """

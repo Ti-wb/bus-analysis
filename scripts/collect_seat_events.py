@@ -1,6 +1,6 @@
 """Poll the live BusSeatEvent feed (onboard count per vehicle at stop arrival/departure) and append de-duplicated events.
 
-Usage: uv run --no-project python -I scripts/collect_seat_events.py raw_data/research/seat_events --interval 20 --duration 1200
+Usage: uv run scripts/collect_seat_events.py raw_data/research/seat_events --interval 20 --duration 1200
 Output: OUT_DIR/seat_events_YYYYMMDD.csv (one row per unique vehicle × stop × CarOnStop × DataTime)
 """
 import argparse, csv, gzip, json, pathlib, sys, time, urllib.request

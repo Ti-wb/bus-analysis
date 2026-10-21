@@ -1,6 +1,6 @@
 # 研究腳本說明
 
-這些是 MVP 預研究用的腳本，在 repo 根目錄執行。Windows 請用 `uv run`，因為系統內建的 `python` 是 Store 的空殼。輸出都在 `raw_data/research/`，且已列入 gitignore。
+這些是 MVP 預研究用的腳本，在 repo 根目錄執行。先執行 `uv sync`（預設會安裝 `research` 依賴群組，也就是 numpy），再用 `uv run` 執行。輸出都在 `raw_data/research/`，且已列入 gitignore。
 
 | 腳本 | 功能 | 輸入 → 輸出 |
 | --- | --- | --- |
@@ -12,27 +12,27 @@
 | `inspect_remote_data.py` | 摘要列出 `data/` 下各資料集的 metadata 與欄位 | `data/` → 終端機 |
 
 ```bash
-uv run --no-project python -I scripts/probe_blob.py raw_data/taipei_feeds
+uv run scripts/probe_blob.py raw_data/taipei_feeds
 ```
 
 ```bash
-uv run --no-project python -I scripts/quick_stats.py
+uv run scripts/quick_stats.py
 ```
 
 ```bash
-uv run --no-project python -I scripts/prelim_overlap.py .
+uv run scripts/prelim_overlap.py .
 ```
 
 ```bash
-uv run --no-project --with numpy python -I scripts/gen_mock_ridership.py .
+uv run scripts/gen_mock_ridership.py .
 ```
 
 ```bash
-uv run --no-project python -I scripts/collect_seat_events.py raw_data/research/seat_events --interval 20 --duration 0
+uv run scripts/collect_seat_events.py raw_data/research/seat_events --interval 20 --duration 0
 ```
 
 ```bash
-uv run --no-project python -I scripts/inspect_remote_data.py data
+uv run scripts/inspect_remote_data.py data
 ```
 
 - mock 與分析的模型、限制請見 [07](07_Mock資料規格.md)。
