@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "dataset_id": "official_cross_city_source_registry",
+  "metadata": {
+    "kind": "source_registry_not_transport_observations",
+    "record_count": 8,
+    "upstream_repository": "Ti-wb/bus-analysis",
+    "reviewed_base_commit": "1e26c9841c51c7eb61f6b461d9357b2962cda441",
+    "snapshot_status": "no_live_observations_committed",
+    "independent_review_status": "pending",
+    "limitations": [
+      "核對官方目錄不等於下載／解析官方完整資料。",
+      "本目錄不可當作公車服務、運量或可及性資料。",
+      "未申請或使用 TDX 憑證；不呼叫付費資料。"
+    ]
+  },
+  "records": [
+    {
+      "dataset_id": "ntpc_routes",
+      "title": "公車路線清單",
+      "provider": "新北市政府交通局",
+      "page_url": "https://data.gov.tw/dataset/123112",
+      "provider_page_url": "https://data.ntpc.gov.tw/datasets/0ee4e6bf-cee6-4ec8-8fe1-71f544015127",
+      "download_url": "https://data.ntpc.gov.tw/api/datasets/0ee4e6bf-cee6-4ec8-8fe1-71f544015127/csv/file",
+      "license": {
+        "name": "政府資料開放授權條款-第1版",
+        "url": "https://data.gov.tw/license"
+      },
+      "grain": "主線×附線×業者",
+      "auth_required": false,
+      "data_kind": "official_published_data",
+      "catalog_verification": "verified_from_official_pages",
+      "collector_status": "implemented_live_unverified",
+      "last_catalog_review_date": "2026-10-22",
+      "downloaded_at": null,
+      "source_data_time": null,
+      "snapshot_committed": false,
+      "complete_regional_coverage": false
+    },
+    {
+      "dataset_id": "ntpc_stops",
+      "title": "公車站位資訊",
+      "provider": "新北市政府交通局",
+      "page_url": "https://data.gov.tw/dataset/123091",
+      "provider_page_url": "https://data.ntpc.gov.tw/datasets/34b402a8-53d9-483d-9406-24a682c2d6dc",
+      "download_url": "https://data.ntpc.gov.tw/api/datasets/34b402a8-53d9-483d-9406-24a682c2d6dc/csv/file",
+      "license": {
+        "name": "政府資料開放授權條款-第1版",
+        "url": "https://data.gov.tw/license"
+      },
+      "grain": "路線站牌×方向×站序",
+      "auth_required": false,
+      "data_kind": "official_published_data",
+      "catalog_verification": "verified_from_official_pages",
+      "collector_status": "implemented_live_unverified",
+      "last_catalog_review_date": "2026-10-22",
+      "downloaded_at": null,
+      "source_data_time": null,
+      "snapshot_committed": false,
+      "complete_regional_coverage": false
+    },
+    {
+      "dataset_id": "ntpc_leapfrog",
+      "title": "跳蛙公車路線說明及示意圖",
+      "provider": "新北市政府交通局",
+      "page_url": "https://data.gov.tw/dataset/174364",
+      "provider_page_url": "https://data.ntpc.gov.tw/datasets/f5e9a430-f337-476f-801e-dc167a112aa2",
+      "download_url": "https://data.ntpc.gov.tw/api/datasets/f5e9a430-f337-476f-801e-dc167a112aa2/csv/file",
+      "license": {
+        "name": "政府資料開放授權條款-第1版",
+        "url": "https://data.gov.tw/license"
+      },
+      "grain": "清單項目",
+      "auth_required": false,
+      "data_kind": "official_published_data",
+      "catalog_verification": "verified_from_official_pages",
+      "collector_status": "implemented_live_unverified",
+      "last_catalog_review_date": "2026-10-22",
+      "downloaded_at": null,
+      "source_data_time": null,
+      "snapshot_committed": false,
+      "complete_regional_coverage": false
+    },
+    {
+      "dataset_id": "regional_village_population",
+      "provider": "內政部戶政司",
+      "page_url": "https://data.gov.tw/dataset/77132",
+      "download_url": null,
+      "download_selection": "Exact requested month from official catalog; fail if absent or ambiguous",
+      "license": {
+        "name": "政府資料開放授權條款-第1版",
+        "url": "https://data.gov.tw/license"
+      },
+      "grain": "月×來源區域代碼×村里",
+      "auth_required": false,
+      "scope": [
+        "臺北市",
+        "新北市",
+        "基隆市"
+      ],
+      "catalog_verification": "verified_from_official_page",
+      "collector_status": "implemented_live_unverified",
+      "last_catalog_review_date": "2026-10-22",
+      "downloaded_at": null,
+      "snapshot_committed": false
+    },
+    {
+      "dataset_id": "metro_corridor_od",
+      "provider": "臺北大眾捷運股份有限公司",
+      "page_url": "https://data.gov.tw/dataset/128506",
+      "resource_page_url": "https://data.taipei/dataset/detail?id=63f31c7e-7fc3-418b-bd82-b95158755b4d",
+      "download_url": null,
+      "download_selection": "Use existing data/metro/source_references.json for one explicit month",
+      "license": {
+        "name": "政府資料開放授權條款-第1版",
+        "url": "https://data.gov.tw/license"
+      },
+      "grain": "日期×小時×進站×出站",
+      "auth_required": false,
+      "catalog_verification": "verified_from_official_page",
+      "collector_status": "implemented_live_unverified",
+      "last_catalog_review_date": "2026-10-22",
+      "downloaded_at": null,
+      "snapshot_committed": false,
+      "bus_demand": false
+    },
+    {
+      "dataset_id": "tdx_bus_travel_time",
+      "provider": "交通部 TDX",
+      "page_url": "https://tdx.transportdata.tw/api-service/swagger",
+      "specification_url": "https://tdx.transportdata.tw/webapi/File/Swagger/V3/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+      "license": {
+        "name": "TDX 資料使用條款，非自動套用 OGDL",
+        "url": "https://tdx.transportdata.tw/term"
+      },
+      "collector_status": "existing_repository_collector_not_extended_in_this_patch",
+      "auth_required": true,
+      "data_kind": "official_estimate",
+      "requested_cities": [
+        "NewTaipei",
+        "Keelung",
+        "InterCity"
+      ],
+      "coverage_status": "not_downloaded_in_this_patch",
+      "source_data_time": null
+    },
+    {
+      "dataset_id": "keelung_bus_official_site",
+      "provider": "基隆市公車管理處",
+      "page_url": "https://www.klcba.gov.tw/",
+      "license": null,
+      "collector_status": "reference_only_requires_format_and_terms_review",
+      "coverage_status": "not_downloaded_in_this_patch",
+      "data_kind": "official_website_reference"
+    },
+    {
+      "dataset_id": "official_transfer_connections",
+      "provider": "各公共運輸主管機關／營運者",
+      "page_url": "https://data.gov.tw/dataset/128428",
+      "collector_status": "reference_only_requires_walkability_review",
+      "coverage_status": "not_downloaded_in_this_patch",
+      "license": null,
+      "limitation": "出口位置或直線距離不能直接當成可行步行連結；不生成未核實轉乘邊。"
+    }
+  ]
+}

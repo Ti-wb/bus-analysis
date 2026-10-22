@@ -1,0 +1,27 @@
+name: Test official cross-city collectors
+on:
+  pull_request:
+    paths:
+      - 'scripts/official_cross_city/**'
+      - 'tests/official_cross_city/**'
+      - 'data/official_cross_city/source_registry.json'
+      - '.github/workflows/test-official-cross-city.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      matrix:
+        python: ['3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Synthetic fixtures only; no government API calls or credentials
+        run: python -m unittest discover -s tests/official_cross_city -v
