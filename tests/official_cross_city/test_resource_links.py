@@ -81,11 +81,19 @@ class DocumentedMetroExampleTests(FixtureCase):
         doc = (Path(__file__).resolve().parents[2] / 'docs/official-cross-city.md').read_text()
         origins = set(re.search(r"--origins '([^']+)'", doc).group(1).split(','))
         destinations = set(re.search(r"--destinations '([^']+)'", doc).group(1).split(','))
-        stations = ['新莊', 'O頭前庄', '關渡', '士林']
+        # Observed 2026-09 official CSV: ingress 頭前庄, egress O頭前庄.
+        # Keep those dictionaries separate rather than inventing an alias.
+        ingress = ['新莊', '頭前庄', '關渡', '士林']
+        egress = ['新莊', 'O頭前庄', '關渡', '士林']
         rows = [{'日期': '2026-09-01', '時段': '7', '進站': o, '出站': d, '人次': '1'}
-                for o in stations for d in stations]
+                for o in ingress for d in egress]
         path = self.csv('m.csv', rows)
         result = metro_od.normalize(path, '2026-09', self.source, origins, destinations, bidirectional=True)
-        self.assertEqual(len(result['records']), 8)
-        with self.assertRaises(ValueError):
-            metro_od.normalize(path, '2026-09', self.source, {'新莊', '頭前庄'}, destinations)
+        self.assertEqual(len(result['records']), 4)
+        for ambiguous_name in ['頭前庄', 'O頭前庄']:
+            with self.subTest(station=ambiguous_name), self.assertRaises(ValueError):
+                metro_od.normalize(path, '2026-09', self.source,
+                                   {'新莊', ambiguous_name}, destinations, bidirectional=True)
+        directed = metro_od.normalize(path, '2026-09', self.source, {'頭前庄'}, {'O頭前庄'})
+        self.assertEqual(directed['records'][0]['origin_station_name'], '頭前庄')
+        self.assertEqual(directed['records'][0]['destination_station_name'], 'O頭前庄')

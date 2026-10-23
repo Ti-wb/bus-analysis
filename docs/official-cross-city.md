@@ -51,9 +51,10 @@ python -m scripts.official_cross_city population --month 2026-09 --fetch
 
 # 利用現有 data/metro/source_references.json 已紀錄的官方月檔網址。
 # 來源進／出站名稱須精確匹配；命名不一致就停止，不猜測站名對照。
+# 2026-09 的頭前庄進站名為「頭前庄」、出站名為「O頭前庄」；此範例不納入該站，避免猜測異名映射。
 python -m scripts.official_cross_city metro-od \
   --month 2026-09 --corridor-id xinzhuang-guandu \
-  --origins '新莊,O頭前庄' --destinations '關渡,士林' --bidirectional --fetch
+  --origins '新莊' --destinations '關渡,士林' --bidirectional --fetch
 
 # 離線重建：需要本組先前下載的原檔與匹配 .source.json receipt。
 python -m scripts.official_cross_city ntpc --kind routes --offline
