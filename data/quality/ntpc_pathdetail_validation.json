@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "dataset_id": "ntpc_pathdetail_independent_validation",
+  "metadata": {
+    "reviewed_at": "2026-10-23T14:15:36.215658+00:00",
+    "base_head": "e36f189f8dd908ef4aafb3a8aeafe16c315efc32",
+    "tested_scope": "uncommitted additive ntpc_pathdetail module, CLI registration, tests and documentation",
+    "method": "Independent gzip/JSON parsing and per-record comparison without calling producer normalize; separate one-stop/two-subroute synthetic check.",
+    "source_mode": "Reused same-day official live download; output CLI offline reconstruction; no second download",
+    "independent_review_status": "pass_with_limitations",
+    "limitations": [
+      "EssentialInfo.Location says 台北市 on officially documented ntpcbus endpoint; retained, not silently corrected.",
+      "114 reference stop IDs absent; absent memberships remain unknown, not guessed or filled.",
+      "Current snapshot relation only; no actual trip schedule or operational/regional completeness claim.",
+      "Frog route ID crosswalk and cross-provider ID mapping not established.",
+      "Registry/doc changes must reflect artifact review separately; producer output remains marked pending until explicitly updated."
+    ],
+    "official_sources": [
+      "https://data.taipei/dataset/detail?id=2a8f5f42-942c-4974-8366-b44e90ad9701",
+      "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=C668AE404DCD2EFE",
+      "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetPathDetail.gz",
+      "https://data.taipei/rule"
+    ]
+  },
+  "records": [
+    {
+      "dataset_id": "ntpc_pathdetail",
+      "status": "pass_with_limitations",
+      "unit_tests_passed": 81,
+      "source_rows": 43582,
+      "output_rows": 43582,
+      "all_source_fields_record_numbers_namespaces_and_derived_parent_ids_compared": true,
+      "one_to_many_membership_preserved": true,
+      "source_essential_info_preserved": true,
+      "compressed_limit_mib": 8,
+      "decompressed_limit_mib": 32,
+      "row_limit": 100000,
+      "invalid_schema_ids_provenance_duplicate_keys_truncated_gzip_fail_closed": true,
+      "output_atomic_and_previous_output_preserved_on_failure": true,
+      "reference_unique_stops": 33314,
+      "linked_unique_stops": 33200,
+      "unlinked_unique_stops": 114,
+      "reference_unique_subroutes": 1008,
+      "linked_unique_subroutes": 1008,
+      "unknown_stop_rows": 0,
+      "unknown_subroute_rows": 0,
+      "conflicting_parent_rows": 0
+    }
+  ]
+}

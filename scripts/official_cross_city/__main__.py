@@ -1,10 +1,10 @@
-"""python -m scripts.official_cross_city {ntpc,population,metro-od} --help"""
+"""python -m scripts.official_cross_city {ntpc,population,metro-od,ntpc-pathdetail} --help"""
 import sys
-from . import ntpc, population, metro_od
+from . import ntpc, population, metro_od, ntpc_pathdetail
 
 
 def main():
-    commands = {"ntpc": ntpc.main, "population": population.main, "metro-od": metro_od.main}
+    commands = {"ntpc": ntpc.main, "population": population.main, "metro-od": metro_od.main, "ntpc-pathdetail": ntpc_pathdetail.main}
     if len(sys.argv) < 2 or sys.argv[1] not in commands:
         print(__doc__)
         return 0 if len(sys.argv) < 2 or sys.argv[1] in {"-h", "--help"} else 2

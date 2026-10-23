@@ -4,7 +4,7 @@
 來源目錄：[`source_registry.json`](../data/official_cross_city/source_registry.json)。
 不改寫既有 `data/taipei_feeds/`、`data/metro/` 或共用 collector。
 
-## 本次狀態
+## 初始 Draft 狀態（歷史紀錄；後續驗證見個別資料報告）
 
 - 官方目錄、欄位與授權已核對；**尚未完成本環境的官方完整檔下載及端到端驗證**。
 - 本環境不能解析外部主機名稱；另以閱讀工具取 CSV 時遇到內容類型限制／來源防護。
@@ -101,3 +101,30 @@ python -m unittest discover -s tests/official_cross_city -v
 IPF／人口權重只能提供依賴先驗的估計，不能把它重新標成觀測。
 路段車上人數不能替代站點上下車門檻。未知、過期、沒服務、零需求是不同狀態。
 本組不從路線重疊率或低負載直接給出減班／DRTS 結論。
+
+## 新北附線與站牌明示關聯
+
+`ntpc-pathdetail` 使用官方 [公車動態資料目錄](https://data.taipei/dataset/detail?id=2a8f5f42-942c-4974-8366-b44e90ad9701)
+及 [新北規格 v5.5](https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=C668AE404DCD2EFE)
+列出的 `ntpcbus/GetPathDetail.gz`。目錄標示公開，授權依該站
+[政府資料開放授權條款第 1 版](https://data.taipei/rule)，不繼承其他新北目錄的授權。
+先取得本組 routes、stops 快照，再以官方 `pathAttributeId`、`stopId` 核對並保留一對多關聯；
+未知 ID、矛盾主線、重複 ID／序號格、缺必要欄位即停止，不猜名稱或補造站序。
+
+```bash
+python -m scripts.official_cross_city ntpc-pathdetail --help
+python -m scripts.official_cross_city ntpc-pathdetail --fetch
+python -m scripts.official_cross_city ntpc-pathdetail --offline
+```
+
+壓縮下載上限 8 MiB、解壓上限 32 MiB、100,000 列；預設仍只列計畫。
+輸出為 `data/official_cross_city/ntpc_pathdetail.json`，原檔與 receipt 保留於既有 raw 目錄。
+`source_record_number` 是 JSON 陣列中從 1 起算的位置，不是 CSV 行號。
+`type`、`typeAttribute` 保留原碼，不擅自套用方向或跳蛙分類。
+官方新北端點的 `EssentialInfo.Location` 曾標示「台北市」，原文保留並明列異常，
+不能因此改列臺北來源。參考快照與端點時點可能不同，不能假定所有缺碼都是永久缺漏。
+
+2026-10-23 實抓來源時間 `2026/10/23 21:02:56`，43582 筆明示關聯覆蓋
+1008 個附線、33200 個站牌；相對本次 33314 個站牌快照仍有 114 個未連結。
+這是下載快照的 ID 關聯驗證，不代表即時營運、全北北基服務覆蓋或跳蛙路線 ID 對照。
+本次重建重用原檔與 receipt，不宣稱再次下載；大型產物不納入 Git。

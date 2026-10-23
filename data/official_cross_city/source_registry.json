@@ -3,7 +3,7 @@
   "dataset_id": "official_cross_city_source_registry",
   "metadata": {
     "kind": "source_registry_not_transport_observations",
-    "record_count": 8,
+    "record_count": 9,
     "upstream_repository": "Ti-wb/bus-analysis",
     "reviewed_base_commit": "1e26c9841c51c7eb61f6b461d9357b2962cda441",
     "snapshot_status": "no_live_observations_committed",
@@ -161,6 +161,34 @@
       "coverage_status": "not_downloaded_in_this_patch",
       "license": null,
       "limitation": "出口位置或直線距離不能直接當成可行步行連結；不生成未核實轉乘邊。"
+    },
+    {
+      "dataset_id": "ntpc_pathdetail",
+      "title": "新北公車附線站序明示關聯",
+      "provider": "臺北市公共運輸處（官方新北資料端點）",
+      "page_url": "https://data.taipei/dataset/detail?id=2a8f5f42-942c-4974-8366-b44e90ad9701",
+      "specification_page": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=C668AE404DCD2EFE",
+      "download_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetPathDetail.gz",
+      "license": {
+        "name": "政府資料開放授權條款-第1版",
+        "url": "https://data.taipei/rule",
+        "evidence": "官方目錄標示公開；網站授權規範，不沿用其他目錄授權"
+      },
+      "grain": "附線×站牌×原始序號",
+      "auth_required": false,
+      "data_kind": "official_published_data",
+      "catalog_verification": "verified_from_official_pages",
+      "collector_status": "implemented_live_checked_snapshot_not_committed",
+      "last_catalog_review_date": "2026-10-23",
+      "downloaded_at": "2026-10-23T14:05:38.461699+00:00",
+      "source_data_time_raw": "2026/10/23 21:02:56",
+      "snapshot_committed": false,
+      "limitations": [
+        "保留原始 Location 台北市文字；端點是官方文件列出的 ntpcbus。",
+        "ID 關聯只核本次 NTPC routes/stops 快照，不推論其他來源 namespace。",
+        "43582 筆關聯覆蓋 1008 附線、33200 站牌；33314 站牌中 114 尚未連結。",
+        "不套用其他來源 genus/方向碼或名稱對照，不等於全北北基覆蓋。"
+      ]
     }
   ]
 }
