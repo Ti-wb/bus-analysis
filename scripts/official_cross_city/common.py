@@ -202,12 +202,73 @@ class Links(HTMLParser):
             self.parts = []
 
 
+class ResourceLinks(HTMLParser):
+    """Read data.gov.tw CSV links and sibling labels within one resource row.
+
+    Only direct-child span labels belong to a resource-item. Page headings,
+    scripts, modal content and neighboring rows cannot supply its month.
+    """
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.stack = []
+        self.row = None
+        self.resources = []
+        self.row_hrefs = set()
+
+    def handle_starttag(self, tag, attrs):
+        attrs = dict(attrs)
+        if tag == "li" and "resource-item" in attrs.get("class", "").split():
+            if self.row is not None:
+                self.row["invalid"] = True
+            else:
+                self.row = {"depth": len(self.stack), "labels": [], "links": [], "invalid": False}
+        if self.row is not None:
+            if tag == "span" and len(self.stack) == self.row["depth"] + 1:
+                self.row["labels"].append([])
+            if tag == "a":
+                self.row_hrefs.add(attrs.get("href"))
+                if len(self.stack) == self.row["depth"] + 1:
+                    self.row["links"].append([attrs.get("href"), []])
+        if tag not in {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"}:
+            self.stack.append(tag)
+
+    def handle_data(self, data):
+        if self.row is None or any(tag in {"script", "style"} for tag in self.stack):
+            return
+        within = self.stack[self.row["depth"] + 1:]
+        if within and within[0] == "span":
+            self.row["labels"][-1].append(data)
+        if within and within[0] == "a" and self.row["links"]:
+            self.row["links"][-1][1].append(data)
+
+    def handle_endtag(self, tag):
+        if tag not in self.stack:
+            return
+        index = len(self.stack) - 1 - self.stack[::-1].index(tag)
+        if self.row is not None and index <= self.row["depth"]:
+            if tag == "li" and not self.row["invalid"]:
+                labels = " ".join("".join(parts) for parts in self.row["labels"])
+                links = [(href, "".join(parts).strip()) for href, parts in self.row["links"] if href]
+                self.resources.append((labels, links))
+            self.row = None
+        del self.stack[index:]
+
+
 def monthly_link(html: str, page_url: str, month: str, hosts: set[str]) -> str:
     validate_month(month)
     year, mm = month.split("-")
     roc = f"{int(year) - 1911:03d}{mm}"
     parser = Links()
     parser.feed(html)
+    resources = ResourceLinks()
+    resources.feed(html)
+    # A recognized resource row must not fall back to an unrelated anchor label.
+    parser.links = [(href, label) for href, label in parser.links if href not in resources.row_hrefs]
+    # Require one explicit month per row. Do not infer formats from opaque URLs.
+    for label, links in resources.resources:
+        months = set(re.findall(r"(?<!\d)(?:20\d{2}-[01]\d|20\d{4}|\d{5})(?!\d)", label))
+        if len(months) == 1:
+            parser.links.extend((href, label) for href, fmt in links if fmt.upper() == "CSV")
     candidates = set()
     for href, label in parser.links:
         if re.search(rf"(?<!\d)(?:{roc}|{year}{mm}|{year}-{mm})(?!\d)", label):

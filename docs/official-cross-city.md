@@ -53,7 +53,7 @@ python -m scripts.official_cross_city population --month 2026-09 --fetch
 # 來源進／出站名稱須精確匹配；命名不一致就停止，不猜測站名對照。
 python -m scripts.official_cross_city metro-od \
   --month 2026-09 --corridor-id xinzhuang-guandu \
-  --origins '新莊,頭前庄' --destinations '關渡,士林' --bidirectional --fetch
+  --origins '新莊,O頭前庄' --destinations '關渡,士林' --bidirectional --fetch
 
 # 離線重建：需要本組先前下載的原檔與匹配 .source.json receipt。
 python -m scripts.official_cross_city ntpc --kind routes --offline
