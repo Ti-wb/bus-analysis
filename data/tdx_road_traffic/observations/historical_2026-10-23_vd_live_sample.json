@@ -1,0 +1,4113 @@
+{
+  "schema_version": 1,
+  "dataset_id": "tdx_road_traffic_historical_2026-10-23_vd_live_sample",
+  "metadata": {
+    "grain": "one detector and DataCollectTime; nested link/lane/vehicle type values",
+    "data_kind": "detector_flow_observation",
+    "scope_status": "sample_only",
+    "source_updated_at": "2026-10-23T16:05:41+00:00",
+    "source_record_update_time_range": [
+      "2026-10-23T16:05:41+00:00",
+      "2026-10-23T16:05:41+00:00"
+    ],
+    "statistical_period": {
+      "requested_date": "2026-10-23",
+      "source_info_dates": [
+        "2026-10-22"
+      ],
+      "data_collect_time_start": "2026-10-22T15:58:00+00:00",
+      "data_collect_time_end": "2026-10-22T15:58:00+00:00",
+      "data_collect_taipei_dates": [
+        "2026-10-22"
+      ],
+      "period_validation_status": "contains_observations_outside_requested_taipei_date",
+      "source_info_date_mismatch_count": 30,
+      "data_collect_requested_taipei_day_mismatch_count": 30,
+      "data_collect_out_of_requested_date_ids": [
+        "V03A0G0",
+        "V1001B0",
+        "V1010A1",
+        "V1021A0",
+        "V1050A0",
+        "V1IUI20",
+        "V1SNV00",
+        "V4250B0",
+        "V5050A0",
+        "V5080A0",
+        "V5AAF61",
+        "V6180A2",
+        "VCPKT40",
+        "VGLKW40",
+        "VHJS620",
+        "VHLM800",
+        "VHMKV20",
+        "VIME560",
+        "VIVS602",
+        "VJHKR21",
+        "VJHM701",
+        "VJMHU00",
+        "VJTFX00",
+        "VKII640",
+        "VM9QH20",
+        "VN0C0E1",
+        "VN7ST40",
+        "VQDLJ20",
+        "VQGFY00",
+        "VRHT600"
+      ],
+      "invalid_or_offset_missing_collect_time_count": 0
+    },
+    "time_zone": "Asia/Taipei; original source timestamp offsets retained",
+    "response_metadata": {},
+    "response_collection_field": null,
+    "response_schema_deviation": null,
+    "requires_source_review": true,
+    "out_of_requested_date_count": 30,
+    "out_of_requested_date_ids": [
+      "V03A0G0",
+      "V1001B0",
+      "V1010A1",
+      "V1021A0",
+      "V1050A0",
+      "V1IUI20",
+      "V1SNV00",
+      "V4250B0",
+      "V5050A0",
+      "V5080A0",
+      "V5AAF61",
+      "V6180A2",
+      "VCPKT40",
+      "VGLKW40",
+      "VHJS620",
+      "VHLM800",
+      "VHMKV20",
+      "VIME560",
+      "VIVS602",
+      "VJHKR21",
+      "VJHM701",
+      "VJMHU00",
+      "VJTFX00",
+      "VKII640",
+      "VM9QH20",
+      "VN0C0E1",
+      "VN7ST40",
+      "VQDLJ20",
+      "VQGFY00",
+      "VRHT600"
+    ],
+    "out_of_requested_date_basis": "Literal source InfoDate; DataCollectTime is separately compared after converting its original offset to Asia/Taipei.",
+    "sources": [
+      {
+        "source_id": "historical_2026-10-23_vd_live_sample",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/historical/4b4708cc-ab49-4037-a896-e24544d51609",
+        "download_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Road/Traffic/Live/VD/City/Taipei?%24format=JSONL&Dates=2026-10-23&%24top=30",
+        "downloaded_at": "2026-10-24T10:55:03+08:00",
+        "source_updated_at": null,
+        "evidence_type": "business_api_response",
+        "http_status": 200,
+        "content_type": "text/ndjson; charset=utf-8",
+        "usage_headers": {
+          "x-ratelimit-limit-minute": "5",
+          "x-ratelimit-remaining-minute": "4"
+        },
+        "status": "downloaded",
+        "raw_file": "raw_data/tdx_road_traffic/failures/historical_2026-10-23_vd_live_sample.invalid_response",
+        "bytes": 39525
+      }
+    ],
+    "request": {
+      "source_id": "historical_2026-10-23_vd_live_sample",
+      "key": "vd_live",
+      "category": "historical",
+      "mode": "sample",
+      "date": "2026-10-23",
+      "data_kind": "detector_flow_observation",
+      "query_parameters": {
+        "$format": "JSONL",
+        "Dates": "2026-10-23",
+        "$top": 30
+      },
+      "request_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Road/Traffic/Live/VD/City/Taipei?%24format=JSONL&Dates=2026-10-23&%24top=30"
+    },
+    "units": {
+      "travel_speed": "km/h",
+      "travel_time": "seconds",
+      "speed": null,
+      "volume": null,
+      "occupancy": null
+    },
+    "unit_notes": {
+      "speed": "VD average speed: official supplied OpenAPI omits its unit; not converted.",
+      "volume": "VD flow detection value: official supplied OpenAPI omits counting interval/unit; not interpreted as hourly volume.",
+      "occupancy": "Official supplied OpenAPI omits its scale/unit; not converted."
+    },
+    "field_dictionary": "data/tdx_road_traffic/field_dictionary.json",
+    "limitations": [
+      "Section 為路段定義；不得當作歷史速率或流量。",
+      "-99 等異常偵測值與設備狀態原值保留；缺值不補零。",
+      "VD 流量維持 link／lane／vehicle type 粒度，未跨車道、車種或時間加總。",
+      "外部來源 ID 不直接關聯；同一 TDX 服務也須按 AuthorityCode 及版本／日期核對。",
+      "歷史樣本只是來源前 N 筆，不代表整日或三年的分布。",
+      "歷史版與基礎版 OpenAPI 對 SrcUpdateTime/UpdateTime 描述相反，保留原欄位；DataCollectTime 才是動態觀測時間。",
+      "來源回應含不同於請求日期的資料代表日期／觀測日；保留原時間，須檢視實際統計期間，不可全數視為所請求臺北民用日內觀測。"
+    ],
+    "license": {
+      "name": "TDX 服務條款",
+      "url": "https://tdx.transportdata.tw/term",
+      "note": "資料取用及再利用依 TDX 服務條款及原資料提供機關授權規定。"
+    },
+    "record_count": 30
+  },
+  "records": [
+    {
+      "vd_id": "V03A0G0",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "2000201105000A",
+          "lanes": [
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 72,
+              "occupancy": 2,
+              "vehicles": [
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 9,
+                  "speed": 72
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 79,
+              "occupancy": 2,
+              "vehicles": [
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 1,
+                  "speed": 62
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 1,
+                  "speed": 74
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 8,
+                  "speed": 80
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "V1SNV00",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "6007990400000A",
+          "lanes": [
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 83,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 2,
+                  "speed": 83
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            }
+          ]
+        },
+        {
+          "link_id": "6007990000000A",
+          "lanes": [
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 47,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 1,
+                  "speed": 47
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "V4250B0",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "2000100000120A",
+          "lanes": [
+            {
+              "lane_id": "2",
+              "lane_type": 1,
+              "speed": 52,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 1,
+                  "speed": 83
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 2,
+                  "speed": 52
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 68,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 2,
+                  "speed": 68
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 61,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 3,
+                  "speed": 61
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "V5080A0",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "2001000100300A",
+          "lanes": [
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 64,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 2,
+                  "speed": 64
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 78,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 2,
+                  "speed": 78
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "V5AAF61",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "6001930600000A",
+          "lanes": [
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 3,
+                  "speed": 50
+                }
+              ],
+              "error_diags": [
+                "diag201",
+                "diag203",
+                "diag205"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 74,
+              "occupancy": 2,
+              "vehicles": [
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 2,
+                  "speed": 74
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "2",
+              "lane_type": 1,
+              "speed": 60,
+              "occupancy": 9,
+              "vehicles": [
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 1,
+                  "speed": 53
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 7,
+                  "speed": 60
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "3",
+              "lane_type": 1,
+              "speed": 69,
+              "occupancy": 5,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 3,
+                  "speed": 69
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 2,
+                  "speed": 59
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "VGLKW40",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "6003050000000A",
+          "lanes": [
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            },
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "VIME560",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "6005020600050A",
+          "lanes": [
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 42,
+              "occupancy": 2,
+              "vehicles": [
+                {
+                  "vehicle_type": "L",
+                  "volume": 1,
+                  "speed": 36
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 1,
+                  "speed": 48
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 32,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 2,
+                  "speed": 32
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "VIVS602",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "6004830400010A",
+          "lanes": [
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 25,
+              "occupancy": 3,
+              "vehicles": [
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 1,
+                  "speed": 25
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            },
+            {
+              "lane_id": "2",
+              "lane_type": 1,
+              "speed": 41,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 1,
+                  "speed": 41
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            }
+          ]
+        },
+        {
+          "link_id": "6004830000010A",
+          "lanes": [
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 23,
+              "occupancy": 6,
+              "vehicles": [
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 1,
+                  "speed": 23
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 2,
+                  "speed": 34
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "2",
+              "lane_type": 1,
+              "speed": 23,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 1,
+                  "speed": 23
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 31,
+              "occupancy": 9,
+              "vehicles": [
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 1,
+                  "speed": 31
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 2,
+                  "speed": 36
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "VJTFX00",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "6008250400010A",
+          "lanes": [
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag303"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            }
+          ]
+        },
+        {
+          "link_id": "6008250000010A",
+          "lanes": [
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            },
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "VKII640",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "6004980000080A",
+          "lanes": [
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 57,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 2,
+                  "speed": 57
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 1,
+                  "speed": 15
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 51,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 1,
+                  "speed": 51
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            }
+          ]
+        },
+        {
+          "link_id": "6004980400080A",
+          "lanes": [
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            },
+            {
+              "lane_id": "2",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            },
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "VM9QH20",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "6000820200020A",
+          "lanes": [
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 60,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 1,
+                  "speed": 60
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            }
+          ]
+        },
+        {
+          "link_id": "6000820600020A",
+          "lanes": [
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            },
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "VQDLJ20",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "6005230600050A",
+          "lanes": [
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 11,
+                  "speed": 34
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag201",
+                "diag203",
+                "diag205"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            }
+          ]
+        },
+        {
+          "link_id": "6005230200070A",
+          "lanes": [
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 1,
+                  "speed": 34
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag201",
+                "diag203",
+                "diag205"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 18,
+                  "speed": 29
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag201",
+                "diag203",
+                "diag205"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "VQGFY00",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "6008230400010A",
+          "lanes": [
+            {
+              "lane_id": "2",
+              "lane_type": 1,
+              "speed": 45,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 3,
+                  "speed": 45
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            },
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            }
+          ]
+        },
+        {
+          "link_id": "6008230000010A",
+          "lanes": [
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            },
+            {
+              "lane_id": "2",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            },
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "VRHT600",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "2000700100180A",
+          "lanes": [
+            {
+              "lane_id": "4",
+              "lane_type": 1,
+              "speed": 19,
+              "occupancy": 13,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 3,
+                  "speed": 16
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 1,
+                  "speed": 30
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 2,
+                  "speed": 32
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag303"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 55,
+              "occupancy": 2,
+              "vehicles": [
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 1,
+                  "speed": 55
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag303"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "2",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag303"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            },
+            {
+              "lane_id": "5",
+              "lane_type": 1,
+              "speed": -99,
+              "occupancy": -99,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": -99,
+                  "speed": -99
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": -99,
+                  "speed": -99
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": -99,
+                  "speed": -99
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": -99,
+                  "speed": -99
+                }
+              ],
+              "error_diags": [
+                "diag102",
+                "diag106",
+                "diag303"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 65,
+              "occupancy": 4,
+              "vehicles": [
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 2,
+                  "speed": 65
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag303"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "V1IUI20",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "6003790300010A",
+          "lanes": [
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 62,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 2,
+                  "speed": 62
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            }
+          ]
+        },
+        {
+          "link_id": "6003790700010A",
+          "lanes": [
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 51,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 2,
+                  "speed": 51
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "V5050A0",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "2001000100600A",
+          "lanes": [
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 56,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 1,
+                  "speed": 56
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            },
+            {
+              "lane_id": "2",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "V6180A2",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "2000900000640A",
+          "lanes": [
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 88,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 2,
+                  "speed": 88
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 83,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 2,
+                  "speed": 83
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "VCPKT40",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "6001730500010A",
+          "lanes": [
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 50,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 2,
+                  "speed": 50
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "2",
+              "lane_type": 1,
+              "speed": 18,
+              "occupancy": 72,
+              "vehicles": [
+                {
+                  "vehicle_type": "L",
+                  "volume": 11,
+                  "speed": 15
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 7,
+                  "speed": 23
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 49,
+              "occupancy": 12,
+              "vehicles": [
+                {
+                  "vehicle_type": "L",
+                  "volume": 3,
+                  "speed": 27
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 19,
+                  "speed": 52
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "VHLM800",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "6003220400003A",
+          "lanes": [
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            },
+            {
+              "lane_id": "2",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            },
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            }
+          ]
+        },
+        {
+          "link_id": "6003220000003A",
+          "lanes": [
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 52,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 3,
+                  "speed": 52
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 2,
+                  "speed": 34
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 18,
+                  "speed": 16
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag201",
+                "diag203",
+                "diag205"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "2",
+              "lane_type": 1,
+              "speed": 54,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 4,
+                  "speed": 54
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 1,
+                  "speed": 43
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "VHMKV20",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "6000760200000A",
+          "lanes": [
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            },
+            {
+              "lane_id": "2",
+              "lane_type": 1,
+              "speed": 59,
+              "occupancy": 4,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 2,
+                  "speed": 40
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 1,
+                  "speed": 59
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 31,
+              "occupancy": 3,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 1,
+                  "speed": 31
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 1,
+                  "speed": 67
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "4",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            },
+            {
+              "lane_id": "3",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "VN0C0E1",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "2000801107000A",
+          "lanes": [
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 59,
+              "occupancy": 6,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 5,
+                  "speed": 59
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "VN7ST40",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "6001780000010A",
+          "lanes": [
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            },
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            },
+            {
+              "lane_id": "2",
+              "lane_type": 1,
+              "speed": 80,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 1,
+                  "speed": 80
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "V1001B0",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "2000400100520A",
+          "lanes": [
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            },
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 68,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 5,
+                  "speed": 68
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "V1010A1",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "2000400100400A",
+          "lanes": [
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 86,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 1,
+                  "speed": 86
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 56,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 5,
+                  "speed": 56
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "2",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "V1021A0",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "2000401109000A",
+          "lanes": [
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 45,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 3,
+                  "speed": 45
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "V1050A0",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "2000400100200A",
+          "lanes": [
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            },
+            {
+              "lane_id": "2",
+              "lane_type": 1,
+              "speed": 64,
+              "occupancy": 2,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 6,
+                  "speed": 64
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 78,
+              "occupancy": 2,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 5,
+                  "speed": 79
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 1,
+                  "speed": 90
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 1,
+                  "speed": 76
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "VHJS620",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "6000780600030A",
+          "lanes": [
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            },
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 52,
+              "occupancy": 4,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 1,
+                  "speed": 46
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 2,
+                  "speed": 52
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            }
+          ]
+        },
+        {
+          "link_id": "6000780200020A",
+          "lanes": [
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 39,
+              "occupancy": 6,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 3,
+                  "speed": 39
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "VJHKR21",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "6003350600010A",
+          "lanes": [
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 46,
+              "occupancy": 2,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 5,
+                  "speed": 46
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "2",
+              "lane_type": 1,
+              "speed": 45,
+              "occupancy": 3,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 7,
+                  "speed": 45
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 1,
+                  "speed": 76
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 43,
+              "occupancy": 4,
+              "vehicles": [
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 9,
+                  "speed": 43
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            }
+          ]
+        },
+        {
+          "link_id": "6003350200010A",
+          "lanes": [
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 50,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 4,
+                  "speed": 50
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 2,
+                  "speed": 37
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "2",
+              "lane_type": 1,
+              "speed": 40,
+              "occupancy": 7,
+              "vehicles": [
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 2,
+                  "speed": 39
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 10,
+                  "speed": 40
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 1,
+                  "speed": 43
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 49,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 2,
+                  "speed": 49
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "VJHM701",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "6003210000030A",
+          "lanes": [
+            {
+              "lane_id": "2",
+              "lane_type": 1,
+              "speed": 13,
+              "occupancy": 3,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 1,
+                  "speed": 13
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 1
+            },
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 30,
+              "occupancy": 5,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 2,
+                  "speed": 30
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    },
+    {
+      "vd_id": "VJMHU00",
+      "authority_code": "TPE",
+      "link_flows": [
+        {
+          "link_id": "6004990100010A",
+          "lanes": [
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 63,
+              "occupancy": 1,
+              "vehicles": [
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 1,
+                  "speed": 63
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 0,
+              "occupancy": 0,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 5,
+                  "speed": 37
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag201",
+                "diag203",
+                "diag205"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            }
+          ]
+        },
+        {
+          "link_id": "6004990500010A",
+          "lanes": [
+            {
+              "lane_id": "0",
+              "lane_type": 1,
+              "speed": 38,
+              "occupancy": 2,
+              "vehicles": [
+                {
+                  "vehicle_type": "S",
+                  "volume": 3,
+                  "speed": 38
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 0,
+                  "speed": 0
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            },
+            {
+              "lane_id": "1",
+              "lane_type": 1,
+              "speed": 54,
+              "occupancy": 5,
+              "vehicles": [
+                {
+                  "vehicle_type": "M",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "L",
+                  "volume": 2,
+                  "speed": 48
+                },
+                {
+                  "vehicle_type": "T",
+                  "volume": 0,
+                  "speed": 0
+                },
+                {
+                  "vehicle_type": "S",
+                  "volume": 3,
+                  "speed": 59
+                }
+              ],
+              "error_diags": [
+                "diag0"
+              ],
+              "recurrent_times": 0,
+              "recurrent_zero_times": 0
+            }
+          ]
+        }
+      ],
+      "status": 0,
+      "data_collect_time": "2026-10-22T15:58:00+00:00",
+      "src_update_time": "2026-10-22T16:00:00+00:00",
+      "update_time": "2026-10-23T16:05:41+00:00",
+      "info_time": "2026-10-22T15:58:00+00:00",
+      "info_date": "2026-10-22"
+    }
+  ]
+}

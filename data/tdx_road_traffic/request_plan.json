@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "dataset_id": "tdx_road_traffic_request_plan",
+  "metadata": {
+    "grain": "one explicitly bounded API request",
+    "source_updated_at": null,
+    "statistical_period": {
+      "historical_date": "2026-10-23"
+    },
+    "max_requests": 10,
+    "max_response_bytes": 8388608,
+    "max_total_bytes": 33554432,
+    "min_request_interval_seconds": 30.0,
+    "account_balance_verified": false,
+    "purchases_performed": false,
+    "license": {
+      "name": "TDX 服務條款",
+      "url": "https://tdx.transportdata.tw/term",
+      "note": "資料取用及再利用依 TDX 服務條款及原資料提供機關授權規定。"
+    },
+    "record_count": 10
+  },
+  "records": [
+    {
+      "source_id": "historical_2026-10-23_section_meta",
+      "key": "section",
+      "category": "historical",
+      "mode": "meta",
+      "date": "2026-10-23",
+      "data_kind": "availability_statistics",
+      "query_parameters": {
+        "$format": "JSONL",
+        "Dates": "2026-10-23",
+        "Meta": "true"
+      },
+      "request_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Road/Traffic/Section/City/Taipei?%24format=JSONL&Dates=2026-10-23&Meta=true"
+    },
+    {
+      "source_id": "historical_2026-10-23_section_live_meta",
+      "key": "section_live",
+      "category": "historical",
+      "mode": "meta",
+      "date": "2026-10-23",
+      "data_kind": "availability_statistics",
+      "query_parameters": {
+        "$format": "JSONL",
+        "Dates": "2026-10-23",
+        "Meta": "true"
+      },
+      "request_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Road/Traffic/Live/City/Taipei?%24format=JSONL&Dates=2026-10-23&Meta=true"
+    },
+    {
+      "source_id": "historical_2026-10-23_vd_live_meta",
+      "key": "vd_live",
+      "category": "historical",
+      "mode": "meta",
+      "date": "2026-10-23",
+      "data_kind": "availability_statistics",
+      "query_parameters": {
+        "$format": "JSONL",
+        "Dates": "2026-10-23",
+        "Meta": "true"
+      },
+      "request_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Road/Traffic/Live/VD/City/Taipei?%24format=JSONL&Dates=2026-10-23&Meta=true"
+    },
+    {
+      "source_id": "current_section",
+      "key": "section",
+      "category": "basic",
+      "mode": "full",
+      "date": null,
+      "data_kind": "road_definition",
+      "query_parameters": {
+        "$format": "JSON",
+        "$top": 1000000,
+        "$count": "true"
+      },
+      "request_url": "https://tdx.transportdata.tw/api/basic/v2/Road/Traffic/Section/City/Taipei?%24format=JSON&%24top=1000000&%24count=true"
+    },
+    {
+      "source_id": "current_vd",
+      "key": "vd",
+      "category": "basic",
+      "mode": "full",
+      "date": null,
+      "data_kind": "detector_definition",
+      "query_parameters": {
+        "$format": "JSON",
+        "$top": 1000000,
+        "$count": "true"
+      },
+      "request_url": "https://tdx.transportdata.tw/api/basic/v2/Road/Traffic/VD/City/Taipei?%24format=JSON&%24top=1000000&%24count=true"
+    },
+    {
+      "source_id": "current_section_live",
+      "key": "section_live",
+      "category": "basic",
+      "mode": "full",
+      "date": null,
+      "data_kind": "section_speed_observation",
+      "query_parameters": {
+        "$format": "JSON",
+        "$top": 1000000,
+        "$count": "true"
+      },
+      "request_url": "https://tdx.transportdata.tw/api/basic/v2/Road/Traffic/Live/City/Taipei?%24format=JSON&%24top=1000000&%24count=true"
+    },
+    {
+      "source_id": "current_vd_live",
+      "key": "vd_live",
+      "category": "basic",
+      "mode": "full",
+      "date": null,
+      "data_kind": "detector_flow_observation",
+      "query_parameters": {
+        "$format": "JSON",
+        "$top": 1000000,
+        "$count": "true"
+      },
+      "request_url": "https://tdx.transportdata.tw/api/basic/v2/Road/Traffic/Live/VD/City/Taipei?%24format=JSON&%24top=1000000&%24count=true"
+    },
+    {
+      "source_id": "historical_2026-10-23_section",
+      "key": "section",
+      "category": "historical",
+      "mode": "full",
+      "date": "2026-10-23",
+      "data_kind": "road_definition",
+      "query_parameters": {
+        "$format": "JSONL",
+        "Dates": "2026-10-23",
+        "$top": 1000000
+      },
+      "request_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Road/Traffic/Section/City/Taipei?%24format=JSONL&Dates=2026-10-23&%24top=1000000"
+    },
+    {
+      "source_id": "historical_2026-10-23_section_live_sample",
+      "key": "section_live",
+      "category": "historical",
+      "mode": "sample",
+      "date": "2026-10-23",
+      "data_kind": "section_speed_observation",
+      "query_parameters": {
+        "$format": "JSONL",
+        "Dates": "2026-10-23",
+        "$top": 30
+      },
+      "request_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Road/Traffic/Live/City/Taipei?%24format=JSONL&Dates=2026-10-23&%24top=30"
+    },
+    {
+      "source_id": "historical_2026-10-23_vd_live_sample",
+      "key": "vd_live",
+      "category": "historical",
+      "mode": "sample",
+      "date": "2026-10-23",
+      "data_kind": "detector_flow_observation",
+      "query_parameters": {
+        "$format": "JSONL",
+        "Dates": "2026-10-23",
+        "$top": 30
+      },
+      "request_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Road/Traffic/Live/VD/City/Taipei?%24format=JSONL&Dates=2026-10-23&%24top=30"
+    }
+  ]
+}
