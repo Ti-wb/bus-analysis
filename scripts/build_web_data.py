@@ -29,8 +29,6 @@ GRID_LAT0 = 25.05
 DAY_TYPES = {"weekday": 3, "saturday": 6, "sunday": 7}
 
 ROAD_CLASSES = {"motorway", "trunk", "primary", "secondary"}
-WATER_CLASSES = {"water", "riverbank", "reservoir", "dock"}
-GREEN_CLASSES = {"park", "forest", "recreation_ground"}
 METRO_CLASSES = {"subway", "light_rail", "monorail"}
 METRO_NAME = re.compile(r"捷運|輕軌|信義線東延段|^板南線$|^中和新蘆線$")
 METRO_EXCLUDE = re.compile(r"機廠|測試軌|袋|洗車|儲車|卸載|扇形|預定地|Crossover")
@@ -205,7 +203,7 @@ def main():
     write("taipei_boundary.geojson", collection([{"type": "Feature", "properties": {"name": "臺北市"}, "geometry": rounded(simplified(city, 0.0001))}], admin_meta))
 
     # OSM base layers.
-    def clipped(layer, classes, tolerance, min_area=0.0):
+    def clipped(layer, classes, tolerance):
         features = []
         for feature in osm_layer(layer):
             cls = feature["properties"]["feature_class"]
@@ -215,13 +213,11 @@ def main():
             if not geometry.intersects(view):
                 continue
             geometry = simplified(geometry.intersection(view), tolerance)
-            if geometry is None or (min_area and geometry.area < min_area):
+            if geometry is None:
                 continue
             features.append({"type": "Feature", "properties": {"class": cls}, "geometry": rounded(geometry)})
         return features
 
-    write("water.geojson", collection(clipped("water", WATER_CLASSES, 0.00005, 2e-7), osm_meta))
-    write("green.geojson", collection(clipped("landuse", GREEN_CLASSES, 0.0001, 1e-6), osm_meta))
     write("roads.geojson", collection(clipped("roads", ROAD_CLASSES, 0.00005), osm_meta))
 
     # MRT and light-rail lines with nearby stations.

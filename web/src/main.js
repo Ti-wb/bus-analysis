@@ -36,9 +36,15 @@ let gridFeatures = [];
 let playTimer;
 const $ = (selector) => document.querySelector(selector);
 
+// OpenFreeMap Positron vector base map (no API key). Its label layers are moved above the
+// frequency grid and network lines so road and place names stay readable.
+const BASE_STYLE = 'https://tiles.openfreemap.org/styles/positron';
+const LABEL_NAME = ['coalesce', ['get', 'name:zh-Hant'], ['get', 'name:nonlatin'], ['get', 'name']];
+
 const map = new maplibregl.Map({
   container: 'map',
-  style: { version: 8, sources: {}, layers: [{ id: 'background', type: 'background', paint: { 'background-color': '#f4f3ef' } }] },
+  style: BASE_STYLE,
+  localIdeographFontFamily: "'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif",
   center: state.center,
   zoom: state.zoom,
   minZoom: 9.5,
@@ -49,7 +55,7 @@ const map = new maplibregl.Map({
 map.addControl(new maplibregl.NavigationControl({ visualizePitch: false }), 'top-right');
 map.addControl(new maplibregl.AttributionControl({
   compact: true,
-  customAttribution: '公車：臺北市公共運輸處｜行政界：內政部國土測繪中心｜© OpenStreetMap contributors',
+  customAttribution: '公車：臺北市公共運輸處｜行政界：內政部國土測繪中心',
 }), 'top-right');
 
 const loadJSON = (name) => fetch(DATA + name).then((r) => {
@@ -62,17 +68,22 @@ map.on('load', async () => {
   map.resize();
   let data;
   try {
-    const names = ['green', 'water', 'roads', 'districts', 'taipei_boundary', 'bus_routes', 'bus_stops', 'mrt_lines', 'mrt_stations', 'district_labels'];
+    const names = ['roads', 'districts', 'taipei_boundary', 'bus_routes', 'bus_stops', 'mrt_lines', 'mrt_stations', 'district_labels'];
     const [docs] = await Promise.all([Promise.all(names.map((n) => loadJSON(`${n}.geojson`))), loadGrid(state.cell)]);
     data = Object.fromEntries(names.map((n, i) => [n, docs[i]]));
   } catch (error) {
     showDataError(error);
     return;
   }
+  const baseLabels = map.getStyle().layers.filter((l) => l.type === 'symbol').map((l) => l.id);
   addHatchPattern();
   addBaseLayers(data);
   addGridLayers();
   addNetworkLayers(data);
+  for (const id of baseLabels) {
+    if (JSON.stringify(map.getLayoutProperty(id, 'text-field') ?? '').includes('name')) map.setLayoutProperty(id, 'text-field', LABEL_NAME);
+    map.moveLayer(id, 'mrt-stations');
+  }
   addDistrictLabels(data.district_labels);
   buildSearchIndex(data);
   bindControls();
@@ -104,13 +115,9 @@ async function useGrid(cell) {
 }
 
 function addBaseLayers(data) {
-  map.addSource('green', { type: 'geojson', data: data.green });
-  map.addSource('water', { type: 'geojson', data: data.water });
   map.addSource('roads', { type: 'geojson', data: data.roads });
   map.addSource('districts', { type: 'geojson', data: data.districts });
   map.addSource('taipei', { type: 'geojson', data: data.taipei_boundary });
-  map.addLayer({ id: 'green', type: 'fill', source: 'green', paint: { 'fill-color': '#e2eadc', 'fill-opacity': 0.8 } });
-  map.addLayer({ id: 'water', type: 'fill', source: 'water', paint: { 'fill-color': '#cfe2e6' } });
 }
 
 function addGridLayers() {

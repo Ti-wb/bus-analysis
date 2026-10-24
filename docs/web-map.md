@@ -1,6 +1,6 @@
 # 前端地圖（覆蓋臺北）
 
-`web/` 是單頁地圖，呈現臺北市及周邊的公車路線、捷運路網，以及公車計畫班次網格。用 MapLibre GL JS 與 Vite 建置，輸出為靜態網站，不需要地圖金鑰或後端。
+`web/` 是單頁地圖，呈現臺北市及周邊的公車路線、捷運路網，以及公車計畫班次網格。用 MapLibre GL JS 與 Vite 建置，輸出為靜態網站，不需要地圖金鑰或後端；底圖與路名使用 OpenFreeMap 公開圖磚，需連網。
 
 ## 執行
 
@@ -20,7 +20,8 @@ npm --prefix web run build
 
 | 圖層 | 來源 | 處理 |
 | --- | --- | --- |
-| 底圖：行政區界、水系、綠地、主要道路 | `map-data/admin`、`map-data/osm` | 裁到臺北市周邊範圍並簡化線形 |
+| 底圖與路名 | [OpenFreeMap](https://openfreemap.org/) Positron 向量圖磚（OpenMapTiles／OSM） | 底圖在最下層；路名與地名改用中文名稱，疊在網格與路線之上 |
+| 行政區界、主要道路 | `map-data/admin`、`map-data/osm` | 裁到臺北市周邊範圍並簡化線形；道路以白線疊在網格上 |
 | 公車路線、站牌 | `data/taipei_feeds` 的 `route_shapes`、`stop_locations`、`route_stop_sequences` | 線形簡化；站牌附路線清單與平日計畫發車數 |
 | 捷運路網、車站 | `map-data/osm` 的 `railways`、`transport` | 只取具名的捷運與輕軌線，排除機廠、測試軌；車站取路線約 80 m 內的軌道車站 |
 | 公車班次網格 | `fixed_schedules`、`headway_schedules` 加上站序 | 見下節 |
