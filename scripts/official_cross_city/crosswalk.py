@@ -120,22 +120,25 @@ def feed_rows(path):
 
 
 def compare_csv_feed(path, kind, feed):
-    """Verify every CSV column, not merely equal numeric IDs or similar names."""
+    """Verify both populations using every CSV column, preserving feed ordinals."""
     by_id = defaultdict(list)
-    for row in feed:
-        by_id[identifier(row["Id"])].append({k.lower(): nullable(v) for k, v in row.items()})
-    rows, duplicates, seen = [], 0, set()
+    for number, row in enumerate(feed, 1):
+        by_id[identifier(row["Id"])].append((number, {k.lower(): nullable(v) for k, v in row.items()}))
+    rows, duplicates, seen, matched = [], 0, set(), set()
     for line, row in csv_rows(path, SOURCES[kind]["required"], lower_headers=True):
         normalized = {k: nullable(v) for k, v in row.items()}
         identifier(normalized["id"])
-        candidates = [r for r in by_id[normalized["id"]]
+        candidates = [number for number, r in by_id[normalized["id"]]
                       if all(key in r and r[key] == value for key, value in normalized.items())]
         if not candidates:
             raise ValueError(f"CSV/feed content conflict at {kind} line {line}; refresh both sources")
+        matched.update(candidates)
         key = tuple(sorted(normalized.items()))
         duplicates += key in seen
         seen.add(key)
         rows.append((line, normalized))
+    if len(matched) != len(feed):
+        raise ValueError(f"CSV has unmatched feed records in {kind}; refresh both sources")
     return rows, {"csv_source_rows": len(rows), "feed_source_rows": len(feed),
                   "all_csv_columns_verified_rows": len(rows), "exact_duplicate_csv_rows": duplicates,
                   "null_equivalence": "CSV empty string and feed JSON null only"}

@@ -59,6 +59,34 @@ class CrosswalkTest(unittest.TestCase):
         self.assertEqual(result[0]["source_record_numbers"], [1, 3])
         self.assertEqual(result[1]["subroute_id"], "11")
 
+    def test_csv_feed_rejects_unmatched_routes_and_variants(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "routes.csv"
+            path.write_text("id,providerid,namezh,pathattributeid\n1,7,同名路線,10\n", encoding="utf-8")
+            for extra in [route(route_id=2, branch_id=20, nid="0463000200"),
+                          route(branch_id=11), {**route(), "providerId": 8}]:
+                with self.subTest(extra=extra), self.assertRaisesRegex(ValueError, "unmatched feed"):
+                    c.compare_csv_feed(path, "routes", [route(), extra])
+            _, quality = c.compare_csv_feed(path, "routes", [route(), route()])
+            self.assertEqual(quality["feed_source_rows"], 2)
+
+    def test_unmatched_feed_route_cannot_replace_verified_crosswalk(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            raw = root / c.RAW_DIR
+            raw.mkdir(parents=True)
+            (raw / "ntpc_routes.csv").write_text("id,providerid,namezh,pathattributeid\n1,7,同名路線,10\n")
+            for name, rows in [("route_feed", [route(), route(2, 20, "0463000200")]),
+                               ("stop_feed", [{"Id": 5}]), ("pathdetail", [{"id": 6}])]:
+                (raw / ("ntpc_" + name + ".gz")).write_bytes(gzip.compress(json.dumps({"EssentialInfo": {}, "BusInfo": rows}).encode()))
+            output = root / "data/official_cross_city/ntpc_feed_id_crosswalk.json"
+            output.parent.mkdir(parents=True)
+            output.write_text("previous successful output")
+            with patch.object(c, "source_file", side_effect=lambda root, name, **kw: (raw / name, {})):
+                with self.assertRaisesRegex(ValueError, "unmatched feed"):
+                    c.run(root, offline=True)
+            self.assertEqual(output.read_text(), "previous successful output")
+
     def test_route_bridge_rejects_ambiguous_nid_conflicting_parent_and_map(self):
         cases = [[route(), route(route_id=2)],
                  [route(), route(route_id=2, nid="0463000200")],
