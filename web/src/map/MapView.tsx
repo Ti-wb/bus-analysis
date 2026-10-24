@@ -1,7 +1,7 @@
 import type { FeatureCollection, Polygon } from 'geojson';
 import type { MapGeoJSONFeature, Map as MaplibreMap } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { useCallback, useMemo, useState, type RefObject } from 'react';
+import { useCallback, useLayoutEffect, useMemo, useRef, useState, type RefObject } from 'react';
 import Map, {
   AttributionControl,
   Layer,
@@ -37,6 +37,9 @@ interface Props {
   onMoveEnd: (view: ViewState) => void;
 }
 
+// Distance between the cursor and the tooltip, in pixels.
+const TOOLTIP_GAP = 12;
+
 interface Hover {
   feature?: MapGeoJSONFeature;
   /** Nearest-station distances when no feature is under the cursor in coverage mode. */
@@ -65,6 +68,20 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
   // First label layer of the base style: our layers go below it so road names stay on top.
   const [labelLayer, setLabelLayer] = useState<string | null>(null);
   const [hover, setHover] = useState<Hover | null>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
+
+  // Keep the tooltip inside the map: place it below-right of the cursor, flipping to the
+  // other side when it would cross the right or bottom edge.
+  useLayoutEffect(() => {
+    const tip = tooltipRef.current;
+    const box = mapRef.current?.getContainer();
+    if (!hover || !tip || !box) return;
+    const fitsRight = hover.x + TOOLTIP_GAP + tip.offsetWidth <= box.clientWidth;
+    const fitsBelow = hover.y + TOOLTIP_GAP + tip.offsetHeight <= box.clientHeight;
+    const dx = fitsRight ? TOOLTIP_GAP : -TOOLTIP_GAP - tip.offsetWidth;
+    const dy = fitsBelow ? TOOLTIP_GAP : -TOOLTIP_GAP - tip.offsetHeight;
+    tip.style.transform = `translate(${dx}px, ${dy}px)`;
+  }, [hover, mapRef]);
   const [popup, setPopup] = useState<PopupFeature | null>(null);
   const [showDistrictLabels, setShowDistrictLabels] = useState(true);
 
@@ -213,7 +230,7 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
       </Map>
 
       {hover && (
-        <div className="tooltip" style={{ left: hover.x, top: hover.y }}>
+        <div ref={tooltipRef} className="tooltip" style={{ left: hover.x, top: hover.y }}>
           {hover.feature
             ? <FeatureTooltip feature={hover.feature} grid={grid} state={state} />
             : hover.distances && <CoverageTooltip distances={hover.distances} state={state} />}
