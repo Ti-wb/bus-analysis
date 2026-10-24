@@ -1,7 +1,7 @@
 # 官方跨市資料
 
 整理官方路線、站牌、里人口與捷運 OD，供跨市公車研究使用。
-各來源的時間、範圍、單位與限制以輸出 metadata 為準；來源目錄見
+各來源的時間、範圍、單位與限制以輸出 metadata 為準；基礎 collector 來源目錄見
 [`source_registry.json`](../data/official_cross_city/source_registry.json)。
 
 ## 資料及範圍
@@ -22,6 +22,7 @@ ID 對照用法見 [ID 對照說明](id-crosswalk.md)；新增站間旅時與道
 [里名及里界版本](boundary-evidence.md)、[區域站序與服務日曆](regional-service-coverage.md)、
 [北北基地理會員與發布覆蓋](regional-service-evidence.md)、[步行轉乘](walking-evidence.md)及
 [過街與端點補證](walking-further-evidence.md)。
+旅時的附線、方向、相鄰站對、週末／平日時段及未覆蓋列，見[站對覆蓋證據](travel-time-coverage.md)。
 
 ## 執行
 

@@ -11,18 +11,18 @@
     "record_count": 9,
     "local_program_checks": {
       "runtime": "3.12.11",
-      "official_cross_city_tests_passed": 240,
+      "official_cross_city_tests_passed": 284,
       "base_tests_passed": 13,
       "compileall": "passed",
-      "cli_help_commands_passed": 15,
+      "cli_help_commands_passed": 16,
       "live_data_review": "separate_full_raw_reviews_not_unit_tests",
-      "total_unit_tests_passed": 253,
+      "total_unit_tests_passed": 297,
       "integrated_main_commit": "f91ba8139253e485c1167284375fb68ef4851a67",
       "merged_map_catalog_read_only_build": "passed_27_datasets_31_files",
       "ci_evidence": "GitHub Actions current-head checks; exact SHA and run links in PR description",
       "stdlib_ci_mode": {
-        "discovered": 240,
-        "passed": 223,
+        "discovered": 284,
+        "passed": 267,
         "skipped_gis_cases": 17,
         "status": "passed_without_gis_dependencies"
       }
@@ -43,7 +43,8 @@
         "data/quality/service_coverage_review.json",
         "data/quality/regional_service_evidence_review.json",
         "map-data/quality/walking_evidence_review.json",
-        "map-data/quality/walking_further_evidence_review.json"
+        "map-data/quality/walking_further_evidence_review.json",
+        "data/quality/travel_time_coverage_review.json"
       ],
       "scope": "非整理者逐筆核對已交付來源、欄位、期間、筆數與必要加總；巡檢通過不取消來源缺口。"
     },
@@ -112,12 +113,12 @@
         "data/quality/regional_service_evidence_review.json",
         "data/quality/remaining_validation_review.json"
       ],
-      "completed": "四主管範圍完整StopOfRoute共4651模型、155189原始站牌會員；基隆及全國公路客運Schedule共1899模型。依官方同版里界聯集核對81947站點版本、4815業者關係，以及ServiceDay與SpecialDays發布支持；全國模型保留，不以名稱裁切。",
+      "completed": "四主管範圍StopOfRoute及Schedule八端點全取至尾頁：4651站序模型、155189原始站牌會員、3461班表模型、95359 ServiceDay與16964 SpecialDays。81947站點版本、4815業者關係逐一核對；1899明示五維發布、1670缺班表業者碼候選、1246完整端點未觀察匹配。",
       "remaining": [
-        "基隆與公路客運各2個主檔RouteUID未見發布班表，仍為未知；臺北、新北Schedule尚未取得。",
-        "128個站序業者關係未見相同五維班表（基隆3、公路客運125）；這不是128條路線停駛。",
-        "實際行駛、停駛、改道及驗收日期的營運事件尚未核實；發布班表不能證明實際營運。",
-        "同一模型可跨多市且依業者展開；城市摘要、業者模型及日曆物件不可相加當實際路線或班次。"
+        "完整班表端點的主檔RouteUID未見清冊：臺北11、新北0、基隆2、公路客運2，均不推論停駛。",
+        "雙北Schedule未發布OperatorID；1670個三碼候選保留原班表及日曆，不套用站序業者。1246個五維未觀察關係不是1246條停駛路線。",
+        "指定日期實際行駛、停駛與改道事件尚未核實；發布班表不能證明實際營運。",
+        "城市摘要、業者展開模型與日曆物件不可相加當實際路線或班次。"
       ]
     },
     {
@@ -127,13 +128,16 @@
         "data/tdx_bus_travel_time/route_catalog.json",
         "data/tdx_bus_travel_time/coverage.json",
         "data/tdx_bus_travel_time/delivery.json",
-        "data/quality/tdx_bus_travel_time_review.json"
+        "data/quality/tdx_bus_travel_time_review.json",
+        "data/official_cross_city/travel_time_coverage/summary.json",
+        "data/quality/travel_time_coverage_review.json"
       ],
-      "completed": "87查詢範圍、86成功、1官方明示無資料、0技術失敗；282模型、234613時段列、5923缺RunTime保持null；臺北416個參考RouteUID有83個出現在已保存旅時。",
+      "completed": "127查詢範圍、126成功、1額外查詢官方無資料、0技術失敗；409模型、338961時段列、8553缺RunTime保持null；臺北416個參考端點已嘗試123、有123個RouteUID旅時，293未請求。固定87範圍補證另列完整1241參考模型、41994相鄰站對×2標籤，12432站對×標籤至少有一個數值時段，8019列不相容而待核。",
       "remaining": [
         "臺北其餘參考路線仍在分批取得，未宣稱全市或北北基完整旅時覆蓋。",
-        "南港幹線HTTP200明示無資料，完整原文保留；不推論路線停駛。",
-        "當期推估端點沒有歷史Date/Version參數，不能回填三年觀測。"
+        "南港幹線是416參考目錄之外的額外查詢；HTTP200無資料原文保留，不指派任何參考RouteUID或推論停駛。",
+        "當期推估端點沒有歷史Date/Version參數，不能回填三年觀測。",
+        "固定87範圍的站對補證不以Sequence偏移配站；週末不是國定假日日曆，部分時段與有效期不代表全日覆蓋。"
       ]
     },
     {

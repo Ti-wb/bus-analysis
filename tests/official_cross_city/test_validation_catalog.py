@@ -4,10 +4,38 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from scripts.build_validation_catalog import build, requires_review
+from scripts.build_validation_catalog import build, requires_review, review_for_output
 
 
 class ValidationCatalogTests(unittest.TestCase):
+    def test_new_schedule_file_cannot_inherit_old_aggregate_pass(self):
+        report = {'metadata': {'status': 'passed'}, 'records': []}
+        self.assertEqual(review_for_output(report, 'data/official_cross_city/service_coverage/Taipei_Schedule.json.gz',
+                                          'schedule', {}, []), 'pending_missing_dataset_review')
+
+    def test_explicit_other_path_cannot_match_by_dataset_name(self):
+        report = {'metadata': {'status': 'passed'}, 'records': [
+            {'path': 'old.json', 'dataset_id': 'same_dataset', 'status': 'passed'}]}
+        self.assertEqual(review_for_output(report, 'new.json', 'same_dataset', {}, []),
+                         'pending_missing_dataset_review')
+
+    def test_matching_count_does_not_certify_a_different_source_snapshot(self):
+        path = 'data/official_cross_city/service_coverage/Taipei_Schedule.json.gz'
+        report = {'records': [{'path': path, 'status': 'passed', 'record_count': 1,
+                              'reviewed_source_ids': ['page0'], 'source_downloaded_at': ['old']} ]}
+        metadata = {'sources': [{'source_id': 'page0', 'downloaded_at': 'new'}]}
+        self.assertEqual(review_for_output(report, path, 'schedule', metadata, [{}]),
+                         'pending_source_snapshot_review')
+        metadata['sources'][0]['downloaded_at'] = 'old'
+        self.assertEqual(review_for_output(report, path, 'schedule', metadata, [{}]), 'passed')
+
+    def test_same_count_changed_raw_file_cannot_reuse_road_review(self):
+        report = {'records': [{'path': 'road.json', 'status': 'passed', 'record_count': 1,
+                              'source_id': 'road', 'raw_file': 'old.json', 'http_status': 200}]}
+        metadata = {'sources': [{'source_id': 'road', 'raw_file': 'new.json', 'http_status': 200}]}
+        self.assertEqual(review_for_output(report, 'road.json', 'road', metadata, [{}]),
+                         'pending_source_snapshot_review')
+
     def test_boundary_report_dataset_specific_status_is_preserved(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
