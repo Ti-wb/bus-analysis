@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import logoHorizontal from '../assets/logo-horizontal.svg';
+import logoSymbol from '../assets/logo-symbol.svg';
 import type { AnalysisMode } from '../types';
 
 const CHIPS: Record<AnalysisMode, [string, string]> = {
@@ -24,20 +26,17 @@ export default function Topbar({ mode, aboutActive, onAbout, onPreferences, onSh
 
   return (
     <header className="topbar">
-      <a className="brand" href="./">
-        <span className="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="20" height="20">
-            <path fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" d="M12 3 3 8l9 5 9-5-9-5Zm-9 9 9 5 9-5M3 16l9 5 9-5" />
-          </svg>
-        </span>
-        <span>覆蓋臺北</span>
+      {/* Brand guidelines: horizontal lockup in the header, symbol only where the bar is narrow. */}
+      <a className="brand" href="./" aria-label="Bus coming soon 首頁">
+        <img className="brand-logo" src={logoHorizontal} alt="" width="174" height="40" />
+        <img className="brand-symbol" src={logoSymbol} alt="" width="42" height="32" />
       </a>
       <nav className="tabs">
         <button className={`tab${aboutActive ? '' : ' is-active'}`}>探索地圖</button>
         <button className={`tab${aboutActive ? ' is-active' : ''}`} onClick={onAbout}>資料與方法</button>
       </nav>
       <div className="topbar-right">
-        <span className="chip chip-teal">{CHIPS[mode][0]}</span>
+        <span className="chip chip-accent">{CHIPS[mode][0]}</span>
         <span className="chip chip-amber">{CHIPS[mode][1]}</span>
         <button className="btn-outline btn-prefs" onClick={onPreferences}>
           <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
