@@ -57,9 +57,11 @@ def position_status(position):
     return "valid_coordinates", (lon, lat)
 
 
-def published_status(count, endpoint_complete):
+def published_status(count, endpoint_complete, missing_schedule_operator=False):
     if count:
         return "published"
+    if missing_schedule_operator:
+        return "indeterminate_missing_schedule_operator"
     return "not_observed_in_complete_published_endpoint" if endpoint_complete else "indeterminate_partial_or_not_requested"
 
 
@@ -225,6 +227,8 @@ def build(root=ROOT):
             if not operators: operators = [None]
             for operator in operators:
                 matches = schedule_index[(scope, model["route_uid"], model["sub_route_uid"], model.get("direction"), operator)] if operator is not None else []
+                unassigned = schedule_index[(scope, model["route_uid"], model["sub_route_uid"], model.get("direction"), None)]
+                missing_schedule_operator = bool(unassigned) and not matches
                 endpoint_complete = schedule_complete.get(scope, False) and operator is not None
                 service_days = sum(r["service_day_object_count"] for r in matches)
                 special_days = sum(r["special_day_object_count"] for r in matches)
@@ -236,11 +240,16 @@ def build(root=ROOT):
                     "stop_membership_count": len(variants), "stop_geography_ids_in_source_order": variants,
                     "source_stop_sequence_values": [s.get("stop_sequence") for s in model.get("stops") or []],
                     "coordinate_gap_counts": dict(uncertain),
-                    "schedule_publication_status": published_status(len(matches), endpoint_complete),
+                    "schedule_publication_status": published_status(len(matches), endpoint_complete, missing_schedule_operator),
                     "schedule_evidence_ids": [r["schedule_evidence_id"] for r in matches],
-                    "service_day_publication_status": published_status(service_days, endpoint_complete),
-                    "special_day_publication_status": published_status(special_days, endpoint_complete),
+                    "unassigned_operator_schedule_evidence_ids": [r["schedule_evidence_id"] for r in unassigned],
+                    "unassigned_operator_service_day_object_count": sum(r["service_day_object_count"] for r in unassigned),
+                    "unassigned_operator_special_day_object_count": sum(r["special_day_object_count"] for r in unassigned),
+                    "service_day_publication_status": published_status(service_days, endpoint_complete, missing_schedule_operator),
+                    "special_day_publication_status": published_status(special_days, endpoint_complete, missing_schedule_operator),
                     "service_day_object_count": service_days, "special_day_object_count": special_days,
+                    "requires_source_review": missing_schedule_operator,
+                    "source_review_flags": ["schedule_operator_not_published_for_three_key_candidate"] if missing_schedule_operator else [],
                     "invalid_weekly_calendar_count": sum(r["invalid_weekly_calendar_count"] for r in matches)})
     for row in geographies:
         row["same_stop_uid_variant_count"] = len(stop_uid_variants[row["stop_uid"]])
@@ -258,6 +267,7 @@ def build(root=ROOT):
                             "行政遮罩為同一NLSC版本全部里及未編定區塊的聯集，非另版法定市界；座標轉換精度見boundary_membership，不推定人口月份幾何相同。",
                             "站牌UID明示；StationID是站位ID，不補造StationUID，也不連接地方feed或以同名去重。",
                             "not_observed只描述完整發布端點未見對應模型或欄位，不代表停駛；未取得或部分班表為indeterminate。",
+                            "Schedule未發布OperatorID的三碼候選另列，不向下套用StopOfRoute業者；無明示五維匹配時為indeterminate_missing_schedule_operator，候選日曆不計入已核業者發布數。",
                             "ServiceDay/SpecialDays只統計來源發布物件並保留原碼與日期，不推定某班實際行駛或將不同業者班表直接相加。",
                             "涵蓋的主管機關、端點與期間僅限support.json所列；不同來源UpdateTime分開保留。"]}
     write_gzip(root / OUT / "stop_geography.json.gz", envelope("regional_stop_geography_evidence", geographies, {**meta, "grain": "one exact StopUID/StopID/StationID/source-position variant"}))

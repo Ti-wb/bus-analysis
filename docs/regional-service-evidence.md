@@ -25,6 +25,7 @@ JSON 使用來源檔路徑、官方頁面、實際下載 URL、來源 UpdateTime
 - `published`：在已取得來源中找到完整相同 UID／附線／業者／方向的模型或指定日曆物件。
 - `not_observed_in_complete_published_endpoint`：對應端點已取至尾頁，未見指定模型或物件。這不是停駛、無服務或沒有特殊營運日的證明。
 - `indeterminate_partial_or_not_requested`：班表端點尚未取得、僅有部分頁面，或業者關係無法核實。
+- `indeterminate_missing_schedule_operator`：找到相同範圍／RouteUID／SubRouteUID／方向的班表，但來源未發布 `OperatorID`，無法核實指定業者的五維關係。候選列於 `unassigned_operator_schedule_evidence_ids`，其日曆數另列；不以站序業者補造或複製班表。已有明示業者的精確匹配時只計精確匹配，候選仍分開保留。
 
 不同業者可能共用路線／附線／方向，不按這三碼去重，也不直接合計班表。每個模型可停靠多市，不能把城市摘要相加當成不重複路線數。週別旗標及特殊日碼只保留與檢查來源內容；全 0 的旗標仍保留 0，不推論某一班次是否實際行駛。
 

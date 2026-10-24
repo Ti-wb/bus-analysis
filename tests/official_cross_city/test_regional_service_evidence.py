@@ -10,6 +10,9 @@ except ImportError:
 
 
 class RegionalServiceEvidenceTests(unittest.TestCase):
+    def test_complete_schedule_without_operator_does_not_prove_five_key_absence(self):
+        self.assertEqual(evidence.published_status(0, True, missing_schedule_operator=True), "indeterminate_missing_schedule_operator")
+        self.assertEqual(evidence.published_status(1, True, missing_schedule_operator=True), "published")
     def test_missing_zero_and_invalid_positions_remain_distinct(self):
         self.assertEqual(evidence.position_status({"position_lon": None, "position_lat": 25})[0], "missing_coordinates")
         self.assertEqual(evidence.position_status({"position_lon": 0, "position_lat": 25})[0], "zero_coordinate_requires_source_review")

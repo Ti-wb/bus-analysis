@@ -2,7 +2,7 @@
   "schema_version": 1,
   "dataset_id": "regional_service_evidence_independent_review",
   "metadata": {
-    "reviewed_at": "2026-10-24T11:49:24.679201+08:00",
+    "reviewed_at": "2026-10-24T12:10:38.182461+08:00",
     "status": "pass_with_source_limitations",
     "reviewer_agent": "/root/crosswalk",
     "independent_of_producer": true,
@@ -44,8 +44,8 @@
       {
         "source_scope": "Taipei",
         "service": "Schedule",
-        "models": null,
-        "status": "not_acquired"
+        "models": 600,
+        "status": "exhausted_page_verified"
       },
       {
         "source_scope": "NewTaipei",
@@ -56,8 +56,8 @@
       {
         "source_scope": "NewTaipei",
         "service": "Schedule",
-        "models": null,
-        "status": "not_acquired"
+        "models": 962,
+        "status": "exhausted_page_verified"
       },
       {
         "source_scope": "Keelung",
@@ -90,11 +90,11 @@
       "unique_stop_geography_variants": 81947,
       "original_stop_memberships": 155189,
       "operator_expanded_membership_sum_not_original_population": 160893,
-      "published_schedule_models": 1899,
-      "timetable_objects": 15949,
-      "frequency_objects": 44,
-      "service_day_objects": 15993,
-      "special_day_objects": 16963,
+      "published_schedule_models": 3461,
+      "timetable_objects": 88287,
+      "frequency_objects": 7073,
+      "service_day_objects": 95359,
+      "special_day_objects": 16964,
       "invalid_weekly_calendar_objects": 0
     },
     "geography_status_counts": {
@@ -102,13 +102,35 @@
       "outside_region": 17913
     },
     "schedule_publication_status_counts": {
-      "indeterminate_partial_or_not_requested": 2788,
-      "published": 1899,
-      "not_observed_in_complete_published_endpoint": 128
+      "indeterminate_missing_schedule_operator": 1670,
+      "not_observed_in_complete_published_endpoint": 1246,
+      "published": 1899
     },
+    "schedule_operator_field_presence": [
+      {
+        "source_scope": "Taipei",
+        "schedule_models": 600,
+        "operator_id_absent_or_null_models": 600
+      },
+      {
+        "source_scope": "NewTaipei",
+        "schedule_models": 962,
+        "operator_id_absent_or_null_models": 962
+      },
+      {
+        "source_scope": "Keelung",
+        "schedule_models": 165,
+        "operator_id_absent_or_null_models": 0
+      },
+      {
+        "source_scope": "InterCity",
+        "schedule_models": 1734,
+        "operator_id_absent_or_null_models": 0
+      }
+    ],
     "requires_source_review": true,
     "limitations": [
-      "Taipei and NewTaipei Schedule were not acquired; all corresponding publication/day statuses remain indeterminate, never no-service claims.",
+      "All four configured Schedule endpoints were acquired through their exhausted pages; same-three-key candidates without Schedule OperatorID remain indeterminate_missing_schedule_operator. Only absence of both exact and unassigned candidates permits not_observed_in_complete_published_endpoint; neither status proves no actual service.",
       "Regional membership uses the 2026-08-17 NLSC village/unassigned-area union; not a separate legal city boundary version or route trajectory containment test.",
       "The used EPSG:3824 to EPSG:4326 operation reports 1 metre accuracy; source stop survey accuracy and near-boundary physical membership are not certified.",
       "Counts describe published source models, operator relations and calendar objects; neither source-model expansion nor multiple covered cities may be summed as distinct trips/routes.",
@@ -121,35 +143,35 @@
       "output_path": "data/official_cross_city/regional_service_evidence/stop_geography.json.gz",
       "dataset_id": "regional_stop_geography_evidence",
       "record_count": 81947,
-      "reviewed_generated_at": "2026-10-24T11:42:35+08:00",
+      "reviewed_generated_at": "2026-10-24T12:08:15+08:00",
       "status": "pass_with_source_limitations"
     },
     {
       "output_path": "data/official_cross_city/regional_service_evidence/service_models.json.gz",
       "dataset_id": "regional_published_service_model_coverage",
       "record_count": 4815,
-      "reviewed_generated_at": "2026-10-24T11:42:35+08:00",
+      "reviewed_generated_at": "2026-10-24T12:08:15+08:00",
       "status": "pass_with_source_limitations"
     },
     {
       "output_path": "data/official_cross_city/regional_service_evidence/schedule_calendars.json.gz",
       "dataset_id": "regional_published_schedule_calendars",
-      "record_count": 1899,
-      "reviewed_generated_at": "2026-10-24T11:42:35+08:00",
+      "record_count": 3461,
+      "reviewed_generated_at": "2026-10-24T12:08:15+08:00",
       "status": "pass_with_source_limitations"
     },
     {
       "output_path": "data/official_cross_city/regional_service_evidence/coverage_summary.json",
       "dataset_id": "regional_geographic_published_service_summary",
       "record_count": 12,
-      "reviewed_generated_at": "2026-10-24T11:42:35+08:00",
+      "reviewed_generated_at": "2026-10-24T12:08:15+08:00",
       "status": "pass_with_source_limitations"
     },
     {
       "output_path": "data/official_cross_city/regional_service_evidence/support.json",
       "dataset_id": "regional_service_source_support",
       "record_count": 8,
-      "reviewed_generated_at": "2026-10-24T11:42:35+08:00",
+      "reviewed_generated_at": "2026-10-24T12:08:15+08:00",
       "status": "pass_with_source_limitations"
     }
   ]

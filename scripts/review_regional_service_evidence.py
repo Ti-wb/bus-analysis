@@ -90,10 +90,29 @@ def five_key(scope, row, operator=None):
     return scope, row["RouteUID"], row["SubRouteUID"], row.get("Direction"), row.get("OperatorID") if operator is None else operator
 
 
-def publication_status(count, complete, operator_known=True):
+def publication_status(count, complete, operator_known=True, missing_operator_candidates=False):
     if count:
         return "published"
+    if missing_operator_candidates:
+        return "indeterminate_missing_schedule_operator"
     return "not_observed_in_complete_published_endpoint" if complete and operator_known else "indeterminate_partial_or_not_requested"
+
+
+def resolve_schedule_relations(scope, stop_model, operator, schedule_index):
+    prefix = (scope, stop_model["RouteUID"], stop_model["SubRouteUID"], stop_model.get("Direction"))
+    assigned = schedule_index.get((*prefix, operator), []) if operator is not None else []
+    unassigned = schedule_index.get((*prefix, None), [])
+    return assigned, unassigned, bool(unassigned) and not assigned
+
+
+def schedule_support_limitation(raw):
+    missing = [scope for scope in SCOPES if raw.get((scope, "Schedule")) is None]
+    if missing:
+        return ("Schedule was not acquired for " + ", ".join(missing) +
+                "; corresponding publication/day statuses remain indeterminate, never no-service claims.")
+    return ("All four configured Schedule endpoints were acquired through their exhausted pages; same-three-key candidates without "
+            "Schedule OperatorID remain indeterminate_missing_schedule_operator. Only absence of both exact and unassigned candidates "
+            "permits not_observed_in_complete_published_endpoint; neither status proves no actual service.")
 
 
 def calendars(row):
@@ -297,7 +316,7 @@ def run(root):
                     gaps[status] += 1
             operators = sorted({operator["OperatorID"] for operator in source.get("Operators") or []}) or [None]
             for operator in operators:
-                matches = schedule_index[five_key(scope, source, operator)] if operator is not None else []
+                matches, unassigned, missing_operator = resolve_schedule_relations(scope, source, operator, schedule_index)
                 complete = raw[scope, "Schedule"] is not None
                 days = sum(row["service_day_object_count"] for row in matches)
                 special = sum(row["special_day_object_count"] for row in matches)
@@ -308,9 +327,15 @@ def run(root):
                     "covering_city_codes": sorted(city_counts), "city_stop_membership_counts": [{"city_code": code, "stop_membership_count": city_counts[code]} for code in sorted(city_counts)],
                     "stop_membership_count": len(stop_ids), "stop_geography_ids_in_source_order": stop_ids,
                     "source_stop_sequence_values": [row.get("StopSequence") for row in source.get("Stops") or []], "coordinate_gap_counts": dict(gaps),
-                    "schedule_publication_status": publication_status(len(matches), complete, operator is not None), "schedule_evidence_ids": [row["schedule_evidence_id"] for row in matches],
-                    "service_day_publication_status": publication_status(days, complete, operator is not None), "special_day_publication_status": publication_status(special, complete, operator is not None),
-                    "service_day_object_count": days, "special_day_object_count": special, "invalid_weekly_calendar_count": sum(row["invalid_weekly_calendar_count"] for row in matches)})
+                    "schedule_publication_status": publication_status(len(matches), complete, operator is not None, missing_operator), "schedule_evidence_ids": [row["schedule_evidence_id"] for row in matches],
+                    "unassigned_operator_schedule_evidence_ids": [row["schedule_evidence_id"] for row in unassigned],
+                    "unassigned_operator_service_day_object_count": sum(row["service_day_object_count"] for row in unassigned),
+                    "unassigned_operator_special_day_object_count": sum(row["special_day_object_count"] for row in unassigned),
+                    "service_day_publication_status": publication_status(days, complete, operator is not None, missing_operator), "special_day_publication_status": publication_status(special, complete, operator is not None, missing_operator),
+                    "service_day_object_count": days, "special_day_object_count": special,
+                    "requires_source_review": missing_operator,
+                    "source_review_flags": ["schedule_operator_not_published_for_three_key_candidate"] if missing_operator else [],
+                    "invalid_weekly_calendar_count": sum(row["invalid_weekly_calendar_count"] for row in matches)})
     require(set(variant_stats) == set(geography_by_key), "No invented geography variants")
     for key, expected in variant_stats.items():
         expected["same_stop_uid_variant_count"] = len(uid_variants[key[0]])
@@ -331,7 +356,7 @@ def run(root):
     verify_population_totals(summary_meta, source_model_count, len(model_expected), actual_geographies, source_memberships)
     relationship_member_sum = sum(row["stop_membership_count"] for row in model_expected)
     docs = (root / "docs/regional-service-evidence.md").read_text(encoding="utf-8")
-    require(all(term in docs for term in ("covers", "StationUID", "indeterminate_partial_or_not_requested", "not_observed_in_complete_published_endpoint", "不能把城市摘要相加", "不直接合計班表")), "Documented acceptance and aggregation boundaries")
+    require(all(term in docs for term in ("covers", "StationUID", "indeterminate_partial_or_not_requested", "indeterminate_missing_schedule_operator", "not_observed_in_complete_published_endpoint", "不能把城市摘要相加", "不直接合計班表")), "Documented acceptance and aggregation boundaries")
     file_ids = {"stop_geography.json.gz": "regional_stop_geography_evidence", "service_models.json.gz": "regional_published_service_model_coverage",
                 "schedule_calendars.json.gz": "regional_published_schedule_calendars", "coverage_summary.json": "regional_geographic_published_service_summary", "support.json": "regional_service_source_support"}
     reviewed = []
@@ -355,8 +380,11 @@ def run(root):
                    "invalid_weekly_calendar_objects": sum(row["invalid_weekly_calendar_count"] for row in schedule_expected)},
         "geography_status_counts": dict(Counter(row["geographic_status"] for row in actual_geographies)),
         "schedule_publication_status_counts": dict(Counter(row["schedule_publication_status"] for row in model_expected)),
+        "schedule_operator_field_presence": [{"source_scope": scope, "schedule_models": len(raw[scope, "Schedule"] or []),
+                                             "operator_id_absent_or_null_models": sum(row.get("OperatorID") is None for row in raw[scope, "Schedule"] or [])}
+                                            for scope in SCOPES],
         "requires_source_review": True,
-        "limitations": ["Taipei and NewTaipei Schedule were not acquired; all corresponding publication/day statuses remain indeterminate, never no-service claims.",
+        "limitations": [schedule_support_limitation(raw),
             "Regional membership uses the 2026-08-17 NLSC village/unassigned-area union; not a separate legal city boundary version or route trajectory containment test.",
             "The used EPSG:3824 to EPSG:4326 operation reports 1 metre accuracy; source stop survey accuracy and near-boundary physical membership are not certified.",
             "Counts describe published source models, operator relations and calendar objects; neither source-model expansion nor multiple covered cities may be summed as distinct trips/routes.",

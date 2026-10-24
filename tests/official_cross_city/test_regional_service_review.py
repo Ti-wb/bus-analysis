@@ -10,6 +10,17 @@ except ModuleNotFoundError:
 
 
 class RegionalServiceReviewTests(unittest.TestCase):
+    def test_schedule_limitations_follow_actual_acquisition_support(self):
+        raw = {(scope, "Schedule"): [] for scope in review.SCOPES}
+        text = review.schedule_support_limitation(raw)
+        self.assertIn("All four configured Schedule endpoints", text)
+        self.assertNotIn("was not acquired", text)
+        raw["NewTaipei", "Schedule"] = None
+        text = review.schedule_support_limitation(raw)
+        self.assertIn("NewTaipei", text)
+        self.assertNotIn("Taipei,", text)
+        self.assertIn("remain indeterminate", text)
+
     def test_five_dimensions_keep_authority_operator_and_direction_separate(self):
         row = {"RouteUID": "THB001", "SubRouteUID": "THB0010", "Direction": 0, "OperatorID": "007"}
         wanted = review.five_key("InterCity", row)
@@ -24,6 +35,31 @@ class RegionalServiceReviewTests(unittest.TestCase):
         self.assertEqual(review.publication_status(0, True, False), "indeterminate_partial_or_not_requested")
         self.assertEqual(review.publication_status(0, True), "not_observed_in_complete_published_endpoint")
         self.assertEqual(review.publication_status(1, False), "published")
+
+    def test_missing_operator_candidates_never_become_assigned_calendar_support(self):
+        model = {"RouteUID": "TPE001", "SubRouteUID": "TPE0010", "Direction": 0}
+        candidate = {"schedule_evidence_id": "raw_schedule_1", "service_day_object_count": 4}
+        exact = {"schedule_evidence_id": "raw_schedule_2", "service_day_object_count": 2}
+        prefix = ("Taipei", "TPE001", "TPE0010", 0)
+        index = {(*prefix, None): [candidate]}
+        assigned, unassigned, uncertain = review.resolve_schedule_relations("Taipei", model, "007", index)
+        self.assertEqual(assigned, [])
+        self.assertEqual(unassigned, [candidate])
+        self.assertTrue(uncertain)
+        self.assertEqual(review.publication_status(0, True, True, uncertain), "indeterminate_missing_schedule_operator")
+        index[(*prefix, "007")] = [exact]
+        assigned, unassigned, uncertain = review.resolve_schedule_relations("Taipei", model, "007", index)
+        self.assertEqual(sum(row["service_day_object_count"] for row in assigned), 2)
+        self.assertEqual(unassigned, [candidate])
+        self.assertFalse(uncertain)
+        self.assertEqual(review.publication_status(0, True, True, uncertain), "not_observed_in_complete_published_endpoint")
+        self.assertEqual(review.resolve_schedule_relations("Taipei", model, None, index)[0], [])
+
+    def test_unassigned_calendar_candidates_remain_within_scope_and_direction(self):
+        model = {"RouteUID": "TPE001", "SubRouteUID": "TPE0010", "Direction": 0}
+        index = {("NewTaipei", "TPE001", "TPE0010", 0, None): [{}], ("Taipei", "TPE001", "TPE0010", 1, None): [{}],
+                 ("Taipei", "TPE001", "TPE0010", 0, "008"): [{}]}
+        self.assertEqual(review.resolve_schedule_relations("Taipei", model, "007", index), ([], [], False))
 
     def test_stop_uid_variants_are_not_collapsed_by_uid_or_station_name(self):
         stop = {"StopUID": "THB0001", "StopID": "0001", "StationID": "0002", "StopPosition": {"PositionLon": 121.5, "PositionLat": 25}}

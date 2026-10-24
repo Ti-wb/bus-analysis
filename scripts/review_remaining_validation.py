@@ -18,6 +18,8 @@ SERVICE_DIR = "data/official_cross_city/service_coverage"
 REGIONAL_DIR = "data/official_cross_city/regional_service_evidence"
 BOUNDARY_DIR = "data/official_cross_city/boundary_evidence"
 WALKING_DIR = "data/official_cross_city/walking_transfers"
+SCOPES = ("Taipei", "NewTaipei", "Keelung", "InterCity")
+SERVICES = ("StopOfRoute", "Schedule")
 
 
 def read(root, path):
@@ -41,12 +43,25 @@ def require_review(doc, entry, path, *, generated_at=None):
         check(doc["metadata"].get("generated_at") == generated_at, path + ": reviewed generation differs")
 
 
-def require_unknown_unacquired(rows, unavailable_scopes):
+def require_schedule_support(rows, schedule_support):
+    """Published partial rows are evidence; partial absence remains unknown."""
     for row in rows:
-        if row["source_scope"] in unavailable_scopes:
-            for field in ("schedule_publication_status", "service_day_publication_status", "special_day_publication_status"):
-                check(row[field] == "indeterminate_partial_or_not_requested",
-                      f"{row['source_scope']}: unacquired {field} was treated as known")
+        support = schedule_support[row["source_scope"]]
+        check(support in {"not_acquired", "partial_published_endpoint", "complete_published_endpoint"},
+              "unknown Schedule support status")
+        check(support != "not_acquired" or not row.get("unassigned_operator_schedule_evidence_ids"),
+              "unacquired Schedule has invented candidate evidence")
+        complete_identity = support == "complete_published_endpoint" and row["operator_id"] is not None
+        for field, count in (("schedule_publication_status", len(row["schedule_evidence_ids"])),
+                             ("service_day_publication_status", row["service_day_object_count"]),
+                             ("special_day_publication_status", row["special_day_object_count"])):
+            check(support != "not_acquired" or count == 0, "unacquired Schedule has invented evidence")
+            expected = ("published" if count else "indeterminate_missing_schedule_operator"
+                        if row.get("unassigned_operator_schedule_evidence_ids") and not row["schedule_evidence_ids"]
+                        else "not_observed_in_complete_published_endpoint" if complete_identity
+                        else "indeterminate_partial_or_not_requested")
+            check(row[field] == expected,
+                  f"{row['source_scope']}: {field} conflicts with endpoint/identity/evidence support")
 
 
 def further_summary(rows):
@@ -74,20 +89,22 @@ def review(root=ROOT):
         check(doc["metadata"].get("status", "").startswith(("pass", "passed")), key + ": independent review not passed")
 
     endpoint_rows = []
+    endpoint_docs = {}
     for entry in reviews["service"]["records"]:
         path = entry["path"]
         doc = read(root, path)
         require_review(doc, entry, path)
         md = doc["metadata"]
         check(entry["checks"]["failure_count"] == 0, path + ": review has failures")
-        check(md["scope_status"] == "complete_published_endpoint_by_exhausted_page", path + ": endpoint is incomplete")
+        check(md["scope_status"] in {"complete_published_endpoint_by_exhausted_page", "partial_contiguous_pages"}, path + ": unknown endpoint scope")
         check(entry["reviewed_source_ids"] == [r["source_id"] for r in md["sources"]], path + ": reviewed source pages differ")
         check(entry["source_downloaded_at"] == [r["downloaded_at"] for r in md["sources"]], path + ": reviewed HTTP snapshots differ")
         raw_updates = sorted({r["update_time"] for r in doc["records"] if r.get("update_time")})
         check(entry["source_periods"] == raw_updates, path + ": source update times differ")
         endpoint_rows.append({
             "scope": entry["scope"], "service": entry["service"], "file": path,
-            "record_count": len(doc["records"]), "publication_status": "complete_published_endpoint",
+            "record_count": len(doc["records"]), "publication_status": ("complete_published_endpoint"
+                if md["scope_status"] == "complete_published_endpoint_by_exhausted_page" else "partial_published_endpoint"),
             "source_updated_at": md.get("source_updated_at"), "source_record_update_times": raw_updates,
             "route_uid_count": entry["diagnostics"]["route_uid_count"],
             "nested_stop_count": entry["diagnostics"]["nested_stop_count"],
@@ -98,10 +115,7 @@ def review(root=ROOT):
             "source_pages": [{k: r.get(k) for k in ("source_id", "source_page", "download_url", "raw_file", "downloaded_at", "source_updated_at")}
                              for r in md["sources"]],
         })
-    wanted = {("Taipei", "StopOfRoute"), ("NewTaipei", "StopOfRoute"), ("Keelung", "StopOfRoute"),
-              ("Keelung", "Schedule"), ("InterCity", "StopOfRoute"), ("InterCity", "Schedule")}
-    check({(r["scope"], r["service"]) for r in endpoint_rows} == wanted and len(endpoint_rows) == len(wanted),
-          "six reviewed endpoint inventory differs")
+        endpoint_docs[(entry["scope"], entry["service"])] = doc
 
     regional_docs = {}
     regional_inventory = []
@@ -115,10 +129,26 @@ def review(root=ROOT):
     check(set(regional_docs) == {"stop_geography.json.gz", "service_models.json.gz", "schedule_calendars.json.gz",
                                 "coverage_summary.json", "support.json"}, "regional five-file inventory differs")
     support = regional_docs["support.json"]["records"]
-    unacquired = {r["source_scope"] for r in support if r["service"] == "Schedule" and r["publication_support"] == "not_acquired"}
-    check(unacquired == {"Taipei", "NewTaipei"}, "unacquired Schedule scopes changed; reassess validation")
+    wanted = {(scope, service) for scope in SCOPES for service in SERVICES}
+    support_index = {(r["source_scope"], r["service"]): r for r in support}
+    check(set(support_index) == wanted and len(support) == len(wanted), "four-scope/eight-endpoint support configuration differs")
+    wanted_acquired = {k for k, r in support_index.items() if r["publication_support"] != "not_acquired"}
+    endpoint_index = {(r["scope"], r["service"]): r for r in endpoint_rows}
+    check(set(endpoint_index) == wanted_acquired and len(endpoint_rows) == len(wanted_acquired),
+          "reviewed endpoint inventory differs from regional support; regenerate source/regional reviews")
+    regional_inputs = {r["path"]: r for r in regional_docs["support.json"]["metadata"]["source_inputs"]}
+    for k, row in endpoint_index.items():
+        supported = support_index[k]
+        check((supported["publication_support"], supported["record_count"], supported["input_file"])
+              == (row["publication_status"], row["record_count"], row["file"]), "support and reviewed endpoint disagree")
+        source_input = regional_inputs[row["file"]]
+        check(source_input["source_ids"] == [r["source_id"] for r in row["source_pages"]]
+              and source_input["downloaded_at"] == [r["downloaded_at"] for r in row["source_pages"]],
+              "regional source lineage differs from independently reviewed endpoint")
+    schedule_support = {scope: support_index[(scope, "Schedule")]["publication_support"] for scope in SCOPES}
+    incomplete_schedule_scopes = [scope for scope in SCOPES if schedule_support[scope] != "complete_published_endpoint"]
     models = regional_docs["service_models.json.gz"]["records"]
-    require_unknown_unacquired(models, unacquired)
+    require_schedule_support(models, schedule_support)
     geography = regional_docs["stop_geography.json.gz"]["records"]
     regional_md = reviews["regional"]["metadata"]
     check(len(models) == regional_md["totals"]["operator_relation_models"], "operator-relation total differs")
@@ -128,7 +158,34 @@ def review(root=ROOT):
     missing_models = [{k: r[k] for k in ("source_scope", "route_uid", "subroute_uid", "direction", "operator_id")}
                       for r in models if r["schedule_publication_status"] == "not_observed_in_complete_published_endpoint"]
     missing_scope_counts = Counter(r["source_scope"] for r in missing_models)
-    unknown_model_count = sum(r["schedule_publication_status"] == "indeterminate_partial_or_not_requested" for r in models)
+    unknown_model_count = sum(r["schedule_publication_status"].startswith("indeterminate_") for r in models)
+    missing_operator_model_count = sum(r["schedule_publication_status"] == "indeterminate_missing_schedule_operator" for r in models)
+    route_uid_gaps = []
+    for scope in SCOPES:
+        stop_uids = {r["route_uid"] for r in endpoint_docs[(scope, "StopOfRoute")]["records"]}
+        schedule_doc = endpoint_docs.get((scope, "Schedule"))
+        seen_uids = {r["route_uid"] for r in schedule_doc["records"]} if schedule_doc else set()
+        route_uid_gaps.append({"source_scope": scope, "schedule_publication_support": schedule_support[scope],
+            "stopofroute_route_uid_count": len(stop_uids), "published_schedule_route_uid_count": len(seen_uids) if schedule_doc else None,
+            "complete_endpoint_route_uids_not_observed": sorted(stop_uids - seen_uids) if schedule_support[scope] == "complete_published_endpoint" else None})
+    support_counts = Counter(r["publication_support"] for r in support)
+    endpoint_scope_text = (f"{len(endpoint_rows)}個已取得端點（{support_counts['complete_published_endpoint']}完整、{support_counts['partial_published_endpoint']}部分）")
+    operational_missing = []
+    if incomplete_schedule_scopes:
+        operational_missing.append({"scope": "/".join(incomplete_schedule_scopes) + " Schedule", "fields": ["尚未完整取得的班表端點"],
+            "interpretation": f"依support逐端點區分未取得與partial；已發布的列仍可核實。{unknown_model_count}個業者關係模型為unknown，不是無班表或停駛。"})
+    if missing_operator_model_count:
+        operational_missing.append({"scope": "三碼班表候選缺少OperatorID", "fields": ["來源明示業者或可核實的五維歸屬"],
+            "interpretation": f"{missing_operator_model_count}個站序業者關係有相同RouteUID/SubRouteUID/Direction的班表，但來源未發布業者，保持indeterminate_missing_schedule_operator。候選日曆另列，不套用或按多業者複製為已核班表。"})
+    elif unknown_model_count and not incomplete_schedule_scopes:
+        operational_missing.append({"scope": "未完成五維身分的站序模型", "fields": ["來源缺少的業者身分或其他連接條件"],
+            "interpretation": f"端點完整仍有{unknown_model_count}個關係無法判定，保持unknown，不強制當作缺班表。"})
+    if missing_models:
+        breakdown = "、".join(f"{scope} {missing_scope_counts[scope]}個" for scope in SCOPES if missing_scope_counts[scope])
+        operational_missing.append({"scope": "完整發布端點之未觀察五維模型", "fields": ["來源缺列原因及跨版本有效性"],
+            "interpretation": f"{len(missing_models)}個站序業者關係未觀察相同五維班表（{breakdown}）。這是發布關聯缺列，不是{len(missing_models)}線停駛；整條RouteUID缺列另列清冊。"})
+    operational_missing.append({"scope": "四取用範圍實際營運", "fields": ["指定驗收日期的實際行駛事件、臨時停駛/改道/當期例外的權威確認"],
+        "interpretation": "發布站序、班表與日曆不能保證每班實際行駛；全國主檔數不是北北基路線數。"})
 
     transfers = read(root, WALKING_DIR + "/transfers.json")
     graphs = read(root, WALKING_DIR + "/graphs.json.gz")
@@ -231,7 +288,9 @@ def review(root=ROOT):
         "required_inputs": ["指定來源/日期/範圍之完整站序與上下客限制", "逐路線/附線/方向/業者班表、ServiceDay與SpecialDays", "驗收日期實際營運事件或可核實運行證據"],
         "available_fields": {
             "published_endpoint_count": len(endpoint_rows), "published_endpoints": endpoint_rows,
+            "configured_endpoint_count": len(support), "endpoint_support_status_counts": dict(support_counts),
             "regional_outputs": regional_inventory, "regional_source_support": support,
+            "complete_endpoint_route_uid_gaps": route_uid_gaps,
             "regional_totals": regional_md["totals"], "stop_geography_status_counts": regional_md["geography_status_counts"],
             "schedule_publication_status_counts": regional_md["schedule_publication_status_counts"],
             "source_scope_city_coverage": regional_docs["coverage_summary.json"]["records"],
@@ -239,17 +298,10 @@ def review(root=ROOT):
             "join_key": regional_docs["service_models.json.gz"]["metadata"]["join_key"],
             "complete_endpoint_unobserved_schedule_models": missing_models,
         },
-        "missing_fields": [
-            {"scope": "Taipei/NewTaipei Schedule", "fields": ["尚未取得的班表端點"],
-             "interpretation": f"{unknown_model_count}個業者關係模型保持unknown，不是無班表或停駛。基隆/公路客運已取得完整發布班表，不再稱其缺少全部站序或日曆。"},
-            {"scope": "完整發布端點之未觀察模型", "fields": ["來源缺列原因及跨版本有效性"],
-             "interpretation": f"{len(missing_models)}個站序業者關係未觀察相同五維班表；含基隆{missing_scope_counts['Keelung']}個，公路客運{missing_scope_counts['InterCity']}個。這是發布關聯缺列，不是{len(missing_models)}線停駛。"},
-            {"scope": "基隆/公路客運實際營運", "fields": ["指定驗收日期的實際行駛事件、臨時停駛/改道/當期例外的權威確認"],
-             "interpretation": "完整發布站序、班表與日曆不能保證每班實際行駛；485為全國主檔數，不是北北基路線數。"},
-        ],
+        "missing_fields": operational_missing,
         "evidence": {"independent_reviews": [review_files["service"], review_files["regional"]],
                      "route_master_review": "data/quality/regional_validation_review.json", "source_inventory": REGIONAL_DIR + "/support.json"},
-        "conclusion": "六發布端點已達尾頁，五份區域證據已獨立巡檢；以明示ID/原座標及已核版本里界covers判定站點會員，保留全國模型。可完成指定發布資料的取得/欄位/涵蓋核對，不能完成原文實際完整營運驗收。",
+        "conclusion": f"{endpoint_scope_text}及五份區域證據已獨立巡檢；以明示ID/原座標及已核版本里界covers判定站點會員，保留全國模型。可按support完成指定已取得發布資料的欄位/涵蓋核對，不能完成原文實際完整營運驗收。",
     }]
     return {
         "schema_version": "1.0", "dataset_id": "remaining_validation_review",
@@ -284,7 +336,10 @@ def main():
     report = review(args.root)
     target = args.output if args.output.is_absolute() else args.root / args.output
     target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    body = json.dumps(report, ensure_ascii=False, allow_nan=False, indent=2) + "\n"
+    temporary = target.with_name(target.name + ".part")
+    temporary.write_text(body, encoding="utf-8")
+    temporary.replace(target)
     print(json.dumps({"file": str(target), "evidence_reconciliation_status": report["metadata"]["evidence_reconciliation_status"],
                       "original_items_may_mark_complete": [r["may_mark_complete"] for r in report["metadata"]["original_pr_validation_items"]]}))
 

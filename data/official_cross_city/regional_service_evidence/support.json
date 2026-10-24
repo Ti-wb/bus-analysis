@@ -4,7 +4,7 @@
   "metadata": {
     "record_count": 8,
     "source_updated_at": null,
-    "generated_at": "2026-10-24T11:42:35+08:00",
+    "generated_at": "2026-10-24T12:08:15+08:00",
     "source_inputs": [
       {
         "path": "data/official_cross_city/service_coverage/Taipei_StopOfRoute.json.gz",
@@ -39,6 +39,54 @@
         ]
       },
       {
+        "path": "data/official_cross_city/service_coverage/Taipei_Schedule.json.gz",
+        "record_count": 600,
+        "scope_status": "complete_published_endpoint_by_exhausted_page",
+        "source_updated_at": "2026-10-24T09:36:32+08:00",
+        "source_record_update_times": [
+          "2026-10-24T09:36:32+08:00"
+        ],
+        "source_ids": [
+          "Taipei_Schedule_skip_0_top_100",
+          "Taipei_Schedule_skip_100_top_100",
+          "Taipei_Schedule_skip_200_top_100",
+          "Taipei_Schedule_skip_300_top_100",
+          "Taipei_Schedule_skip_400_top_100",
+          "Taipei_Schedule_skip_500_top_100",
+          "Taipei_Schedule_skip_600_top_100"
+        ],
+        "source_pages": [
+          "https://tdx.transportdata.tw/api-service/swagger/basic/2998e851-81d0-40f5-b26d-77e2f5ac4118"
+        ],
+        "download_urls": [
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/Taipei?%24format=JSON&%24top=100&%24skip=0&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/Taipei?%24format=JSON&%24top=100&%24skip=100&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/Taipei?%24format=JSON&%24top=100&%24skip=200&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/Taipei?%24format=JSON&%24top=100&%24skip=300&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/Taipei?%24format=JSON&%24top=100&%24skip=400&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/Taipei?%24format=JSON&%24top=100&%24skip=500&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/Taipei?%24format=JSON&%24top=100&%24skip=600&%24orderby=RouteUID%2CSubRouteUID%2CDirection"
+        ],
+        "raw_files": [
+          "raw_data/official_cross_city/service_coverage/responses/Taipei_Schedule_skip_0_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/Taipei_Schedule_skip_100_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/Taipei_Schedule_skip_200_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/Taipei_Schedule_skip_300_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/Taipei_Schedule_skip_400_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/Taipei_Schedule_skip_500_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/Taipei_Schedule_skip_600_top_100.json.gz"
+        ],
+        "downloaded_at": [
+          "2026-10-24T12:00:06+08:00",
+          "2026-10-24T12:00:22+08:00",
+          "2026-10-24T12:00:37+08:00",
+          "2026-10-24T12:00:53+08:00",
+          "2026-10-24T12:01:08+08:00",
+          "2026-10-24T12:01:23+08:00",
+          "2026-10-24T12:01:38+08:00"
+        ]
+      },
+      {
         "path": "data/official_cross_city/service_coverage/NewTaipei_StopOfRoute.json.gz",
         "record_count": 1383,
         "scope_status": "complete_published_endpoint_by_exhausted_page",
@@ -68,6 +116,66 @@
           "2026-10-24T11:26:21+08:00",
           "2026-10-24T11:26:36+08:00",
           "2026-10-24T11:26:51+08:00"
+        ]
+      },
+      {
+        "path": "data/official_cross_city/service_coverage/NewTaipei_Schedule.json.gz",
+        "record_count": 962,
+        "scope_status": "complete_published_endpoint_by_exhausted_page",
+        "source_updated_at": "2026-10-24T09:56:05+08:00",
+        "source_record_update_times": [
+          "2026-10-24T09:56:05+08:00"
+        ],
+        "source_ids": [
+          "NewTaipei_Schedule_skip_0_top_100",
+          "NewTaipei_Schedule_skip_100_top_100",
+          "NewTaipei_Schedule_skip_200_top_100",
+          "NewTaipei_Schedule_skip_300_top_100",
+          "NewTaipei_Schedule_skip_400_top_100",
+          "NewTaipei_Schedule_skip_500_top_100",
+          "NewTaipei_Schedule_skip_600_top_100",
+          "NewTaipei_Schedule_skip_700_top_100",
+          "NewTaipei_Schedule_skip_800_top_100",
+          "NewTaipei_Schedule_skip_900_top_100"
+        ],
+        "source_pages": [
+          "https://tdx.transportdata.tw/api-service/swagger/basic/2998e851-81d0-40f5-b26d-77e2f5ac4118"
+        ],
+        "download_urls": [
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/NewTaipei?%24format=JSON&%24top=100&%24skip=0&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/NewTaipei?%24format=JSON&%24top=100&%24skip=100&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/NewTaipei?%24format=JSON&%24top=100&%24skip=200&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/NewTaipei?%24format=JSON&%24top=100&%24skip=300&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/NewTaipei?%24format=JSON&%24top=100&%24skip=400&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/NewTaipei?%24format=JSON&%24top=100&%24skip=500&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/NewTaipei?%24format=JSON&%24top=100&%24skip=600&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/NewTaipei?%24format=JSON&%24top=100&%24skip=700&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/NewTaipei?%24format=JSON&%24top=100&%24skip=800&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/NewTaipei?%24format=JSON&%24top=100&%24skip=900&%24orderby=RouteUID%2CSubRouteUID%2CDirection"
+        ],
+        "raw_files": [
+          "raw_data/official_cross_city/service_coverage/responses/NewTaipei_Schedule_skip_0_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/NewTaipei_Schedule_skip_100_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/NewTaipei_Schedule_skip_200_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/NewTaipei_Schedule_skip_300_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/NewTaipei_Schedule_skip_400_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/NewTaipei_Schedule_skip_500_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/NewTaipei_Schedule_skip_600_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/NewTaipei_Schedule_skip_700_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/NewTaipei_Schedule_skip_800_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/NewTaipei_Schedule_skip_900_top_100.json.gz"
+        ],
+        "downloaded_at": [
+          "2026-10-24T12:01:54+08:00",
+          "2026-10-24T12:03:40+08:00",
+          "2026-10-24T12:03:55+08:00",
+          "2026-10-24T12:04:11+08:00",
+          "2026-10-24T12:04:26+08:00",
+          "2026-10-24T12:04:41+08:00",
+          "2026-10-24T12:04:56+08:00",
+          "2026-10-24T12:05:12+08:00",
+          "2026-10-24T12:05:27+08:00",
+          "2026-10-24T12:05:43+08:00"
         ]
       },
       {
@@ -318,6 +426,7 @@
       "行政遮罩為同一NLSC版本全部里及未編定區塊的聯集，非另版法定市界；座標轉換精度見boundary_membership，不推定人口月份幾何相同。",
       "站牌UID明示；StationID是站位ID，不補造StationUID，也不連接地方feed或以同名去重。",
       "not_observed只描述完整發布端點未見對應模型或欄位，不代表停駛；未取得或部分班表為indeterminate。",
+      "Schedule未發布OperatorID的三碼候選另列，不向下套用StopOfRoute業者；無明示五維匹配時為indeterminate_missing_schedule_operator，候選日曆不計入已核業者發布數。",
       "ServiceDay/SpecialDays只統計來源發布物件並保留原碼與日期，不推定某班實際行駛或將不同業者班表直接相加。",
       "涵蓋的主管機關、端點與期間僅限support.json所列；不同來源UpdateTime分開保留。"
     ],
@@ -340,9 +449,9 @@
     {
       "source_scope": "Taipei",
       "service": "Schedule",
-      "publication_support": "not_acquired",
-      "record_count": null,
-      "input_file": null
+      "publication_support": "complete_published_endpoint",
+      "record_count": 600,
+      "input_file": "data/official_cross_city/service_coverage/Taipei_Schedule.json.gz"
     },
     {
       "source_scope": "NewTaipei",
@@ -354,9 +463,9 @@
     {
       "source_scope": "NewTaipei",
       "service": "Schedule",
-      "publication_support": "not_acquired",
-      "record_count": null,
-      "input_file": null
+      "publication_support": "complete_published_endpoint",
+      "record_count": 962,
+      "input_file": "data/official_cross_city/service_coverage/NewTaipei_Schedule.json.gz"
     },
     {
       "source_scope": "Keelung",
