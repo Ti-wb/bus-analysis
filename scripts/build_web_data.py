@@ -26,8 +26,9 @@ OUT = ROOT / "web/public/data"
 # Taipei City plus a margin of the surrounding New Taipei area.
 VIEW_BBOX = (121.40, 24.93, 121.70, 25.23)
 CELL_SIZES = (100, 150, 250, 500)
-# Station-coverage grid: 50 m cells, distances in 10 m steps up to 2.5 km.
-COVERAGE_CELL_M = 50
+# Station-coverage grids: distances in 10 m steps up to 2.5 km.
+# The web map lets readers pick the coverage cell size; each size is measured from its own cell centres.
+COVERAGE_CELL_SIZES = (50, 100, 200)
 COVERAGE_UNIT_M = 10
 COVERAGE_CAP = 250
 COVERAGE_OUTSIDE = 255
@@ -190,16 +191,16 @@ def build_grid(city, stops, stop_subroutes, departures, scheduled, cell_m):
     }, status
 
 
-def build_coverage(city, station_types):
-    """Straight-line distance from each 50 m cell centre in Taipei to the nearest station of each type.
+def build_coverage(city, station_types, cell_m):
+    """Straight-line distance from each cell_m cell centre in Taipei to the nearest station of each type.
 
     Rows run north to south and columns west to east; each value is the distance in
     COVERAGE_UNIT_M steps, capped at COVERAGE_CAP, with COVERAGE_OUTSIDE for cells whose
     centre lies outside Taipei City.
     """
     geod = Geod(ellps="GRS80")
-    lon_step = COVERAGE_CELL_M / geod.inv(121.5, GRID_LAT0, 121.51, GRID_LAT0)[2] * 0.01
-    lat_step = COVERAGE_CELL_M / geod.inv(121.5, GRID_LAT0, 121.5, GRID_LAT0 + 0.01)[2] * 0.01
+    lon_step = cell_m / geod.inv(121.5, GRID_LAT0, 121.51, GRID_LAT0)[2] * 0.01
+    lat_step = cell_m / geod.inv(121.5, GRID_LAT0, 121.5, GRID_LAT0 + 0.01)[2] * 0.01
     minx, miny, maxx, maxy = city.bounds
     west, north = math.floor(minx / lon_step) * lon_step, math.ceil(maxy / lat_step) * lat_step
     cols, rows = math.ceil((maxx - west) / lon_step), math.ceil((north - miny) / lat_step)
@@ -223,7 +224,7 @@ def build_coverage(city, station_types):
         "north": round(north, 7),
         "step": [lon_step, lat_step],
         "size": [cols, rows],
-        "cell_m": COVERAGE_CELL_M,
+        "cell_m": cell_m,
         "unit_m": COVERAGE_UNIT_M,
         "cap": COVERAGE_CAP,
         "outside": COVERAGE_OUTSIDE,
@@ -458,27 +459,29 @@ def main():
         },
     })
 
-    coverage, inside = build_coverage(city, {
+    station_types = {
         "bus": list(stops.values()),
         "mrt": [f["geometry"]["coordinates"] for f in stations],
         "youbike": [f["geometry"]["coordinates"] for f in youbike["features"]],
-    })
-    coverage["metadata"] = {
-        "built_at": built_at,
-        "cell": f"約 {COVERAGE_CELL_M} m 經緯度方格（以北緯 {GRID_LAT0}° 換算），只保留格心在臺北市界內的 {inside} 格",
-        "value": "格心到最近一個該類站點的直線距離（TWD97 平面公尺），以 unit_m 為單位，超過 cap 一律記為 cap",
-        "sources": {
-            "bus": "data/taipei_feeds stop_locations（含跨市站位）",
-            "mrt": "map-data/osm 軌道車站（與 mrt_stations 圖層相同）",
-            "youbike": "data/youbike/stations.geojson（只含臺北市 YouBike 2.0，含快照時暫停營運站）",
-        },
-        "limitations": [
-            "直線距離，未計入路網、河川、鐵路或高架阻隔，也不代表實際步行或騎乘時間。",
-            "捷運以車站點位計算，不是出入口；公車站位不分方向與班次多寡。",
-            "YouBike 只有臺北市站點，靠近新北市界的格子會高估距離；不代表即時有車或有空位。",
-        ],
     }
-    write(f"coverage_{COVERAGE_CELL_M}.json", coverage)
+    for cell_m in COVERAGE_CELL_SIZES:
+        coverage, inside = build_coverage(city, station_types, cell_m)
+        coverage["metadata"] = {
+            "built_at": built_at,
+            "cell": f"約 {cell_m} m 經緯度方格（以北緯 {GRID_LAT0}° 換算），只保留格心在臺北市界內的 {inside} 格",
+            "value": "格心到最近一個該類站點的直線距離（TWD97 平面公尺），以 unit_m 為單位，超過 cap 一律記為 cap",
+            "sources": {
+                "bus": "data/taipei_feeds stop_locations（含跨市站位）",
+                "mrt": "map-data/osm 軌道車站（與 mrt_stations 圖層相同）",
+                "youbike": "data/youbike/stations.geojson（只含臺北市 YouBike 2.0，含快照時暫停營運站）",
+            },
+            "limitations": [
+                "直線距離，未計入路網、河川、鐵路或高架阻隔，也不代表實際步行或騎乘時間。",
+                "捷運以車站點位計算，不是出入口；公車站位不分方向與班次多寡。",
+                "YouBike 只有臺北市站點，靠近新北市界的格子會高估距離；不代表即時有車或有空位。",
+            ],
+        }
+        write(f"coverage_{cell_m}.json", coverage)
 
     # Transport-need grid (research draft from scripts/build_transport_need.py), as column arrays.
     need_path = ROOT / "data/analysis/transport_need_250.json"
