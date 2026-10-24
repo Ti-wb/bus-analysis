@@ -6,7 +6,7 @@
 
 資料每筆為路線／子路線／方向，內含站間序號、起訖站牌 ID、平假日標籤與時間區間。`run_time` 單位為秒；服務日標籤 `0` 是週末、`1` 是平日；`24:00` 原樣保留。官方有效期、更新時間與「使用近三個月資料推估」說明均保留。這是歷史推估值，不能解讀為當日實際耗時；精確原始樣本期間未由來源給定。
 
-首站或其他列缺少起站或時間時保留 `null`，不補零。TDX ID 尚未與各市直接 feed 連接；路線名稱查詢回傳的子路線全部保留，只有同一 TDX 路線 UID 用於取用目錄的涵蓋核對。沒有 UTC offset 的來源時間不擅加時區。
+首站或其他列缺少起站或時間時保留 `null`，不補零。臺北、新北已核對的 ID／站序另見 [臺北 ID 證據](taipei-id-evidence.md)及[新北補證](id-evidence.md)；本旅時檔不另推定未核實的跨來源關係。路線名稱查詢回傳的子路線全部保留，只有同一 TDX 路線 UID 用於取用目錄的涵蓋核對。沒有 UTC offset 的來源時間不擅加時區。
 
 原始回應及獨立 manifest 放 `raw_data/tdx_bus_travel_time/`。307 的既有完整單線回應沿用其原下載時間，沒有重標成新下載。獨立巡檢結果放 `data/quality/tdx_bus_travel_time_review.json`。
 
@@ -36,5 +36,7 @@ uv run scripts/tdx_bus_travel_time.py --fetch --all-taipei --compress --min-requ
 整批剩餘容量不足一份完整回應預算時會先停止，下一個端點保持未請求，下一批可接續。
 
 官方若明示「目前沒有…公車路線資料」，另標 `availability_status=published_no_data_message` 並保留 `upstream_response_message` 與原文；coverage分開統計來源無資料與技術失敗。這只表示該推估端點沒有對應資料，不代表路線停駛。
+
+HTTP 200 回應中的上游程式錯誤仍列技術失敗，完整原文保留於解析診斷檔；HTTP 狀態成功不代表已有可用旅時。
 
 `taipei_endpoint_acquisition` 分開統計參考路線 UID 與不重複的路線名稱端點，列出成功、官方無資料、技術失敗及未請求數。`all_reference_endpoints_attempted` 只表示全部參考端點都曾嘗試；即使為 `true`，仍須查閱模型涵蓋及缺值，不能解讀為所有路線、站間與時段都有旅行時間。

@@ -27,4 +27,6 @@ uv run python scripts/official_cross_city/travel_time_coverage.py --refresh-inve
 
 未取用、來源明示無資料、模型／服務日／站對未觀察及不支援 ID 分開保留。首站缺起點不構成站對；缺秒數維持 `null`，來源明示 `0` 另列。迴圈中重複的相同站對若無法區分出現位置，保留候選位置而不任配。上下客碼原樣保留，有旅時不代表可在該站上下客。不同版本不支援的站對保持待核，不據此判定停駛。
 
+已嘗試但技術失敗的端點，其模型與站對保留 `request_technical_failure` 及原始回應收據；未發布可用模型時不填入旅時。
+
 依 [TDX 資料使用條款](https://tdx.transportdata.tw/term) 使用。每份輸出保留官方規格、來源目錄及獨立巡檢狀態；完成來源巡檢不等於全市、全日或實際營運驗收。
