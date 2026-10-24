@@ -712,11 +712,14 @@ def main():
         write(f"bus_grid_{cell_m}.json", grid)
         print(f"grid {cell_m} m status", dict(status), "scheduled subroutes", len(scheduled))
 
-    # Keep the deploy entry point responsible for all layers used by the map.
+    # Supplemental layers are generated before the age catchments above.
     if __package__:
+        from .build_regional_bus_grid import build_all as build_regional_bus_grid
         from .build_route_scenario import main as build_route_scenario
     else:
+        from build_regional_bus_grid import build_all as build_regional_bus_grid
         from build_route_scenario import main as build_route_scenario
+    build_regional_bus_grid(ROOT, OUT, built_at)
     build_route_scenario()
     from build_improvements import main as build_improvements
     build_improvements()

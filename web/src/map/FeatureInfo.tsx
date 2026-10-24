@@ -19,6 +19,7 @@ function GridTooltip({ id, grid, state }: { id: number; grid: Grid; state: AppSt
   const cell = grid.cells[id];
   if (!cell) return null;
   const [, , stops, subroutes, unscheduled] = cell;
+  const regional = Boolean(grid.metadata.scope_city_codes?.length);
   const when = `${DAY_LABELS[state.day]} ${hourText(state.hour)}`;
   if (!subroutes) {
     return <><b>{when}</b><br />格內沒有公車站牌</>;
@@ -28,8 +29,9 @@ function GridTooltip({ id, grid, state }: { id: number; grid: Grid; state: AppSt
     <>
       <b>{when}</b><br />
       {value === null ? <Warn>格內附線都沒有班表（資料缺漏）</Warn> : <>計畫發車 <b>{formatCount(value)}</b> 班</>}<br />
-      站牌 {stops} 個 · 附線 {subroutes} 條
-      {value !== null && unscheduled > 0 && <><br /><Warn>{unscheduled} 條附線無班表，數值偏低</Warn></>}
+      站牌 {stops} 個 · {regional ? '路線方向' : '附線'} {subroutes} 組
+      {regional && value !== null && <><br /><span className="muted">依起站時刻估算，非本站實際到站班次</span></>}
+      {value !== null && unscheduled > 0 && <><br /><Warn>{unscheduled} 組{regional ? '班表缺漏或業者識別不明，計畫班次不完整' : '附線無班表，數值偏低'}</Warn></>}
     </>
   );
 }

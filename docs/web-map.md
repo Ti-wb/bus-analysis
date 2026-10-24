@@ -62,7 +62,7 @@ npm --prefix web run build
 | 北北基里人口／年齡 | `population_2026-09.json`、人口里界對照與官方里界 | 可切換人口總數／高齡占比；未通過代碼與名稱核對的里保留缺值 |
 | 道路速率快照 | `data/tdx_road_traffic` 的同機關、同日路段定義與觀測 | 僅在路段 ID 與基礎路段集合逐筆一致時關聯；只畫有完整座標的起迄示意線，零負異常值不作正常速率上色 |
 | 公車站間旅時 | `data/official_cross_city/travel_time_coverage` 的已核對相鄰站對與 TDX 時窗 | 以站對示意線查閱來源統計時窗，非即時行車時間或全日平均 |
-| 公車班次網格 | `fixed_schedules`、`headway_schedules` 加上站序 | 見下節 |
+| 公車班次網格 | 探索頁：TDX 臺北、新北、基隆、公路客運 StopOfRoute／Schedule；舊臺北市路線工具：`fixed_schedules`、`headway_schedules` 加上站序 | 見下節 |
 | 站點覆蓋 | 公車站位、捷運車站、YouBike 站點 | 見〈站點覆蓋〉 |
 | 需求落差 | `data/analysis/transport_need_250.json`（見[說明](transport-need.md)） | 見〈需求落差〉 |
 | 村里年齡 | 戶政司 2026-09 逐歲人口及獨立清冊、NLSC 主里界 2026-08-17 | 全國核對；地圖呈現北北基 1,677 個圖徵，未匹配／比例未知以灰色顯示 |
@@ -79,6 +79,18 @@ npm --prefix web run build
 - 「重設預設」還原目前分析圖層以外的所有設定。
 
 ## 班次網格
+
+探索頁現在讀取 `regional_bus_grid_{100,150,250,500}.json`，由 `scripts/build_regional_bus_grid.py` 對已保存且取得至尾頁的 TDX 臺北、新北、基隆、公路客運 StopOfRoute／Schedule 計算。依 RouteUID、SubRouteUID、方向去重，同一站位／附線不可因跨機關發布而重算；不同業者的班表只在官方明示時合併，缺少業者 ID 者暫計一次並標示不確定。未解析的班表是 null，不能當作零班。這些網格反映**計畫起站發車**，不代表實際經過該站或實際運量。
+
+固定班表與班距的優先順序分別在每個業者內判斷，再加總各業者：例如甲業者 08:00 固定一班，乙業者 08:00–09:00 每 10 分鐘一班，08 時合計為 7 班。同一業者同一小時有固定班表時，才不再加入該業者的班距估算。
+
+跨市網格 JSON 使用 `schema_version`、`dataset_id`、`metadata`、`records`；`metadata.grid_definition` 保存網格原點、間距、尺寸及欄位順序，`records` 保存精簡的每格數列。前端讀入時轉成共用地圖格式。單獨執行 `uv run scripts/build_regional_bus_grid.py` 會補上當下 UTC 建置時間，與來源更新時間分開。
+
+資料產生後執行 `uv run scripts/review_regional_bus_grid.py`，由獨立巡檢程式從保存的官方來源重算班次與網格，核對來源、欄位、期間、筆數及加總；結果保存在 [`data/quality/regional_bus_grid_review.json`](../data/quality/regional_bus_grid_review.json)。更新來源或計算規則後須重新產生並巡檢；CI 在巡檢通過後才繼續建置，並保留當次報告 30 天。計算與巡檢回歸測試使用 `uv run python -m unittest discover -s tests -p 'test_regional_bus_grid*.py' -v`，前端讀取測試使用 `npm --prefix web run test:regional`。
+
+250／500 m 網格涵蓋北北基行政範圍（新北含山區）；為避免 100 m 網格造成地圖過載，100／150 m 僅納入公車站位約 350 m 周圍的網格，其餘區域是「不在細尺度顯示範圍」，不能解釋為零班。行政界版本及各發布端點時間可能不同。原 `bus_grid_*.json` **保留給臺北市路線方案工具**，需求落差仍依 `transport_need_250.json` 的臺北市模型。原圖色階尚未對全北北基重新校準，不適合直接以顏色做跨城市量化比較。
+
+舊臺北市路線工具仍採下列地方 feed 計算方式：
 
 - 約 100、150、250、500 m 四種經緯度方格（以北緯 25.05° 換算），只保留與臺北市界相交的格子；預設 500 m。小格子較能看出沿路廊分布，但格內站牌少、數值較跳動；各尺寸色階依其數值分位另訂，不同尺寸的顏色不能直接比較。
 - 每格的值是格內站牌所屬附線，在該小時的計畫發車數加總；同一附線在同一格只算一次，不分方向。
@@ -143,11 +155,11 @@ npm --prefix web run build
 ## 限制
 
 - 以起站發車時刻歸入小時，沒有加上行駛到該格的時間。
-- 只有臺北市公共運輸處 feed，新北市專屬路線不在內，市界附近會低估。
+- 舊臺北市路線工具只使用臺北市公共運輸處 feed；新北市專屬路線不在內，市界附近會低估。
 - 這是計畫供給，不是實際發車或載客量；也不代表步行可達性。
 - 捷運沒有班次資料，只呈現路網；捷運站與公車站牌沒有做 ID 對應。
 
-上述班次、覆蓋與需求分析仍維持原臺北市模型。新北／跳蛙路網、北北基里人口及旅時／速率是可獨立開關的補充圖層，不會自動改變這三種分析數值。開啟里人口時暫藏分析填色，關閉後恢復原設定；里人口依人口月檔與保留的官方里界版本核對，尚不能據此證明該月份的邊界完全相同。
+上述三種分析中，**探索頁班次網格已改用北北基 TDX 模型**；站點覆蓋、需求落差、路線方案工具仍維持原臺北市模型。新北／跳蛙路網、北北基里人口及旅時／速率是可獨立開關的補充圖層，不會自動改變需求落差、覆蓋與路線工具數值。開啟里人口時暫藏分析填色，關閉後恢復原設定；里人口依人口月檔與保留的官方里界版本核對，尚不能據此證明該月份的邊界完全相同。
 
 補充圖層由 `scripts/build_web_supplemental.py` 產生，已納入一般建置入口；也可單獨執行 `uv run scripts/build_web_supplemental.py`。輸出 `regional_bus_routes.geojson`、`regional_bus_stops.geojson`、`villages.geojson`、`traffic_sections.geojson`、`bus_travel_times.geojson`、`supplemental_manifest.json` 至 `web/public/data/`，不進 Git。各檔保留來源路徑、網址、來源時間、單位與限制；獨立巡檢放在 `data/quality/`。來源異常或資料載入失敗會顯示狀態並可重試。
 

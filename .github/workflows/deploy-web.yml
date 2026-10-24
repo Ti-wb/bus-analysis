@@ -8,6 +8,12 @@ on:
     paths:
       - 'web/**'
       - 'scripts/build_web_data.py'
+      - 'scripts/build_regional_bus_grid.py'
+      - 'scripts/review_regional_bus_grid.py'
+      - 'scripts/build_web_supplemental.py'
+      - 'data/official_cross_city/**'
+      - 'data/quality/regional_bus_grid_review.json'
+      - 'tests/test_regional_bus_grid*.py'
       - 'scripts/build_age_catchments.py'
       - 'map-data/population/**'
       - 'tests/test_age_catchments.py'
@@ -31,6 +37,12 @@ on:
     paths:
       - 'web/**'
       - 'scripts/build_web_data.py'
+      - 'scripts/build_regional_bus_grid.py'
+      - 'scripts/review_regional_bus_grid.py'
+      - 'scripts/build_web_supplemental.py'
+      - 'data/official_cross_city/**'
+      - 'data/quality/regional_bus_grid_review.json'
+      - 'tests/test_regional_bus_grid*.py'
       - 'scripts/build_age_catchments.py'
       - 'map-data/population/**'
       - 'tests/test_age_catchments.py'
@@ -73,6 +85,8 @@ jobs:
           enable-cache: true
       # Python version comes from .python-version; dependencies from uv.lock.
       - run: uv sync --locked --no-default-groups
+      - name: Validate regional published-service calculations
+        run: uv run python -m unittest discover -s tests -p 'test_regional_bus_grid*.py' -v
       - name: Verify village joins and age allocation with GIS dependencies
         run: |
           uv run python -m unittest discover -s tests/official_cross_city -p 'test_national_villages.py' -v
@@ -81,6 +95,19 @@ jobs:
           uv run python -m unittest discover -s tests -p 'test_web_age_stations.py' -v
       - name: Generate map layers into web/public/data/
         run: uv run scripts/build_web_data.py
+      - name: Audit north-region grid deliveries
+        id: regional-audit
+        run: |
+          rm -f data/quality/regional_bus_grid_review.json
+          uv run python scripts/review_regional_bus_grid.py
+      - name: Retain independent regional-grid review
+        if: ${{ !cancelled() && steps.regional-audit.outcome != 'skipped' }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: regional-bus-grid-review-${{ github.run_id }}
+          path: data/quality/regional_bus_grid_review.json
+          if-no-files-found: error
+          retention-days: 30
       - uses: actions/setup-node@v7
         with:
           node-version: 24
@@ -89,6 +116,8 @@ jobs:
       - run: npm ci --prefix web
       - name: Verify route scenario calculations
         run: npm run test:routes --prefix web
+      - name: Verify regional grid dataset loading
+        run: npm run test:regional --prefix web
       - name: Verify population age presentation
         run: npm run test:age --prefix web
       - name: Verify improvement rankings and exports

@@ -2,6 +2,7 @@ import type { Feature, FeatureCollection, Polygon } from 'geojson';
 import { retryableLoader } from './age';
 import { createStationAgeLoader, loadCompressedJSON, parseVillageAges } from './ageLoader';
 import { ALL_DAY, DAY_COLUMN, NO_SCHEDULE, NO_STOP, SCALES } from './config';
+import { decodeRegionalGrid } from './regionalGrid';
 import type { AppState, CoreMapData, Coverage, Grid, GridCell, NeedGrid, StationCatchments, SupplementalData } from './types';
 
 const DATA = `${import.meta.env.BASE_URL}data/`;
@@ -44,6 +45,14 @@ const grids = new Map<number, Promise<Grid>>();
 export function loadGrid(cell: number): Promise<Grid> {
   if (!grids.has(cell)) grids.set(cell, loadJSON<Grid>(`bus_grid_${cell}.json`));
   return grids.get(cell)!;
+}
+
+// Regional TDX service is separate from Taipei-only route-editor supply.
+const regionalGrids = new Map<number, Promise<Grid>>();
+export function loadRegionalGrid(cell: number): Promise<Grid> {
+  if (!regionalGrids.has(cell)) regionalGrids.set(cell,
+    loadJSON<unknown>(`regional_bus_grid_${cell}.json`).then((document) => decodeRegionalGrid(document, cell)));
+  return regionalGrids.get(cell)!;
 }
 
 const coverages = new Map<number, Promise<Coverage>>();

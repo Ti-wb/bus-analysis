@@ -9,7 +9,7 @@ import { spawnSync } from 'node:child_process';
 const dir = await mkdtemp(join(tmpdir(), 'bus-route-tests-'));
 try {
   const bundle = await build({ root: fileURLToPath(new URL('..', import.meta.url)), configFile: false, logLevel: 'error',
-    build: { ssr: `tests/${process.argv[2] === 'improvements' ? 'improvements' : 'routeEditor'}.test.ts`, write: false, minify: false } });
+    build: { ssr: `tests/${({ improvements: 'improvements', regional: 'regionalGrid' })[process.argv[2]] ?? 'routeEditor'}.test.ts`, write: false, minify: false } });
   const entry = join(dir, 'routes.test.mjs');
   await writeFile(entry, bundle.output.find((o) => o.type === 'chunk' && o.isEntry).code);
   process.exitCode = spawnSync(process.execPath, [entry], { stdio: 'inherit' }).status ?? 1;

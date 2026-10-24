@@ -9,7 +9,8 @@ export type GridCell = [number, number, number, number, number, number[] | null,
 
 export interface GridMetadata {
   source: string;
-  source_data_time: string;
+  source_data_time: string | null;
+  scope_city_codes?: string[];
   built_at: string;
   cell: string;
   value: string;
