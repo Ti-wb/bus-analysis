@@ -1,0 +1,236 @@
+#!/usr/bin/env python3
+"""Independent raw-to-output review; does not import any producer modules."""
+from __future__ import annotations
+
+import argparse
+from collections import Counter, defaultdict
+from datetime import date, datetime
+import json
+import math
+from pathlib import Path
+import re
+from urllib.parse import parse_qs, quote, urlsplit
+from zoneinfo import ZoneInfo
+
+ROOT = Path(__file__).resolve().parents[1]
+TERMS_URL = "https://tdx.transportdata.tw/term"
+GROUP_FIELDS = {
+    "EffectiveDate": "effective_date", "ExpireDate": "expire_date", "UpdateTime": "update_time",
+    "UpdateInterval": "update_interval", "ValidityDescription": "validity_description",
+    "RouteUID": "route_uid", "RouteID": "route_id", "RouteName": "route_name",
+    "SubRouteUID": "sub_route_uid", "SubRouteID": "sub_route_id", "SubRouteName": "sub_route_name",
+    "Direction": "direction", "TravelTimes": "travel_times",
+}
+PAIR_FIELDS = {"Sequence": "sequence", "FromStopID": "from_stop_id", "ToStopID": "to_stop_id",
+               "RunTime": "run_time", "StartTime": "start_time", "EndTime": "end_time", "ServiceTag": "service_tag"}
+
+
+def read(path):
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def check(condition, message):
+    if not condition:
+        raise ValueError(message)
+
+
+def clock(value):
+    match = re.fullmatch(r"([0-9]{1,2}):([0-9]{2})", value or "")
+    check(match is not None, "Invalid source clock")
+    hour, minute = map(int, match.groups())
+    check(0 <= hour <= 24 and 0 <= minute <= 59 and (hour < 24 or minute == 0), "Out-of-range source clock")
+    return hour * 60 + minute
+
+
+def audit(root):
+    manifest = read(root / "raw_data/tdx_bus_travel_time/manifest.json")
+    check(manifest["metadata"].get("license", {}).get("url") == TERMS_URL, "Manifest lacks TDX terms URL")
+    spec = read(root / "raw_data/tdx_bus_travel_time/specifications/travel_time.json")
+    check(spec["servers"] == [{"url": "https://tdx.transportdata.tw/api/premium"}], "Unexpected official specification server")
+    travel_schema = spec["components"]["schemas"]["TravelTime"]["properties"]
+    check("秒" in travel_schema["RunTime"]["description"], "RunTime unit differs from seconds")
+    check("0: 周末weekend; 1: 平日weekdays" in travel_schema["ServiceTag"]["description"], "ServiceTag code meaning changed")
+    operations = {p: v["get"] for p, v in spec["paths"].items() if "S2STravelTime" in p}
+    check(len(operations) == 2, "Expected the two current estimation operations")
+    for operation in operations.values():
+        names = {p["name"].lower() for p in operation["parameters"]}
+        check(not names & {"date", "version", "$top", "$skip"}, "Historical/pagination contract requires review")
+    coverage = read(root / "data/tdx_bus_travel_time/coverage.json")
+    check(coverage["metadata"].get("license", {}).get("url") == TERMS_URL, "Coverage lacks TDX terms URL")
+    coverage_index = {r["source_id"]: r for r in coverage["records"]}
+    travel_sources = [r for r in manifest["records"] if r.get("kind") == "travel_time"]
+    check(len(coverage_index) == len(coverage["records"]) == len(travel_sources), "Coverage request population differs from manifest")
+    review, retained = [], defaultdict(set)
+    total_rows = total_missing = total_groups = 0
+    for receipt in travel_sources:
+        covered = coverage_index[receipt["source_id"]]
+        for key in ["status", "city", "route_name", "download_url", "downloaded_at", "http_status"]:
+            check(covered.get(key) == receipt.get(key), "Coverage receipt field mismatch: " + key)
+        if receipt["status"] != "downloaded":
+            review.append({"source_id": receipt["source_id"], "status": "not_run_no_successful_source", "provider_status": receipt["status"]})
+            continue
+        raw_path = root / receipt["raw_file"]
+        check(receipt["http_status"] == 200 and raw_path.stat().st_size == receipt["bytes"], "Source receipt/byte mismatch")
+        url = urlsplit(receipt["download_url"])
+        check(url.scheme == "https" and url.netloc == "tdx.transportdata.tw", "Unrecognized business source host")
+        check(parse_qs(url.query) == {"$format": ["JSON"]}, "Response is selected, filtered or paginated")
+        raw, output = read(raw_path), read(root / covered["output_file"])
+        check(output["schema_version"] == 1 and len(raw) == len(output["records"]), "Output group population changed")
+        seen, duplicate_count, pairs, raw_values = set(), 0, [], []
+        row_checks = 0
+        periods, directions, model_details = set(), Counter(), []
+        for group, normalized in zip(raw, output["records"]):
+            check(not set(group) - set(GROUP_FIELDS), "Unreviewed group field")
+            for source_key, target_key in GROUP_FIELDS.items():
+                if source_key != "TravelTimes":
+                    check(normalized.get(target_key) == group.get(source_key), "Raw group field changed: " + source_key)
+            check(isinstance(group["RouteID"], str) and isinstance(group["SubRouteID"], str), "Source identifiers not strings")
+            check(date.fromisoformat(group["EffectiveDate"]) <= date.fromisoformat(group["ExpireDate"]), "Inverted effective period")
+            periods.add((group["EffectiveDate"], group["ExpireDate"]))
+            directions[str(group["Direction"])] += 1
+            retained[group["RouteUID"]].add(covered["output_file"])
+            source_pairs, target_pairs = group["TravelTimes"], normalized["travel_times"]
+            check(len(source_pairs) == len(target_pairs), "Station/time-window population changed")
+            tags, intervals = Counter(), set()
+            for source, target in zip(source_pairs, target_pairs):
+                check(not set(source) - set(PAIR_FIELDS), "Unreviewed travel-time field")
+                for source_key, target_key in PAIR_FIELDS.items():
+                    check(target_key in target and target[target_key] == source.get(source_key), "Raw pair field changed or missing null: " + source_key)
+                runtime = source.get("RunTime")
+                check(runtime is None or (not isinstance(runtime, bool) and isinstance(runtime, (int, float)) and math.isfinite(runtime) and runtime >= 0), "Invalid source RunTime")
+                check(source.get("ServiceTag") in {"0", "1"}, "Unknown service tag")
+                check(clock(source["StartTime"]) < clock(source["EndTime"]), "Invalid source interval")
+                for field in ["FromStopID", "ToStopID"]:
+                    check(source.get(field) is None or isinstance(source[field], str), "ID string type changed")
+                key = (group["RouteUID"], group["SubRouteUID"], group["Direction"], source.get("Sequence"),
+                       source.get("FromStopID"), source.get("ToStopID"), source.get("ServiceTag"), source.get("StartTime"), source.get("EndTime"))
+                duplicate_count += key in seen
+                seen.add(key)
+                pairs.append(source)
+                if runtime is not None:
+                    raw_values.append(runtime)
+                tags[source["ServiceTag"]] += 1
+                intervals.add((source["StartTime"], source["EndTime"]))
+                row_checks += 1
+            model_details.append({"route_uid": group["RouteUID"], "sub_route_uid": group["SubRouteUID"],
+                                  "direction": group["Direction"], "station_time_rows": len(source_pairs),
+                                  "service_tag_row_counts": dict(tags), "observed_time_intervals": [list(x) for x in sorted(intervals, key=lambda x: clock(x[0]))]})
+        missing = sum(p.get("RunTime") is None for p in pairs)
+        metadata = output["metadata"]
+        check(metadata.get("license", {}).get("url") == TERMS_URL, "Observation lacks TDX terms URL")
+        for key, count in {"record_count": len(raw), "travel_time_row_count": len(pairs), "missing_run_time_count": missing,
+                           "missing_from_stop_id_count": sum(p.get("FromStopID") is None for p in pairs),
+                           "missing_to_stop_id_count": sum(p.get("ToStopID") is None for p in pairs),
+                           "duplicate_grain_count": duplicate_count}.items():
+            check(metadata[key] == count, "Output metadata count mismatch: " + key)
+            if key in covered:
+                check(covered[key] == count, "Coverage count mismatch: " + key)
+        check(metadata["units"]["run_time"] == "seconds" and metadata["service_tag_dictionary"] == {"0": "weekend", "1": "weekdays"}, "Output units/service code meaning differs")
+        check(metadata["sources"] == [receipt], "Output source provenance differs from manifest")
+        expected_period = {"effective_dates": sorted({a for a, _ in periods}), "expire_dates": sorted({b for _, b in periods}),
+                           "historical_input_period": "近3個月；精確起訖未由來源給定"}
+        check(metadata["statistical_period"] == expected_period == covered["statistical_period"], "Effective period changed")
+        check(metadata["scope_status"] == covered["scope_status"] == "complete_unpaginated_requested_endpoint_response", "Response completeness claim differs")
+        total_rows += len(pairs); total_missing += missing; total_groups += len(raw)
+        review.append({"source_id": receipt["source_id"], "status": "pass_with_limitations", "source": receipt,
+                       "output_file": covered["output_file"], "source_model_count": len(raw), "source_station_time_row_count": len(pairs),
+                       "raw_fields_compared_pair_rows": row_checks, "missing_run_time_count": missing,
+                       "missing_run_time_nonfirst_sequence_count": sum(p.get("RunTime") is None and p.get("Sequence") != 1 for p in pairs),
+                       "missing_from_stop_id_count": sum(p.get("FromStopID") is None for p in pairs),
+                       "missing_to_stop_id_count": sum(p.get("ToStopID") is None for p in pairs),
+                       "known_run_time_sum_seconds_audit_only": math.fsum(raw_values), "duplicate_grain_count": duplicate_count,
+                       "effective_periods": [list(x) for x in sorted(periods)], "direction_model_counts": dict(directions), "models": model_details,
+                       "source_fields_periods_ids_direction_service_tags_and_intervals_preserved": True,
+                       "missing_values_retained_as_null": True})
+    route_source = max((r for r in manifest["records"] if r.get("kind") == "route_reference" and r["status"] == "downloaded"), key=lambda r: r["reference_date"])
+    route_wrapper = read(root / route_source["raw_file"])
+    catalog = read(root / "data/tdx_bus_travel_time/route_catalog.json")
+    check(catalog["metadata"].get("license", {}).get("url") == TERMS_URL, "Catalog lacks TDX terms URL")
+    reference_rows = route_wrapper["BusRoutes"]
+    check(len(reference_rows) == route_wrapper["Count"] == len(catalog["records"]), "Catalog reference Count differs")
+    for original, row in zip(reference_rows, catalog["records"]):
+        check((row["route_id"], row["route_uid"], row["route_name"]) == (original["RouteID"], original["RouteUID"], original["RouteName"]["Zh_tw"]), "Catalog route identity changed")
+        check(row["retained_files"] == sorted(retained.get(original["RouteUID"], [])), "Catalog retained-file coverage differs")
+        check(row["coverage_status"] == ("downloaded_route_uid_present" if row["retained_files"] else "reference_only_not_downloaded"), "Catalog coverage status differs")
+        expected_subroutes = [{"sub_route_uid": s.get("SubRouteUID"), "sub_route_id": s.get("SubRouteID"), "sub_route_name": {"zh_tw": s.get("SubRouteName", {}).get("Zh_tw"), "en": s.get("SubRouteName", {}).get("En")}, "direction": s.get("Direction")} for s in original.get("SubRoutes", [])]
+        check(row["sub_routes"] == expected_subroutes, "Catalog subroute population/identity changed")
+        check(urlsplit(row["download_url"]).path.endswith("/RouteName/" + quote(original["RouteName"]["Zh_tw"], safe="")), "Catalog request route name changed")
+    cmeta = coverage["metadata"]
+    success = sum(s["status"] == "downloaded" for s in travel_sources)
+    for key, expected in {"request_count": len(travel_sources), "successful_response_count": success,
+                          "nonempty_response_count": sum(r.get("source_model_count", 0) > 0 for r in review),
+                          "failed_scope_count": sum(s["status"] == "failed" for s in travel_sources),
+                          "travel_time_row_count": total_rows, "missing_run_time_count": total_missing,
+                          "route_reference_count": len(reference_rows),
+                          "taipei_route_uids_retained": sum(bool(r["retained_files"]) for r in catalog["records"])}.items():
+        check(cmeta[key] == expected, "Coverage aggregate mismatch: " + key)
+    delivery = read(root / "data/tdx_bus_travel_time/delivery.json")
+    delivery_meta = delivery["metadata"]
+    check(delivery_meta.get("license", {}).get("url") == TERMS_URL, "Delivery lacks TDX terms URL")
+    check(TERMS_URL in (root / "docs/tdx-bus-travel-time.md").read_text(encoding="utf-8"), "Usage document lacks TDX terms URL")
+    batch = manifest["metadata"]["last_batch"]
+    planned = {r["source_id"]: r for r in batch["planned_requests"]}
+    business_receipts = {r["source_id"]: r for r in manifest["records"] if r.get("kind") in {"route_reference", "travel_time"}}
+    expected_ids = set(planned) | set(business_receipts)
+    delivery_index = {r["source_id"]: r for r in delivery["records"]}
+    check(len(delivery_index) == len(delivery["records"]) and set(delivery_index) == expected_ids, "Delivery population differs from planned/reused endpoints")
+    pending, newly_downloaded, reused = [], 0, 0
+    for source_id, record in delivery_index.items():
+        request = planned.get(source_id) or business_receipts[source_id]
+        for field in ["kind", "city", "route_name", "reference_date", "download_url", "source_page"]:
+            check(record.get(field) == request.get(field), "Delivery planned request field mismatch: " + field)
+        receipt = business_receipts.get(source_id)
+        if receipt is None:
+            check(record["acquisition_status"] == "not_requested_in_this_bounded_stage", "Unrequested delivery marked successful/failed")
+            check(all(record.get(k) is None for k in ["downloaded_at", "raw_file", "http_status"]), "Unrequested scope has fabricated receipt")
+            check(record["reused_existing_response"] is False, "Unrequested scope marked reused")
+            pending.append(source_id)
+        else:
+            check(record["acquisition_status"] == receipt["status"], "Delivery acquisition status differs from manifest")
+            for field in ["downloaded_at", "raw_file", "http_status"]:
+                check(record.get(field) == receipt.get(field), "Delivery source receipt changed: " + field)
+            is_reused = bool(receipt.get("reused_existing_response", False))
+            check(record["reused_existing_response"] is is_reused, "Delivery reuse flag differs")
+            reused += is_reused
+            newly_downloaded += receipt["status"] == "downloaded" and not is_reused
+    check(set(delivery_meta["not_requested_scope_ids"]) == set(pending), "Delivery pending list differs from records")
+    check(delivery_meta["not_requested_is_failure"] is False, "Unrequested scopes mislabeled as failures")
+    check(delivery_meta["new_business_request_count"] == batch["new_business_request_count"] == newly_downloaded, "New business request accounting differs")
+    check(delivery_meta["reused_response_count"] == reused, "Reused response accounting differs")
+    check(delivery_meta["acquisition_stop_reason"] == batch["stop_reason"], "Delivery stop reason differs from batch evidence")
+    check(delivery_meta["stage_status"] == "partial_bounded_acquisition" and pending, "Partial stage claim differs from acquisition population")
+    return {"schema_version": 1, "dataset_id": "independent_tdx_bus_travel_time_review", "metadata": {
+        "reviewer_agent": "/root/crosswalk", "reviewed_at": datetime.now(ZoneInfo("Asia/Taipei")).isoformat(timespec="seconds"),
+        "independent_review_status": "pass_with_limitations", "producer_module_imported": False,
+        "method": "Independent raw JSON parsing and explicit official-schema field mapping; every retained model and station/service/time row compared without calling producer normalize.",
+        "review_script": "scripts/review_tdx_bus_travel_time.py", "official_specification": "raw_data/tdx_bus_travel_time/specifications/travel_time.json",
+        "review_population": {"successful_endpoint_responses": success, "models": total_groups, "station_time_rows": total_rows,
+                              "missing_run_time_rows": total_missing, "taipei_route_reference_rows": len(reference_rows),
+                              "taipei_route_uids_with_retained_travel_time": cmeta["taipei_route_uids_retained"]},
+        "terms_url_checked": TERMS_URL, "terms_scope": "all seven observations, catalog, coverage, delivery, manifest and usage document",
+        "delivery_accounting": {"planned_endpoint_count": len(planned), "delivery_endpoint_count_including_reuse": len(delivery_index),
+                                "new_business_requests_including_route_reference": newly_downloaded,
+                                "reused_responses": reused, "not_requested_scopes": len(pending),
+                                "not_requested_scopes_are_failures": False,
+                                "stop_reason_matches_manifest": True},
+        "limitations": ["只巡檢已成功保存的回應；有限選線不代表臺北、雙北或北北基公路客運完整服務涵蓋。",
+                        "官方端點是使用近三個月來源資料推估的當期模型，無歷史日期／版本參數；不是近三年觀測或當日實際耗時。",
+                        "原始來源時間沒有UTC offset者保持原字串，不推定為臺北時區。",
+                        "基隆101原始兩個模型的Direction均為0；依原始子線保留，不補造返程。",
+                        "RunTime缺值不能當作零秒；audit-only秒數加總只檢查數值保存，不是路線總旅行時間。",
+                        "沿用同批官方原檔與receipt，不重新向TDX發出計費請求。"]}, "records": review}
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--root", type=Path, default=ROOT)
+    args = parser.parse_args()
+    result = audit(args.root)
+    output = args.root / "data/quality/tdx_bus_travel_time_review.json"
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False) + "\n", encoding="utf-8")
+    print(json.dumps(result["metadata"]["review_population"]))
+
+
+if __name__ == "__main__":
+    main()
