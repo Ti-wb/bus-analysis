@@ -5,9 +5,12 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { VillageFacts } from '../src/components/VillageAge';
 import { StationAgeTable } from '../src/components/StationAge';
-import { loadCompressedJSON, parseVillageAges } from '../src/ageLoader';
+import Panel from '../src/components/Panel';
+import StationInfo from '../src/components/StationInfo';
+import type { AppState, MapData, StationSelection } from '../src/types';
+import { createStationAgeLoader, loadCompressedJSON, parseStationAges, parseStationAgeShard, parseVillageAges, stationAgeShard } from '../src/ageLoader';
 import { AGE_COLORS, AGE_UNKNOWN, catchmentGroupValue, groupFor, retryableLoader, villageAgeCollection,
-  villageMeasure, type AgeCatchment, type AgeGroup, type AgeMetadata, type VillageAgeProps, type VillageAges } from '../src/age';
+  villageMeasure, type AgeCatchment, type AgeGroup, type AgeMetadata, type StationAgeCatchments, type VillageAgeProps, type VillageAges } from '../src/age';
 import { readHash, writeHash } from '../src/hashState';
 
 const groups: AgeGroup[] = [
@@ -194,4 +197,80 @@ test('unassigned boundary IDs are never labelled as population IDs in village fa
   assert.doesNotMatch(html, /人口碼：10017010P01/);
   const matched = renderToStaticMarkup(createElement(VillageFacts, { properties: properties(), metadata, group: groups[1] }));
   assert.match(matched, /人口碼：09007040002/);
+});
+
+
+const shardData = (index: number): StationAgeCatchments => ({ schema_version: 1, dataset_id: 'web_station_age_catchments', radii: [350],
+  metadata: { ...metadata, shard: { algorithm: 'fnv1a32-utf8-mod32', index, count: 32, station_count: 0 } },
+  records: { bus: {}, mrt: {}, youbike: {} },
+});
+test('station shard hash matches the builder for source namespaces, NWT IDs and UTF-8', () => {
+  for (const [kind, id, expected] of [
+    ['bus', '100', 24], ['mrt', '100', 31], ['youbike', '100', 24], ['bus', 'NWT100', 13],
+    ['bus', 'NWT200:121.5:25.0', 14], ['bus', '臺北站', 13], ['bus', '😀', 4],
+  ] as const) assert.equal(stationAgeShard(kind, id), expected, `${kind}:${id}`);
+});
+test('shard loads require the requested algorithm, index, count and actual station count', () => {
+  const data = shardData(13);
+  const entry = catchment({
+    age_group_estimates: { age_0_14: 0, age_65_plus: 25, age_75_plus: 10 },
+    age_group_known_estimates: { age_0_14: 0, age_65_plus: 25, age_75_plus: 10 },
+    age_group_data_shares: { age_0_14: 1, age_65_plus: 1, age_75_plus: 1 },
+    age_group_unknown_village_counts: { age_0_14: 0, age_65_plus: 0, age_75_plus: 0 },
+  });
+  data.records.bus.NWT100 = [entry]; data.metadata.shard!.station_count = 1;
+  assert.equal(parseStationAgeShard(data, 13).records.bus.NWT100[0].population_estimate, 100);
+  assert.throws(() => parseStationAgeShard(data, 14), /欄位或版本不符/);
+  for (const patch of [{ algorithm: 'old' }, { count: 16 }, { station_count: 2 }]) {
+    assert.throws(() => parseStationAgeShard({ ...data, metadata: { ...data.metadata, shard: { ...data.metadata.shard, ...patch } } }, 13), /欄位或版本不符/);
+  }
+  const canonical = { ...data, metadata: { ...data.metadata, shard: undefined } };
+  assert.equal(parseStationAges(canonical).records.bus.NWT100.length, 1);
+  assert.throws(() => parseStationAgeShard(canonical, 13), /欄位或版本不符/);
+});
+test('station loading uses original NWT IDs and retains only four least-recently-used shards', async () => {
+  const calls: { url: string; index: number }[] = [];
+  const load = createStationAgeLoader('/base/data/', async (url, index) => { calls.push({ url, index }); return shardData(index); });
+  await load('bus', '100'); await load('mrt', '100'); await load('bus', 'NWT100'); await load('bus', 'NWT200:121.5:25.0');
+  await load('bus', '100'); // Touch 24 so 31 becomes least recently used.
+  await load('bus', '😀'); await load('bus', 'NWT100'); await load('mrt', '100');
+  assert.equal(calls.length, 6);
+  assert.equal(calls.filter((entry) => entry.index === 31).length, 2);
+  assert.equal(calls.filter((entry) => entry.index === 13).length, 1);
+  assert.equal(calls.find((entry) => entry.index === 13)!.url, '/base/data/station_age_catchments/part-13.json');
+  assert.equal(calls.some((entry) => entry.url.endsWith('/station_age_catchments.json')), false);
+});
+test('same-shard requests share one fetch and failed shards can be retried', async () => {
+  let calls = 0;
+  const load = createStationAgeLoader('/data/', async (_url, index) => { calls++; if (calls === 1) throw new Error('offline'); return shardData(index); });
+  const first = load('bus', '100');
+  assert.equal(load('youbike', '100'), first); // Both are shard 24, distinct source namespaces retained inside it.
+  await assert.rejects(first, /offline/);
+  assert.equal((await load('bus', '100')).metadata.shard!.index, 24);
+  assert.equal(calls, 2);
+});
+test('village age legend remains visible when the general village overlay is selected', () => {
+  const state: AppState = { ...readHash(), mode: 'village_age', ageGroup: 'age_65_plus', ageSet: 'three_stage', layers: new Set(['villages']) };
+  const html = renderToStaticMarkup(createElement(Panel, { state, villageAges: { type: 'FeatureCollection', metadata, features: [] },
+    ageError: null, onRetryAges() {}, selectedVillage: null, onVillage() {}, playing: false, needCounts: null,
+    data: null, supplementalPending: new Set(), onRetrySupplemental() {}, onChange() {}, onTogglePlay() {}, onPreferences() {},
+  }));
+  assert.match(html, /65 歲以上占村里戶籍人口比例/);
+  assert.match(html, /一般里人口填色暫藏/);
+  assert.doesNotMatch(html, /每里戶籍人口（人）/);
+});
+
+test('regional station statistical-area copy describes inapplicability rather than an unknown period', () => {
+  const layers = ['roads', 'districts', 'taipei_boundary', 'bus_routes', 'bus_stops', 'mrt_lines', 'mrt_stations', 'district_labels', 'places', 'youbike_stations'];
+  const data = { ...Object.fromEntries(layers.map((key) => [key, { type: 'FeatureCollection', features: [] }])),
+    regional_bus_routes: null, regional_bus_stops: null, villages: null, traffic_sections: null,
+    bus_travel_times: null, supplemental_manifest: null, supplemental_errors: [],
+  } as unknown as MapData;
+  const station: StationSelection = { type: 'bus', id: 'NWT20147', at: [121.49, 24.99],
+    properties: { id: 'NWT20147', name: '圓通路305巷', route_count: 1, routes: ['測試路線'], weekday_departures: null, source_scope: 'NewTaipei' } };
+  const html = renderToStaticMarkup(createElement(StationInfo, { station, mapRef: { current: null }, data, placeKeys: new Set(), onClose() {} }));
+  assert.match(html, /統計區年齡分布（此站不適用）/);
+  assert.match(html, /上方統計區來源未涵蓋此新北站位；下方村里資料各自保留來源與月份，不混算/);
+  assert.doesNotMatch(html, /統計區年齡分布（期間未知）/);
+  assert.doesNotMatch(html, /此卡使用最小統計區人口/);
 });

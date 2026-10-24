@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "dataset_id": "independent_web_supplemental_review",
+  "metadata": {
+    "reviewer_agent": "/root/research_review",
+    "producer_agent": "/root/data_pipeline",
+    "independent_of_producer": true,
+    "reviewed_at": "2026-10-24T14:46:07+08:00",
+    "source_updated_at": null,
+    "scope": "Five supplemental display layers and their manifest; retained official source snapshots only.",
+    "method": "Separate review implementation. No producer imports. Exhaustive source ID, geometry vertex, population, native road snapshot identity and premium runtime row reconciliation.",
+    "status": "pass_with_limitations",
+    "blocking_findings": [],
+    "limitations": [
+      "This review confirms source-to-output semantics; it does not establish live operating service, current traffic, temporal boundary equivalence or browser visual acceptance.",
+      "Road association is bounded to the retained same-authority, same-day exact native SectionID/LinkIDs snapshots and is not a LinkVersion equivalence proof.",
+      "Village geometry is checked against the retained official layer after stated rounding; this does not test polygon topology or point-on-boundary assignment."
+    ]
+  },
+  "records": [
+    {
+      "files": [
+        "regional_bus_routes.geojson",
+        "regional_bus_stops.geojson"
+      ],
+      "route_model_count": 1383,
+      "unique_route_uid_count": 635,
+      "leapfrog_model_count": 100,
+      "stop_count": 32996,
+      "source_stop_memberships_checked": 43270,
+      "sequence_evidence_status_counts": {
+        "verified_full_stop_id_sequence": 1189,
+        "verified_order_with_explicit_non_boarding_virtual_points_omitted": 194
+      },
+      "source_updated_at": "2026-10-24T09:56:05+08:00",
+      "checks": "Every complete source sequence, category ID, unique stop UID, coordinate, name, route membership and unmodeled null departure checked."
+    },
+    {
+      "file": "villages.geojson",
+      "feature_count": 1677,
+      "city_counts": {
+        "臺北市": 456,
+        "新北市": 1056,
+        "基隆市": 165
+      },
+      "join_status_counts": {
+        "matched_code_and_names": 1646,
+        "boundary_only_without_population": 25,
+        "matched_code_name_variant_requires_review": 6
+      },
+      "known_value_sums": {
+        "population": 6798609,
+        "households": 3053371,
+        "population_age_0_14": 734251,
+        "population_age_15_64": 4549513,
+        "population_age_65_plus": 1514845
+      },
+      "null_population_count": 31,
+      "population_period": "2026-09",
+      "boundary_period": "2026-08-17",
+      "checks": "All boundary geometries, retained vertices, codes, literal names, source values, age sums, ratios and withheld nulls checked; population-month geometry equivalence remains unverified."
+    },
+    {
+      "file": "traffic_sections.geojson",
+      "source_definition_count": 818,
+      "source_observation_count": 818,
+      "exact_section_and_link_id_count": 818,
+      "feature_count": 226,
+      "excluded_incomplete_endpoint_count": 592,
+      "value_status_counts": {
+        "source_zero_not_interpreted": 48,
+        "positive_observed_value": 172,
+        "source_negative_sentinel": 6
+      },
+      "source_local_day": [
+        "2026-10-24"
+      ],
+      "definition_source_updated_at": "2026-10-24T00:00:00+08:00",
+      "observation_source_updated_at": "2026-10-24T10:50:30+08:00",
+      "data_collect_times": [
+        "2026-10-24T10:50:00+08:00"
+      ],
+      "link_version_in_both_raw_responses": null,
+      "version_equivalence_verified": false,
+      "checks": "Raw responses and official field definitions checked; same-authority same-day exact native SectionID/LinkIDs association accepted only for this snapshot. No cross-date or version equivalence established; endpoint lines are schematic."
+    },
+    {
+      "file": "bus_travel_times.geojson",
+      "pair_service_evidence_count": 83988,
+      "feature_count": 32659,
+      "source_runtime_rows_independently_checked": 912032,
+      "hour_values_independently_recomputed": 1567632,
+      "null_hour_count": 655600,
+      "conflicting_hour_count": 0,
+      "effective_dates": [
+        "2026-10-01"
+      ],
+      "expire_dates": [
+        "2026-10-31"
+      ],
+      "checks": "All retained matched, non-review pair evidence rechecked against reference model, literal adjacent stop occurrences, premium model/row/service IDs and source half-open clock windows; hourly runtime values independently recomputed without importing producer."
+    },
+    {
+      "file": "supplemental_manifest.json",
+      "layer_feature_counts": {
+        "regional_bus_routes": 1383,
+        "regional_bus_stops": 32996,
+        "villages": 1677,
+        "traffic_sections": 226,
+        "bus_travel_times": 32659
+      }
+    }
+  ]
+}

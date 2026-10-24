@@ -1,4 +1,5 @@
 import type { AgeMetadata, StationAgeCatchments, VillageAges } from './age';
+import type { StationType } from './types';
 
 const object = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null && !Array.isArray(value);
 const nonnegative = (value: unknown): value is number => typeof value === 'number' && Number.isFinite(value) && value >= 0;
@@ -102,4 +103,47 @@ export async function loadCompressedJSON<T>(url: string, validate: (value: unkno
     return validate(await new Response(new Response(bytes).body!.pipeThrough(new Decompressor('gzip'))).json());
   }
   return validate(JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes)));
+}
+
+
+export const STATION_AGE_SHARDS = 32;
+/** Shared with the builder: hash the source namespace and original station ID as UTF-8 bytes. */
+export function stationAgeShard(kind: StationType, id: string): number {
+  let hash = 2166136261;
+  for (const byte of new TextEncoder().encode(`${kind}:${id}`)) hash = Math.imul(hash ^ byte, 16777619) >>> 0;
+  return hash % STATION_AGE_SHARDS;
+}
+
+export function parseStationAgeShard(value: unknown, index: number): StationAgeCatchments {
+  const data = parseStationAges(value);
+  const shard = data.metadata.shard;
+  requireValue(shard && shard.algorithm === 'fnv1a32-utf8-mod32' && shard.index === index
+    && shard.count === STATION_AGE_SHARDS && Number.isInteger(shard.station_count) && shard.station_count >= 0);
+  let stations = 0;
+  for (const kind of ['bus', 'mrt', 'youbike'] as const) {
+    const ids = Object.keys(data.records[kind]);
+    requireValue(ids.every((id) => stationAgeShard(kind, id) === index));
+    stations += ids.length;
+  }
+  requireValue(stations === shard.station_count);
+  return data;
+}
+
+/** At most four decompressed station shards are retained, including in-flight requests. */
+export function createStationAgeLoader(baseURL: string, read: (url: string, index: number) => Promise<StationAgeCatchments>
+  = (url, index) => loadCompressedJSON(url, (value) => parseStationAgeShard(value, index))) {
+  const cache = new Map<number, Promise<StationAgeCatchments>>();
+  return (kind: StationType, id: string): Promise<StationAgeCatchments> => {
+    const index = stationAgeShard(kind, id);
+    const cached = cache.get(index);
+    if (cached) { cache.delete(index); cache.set(index, cached); return cached; }
+    const url = `${baseURL}station_age_catchments/part-${String(index).padStart(2, '0')}.json`;
+    const pending = Promise.resolve().then(() => read(url, index)).catch((error: unknown) => {
+      if (cache.get(index) === pending) cache.delete(index);
+      throw error;
+    });
+    cache.set(index, pending);
+    if (cache.size > 4) cache.delete(cache.keys().next().value!);
+    return pending;
+  };
 }

@@ -5,21 +5,27 @@ import { STATION_RADIUS } from '../stations';
 import type { StationSelection } from '../types';
 
 export default function StationAge({ station }: { station: StationSelection }) {
-  const [data, setData] = useState<StationAgeCatchments | null>(null);
-  const [error, setError] = useState(false);
+  const { type, id } = station;
+  const selectionKey = `${type}:${id}`;
+  const [result, setResult] = useState<{ key: string; data: StationAgeCatchments } | null>(null);
+  const [failedKey, setFailedKey] = useState<string | null>(null);
+  const data = result?.key === selectionKey ? result.data : null;
+  const error = failedKey === selectionKey;
   const [attempt, setAttempt] = useState(0);
   const [groupSet, setGroupSet] = useState<'three_stage' | 'planning'>('three_stage');
   useEffect(() => {
     let current = true;
-    loadStationAges().then((value) => { if (current) { setData(value); setError(false); } }, () => { if (current) setError(true); });
+    const key = `${type}:${id}`;
+    setResult(null); setFailedKey(null);
+    loadStationAges(type, id).then((value) => { if (current) setResult({ key, data: value }); }, () => { if (current) setFailedKey(key); });
     return () => { current = false; };
-  }, [attempt]);
+  }, [attempt, type, id]);
   const value = data?.records[station.type]?.[station.id]?.[data.radii.indexOf(STATION_RADIUS)];
   const metadata = data?.metadata;
   const groups = metadata?.age_groups.filter((group) => group.set === groupSet) ?? [];
   return <section className="station-age" aria-busy={!data && !error} aria-live="polite">
     <div className="station-section-head"><h3>村里年齡分攤</h3><span className="station-badge">面積估算</span></div>
-    {error ? <div className="station-empty"><b>年齡估算載入失敗</b><button className="station-text-button" onClick={() => { setError(false); setAttempt((value) => value + 1); }}>重新載入年齡估算</button></div>
+    {error ? <div className="station-empty"><b>年齡估算載入失敗</b><button className="station-text-button" onClick={() => { setFailedKey(null); setAttempt((value) => value + 1); }}>重新載入年齡估算</button></div>
       : !data ? <p className="station-empty" role="status">年齡估算載入中…</p>
         : !value ? <div className="station-empty"><p>尚未提供此站範圍的年齡估算</p><small>缺資料不等於 0 人。</small></div>
           : <>

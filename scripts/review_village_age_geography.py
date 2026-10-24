@@ -368,6 +368,114 @@ def recompute_circle(rows, point, radius):
     return result
 
 
+def station_points_from_layers(layers):
+    """Independently retain displayed IDs; source collisions are audit failures."""
+    import math
+
+    points = {"bus": {}, "mrt": {}, "youbike": {}}
+    source_counts, source_ids, snapshots, errors = {}, {}, {}, []
+    for kind, name, filename, id_key in (
+        ("bus", "bus_stops", "bus_stops.geojson", "id"),
+        ("bus", "regional_bus_stops", "regional_bus_stops.geojson", "id"),
+        ("mrt", "mrt", "mrt_stations.geojson", "id"),
+        ("youbike", "youbike", "youbike_stations.geojson", "station_id"),
+    ):
+        layer = layers[filename]
+        source_counts[name] = len(layer["features"])
+        source_ids[name] = set()
+        snapshots[filename] = layer["metadata"]
+        for feature in layer["features"]:
+            code = feature.get("properties", {}).get(id_key)
+            geometry = feature.get("geometry") or {}
+            coordinate = geometry.get("coordinates")
+            if not isinstance(code, str) or not code:
+                errors.append(name + ": missing original string station ID")
+                continue
+            if code in source_ids[name]:
+                errors.append(name + ": duplicate displayed original station ID: " + code)
+            source_ids[name].add(code)
+            if code in points[kind]:
+                errors.append(name + ": station ID collision within namespace " + kind + ": " + code)
+                continue
+            if (geometry.get("type") != "Point" or not isinstance(coordinate, (list, tuple)) or len(coordinate) != 2
+                    or any(type(value) not in {int, float} or not math.isfinite(value) for value in coordinate)):
+                errors.append(name + ": invalid displayed WGS84 station coordinate: " + code)
+                continue
+            points[kind][code] = list(coordinate)
+    return {"points": points, "source_counts": source_counts, "source_ids": source_ids,
+            "layer_metadata": snapshots, "errors": errors}
+
+
+def fnv1a32_utf8(value):
+    """FNV-1a operates on UTF-8 bytes, with unsigned overflow after each byte."""
+    result = 2166136261
+    for byte in value.encode("utf-8"):
+        result = ((result ^ byte) * 16777619) & 0xffffffff
+    return result
+
+
+def gzip_copy_matches(path):
+    """Compare large plain/gzip copies without allocating another full body."""
+    try:
+        with path.open("rb") as plain, gzip.open(path.with_name(path.name + ".gz"), "rb") as compressed:
+            while block := plain.read(1024 ** 2):
+                if compressed.read(len(block)) != block:
+                    return False
+            return not compressed.read(1)
+    except (OSError, EOFError):
+        return False
+
+
+def inspect_station_shards(canonical, parts):
+    """Compare a streaming part inventory against all canonical ID/value pairs."""
+    expected = {(kind, code) for kind, stations in canonical["records"].items() for code in stations}
+    names, seen, errors, counts = set(), set(), [], {}
+    expected_names = {f"part-{index:02d}.json" for index in range(32)}
+    for filename, document in parts:
+        if filename in names:
+            errors.append("duplicate shard file: " + filename)
+        names.add(filename)
+        matched = re.fullmatch(r"part-([0-9]{2})\.json", filename)
+        if not matched or int(matched[1]) >= 32:
+            errors.append("unexpected shard file: " + filename)
+            continue
+        index = int(matched[1])
+        shard = document.get("metadata", {}).get("shard", {})
+        if (shard.get("algorithm") != "fnv1a32-utf8-mod32" or type(shard.get("index")) is not int
+                or shard.get("index") != index or type(shard.get("count")) is not int or shard.get("count") != 32):
+            errors.append(filename + ": shard routing metadata differs")
+        for key in ("schema_version", "dataset_id", "radii"):
+            if not exact(document.get(key), canonical.get(key)):
+                errors.append(filename + ": canonical envelope differs: " + key)
+        metadata = {key: value for key, value in document.get("metadata", {}).items() if key != "shard"}
+        if not exact(metadata, canonical.get("metadata")):
+            errors.append(filename + ": complete canonical metadata/source snapshot differs")
+        if set(document.get("records", {})) != set(canonical["records"]):
+            errors.append(filename + ": station namespace set differs")
+        count = 0
+        for kind, stations in document.get("records", {}).items():
+            for code, entries in stations.items():
+                count += 1
+                key = (kind, code)
+                if key in seen:
+                    errors.append(filename + ": station repeated across shards: " + kind + "/" + code)
+                seen.add(key)
+                if fnv1a32_utf8(kind + ":" + code) % 32 != index:
+                    errors.append(filename + ": original station ID routed to the wrong shard: " + kind + "/" + code)
+                if key not in expected or not exact(entries, canonical["records"][kind][code]):
+                    errors.append(filename + ": station entries differ from canonical: " + kind + "/" + code)
+        counts[filename] = count
+        if type(shard.get("station_count")) is not int or shard.get("station_count") != count:
+            errors.append(filename + ": shard station_count differs")
+    if names != expected_names:
+        errors.append("complete set of 32 shard filenames differs")
+    if seen != expected:
+        errors.append("shard station union differs from the canonical ID set")
+    return {"algorithm": "fnv1a32-utf8-mod32", "shard_count": len(names),
+            "canonical_station_count": len(expected), "unique_shard_station_count": len(seen),
+            "station_counts_by_shard": counts, "failure_count": len(errors), "failures": errors}
+
+
 def station_review(root=ROOT, month="2026-09"):
     import math
     from pyproj import Transformer
@@ -382,14 +490,13 @@ def station_review(root=ROOT, month="2026-09"):
     def check(condition, message):
         if not condition:
             errors.append(message)
-    expected_points, layer_snapshots = {}, {}
-    for kind, filename, id_key in (("bus", "bus_stops.geojson", "id"), ("mrt", "mrt_stations.geojson", "id"),
-                                  ("youbike", "youbike_stations.geojson", "station_id")):
-        layer = read(root / "web/public/data" / filename)
-        expected_points[kind] = {feature["properties"][id_key]: feature["geometry"]["coordinates"] for feature in layer["features"]}
-        check(len(expected_points[kind]) == len(layer["features"]), kind + ": duplicate displayed original station IDs")
+    check(gzip_copy_matches(root / relative), "canonical station gzip/plain contents differ")
+    inventory = station_points_from_layers({name: read(root / "web/public/data" / name) for name in (
+        "bus_stops.geojson", "regional_bus_stops.geojson", "mrt_stations.geojson", "youbike_stations.geojson")})
+    expected_points = inventory["points"]
+    errors.extend(inventory["errors"])
+    for kind in expected_points:
         check(set(doc["records"].get(kind, {})) == set(expected_points[kind]), kind + ": displayed station/catchment ID sets differ")
-        layer_snapshots[filename] = layer["metadata"]
     check(set(doc["records"]) == set(expected_points), "station namespaces differ")
     check(exact(doc["radii"], [200, 350, 500]), "station radii differ")
     status_counts = Counter()
@@ -406,12 +513,19 @@ def station_review(root=ROOT, month="2026-09"):
                     check(value is None or (type(value) in {int, float} and math.isfinite(value) and value >= 0), kind + "/" + code + ": invalid numeric estimate")
     quality = doc["metadata"]["quality"]
     check(quality["station_count"] == sum(len(points) for points in expected_points.values()), "quality station count differs")
+    check(exact(doc["metadata"].get("station_source_counts"), inventory["source_counts"]), "station per-source counts differ")
     check(exact(quality["station_radius_status_counts"], dict(status_counts)), "quality status counts differ from complete record traversal")
     for key in ("sources", "generated_at", "population_period", "roster_period", "boundary_vintage", "population_source"):
         check(exact(doc["metadata"].get(key), full["metadata"].get(key)), "station source snapshot differs: " + key)
     check(doc["metadata"].get("same_month_geometry_verified") is False, "station output claims same-month geometry")
     projection = doc["metadata"].get("projection", {})
     check(projection.get("source") == "EPSG:4326" and projection.get("area_and_distance") == "EPSG:3826", "station projection metadata differs")
+    supported = [120.9, 24.5, 122.2, 25.7]
+    check(exact(projection.get("supported_bbox_wgs84"), supported), "station supported projection scope differs")
+    unsupported = {kind: [code for code, (lon, lat) in points.items()
+                         if not (supported[0] <= lon <= supported[2] and supported[1] <= lat <= supported[3])]
+                   for kind, points in expected_points.items()}
+    check(not any(unsupported.values()), "displayed stations outside supported projection scope are not explicitly handled")
     project = Transformer.from_crs(4326, 3826, always_xy=True)
     rows = []
     for feature in full["features"]:
@@ -437,12 +551,15 @@ def station_review(root=ROOT, month="2026-09"):
     check(quality["overlap_pair_count"] == len(overlaps), "station topology overlap pair count differs")
     check(quality["conflicting_boundary_count"] == sum(row["conflict"] for row in rows), "station topology conflicting boundary count differs")
     check(quality["boundary_count"] == len(rows), "station topology boundary count differs")
-    # Three deterministic acceptance categories span the three ID namespaces.
-    selections = (("complete", "youbike", lambda entries: all(row["status"] == "complete" for row in entries)),
-                  ("partial_with_unmatched_boundary", "bus", lambda entries: any(row["status"] == "partial" and row["unmatched_village_count"] > 0 and row["outside_boundary_share"] == 0 for row in entries)),
-                  ("outside_boundary_edge", "mrt", lambda entries: any(row["outside_boundary_share"] > 0 for row in entries)))
-    for category, kind, predicate in selections:
-        chosen = next((code for code, entries in doc["records"].get(kind, {}).items() if predicate(entries)), None)
+    # Retain the three existing local categories, then independently check the
+    # new regional source using its complete original ID and displayed point.
+    selections = (("complete", "youbike", "youbike", lambda entries: all(row["status"] == "complete" for row in entries)),
+                  ("partial_with_unmatched_boundary", "bus", "bus_stops", lambda entries: any(row["status"] == "partial" and row["unmatched_village_count"] > 0 and row["outside_boundary_share"] == 0 for row in entries)),
+                  ("outside_boundary_edge", "mrt", "mrt", lambda entries: any(row["outside_boundary_share"] > 0 for row in entries)),
+                  ("regional_original_station", "bus", "regional_bus_stops", lambda entries: any(row["population_known_estimate"] is not None for row in entries)))
+    for category, kind, source_name, predicate in selections:
+        chosen = next((code for code, entries in doc["records"].get(kind, {}).items()
+                       if code in inventory["source_ids"][source_name] and predicate(entries)), None)
         if chosen is None:
             errors.append("No independent station sample for acceptance category: " + category)
             continue
@@ -467,7 +584,7 @@ def station_review(root=ROOT, month="2026-09"):
             for key, value in expected.items():
                 compare(value, actual.get(key), key)
             check(not mismatches, f"{kind}/{chosen}/{actual['radius_m']}: independent sample differs: {mismatches}")
-            samples.append({"category": category, "namespace": kind, "station_id": chosen,
+            samples.append({"category": category, "namespace": kind, "station_source": source_name, "station_id": chosen,
                             "displayed_coordinate_wgs84": coordinate, "radius_m": actual["radius_m"],
                             "expected": expected, "status": "passed" if not mismatches else "failed", "mismatched_fields": mismatches})
     display = read(root / "web/public/data/village_age.geojson")
@@ -476,17 +593,48 @@ def station_review(root=ROOT, month="2026-09"):
     check(set(source_by_id) == set(display_by_id) and len(display_by_id) == len(display["features"]), "display village-age ID set differs")
     check(all(exact(feature["properties"], display_by_id.get(code, {}).get("properties")) for code, feature in source_by_id.items()), "display village-age source properties/age cells differ")
     check(display["metadata"].get("display_geometry_only") is True, "display geometry is not explicitly labelled")
+    shard_directory = root / "web/public/data/station_age_catchments"
+    sizes = []
+    expected_compressed_names = {f"part-{index:02d}.json.gz" for index in range(32)}
+    check({path.name for path in shard_directory.glob("*.json.gz")} == expected_compressed_names,
+          "complete set of 32 compressed shard filenames differs")
+    def shard_parts():
+        for path in sorted(shard_directory.glob("*.json")):
+            plain = path.read_bytes()
+            compressed = path.with_name(path.name + ".gz")
+            if not compressed.exists():
+                errors.append(path.name + ": gzip copy missing")
+                compressed_bytes = b""
+            else:
+                compressed_bytes = compressed.read_bytes()
+                try:
+                    check(gzip.decompress(compressed_bytes) == plain, path.name + ": gzip/plain contents differ")
+                except (OSError, EOFError) as exc:
+                    errors.append(path.name + ": invalid gzip copy: " + str(exc))
+            sizes.append({"file": path.name, "plain_bytes": len(plain), "gzip_bytes": len(compressed_bytes)})
+            yield path.name, json.loads(plain)
+    shard_check = inspect_station_shards(doc, shard_parts())
+    errors.extend(shard_check["failures"])
+    shard_check.update({"gzip_plain_comparisons": len(sizes), "file_sizes": sizes,
+                        "total_plain_bytes": sum(row["plain_bytes"] for row in sizes),
+                        "total_gzip_bytes": sum(row["gzip_bytes"] for row in sizes)})
     checks.update({"station_namespace_counts": {kind: len(points) for kind, points in expected_points.items()},
+                   "station_source_counts": inventory["source_counts"],
+                   "unsupported_station_ids_by_namespace": unsupported,
+                   "bus_id_collision_check_passed": not inventory["errors"],
                    "station_radius_status_counts": dict(status_counts), "independent_overlap_pair_count": len(overlaps),
                    "sample_station_count": len({(sample['namespace'], sample['station_id']) for sample in samples}),
-                   "sample_radius_count": len(samples), "station_layer_metadata": layer_snapshots,
+                   "sample_radius_count": len(samples), "station_layer_metadata": inventory["layer_metadata"],
+                   "canonical_plain_bytes": (root / relative).stat().st_size,
+                   "canonical_gzip_bytes": (root / (relative + ".gz")).stat().st_size,
+                   "station_shards": shard_check,
                    "display_village_count": len(display_by_id), "failure_count": len(errors), "failures": errors})
     status = "needs_correction" if errors else "pass_with_limitations"
     return {"schema_version": 1, "dataset_id": "independent_station_age_catchments_review", "metadata": {
                 "reviewer_agent": "/root/national_reference", "producer_imported": False,
                 "reviewed_at": datetime.now(ZoneInfo("Asia/Taipei")).isoformat(timespec="seconds"), "status": status,
-                "method": "All displayed station IDs and radius/status records; independently projected full geometry, vectorized overlap pairs, manually constructed 256-vertex circles, scalar density arithmetic, and union areas for three stations across all three radii.",
-                "limitations": ["9個站圈數值為分層抽樣重算；未逐一重算所有站圈，完整ID/半徑/狀態及拓樸集合另作全量核對。",
+                "method": "All displayed local+regional bus ID unions and source collision checks, MRT/YouBike IDs and radius/status records; independent FNV-1a UTF-8 routing and full 32-part union/value/metadata/gzip equivalence; independently projected full geometry, vectorized overlap pairs, manually constructed 256-vertex circles, scalar density arithmetic, and union areas for four stations including one regional original ID across all three radii.",
+                "limitations": [f"{len(samples)}個站圈數值為分層抽樣重算（包含新增跨市站）；未逐一重算所有站圈，完整ID/半徑/狀態及拓樸集合另作全量核對。",
                                 "均勻面積人口估算不等於實際乘客；相鄰站圈、兩套年齡分組不可加總。"]},
             "records": [{"file": relative, "output_path": relative, "record_count": sum(len(points) for points in expected_points.values()),
                          "review_status": status, "reviewed_generated_at": doc["metadata"].get("generated_at"),

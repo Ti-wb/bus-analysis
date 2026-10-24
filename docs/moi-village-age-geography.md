@@ -89,9 +89,12 @@ npm run build --prefix web
 | `data/population/national_village_crosswalk_2026-09.json.gz` | 人口、清冊及所有里界碼的聯集核對表；包含未匹配及排除項目 |
 | `map-data/population/moi_village_age_2026-09.geojson.gz` | 北北基完整精度里界及人口、逐歲／分組值；站圈計算來源 |
 | `web/public/data/village_age.geojson` | 僅供顯示的簡化里界，保留相同 ID、來源人口及年齡欄位 |
-| `web/public/data/station_age_catchments.json` | `records[bus\|mrt\|youbike][原始站點 ID]`，按 `radii` 順序放各半徑結果 |
+| `web/public/data/station_age_catchments.json` | 全量檢查基準，`records[bus\|mrt\|youbike][原始站點 ID]` 按 `radii` 順序放各半徑結果 |
+| `web/public/data/station_age_catchments/part-00.json` 至 `part-31.json` | 供站卡依站種／完整原碼載入其中一片；32 片聯集與全量每筆值相同 |
 
-前端兩個年齡檔另產生內容相同的 `.gz` 副本；`web/public/data/` 是建置產物，不提交 Git。
+年齡圖形、全量站圈及每個分片另產生內容相同的 `.gz` 副本；`web/public/data/` 是建置產物，不提交 Git。
+全量站圈約 122.1 MB JSON／7.5 MB gzip，保留作驗證基準。站卡以 `FNV1a32(UTF-8(站種 + ":" + 完整站碼)) % 32` 選片，
+每片最大約 3.9 MB JSON／264 KB gzip，32 片 gzip 合計約 8.2 MB；每片 metadata 的 `shard` 明列 algorithm、index、count=32 與該片站數。
 Metadata 保存 `population_period`、`roster_period`、主層 `boundary_vintage`、逐層版本及筆數、來源 receipt、授權及限制。
 `generated_at` 識別固定來源下載快照；前端 `built_at` 才是本次建置時間，兩者都不是人口統計日期。
 
@@ -112,7 +115,8 @@ GeoJSON 使用 WGS84 `[經度, 緯度]`，properties 保存 `area_id`、`boundar
 
 ## 站圈估算與缺值
 
-本次依實際顯示點位，對 **5,376 公車站、154 捷運站、1,822 YouBike 站，共 7,352 站**，各產生 200／350／500 m 結果。
+本次依實際顯示點位，對 **38,372 個公車站碼（5,376 個原臺北站碼＋32,996 個跨市站碼）、154 捷運站、1,822 YouBike 站，共 40,348 站**，各產生 200／350／500 m 結果，共 121,044 筆。
+本次為 112,402 筆 complete、7,962 筆 partial、680 筆 no_boundary；無里界者保留未知，不刪除或補零。跨市數量包含來源已分開的座標變體，保留完整原碼，不依同名或近鄰合併。
 三種原始站點 ID 命名空間分開，不把捷運或 YouBike 對上鄰近公車站借用估算。
 站卡固定使用 350 m，與覆蓋圖層的使用者偏好半徑分開。
 
@@ -161,7 +165,7 @@ GeoJSON 使用 WGS84 `[經度, 緯度]`，properties 保存 `area_id`、`boundar
 方向鍵移動地圖後 Enter 查詢中央村里，Escape 關閉；部分圖形在初始視野外。
 
 站點資訊卡另有「村里年齡分攤」，可切換分組並查看 350 m 已知部分、逐組涵蓋面積、未匹配及界外資訊。
-資料載入失敗可重試。年齡圖層與站卡按需載入壓縮副本，格式錯誤不以零值替代。
+資料載入失敗可重試。年齡圖層按需載入壓縮副本；站卡只載入該站所屬的 32 分片之一，保留全量檔供獨立檢查，不在開卡時下載全量。格式錯誤不以零值替代。
 
 `station_catchments.json` 使用 **2024-12 最小統計區人口、五歲年齡組、2015 邊界、臺北市範圍**，
 其站卡年齡為 **0–14／15–24／25–64／65+** 四組，來源見 `data/population/taipei_statistical_population_age5_base.json`。
@@ -180,7 +184,7 @@ npm run test:age --prefix web
 ```
 
 - [全國清冊及人口／里界報告](../data/quality/national_village_age_review.json)與[完整地圖圖形報告](../map-data/quality/village_age_geography_review.json)：不同於整理者的實作直接讀 TXT、全部 DBF／SHP／PRJ／XML，不匯入整理器；完整比對碼集合、父碼、原名、層版本、北北基座標、101 歲別及八組。
-- [站圈獨立報告](../data/quality/station_age_catchments_review.json)：全量核對 7,352 站的原始 ID、22,056 個半徑／狀態紀錄與里界拓樸；另抽完整、未匹配及界外邊緣三類站，各重算三個半徑的人口、分組及聯集覆蓋，共九個站圈，未宣稱逐一重算全部站圈。
+- [站圈獨立報告](../data/quality/station_age_catchments_review.json)：全量核對 40,348 站的原始 ID、原臺北與跨市公車 ID 無碰撞的完整聯集、121,044 個半徑／狀態紀錄及里界拓樸；保留完整、未匹配、界外邊緣三類抽樣，另加一個跨市原碼站，各重算三個半徑的人口、分組與聯集覆蓋，共 12 個站圈。另完整比對 32 分片的 UTF-8 hash 路由、每筆值與 metadata 聯集、無重複／掉列及 gzip／JSON 等價，未宣稱逐一重算全部站圈的幾何估算。
 - 測試會拒絕同筆數錯碼、Sanhe 借用主層日期、名稱／座標／100+ 格移動、未知人口補零，以及估算覆蓋不完整等情形。CI 以合成資料及已提交輸出測試，不連政府 API；本機原檔巡檢只對報告所列來源快照負責。
 
 仍待釐清的來源限制是同月歷史幾何、17 筆名稱差異與 Sanhe 重疊。均勻面積假設也未經居住位置或乘車樣本校準；

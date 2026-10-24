@@ -1,8 +1,23 @@
 import { useEffect, useRef } from 'react';
 import type { VillageAges } from '../age';
-import type { Coverage, Grid, NeedGrid } from '../types';
+import { snapshotPeriodText, villagePeriod } from '../regional';
+import type { Coverage, Grid, NeedGrid, SupplementalData } from '../types';
 
-export default function AboutDialog({ open, grid, coverage, need, ages, onClose }: { open: boolean; grid: Grid | null; coverage: Coverage | null; need: NeedGrid | null; ages: VillageAges | null; onClose: () => void }) {
+function sourceLinks(value: unknown): string[] {
+  const result = new Set<string>();
+  const visit = (item: unknown) => {
+    if (Array.isArray(item)) { item.forEach(visit); return; }
+    if (!item || typeof item !== 'object') return;
+    for (const [key, child] of Object.entries(item)) {
+      if ((key === 'source_page' || key === 'page_url') && typeof child === 'string' && /^https?:\/\//.test(child)) result.add(child);
+      else if (typeof child === 'object') visit(child);
+    }
+  };
+  visit(value);
+  return [...result];
+}
+
+export default function AboutDialog({ open, grid, coverage, need, ages, supplemental, onClose }: { open: boolean; grid: Grid | null; coverage: Coverage | null; need: NeedGrid | null; ages: VillageAges | null; supplemental: SupplementalData; onClose: () => void }) {
   const ref = useRef<HTMLDialogElement>(null);
   useEffect(() => {
     const dialog = ref.current;
@@ -16,6 +31,14 @@ export default function AboutDialog({ open, grid, coverage, need, ages, onClose 
     <dialog ref={ref} className="about" onClose={onClose}>
       <button className="close" aria-label="關閉" onClick={onClose}>×</button>
       <h2>資料與方法</h2>
+      <h3>跨市資料快照</h3>
+      <p>新增的新北／跳蛙公車、里人口年齡、道路速率與公車推估旅時各自保留來源與期間；班次、覆蓋與需求落差模型仍以臺北市為範圍。網站沒有自動輪詢即時資料。</p>
+      {supplemental.supplemental_manifest?.records.map((record) => <details className="about-snapshot" key={record.id}>
+        <summary>{record.title} · {record.feature_count.toLocaleString()} 筆</summary>
+        <p>{snapshotPeriodText(record)}。{record.period !== null && <>來源更新時間：{record.source_updated_at ?? '未提供'}。</>}</p>
+        <ul>{record.limitations.map((item) => <li key={item}>{item}</li>)}</ul>
+        <p>{sourceLinks(record.sources).map((url, index) => <a key={url} href={url} target="_blank" rel="noreferrer">官方來源 {index + 1}{' '}</a>)}</p>
+      </details>) ?? <p>來源目錄載入中…</p>}
       {!grid || !m ? <p>載入中…</p> : (
         <>
           <p>本頁呈現臺北市公車路網、捷運路網、重要地點，以及以約 {grid.cell_m} m 方格彙整的公車計畫班次。重點是看出「哪裡、什麼時段有多少班公車經過」，不是實際載客量。</p>
@@ -54,6 +77,7 @@ export default function AboutDialog({ open, grid, coverage, need, ages, onClose 
             <li>點選公車、捷運或 YouBike 站點，以該站為圓心查看固定直線 350 m 內的戶籍人口、戶數與附近設施；不改變覆蓋圖層設定。</li>
             <li>統計區只有部分在圓內時依面積比例分攤，假設區內人口均勻分布；只有臺北市人口，新北市部分不計。</li>
             <li>戶籍人口不是白天活動人口或搭乘量；相鄰站點範圍重疊，各站人口不可加總。最小統計區人口卡與村里年齡估算來源、月份不同，不能直接比較總數；缺值不以 0 代替。</li>
+            <li>戶籍人口不是白天活動人口或搭乘量；相鄰站點範圍重疊，各站人口不可加總。最小統計區卡的 350 m 年齡由五歲年齡組按面積分攤為四組；站點卡片另列所在里的 {villagePeriod(supplemental) ?? ''} 原始人口與三個年齡組；該「所在里」段不換算成站圈，下方村里年齡分攤另以獨立來源與方法估算。</li>
           </ul>
           <h3>村里年齡與站圈分攤</h3>
           <ul>

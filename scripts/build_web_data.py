@@ -19,9 +19,9 @@ from shapely.ops import unary_union
 from shapely.prepared import prep
 
 if __package__:
-    from .build_age_catchments import build_age_catchments
+    from .build_age_catchments import SUPPORTED_BBOX, build_age_catchments
 else:
-    from build_age_catchments import build_age_catchments
+    from build_age_catchments import SUPPORTED_BBOX, build_age_catchments
 
 ROOT = Path(__file__).resolve().parents[1]
 FEEDS = ROOT / "data/taipei_feeds"
@@ -39,6 +39,7 @@ COVERAGE_CAP = 300
 COVERAGE_OUTSIDE = 999
 # Walking catchment radii; station information always uses the 350 m entry.
 CATCHMENT_RADII = (200, 350, 500)
+AGE_CATCHMENT_SHARD_COUNT = 32
 # Station-card age groups as slices of the 21 five-year groups (0–4 … 95–99, 100+).
 AGE_GROUPS = {"0-14": slice(0, 3), "15-24": slice(3, 5), "25-64": slice(5, 13), "65_plus": slice(13, 21)}
 POPULATION = ROOT / "data/population"
@@ -75,7 +76,7 @@ def read(path):
 
 
 def write(name, doc, *, compressed=False):
-    OUT.mkdir(parents=True, exist_ok=True)
+    (OUT / name).parent.mkdir(parents=True, exist_ok=True)
     encoded = json.dumps(doc, ensure_ascii=False, allow_nan=False, separators=(",", ":")).encode("utf-8")
     (OUT / name).write_bytes(encoded)
     if compressed:
@@ -308,10 +309,75 @@ def apportion(values, total):
     return floors.tolist()
 
 
+def village_age_station_points(station_points, regional_stops):
+    """Add original regional bus IDs only to a copy of the village-age inputs.
+
+    Station names and proximity never establish identity. Coordinate variants
+    already separated by the source retain their complete original IDs.
+    """
+    if regional_stops.get("type") != "FeatureCollection" or not isinstance(regional_stops.get("features"), list):
+        raise ValueError("Expected the regional bus station FeatureCollection")
+    points = {kind: dict(stations) for kind, stations in station_points.items()}
+    west, south, east, north = SUPPORTED_BBOX
+    for feature in regional_stops["features"]:
+        station_id = feature.get("properties", {}).get("id")
+        geometry = feature.get("geometry") or {}
+        coordinate = geometry.get("coordinates")
+        if not isinstance(station_id, str) or not station_id:
+            raise ValueError("Regional bus station must retain its nonempty original string ID")
+        if station_id in points["bus"]:
+            raise ValueError(f"Duplicate bus station ID across age sources: {station_id}")
+        if (geometry.get("type") != "Point" or not isinstance(coordinate, (list, tuple)) or len(coordinate) != 2
+                or any(type(value) not in {int, float} or not math.isfinite(value) for value in coordinate)):
+            raise ValueError(f"Invalid regional bus station point: {station_id}")
+        if not (west <= coordinate[0] <= east and south <= coordinate[1] <= north):
+            raise ValueError(f"Unsupported projection scope for regional bus station {station_id}; northern Taiwan only")
+        points["bus"][station_id] = list(coordinate)
+    return points
+
+
+def age_catchment_shard_index(kind, station_id):
+    """FNV-1a32 of UTF-8 `kind:id`, modulo 32; shared with the web loader."""
+    value = 2166136261
+    for byte in f"{kind}:{station_id}".encode("utf-8"):
+        value = ((value ^ byte) * 16777619) & 0xffffffff
+    return value % AGE_CATCHMENT_SHARD_COUNT
+
+
+def age_catchment_shards(catchments):
+    """Partition the canonical records without changing any estimate or metadata."""
+    shards = [{**catchments, "metadata": {**catchments["metadata"]},
+               "records": {kind: {} for kind in ("bus", "mrt", "youbike")}}
+              for _ in range(AGE_CATCHMENT_SHARD_COUNT)]
+    for kind, stations in catchments["records"].items():
+        if kind not in shards[0]["records"]:
+            raise ValueError(f"Unsupported age-catchment station kind: {kind}")
+        for station_id, estimates in stations.items():
+            shards[age_catchment_shard_index(kind, station_id)]["records"][kind][station_id] = estimates
+    for index, shard in enumerate(shards):
+        shard["metadata"]["shard"] = {
+            "algorithm": "fnv1a32-utf8-mod32", "index": index, "count": AGE_CATCHMENT_SHARD_COUNT,
+            "station_count": sum(len(stations) for stations in shard["records"].values()),
+        }
+    return shards
+
+
+def write_age_catchment_shards(catchments):
+    for index, shard in enumerate(age_catchment_shards(catchments)):
+        write(f"station_age_catchments/part-{index:02d}.json", shard, compressed=True)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.parse_args()
     built_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    # Regional station geometry must exist before the village-age join. These
+    # supplementary sources remain outside the older Taipei supply models.
+    if __package__:
+        from .build_web_supplemental import build_all
+    else:
+        from build_web_supplemental import build_all
+    build_all(ROOT, OUT, built_at)
     view = box(*VIEW_BBOX)
     osm = osm_source()
     osm_meta = {"source": osm["source_page"], "source_updated_at": osm["source_updated_at"], "attribution": osm["attribution"], "license": osm["license"]}
@@ -479,11 +545,19 @@ def main():
     # Keep the village-age source separate from the older statistical-area totals and age groups.
     # Estimate with the complete, unsimplified geometry; simplify only the map copy.
     village_ages = read(MAP / "population/moi_village_age_2026-09.geojson.gz")
-    age_catchments = build_age_catchments(station_points, village_ages, CATCHMENT_RADII)
+    regional_stops = read(OUT / "regional_bus_stops.geojson")
+    age_points = village_age_station_points(station_points, regional_stops)
+    age_catchments = build_age_catchments(age_points, village_ages, CATCHMENT_RADII)
     age_catchments["metadata"].update({"built_at": built_at,
-        "station_sources": {"bus": "bus_stops.geojson: id", "mrt": "mrt_stations.geojson: id (OSM)",
-                            "youbike": "youbike_stations.geojson: station_id"}})
+        "station_sources": {"bus": "bus_stops.geojson: id + regional_bus_stops.geojson: original id (NWT namespace and coordinate variants retained)",
+                            "mrt": "mrt_stations.geojson: id (OSM)", "youbike": "youbike_stations.geojson: station_id"},
+        "station_source_counts": {"bus_stops": len(station_points["bus"]),
+                                  "regional_bus_stops": len(regional_stops["features"]),
+                                  "mrt": len(station_points["mrt"]), "youbike": len(station_points["youbike"])},
+        "station_identity_policy": "Original source station IDs and displayed coordinates retained; no station-name, nearest-point or numeric-ID matching between sources.",
+        "station_scope": "Regional bus stations are added only to village-age catchments; statistical-area catchments, departure grids and nearest-station coverage retain their existing inputs."})
     write("station_age_catchments.json", age_catchments, compressed=True)
+    write_age_catchment_shards(age_catchments)
     age_features = [{**feature, "geometry": rounded(simplified(shape(feature["geometry"]), 0.00002))}
                     for feature in village_ages["features"]]
     write("village_age.geojson", {**village_ages, "features": age_features,
@@ -625,7 +699,11 @@ def main():
         write(f"bus_grid_{cell_m}.json", grid)
         print(f"grid {cell_m} m status", dict(status), "scheduled subroutes", len(scheduled))
 
-    from build_route_scenario import main as build_route_scenario
+    # Keep the deploy entry point responsible for all layers used by the map.
+    if __package__:
+        from .build_route_scenario import main as build_route_scenario
+    else:
+        from build_route_scenario import main as build_route_scenario
     build_route_scenario()
     from build_improvements import main as build_improvements
     build_improvements()

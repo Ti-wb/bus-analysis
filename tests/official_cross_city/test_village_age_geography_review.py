@@ -1,5 +1,6 @@
 """An independent audit must reject plausible same-count geography tampering."""
 from copy import deepcopy
+import gzip
 from pathlib import Path
 import tempfile
 import unittest
@@ -9,7 +10,10 @@ try:
 except ImportError:
     box = None
 
-from scripts.review_village_age_geography import GROUP_INTERVALS, inspect_outputs, recompute_circle, registry_rows
+from scripts.review_village_age_geography import (
+    GROUP_INTERVALS, fnv1a32_utf8, gzip_copy_matches, inspect_outputs, inspect_station_shards,
+    recompute_circle, registry_rows, station_points_from_layers,
+)
 
 MONTH = "2026-09"
 MAIN = "VILLAGE_NLSC_1150817"
@@ -140,6 +144,116 @@ class IndependentRegistryRawTests(unittest.TestCase):
                 path.write_text(text, encoding="utf-8")
                 with self.assertRaises(ValueError):
                     registry_rows(path)
+
+
+class IndependentStationIdentityUnionTests(unittest.TestCase):
+    def layers(self):
+        def feature(code, coordinates, key="id"):
+            return {"properties": {key: code}, "geometry": {"type": "Point", "coordinates": coordinates}}
+        return {
+            "bus_stops.geojson": {"metadata": {}, "features": [feature("001", [121.5, 25.0])]},
+            "regional_bus_stops.geojson": {"metadata": {}, "features": [
+                feature("NWT001@121.51,25.01", [121.51, 25.01]),
+                feature("NWT001@121.52,25.02", [121.52, 25.02])]},
+            "mrt_stations.geojson": {"metadata": {}, "features": [feature("001", [121.53, 25.03])]},
+            "youbike_stations.geojson": {"metadata": {}, "features": [feature("001", [121.54, 25.04], "station_id")]},
+        }
+
+    def test_exact_local_regional_union_keeps_coordinate_variants_and_namespaces(self):
+        inventory = station_points_from_layers(self.layers())
+        self.assertEqual(inventory["errors"], [])
+        self.assertEqual(set(inventory["points"]["bus"]), {"001", "NWT001@121.51,25.01", "NWT001@121.52,25.02"})
+        self.assertEqual(inventory["points"]["bus"]["NWT001@121.52,25.02"], [121.52, 25.02])
+        self.assertEqual(set(inventory["points"]["mrt"]), {"001"})
+        self.assertEqual(set(inventory["points"]["youbike"]), {"001"})
+        self.assertEqual(inventory["source_counts"], {"bus_stops": 1, "regional_bus_stops": 2, "mrt": 1, "youbike": 1})
+
+    def test_cross_source_id_collision_is_not_silently_overwritten(self):
+        layers = self.layers()
+        layers["regional_bus_stops.geojson"]["features"][0]["properties"]["id"] = "001"
+        inventory = station_points_from_layers(layers)
+        self.assertTrue(any("collision within namespace bus: 001" in error for error in inventory["errors"]))
+        self.assertEqual(inventory["points"]["bus"]["001"], [121.5, 25.0])
+
+    def test_duplicate_regional_id_or_invalid_point_fails_independent_inventory(self):
+        layers = self.layers()
+        layers["regional_bus_stops.geojson"]["features"].append(deepcopy(layers["regional_bus_stops.geojson"]["features"][0]))
+        inventory = station_points_from_layers(layers)
+        self.assertTrue(any("duplicate displayed original station ID" in error for error in inventory["errors"]))
+        layers = self.layers()
+        layers["regional_bus_stops.geojson"]["features"][0]["geometry"]["coordinates"] = [121.5, float("nan")]
+        self.assertTrue(any("invalid displayed WGS84" in error for error in station_points_from_layers(layers)["errors"]))
+
+
+class IndependentStationShardTests(unittest.TestCase):
+    def test_gzip_copy_must_be_complete_and_identical(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "part-00.json"
+            compressed = path.with_name(path.name + ".gz")
+            path.write_bytes(b'{"station": 1}')
+            compressed.write_bytes(gzip.compress(path.read_bytes()))
+            self.assertTrue(gzip_copy_matches(path))
+            compressed.write_bytes(gzip.compress(b'{"station": 2}'))
+            self.assertFalse(gzip_copy_matches(path))
+            compressed.write_bytes(gzip.compress(path.read_bytes())[:-5])
+            self.assertFalse(gzip_copy_matches(path))
+
+    def parts(self):
+        canonical = {"schema_version": 1, "dataset_id": "web_station_age_catchments", "radii": [200, 350, 500],
+                     "metadata": {"built_at": "2026-10-24T12:00:00+00:00", "sources": [{"raw_file": "source.zip"}]},
+                     "records": {"bus": {"001": [{"population_estimate": 0}], "NWT001:121.5:25.0": [{"population_estimate": None}]},
+                                 "mrt": {"001": [{"population_estimate": 123.45}]}, "youbike": {"臺北站": [{"population_estimate": 5}]}}}
+        parts = {}
+        for index in range(32):
+            parts[f"part-{index:02d}.json"] = {**deepcopy(canonical), "records": {"bus": {}, "mrt": {}, "youbike": {}}}
+            parts[f"part-{index:02d}.json"]["metadata"]["shard"] = {
+                "algorithm": "fnv1a32-utf8-mod32", "index": index, "count": 32, "station_count": 0}
+        for kind, stations in canonical["records"].items():
+            for code, entries in stations.items():
+                part = parts[f"part-{fnv1a32_utf8(kind + ':' + code) % 32:02d}.json"]
+                part["records"][kind][code] = deepcopy(entries)
+                part["metadata"]["shard"]["station_count"] += 1
+        return canonical, parts
+
+    def test_bytewise_hash_matches_standard_and_independent_node_vectors(self):
+        for value, expected in (("", 2166136261), ("a", 3826002220), ("foobar", 3214735720),
+                                ("bus:100", 3602010264), ("mrt:100", 1274992703),
+                                ("bus:臺北站", 1291106125), ("bus:😀", 2385802468)):
+            self.assertEqual(fnv1a32_utf8(value), expected)
+
+    def test_all_32_shards_have_exact_union_values_and_metadata(self):
+        canonical, parts = self.parts()
+        review = inspect_station_shards(canonical, parts.items())
+        self.assertEqual(review["failures"], [])
+        self.assertEqual(review["unique_shard_station_count"], 4)
+
+    def test_wrong_routing_even_with_correct_counts_and_union_is_detected(self):
+        canonical, parts = self.parts()
+        source = fnv1a32_utf8("bus:001") % 32
+        wrong = (source + 1) % 32
+        entry = parts[f"part-{source:02d}.json"]["records"]["bus"].pop("001")
+        parts[f"part-{source:02d}.json"]["metadata"]["shard"]["station_count"] -= 1
+        parts[f"part-{wrong:02d}.json"]["records"]["bus"]["001"] = entry
+        parts[f"part-{wrong:02d}.json"]["metadata"]["shard"]["station_count"] += 1
+        self.assertTrue(any("wrong shard" in error for error in inspect_station_shards(canonical, parts.items())["failures"]))
+
+    def test_duplicate_entry_stale_metadata_and_changed_value_fail(self):
+        canonical, parts = self.parts()
+        source = fnv1a32_utf8("bus:001") % 32
+        wrong = (source + 1) % 32
+        parts[f"part-{wrong:02d}.json"]["records"]["bus"]["001"] = [{"population_estimate": 999}]
+        parts[f"part-{wrong:02d}.json"]["metadata"]["shard"]["station_count"] += 1
+        parts["part-00.json"]["metadata"]["built_at"] = "stale"
+        errors = inspect_station_shards(canonical, parts.items())["failures"]
+        self.assertTrue(any("repeated across shards" in error for error in errors))
+        self.assertTrue(any("entries differ from canonical" in error for error in errors))
+        self.assertTrue(any("snapshot differs" in error for error in errors))
+
+    def test_missing_part_or_station_cannot_pass_equal_counts_elsewhere(self):
+        canonical, parts = self.parts()
+        parts.pop("part-31.json")
+        errors = inspect_station_shards(canonical, parts.items())["failures"]
+        self.assertTrue(any("32 shard filenames" in error for error in errors))
 
 
 @unittest.skipIf(box is None, "Run geometry audit tests with the project GIS dependencies")

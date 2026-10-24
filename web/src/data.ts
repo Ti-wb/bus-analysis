@@ -1,8 +1,8 @@
 import type { Feature, FeatureCollection, Polygon } from 'geojson';
 import { retryableLoader } from './age';
-import { loadCompressedJSON, parseStationAges, parseVillageAges } from './ageLoader';
+import { createStationAgeLoader, loadCompressedJSON, parseVillageAges } from './ageLoader';
 import { ALL_DAY, DAY_COLUMN, NO_SCHEDULE, NO_STOP, SCALES } from './config';
-import type { AppState, Coverage, Grid, GridCell, MapData, NeedGrid, StationCatchments } from './types';
+import type { AppState, CoreMapData, Coverage, Grid, GridCell, NeedGrid, StationCatchments, SupplementalData } from './types';
 
 const DATA = `${import.meta.env.BASE_URL}data/`;
 
@@ -14,9 +14,30 @@ async function loadJSON<T>(name: string): Promise<T> {
 
 const LAYER_FILES = ['roads', 'districts', 'taipei_boundary', 'bus_routes', 'bus_stops', 'mrt_lines', 'mrt_stations', 'district_labels', 'places', 'youbike_stations'] as const;
 
-export async function loadMapData(): Promise<MapData> {
+export async function loadMapData(): Promise<CoreMapData> {
   const docs = await Promise.all(LAYER_FILES.map((name) => loadJSON<FeatureCollection>(`${name}.geojson`)));
-  return Object.fromEntries(LAYER_FILES.map((name, i) => [name, docs[i]])) as unknown as MapData;
+  return Object.fromEntries(LAYER_FILES.map((name, i) => [name, docs[i]])) as unknown as CoreMapData;
+}
+
+export const EMPTY_SUPPLEMENTAL: SupplementalData = {
+  regional_bus_routes: null, regional_bus_stops: null, villages: null,
+  traffic_sections: null, bus_travel_times: null, supplemental_manifest: null, supplemental_errors: [],
+};
+
+export const SUPPLEMENTAL_FILES = {
+  regional_bus_routes: 'regional_bus_routes.geojson', regional_bus_stops: 'regional_bus_stops.geojson',
+  villages: 'villages.geojson', traffic_sections: 'traffic_sections.geojson', bus_travel_times: 'bus_travel_times.geojson',
+  supplemental_manifest: 'supplemental_manifest.json',
+} as const;
+export type SupplementalKey = keyof typeof SUPPLEMENTAL_FILES;
+
+/** Overlays are requested independently and only when needed. */
+export async function loadSupplementalLayer<K extends SupplementalKey>(key: K): Promise<SupplementalData[K]> {
+  const document = await loadJSON<unknown>(SUPPLEMENTAL_FILES[key]) as { type?: string; features?: unknown[]; records?: unknown[] };
+  const valid = key === 'supplemental_manifest' ? Array.isArray(document.records)
+    : document.type === 'FeatureCollection' && Array.isArray(document.features);
+  if (!valid) throw new Error(`${SUPPLEMENTAL_FILES[key]}：資料格式不符`);
+  return document as SupplementalData[K];
 }
 
 const grids = new Map<number, Promise<Grid>>();
@@ -47,7 +68,7 @@ export function loadCatchments(): Promise<StationCatchments> {
 }
 
 export const loadVillageAges = retryableLoader(() => loadCompressedJSON(DATA + 'village_age.geojson', parseVillageAges));
-export const loadStationAges = retryableLoader(() => loadCompressedJSON(DATA + 'station_age_catchments.json', parseStationAges));
+export const loadStationAges = createStationAgeLoader(DATA);
 
 export function scaleFor(state: Pick<AppState, 'cell' | 'hour'>) {
   return SCALES[state.cell][state.hour === ALL_DAY ? 'daily' : 'hourly'];

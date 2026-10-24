@@ -27,6 +27,7 @@ export interface AgeMetadata {
     boundary_status_counts: Record<string, number>;
   };
   limitations: string[];
+  shard?: { algorithm: string; index: number; count: number; station_count: number };
 }
 
 export interface VillageAgeProps {
