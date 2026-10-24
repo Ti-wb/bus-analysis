@@ -10,6 +10,7 @@ import { coverageGridLines, coverageImage } from './coverage';
 import { gridCollection, hourText, loadCoverage, loadGrid, loadMapData, loadNeed } from './data';
 import { readHash, writeHash } from './hashState';
 import MapView from './map/MapView';
+import RouteWorkspace, { type RouteWorkspaceHandle } from './routeEditor/RouteWorkspace';
 import { computeNeed, needCollection, quadrantOf } from './need';
 import type { AppState, Coverage, Grid, MapData, NeedGrid, StationSelection, ViewState } from './types';
 
@@ -33,6 +34,8 @@ export default function App() {
   const [explainerOpen, setExplainerOpen] = useState(true);
   const [prefsOpen, setPrefsOpen] = useState(false);
   const [station, setStation] = useState<StationSelection | null>(null);
+  const [routeTool, setRouteTool] = useState(false);
+  const editorRef = useRef<RouteWorkspaceHandle>(null);
   const stationOrigin = useRef<HTMLElement | null>(null);
   const focusFrame = useRef<number | null>(null);
 
@@ -140,8 +143,13 @@ export default function App() {
 
   return (
     <>
-      <Topbar mode={state.mode} onAbout={() => setAboutOpen(true)} aboutActive={aboutOpen} onPreferences={() => setPrefsOpen(true)} onShare={share} />
+      <Topbar mode={state.mode} onAbout={() => setAboutOpen(true)} aboutActive={aboutOpen}
+        routeTool={routeTool} onRoutes={() => { setRouteTool(true); setStation(null); setPlaying(false); setAboutOpen(false); }}
+        onExplore={() => { setAboutOpen(false); if (routeTool) editorRef.current?.leave(() => { setRouteTool(false); setMapReady(false); }); }}
+        onIndicators={() => editorRef.current?.indicators()}
+        onPreferences={() => routeTool ? editorRef.current?.preferences() : setPrefsOpen(true)} onShare={share} />
       <main className="stage">
+        {routeTool && data && grid && gridData ? <RouteWorkspace ref={editorRef} map={data} grid={grid} gridData={gridData} state={state} initialView={viewRef.current} /> : <>
         {data && grid && gridData && (
           <MapView
             mapRef={mapRef}
@@ -186,6 +194,7 @@ export default function App() {
             <p className="muted">請先在 repo 根目錄執行 <code>uv run scripts/build_web_data.py</code>。<br />{error.message}</p>
           </div>
         )}
+        </>}
       </main>
       {prefsOpen && <Preferences state={state} onApply={(patch) => { update(patch); setPrefsOpen(false); }} onClose={() => setPrefsOpen(false)} />}
       <AboutDialog open={aboutOpen} grid={grid} coverage={coverage} need={needGrid} onClose={() => setAboutOpen(false)} />

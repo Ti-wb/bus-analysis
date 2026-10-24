@@ -579,6 +579,9 @@ def main():
         write(f"bus_grid_{cell_m}.json", grid)
         print(f"grid {cell_m} m status", dict(status), "scheduled subroutes", len(scheduled))
 
+    from build_route_scenario import main as build_route_scenario
+    build_route_scenario()
+
 
 if __name__ == "__main__":
     main()

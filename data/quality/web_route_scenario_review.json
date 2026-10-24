@@ -1,0 +1,304 @@
+{
+  "schema_version": 1,
+  "dataset_id": "independent_web_route_scenario_review",
+  "metadata": {
+    "reviewer_agent": "/root/review_route_scenario_data",
+    "independent_of_producer": true,
+    "reviewed_at": "2026-10-24T06:47:31+00:00",
+    "reviewed_output_built_at": "2026-10-24T06:46:01.437277+00:00",
+    "status": "pass_with_limitations",
+    "scope": "route_scenario.json 的本地資料來源、識別碼、站序、班表導出、100 m 人口網格與350 m/1 km半徑關聯；不涵蓋前端互動、瀏覽器呈現或實際交通成效。",
+    "method": "未匯入或呼叫產生器。逐方向核對原始整理表；獨立逐分鐘積分重算班距；對所有站點和格心以 EPSG:3826 平面距離直接比對，不使用產生器的 STRtree 半徑查詢；人口反向逐統計區、逐格 scalar intersection 及 math.fsum 重算。",
+    "sources": [
+      {
+        "path": "data/taipei_feeds/route_stop_sequences.json",
+        "source_data_time": "2026-10-21T22:03:04+08:00",
+        "source_period": null,
+        "source_page": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579",
+        "download_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetPathDetail.gz",
+        "raw_file": "raw_data/taipei_feeds/GetPathDetail.gz",
+        "source_updated_at": null
+      },
+      {
+        "path": "data/taipei_feeds/route_branches.json",
+        "source_data_time": "2026-10-21T23:03:04+08:00",
+        "source_period": null,
+        "source_page": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579",
+        "download_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetRoute.gz",
+        "raw_file": "raw_data/taipei_feeds/GetRoute.gz",
+        "source_updated_at": null
+      },
+      {
+        "path": "data/taipei_feeds/stop_locations.geojson",
+        "source_data_time": "2026-10-21T22:03:04+08:00",
+        "source_period": null,
+        "source_page": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579",
+        "download_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetStopLocation.gz",
+        "raw_file": "raw_data/taipei_feeds/GetStopLocation.gz",
+        "source_updated_at": null
+      },
+      {
+        "path": "data/taipei_feeds/fixed_schedules.json",
+        "source_data_time": "2026-10-21T22:03:04+08:00",
+        "source_period": null,
+        "source_page": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579",
+        "download_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetTimeTable.gz",
+        "raw_file": "raw_data/taipei_feeds/GetTimeTable.gz",
+        "source_updated_at": null
+      },
+      {
+        "path": "data/taipei_feeds/headway_schedules.json",
+        "source_data_time": "2026-10-21T22:03:04+08:00",
+        "source_period": null,
+        "source_page": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579",
+        "download_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetSemiTimeTable.gz",
+        "raw_file": "raw_data/taipei_feeds/GetSemiTimeTable.gz",
+        "source_updated_at": null
+      },
+      {
+        "path": "data/taipei_feeds/route_shapes.geojson",
+        "source_data_time": null,
+        "source_period": null,
+        "source_page": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579",
+        "download_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetBusShape.gz",
+        "raw_file": "raw_data/taipei_feeds/GetBusShape.gz",
+        "source_updated_at": null,
+        "source_record_time_range": {
+          "min": "2023-06-14T16:18:20+08:00",
+          "max": "2026-10-15T16:11:19+08:00"
+        }
+      },
+      {
+        "path": "data/population/taipei_statistical_population_base.json",
+        "source_data_time": null,
+        "source_period": {
+          "start": "2024-12",
+          "end": "2024-12"
+        },
+        "source_page": "https://data.gov.tw/dataset/18681",
+        "download_url": "https://segisws.moi.gov.tw/STATWSSTData/OpenService.asmx/GetStatSTDataForOpenCode?oCode=6E03CA29B955A854397166638603FC3B51A1FBEE829C41DBA1D61A4DBA84DCB43EC2490B4BC27DD1320C3EF6DBC4DE80A46DEC5BF5F23516",
+        "raw_file": "raw_data/population/statistical_population_base.xml",
+        "source_updated_at": null
+      },
+      {
+        "path": "data/population/taipei_statistical_area_boundaries.geojson",
+        "source_data_time": null,
+        "source_period": null,
+        "source_page": "https://data.gov.tw/dataset/25128",
+        "download_url": "https://opdadm.moi.gov.tw/api/v1/no-auth/resource/api/dataset/03C1D0A5-1F39-4C1F-AA2E-BB37A0405369/resource/DCC6FE32-D76A-4541-800C-5665B60D489D/download",
+        "raw_file": "raw_data/population/statistical_boundary_base.zip",
+        "source_updated_at": null,
+        "boundary_vintage_in_filename": "2015"
+      },
+      {
+        "path": "map-data/admin/cities.geojson",
+        "source_data_time": null,
+        "source_period": "2025-03-18",
+        "source_page": "https://data.gov.tw/dataset/7442",
+        "download_url": "https://www.tgos.tw/tgos/VirtualDir/Product/1cd4f4c9-6b01-4cf9-bf6c-23a73aa17d24/直轄市、縣(市)界線1140318.zip",
+        "raw_file": "map-data/raw/admin/cities.zip",
+        "source_updated_at": null
+      },
+      {
+        "path": "map-data/osm/manifest.json",
+        "source_data_time": null,
+        "source_period": null,
+        "source_page": "https://download.geofabrik.de/asia/taiwan.html",
+        "download_url": "https://download.geofabrik.de/asia/taiwan-261020-free.gpkg.zip",
+        "raw_file": "map-data/raw/osm/taiwan-261020-free.gpkg.zip",
+        "source_updated_at": "2026-10-20T20:23:47Z"
+      },
+      {
+        "path": "data/youbike/stations.geojson",
+        "source_data_time": "2026-10-24T11:58:03+08:00",
+        "source_period": null,
+        "source_page": "https://data.taipei/dataset/detail?id=c6bc8aed-557d-41d5-bfb1-8da24f78f2fb",
+        "download_url": "https://tcgbusfs.blob.core.windows.net/dotapp/youbike/v2/youbike_immediate.json",
+        "raw_file": "raw_data/youbike/youbike_immediate.json",
+        "source_updated_at": null
+      }
+    ],
+    "blocking_findings": [],
+    "open_findings": [],
+    "resolved_findings": [
+      {
+        "issue": "最初未保留站點、市界、MRT、YouBike 的完整來源與版本。",
+        "resolution": "已補來源 metadata、站點選取方式、原始市界版本與實際簡化精度；逐份比對來源檔通過。"
+      },
+      {
+        "issue": "排除的附線方向與人口覆蓋缺值門檻未完整揭露。",
+        "resolution": "已明列 excluded_directions，各方向 ID/站序筆數正確；population_share 揭露 <=0.005 為 null。"
+      },
+      {
+        "issue": "新輸出未明列代表平日與班表導出規則。",
+        "resolution": "已補代表週三、週六、週日與固定班表/班距規則；去回程共用班表的假設維持明示。"
+      }
+    ],
+    "limitations": [
+      "公車只含臺北市主管機關 feed，保留跨市站序，但缺附線主檔與少於兩站的方向排除；不是完整雙北路網。",
+      "班表不是方向別班表，各方向套用相同附線值是模型假設；計畫起站發車量不是站點實際到站量或載客量。",
+      "人口是2024-12戶籍人口、2015最小統計區邊界，依面積分攤且裁臺北市界；格心半徑屬直線近似。缺就學身分/高齡人口，不能推論學生或高齡效果。",
+      "站點沿用前端5位小數座標；捷運來自OSM及既有選取規則，無班次；YouBike僅臺北站點、1 km作參考。",
+      "資料巡檢不驗證草稿行駛可行性、旅行時間、步行路網或真實政策效果。"
+    ]
+  },
+  "records": [
+    {
+      "file": "web/public/data/route_scenario.json",
+      "section": "routes_and_stops",
+      "status": "pass",
+      "source_direction_count": 1246,
+      "route_direction_count": 1235,
+      "stop_count": 5376,
+      "source_stop_occurrences": 43447,
+      "retained_stop_occurrences": 43229,
+      "missing_stop_occurrences": 0,
+      "excluded_directions": {
+        "missing_branch": [
+          {
+            "id": "160987:0",
+            "stop_occurrences": 38
+          },
+          {
+            "id": "160987:1",
+            "stop_occurrences": 36
+          },
+          {
+            "id": "162553:0",
+            "stop_occurrences": 42
+          },
+          {
+            "id": "162554:0",
+            "stop_occurrences": 49
+          },
+          {
+            "id": "162555:1",
+            "stop_occurrences": 47
+          }
+        ],
+        "fewer_than_two_stops": [
+          {
+            "id": "157760:1",
+            "stop_occurrences": 1
+          },
+          {
+            "id": "159500:0",
+            "stop_occurrences": 1
+          },
+          {
+            "id": "159704:0",
+            "stop_occurrences": 1
+          },
+          {
+            "id": "159704:1",
+            "stop_occurrences": 1
+          },
+          {
+            "id": "162417:0",
+            "stop_occurrences": 1
+          },
+          {
+            "id": "162439:1",
+            "stop_occurrences": 1
+          }
+        ]
+      },
+      "path_sources": {
+        "exact_subroute": 215,
+        "identical_main_route_id": 196,
+        "no_shape": 824
+      },
+      "checks": {
+        "branch_fields_unambiguous": true,
+        "unique_route_ids": true,
+        "route_ids_are_strings": true,
+        "exact_route_branch_direction_and_sequence": true,
+        "exclusions_reconcile": true,
+        "stops_id_name_and_coordinates_match": true,
+        "paths_join_exact_subroute_or_identical_main_route_id": true
+      }
+    },
+    {
+      "file": "web/public/data/route_scenario.json",
+      "section": "hourly",
+      "status": "pass_with_limitations",
+      "directions_with_schedule": {
+        "weekday": 1024,
+        "saturday": 723,
+        "sunday": 719
+      },
+      "missing_schedule_directions": {
+        "weekday": 211,
+        "saturday": 512,
+        "sunday": 516
+      },
+      "hours_per_day": 24,
+      "independent_schedule_mismatches": 0,
+      "method": "weekday=ISO3，saturday=ISO6，sunday=ISO7；固定發車落小時，班距以兩欄平均逐分鐘積分，跨午夜歸次日小時；有固定發車的小時優先，無來源整日維持 null。"
+    },
+    {
+      "file": "web/public/data/route_scenario.json",
+      "section": "population_cells",
+      "status": "pass_with_limitations",
+      "cell_count": 27683,
+      "population": {
+        "source_records": 11490,
+        "boundary_features": 11490,
+        "source_sum": 2490646,
+        "allocated_sum": 2490202.0639,
+        "whole_city_intersection_sum": 2490202.0587820695,
+        "null_cells": 142,
+        "observed_zero_cells": 2870,
+        "cells_share_below_one": 902,
+        "max_share_before_clamping": 1.0000000000052864,
+        "zero_area_cells": 14,
+        "period": {
+          "start": "2024-12",
+          "end": "2024-12"
+        },
+        "source_area_sum_m2": 269292340.29925984,
+        "source_area_union_m2": 269292340.2992594
+      },
+      "checks": {
+        "parallel_cell_column_lengths": true,
+        "unique_disjoint_cell_indices": true,
+        "population_ids_exactly_match_boundaries": true,
+        "all_cell_population_matches_reverse_scalar_intersections": true,
+        "all_cell_population_share_matches": true,
+        "null_population_matches_coverage_threshold": true,
+        "all_values_finite_nonnegative": true
+      },
+      "aggregate_explanation": "分攤總人口比來源少443.9361人，因臺北市界裁切；逐統計區與整個市界相交的獨立總和相差0.0052人以內，符合各格4位小數捨入。14格與簡化市界交集面積為0，人口維持null。統計區面積加總與聯集差異小於0.000001 m²，無人口重覆面積。"
+    },
+    {
+      "file": "web/public/data/route_scenario.json",
+      "section": "radius_memberships",
+      "status": "pass",
+      "crs_for_distance": "EPSG:3826",
+      "stop_radius_m": 350,
+      "mrt_radius_m": 350,
+      "youbike_radius_m": 1000,
+      "stop_cell_memberships": 133363,
+      "mrt_covered_cells": 2819,
+      "youbike_covered_cells": 17763,
+      "independent_stop_cell_mismatches": 0,
+      "checks": {
+        "all_stop_cells_match_brute_force_350m": true,
+        "mrt_all_cell_radius_flags_match": true,
+        "youbike_all_cell_radius_flags_match": true
+      }
+    },
+    {
+      "file": "scripts/build_web_data.py",
+      "section": "integration",
+      "status": "pass",
+      "checks": {
+        "calls_route_scenario_once_after_base_layers_and_grids": true,
+        "new_builder_only_writes_route_scenario_json": true,
+        "output_has_schema_version_dataset_id_metadata_records": true,
+        "provenance_metadata_matches_original_source_files": true
+      },
+      "method": "AST與程式碼讀取核對呼叫順序、寫入目標；使用已完成的輸出做資料全量重算，未另外覆寫產生器或前端。"
+    }
+  ]
+}

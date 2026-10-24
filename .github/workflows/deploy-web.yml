@@ -8,6 +8,7 @@ on:
     paths:
       - 'web/**'
       - 'scripts/build_web_data.py'
+      - 'scripts/build_route_scenario.py'
       - 'data/taipei_feeds/**'
       - 'map-data/admin/**'
       - 'map-data/osm/**'
@@ -21,6 +22,7 @@ on:
     paths:
       - 'web/**'
       - 'scripts/build_web_data.py'
+      - 'scripts/build_route_scenario.py'
       - 'data/taipei_feeds/**'
       - 'map-data/admin/**'
       - 'map-data/osm/**'
@@ -61,6 +63,8 @@ jobs:
           cache: npm
           cache-dependency-path: web/package-lock.json
       - run: npm ci --prefix web
+      - name: Verify route scenario calculations
+        run: npm run test:routes --prefix web
       - name: Type-check and build
         run: npm run build --prefix web
       - if: github.event_name != 'pull_request'
