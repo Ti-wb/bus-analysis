@@ -14,10 +14,10 @@
       "official_cross_city_tests_passed": 293,
       "base_tests_passed": 13,
       "compileall": "passed",
-      "cli_help_commands_passed": 16,
+      "cli_help_commands_passed": 18,
       "live_data_review": "separate_full_raw_reviews_not_unit_tests",
       "total_unit_tests_passed": 306,
-      "integrated_main_commit": "f91ba8139253e485c1167284375fb68ef4851a67",
+      "integrated_main_commit": "8593fa0e9d04e8ece0c9d350b5994354b62c73b7",
       "merged_map_catalog_read_only_build": "passed_27_datasets_31_files",
       "ci_evidence": "GitHub Actions current-head checks; exact SHA and run links in PR description",
       "stdlib_ci_mode": {
@@ -25,6 +25,17 @@
         "passed": 276,
         "skipped_gis_cases": 17,
         "status": "passed_without_gis_dependencies"
+      },
+      "integration_merge_commit": "61ecf7e9d7eaf3749e4d5f74169b57f6c71fc7b6",
+      "frontend_map_data_build": "passed_15_generated_files",
+      "frontend_typecheck_and_build": "passed_tsc_and_vite",
+      "frontend_dependency_audit": {
+        "status": "one_critical_advisory_in_inherited_main_dependency",
+        "package": "maplibre-gl",
+        "installed_version": "5.24.0",
+        "advisory_url": "https://github.com/advisories/GHSA-jrc7-96c5-q579",
+        "patched_version": "6.4.1",
+        "scope": "Existing origin/main dependency retained during the requested sync; no major-version migration performed."
       }
     }
   },
@@ -132,7 +143,7 @@
         "data/official_cross_city/travel_time_coverage/summary.json",
         "data/quality/travel_time_coverage_review.json"
       ],
-      "completed": "247查詢範圍、245成功、1額外查詢官方無資料、1技術失敗；762模型、618816時段列、16149缺RunTime保持null；臺北416個參考路線／416端點已嘗試243、未請求173，有242個參考RouteUID旅時。站對補證固定87範圍：1241參考模型、41994相鄰站對×2服務標籤，12432站對×標籤至少有一個數值時段，8019列不相容而待核。",
+      "completed": "267查詢範圍、265成功、1額外查詢官方無資料、1技術失敗；831模型、677043時段列、17599缺RunTime保持null；臺北416個參考路線／416端點已嘗試263、未請求153，有262個參考RouteUID旅時。站對補證固定87範圍：1241參考模型、41994相鄰站對×2服務標籤，12432站對×標籤至少有一個數值時段，8019列不相容而待核。",
       "remaining": [
         "參考端點仍在分批取得，尚有未請求範圍，不宣稱全市或北北基完整旅時覆蓋。",
         "南港幹線是416參考目錄之外的額外查詢；HTTP200無資料原文保留，不指派參考RouteUID或推論停駛。",
