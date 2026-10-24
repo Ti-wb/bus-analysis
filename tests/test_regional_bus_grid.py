@@ -18,7 +18,7 @@ def model(operator=None, *, trip="X1", departure="08:00"):
         "route_uid": "NWT0123", "sub_route_uid": "NWT012301", "direction": 0,
         "operator_id": operator,
         "timetables": [{
-            "trip_id": trip, "service_day": WEEKDAYS,
+            "trip_id": trip, "service_day": dict(WEEKDAYS),
             "stop_times": [{"stop_id": "001", "departure_time": departure}],
         }],
         "frequencys": [],
