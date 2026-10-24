@@ -28,6 +28,7 @@ SPECIAL = {
     "data/official_cross_city/population_boundary_crosswalk.json": "data/quality/regional_validation_review.json",
     "map-data/admin/keelung_villages.geojson": "map-data/quality/keelung_review.json",
     "map-data/walking/further_evidence.json": "map-data/quality/walking_further_evidence_review.json",
+    "map-data/walking/additional_evidence.json": "map-data/quality/walking_additional_evidence_review.json",
     "data/tdx_bus_travel_time/coverage.json": "data/quality/tdx_bus_travel_time_review.json",
     "data/tdx_bus_travel_time/delivery.json": "data/quality/tdx_bus_travel_time_review.json",
     "data/tdx_road_traffic/delivery.json": "data/quality/tdx_road_traffic_review.json",

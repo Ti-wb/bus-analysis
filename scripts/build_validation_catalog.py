@@ -127,6 +127,7 @@ def build(root=ROOT):
         ('data/official_cross_city/walking_transfers/*.json*', 'map-data/quality/walking_evidence_review.json'),
         ('map-data/walking/*.geojson', 'map-data/quality/walking_evidence_review.json'),
         ('map-data/walking/further_evidence.json', 'map-data/quality/walking_further_evidence_review.json'),
+        ('map-data/walking/additional_evidence.json', 'map-data/quality/walking_additional_evidence_review.json'),
         ('data/tdx_road_traffic/observations/*.json', 'data/quality/tdx_road_traffic_review.json'),
         ('data/tdx_road_traffic/availability/*.json', 'data/quality/tdx_road_traffic_review.json'),
         ('data/tdx_road_traffic/delivery.json', 'data/quality/tdx_road_traffic_review.json'),

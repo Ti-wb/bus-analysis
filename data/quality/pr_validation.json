@@ -11,18 +11,18 @@
     "record_count": 9,
     "local_program_checks": {
       "runtime": "3.12.11",
-      "official_cross_city_tests_passed": 285,
+      "official_cross_city_tests_passed": 293,
       "base_tests_passed": 13,
       "compileall": "passed",
       "cli_help_commands_passed": 16,
       "live_data_review": "separate_full_raw_reviews_not_unit_tests",
-      "total_unit_tests_passed": 298,
+      "total_unit_tests_passed": 306,
       "integrated_main_commit": "f91ba8139253e485c1167284375fb68ef4851a67",
       "merged_map_catalog_read_only_build": "passed_27_datasets_31_files",
       "ci_evidence": "GitHub Actions current-head checks; exact SHA and run links in PR description",
       "stdlib_ci_mode": {
-        "discovered": 285,
-        "passed": 268,
+        "discovered": 293,
+        "passed": 276,
         "skipped_gis_cases": 17,
         "status": "passed_without_gis_dependencies"
       }
@@ -132,7 +132,7 @@
         "data/official_cross_city/travel_time_coverage/summary.json",
         "data/quality/travel_time_coverage_review.json"
       ],
-      "completed": "207查詢範圍、205成功、1額外查詢官方無資料、1技術失敗；662模型、534700時段列、13945缺RunTime保持null；臺北416個參考路線／416端點已嘗試203、未請求213，有202個參考RouteUID旅時。站對補證固定87範圍：1241參考模型、41994相鄰站對×2服務標籤，12432站對×標籤至少有一個數值時段，8019列不相容而待核。",
+      "completed": "227查詢範圍、225成功、1額外查詢官方無資料、1技術失敗；710模型、575460時段列、15006缺RunTime保持null；臺北416個參考路線／416端點已嘗試223、未請求193，有222個參考RouteUID旅時。站對補證固定87範圍：1241參考模型、41994相鄰站對×2服務標籤，12432站對×標籤至少有一個數值時段，8019列不相容而待核。",
       "remaining": [
         "參考端點仍在分批取得，尚有未請求範圍，不宣稱全市或北北基完整旅時覆蓋。",
         "南港幹線是416參考目錄之外的額外查詢；HTTP200無資料原文保留，不指派參考RouteUID或推論停駛。",
@@ -159,13 +159,15 @@
       "evidence": [
         "map-data/quality/walking_evidence_review.json",
         "map-data/quality/walking_further_evidence_review.json",
-        "data/quality/remaining_validation_review.json"
+        "data/quality/remaining_validation_review.json",
+        "map-data/quality/walking_additional_evidence_review.json"
       ],
-      "completed": "士林、關渡、新莊三區已保存原始OSM節點／邊、foot/access/conditional、障礙、方向與樓層；637官方設施圖徵已核對。18端點組合中0條完整合法路徑、1條645.402公尺未驗收候選；五個保守邊旗標及關渡端點另有6筆補證、13個官方來源。",
+      "completed": "士林、關渡、新莊三區已保存原始OSM節點／邊、foot/access/conditional、障礙、方向與樓層；637官方設施圖徵已核對。18端點組合中0條完整合法路徑、1條645.402公尺未驗收候選；五個保守邊旗標及關渡端點另有6筆補證、13個官方來源。 另有新莊6筆當期官方背景補證、8份來源，工程量／獲獎／禁停範圍／目的地指引逐份獨核，仍無新增接受轉乘。",
       "remaining": [
         "候選路徑4條邊對應2處實際穿越，仍缺足夠的當期行穿設施／合法通行證據；另一整邊的車道交會已證明在實走片段外。",
         "關渡出口與70056站位雖有官方位置及地址，尚無可核實的完整站外人行接線。",
-        "18組status均unverified、walking_distance_m均null，0條路徑獲接受；候選距離不能轉為可用轉乘邊或無障礙保證。"
+        "18組status均unverified、walking_distance_m均null，0條路徑獲接受；候選距離不能轉為可用轉乘邊或無障礙保證。",
+        "新莊工程與禁停只對應地址或路段背景；1號／3號目的地指引不能直接連接8號向北站位，完整合法接線仍待核。"
       ]
     }
   ]
