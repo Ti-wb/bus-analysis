@@ -642,7 +642,7 @@ export default function MapView({ villageAges = null, villageData = null, select
       {localBase && !noticeOpen && styleLoaded && <button className="map-base-options" onClick={() => setNoticeOpen(true)}>本地簡圖・底圖選項</button>}
       {editor && mapLoad.status === 'loading' && <div className="loading" role="status">載入地圖中…</div>}
 
-      {station && <StationInfo station={station} mode={activeFocus ? 'focus' : 'popup'} mapRef={mapRef} data={data} placeKeys={state.places} onClose={onCloseStation} />}
+      {station && <StationInfo station={station} mode={activeFocus ? 'focus' : 'popup'} mapRef={mapRef} mapReady={styleLoaded} data={data} placeKeys={state.places} onClose={onCloseStation} />}
 
       {hover && (
         <div ref={tooltipRef} className="tooltip" style={{ left: hover.x, top: hover.y }}>

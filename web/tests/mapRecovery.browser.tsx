@@ -10,6 +10,7 @@ import { EMPTY_SUPPLEMENTAL, gridCollection, loadGrid, loadMapData } from '../sr
 import { readHash } from '../src/hashState';
 import MapView from '../src/map/MapView';
 import type { MapStatus } from '../src/map/loadState';
+import type { StationSelection } from '../src/types';
 import '../src/style.css';
 
 const fault = new URLSearchParams(location.search).get('fault');
@@ -39,6 +40,8 @@ function Fixture() {
   const [readyCount, setReadyCount] = useState(0);
   const [report, setReport] = useState('等待測試');
   const [events, setEvents] = useState<string[]>([]);
+  const [station, setStation] = useState<StationSelection | null>(null);
+  const savedCard = useRef<HTMLElement | null>(null);
   function camera() {
     const map = mapRef.current!;
     return { center: map.getCenter().toArray(), zoom: map.getZoom(), bearing: map.getBearing(), pitch: map.getPitch(), padding: map.getPadding() };
@@ -55,6 +58,31 @@ function Fixture() {
         mapRef.current!.jumpTo({ center: [121.531, 25.04], zoom: 13, bearing: 17, pitch: 25, padding: { top: 60, bottom: 40, left: 210, right: 80 } });
         savedCamera.current = camera(); setReport('已保存非零旋轉、傾斜與側欄 padding 的鏡頭');
       }}>設定並保存鏡頭</button>
+      <button onClick={() => {
+        const feature = data.mrt_stations.features.find((f) => f.properties.name === '台北車站') ?? data.mrt_stations.features[0];
+        if (!feature) { setReport('FAIL: 測試資料缺少捷運站'); return; }
+        const at = feature.geometry.coordinates as [number, number];
+        mapRef.current!.jumpTo({ center: at, zoom: 15.5, bearing: 0, pitch: 0, padding: { top: 0, bottom: 0, left: 0, right: 0 } });
+        setStation({ type: 'mrt', id: feature.properties.id, at, properties: feature.properties });
+      }}>選取捷運站</button>
+      <button onClick={() => {
+        savedCard.current = document.querySelector<HTMLElement>('.station-card');
+        setReport(savedCard.current ? '已保存站點卡；可展開設施後中斷並重試地圖' : 'FAIL: 請先選取捷運站');
+      }}>保存站點卡</button>
+      <button onClick={() => check('原站點卡保留且平移後跟隨標記', () => {
+        const map = mapRef.current!, card = document.querySelector<HTMLElement>('.station-card');
+        if (!station || !card || card !== savedCard.current) return false;
+        const before = card.getBoundingClientRect().left, markerBefore = map.project(station.at).x;
+        map.panBy([100, 0], { duration: 0 });
+        const delta = map.project(station.at).x - markerBefore;
+        return Math.abs(delta) > 1 && Math.abs(card.getBoundingClientRect().left - before - delta) < 1;
+      })}>檢查站點卡平移</button>
+      <button onClick={() => check('重試按鈕可直接點擊', () => {
+        const button = document.querySelector<HTMLButtonElement>('.map-notice button');
+        if (!button) return false;
+        const rect = button.getBoundingClientRect();
+        return button.contains(document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2));
+      })}>檢查重試按鈕</button>
       <button onClick={() => mapRef.current!.getMap().fire('error', { error: new Error('TEST: data layer failure'), sourceId: 'bus-stops' })}>模擬圖層錯誤</button>
       <button onClick={() => {
         const gl = mapRef.current!.getCanvas().getContext('webgl2');
@@ -73,7 +101,7 @@ function Fixture() {
     </header>
     <main style={{ position: 'absolute', inset: '145px 0 0' }}>
       <MapView mapRef={mapRef} initialView={initial} data={data} grid={grid} gridData={gridData} state={initial}
-        coverage={null} coverageImage={null} coverageLines={null} need={null} station={null} onStation={() => {}} onCloseStation={() => {}}
+        coverage={null} coverageImage={null} coverageLines={null} need={null} station={station} onStation={setStation} onCloseStation={() => setStation(null)}
         onReady={() => setReadyCount((count) => count + 1)} onStatusChange={(next) => {
           setStatus(next); setEvents((previous) => previous.at(-1) === next ? previous : [...previous, next]);
         }} onMoveEnd={() => {}} />

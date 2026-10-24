@@ -43,13 +43,14 @@ interface Props {
   mode?: 'popup' | 'focus';
   station: StationSelection;
   mapRef: RefObject<MapRef | null>;
+  mapReady?: boolean;
   data: MapData;
   placeKeys: Set<string>;
   onClose: () => void;
 }
 
 /** The Focus card docks beside the overview; ordinary station cards follow their marker. */
-export default function StationInfo({ mode = 'popup', station, mapRef, data, placeKeys, onClose }: Props) {
+export default function StationInfo({ mode = 'popup', station, mapRef, mapReady = true, data, placeKeys, onClose }: Props) {
   const cardRef = useRef<HTMLElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const [catchments, setCatchments] = useState<StationCatchments | null>(null);
@@ -87,6 +88,7 @@ export default function StationInfo({ mode = 'popup', station, mapRef, data, pla
   }, [onClose]);
 
   useLayoutEffect(() => {
+    if (!mapReady) return;
     const card = cardRef.current;
     const map = mapRef.current;
     if (!card || !map) return;
@@ -115,7 +117,7 @@ export default function StationInfo({ mode = 'popup', station, mapRef, data, pla
     observer.observe(container);
     map.on('move', position);
     return () => { observer.disconnect(); map.off('move', position); };
-  }, [mapRef, station, mode]);
+  }, [mapRef, mapReady, station, mode]);
 
   const surroundings = useMemo(
     () => nearby(data, station.at, STATION_RADIUS, station.type === 'bus' ? station.id : null, placeKeys),
