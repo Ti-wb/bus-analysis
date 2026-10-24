@@ -1,4 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react';
+import type { VillageAges } from '../age';
+import { AgeControls, AgeLegend } from './VillageAge';
 import { ALL_DAY, COLORS, COVERAGE_ALPHA, COVERAGE_LAYERS, DAY_LABELS, ELDERLY_COLORS, GAP_COLORS, NEED_BANDS, NEED_COLORS, QUADRANTS, STATION_TYPES, VILLAGE_COLORS, type Quadrant } from '../config';
 import { distanceText } from '../coverage';
 import { hourText, scaleFor, type SupplementalKey } from '../data';
@@ -7,6 +9,11 @@ import { snapshotPeriodText } from '../regional';
 import type { AppState, CoverageLayer, LayerGroup, MapData } from '../types';
 
 interface Props {
+  villageAges: VillageAges | null;
+  ageError: Error | null;
+  onRetryAges: () => void;
+  selectedVillage: string | null;
+  onVillage: (id: string | null) => void;
   state: AppState;
   playing: boolean;
   needCounts: Record<Quadrant, number> | null;
@@ -61,7 +68,7 @@ export function ExtraControls({ state, data, supplementalPending, onChange, onRe
       <div className="segmented segmented-2" role="radiogroup" aria-label="里人口著色方式">
         {([{ key: 'population', label: '戶籍人口' }, { key: 'elderly_share', label: '65 歲以上占比' }] as const).map((metric) => <button key={metric.key} role="radio" aria-checked={state.villageMetric === metric.key} className={state.villageMetric === metric.key ? 'is-active' : ''} onClick={() => onChange({ villageMetric: metric.key })}>{metric.label}</button>)}
       </div>
-      <p className="layer-scope-note">顯示整里統計；套用後暫藏分析網格，關閉此層即恢復。</p>
+      <p className="layer-scope-note">{state.mode === 'village_age' ? '目前為村里年齡分析；此一般里人口填色暫藏，離開分析模式後恢復。' : '顯示整里統計；套用後暫藏分析網格，關閉此層即恢復。'}</p>
     </>}
     <ExtraStatus data={data} supplementalPending={supplementalPending} onRetrySupplemental={onRetrySupplemental} />
   </>;
@@ -80,9 +87,9 @@ function ExtraStatus({ data, supplementalPending, onRetrySupplemental }: Pick<Pr
 }
 
 function ExtraLegend({ state, data }: Pick<Props, 'state' | 'data'>) {
-  const active = EXTRA_LAYERS.filter((layer) => state.layers.has(layer.group));
+  const active = EXTRA_LAYERS.filter((layer) => state.layers.has(layer.group) && !(layer.group === 'villages' && state.mode === 'village_age'));
   if (!active.length) return null;
-  const village = state.layers.has('villages');
+  const village = state.layers.has('villages') && state.mode !== 'village_age';
   const trafficRecord = data?.supplemental_manifest?.records.find((record) => record.id === 'traffic_sections');
   const trafficTime = trafficRecord ? snapshotPeriodText({ ...trafficRecord, period: data?.traffic_sections?.metadata?.period ?? trafficRecord.period }) : '觀測快照時間未提供';
   return <section className="card legend extra-legend">
@@ -239,7 +246,7 @@ function NeedLegend({ state, counts }: { state: AppState; counts: Record<Quadran
   );
 }
 
-export default function Panel({ state, playing, needCounts, data, supplementalPending, onRetrySupplemental, onChange, onTogglePlay, onPreferences }: Props) {
+export default function Panel({ villageAges, ageError, onRetryAges, selectedVillage, onVillage, state, playing, needCounts, data, supplementalPending, onRetrySupplemental, onChange, onTogglePlay, onPreferences }: Props) {
   const { labels } = scaleFor(state);
   const frequency = state.mode === 'frequency';
   return (
@@ -247,6 +254,9 @@ export default function Panel({ state, playing, needCounts, data, supplementalPe
       <section className="card intro">
         <h1>城市裡的連結，<br />一眼看見。</h1>
         <p className="muted">雙北公車路網、里人口與交通快照。點選站點，查看所在里年齡與周邊設施。</p>
+
+        <button className="age-entry link-btn" onClick={() => onChange({ mode: state.mode === 'village_age' ? 'coverage' : 'village_age' })}>{state.mode === 'village_age' ? '返回站點覆蓋' : '查看村里年齡'}</button>
+        {state.mode === 'village_age' && <AgeControls state={state} data={villageAges} error={ageError} onChange={onChange} onRetry={onRetryAges} selectedVillage={selectedVillage} onVillage={onVillage} />}
 
         {state.mode === 'coverage' && <Summary rows={coverageRows(state)} foot={`${state.coverageCell} m 網格`} onPreferences={onPreferences} />}
         {frequency && (
@@ -258,13 +268,13 @@ export default function Panel({ state, playing, needCounts, data, supplementalPe
         {!frequency && state.layers.has('bus_times') && <Summary rows={[{ key: 'bus_times', label: '站間推估旅時', value: DAY_LABELS[state.day], color: '#327caf' }]} foot="歷史推估，非即時旅時" onPreferences={onPreferences}>
           <TimeControls state={state} playing={playing} onChange={onChange} onTogglePlay={onTogglePlay} />
         </Summary>}
-        {state.layers.has('villages') && <p className="layer-scope-note">里人口圖層已暫藏分析網格；可在「偏好」關閉以恢復。</p>}
+        {state.layers.has('villages') && <p className="layer-scope-note">{state.mode === 'village_age' ? '一般里人口填色暫藏；村里年齡分析使用自己的來源、分組與圖例。離開此模式即恢復原圖層。' : '里人口圖層已暫藏分析網格；可在「偏好」關閉以恢復。'}</p>}
         <ExtraStatus data={data} supplementalPending={supplementalPending} onRetrySupplemental={onRetrySupplemental} />
       </section>
 
       <ExtraLegend state={state} data={data} />
 
-      {!state.layers.has('villages') && (frequency ? (
+      {(state.mode === 'village_age' || !state.layers.has('villages')) && (frequency ? (
         <section className="card legend">
           <h3>{state.hour === ALL_DAY ? '全日' : '每小時'}計畫發車數（每 {state.cell} m 格）</h3>
           <div className="legend-scale">
@@ -275,7 +285,7 @@ export default function Panel({ state, playing, needCounts, data, supplementalPe
           <p className="legend-note"><span className="hatch" />斜紋＝格內附線都沒有班表（資料缺漏，非 0）</p>
           <p className="legend-note"><span className="nostop" />淡色＝格內沒有公車站牌</p>
         </section>
-      ) : state.mode === 'need' ? <NeedLegend state={state} counts={needCounts} /> : <CoverageLegend state={state} />)}
+      ) : state.mode === 'village_age' ? <AgeLegend data={villageAges} groupKey={state.ageGroup} ageSet={state.ageSet} /> : state.mode === 'need' ? <NeedLegend state={state} counts={needCounts} /> : <CoverageLegend state={state} />)}
     </aside>
   );
 }

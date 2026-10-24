@@ -1,0 +1,90 @@
+.focus-sidebar {
+  position: absolute; z-index: 3; left: 20px; top: 20px; bottom: 24px; width: 304px;
+  overflow: auto; overscroll-behavior: contain; scrollbar-width: thin;
+  padding: 18px; border: 1px solid #d6e1e5; border-radius: 16px;
+  background: #fff; color: var(--ink); box-shadow: 0 8px 28px #19364112;
+}
+.focus-sidebar button:focus-visible, .station-card.is-focus button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.focus-back { display: flex; align-items: center; gap: 8px; padding: 0; border: 0; background: none; color: #5e7c8c; font-size: 12px; }
+.focus-back:hover { color: var(--accent); }
+.focus-back span { font-size: 18px; }
+.focus-station-kind { display: flex; gap: 7px; align-items: center; margin-top: 17px; color: #4f718b; font-size: 12px; font-weight: 700; }
+.focus-station-kind svg { width: 19px; height: 19px; }
+.focus-tag { margin-left: auto; padding: 3px 7px; border-radius: 5px; background: #edf3f8; color: #6e879a; font-size: 10px; font-weight: 500; }
+.focus-header h1 { margin: 8px 0 5px; font-size: 22px; font-weight: 700; line-height: 1.4; overflow-wrap: anywhere; }
+.focus-header > p { color: #6c8391; font-size: 12px; line-height: 1.7; }
+.focus-nearby, .focus-route-section { margin-top: 17px; padding-top: 16px; border-top: 1px solid #e3eaef; }
+.focus-section-heading { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.focus-section-heading h2 { font-size: 13px; font-weight: 700; }
+.focus-section-heading > span { font-size: 11px; color: #738995; white-space: nowrap; }
+.focus-nearby-counts { display: flex; justify-content: space-between; margin: 10px 0 11px; font-size: 11px; color: #6a8291; }
+.focus-nearby-counts span { display: inline-flex; align-items: center; gap: 5px; }
+.focus-nearby-counts i { display: inline-block; width: 6px; height: 6px; border-radius: 50%; }
+.focus-dot-bus { background: #4f6f8f; }
+.focus-dot-mrt { background: #8a6fb5; }
+.focus-dot-bike { background: #f2b705; }
+.focus-nearby-map { display: block; position: relative; width: 100%; padding: 0; border: 1px solid #dae4e8; border-radius: 9px; overflow: hidden; background: #edf2f0; text-align: left; }
+.focus-nearby-map svg { display: block; width: 100%; height: auto; }
+.focus-nearby-map:hover { border-color: #8aa9bd; }
+.focus-nearby-caption { position: absolute; left: 8px; top: 7px; background: #ffffffed; padding: 3px 6px; border-radius: 4px; color: #476477; font-size: 9px; }
+.focus-nearby-caption > span { margin-left: 3px; }
+.focus-caption { margin-top: 7px; font-size: 10px; color: #8395a0; line-height: 1.6; }
+.focus-view-switch { display: flex; gap: 4px; margin-top: 12px; padding: 3px; border-radius: 8px; background: #f0f4f7; }
+.focus-view-switch button { display: inline-flex; flex: 1; align-items: center; justify-content: center; gap: 5px; padding: 7px 2px; border: 0; border-radius: 6px; color: #708796; background: none; font-size: 11px; white-space: nowrap; }
+.focus-view-switch button.is-active { color: #2c608a; background: #fff; box-shadow: 0 1px 4px #25446b12; font-weight: 700; }
+.focus-route-hint { margin: 10px 0 4px; font-size: 10px; color: #8b9ca7; }
+.focus-routes { list-style: none; margin: 0; padding: 0; }
+.focus-routes li { display: flex; align-items: center; gap: 5px; min-height: 52px; border-bottom: 1px solid #edf1f4; border-radius: 6px; }
+.focus-routes li:last-child { border-bottom-color: transparent; }
+.focus-routes li.is-selected { background: #edf4fb; }
+.focus-routes li:hover:has(.focus-route-name:not(:disabled)) { background: #f4f7fa; }
+.focus-routes li.is-hidden .focus-route-color { opacity: .28; }
+.focus-routes li.is-hidden .focus-route-name { color: #7f929e; }
+.focus-route-name { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; padding: 7px 5px; border: 0; background: none; color: #244b68; text-align: left; }
+.focus-route-name:disabled { cursor: default; }
+.focus-route-color { display: block; width: 4px; height: 26px; border-radius: 2px; flex: none; }
+.focus-route-name > span { display: flex; flex-direction: column; min-width: 0; gap: 2px; }
+.focus-route-name b { font-size: 14px; font-weight: 700; line-height: 1.35; overflow-wrap: anywhere; }
+.focus-route-name small { font-size: 10px; color: #8194a0; font-weight: 400; }
+.focus-route-visibility { display: flex; align-items: center; justify-content: center; width: 30px; height: 32px; flex: none; padding: 0; border: 0; border-radius: 5px; background: none; color: #6e899b; }
+.focus-route-visibility:hover { background: #e8eff6; }
+.focus-route-visibility[aria-pressed="false"] { color: #aab7c1; }
+.focus-route-state { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 10px; color: #8194a0; }
+.focus-route-state button { border: 0; padding: 3px 0; color: #337cba; font-size: 10px; background: none; text-decoration: underline; text-underline-offset: 3px; }
+.focus-no-routes { margin-top: 10px; color: #7b8e98; font-size: 11px; line-height: 1.7; }
+.focus-footer { border-top: 1px solid #e3eaef; margin-top: 18px; padding-top: 13px; color: #8194a0; font-size: 10px; line-height: 1.8; }
+.focus-footer > div { display: flex; align-items: center; gap: 7px; margin-bottom: 5px; }
+.focus-footer p { margin-top: 8px; }
+.focus-legend-coverage { width: 14px; height: 12px; background: linear-gradient(90deg, #e8844299, #e884422e); }
+.focus-legend-circle { width: 12px; height: 12px; border: 1px dashed #4b8793; border-radius: 50%; background: #dce7e9; }
+.focus-legend-route { width: 14px; border-top: 2px solid #bcc7d0; }
+.stage.is-bus-focus .search { left: 344px; }
+.station-card.is-focus { width: 336px; max-height: calc(100% - 112px); top: 88px; right: 20px; left: auto; }
+.station-details-toggle { display: none; }
+.station-focus-marker { position: relative; width: 44px; height: 44px; }
+.station-focus-name { position: absolute; left: 52px; top: 50%; transform: translateY(-50%); max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 5px 9px; border-radius: 6px; background: #fffffff2; color: #315f79; font-size: 12px; font-weight: 700; box-shadow: 0 2px 8px #315f7918; pointer-events: none; }
+
+@media (max-width: 1100px) {
+  .station-card.is-focus { width: 300px; }
+  .stage.is-bus-focus .search { width: auto; right: 50px; }
+}
+@media (max-width: 760px) {
+  .focus-sidebar { left: 12px; right: 12px; top: auto; bottom: 38px; width: auto; max-height: 44%; padding: 14px 16px; border-radius: 16px; }
+  .focus-header { position: relative; }
+  .focus-back { padding-right: 132px; }
+  .focus-station-kind { margin-top: 9px; }
+  .focus-header h1 { font-size: 20px; margin-top: 5px; }
+  .focus-header > p { font-size: 11px; }
+  .focus-nearby-map { max-width: 340px; margin: 0 auto; }
+  .focus-nearby-counts { max-width: 340px; }
+  .focus-tag { position: absolute; top: 0; right: 0; }
+  .stage.is-bus-focus .search { left: 12px; right: 48px; top: 12px; }
+  .station-card.is-focus { top: 68px; right: 12px; width: min(320px, calc(100% - 24px)); max-height: calc(54% - 80px); padding: 10px 14px; border-radius: 13px; }
+  .station-card.is-focus.is-compact { width: min(240px, calc(100% - 24px)); }
+  .station-card.is-focus .station-header h2 { font-size: 15px; margin-top: 5px; }
+  .station-card.is-focus .station-kind, .station-card.is-focus .station-header > p { display: none; }
+  .station-card.is-focus .station-header { padding-bottom: 8px; }
+  .station-card.is-focus.is-compact .station-header { border: 0; padding-bottom: 0; }
+  .station-card.is-focus.is-compact .station-focus-details { display: none; }
+  .station-details-toggle { display: inline-flex; align-items: center; gap: 4px; padding: 5px 0 0; border: 0; background: none; color: #537891; font-size: 11px; }
+}

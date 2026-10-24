@@ -7,10 +7,12 @@
   "scripts": {
     "test:improvements": "node tests/run-routes.mjs improvements",
     "test:routes": "node tests/run-routes.mjs",
+    "test:focus": "node tests/run-focus.mjs",
     "dev": "vite",
     "typecheck": "tsc --noEmit",
     "build": "tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:age": "node tests/run-age.mjs"
   },
   "dependencies": {
     "maplibre-gl": "^6.15.0",

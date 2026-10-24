@@ -33,6 +33,9 @@ export interface BusStopProps {
   id: string;
   name: string;
   route_count: number;
+  /** Exact main-route IDs; the legacy display-name array has an independent order. */
+  route_ids: string[];
+  route_names_by_id: Record<string, string | null>;
   routes: string[];
   weekday_departures: number | null;
   source_scope?: string;
@@ -192,6 +195,8 @@ export interface ViewState {
 }
 
 export interface AppState extends CoverageState, NeedState {
+  ageGroup: string;
+  ageSet: 'three_stage' | 'planning';
   day: DayType;
   hour: number;
   cell: CellSize;
@@ -203,7 +208,7 @@ export interface AppState extends CoverageState, NeedState {
   villageMetric: 'population' | 'elderly_share';
 }
 
-export type AnalysisMode = 'frequency' | 'coverage' | 'need';
+export type AnalysisMode = 'frequency' | 'coverage' | 'need' | 'village_age';
 export type CoverageLayer = 'walk' | 'ride';
 export type StationType = 'bus' | 'mrt' | 'youbike';
 export type CoverageCell = 50 | 100 | 200;

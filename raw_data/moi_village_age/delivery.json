@@ -1,0 +1,21 @@
+{
+  "group": "moi_village_age",
+  "datasets": [
+    {
+      "dataset_id": "moi_village_population_age_monthly",
+      "status": "normalized",
+      "output_files": [
+        "data/population/moi_village_age_2026-09.json.gz"
+      ],
+      "record_count": 23343,
+      "period": "2026-09",
+      "limitations": [
+        "戶籍人口不是日間活動人口、實際公車上下車人次、通勤 OD 或真實乘車需求；不得以年齡人口直接替代乘車觀測。",
+        "只驗證來源快照內 22 縣市存在、欄位、唯一鍵與可計算加總，未以獨立全國村里清冊核實村里全量完整性。",
+        "行政代碼保留原字串；district_id 是來源 11 碼代碼之前 8 碼階層提示，不表示已驗證與其他里界或公車資料之 ID 關聯。",
+        "sex=total 與 male/female 為重疊統計，不可三類加總；人口、邊界及公車觀測期間須分別核對。",
+        "缺值保留 null，任一年齡值缺漏之區間加總為 null；100_plus 包含 100 歲以上全部人口。"
+      ]
+    }
+  ]
+}

@@ -27,7 +27,9 @@ export function readHash(): AppState & ViewState {
     places: new Set(params.has('places')
       ? list('places').filter((k) => PLACE_CATEGORIES.some((c) => c.key === k))
       : PLACE_CATEGORIES.filter((c) => c.on).map((c) => c.key)),
-    mode: mode === 'frequency' || mode === 'need' ? (mode as AnalysisMode) : 'coverage',
+    mode: mode === 'frequency' || mode === 'need' || mode === 'village_age' ? (mode as AnalysisMode) : 'coverage',
+    ageGroup: /^[a-z0-9_]{1,40}$/.test(params.get('ag') ?? '') ? params.get('ag')! : params.get('aset') === 'planning' ? 'age_0_5' : 'age_65_plus',
+    ageSet: params.get('aset') === 'planning' ? 'planning' : 'three_stage',
     band: NEED_BANDS.some((b) => b.key === band) ? (band as NeedBand) : 'weekday_am',
     needView: params.get('nview') === 'gap' ? 'gap' : 'quadrant',
     weights: weights.length === 3 && weights.every((w) => Number.isInteger(w) && w >= 0 && w <= 100) && weights.some((w) => w > 0)
@@ -70,6 +72,10 @@ export function writeHash(state: AppState, view: ViewState): void {
     params.set('band', state.band);
     params.set('nview', state.needView);
     params.set('nw', state.weights.join(','));
+  }
+  if (state.mode === 'village_age') {
+    params.set('ag', state.ageGroup);
+    params.set('aset', state.ageSet);
   }
   if (!state.labels) params.set('lbl', '0');
   if (state.leapfrogOnly) params.set('frog', '1');

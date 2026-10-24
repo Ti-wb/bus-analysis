@@ -3,7 +3,10 @@ on:
   pull_request:
     paths:
       - 'scripts/official_cross_city/**'
+      - 'scripts/build_collection_catalog.py'
+      - 'scripts/build_map_catalog.py'
       - 'tests/official_cross_city/**'
+      - 'tests/test_map_catalog.py'
       - 'data/official_cross_city/source_registry.json'
       - '.github/workflows/test-official-cross-city.yml'
   workflow_dispatch:
@@ -24,4 +27,6 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - name: Synthetic fixtures only; no government API calls or credentials
-        run: python -m unittest discover -s tests/official_cross_city -v
+        run: |
+          python -m unittest discover -s tests/official_cross_city -v
+          python -m unittest discover -s tests -p 'test_map_catalog.py' -v

@@ -11,6 +11,7 @@
 | 新北路線、站牌、跳蛙清單 | data.gov.tw [123112](https://data.gov.tw/dataset/123112)、[123091](https://data.gov.tw/dataset/123091)、[174364](https://data.gov.tw/dataset/174364) | 主線、附線、業者、方向分開；清單沒有明示 ID 時不猜測 |
 | 新北附線站序 | [官方公車動態目錄](https://data.taipei/dataset/detail?id=2a8f5f42-942c-4974-8366-b44e90ad9701)、[規格 v5.5](https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=C668AE404DCD2EFE) | 只有本快照明示的主線／附線／站牌關聯；未出現的站牌不推論停駛 |
 | 北北基里人口 | [內政部 77132](https://data.gov.tw/dataset/77132) | 戶籍人口，不是通勤或公車需求 |
+| 全國村里逐歲人口 | [內政部 77132](https://data.gov.tw/dataset/77132) | [逐歲流程與查詢](moi-village-age.md)；獨立輸出，不沿用北北基里界驗收 |
 | 人口與里界對照、基隆里界 | [國土測繪中心 7438](https://data.gov.tw/dataset/7438) | 分開記錄人口月份和里界版本；造字／異體字差異及未編定村里另列 |
 | 捷運走廊 OD | [北捷 128506](https://data.gov.tw/dataset/128506) | 保留來源原列與實際小時，不把未發布時段補零 |
 | 新北、基隆及公路客運路線主檔 | [TDX 歷史服務](https://tdx.transportdata.tw/data-service/historical) | 依來源 Count 核對指定日主檔，不等於班表、站序及實際營運全量覆蓋 |
