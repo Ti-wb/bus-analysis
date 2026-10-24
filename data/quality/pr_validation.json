@@ -11,18 +11,18 @@
     "record_count": 9,
     "local_program_checks": {
       "runtime": "3.12.11",
-      "official_cross_city_tests_passed": 284,
+      "official_cross_city_tests_passed": 285,
       "base_tests_passed": 13,
       "compileall": "passed",
       "cli_help_commands_passed": 16,
       "live_data_review": "separate_full_raw_reviews_not_unit_tests",
-      "total_unit_tests_passed": 297,
+      "total_unit_tests_passed": 298,
       "integrated_main_commit": "f91ba8139253e485c1167284375fb68ef4851a67",
       "merged_map_catalog_read_only_build": "passed_27_datasets_31_files",
       "ci_evidence": "GitHub Actions current-head checks; exact SHA and run links in PR description",
       "stdlib_ci_mode": {
-        "discovered": 284,
-        "passed": 267,
+        "discovered": 285,
+        "passed": 268,
         "skipped_gis_cases": 17,
         "status": "passed_without_gis_dependencies"
       }
@@ -132,12 +132,12 @@
         "data/official_cross_city/travel_time_coverage/summary.json",
         "data/quality/travel_time_coverage_review.json"
       ],
-      "completed": "127查詢範圍、126成功、1額外查詢官方無資料、0技術失敗；409模型、338961時段列、8553缺RunTime保持null；臺北416個參考端點已嘗試123、有123個RouteUID旅時，293未請求。固定87範圍補證另列完整1241參考模型、41994相鄰站對×2標籤，12432站對×標籤至少有一個數值時段，8019列不相容而待核。",
+      "completed": "147查詢範圍、146成功、1額外查詢官方無資料、0技術失敗；482模型、403528時段列、10195缺RunTime保持null；臺北416個參考路線／416端點已嘗試143、未請求273，有143個參考RouteUID旅時。站對補證固定87範圍：1241參考模型、41994相鄰站對×2服務標籤，12432站對×標籤至少有一個數值時段，8019列不相容而待核。",
       "remaining": [
-        "臺北其餘參考路線仍在分批取得，未宣稱全市或北北基完整旅時覆蓋。",
-        "南港幹線是416參考目錄之外的額外查詢；HTTP200無資料原文保留，不指派任何參考RouteUID或推論停駛。",
+        "參考端點仍在分批取得，尚有未請求範圍，不宣稱全市或北北基完整旅時覆蓋。",
+        "南港幹線是416參考目錄之外的額外查詢；HTTP200無資料原文保留，不指派參考RouteUID或推論停駛。",
         "當期推估端點沒有歷史Date/Version參數，不能回填三年觀測。",
-        "固定87範圍的站對補證不以Sequence偏移配站；週末不是國定假日日曆，部分時段與有效期不代表全日覆蓋。"
+        "站對補證不以Sequence偏移配站；週末不是國定假日日曆，部分時段與有效期不代表全日覆蓋。"
       ]
     },
     {
