@@ -1,6 +1,6 @@
 import type { Feature, FeatureCollection, Polygon } from 'geojson';
 import { ALL_DAY, DAY_COLUMN, NO_SCHEDULE, NO_STOP, SCALES } from './config';
-import type { AppState, Coverage, Grid, GridCell, MapData } from './types';
+import type { AppState, Coverage, Grid, GridCell, MapData, StopCatchments } from './types';
 
 const DATA = `${import.meta.env.BASE_URL}data/`;
 
@@ -27,6 +27,12 @@ let coverage: Promise<Coverage> | null = null;
 export function loadCoverage(): Promise<Coverage> {
   coverage ??= loadJSON<Coverage>('coverage_50.json');
   return coverage;
+}
+
+let catchments: Promise<StopCatchments> | null = null;
+export function loadCatchments(): Promise<StopCatchments> {
+  catchments ??= loadJSON<StopCatchments>('stop_catchments.json');
+  return catchments;
 }
 
 export function scaleFor(state: Pick<AppState, 'cell' | 'hour'>) {

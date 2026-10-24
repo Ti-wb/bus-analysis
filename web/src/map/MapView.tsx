@@ -1,7 +1,7 @@
-import type { FeatureCollection, Polygon } from 'geojson';
-import type { MapGeoJSONFeature, Map as MaplibreMap } from 'maplibre-gl';
+import type { FeatureCollection, Point, Polygon } from 'geojson';
+import type { MapGeoJSONFeature, Map as MaplibreMap, Popup as MaplibrePopup } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { useCallback, useLayoutEffect, useMemo, useRef, useState, type RefObject } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type RefObject } from 'react';
 import Map, {
   AttributionControl,
   Layer,
@@ -13,11 +13,13 @@ import Map, {
   type MapLayerMouseEvent,
   type MapRef,
 } from 'react-map-gl/maplibre';
-import { BASE_STYLE, HOVER_LAYERS, LAYER_GROUPS, PLACE_CATEGORIES } from '../config';
+import { circle, nearby } from '../catchment';
+import { BASE_STYLE, COVERAGE_LAYERS, HOVER_LAYERS, LAYER_GROUPS, PLACE_CATEGORIES } from '../config';
 import { distancesAt, type CoverageImage } from '../coverage';
-import { CoverageTooltip, FeaturePopup, FeatureTooltip, type PopupFeature } from './FeatureInfo';
+import { loadCatchments } from '../data';
+import { CoverageTooltip, FeatureTooltip, RoutePopup, StopPopup, stopRoutes, type PopupFeature } from './FeatureInfo';
 import * as L from './layers';
-import type { AppState, Coverage, Grid, LayerGroup, MapData, ViewState } from '../types';
+import type { AppState, Coverage, Grid, LayerGroup, MapData, StopCatchments, ViewState } from '../types';
 
 const LABEL_NAME = ['coalesce', ['get', 'name:zh-Hant'], ['get', 'name:nonlatin'], ['get', 'name']];
 const LAYER_GROUP_OF: Record<string, LayerGroup> = Object.fromEntries(
@@ -84,6 +86,39 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
   }, [hover, mapRef]);
   const [popup, setPopup] = useState<PopupFeature | null>(null);
   const [showDistrictLabels, setShowDistrictLabels] = useState(true);
+  const radii = COVERAGE_LAYERS.walk.radii;
+  const [catchRadius, setCatchRadius] = useState(radii.includes(state.walkRadius) ? state.walkRadius : COVERAGE_LAYERS.walk.radius);
+  const [catchments, setCatchments] = useState<StopCatchments | null>(null);
+
+  const stop = popup?.feature.layer.id === 'bus-stops' ? popup : null;
+  // Population per stop is only needed once a stop is opened.
+  useEffect(() => {
+    if (stop && !catchments) loadCatchments().then(setCatchments, () => {});
+  }, [stop, catchments]);
+  const stopId = stop?.feature.properties.id as string | undefined;
+  const stopNearby = useMemo(
+    () => (stop ? nearby(data, stop.lngLat, catchRadius, stopId!, state.places) : null),
+    [data, stop, catchRadius, stopId, state.places],
+  );
+  const catchmentShape = useMemo(() => (stop ? circle(stop.lngLat, catchRadius) : null), [stop, catchRadius]);
+
+  // The stop popup is tall; pan the map once it opens so the whole popup is visible.
+  const popupRef = useRef<MaplibrePopup>(null);
+  useEffect(() => {
+    if (!stop) return;
+    const frame = requestAnimationFrame(() => {
+      const el = popupRef.current?.getElement();
+      const map = mapRef.current;
+      if (!el || !map) return;
+      const tip = el.getBoundingClientRect();
+      const box = map.getContainer().getBoundingClientRect();
+      const margin = 12;
+      const dx = Math.max(0, tip.right + margin - box.right) - Math.max(0, box.left + margin - tip.left);
+      const dy = Math.max(0, tip.bottom + margin - box.bottom) - Math.max(0, box.top + margin - tip.top);
+      if (dx || dy) map.panBy([dx, dy]);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [stop, mapRef]);
 
   const handleLoad = useCallback(() => {
     const map = mapRef.current!.getMap();
@@ -136,7 +171,12 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
   const handleClick = (e: MapLayerMouseEvent) => {
     const feature = featureAt(e);
     const id = feature?.layer.id;
-    if (feature && (id === 'bus-routes' || id === 'bus-stops')) {
+    if (feature && id === 'bus-stops') {
+      // Centre the catchment on the stop itself, not on the click.
+      const [lng, lat] = (feature.geometry as Point).coordinates;
+      setPopup({ feature, lngLat: [lng, lat] });
+      setHover(null);
+    } else if (feature && id === 'bus-routes') {
       setPopup({ feature, lngLat: [e.lngLat.lng, e.lngLat.lat] });
       setHover(null);
     } else {
@@ -144,7 +184,9 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
     }
   };
 
-  const highlightedRoute = popup?.feature.layer.id === 'bus-routes' ? (popup.feature.properties.route_id as string) : null;
+  const highlightedRoutes = popup?.feature.layer.id === 'bus-routes'
+    ? { routeId: popup.feature.properties.route_id as string }
+    : stop ? { names: stopRoutes(stop.feature) } : null;
   const below = labelLayer ?? undefined;
 
   return (
@@ -193,9 +235,15 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
             <Source id="taipei" type="geojson" data={data.taipei_boundary}>
               <Layer {...L.taipeiBoundaryLayer} beforeId={below} />
             </Source>
+            {catchmentShape && (
+              <Source id="catchment" type="geojson" data={catchmentShape}>
+                <Layer {...L.catchmentFillLayer} beforeId={below} />
+                <Layer {...L.catchmentLineLayer} beforeId={below} />
+              </Source>
+            )}
             <Source id="bus-routes" type="geojson" data={data.bus_routes}>
               <Layer {...withVisibility(L.busRoutesLayer, below)} />
-              <Layer {...L.busRouteHighlightLayer(highlightedRoute)} beforeId={below} />
+              <Layer {...L.busRouteHighlightLayer(highlightedRoutes)} beforeId={below} />
             </Source>
             <Source id="mrt-lines" type="geojson" data={data.mrt_lines}>
               <Layer {...withVisibility(L.mrtCasingLayer, below)} />
@@ -223,8 +271,17 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
         ))}
 
         {popup && (
-          <Popup longitude={popup.lngLat[0]} latitude={popup.lngLat[1]} offset={8} onClose={() => setPopup(null)} closeOnClick={false}>
-            <FeaturePopup feature={popup.feature} />
+          <Popup ref={popupRef} longitude={popup.lngLat[0]} latitude={popup.lngLat[1]} offset={8} onClose={() => setPopup(null)} closeOnClick={false}>
+            {stop && stopNearby ? (
+              <StopPopup
+                feature={stop.feature}
+                radii={radii}
+                radius={catchRadius}
+                onRadius={setCatchRadius}
+                catchment={catchments ? (catchments.stops[stopId!] ?? null) : undefined}
+                nearby={stopNearby}
+              />
+            ) : <RoutePopup feature={popup.feature} />}
           </Popup>
         )}
       </Map>

@@ -25,6 +25,7 @@ export default function AboutDialog({ open, grid, coverage, onClose }: { open: b
             <li>捷運路線與車站、主要道路、重要地點：© OpenStreetMap contributors（Geofabrik 快照，map-data/osm、map-data/traffic-focus）</li>
             <li>社會住宅：臺北市都市發展局社宅 API（map-data/traffic-focus）</li>
             <li>YouBike 2.0 站點：臺北市政府交通局（data.taipei），只有站點與總停車格數</li>
+            <li>站牌服務範圍人口：內政部最小統計區戶籍人口（2024-12）與統計區界（2015 年版）</li>
             <li>底圖與路名：OpenFreeMap（OpenMapTiles／OpenStreetMap）</li>
           </ul>
           <h3>網格怎麼算</h3>
@@ -46,6 +47,12 @@ export default function AboutDialog({ open, grid, coverage, onClose }: { open: b
             <li>約 50 m 方格，只保留格心在臺北市內的格子；每格記錄格心到最近公車站位、捷運車站、YouBike 站的直線距離（TWD97 平面公尺）。</li>
             <li>步行到站取所選站種的最近距離，YouBike 騎乘只看 YouBike 站；半徑內依距離分 5 段，越近越深。</li>
             {coverage?.metadata.limitations.map((x) => <li key={x}>{x}</li>)}
+          </ul>
+          <h3>站牌服務範圍怎麼算</h3>
+          <ul>
+            <li>點公車站牌後，以站位為圓心畫直線 200／350／500 m 的圓，計算圓內戶籍人口、戶數，以及捷運、YouBike、其他站牌與重要地點數量。</li>
+            <li>統計區只有部分在圓內時依面積比例分攤，假設區內人口均勻分布；只有臺北市人口，新北市部分不計。</li>
+            <li>戶籍人口不是白天活動人口或搭乘量；相鄰站牌範圍重疊，各站人口不可加總。</li>
           </ul>
           <p className="muted">資料建置：{m.built_at}</p>
         </>

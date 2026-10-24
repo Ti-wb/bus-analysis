@@ -54,6 +54,19 @@ export const coverageLayer: StyleLayer = {
   paint: { 'raster-resampling': 'nearest', 'raster-fade-duration': 0, 'raster-opacity': 0.85 },
 };
 
+// Walking catchment around a clicked bus stop; matches the walk colour of the coverage mode.
+export const catchmentFillLayer: StyleLayer = {
+  id: 'catchment-fill',
+  type: 'fill',
+  paint: { 'fill-color': '#e88442', 'fill-opacity': 0.14 },
+};
+
+export const catchmentLineLayer: StyleLayer = {
+  id: 'catchment-line',
+  type: 'line',
+  paint: { 'line-color': '#d4691f', 'line-width': 2, 'line-dasharray': [3, 2] },
+};
+
 export const busRoutesLayer: StyleLayer = {
   id: 'bus-routes',
   type: 'line',
@@ -68,11 +81,17 @@ export const busRoutesLayer: StyleLayer = {
   },
 };
 
-export function busRouteHighlightLayer(routeId: string | null): StyleLayer {
+/** Highlights one clicked route, or every route serving a clicked stop (matched by route name). */
+export function busRouteHighlightLayer(highlight: { routeId: string } | { names: string[] } | null): StyleLayer {
+  const filter: ExpressionSpecification = !highlight
+    ? ['boolean', false]
+    : 'routeId' in highlight
+      ? ['==', ['get', 'route_id'], highlight.routeId]
+      : ['in', ['get', 'name'], ['literal', highlight.names]];
   return {
     id: 'bus-route-highlight',
     type: 'line',
-    filter: ['==', ['get', 'route_id'], routeId ?? ''],
+    filter,
     layout: { 'line-join': 'round', 'line-cap': 'round' },
     paint: { 'line-color': '#1f8a80', 'line-width': 4 },
   };
