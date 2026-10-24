@@ -1,4 +1,4 @@
-import type { CellSize, CoverageLayer, DayType, LayerGroup, NeedBand, NeedWeights, StationType } from './types';
+import type { CellSize, CoverageCell, CoverageLayer, DayType, LayerGroup, NeedBand, NeedWeights, StationType } from './types';
 
 export const ALL_DAY = 24;
 export const DAY_LABELS: Record<DayType, string> = { weekday: '平日', saturday: '週六', sunday: '週日' };
@@ -78,15 +78,23 @@ export const BASE_STYLE = 'https://tiles.openfreemap.org/styles/positron';
 export const DEFAULT_VIEW = { center: [121.545, 25.06] as [number, number], zoom: 11.6 };
 
 // Station coverage (Penpot page 04): walking reach to any station, riding reach from YouBike.
-export const STATION_TYPES: { key: StationType; label: string }[] = [
-  { key: 'bus', label: '公車' },
-  { key: 'mrt', label: '捷運' },
-  { key: 'youbike', label: 'YouBike' },
+// `markers` is the layer group that draws each station type.
+export const STATION_TYPES: { key: StationType; label: string; walkLabel: string; markers: LayerGroup }[] = [
+  { key: 'bus', label: '公車', walkLabel: '公車站・步行到站', markers: 'stops' },
+  { key: 'mrt', label: '捷運', walkLabel: '捷運站・步行到站', markers: 'mrt' },
+  { key: 'youbike', label: 'YouBike', walkLabel: 'YouBike 站・步行到站', markers: 'youbike' },
 ];
-export const COVERAGE_LAYERS: Record<CoverageLayer, { label: string; note: string; radii: number[]; radius: number; rgb: [number, number, number] }> = {
-  walk: { label: '步行到站', note: '由每個站點向外擴散', radii: [200, 350, 500], radius: 350, rgb: [232, 132, 66] },
-  ride: { label: 'YouBike 騎乘', note: '從 YouBike 站向城市延伸', radii: [500, 1000, 1500], radius: 1000, rgb: [47, 158, 143] },
+// Radius ranges stay within the 2.5 km cap of the coverage data.
+export const COVERAGE_LAYERS: Record<CoverageLayer, { label: string; min: number; max: number; step: number; radius: number; rgb: [number, number, number] }> = {
+  walk: { label: '步行到站', min: 100, max: 1000, step: 50, radius: 350, rgb: [232, 132, 66] },
+  ride: { label: 'YouBike 騎乘', min: 500, max: 2500, step: 100, radius: 1000, rgb: [47, 158, 143] },
 };
+export const COVERAGE_CELLS: { cell: CoverageCell; label: string }[] = [
+  { cell: 50, label: '細緻' },
+  { cell: 100, label: '標準' },
+  { cell: 200, label: '粗略' },
+];
+export const DEFAULT_COVERAGE_CELL: CoverageCell = 100;
 /** Opacity of the five distance bands, from the station outwards. */
 export const COVERAGE_ALPHA = [0.6, 0.48, 0.37, 0.27, 0.18];
 export const COVERAGE_BANDS = COVERAGE_ALPHA.length;

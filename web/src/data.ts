@@ -23,10 +23,10 @@ export function loadGrid(cell: number): Promise<Grid> {
   return grids.get(cell)!;
 }
 
-let coverage: Promise<Coverage> | null = null;
-export function loadCoverage(): Promise<Coverage> {
-  coverage ??= loadJSON<Coverage>('coverage_50.json');
-  return coverage;
+const coverages = new Map<number, Promise<Coverage>>();
+export function loadCoverage(cell: number): Promise<Coverage> {
+  if (!coverages.has(cell)) coverages.set(cell, loadJSON<Coverage>(`coverage_${cell}.json`));
+  return coverages.get(cell)!;
 }
 
 let need: Promise<NeedGrid> | null = null;

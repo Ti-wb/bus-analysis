@@ -2,10 +2,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { MapRef } from 'react-map-gl/maplibre';
 import AboutDialog from './components/AboutDialog';
 import Panel from './components/Panel';
+import Preferences from './components/Preferences';
 import Search, { type SearchItem } from './components/Search';
 import Topbar from './components/Topbar';
 import { DAY_LABELS, NEED_BANDS, type Quadrant } from './config';
-import { coverageImage } from './coverage';
+import { coverageGridLines, coverageImage } from './coverage';
 import { gridCollection, hourText, loadCoverage, loadGrid, loadMapData, loadNeed } from './data';
 import { readHash, writeHash } from './hashState';
 import MapView from './map/MapView';
@@ -30,6 +31,7 @@ export default function App() {
   const [playing, setPlaying] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [explainerOpen, setExplainerOpen] = useState(true);
+  const [prefsOpen, setPrefsOpen] = useState(false);
   const [station, setStation] = useState<StationSelection | null>(null);
   const stationOrigin = useRef<HTMLElement | null>(null);
   const focusFrame = useRef<number | null>(null);
@@ -64,10 +66,13 @@ export default function App() {
     return () => { current = false; };
   }, [state.cell]);
 
-  // Coverage data is only fetched once the coverage mode is first opened.
+  // Coverage data is only fetched once the coverage mode is first opened, one file per cell size.
   useEffect(() => {
-    if (state.mode === 'coverage' && !coverage) loadCoverage().then(setCoverage, setError);
-  }, [state.mode, coverage]);
+    if (state.mode !== 'coverage') return undefined;
+    let current = true;
+    loadCoverage(state.coverageCell).then((c) => current && setCoverage(c), setError);
+    return () => { current = false; };
+  }, [state.mode, state.coverageCell]);
 
   useEffect(() => {
     if (state.mode === 'need' && !needGrid) loadNeed().then(setNeedGrid, setError);
@@ -86,11 +91,12 @@ export default function App() {
     [grid, state],
   );
 
-  const { coverage: coverageLayers, walkTypes, walkRadius, rideRadius } = state;
+  const { coverage: coverageLayers, walkTypes, walkRadii, rideRadius } = state;
   const coverageRaster = useMemo(
-    () => (coverage ? coverageImage(coverage, { mode: 'coverage', coverage: coverageLayers, walkTypes, walkRadius, rideRadius }) : null),
-    [coverage, coverageLayers, walkTypes, walkRadius, rideRadius],
+    () => (coverage ? coverageImage(coverage, { coverage: coverageLayers, walkTypes, walkRadii, rideRadius }) : null),
+    [coverage, coverageLayers, walkTypes, walkRadii, rideRadius],
   );
+  const coverageLines = useMemo(() => (coverage ? coverageGridLines(coverage) : null), [coverage]);
   const { band, needView, weights } = state;
   const need = useMemo(() => {
     if (!needGrid) return null;
@@ -134,7 +140,7 @@ export default function App() {
 
   return (
     <>
-      <Topbar mode={state.mode} onAbout={() => setAboutOpen(true)} aboutActive={aboutOpen} onShare={share} />
+      <Topbar mode={state.mode} onAbout={() => setAboutOpen(true)} aboutActive={aboutOpen} onPreferences={() => setPrefsOpen(true)} onShare={share} />
       <main className="stage">
         {data && grid && gridData && (
           <MapView
@@ -145,6 +151,7 @@ export default function App() {
             gridData={gridData}
             coverage={coverage}
             coverageImage={coverageRaster}
+            coverageLines={coverageLines}
             need={need}
             state={state}
             station={station}
@@ -154,7 +161,7 @@ export default function App() {
             onMoveEnd={handleMoveEnd}
           />
         )}
-        <Panel state={state} playing={playing} needCounts={need?.counts ?? null} onChange={update} onTogglePlay={() => setPlaying((p) => !p)} />
+        <Panel state={state} playing={playing} needCounts={need?.counts ?? null} onChange={update} onTogglePlay={() => setPlaying((p) => !p)} onPreferences={() => setPrefsOpen(true)} />
         {data && <Search data={data} onChoose={handleSearch} />}
         <div className="status-chip">
           {frequency ? `${DAY_LABELS[state.day]} · ${hourText(state.hour)}`
@@ -170,7 +177,7 @@ export default function App() {
             ? <p>每格約 250 m。需求由居住人口、重要地點（依時段加權）與附近捷運進出量的排名加權而成；供給由附近公車班次與捷運距離算出。兩者都是同一時段內的排名，橘色偏「需求高、供給低」，藍色偏「供給多於需求」。這是研究草案，權重是假設值，不是實際搭乘量。</p>
             : frequency
             ? <p>每格約 100、150、250 或 500 m，數值為格內公車站牌所屬附線在該小時的計畫發車數加總（同一附線只計一次、不分方向）。以起站發車時刻歸入小時，未計行駛時間；不代表實際載客或步行可達性。</p>
-            : <p>每格約 50 m，依格心到最近站點的直線距離上色：橙色是走到公車、捷運或 YouBike 站，青綠是從 YouBike 站騎出去。兩層都只是半徑示意，未計入路網、河川阻隔、班次多寡與即時可借車輛。</p>}
+            : <p>每格約 {state.coverageCell} m，依格心到最近站點的直線距離上色：橙色是走到公車、捷運或 YouBike 站，青綠是從 YouBike 站騎出去。兩層都只是半徑示意，未計入路網、河川阻隔、班次多寡與即時可借車輛。</p>}
         </section>
         {loading && <div className="loading">載入地圖資料中…</div>}
         {error && (
@@ -180,6 +187,7 @@ export default function App() {
           </div>
         )}
       </main>
+      {prefsOpen && <Preferences state={state} onApply={(patch) => { update(patch); setPrefsOpen(false); }} onClose={() => setPrefsOpen(false)} />}
       <AboutDialog open={aboutOpen} grid={grid} coverage={coverage} need={needGrid} onClose={() => setAboutOpen(false)} />
     </>
   );

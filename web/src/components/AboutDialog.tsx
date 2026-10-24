@@ -44,8 +44,8 @@ export default function AboutDialog({ open, grid, coverage, need, onClose }: { o
           </p>
           <h3>站點覆蓋怎麼算</h3>
           <ul>
-            <li>約 50 m 方格，只保留格心在臺北市內的格子；每格記錄格心到最近公車站位、捷運車站、YouBike 站的直線距離（TWD97 平面公尺）。</li>
-            <li>步行到站取所選站種的最近距離，YouBike 騎乘只看 YouBike 站；半徑內依距離分 5 段，越近越深。</li>
+            <li>約 50、100 或 200 m 方格（在「偏好」切換），只保留格心在臺北市內的格子；每格記錄格心到最近公車站位、捷運車站、YouBike 站的直線距離（TWD97 平面公尺）。</li>
+            <li>公車、捷運、YouBike 各有自己的步行半徑，格子取最靠近站心的那一段；YouBike 騎乘只看 YouBike 站。半徑內依距離分 5 段，越近越深。</li>
             {coverage?.metadata.limitations.map((x) => <li key={x}>{x}</li>)}
           </ul>
           <h3>站點資訊怎麼算</h3>

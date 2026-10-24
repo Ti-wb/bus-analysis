@@ -1,4 +1,4 @@
-import type { FeatureCollection, Point, Polygon } from 'geojson';
+import type { FeatureCollection, MultiLineString, Point, Polygon } from 'geojson';
 import type { MapGeoJSONFeature, Map as MaplibreMap } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type RefObject } from 'react';
@@ -36,6 +36,7 @@ interface Props {
   gridData: FeatureCollection<Polygon, { k: number }>;
   coverage: Coverage | null;
   coverageImage: CoverageImage | null;
+  coverageLines: FeatureCollection<MultiLineString> | null;
   need: { grid: NeedGrid; result: NeedResult; data: FeatureCollection<Polygon, NeedCellProps> } | null;
   state: AppState;
   station: StationSelection | null;
@@ -82,9 +83,10 @@ function addHatchPattern(map: MaplibreMap) {
   map.addImage('hatch-line', ctx.getImageData(0, 0, size, size));
 }
 
-export default function MapView({ mapRef, initialView, data, grid, gridData, coverage, coverageImage, need, state, station, onStation, onCloseStation, onReady, onMoveEnd }: Props) {
+export default function MapView({ mapRef, initialView, data, grid, gridData, coverage, coverageImage, coverageLines, need, state, station, onStation, onCloseStation, onReady, onMoveEnd }: Props) {
   // First label layer of the base style: our layers go below it so road names stay on top.
   const [labelLayer, setLabelLayer] = useState<string | null>(null);
+  const baseLabels = useRef<string[]>([]);
   const [hover, setHover] = useState<Hover | null>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
 
@@ -141,9 +143,17 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
         map.setLayoutProperty(layer.id, 'text-field', LABEL_NAME);
       }
     }
+    baseLabels.current = labels.map((l) => l.id);
     setLabelLayer(labels[0]?.id ?? null);
     onReady();
   }, [mapRef, onReady]);
+
+  // Base-map place and road names follow the label preference.
+  useEffect(() => {
+    const map = mapRef.current?.getMap();
+    if (!map || labelLayer === null) return;
+    for (const id of baseLabels.current) map.setLayoutProperty(id, 'visibility', state.labels ? 'visible' : 'none');
+  }, [mapRef, labelLayer, state.labels]);
 
   // The frequency grid belongs to frequency mode; coverage mode draws its own raster instead.
   const shown = (group: LayerGroup) => state.layers.has(group) && (group !== 'grid' || state.mode === 'frequency');
@@ -254,6 +264,11 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
                 <Layer {...L.coverageLayer} beforeId={below} layout={{ visibility: state.mode === 'coverage' ? 'visible' : 'none' }} />
               </Source>
             )}
+            {coverageLines && coverage && (
+              <Source id="coverage-grid" type="geojson" data={coverageLines}>
+                <Layer {...L.coverageGridLayer(coverage.cell_m)} beforeId={below} layout={{ visibility: state.mode === 'coverage' && state.gridLines ? 'visible' : 'none' }} />
+              </Source>
+            )}
             <Source id="roads" type="geojson" data={data.roads}>
               <Layer {...L.roadsLayer} beforeId={below} />
             </Source>
@@ -292,7 +307,7 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
           </>
         )}
 
-        {showDistrictLabels && data.district_labels.features.map((f) => (
+        {showDistrictLabels && state.labels && data.district_labels.features.map((f) => (
           <Marker key={f.properties.name + f.properties.city_code} longitude={f.geometry.coordinates[0]} latitude={f.geometry.coordinates[1]}>
             <div className={`district-label${f.properties.city_code === '63000' ? '' : ' is-ntpc'}`}>{f.properties.name}</div>
           </Marker>
