@@ -25,7 +25,7 @@ CITY_CODES = ("63000", "65000", "10017")
 SIZES = (100, 150, 250, 500)
 DAY_NAMES = {"weekday": "wednesday", "saturday": "saturday", "sunday": "sunday"}
 WEEK = ("sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday")
-CORRIDOR_M = 750  # finer grids omit remote unserved areas to keep the web layer usable
+CORRIDOR_M = 350  # finer grids omit remote unserved areas to keep the web layer usable
 
 
 def read(path: Path):
