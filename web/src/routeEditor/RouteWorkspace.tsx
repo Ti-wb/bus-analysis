@@ -201,7 +201,7 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
     <MapView mapRef={mapRef} initialView={initialView} data={map} grid={grid} gridData={gridData} coverage={null} coverageImage={null} coverageLines={null}
       need={null} state={mapState} station={station} onStation={setStation} onCloseStation={() => setStation(null)} onReady={() => selected && fitRoute(selected)} onMoveEnd={() => {}} editor={editor} />
     <Search data={map} onChoose={(item) => {
-      if (step === 'edit' && item.station?.type === 'bus' && interaction === 'stops') addStop(item.station.id);
+      if (step === 'edit' && item.station?.type === 'bus' && interaction === 'stops' && data.records.stops[item.station.id]) addStop(item.station.id);
       else setStation(item.station ?? null);
       locate(item.at);
     }} />

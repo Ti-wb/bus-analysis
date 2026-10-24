@@ -1,8 +1,8 @@
-import type { FeatureCollection, Point } from 'geojson';
+import type { FeatureCollection, LineString, MultiLineString, MultiPolygon, Point, Polygon } from 'geojson';
 
 export type DayType = 'weekday' | 'saturday' | 'sunday';
 export type CellSize = 100 | 150 | 250 | 500;
-export type LayerGroup = 'grid' | 'routes' | 'stops' | 'mrt' | 'places' | 'youbike';
+export type LayerGroup = 'grid' | 'routes' | 'stops' | 'mrt' | 'places' | 'youbike' | 'regional_routes' | 'regional_stops' | 'villages' | 'traffic' | 'bus_times';
 
 /** [ix, iy, stop_count, subroute_count, unscheduled_subroute_count, weekday, saturday, sunday] */
 export type GridCell = [number, number, number, number, number, number[] | null, number[] | null, number[] | null];
@@ -34,6 +34,100 @@ export interface BusStopProps {
   route_count: number;
   routes: string[];
   weekday_departures: number | null;
+  source_scope?: string;
+  is_leapfrog?: boolean;
+  source_updated_at?: string | null;
+}
+
+export interface RegionalRouteProps {
+  id: string;
+  route_id: string;
+  route_uid: string;
+  subroute_uid: string;
+  name: string;
+  subroute_name: string | null;
+  direction: string;
+  is_leapfrog: boolean;
+  source_scope: string;
+  source_updated_at: string | null;
+  geometry_kind: string;
+  stop_count: number;
+}
+
+export interface VillageProps {
+  id: string;
+  name: string;
+  city_code: string;
+  city_name: string;
+  district_name: string;
+  population: number | null;
+  households: number | null;
+  population_age_0_14: number | null;
+  population_age_15_64: number | null;
+  population_age_65_plus: number | null;
+  elderly_share: number | null;
+  period: string | null;
+  boundary_period: string | null;
+  join_status: string;
+}
+
+export interface TrafficSectionProps {
+  id: string;
+  name: string | null;
+  road_name: string | null;
+  direction: string | null;
+  travel_speed: number | null;
+  travel_time: number | null;
+  data_collect_time: string | null;
+  join_status: string;
+  geometry_kind: string;
+}
+
+export interface BusTravelTimeProps {
+  id: string;
+  route_uid: string;
+  subroute_uid: string;
+  route_name: string;
+  direction: string;
+  from_stop_id: string;
+  to_stop_id: string;
+  from_name: string;
+  to_name: string;
+  weekday: (number | null)[];
+  weekend: (number | null)[];
+  effective_date: string | null;
+  expire_date: string | null;
+  source_updated_at: string | null;
+  geometry_kind: string;
+}
+
+export interface SupplementalRecord {
+  id: string;
+  title: string;
+  file: string;
+  feature_count: number;
+  source_updated_at: string | null;
+  period: unknown;
+  status: string;
+  limitations: string[];
+  sources?: unknown[];
+}
+
+export interface SupplementalManifest {
+  schema_version: string;
+  dataset_id: string;
+  metadata: { built_at: string; sources?: unknown; limitations: string[] };
+  records: SupplementalRecord[];
+}
+
+export interface SupplementalData {
+  regional_bus_routes: FeatureCollection<MultiLineString, RegionalRouteProps> | null;
+  regional_bus_stops: FeatureCollection<Point, BusStopProps> | null;
+  villages: (FeatureCollection<Polygon | MultiPolygon, VillageProps> & { metadata?: { period?: unknown } }) | null;
+  traffic_sections: (FeatureCollection<LineString, TrafficSectionProps> & { metadata?: { period?: unknown } }) | null;
+  bus_travel_times: FeatureCollection<LineString, BusTravelTimeProps> | null;
+  supplemental_manifest: SupplementalManifest | null;
+  supplemental_errors: string[];
 }
 
 export interface BusRouteProps {
@@ -76,7 +170,7 @@ export type StationSelection =
   | { type: 'mrt'; id: string; at: [number, number]; properties: MrtStationProps }
   | { type: 'youbike'; id: string; at: [number, number]; properties: YouBikeProps };
 
-export interface MapData {
+export interface CoreMapData {
   roads: FeatureCollection;
   districts: FeatureCollection;
   taipei_boundary: FeatureCollection;
@@ -88,6 +182,8 @@ export interface MapData {
   places: FeatureCollection<Point, PlaceProps>;
   youbike_stations: FeatureCollection<Point, YouBikeProps>;
 }
+
+export interface MapData extends CoreMapData, SupplementalData {}
 
 export interface ViewState {
   center: [number, number];
@@ -102,6 +198,8 @@ export interface AppState extends CoverageState, NeedState {
   places: Set<string>;
   /** Base-map place and road names, plus the district labels. */
   labels: boolean;
+  leapfrogOnly: boolean;
+  villageMetric: 'population' | 'elderly_share';
 }
 
 export type AnalysisMode = 'frequency' | 'coverage' | 'need';

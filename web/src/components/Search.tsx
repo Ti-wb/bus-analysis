@@ -8,7 +8,7 @@ export interface SearchItem {
   at: [number, number];
   zoom: number;
   /** Layer to switch on when this item is chosen. */
-  layer?: 'stops' | 'mrt' | 'places' | 'youbike';
+  layer?: 'stops' | 'mrt' | 'places' | 'youbike' | 'regional_stops';
   place?: string;
   station?: StationSelection;
 }
@@ -34,6 +34,12 @@ function buildIndex(data: MapData): SearchItem[] {
       layer: 'stops' as const,
       station: { type: 'bus' as const, id: f.properties.id, at: f.geometry.coordinates as [number, number], properties: f.properties },
     })),
+    ...data.regional_bus_stops?.features.map((f) => ({
+      name: f.properties.name,
+      kind: `新北站位 · ${f.properties.route_count} 線`,
+      at: f.geometry.coordinates as [number, number], zoom: 16.5, layer: 'regional_stops' as const,
+      station: { type: 'bus' as const, id: f.properties.id, at: f.geometry.coordinates as [number, number], properties: f.properties },
+    })) ?? [],
     ...data.youbike_stations.features.filter((f) => f.properties.name).map((f) => ({
       name: f.properties.name!,
       kind: 'YouBike',

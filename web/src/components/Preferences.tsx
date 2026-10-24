@@ -1,16 +1,21 @@
 import { useEffect, useId, useState, type CSSProperties } from 'react';
 import { CELL_SIZES, COLORS, COVERAGE_CELLS, COVERAGE_LAYERS, DAY_LABELS, DEFAULT_COVERAGE_CELL, DEFAULT_LAYERS, DEFAULT_NEED_WEIGHTS, NEED_BANDS, NEED_WEIGHT_LABELS, PLACE_CATEGORIES, STATION_TYPES } from '../config';
 import { isDefaultWeights } from '../need';
-import type { AnalysisMode, AppState, CoverageLayer, DayType, LayerGroup, NeedView, NeedWeights, StationType } from '../types';
+import type { SupplementalKey } from '../data';
+import type { AnalysisMode, AppState, CoverageLayer, DayType, LayerGroup, MapData, NeedView, NeedWeights, StationType } from '../types';
+import { ExtraControls } from './Panel';
 
 /** Settings edited here; nothing changes on the map until they are applied. */
 export type PreferencePatch = Pick<AppState,
   | 'mode' | 'cell' | 'day' | 'band' | 'needView' | 'weights'
   | 'coverageCell' | 'walkTypes' | 'walkRadii' | 'rideRadius' | 'coverage' | 'gridLines'
-  | 'labels' | 'layers' | 'places'>;
+  | 'labels' | 'layers' | 'places' | 'leapfrogOnly' | 'villageMetric'>;
 
 interface Props {
   state: AppState;
+  data: MapData | null;
+  supplementalPending: Set<SupplementalKey>;
+  onRetrySupplemental: () => void;
   onApply: (patch: PreferencePatch) => void;
   onClose: () => void;
 }
@@ -32,8 +37,8 @@ const RIDE = COVERAGE_LAYERS.ride;
 const NEUTRAL = '#658c90';
 
 function pick(state: AppState): PreferencePatch {
-  const { mode, cell, day, band, needView, weights, coverageCell, walkTypes, walkRadii, rideRadius, coverage, gridLines, labels, layers, places } = state;
-  return { mode, cell, day, band, needView, weights, coverageCell, walkTypes, walkRadii, rideRadius, coverage, gridLines, labels, layers, places };
+  const { mode, cell, day, band, needView, weights, coverageCell, walkTypes, walkRadii, rideRadius, coverage, gridLines, labels, layers, places, leapfrogOnly, villageMetric } = state;
+  return { mode, cell, day, band, needView, weights, coverageCell, walkTypes, walkRadii, rideRadius, coverage, gridLines, labels, layers, places, leapfrogOnly, villageMetric };
 }
 
 /** Defaults for every setting except the analysis mode being edited. */
@@ -54,6 +59,8 @@ function defaults(mode: AnalysisMode): PreferencePatch {
     labels: true,
     layers: new Set(DEFAULT_LAYERS),
     places: new Set(PLACE_CATEGORIES.filter((c) => c.on).map((c) => c.key)),
+    leapfrogOnly: false,
+    villageMetric: 'population',
   };
 }
 
@@ -152,7 +159,7 @@ function Choice<T extends string | number>({ label, options, value, onChange, co
   );
 }
 
-export default function Preferences({ state, onApply, onClose }: Props) {
+export default function Preferences({ state, data, supplementalPending, onRetrySupplemental, onApply, onClose }: Props) {
   const [draft, setDraft] = useState(() => pick(state));
   const set = (patch: Partial<PreferencePatch>) => setDraft((d) => ({ ...d, ...patch }));
   const setWalk = (type: StationType, radius: number) => set({ walkRadii: { ...draft.walkRadii, [type]: radius } });
@@ -202,6 +209,10 @@ export default function Preferences({ state, onApply, onClose }: Props) {
             <p className="prefs-note">{MODES.find((m) => m.key === draft.mode)!.note}</p>
           </section>
 
+          <section>
+            <ExtraControls state={{ ...state, ...draft }} data={data} supplementalPending={supplementalPending} onRetrySupplemental={onRetrySupplemental} onChange={set} />
+          </section>
+
           {draft.mode === 'coverage' && (
             <>
               <section>
@@ -249,6 +260,12 @@ export default function Preferences({ state, onApply, onClose }: Props) {
             </section>
           )}
 
+          {draft.mode !== 'frequency' && draft.layers.has('bus_times') && <section>
+            <h3>公車推估旅時日型</h3>
+            <Choice label="旅時日型" options={(Object.keys(DAY_LABELS) as DayType[]).map((day) => ({ key: day, label: DAY_LABELS[day] }))} value={draft.day} onChange={(day) => set({ day })} />
+            <p className="prefs-note">小時在左側面板切換或播放；週六與週日共用來源週末模型。</p>
+          </section>}
+
           {draft.mode === 'need' && (
             <section>
               <h3>時段</h3>
@@ -283,7 +300,7 @@ export default function Preferences({ state, onApply, onClose }: Props) {
             {draft.mode === 'frequency' && (
               <Switch label="公車班次網格" color={COLORS[4]} checked={draft.layers.has('grid')} onChange={() => toggleLayer('grid')} />
             )}
-            <Switch label="公車路線" color="var(--bus)" checked={draft.layers.has('routes')} onChange={() => toggleLayer('routes')} />
+            <Switch label="臺北公車路線" color="var(--bus)" checked={draft.layers.has('routes')} onChange={() => toggleLayer('routes')} />
             <Switch label="重要地點" color="#c2549d" checked={draft.layers.has('places')} onChange={() => toggleLayer('places')} />
             {draft.layers.has('places') && (
               <div className="place-chips prefs-place-chips">
