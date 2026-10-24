@@ -74,7 +74,7 @@ export function selectFocusRoute(focus: BusFocusState, routeId: string): BusFocu
 
 export function toggleFocusRoute(focus: BusFocusState, routeId: string): BusFocusState {
   const route = focus.routes.find((item) => item.route_id === routeId);
-  if (!route?.has_geometry) return focus;
+  if (!route) return focus;
   return {
     ...focus,
     routes: focus.routes.map((item) => item === route ? { ...item, visible: !item.visible } : item),

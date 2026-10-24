@@ -29,6 +29,7 @@ interface Props {
 export default function FocusSidebar({ station, data, focus, onClose, onOverview, onSelectRoute, onToggleRoute, onHoverRoute, onShowAll }: Props) {
   const neighbours = useMemo(() => nearby(data, station.at, STATION_RADIUS, station.id, new Set()), [data, station]);
   const visible = focus.routes.filter((route) => route.visible && route.has_geometry).length;
+  const enabled = focus.routes.filter((route) => route.visible).length;
   const available = focus.routes.filter((route) => route.has_geometry).length;
   const total = neighbours.stops + 1 + neighbours.mrt.count + neighbours.youbike.count;
   const allView = focus.camera.scope === 'routes' && focus.selected_route_id === null;
@@ -55,7 +56,7 @@ export default function FocusSidebar({ station, data, focus, onClose, onOverview
         <button className={focus.camera.scope === 'local' ? 'is-active' : ''} aria-pressed={focus.camera.scope === 'local'} onClick={() => onOverview('local')}>350 m 周邊</button>
       </div>
       {focus.routes.length > 0 ? <>
-        <p className="focus-route-hint">點路線定位，眼睛切換顯示</p>
+        <p className="focus-route-hint">點路線定位，眼睛切換路線、停靠站與覆蓋</p>
         <ul className="focus-routes">
           {focus.routes.map((route) => <li key={route.route_id} className={`${focus.selected_route_id === route.route_id ? 'is-selected' : ''}${!route.visible ? ' is-hidden' : ''}`}>
             <button className="focus-route-name" disabled={!route.has_geometry}
@@ -67,19 +68,20 @@ export default function FocusSidebar({ station, data, focus, onClose, onOverview
               <i className="focus-route-color" style={{ background: route.color }} />
               <span><b>{route.name}</b><small>{route.has_geometry ? route.weekday_departures === null ? '班次未提供' : `平日計畫 ${route.weekday_departures.toLocaleString('zh-TW')} 班` : '尚無路線線形'}</small></span>
             </button>
-            {route.has_geometry && <button className="focus-route-visibility" aria-label={`${route.visible ? '隱藏' : '顯示'} ${route.name} 路線`} aria-pressed={route.visible} onClick={() => onToggleRoute(route.route_id)}><Eye visible={route.visible} /></button>}
+            <button className="focus-route-visibility" aria-label={`${route.visible ? '隱藏' : '顯示'} ${route.name} 路線`} aria-pressed={route.visible} onClick={() => onToggleRoute(route.route_id)}><Eye visible={route.visible} /></button>
           </li>)}
         </ul>
-        <div className="focus-route-state" role="status"><span>地圖顯示 {visible} / {available} 條</span>{visible < available && <button onClick={onShowAll}>全部顯示</button>}</div>
-        {available > 0 && visible === 0 && <p className="focus-no-routes">服務路線已隱藏，仍可查看本站周邊。按「全部顯示」恢復路線。</p>}
-        {available < focus.routes.length && <p className="focus-no-routes">{focus.routes.length - available} 條路線缺少線形，保留於清單。</p>}
+        <div className="focus-route-state" role="status"><span>已開啟 {enabled} / {focus.routes.length} 條・{visible} 條有線形</span>{enabled < focus.routes.length && <button onClick={onShowAll}>全部顯示</button>}</div>
+        {enabled === 0 && <p className="focus-no-routes">服務路線已隱藏，覆蓋僅保留本站 350 m。按「全部顯示」恢復路線。</p>}
+        {available < focus.routes.length && <p className="focus-no-routes">{focus.routes.length - available} 條路線缺少線形，仍可切換已知停靠站與覆蓋。</p>}
       </> : <p className="focus-no-routes">本站尚無可連接的服務路線資料，先查看 350 m 周邊。</p>}
     </section>
 
     <footer className="focus-footer">
+      <div><i className="focus-legend-coverage" />沿線公車站 350 m 直線覆蓋</div>
       <div><i className="focus-legend-circle" />本站 350 m 直線範圍</div>
       <div><i className="focus-legend-route" />其他路線暫時淡化</div>
-      <p>班次為主線各附線全日計畫發車，非本站到站時刻。周邊站數依來源站位計算。</p>
+      <p>橙色越深，距已開啟路線的公車站越近。班次為全日計畫發車，非本站到站時刻；周邊站數依來源站位計算。</p>
     </footer>
   </aside>;
 }

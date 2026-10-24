@@ -88,11 +88,14 @@ test('hiding the selected line clears selection; show all recovers from hiding e
   assert.equal(recovered.camera.scope, 'routes');
 });
 
-test('unrenderable and unknown services cannot move the map; a no-service station is empty', () => {
+test('unrenderable services can hide stop coverage without moving the map; a no-service station is empty', () => {
   const { data, station } = fixture();
   const focus = initialFocus(buildFocusRoutes(data, station));
   assert.deepEqual(selectFocusRoute(focus, 'C'), focus);
-  assert.deepEqual(toggleFocusRoute(focus, 'C'), focus);
+  const hidden = toggleFocusRoute(focus, 'C');
+  assert.equal(hidden.routes.find((route) => route.route_id === 'C')?.visible, false);
+  assert.deepEqual(hidden.camera, focus.camera);
+  assert.deepEqual(toggleFocusRoute(focus, 'unknown'), focus);
   assert.deepEqual(selectFocusRoute(focus, 'unknown'), focus);
   assert.deepEqual(buildFocusRoutes(data, { ...station, properties: { ...station.properties, route_ids: [], route_count: 0 } }), []);
 });

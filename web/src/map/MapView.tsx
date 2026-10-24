@@ -25,6 +25,7 @@ import { STATION_LAYERS, STATION_RADIUS, stationFromFeature } from '../stations'
 import { CoverageTooltip, FeatureTooltip, NeedTooltip, RoutePopup, type PopupFeature } from './FeatureInfo';
 import * as L from './layers';
 import { focusLocalBounds, focusRouteBounds, focusStops } from './focusGeometry';
+import { buildFocusCoverage, focusCoverageGridLines, focusCoverageImage, focusDistanceAt } from './focusCoverage';
 import { RouteLayers, ScenarioGrid, type EditorMapProps } from '../routeEditor/RouteLayers';
 import type { AppState, Coverage, Grid, LayerGroup, MapData, NeedGrid, StationSelection, ViewState } from '../types';
 
@@ -69,6 +70,7 @@ interface Hover {
   feature?: MapGeoJSONFeature;
   /** Nearest-station distances when no feature is under the cursor in coverage mode. */
   distances?: NonNullable<ReturnType<typeof distancesAt>>;
+  focusDistance?: number;
   x: number;
   y: number;
 }
@@ -142,6 +144,9 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
   const activeFocus = !editor && station?.type === 'bus' ? focus ?? null : null;
   const visibleRouteIds = useMemo(() => activeFocus?.routes.filter((route) => route.visible).map((route) => route.route_id) ?? [], [activeFocus?.routes]);
   const nearbyAndRouteStops = useMemo(() => activeFocus && station?.type === 'bus' ? focusStops(data, station, visibleRouteIds) : null, [activeFocus !== null, data, station, visibleRouteIds]);
+  const focusedCoverage = useMemo(() => activeFocus && station?.type === 'bus' ? buildFocusCoverage(data, station, visibleRouteIds, state.coverageCell) : null, [activeFocus !== null, data, station, visibleRouteIds, state.coverageCell]);
+  const focusedCoverageImage = useMemo(() => focusedCoverage ? focusCoverageImage(focusedCoverage) : null, [focusedCoverage]);
+  const focusedCoverageLines = useMemo(() => focusedCoverage && state.gridLines ? focusCoverageGridLines(focusedCoverage) : null, [focusedCoverage, state.gridLines]);
   const cameraRequest = useRef<string | null>(null);
   const cameraStation = useRef<StationSelection | null>(null);
 
@@ -293,6 +298,10 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
     canvas.style.cursor = feature && !/^(grid|need)/.test(feature.layer.id) ? 'pointer' : '';
     const { x, y } = e.point;
     if (feature) setHover({ feature, x, y });
+    else if (focusedCoverage) {
+      const focusDistance = focusDistanceAt(focusedCoverage, e.lngLat.lng, e.lngLat.lat);
+      setHover(focusDistance === null ? null : { focusDistance, x, y });
+    }
     else if (!activeFocus && state.mode === 'coverage' && coverage) {
       const distances = distancesAt(coverage, e.lngLat.lng, e.lngLat.lat);
       setHover(distances ? { distances, x, y } : null);
@@ -378,6 +387,16 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
                 <Layer {...L.coverageGridLayer(coverage.cell_m)} beforeId={below} layout={{ visibility: !activeFocus && state.mode === 'coverage' && state.gridLines ? 'visible' : 'none' }} />
               </Source>
             )}
+            {focusedCoverageImage && (
+              <Source id="focus-coverage" type="image" url={focusedCoverageImage.url} coordinates={focusedCoverageImage.coordinates}>
+                <Layer {...L.coverageLayer} id="focus-coverage" beforeId={below} />
+              </Source>
+            )}
+            {focusedCoverageLines && focusedCoverage && (
+              <Source id="focus-coverage-grid" type="geojson" data={focusedCoverageLines}>
+                <Layer {...L.coverageGridLayer(focusedCoverage.cell_m)} id="focus-coverage-grid" beforeId={below} />
+              </Source>
+            )}
             <Source id="roads" type="geojson" data={data.roads}>
               <Layer {...L.roadsLayer} beforeId={below} />
             </Source>
@@ -389,7 +408,7 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
             </Source>
             {catchmentShape && (
               <Source id="catchment" type="geojson" data={catchmentShape}>
-                <Layer {...{ ...L.catchmentFillLayer, ...(activeFocus ? { paint: { 'fill-color': '#4b8793', 'fill-opacity': .1 } } : {}) } as LayerProps} beforeId={below} />
+                <Layer {...{ ...L.catchmentFillLayer, ...(activeFocus ? { paint: { 'fill-color': '#4b8793', 'fill-opacity': 0 } } : {}) } as LayerProps} beforeId={below} />
                 <Layer {...{ ...L.catchmentLineLayer, ...(activeFocus ? { paint: { 'line-color': '#4b8793', 'line-opacity': .7, 'line-width': 1.5, 'line-dasharray': [3, 2] } } : {}) } as LayerProps} beforeId={below} />
               </Source>
             )}
@@ -459,6 +478,8 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
             ? <NeedTooltip i={Number(hover.feature.properties.i)} grid={need.grid} result={need.result} state={state} />
             : hover.feature
             ? <FeatureTooltip feature={hover.feature} grid={grid} state={state} />
+            : hover.focusDistance !== undefined
+            ? <><b>沿線公車站 350 m 覆蓋</b><br />距已開啟路線停靠站或本站約 {Math.round(hover.focusDistance)} m（格心直線距離）</>
             : hover.distances && <CoverageTooltip distances={hover.distances} state={state} />}
         </div>
       )}
