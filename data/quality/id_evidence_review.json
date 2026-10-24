@@ -1,0 +1,228 @@
+{
+  "schema_version": 1,
+  "dataset_id": "independent_id_evidence_review",
+  "metadata": {
+    "reviewer_agent": "/root/main_integration",
+    "independent_of_producer": true,
+    "reviewed_at": "2026-10-24T11:33:10+08:00",
+    "record_count": 6,
+    "status": "pass_with_source_limitations",
+    "script": "scripts/review_id_evidence.py",
+    "method": "Independently parse original CSV, official category HTML, two GetStop/PathDetail snapshots, GetStopLocation, ETA, 47 page JSON sources, fare XML, raw TDX/GetRoute and all 1383 NewTaipei StopOfRoute models/43270 members; verify route/subroute/operator/stop/location/direction tuples and complete source-ordered arrays without producer helper imports.",
+    "limitations": [
+      "跳蛙62筆為所列快照完整共同欄位及官方分類等價；3筆衝突保留，未宣稱永久跨來源ID規則。",
+      "10條缺NId路線核實主管機關/路線/附線/業者tuple，NId仍為null。",
+      "114筆主路線頁會員由站位NId明示核實；兩份PathDetail及完整TDX StopOfRoute均未供附線會員，不補造附線或永久停用原因。",
+      "ETA -4僅為來源2026-10-24快照今日未營運，不是永久撤站證明。",
+      "TDX 194組站序省略312個來源明示虛擬站不停靠點；2筆座標衝突保留雙值待來源釐清，不因ID核實而稱位置一致。"
+    ]
+  },
+  "records": [
+    {
+      "path": "data/official_cross_city/id_evidence/leapfrog_list_equivalence.json",
+      "record_count": 65,
+      "status": "pass_with_source_limitations",
+      "reviewed_generated_at": "2026-10-24T11:22:57+08:00",
+      "checks": {
+        "failures": [],
+        "failure_count": 0
+      },
+      "diagnostics": {
+        "source_files_checked": 3,
+        "raw_csv_count": 65,
+        "official_category_nid_count": 70,
+        "status_counts": {
+          "verified_full_published_field_snapshot_equivalence": 62,
+          "requires_review_published_field_conflict": 3
+        },
+        "retained_conflicts": {
+          "475": [
+            {
+              "candidate_route_id_for_review_only": "19238",
+              "candidate_subroute_id_for_review_only": "161597",
+              "differing_fields": {
+                "weekday_clocks": {
+                  "csv": [
+                    "0700",
+                    "0700",
+                    "0700",
+                    "0700"
+                  ],
+                  "feed": [
+                    "0700",
+                    "0710",
+                    "0700",
+                    "0710"
+                  ]
+                }
+              }
+            }
+          ],
+          "477": [
+            {
+              "candidate_route_id_for_review_only": "19744",
+              "candidate_subroute_id_for_review_only": "162451",
+              "differing_fields": {
+                "weekday_clocks": {
+                  "csv": [
+                    "0745",
+                    "0745",
+                    "0745",
+                    "0745"
+                  ],
+                  "feed": [
+                    "0735",
+                    "0735",
+                    "0735",
+                    "0735"
+                  ]
+                }
+              }
+            }
+          ],
+          "511": [
+            {
+              "candidate_route_id_for_review_only": "17866",
+              "candidate_subroute_id_for_review_only": "159267",
+              "differing_fields": {
+                "origin_destination": {
+                  "csv": "林口(文化三路)-捷運圓山站",
+                  "feed": "林口(文化三路)-捷運圓山站(圓山轉運站)"
+                }
+              }
+            },
+            {
+              "candidate_route_id_for_review_only": "17866",
+              "candidate_subroute_id_for_review_only": "159268",
+              "differing_fields": {
+                "origin_destination": {
+                  "csv": "林口(文化三路)-捷運圓山站",
+                  "feed": "林口(文化三路)-捷運圓山站(圓山轉運站)"
+                }
+              }
+            }
+          ]
+        },
+        "route_feed_update_time": "2026/10/24 09:46:05"
+      }
+    },
+    {
+      "path": "data/official_cross_city/id_evidence/missing_nid_routes.json",
+      "record_count": 10,
+      "status": "pass_with_source_limitations",
+      "reviewed_generated_at": "2026-10-24T11:22:57+08:00",
+      "checks": {
+        "failures": [],
+        "failure_count": 0
+      },
+      "diagnostics": {
+        "source_files_checked": 3,
+        "raw_tdx_route_count": 416,
+        "raw_tdx_period_start": "2026-10-19T00:00:00+08:00",
+        "raw_tdx_period_end": "2026-10-20T23:59:59+08:00",
+        "fare_update_time": "2026-10-24T01:15:11.071+08:00",
+        "verified_missing_nid_routes": 10
+      }
+    },
+    {
+      "path": "data/official_cross_city/id_evidence/unlinked_stop_status.json",
+      "record_count": 114,
+      "status": "pass_with_source_limitations",
+      "reviewed_generated_at": "2026-10-24T11:22:57+08:00",
+      "checks": {
+        "failures": [],
+        "failure_count": 0
+      },
+      "diagnostics": {
+        "source_files_checked": 54,
+        "old_missing_stop_count": 114,
+        "official_main_route_pages_checked": 47,
+        "all_current_day_codes": {
+          "official_not_operating_today": 114
+        },
+        "eta_source_update_time": "2026/10/24 11:15:15",
+        "specification": {
+          "raw_file": "raw_data/official_cross_city/crosswalk/ntpc_spec_v5_5.pdf",
+          "version": "5.5",
+          "eta_pdf_page": 4,
+          "stop_location_pdf_page": 10
+        }
+      }
+    },
+    {
+      "path": "data/official_cross_city/id_evidence/ntpc_tdx_stop_memberships.json.gz",
+      "record_count": 43270,
+      "status": "pass_with_source_limitations",
+      "reviewed_generated_at": "2026-10-24T11:30:43+08:00",
+      "checks": {
+        "failures": [],
+        "failure_count": 0
+      },
+      "diagnostics": {
+        "source_files_checked": 6,
+        "raw_membership_count": 43270,
+        "source_position_conflict_count": 2,
+        "source_position_conflicts": [
+          {
+            "stop_id": "198117",
+            "direct_position": {
+              "longitude": 121.6317256,
+              "latitude": 25.0684216
+            },
+            "tdx_position": {
+              "longitude": 121.631809,
+              "latitude": 25.068454
+            }
+          },
+          {
+            "stop_id": "176547",
+            "direct_position": {
+              "longitude": 121.65277,
+              "latitude": 24.998089
+            },
+            "tdx_position": {
+              "longitude": 121.652932,
+              "latitude": 24.998089
+            }
+          }
+        ]
+      }
+    },
+    {
+      "path": "data/official_cross_city/id_evidence/ntpc_tdx_stop_sequences.json.gz",
+      "record_count": 1383,
+      "status": "pass_with_source_limitations",
+      "reviewed_generated_at": "2026-10-24T11:30:43+08:00",
+      "checks": {
+        "failures": [],
+        "failure_count": 0
+      },
+      "diagnostics": {
+        "source_files_checked": 6,
+        "raw_model_count": 1383,
+        "sequence_status_counts": {
+          "verified_full_stop_id_sequence": 1189,
+          "verified_order_with_explicit_non_boarding_virtual_points_omitted": 194
+        },
+        "direct_only_membership_count": 312,
+        "non_contiguous_source_ordinal_models": 303,
+        "direction_source": "GetStop.goBack via explicit PathDetail.stopId; not PathDetail.type"
+      }
+    },
+    {
+      "path": "data/official_cross_city/id_evidence/ntpc_tdx_unlinked_stop_accounting.json",
+      "record_count": 114,
+      "status": "pass_with_source_limitations",
+      "reviewed_generated_at": "2026-10-24T11:30:43+08:00",
+      "checks": {
+        "failures": [],
+        "failure_count": 0
+      },
+      "diagnostics": {
+        "source_files_checked": 6,
+        "original_unlinked_stop_count": 114,
+        "none_in_full_tdx_memberships": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,2036 @@
+{
+  "schema_version": 1,
+  "dataset_id": "ntpc_leapfrog_list_full_field_equivalence",
+  "metadata": {
+    "generated_at": "2026-10-24T11:22:57+08:00",
+    "source_data_time": null,
+    "grain": "one original leapfrog CSV item",
+    "sources": [
+      {
+        "page_url": "https://data.taipei/dataset/detail?id=2a8f5f42-942c-4974-8366-b44e90ad9701",
+        "requested_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetRoute.gz",
+        "effective_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetRoute.gz",
+        "downloaded_at": "2026-10-24T10:45:29+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": "Sat, 24 Oct 2026 02:44:21 GMT",
+        "content_type": "application/octet-stream",
+        "bytes": 97469,
+        "raw_file": "raw_data/official_cross_city/crosswalk/ntpc_route_feed.gz"
+      },
+      {
+        "page_url": "https://data.gov.tw/dataset/174364",
+        "requested_url": "https://data.ntpc.gov.tw/api/datasets/f5e9a430-f337-476f-801e-dc167a112aa2/csv/file",
+        "effective_url": "https://data.ntpc.gov.tw/api/datasets/f5e9a430-f337-476f-801e-dc167a112aa2/csv/file",
+        "downloaded_at": "2026-10-24T10:45:12+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/csv;charset=UTF-8",
+        "bytes": 9853,
+        "raw_file": "raw_data/official_cross_city/crosswalk/ntpc_leapfrog.csv"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/EBus2/RouteList2?ct=ntpc",
+        "requested_url": "https://ebus.gov.taipei/EBus2/RouteList2?ct=ntpc",
+        "effective_url": "https://ebus.gov.taipei/EBus2/RouteList2?ct=ntpc",
+        "downloaded_at": "2026-10-24T10:47:03+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": "Sat, 24 Oct 2026 02:47:04 GMT",
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 171228,
+        "raw_file": "raw_data/official_cross_city/crosswalk/ebus_ntpc_routes.html"
+      }
+    ],
+    "independent_review_status": "pending",
+    "field_units": {
+      "*_id": "source identifier string",
+      "source_sequence_no": "source ordinal"
+    },
+    "source_terms": {
+      "ntpc_csv": "https://data.gov.tw/license",
+      "direct_bus_feeds": "https://data.taipei/rule",
+      "tdx": "https://tdx.transportdata.tw/term",
+      "ebus_pages": "https://ebus.gov.taipei/Home/CopyrightNotice",
+      "note": "保留各來源條款；不將eBus網頁宣稱為開放資料授權。"
+    },
+    "limitations": [
+      "各來源快照時間獨立保留；多欄等價只核對所列快照，不推論跨版本永久ID規則。",
+      "今日未營運不等於永久停用；未列PathDetail不補造附線會員。"
+    ],
+    "status_counts": {
+      "verified_full_published_field_snapshot_equivalence": 62,
+      "requires_review_published_field_conflict": 3
+    },
+    "source_data_times_raw": {
+      "ntpc_route_feed": "2026/10/24 09:46:05"
+    }
+  },
+  "records": [
+    {
+      "source_sequence": "156",
+      "agency_code": "382290000H",
+      "source_row_number": 2,
+      "published_fields": {
+        "route_name": "853跳蛙",
+        "origin_destination": "三芝-捷運紅樹林站",
+        "weekday_clocks": [
+          "0630",
+          "0630",
+          "0630",
+          "0630"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17621",
+      "route_nid": "0463085300",
+      "matching_subroute_ids": [
+        "158793"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "240",
+      "agency_code": "382290000H",
+      "source_row_number": 3,
+      "published_fields": {
+        "route_name": "939跳蛙",
+        "origin_destination": "三峽-臺北市政府",
+        "weekday_clocks": [
+          "0700",
+          "0730",
+          "0700",
+          "0730"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17720",
+      "route_nid": "0463093900",
+      "matching_subroute_ids": [
+        "158908"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "463",
+      "agency_code": "382290000H",
+      "source_row_number": 4,
+      "published_fields": {
+        "route_name": "三峽-中和高中",
+        "origin_destination": "三峽-中和高中",
+        "weekday_clocks": [
+          "0625",
+          "0625",
+          "0625",
+          "0625"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "19733",
+      "route_nid": "0463009500",
+      "matching_subroute_ids": [
+        "162430"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "464",
+      "agency_code": "382290000H",
+      "source_row_number": 5,
+      "published_fields": {
+        "route_name": "三峽-內科",
+        "origin_destination": "三峽-內科",
+        "weekday_clocks": [
+          "0640",
+          "0650",
+          "0640",
+          "0650"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17905",
+      "route_nid": "0463002600",
+      "matching_subroute_ids": [
+        "159364"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "465",
+      "agency_code": "382290000H",
+      "source_row_number": 6,
+      "published_fields": {
+        "route_name": "三峽-捷運台大醫院站",
+        "origin_destination": "三峽-捷運台大醫院站",
+        "weekday_clocks": [
+          "0630",
+          "1740",
+          "0630",
+          "1740"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17711",
+      "route_nid": "0463000300",
+      "matching_subroute_ids": [
+        "158894"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "466",
+      "agency_code": "382290000H",
+      "source_row_number": 7,
+      "published_fields": {
+        "route_name": "三峽-捷運府中站",
+        "origin_destination": "三峽-捷運府中站",
+        "weekday_clocks": [
+          "0615",
+          "0635",
+          null,
+          null
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17948",
+      "route_nid": "0463004000",
+      "matching_subroute_ids": [
+        "159446"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "467",
+      "agency_code": "382290000H",
+      "source_row_number": 8,
+      "published_fields": {
+        "route_name": "三峽-捷運永寧站",
+        "origin_destination": "三峽-捷運永寧站",
+        "weekday_clocks": [
+          "0650",
+          "0710",
+          "0650",
+          "0710"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17689",
+      "route_nid": "0463000400",
+      "matching_subroute_ids": [
+        "158867"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "468",
+      "agency_code": "382290000H",
+      "source_row_number": 9,
+      "published_fields": {
+        "route_name": "三峽-臺北市信義區",
+        "origin_destination": "三峽-臺北市信義區",
+        "weekday_clocks": [
+          "0710",
+          "0740",
+          "0710",
+          "0740"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17962",
+      "route_nid": "0463004500",
+      "matching_subroute_ids": [
+        "159510"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "469",
+      "agency_code": "382290000H",
+      "source_row_number": 10,
+      "published_fields": {
+        "route_name": "三重-內科",
+        "origin_destination": "三重-內科",
+        "weekday_clocks": [
+          "0645",
+          "0645",
+          "1800",
+          "1800"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17992",
+      "route_nid": "0463005400",
+      "matching_subroute_ids": [
+        "159586",
+        "159587"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "470",
+      "agency_code": "382290000H",
+      "source_row_number": 11,
+      "published_fields": {
+        "route_name": "中和-新北板橋公車站",
+        "origin_destination": "中和-新北板橋公車站",
+        "weekday_clocks": [
+          "0640",
+          "0830",
+          "0640",
+          "0830"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17963",
+      "route_nid": "0463004600",
+      "matching_subroute_ids": [
+        "159524"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "471",
+      "agency_code": "382290000H",
+      "source_row_number": 12,
+      "published_fields": {
+        "route_name": "中和左岸社區-捷運頂溪站",
+        "origin_destination": "中和左岸社區-捷運頂溪站",
+        "weekday_clocks": [
+          "0630",
+          "0820",
+          "0630",
+          "0820"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "18368",
+      "route_nid": "0463007700",
+      "matching_subroute_ids": [
+        "160288"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "472",
+      "agency_code": "382290000H",
+      "source_row_number": 13,
+      "published_fields": {
+        "route_name": "中和環河西路-永和仁愛路",
+        "origin_destination": "環河西路-仁愛路",
+        "weekday_clocks": [
+          "0745",
+          "0815",
+          "0745",
+          "0815"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "18478",
+      "route_nid": "0463007900",
+      "matching_subroute_ids": [
+        "160417"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "473",
+      "agency_code": "382290000H",
+      "source_row_number": 14,
+      "published_fields": {
+        "route_name": "中和自立路-新店",
+        "origin_destination": "中和自立路-新店",
+        "weekday_clocks": [
+          "0650",
+          "0650",
+          "0650",
+          "0650"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "18288",
+      "route_nid": "0463007500",
+      "matching_subroute_ids": [
+        "160197"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "474",
+      "agency_code": "382290000H",
+      "source_row_number": 15,
+      "published_fields": {
+        "route_name": "五股-內湖科技園區",
+        "origin_destination": "五股-捷運港墘站(內湖高工)",
+        "weekday_clocks": [
+          "0710",
+          "0745",
+          "1750",
+          "1810"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17917",
+      "route_nid": "0463003100",
+      "matching_subroute_ids": [
+        "159387",
+        "159388"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "475",
+      "agency_code": "382290000H",
+      "source_row_number": 16,
+      "published_fields": {
+        "route_name": "北大社區-捷運頂埔站",
+        "origin_destination": "北大社區-捷運頂埔站",
+        "weekday_clocks": [
+          "0700",
+          "0700",
+          "0700",
+          "0700"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": null,
+      "route_nid": null,
+      "matching_subroute_ids": [],
+      "status": "requires_review_published_field_conflict",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": [
+        {
+          "candidate_route_id_for_review_only": "19238",
+          "candidate_subroute_id_for_review_only": "161597",
+          "differing_fields": {
+            "weekday_clocks": {
+              "csv": [
+                "0700",
+                "0700",
+                "0700",
+                "0700"
+              ],
+              "feed": [
+                "0700",
+                "0710",
+                "0700",
+                "0710"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "source_sequence": "476",
+      "agency_code": "382290000H",
+      "source_row_number": 17,
+      "published_fields": {
+        "route_name": "台北小城-大坪林",
+        "origin_destination": "台北小城-大坪林",
+        "weekday_clocks": [
+          "0630",
+          "1935",
+          "0630",
+          "1935"
+        ],
+        "holiday_clocks": [
+          "0800",
+          "1600",
+          "0800",
+          "1600"
+        ]
+      },
+      "route_id": "17977",
+      "route_nid": "0463005200",
+      "matching_subroute_ids": [
+        "159564"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "477",
+      "agency_code": "382290000H",
+      "source_row_number": 18,
+      "published_fields": {
+        "route_name": "合宜住宅-捷運亞東醫院站",
+        "origin_destination": "合宜住宅-捷運亞東醫院站",
+        "weekday_clocks": [
+          "0745",
+          "0745",
+          "0745",
+          "0745"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": null,
+      "route_nid": null,
+      "matching_subroute_ids": [],
+      "status": "requires_review_published_field_conflict",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": [
+        {
+          "candidate_route_id_for_review_only": "19744",
+          "candidate_subroute_id_for_review_only": "162451",
+          "differing_fields": {
+            "weekday_clocks": {
+              "csv": [
+                "0745",
+                "0745",
+                "0745",
+                "0745"
+              ],
+              "feed": [
+                "0735",
+                "0735",
+                "0735",
+                "0735"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "source_sequence": "479",
+      "agency_code": "382290000H",
+      "source_row_number": 19,
+      "published_fields": {
+        "route_name": "土城-南天母廣場",
+        "origin_destination": "土城區公所-南天母廣場",
+        "weekday_clocks": [
+          "0620",
+          "1705",
+          "0650",
+          "1715"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "18778",
+      "route_nid": "0463008500",
+      "matching_subroute_ids": [
+        "160867",
+        "160868",
+        "160869",
+        "160870"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "480",
+      "agency_code": "382290000H",
+      "source_row_number": 20,
+      "published_fields": {
+        "route_name": "土城金城路-樹林大安路",
+        "origin_destination": "變電所-樹人家商",
+        "weekday_clocks": [
+          "0730",
+          "0730",
+          "0730",
+          "0730"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17931",
+      "route_nid": "0463003600",
+      "matching_subroute_ids": [
+        "159420"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "489",
+      "agency_code": "382290000H",
+      "source_row_number": 21,
+      "published_fields": {
+        "route_name": "捷運七張站-全球工業區",
+        "origin_destination": "捷運七張站-全球工業區",
+        "weekday_clocks": [
+          "0800",
+          "0900",
+          "1740",
+          "1830"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "18248",
+      "route_nid": "0463007400",
+      "matching_subroute_ids": [
+        "160147",
+        "160148"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "490",
+      "agency_code": "382290000H",
+      "source_row_number": 22,
+      "published_fields": {
+        "route_name": "捷運中和站-政大附中",
+        "origin_destination": "捷運中和站-政大附中",
+        "weekday_clocks": [
+          "0655",
+          "0655",
+          "0655",
+          "0655"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "18798",
+      "route_nid": "0463008600",
+      "matching_subroute_ids": [
+        "160907"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "491",
+      "agency_code": "382290000H",
+      "source_row_number": 23,
+      "published_fields": {
+        "route_name": "捷運忠孝復興站-三峽",
+        "origin_destination": "捷運忠孝復興站-三峽",
+        "weekday_clocks": [
+          "1730",
+          "1830",
+          "1730",
+          "1830"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "19538",
+      "route_nid": "0463009200",
+      "matching_subroute_ids": [
+        "162057"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "492",
+      "agency_code": "382290000H",
+      "source_row_number": 24,
+      "published_fields": {
+        "route_name": "捷運新店站-坪林",
+        "origin_destination": "捷運新店站-坪林",
+        "weekday_clocks": [
+          "0705",
+          "0705",
+          "0705",
+          "0705"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "19148",
+      "route_nid": "0463009000",
+      "matching_subroute_ids": [
+        "161467"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "493",
+      "agency_code": "382290000H",
+      "source_row_number": 25,
+      "published_fields": {
+        "route_name": "捷運景安站-三峽臺北大學",
+        "origin_destination": "捷運景安站-三峽臺北大學",
+        "weekday_clocks": [
+          "0715",
+          "0715",
+          "1700",
+          "1700"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17919",
+      "route_nid": "0463003300",
+      "matching_subroute_ids": [
+        "159391",
+        "159392"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "494",
+      "agency_code": "382290000H",
+      "source_row_number": 26,
+      "published_fields": {
+        "route_name": "捷運蘆洲站-內湖科技園區",
+        "origin_destination": "捷運蘆洲站-內湖科技園區",
+        "weekday_clocks": [
+          "0715",
+          "0800",
+          "0715",
+          "0800"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17922",
+      "route_nid": "0463003400",
+      "matching_subroute_ids": [
+        "159399"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "495",
+      "agency_code": "382290000H",
+      "source_row_number": 27,
+      "published_fields": {
+        "route_name": "捷運頂溪站-捷運頂埔站",
+        "origin_destination": "捷運頂溪站-捷運頂埔站",
+        "weekday_clocks": [
+          "1610",
+          "1700",
+          "1610",
+          "1700"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "18538",
+      "route_nid": "0463008000",
+      "matching_subroute_ids": [
+        "160507"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "496",
+      "agency_code": "382290000H",
+      "source_row_number": 28,
+      "published_fields": {
+        "route_name": "政大附中-捷運景美站",
+        "origin_destination": "政大附中-捷運景美站",
+        "weekday_clocks": [
+          "1710",
+          "1710",
+          "1710",
+          "1710"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "18888",
+      "route_nid": "0463008700",
+      "matching_subroute_ids": [
+        "161047"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "500",
+      "agency_code": "382290000H",
+      "source_row_number": 29,
+      "published_fields": {
+        "route_name": "新店-汐止",
+        "origin_destination": "新店-汐止",
+        "weekday_clocks": [
+          "0740",
+          "0740",
+          "1800",
+          "1800"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17812",
+      "route_nid": "0463000900",
+      "matching_subroute_ids": [
+        "159158",
+        "159160"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "501",
+      "agency_code": "382290000H",
+      "source_row_number": 30,
+      "published_fields": {
+        "route_name": "新店(綠中海)-捷運新店站",
+        "origin_destination": "新店站-捷運新店站(新店路)",
+        "weekday_clocks": [
+          "0535",
+          "0635",
+          "0535",
+          "0635"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "18054",
+      "route_nid": "0463006700",
+      "matching_subroute_ids": [
+        "159712"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "502",
+      "agency_code": "382290000H",
+      "source_row_number": 31,
+      "published_fields": {
+        "route_name": "新店北新路-政大一街",
+        "origin_destination": "新店北新路-政大一街",
+        "weekday_clocks": [
+          "0720",
+          "0720",
+          "1620",
+          "1620"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17930",
+      "route_nid": "0463003500",
+      "matching_subroute_ids": [
+        "159418",
+        "160097"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "503",
+      "agency_code": "382290000H",
+      "source_row_number": 32,
+      "published_fields": {
+        "route_name": "新店高中-三峽",
+        "origin_destination": "新店高中-三峽",
+        "weekday_clocks": [
+          "1610",
+          "1610",
+          "1610",
+          "1610"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17873",
+      "route_nid": "0463002000",
+      "matching_subroute_ids": [
+        "159302"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "504",
+      "agency_code": "382290000H",
+      "source_row_number": 33,
+      "published_fields": {
+        "route_name": "林口-內湖科技園區",
+        "origin_destination": "林口-內湖園區",
+        "weekday_clocks": [
+          "0705",
+          "0705",
+          "0705",
+          "0705"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17811",
+      "route_nid": "0463000800",
+      "matching_subroute_ids": [
+        "159157"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "505",
+      "agency_code": "382290000H",
+      "source_row_number": 34,
+      "published_fields": {
+        "route_name": "林口-捷運圓山站",
+        "origin_destination": "林口-捷運圓山站",
+        "weekday_clocks": [
+          "0620",
+          "1730",
+          "1730",
+          "1830"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17671",
+      "route_nid": "0463000500",
+      "matching_subroute_ids": [
+        "158849",
+        "158907"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "506",
+      "agency_code": "382290000H",
+      "source_row_number": 35,
+      "published_fields": {
+        "route_name": "林口-捷運府中站",
+        "origin_destination": "林口-捷運府中站",
+        "weekday_clocks": [
+          "0630",
+          "0700",
+          "0630",
+          "0700"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17970",
+      "route_nid": "0463005000",
+      "matching_subroute_ids": [
+        "159547",
+        "160149"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "507",
+      "agency_code": "382290000H",
+      "source_row_number": 36,
+      "published_fields": {
+        "route_name": "林口-捷運忠孝敦化站",
+        "origin_destination": "台北新都-忠孝敦化路口",
+        "weekday_clocks": [
+          "0705",
+          "0805",
+          "0705",
+          "0805"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "18209",
+      "route_nid": "0463007300",
+      "matching_subroute_ids": [
+        "160088"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "508",
+      "agency_code": "382290000H",
+      "source_row_number": 37,
+      "published_fields": {
+        "route_name": "林口-板橋",
+        "origin_destination": "林口站-捷運府中站",
+        "weekday_clocks": [
+          "0645",
+          "0645",
+          "0645",
+          "0645"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17835",
+      "route_nid": "0463001300",
+      "matching_subroute_ids": [
+        "159209"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "509",
+      "agency_code": "382290000H",
+      "source_row_number": 38,
+      "published_fields": {
+        "route_name": "林口-臺北車站(承德)",
+        "origin_destination": "松柏蘆-臺北車站(承德)",
+        "weekday_clocks": [
+          "0620",
+          "0650",
+          "0620",
+          "0650"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "18208",
+      "route_nid": "0463007200",
+      "matching_subroute_ids": [
+        "160087"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "510",
+      "agency_code": "382290000H",
+      "source_row_number": 39,
+      "published_fields": {
+        "route_name": "林口-臺北長庚醫院",
+        "origin_destination": "醒吾科技大學-臺北長庚醫院",
+        "weekday_clocks": [
+          "0650",
+          "0710",
+          "0650",
+          "0710"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17918",
+      "route_nid": "0463003200",
+      "matching_subroute_ids": [
+        "159389"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "511",
+      "agency_code": "382290000H",
+      "source_row_number": 40,
+      "published_fields": {
+        "route_name": "林口(文化三路)-捷運圓山站",
+        "origin_destination": "林口(文化三路)-捷運圓山站",
+        "weekday_clocks": [
+          "0630",
+          "1835",
+          "0720",
+          "1845"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": null,
+      "route_nid": null,
+      "matching_subroute_ids": [],
+      "status": "requires_review_published_field_conflict",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": [
+        {
+          "candidate_route_id_for_review_only": "17866",
+          "candidate_subroute_id_for_review_only": "159267",
+          "differing_fields": {
+            "origin_destination": {
+              "csv": "林口(文化三路)-捷運圓山站",
+              "feed": "林口(文化三路)-捷運圓山站(圓山轉運站)"
+            }
+          }
+        },
+        {
+          "candidate_route_id_for_review_only": "17866",
+          "candidate_subroute_id_for_review_only": "159268",
+          "differing_fields": {
+            "origin_destination": {
+              "csv": "林口(文化三路)-捷運圓山站",
+              "feed": "林口(文化三路)-捷運圓山站(圓山轉運站)"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "source_sequence": "512",
+      "agency_code": "382290000H",
+      "source_row_number": 41,
+      "published_fields": {
+        "route_name": "林口(文化北路)-捷運圓山站",
+        "origin_destination": "新北特殊教育學校-捷運圓山站",
+        "weekday_clocks": [
+          "0630",
+          "0650",
+          null,
+          null
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "18568",
+      "route_nid": "0463008200",
+      "matching_subroute_ids": [
+        "160537"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "516",
+      "agency_code": "382290000H",
+      "source_row_number": 42,
+      "published_fields": {
+        "route_name": "樹林後火車站-海洋公園",
+        "origin_destination": "樹林後火車站-海洋公園",
+        "weekday_clocks": [
+          "0640",
+          "0640",
+          "0640",
+          "0640"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17961",
+      "route_nid": "0463004400",
+      "matching_subroute_ids": [
+        "159506"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "535",
+      "agency_code": "382290000H",
+      "source_row_number": 43,
+      "published_fields": {
+        "route_name": "汐止-台北101",
+        "origin_destination": "汐止-台北101",
+        "weekday_clocks": [
+          "0700",
+          "0720",
+          "0700",
+          "0720"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17915",
+      "route_nid": "0463003000",
+      "matching_subroute_ids": [
+        "159385"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "536",
+      "agency_code": "382290000H",
+      "source_row_number": 44,
+      "published_fields": {
+        "route_name": "泰山-內湖",
+        "origin_destination": "泰山-內湖",
+        "weekday_clocks": [
+          "0650",
+          "0705",
+          "1810",
+          "1830"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17813",
+      "route_nid": "0463001000",
+      "matching_subroute_ids": [
+        "159159",
+        "159161"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "537",
+      "agency_code": "382290000H",
+      "source_row_number": 45,
+      "published_fields": {
+        "route_name": "泰山-內湖(直達)",
+        "origin_destination": "泰山國小-捷運劍南路站(植福)",
+        "weekday_clocks": [
+          "0655",
+          "0655",
+          "1755",
+          "1755"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "18014",
+      "route_nid": "0463006100",
+      "matching_subroute_ids": [
+        "159631",
+        "159632"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "538",
+      "agency_code": "382290000H",
+      "source_row_number": 46,
+      "published_fields": {
+        "route_name": "淡水-內湖科技園區",
+        "origin_destination": "淡水-內湖科技園區",
+        "weekday_clocks": [
+          "0640",
+          "0640",
+          "0640",
+          "0640"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17814",
+      "route_nid": "0463001100",
+      "matching_subroute_ids": [
+        "159162"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "539",
+      "agency_code": "382290000H",
+      "source_row_number": 47,
+      "published_fields": {
+        "route_name": "淡水-國道1號-南港車站",
+        "origin_destination": "淡水-南港車站",
+        "weekday_clocks": [
+          "0650",
+          "0700",
+          "0650",
+          "0700"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17815",
+      "route_nid": "0463001200",
+      "matching_subroute_ids": [
+        "159163"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "540",
+      "agency_code": "382290000H",
+      "source_row_number": 48,
+      "published_fields": {
+        "route_name": "淡水新市鎮-板橋",
+        "origin_destination": "淡水新市鎮-板橋",
+        "weekday_clocks": [
+          "0710",
+          "0710",
+          "0710",
+          "0710"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17871",
+      "route_nid": "0463001800",
+      "matching_subroute_ids": [
+        "159300"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "541",
+      "agency_code": "382290000H",
+      "source_row_number": 49,
+      "published_fields": {
+        "route_name": "湯泉-十四張-大坪林",
+        "origin_destination": "湯泉-捷運十四張站",
+        "weekday_clocks": [
+          "0710",
+          "1850",
+          "0710",
+          "1850"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "18078",
+      "route_nid": "0463006800",
+      "matching_subroute_ids": [
+        "159728"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "542",
+      "agency_code": "382290000H",
+      "source_row_number": 50,
+      "published_fields": {
+        "route_name": "湯泉-大坪林-湯泉",
+        "origin_destination": "湯泉櫻花-湯泉櫻花",
+        "weekday_clocks": [
+          "0600",
+          "2300",
+          "0600",
+          "2300"
+        ],
+        "holiday_clocks": [
+          "0600",
+          "2300",
+          "0600",
+          "2300"
+        ]
+      },
+      "route_id": "17941",
+      "route_nid": "0463003900",
+      "matching_subroute_ids": [
+        "159440",
+        "159655"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "543",
+      "agency_code": "382290000H",
+      "source_row_number": 51,
+      "published_fields": {
+        "route_name": "湯泉-崇光中學",
+        "origin_destination": "湯泉美地-崇光中學",
+        "weekday_clocks": [
+          "0700",
+          "0700",
+          "0700",
+          "0700"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "18017",
+      "route_nid": "0463006300",
+      "matching_subroute_ids": [
+        "159643"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "544",
+      "agency_code": "382290000H",
+      "source_row_number": 52,
+      "published_fields": {
+        "route_name": "瑞芳-內科(北客)",
+        "origin_destination": "瑞芳-內科",
+        "weekday_clocks": [
+          "0710",
+          "0710",
+          "1800",
+          "1800"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17904",
+      "route_nid": "0463002500",
+      "matching_subroute_ids": [
+        "159360",
+        "159361"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "545",
+      "agency_code": "382290000H",
+      "source_row_number": 53,
+      "published_fields": {
+        "route_name": "瑞芳-內科(基客)",
+        "origin_destination": "瑞芳-內科",
+        "weekday_clocks": [
+          "0640",
+          "1720",
+          "1830",
+          "1830"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17911",
+      "route_nid": "0463002900",
+      "matching_subroute_ids": [
+        "159373",
+        "159374"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "546",
+      "agency_code": "382290000H",
+      "source_row_number": 54,
+      "published_fields": {
+        "route_name": "瑞芳-南港",
+        "origin_destination": "瑞芳-南港",
+        "weekday_clocks": [
+          "0640",
+          "1700",
+          "0750",
+          "1810"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "18779",
+      "route_nid": "0463008400",
+      "matching_subroute_ids": [
+        "160857",
+        "160858"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "547",
+      "agency_code": "382290000H",
+      "source_row_number": 55,
+      "published_fields": {
+        "route_name": "瑞芳-松山車站(北客)",
+        "origin_destination": "瑞芳-松山車站",
+        "weekday_clocks": [
+          "0720",
+          "0720",
+          "1800",
+          "1800"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17902",
+      "route_nid": "0463002300",
+      "matching_subroute_ids": [
+        "159358",
+        "159359"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "548",
+      "agency_code": "382290000H",
+      "source_row_number": 56,
+      "published_fields": {
+        "route_name": "瑞芳-松山車站(基客)",
+        "origin_destination": "瑞芳-松山車站",
+        "weekday_clocks": [
+          "0600",
+          "1820",
+          "0720",
+          "2020"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17903",
+      "route_nid": "0463002400",
+      "matching_subroute_ids": [
+        "159362",
+        "159363"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "549",
+      "agency_code": "382290000H",
+      "source_row_number": 57,
+      "published_fields": {
+        "route_name": "瑞芳(經東碇路)-松山車站",
+        "origin_destination": "瑞芳-松山車站",
+        "weekday_clocks": [
+          "0615",
+          "0800",
+          "1730",
+          "1925"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "19078",
+      "route_nid": "0463008900",
+      "matching_subroute_ids": [
+        "161377",
+        "161378"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "551",
+      "agency_code": "382290000H",
+      "source_row_number": 58,
+      "published_fields": {
+        "route_name": "石碇高中-捷運忠孝復興站",
+        "origin_destination": "石碇高中-捷運忠孝復興站",
+        "weekday_clocks": [
+          "0700",
+          "0700",
+          "0700",
+          "0700"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "19729",
+      "route_nid": "0463009400",
+      "matching_subroute_ids": [
+        "162420"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "552",
+      "agency_code": "382290000H",
+      "source_row_number": 59,
+      "published_fields": {
+        "route_name": "石門-捷運紅樹林站",
+        "origin_destination": "石門-捷運紅樹林站",
+        "weekday_clocks": [
+          "0600",
+          "0600",
+          "0600",
+          "0600"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17975",
+      "route_nid": "0463005100",
+      "matching_subroute_ids": [
+        "159558",
+        "159559"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "582",
+      "agency_code": "382290000H",
+      "source_row_number": 60,
+      "published_fields": {
+        "route_name": "萬里-內湖科技園區",
+        "origin_destination": "萬里橋頭-基湖路口",
+        "weekday_clocks": [
+          "0600",
+          "0840",
+          "1700",
+          "1930"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17994",
+      "route_nid": "0463005500",
+      "matching_subroute_ids": [
+        "159589",
+        "159590"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "609",
+      "agency_code": "382290000H",
+      "source_row_number": 61,
+      "published_fields": {
+        "route_name": "蘆洲-中正高中",
+        "origin_destination": "蘆洲-中正高中",
+        "weekday_clocks": [
+          "0650",
+          "0650",
+          null,
+          null
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "18168",
+      "route_nid": "0463007000",
+      "matching_subroute_ids": [
+        "160017"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "610",
+      "agency_code": "382290000H",
+      "source_row_number": 62,
+      "published_fields": {
+        "route_name": "蘆洲-內湖",
+        "origin_destination": "蘆洲總站-港墘派出所",
+        "weekday_clocks": [
+          "0625",
+          "0625",
+          "0625",
+          "0625"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "18028",
+      "route_nid": "0463006400",
+      "matching_subroute_ids": [
+        "159649"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "611",
+      "agency_code": "382290000H",
+      "source_row_number": 63,
+      "published_fields": {
+        "route_name": "蘆洲-南港",
+        "origin_destination": "捷運蘆洲站-捷運南港展覽館站",
+        "weekday_clocks": [
+          "0720",
+          "0720",
+          "0720",
+          "0720"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17996",
+      "route_nid": "0463005700",
+      "matching_subroute_ids": [
+        "159603"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "612",
+      "agency_code": "382290000H",
+      "source_row_number": 64,
+      "published_fields": {
+        "route_name": "蘆洲中正路-士林中正路",
+        "origin_destination": "蘆洲總站-捷運士林站",
+        "weekday_clocks": [
+          "0650",
+          "0650",
+          "0650",
+          "0650"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17968",
+      "route_nid": "0463004900",
+      "matching_subroute_ids": [
+        "159544"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "614",
+      "agency_code": "382290000H",
+      "source_row_number": 65,
+      "published_fields": {
+        "route_name": "鶯歌火車站-中正紀念堂",
+        "origin_destination": "鶯歌火車站-中正紀念堂",
+        "weekday_clocks": [
+          "0650",
+          "0650",
+          "0650",
+          "0650"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17846",
+      "route_nid": "0463001400",
+      "matching_subroute_ids": [
+        "159224"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    },
+    {
+      "source_sequence": "615",
+      "agency_code": "382290000H",
+      "source_row_number": 66,
+      "published_fields": {
+        "route_name": "鶯歌火車站-松山機場",
+        "origin_destination": "鶯歌火車站-松山機場",
+        "weekday_clocks": [
+          "0645",
+          "0700",
+          "0700",
+          "0700"
+        ],
+        "holiday_clocks": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "route_id": "17847",
+      "route_nid": "0463001500",
+      "matching_subroute_ids": [
+        "159225"
+      ],
+      "status": "verified_full_published_field_snapshot_equivalence",
+      "match_method": "all_shared_fields_and_explicit_official_category; seqno never interpreted as route ID",
+      "conflicting_candidate_evidence": []
+    }
+  ]
+}

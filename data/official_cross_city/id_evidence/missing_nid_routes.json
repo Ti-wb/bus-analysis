@@ -1,0 +1,491 @@
+{
+  "schema_version": 1,
+  "dataset_id": "taipei_missing_nid_official_id_evidence",
+  "metadata": {
+    "generated_at": "2026-10-24T11:22:57+08:00",
+    "source_data_time": null,
+    "grain": "one TDX main route with null NId",
+    "sources": [
+      {
+        "page_url": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579",
+        "requested_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetBusRouteFareList.gz",
+        "effective_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetBusRouteFareList.gz",
+        "downloaded_at": "2026-10-24T11:14:00+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": "Sat, 24 Oct 2026 03:03:11 GMT",
+        "content_type": "application/octet-stream",
+        "bytes": 69790,
+        "raw_file": "raw_data/official_cross_city/id_evidence/blobbus_route_fares.gz"
+      },
+      {
+        "normalized_file": "data/taipei_feeds/route_branches.json",
+        "metadata": {
+          "source": {
+            "source_page": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579",
+            "download_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetRoute.gz",
+            "resolved_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetRoute.gz",
+            "raw_file": "raw_data/taipei_feeds/GetRoute.gz",
+            "downloaded_at": "2026-10-21T23:31:38+08:00",
+            "http_last_modified": "Wed, 21 Oct 2026 15:03:08 GMT",
+            "bytes": 77393,
+            "source_data_time": "2026-10-21T23:03:04+08:00"
+          },
+          "source_data_time": "2026-10-21T23:03:04+08:00",
+          "source_period": null,
+          "timezone": "Asia/Taipei",
+          "grain": "main route × subroute × operator",
+          "units": {
+            "round_trip_distance_km": "km/round trip",
+            "approved_total_trips": "approved trips; reference day not supplied"
+          },
+          "geographic_scope": "Taipei authority feed; routes may extend beyond Taipei City",
+          "research_scope": "Taipei City; current feeds support the recent-three-year study, but contain no three-year history",
+          "snapshot_only": false,
+          "specification": {
+            "version": "6.3",
+            "source_page": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579",
+            "raw_file": "raw_data/taipei_feeds/api_spec_v6_3.pdf"
+          },
+          "missing_value_policy": "null; original missing tokens and absent-field status retained in source_missing_values; invalid values retained separately",
+          "limitations": [
+            "研究聚焦臺北市，保留臺北市主管機關來源完整範圍，包含跨市界服務；未依市界裁切，未額外下載新北市專屬 feed。",
+            "不同 feed 並非交易式同步，跨表缺漏需保留；下載時間不代替資料時間。",
+            "主路線 ID 會因分支與業者重複，不可把此表每列視為獨立主路線。",
+            "尖離峰 Headway 顯示字串未解為最短/最長班距；詳用 headway_schedules 與文字註記。",
+            "核定總班次不是實際行駛班次，沒有明示適用日，不能跨分支列加總。"
+          ],
+          "column_mapping": {
+            "Id": "route_id",
+            "NId": "route_nid",
+            "providerId": "operator_id",
+            "providerName": "operator_name",
+            "nameZh": "route_name_zh",
+            "nameEn": "route_name_en",
+            "aliasName": "alias_name",
+            "pathAttributeId": "subroute_id",
+            "pathAttributeNId": "subroute_nid",
+            "pathAttributeName": "subroute_name_zh",
+            "pathAttributeEname": "subroute_name_en",
+            "buildPeriod": "build_period_code",
+            "routeType": "route_type_code",
+            "departureZh": "departure_zh",
+            "departureEn": "departure_en",
+            "destinationZh": "destination_zh",
+            "destinationEn": "destination_en",
+            "realSequence": "approved_total_trips",
+            "distance": "round_trip_distance_km",
+            "goFirstBusTime": "go_first_bus_time",
+            "backFirstBusTime": "back_first_bus_time",
+            "goLastBusTime": "go_last_bus_time",
+            "backLastBusTime": "back_last_bus_time",
+            "busTimeDesc": "bus_time_desc",
+            "peakHeadway": "peak_headway",
+            "offPeakHeadway": "off_peak_headway",
+            "headwayDesc": "headway_desc",
+            "holidayGoFirstBusTime": "holiday_go_first_bus_time",
+            "holidayBackFirstBusTime": "holiday_back_first_bus_time",
+            "holidayGoLastBusTime": "holiday_go_last_bus_time",
+            "holidayBackLastBusTime": "holiday_back_last_bus_time",
+            "holidayBusTimeDesc": "holiday_bus_time_desc",
+            "holidayPeakHeadway": "holiday_peak_headway",
+            "holidayOffPeakHeadway": "holiday_off_peak_headway",
+            "holidayHeadwayDesc": "holiday_headway_desc",
+            "segmentBufferZh": "segment_buffer_zh",
+            "segmentBufferEn": "segment_buffer_en",
+            "ticketPriceDescriptionZh": "ticket_price_description_zh",
+            "ticketPriceDescriptionEn": "ticket_price_description_en",
+            "ttiaPathId": "ttia_path_id",
+            "roadMapUrl": "road_map_url",
+            "genus": "route_category_codes"
+          },
+          "normalization_counts": {
+            "source_rows": 800,
+            "normalized_rows": 773,
+            "exact_duplicate_rows_collapsed": 27
+          },
+          "deduplication_policy": "Only complete normalized rows with identical values are collapsed. All original zero-based source_row_indices are retained. Distinct values for the same candidate key are never collapsed.",
+          "quality": {
+            "record_count": 773,
+            "key_fields": [
+              "route_id",
+              "subroute_id",
+              "operator_id"
+            ],
+            "duplicate_key_rows": 0,
+            "null_counts": {
+              "alias_name": 736,
+              "approved_total_trips": 0,
+              "back_first_bus_time": 15,
+              "back_last_bus_time": 15,
+              "build_period_code": 0,
+              "bus_time_desc": 480,
+              "departure_en": 0,
+              "departure_zh": 0,
+              "destination_en": 0,
+              "destination_zh": 0,
+              "go_first_bus_time": 14,
+              "go_last_bus_time": 14,
+              "headway_desc": 445,
+              "holiday_back_first_bus_time": 214,
+              "holiday_back_last_bus_time": 214,
+              "holiday_bus_time_desc": 700,
+              "holiday_go_first_bus_time": 214,
+              "holiday_go_last_bus_time": 214,
+              "holiday_headway_desc": 334,
+              "holiday_off_peak_headway": 602,
+              "holiday_peak_headway": 602,
+              "off_peak_headway": 568,
+              "operator_id": 0,
+              "operator_name": 0,
+              "peak_headway": 528,
+              "road_map_url": 0,
+              "round_trip_distance_km": 0,
+              "route_category_codes": 0,
+              "route_id": 0,
+              "route_name_en": 0,
+              "route_name_zh": 0,
+              "route_nid": 10,
+              "route_type_code": 0,
+              "segment_buffer_en": 455,
+              "segment_buffer_zh": 430,
+              "source_row_indices": 0,
+              "subroute_id": 0,
+              "subroute_name_en": 0,
+              "subroute_name_zh": 0,
+              "subroute_nid": 20,
+              "ticket_price_description_en": 21,
+              "ticket_price_description_zh": 3,
+              "ttia_path_id": 0
+            },
+            "quality_flag_counts": {},
+            "null_geometry_count": 0
+          }
+        }
+      },
+      {
+        "normalized_file": "data/tdx/observations/Taipei_2026-10-20_Route_top_100000.json",
+        "metadata": {
+          "grain": "one source entity within the requested historical version; nested stops/trips retained",
+          "units": {
+            "stop_position": "longitude/latitude degrees",
+            "geometry": "WGS84 longitude/latitude degrees"
+          },
+          "sources": [
+            {
+              "source_page": "https://tdx.transportdata.tw/api-service/swagger/historical/39472fde-f790-42b9-9c8b-88282118e6b1",
+              "download_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/Route/Date/2026-10-20/City/Taipei?%24format=JSON&%24top=100000",
+              "raw_file": "raw_data/tdx/responses/Taipei_2026-10-20_Route_top_100000.json",
+              "downloaded_at": "2026-10-21T23:45:25+08:00",
+              "source_updated_at": null,
+              "bytes": 599182,
+              "content_type": "application/json; charset=utf-8",
+              "evidence_type": "business_api_response",
+              "http_status": 200,
+              "usage_headers": {
+                "x-ratelimit-limit-minute": "5",
+                "x-ratelimit-remaining-minute": "4"
+              }
+            }
+          ],
+          "request": {
+            "family": "historical",
+            "specification_id": "historical",
+            "request_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/Route/Date/2026-10-20/City/Taipei?%24format=JSON&%24top=100000",
+            "path_values": {
+              "City": "Taipei",
+              "Date": "2026-10-20"
+            },
+            "query_parameters": {
+              "$format": "JSON",
+              "$top": 100000
+            },
+            "label": "Taipei_2026-10-20_Route",
+            "sample_only": false,
+            "documented_top_default": 30,
+            "request_limit": 20,
+            "max_response_bytes": 5242880
+          },
+          "source_updated_at": null,
+          "statistical_period": {
+            "requested_date": "2026-10-20",
+            "version_start": "2026-10-19T00:00:00+08:00",
+            "version_end": "2026-10-20T23:59:59+08:00"
+          },
+          "response_metadata": {
+            "start_date": "2026-10-19T00:00:00+08:00",
+            "end_date": "2026-10-20T23:59:59+08:00",
+            "version_id": "20261019",
+            "count": 416,
+            "size": 642603
+          },
+          "record_count": 416,
+          "time_zone": "Asia/Taipei",
+          "time_zone_note": "Asia/Taipei identifies the requested civil day. Each source timestamp retains its own original UTC offset.",
+          "scope_status": "complete_requested_date_by_response_count",
+          "limitations": [
+            "來源識別碼不直接與臺北市直接下載 feed 的識別碼關聯。",
+            "未知/缺漏不補零；狀態碼原值保留。"
+          ],
+          "field_dictionary": "data/tdx/field_dictionary.json"
+        }
+      }
+    ],
+    "independent_review_status": "pending",
+    "field_units": {
+      "*_id": "source identifier string",
+      "source_sequence_no": "source ordinal"
+    },
+    "source_terms": {
+      "ntpc_csv": "https://data.gov.tw/license",
+      "direct_bus_feeds": "https://data.taipei/rule",
+      "tdx": "https://tdx.transportdata.tw/term",
+      "ebus_pages": "https://ebus.gov.taipei/Home/CopyrightNotice",
+      "note": "保留各來源條款；不將eBus網頁宣稱為開放資料授權。"
+    },
+    "limitations": [
+      "各來源快照時間獨立保留；多欄等價只核對所列快照，不推論跨版本永久ID規則。",
+      "今日未營運不等於永久停用；未列PathDetail不補造附線會員。"
+    ],
+    "official_fare_update_time": "2026-10-24T01:15:11.071+08:00",
+    "uid_rule_reference": {
+      "normalized_file": "data/tdx/field_dictionary.json",
+      "specification_id": "historical",
+      "model": "PTXPlus.Model.Historical.POCO.Content.V2.Bus.BusRoute",
+      "source_field": "RouteUID",
+      "rule": "業管機關簡碼 + RouteID; RouteID is 地區既用中之路線代碼(為原資料內碼)"
+    }
+  },
+  "records": [
+    {
+      "tdx_route_uid": "TPE19678",
+      "tdx_route_id": "19678",
+      "reference_route_id": "19678",
+      "authority_code": "TPE",
+      "route_nid": null,
+      "status": "verified_official_ptx_authority_route_subroute_operator_tuple",
+      "evidence_tuples": [
+        {
+          "authority_code": "TPE",
+          "route_id": "19678",
+          "subroute_id": "162277",
+          "operator_id": "400",
+          "route_name": "261預",
+          "subroute_name": "261預",
+          "source_record_number": 633
+        }
+      ],
+      "tdx_direction_rows": 2,
+      "limitations": [
+        "NId仍為null；已核實的是主管機關與主線/附線/業者ID組合，不補造NId或宣稱實際營運。"
+      ]
+    },
+    {
+      "tdx_route_uid": "TPE19719",
+      "tdx_route_id": "19719",
+      "reference_route_id": "19719",
+      "authority_code": "TPE",
+      "route_nid": null,
+      "status": "verified_official_ptx_authority_route_subroute_operator_tuple",
+      "evidence_tuples": [
+        {
+          "authority_code": "TPE",
+          "route_id": "19719",
+          "subroute_id": "162403",
+          "operator_id": "200",
+          "route_name": "紅68預",
+          "subroute_name": "紅68預",
+          "source_record_number": 646
+        }
+      ],
+      "tdx_direction_rows": 2,
+      "limitations": [
+        "NId仍為null；已核實的是主管機關與主線/附線/業者ID組合，不補造NId或宣稱實際營運。"
+      ]
+    },
+    {
+      "tdx_route_uid": "TPE19178",
+      "tdx_route_id": "19178",
+      "reference_route_id": "19178",
+      "authority_code": "TPE",
+      "route_nid": null,
+      "status": "verified_official_ptx_authority_route_subroute_operator_tuple",
+      "evidence_tuples": [
+        {
+          "authority_code": "TPE",
+          "route_id": "19178",
+          "subroute_id": "161498",
+          "operator_id": "800",
+          "route_name": "260區預",
+          "subroute_name": "260區預",
+          "source_record_number": 600
+        }
+      ],
+      "tdx_direction_rows": 2,
+      "limitations": [
+        "NId仍為null；已核實的是主管機關與主線/附線/業者ID組合，不補造NId或宣稱實際營運。"
+      ]
+    },
+    {
+      "tdx_route_uid": "TPE18508",
+      "tdx_route_id": "18508",
+      "reference_route_id": "18508",
+      "authority_code": "TPE",
+      "route_nid": null,
+      "status": "verified_official_ptx_authority_route_subroute_operator_tuple",
+      "evidence_tuples": [
+        {
+          "authority_code": "TPE",
+          "route_id": "18508",
+          "subroute_id": "160469",
+          "operator_id": "1100",
+          "route_name": "棕20預",
+          "subroute_name": "棕20預",
+          "source_record_number": 563
+        }
+      ],
+      "tdx_direction_rows": 2,
+      "limitations": [
+        "NId仍為null；已核實的是主管機關與主線/附線/業者ID組合，不補造NId或宣稱實際營運。"
+      ]
+    },
+    {
+      "tdx_route_uid": "TPE19458",
+      "tdx_route_id": "19458",
+      "reference_route_id": "19458",
+      "authority_code": "TPE",
+      "route_nid": null,
+      "status": "verified_official_ptx_authority_route_subroute_operator_tuple",
+      "evidence_tuples": [
+        {
+          "authority_code": "TPE",
+          "route_id": "19458",
+          "subroute_id": "161937",
+          "operator_id": "5300",
+          "route_name": "683預",
+          "subroute_name": "683預",
+          "source_record_number": 618
+        }
+      ],
+      "tdx_direction_rows": 2,
+      "limitations": [
+        "NId仍為null；已核實的是主管機關與主線/附線/業者ID組合，不補造NId或宣稱實際營運。"
+      ]
+    },
+    {
+      "tdx_route_uid": "TPE18348",
+      "tdx_route_id": "18348",
+      "reference_route_id": "18348",
+      "authority_code": "TPE",
+      "route_nid": null,
+      "status": "verified_official_ptx_authority_route_subroute_operator_tuple",
+      "evidence_tuples": [
+        {
+          "authority_code": "TPE",
+          "route_id": "18348",
+          "subroute_id": "160269",
+          "operator_id": "200",
+          "route_name": "542預",
+          "subroute_name": "542預",
+          "source_record_number": 556
+        }
+      ],
+      "tdx_direction_rows": 2,
+      "limitations": [
+        "NId仍為null；已核實的是主管機關與主線/附線/業者ID組合，不補造NId或宣稱實際營運。"
+      ]
+    },
+    {
+      "tdx_route_uid": "TPE19159",
+      "tdx_route_id": "19159",
+      "reference_route_id": "19159",
+      "authority_code": "TPE",
+      "route_nid": null,
+      "status": "verified_official_ptx_authority_route_subroute_operator_tuple",
+      "evidence_tuples": [
+        {
+          "authority_code": "TPE",
+          "route_id": "19159",
+          "subroute_id": "161480",
+          "operator_id": "800",
+          "route_name": "297預",
+          "subroute_name": "297預",
+          "source_record_number": 598
+        }
+      ],
+      "tdx_direction_rows": 2,
+      "limitations": [
+        "NId仍為null；已核實的是主管機關與主線/附線/業者ID組合，不補造NId或宣稱實際營運。"
+      ]
+    },
+    {
+      "tdx_route_uid": "TPE19438",
+      "tdx_route_id": "19438",
+      "reference_route_id": "19438",
+      "authority_code": "TPE",
+      "route_nid": null,
+      "status": "verified_official_ptx_authority_route_subroute_operator_tuple",
+      "evidence_tuples": [
+        {
+          "authority_code": "TPE",
+          "route_id": "19438",
+          "subroute_id": "161887",
+          "operator_id": "200",
+          "route_name": "539預",
+          "subroute_name": "539預",
+          "source_record_number": 615
+        }
+      ],
+      "tdx_direction_rows": 2,
+      "limitations": [
+        "NId仍為null；已核實的是主管機關與主線/附線/業者ID組合，不補造NId或宣稱實際營運。"
+      ]
+    },
+    {
+      "tdx_route_uid": "TPE19528",
+      "tdx_route_id": "19528",
+      "reference_route_id": "19528",
+      "authority_code": "TPE",
+      "route_nid": null,
+      "status": "verified_official_ptx_authority_route_subroute_operator_tuple",
+      "evidence_tuples": [
+        {
+          "authority_code": "TPE",
+          "route_id": "19528",
+          "subroute_id": "162047",
+          "operator_id": "5300",
+          "route_name": "246預",
+          "subroute_name": "246預",
+          "source_record_number": 625
+        }
+      ],
+      "tdx_direction_rows": 2,
+      "limitations": [
+        "NId仍為null；已核實的是主管機關與主線/附線/業者ID組合，不補造NId或宣稱實際營運。"
+      ]
+    },
+    {
+      "tdx_route_uid": "TPE19698",
+      "tdx_route_id": "19698",
+      "reference_route_id": "19698",
+      "authority_code": "TPE",
+      "route_nid": null,
+      "status": "verified_official_ptx_authority_route_subroute_operator_tuple",
+      "evidence_tuples": [
+        {
+          "authority_code": "TPE",
+          "route_id": "19698",
+          "subroute_id": "162320",
+          "operator_id": "200",
+          "route_name": "小15區預",
+          "subroute_name": "小15區預",
+          "source_record_number": 638
+        }
+      ],
+      "tdx_direction_rows": 2,
+      "limitations": [
+        "NId仍為null；已核實的是主管機關與主線/附線/業者ID組合，不補造NId或宣稱實際營運。"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,4591 @@
+{
+  "schema_version": 1,
+  "dataset_id": "ntpc_unlinked_stop_official_status_evidence",
+  "metadata": {
+    "generated_at": "2026-10-24T11:22:57+08:00",
+    "source_data_time": null,
+    "grain": "one original unlinked route-stop ID",
+    "sources": [
+      {
+        "page_url": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=C668AE404DCD2EFE",
+        "requested_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetStopLocation.gz",
+        "effective_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetStopLocation.gz",
+        "downloaded_at": "2026-10-24T11:15:17+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": "Sat, 24 Oct 2026 03:03:04 GMT",
+        "content_type": "application/octet-stream",
+        "bytes": 273821,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_GetStopLocation.gz"
+      },
+      {
+        "page_url": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=C668AE404DCD2EFE",
+        "requested_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetStop.gz",
+        "effective_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetStop.gz",
+        "downloaded_at": "2026-10-24T11:15:18+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": "Sat, 24 Oct 2026 03:03:03 GMT",
+        "content_type": "application/octet-stream",
+        "bytes": 1485258,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_GetStop.gz"
+      },
+      {
+        "page_url": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=C668AE404DCD2EFE",
+        "requested_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetPathDetail.gz",
+        "effective_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetPathDetail.gz",
+        "downloaded_at": "2026-10-24T11:15:18+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": "Sat, 24 Oct 2026 03:03:01 GMT",
+        "content_type": "application/octet-stream",
+        "bytes": 338364,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_GetPathDetail.gz"
+      },
+      {
+        "page_url": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=C668AE404DCD2EFE",
+        "requested_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetEstimateTime.gz",
+        "effective_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetEstimateTime.gz",
+        "downloaded_at": "2026-10-24T11:15:19+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": "Sat, 24 Oct 2026 03:15:16 GMT",
+        "content_type": "application/octet-stream",
+        "bytes": 148557,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_GetEstimateTime.gz"
+      },
+      {
+        "page_url": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579",
+        "requested_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetBusRouteFareList.gz",
+        "effective_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetBusRouteFareList.gz",
+        "downloaded_at": "2026-10-24T11:14:00+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": "Sat, 24 Oct 2026 03:03:11 GMT",
+        "content_type": "application/octet-stream",
+        "bytes": 69790,
+        "raw_file": "raw_data/official_cross_city/id_evidence/blobbus_route_fares.gz"
+      },
+      {
+        "page_url": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=C668AE404DCD2EFE",
+        "requested_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetBusRouteFareList.gz",
+        "effective_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetBusRouteFareList.gz",
+        "downloaded_at": "2026-10-24T11:14:00+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": "Sat, 24 Oct 2026 03:03:04 GMT",
+        "content_type": "application/octet-stream",
+        "bytes": 88539,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpcbus_route_fares.gz"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400024300",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400024300",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400024300",
+        "downloaded_at": "2026-10-24T11:14:56+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 200359,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_10172.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400024100",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400024100",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400024100",
+        "downloaded_at": "2026-10-24T11:18:45+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 266335,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_10173.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400070600",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400070600",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400070600",
+        "downloaded_at": "2026-10-24T11:18:46+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 334254,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_10196.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400081100",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400081100",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400081100",
+        "downloaded_at": "2026-10-24T11:18:47+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 260881,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_16425.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400027510",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400027510",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400027510",
+        "downloaded_at": "2026-10-24T11:18:48+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 321107,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_16461.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400005700",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400005700",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400005700",
+        "downloaded_at": "2026-10-24T11:18:50+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 253975,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_16468.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400083500",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400083500",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400083500",
+        "downloaded_at": "2026-10-24T11:18:51+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 244899,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_16485.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0415001900",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0415001900",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0415001900",
+        "downloaded_at": "2026-10-24T11:18:52+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 209561,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_16489.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400081600",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400081600",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400081600",
+        "downloaded_at": "2026-10-24T11:18:53+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 207757,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_16499.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400081500",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400081500",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400081500",
+        "downloaded_at": "2026-10-24T11:18:54+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 208527,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_16500.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400085900",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400085900",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400085900",
+        "downloaded_at": "2026-10-24T11:18:55+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 268161,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_16518.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400027500",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400027500",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400027500",
+        "downloaded_at": "2026-10-24T11:18:56+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 287818,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_16581.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400082000",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400082000",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400082000",
+        "downloaded_at": "2026-10-24T11:18:58+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 223963,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_16584.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400090800",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400090800",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400090800",
+        "downloaded_at": "2026-10-24T11:18:59+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 174296,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_16585.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0415001800",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0415001800",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0415001800",
+        "downloaded_at": "2026-10-24T11:19:00+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 220812,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_16593.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400080300",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400080300",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400080300",
+        "downloaded_at": "2026-10-24T11:19:01+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 274309,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_16595.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400092100",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400092100",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400092100",
+        "downloaded_at": "2026-10-24T11:19:03+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 198135,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_16664.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0415001300",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0415001300",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0415001300",
+        "downloaded_at": "2026-10-24T11:19:04+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 188888,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_16668.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400093800",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400093800",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400093800",
+        "downloaded_at": "2026-10-24T11:19:05+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 172900,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_16672.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400079300",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400079300",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400079300",
+        "downloaded_at": "2026-10-24T11:19:06+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 344385,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_16689.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400078300",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400078300",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400078300",
+        "downloaded_at": "2026-10-24T11:19:07+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 271390,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_16692.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400078600",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400078600",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400078600",
+        "downloaded_at": "2026-10-24T11:19:08+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 294057,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_16694.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0415001870",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0415001870",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0415001870",
+        "downloaded_at": "2026-10-24T11:19:10+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 228640,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_16748.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0454093170",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0454093170",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0454093170",
+        "downloaded_at": "2026-10-24T11:19:11+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 157386,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_16987.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400094600",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400094600",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400094600",
+        "downloaded_at": "2026-10-24T11:19:12+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 246463,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_17293.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400094610",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400094610",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400094610",
+        "downloaded_at": "2026-10-24T11:19:13+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 221089,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_17294.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0410098500",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0410098500",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0410098500",
+        "downloaded_at": "2026-10-24T11:19:14+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 324312,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_17304.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400080500",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400080500",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400080500",
+        "downloaded_at": "2026-10-24T11:19:16+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 283934,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_17524.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400081300",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400081300",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400081300",
+        "downloaded_at": "2026-10-24T11:19:17+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 250356,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_17526.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400081320",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400081320",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400081320",
+        "downloaded_at": "2026-10-24T11:19:18+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 222473,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_17527.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400091800",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400091800",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400091800",
+        "downloaded_at": "2026-10-24T11:19:19+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 241125,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_17532.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400092700",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400092700",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400092700",
+        "downloaded_at": "2026-10-24T11:19:21+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 226969,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_17536.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400092800",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400092800",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400092800",
+        "downloaded_at": "2026-10-24T11:19:22+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 253609,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_17537.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400092790",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400092790",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400092790",
+        "downloaded_at": "2026-10-24T11:19:23+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 230523,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_17545.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400078620",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400078620",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400078620",
+        "downloaded_at": "2026-10-24T11:19:24+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 261155,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_17719.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400090870",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400090870",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400090870",
+        "downloaded_at": "2026-10-24T11:19:25+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 156585,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_17775.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0463000800",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0463000800",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0463000800",
+        "downloaded_at": "2026-10-24T11:19:26+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 141920,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_17811.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0463001000",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0463001000",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0463001000",
+        "downloaded_at": "2026-10-24T11:19:28+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 162537,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_17813.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0463002500",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0463002500",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0463002500",
+        "downloaded_at": "2026-10-24T11:19:29+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 163461,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_17904.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0463002600",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0463002600",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0463002600",
+        "downloaded_at": "2026-10-24T11:19:30+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 150714,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_17905.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0463002900",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0463002900",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0463002900",
+        "downloaded_at": "2026-10-24T11:19:31+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 178410,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_17911.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0463003100",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0463003100",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0463003100",
+        "downloaded_at": "2026-10-24T11:19:32+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 163062,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_17917.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0463005400",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0463005400",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0463005400",
+        "downloaded_at": "2026-10-24T11:19:34+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 179555,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_17992.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0463005500",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0463005500",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0463005500",
+        "downloaded_at": "2026-10-24T11:19:35+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 185456,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_17994.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0463006100",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0463006100",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0463006100",
+        "downloaded_at": "2026-10-24T11:19:36+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 159586,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_18014.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0415001910",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0415001910",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0415001910",
+        "downloaded_at": "2026-10-24T11:19:37+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 211904,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_18268.html"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400091820",
+        "requested_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400091820",
+        "effective_url": "https://ebus.gov.taipei/Route/StopsOfRoute?routeid=0400091820",
+        "downloaded_at": "2026-10-24T11:19:38+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 204548,
+        "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_route_18318.html"
+      },
+      {
+        "page_url": "https://data.taipei/dataset/detail?id=2a8f5f42-942c-4974-8366-b44e90ad9701",
+        "requested_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetPathDetail.gz",
+        "effective_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetPathDetail.gz",
+        "downloaded_at": "2026-10-24T10:45:13+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": "Sat, 24 Oct 2026 02:44:21 GMT",
+        "content_type": "application/octet-stream",
+        "bytes": 338364,
+        "raw_file": "raw_data/official_cross_city/crosswalk/ntpc_pathdetail.gz"
+      }
+    ],
+    "independent_review_status": "pending",
+    "field_units": {
+      "*_id": "source identifier string",
+      "source_sequence_no": "source ordinal"
+    },
+    "source_terms": {
+      "ntpc_csv": "https://data.gov.tw/license",
+      "direct_bus_feeds": "https://data.taipei/rule",
+      "tdx": "https://tdx.transportdata.tw/term",
+      "ebus_pages": "https://ebus.gov.taipei/Home/CopyrightNotice",
+      "note": "保留各來源條款；不將eBus網頁宣稱為開放資料授權。"
+    },
+    "limitations": [
+      "各來源快照時間獨立保留；多欄等價只核對所列快照，不推論跨版本永久ID規則。",
+      "今日未營運不等於永久停用；未列PathDetail不補造附線會員。"
+    ],
+    "status_counts": {
+      "official_not_operating_today": 114
+    },
+    "source_data_times_raw": {
+      "ntpc_GetStopLocation.gz": "2026/10/24 11:02:56",
+      "ntpc_GetStop.gz": "2026/10/24 11:02:56",
+      "ntpc_GetPathDetail.gz": "2026/10/24 11:02:56",
+      "ntpc_GetEstimateTime.gz": "2026/10/24 11:15:15"
+    },
+    "semantic_specification": {
+      "url": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=C668AE404DCD2EFE",
+      "page": 4,
+      "estimate_time_minus_4": "今日未營運"
+    }
+  },
+  "records": [
+    {
+      "stop_id": "14912",
+      "route_id": "10173",
+      "stop_location_id": "3052",
+      "official_stop_nid": "2355100520",
+      "official_route_nid": "0400024100",
+      "stop_name": "連城錦和路口(暫時裁撤)",
+      "source_sequence_no": 3,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 3,
+          "public_stop_nid": "2355100520",
+          "source_stop_name": "連城錦和路口(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        16948
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "14915",
+      "route_id": "10173",
+      "stop_location_id": "3134",
+      "official_stop_nid": "2355900520",
+      "official_route_nid": "0400024100",
+      "stop_name": "連城景平路(暫時裁撤)",
+      "source_sequence_no": 6,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 6,
+          "public_stop_nid": "2355900520",
+          "source_stop_name": "連城景平路(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        16942
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "14970",
+      "route_id": "10173",
+      "stop_location_id": "1945",
+      "official_stop_nid": "1007500140",
+      "official_route_nid": "0400024100",
+      "stop_name": "南昌路(暫時裁撤)",
+      "source_sequence_no": 54,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 6,
+          "public_stop_nid": "1007500140",
+          "source_stop_name": "南昌路"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        16899
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "15050",
+      "route_id": "10173",
+      "stop_location_id": "10003",
+      "official_stop_nid": "2355900560",
+      "official_route_nid": "0400024100",
+      "stop_name": "連城景平路(暫時裁撤)",
+      "source_sequence_no": 98,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 50,
+          "public_stop_nid": "2355900560",
+          "source_stop_name": "連城景平路(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        22989
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "34491",
+      "route_id": "10172",
+      "stop_location_id": "3052",
+      "official_stop_nid": "2355100520",
+      "official_route_nid": "0400024300",
+      "stop_name": "連城錦和路口(暫時裁撤)",
+      "source_sequence_no": 3,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 3,
+          "public_stop_nid": "2355100520",
+          "source_stop_name": "連城錦和路口(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        19442
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "34494",
+      "route_id": "10172",
+      "stop_location_id": "3134",
+      "official_stop_nid": "2355900520",
+      "official_route_nid": "0400024300",
+      "stop_name": "連城景平路(暫時裁撤)",
+      "source_sequence_no": 6,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 6,
+          "public_stop_nid": "2355900520",
+          "source_stop_name": "連城景平路(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        19439
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "34520",
+      "route_id": "10172",
+      "stop_location_id": "1945",
+      "official_stop_nid": "1007500140",
+      "official_route_nid": "0400024300",
+      "stop_name": "南昌路(暫時裁撤)",
+      "source_sequence_no": 32,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 6,
+          "public_stop_nid": "1007500140",
+          "source_stop_name": "南昌路"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        19372
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "34537",
+      "route_id": "10172",
+      "stop_location_id": "10003",
+      "official_stop_nid": "2355900560",
+      "official_route_nid": "0400024300",
+      "stop_name": "連城景平路(暫時裁撤)",
+      "source_sequence_no": 49,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 23,
+          "public_stop_nid": "2355900560",
+          "source_stop_name": "連城景平路(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        19366
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "35123",
+      "route_id": "10196",
+      "stop_location_id": "3052",
+      "official_stop_nid": "2355100520",
+      "official_route_nid": "0400070600",
+      "stop_name": "連城錦和路口(暫時裁撤)",
+      "source_sequence_no": 58,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 58,
+          "public_stop_nid": "2355100520",
+          "source_stop_name": "連城錦和路口(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        26929
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "35126",
+      "route_id": "10196",
+      "stop_location_id": "3134",
+      "official_stop_nid": "2355900520",
+      "official_route_nid": "0400070600",
+      "stop_name": "連城景平路(暫時裁撤)",
+      "source_sequence_no": 61,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 61,
+          "public_stop_nid": "2355900520",
+          "source_stop_name": "連城景平路(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        26926
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "35164",
+      "route_id": "10196",
+      "stop_location_id": "10003",
+      "official_stop_nid": "2355900560",
+      "official_route_nid": "0400070600",
+      "stop_name": "連城景平路(暫時裁撤)",
+      "source_sequence_no": 99,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 21,
+          "public_stop_nid": "2355900560",
+          "source_stop_name": "連城景平路(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        27095
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "35167",
+      "route_id": "10196",
+      "stop_location_id": "10006",
+      "official_stop_nid": "2355100560",
+      "official_route_nid": "0400070600",
+      "stop_name": "連城錦和路口(暫時裁撤)",
+      "source_sequence_no": 102,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 24,
+          "public_stop_nid": "2355100560",
+          "source_stop_name": "連城錦和路口(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        27102
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "59014",
+      "route_id": "10196",
+      "stop_location_id": "1945",
+      "official_stop_nid": "1007500140",
+      "official_route_nid": "0400070600",
+      "stop_name": "南昌路(暫時裁撤)",
+      "source_sequence_no": 84,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 6,
+          "public_stop_nid": "1007500140",
+          "source_stop_name": "南昌路"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        26637
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "123784",
+      "route_id": "16425",
+      "stop_location_id": "4038",
+      "official_stop_nid": "2415300160",
+      "official_route_nid": "0400081100",
+      "stop_name": "五華國小",
+      "source_sequence_no": 74,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 25,
+          "public_stop_nid": "2415300160",
+          "source_stop_name": "五華國小"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        4225
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "123787",
+      "route_id": "16425",
+      "stop_location_id": "3652",
+      "official_stop_nid": "2415100540",
+      "official_route_nid": "0400081100",
+      "stop_name": "五華街口",
+      "source_sequence_no": 77,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 28,
+          "public_stop_nid": "2415100540",
+          "source_stop_name": "五華街口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        4219
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "126492",
+      "route_id": "16461",
+      "stop_location_id": "3052",
+      "official_stop_nid": "2355100520",
+      "official_route_nid": "0400027510",
+      "stop_name": "連城錦和路口(暫時裁撤)",
+      "source_sequence_no": 42,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 42,
+          "public_stop_nid": "2355100520",
+          "source_stop_name": "連城錦和路口(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        21018
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "126495",
+      "route_id": "16461",
+      "stop_location_id": "72487",
+      "official_stop_nid": "2355900521",
+      "official_route_nid": "0400027510",
+      "stop_name": "連城景平路(暫時裁撤)",
+      "source_sequence_no": 45,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 45,
+          "public_stop_nid": "2355900521",
+          "source_stop_name": "連城景平路(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        21012
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "126551",
+      "route_id": "16461",
+      "stop_location_id": "10003",
+      "official_stop_nid": "2355900560",
+      "official_route_nid": "0400027510",
+      "stop_name": "連城景平路(暫時裁撤)",
+      "source_sequence_no": 101,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 28,
+          "public_stop_nid": "2355900560",
+          "source_stop_name": "連城景平路(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        20787
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "126554",
+      "route_id": "16461",
+      "stop_location_id": "10006",
+      "official_stop_nid": "2355100560",
+      "official_route_nid": "0400027510",
+      "stop_name": "連城錦和路口(暫時裁撤)",
+      "source_sequence_no": 104,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 31,
+          "public_stop_nid": "2355100560",
+          "source_stop_name": "連城錦和路口(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        20784
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "127716",
+      "route_id": "16468",
+      "stop_location_id": "3052",
+      "official_stop_nid": "2355100520",
+      "official_route_nid": "0400005700",
+      "stop_name": "連城錦和路口(暫時裁撤)",
+      "source_sequence_no": 22,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 22,
+          "public_stop_nid": "2355100520",
+          "source_stop_name": "連城錦和路口(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        29961
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "127719",
+      "route_id": "16468",
+      "stop_location_id": "72487",
+      "official_stop_nid": "2355900521",
+      "official_route_nid": "0400005700",
+      "stop_name": "連城景平路(暫時裁撤)",
+      "source_sequence_no": 25,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 25,
+          "public_stop_nid": "2355900521",
+          "source_stop_name": "連城景平路(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        29968
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "127766",
+      "route_id": "16468",
+      "stop_location_id": "10003",
+      "official_stop_nid": "2355900560",
+      "official_route_nid": "0400005700",
+      "stop_name": "連城景平路(暫時裁撤)",
+      "source_sequence_no": 71,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 23,
+          "public_stop_nid": "2355900560",
+          "source_stop_name": "連城景平路(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        30029
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "127769",
+      "route_id": "16468",
+      "stop_location_id": "10006",
+      "official_stop_nid": "2355100560",
+      "official_route_nid": "0400005700",
+      "stop_name": "連城錦和路口(暫時裁撤)",
+      "source_sequence_no": 74,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 26,
+          "public_stop_nid": "2355100560",
+          "source_stop_name": "連城錦和路口(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        30026
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "129017",
+      "route_id": "16489",
+      "stop_location_id": "3652",
+      "official_stop_nid": "2415100540",
+      "official_route_nid": "0415001900",
+      "stop_name": "五華街口",
+      "source_sequence_no": 33,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 2,
+          "public_stop_nid": "2415100540",
+          "source_stop_name": "五華街口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        15311
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "129583",
+      "route_id": "16499",
+      "stop_location_id": "4038",
+      "official_stop_nid": "2415300160",
+      "official_route_nid": "0400081600",
+      "stop_name": "五華國小",
+      "source_sequence_no": 35,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 8,
+          "public_stop_nid": "2415300160",
+          "source_stop_name": "五華國小"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        9308
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "129586",
+      "route_id": "16499",
+      "stop_location_id": "3652",
+      "official_stop_nid": "2415100540",
+      "official_route_nid": "0400081600",
+      "stop_name": "五華街口",
+      "source_sequence_no": 38,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 11,
+          "public_stop_nid": "2415100540",
+          "source_stop_name": "五華街口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        9311
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "129648",
+      "route_id": "16500",
+      "stop_location_id": "4038",
+      "official_stop_nid": "2415300160",
+      "official_route_nid": "0400081500",
+      "stop_name": "五華國小",
+      "source_sequence_no": 43,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 14,
+          "public_stop_nid": "2415300160",
+          "source_stop_name": "五華國小"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        10288
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "129651",
+      "route_id": "16500",
+      "stop_location_id": "3652",
+      "official_stop_nid": "2415100540",
+      "official_route_nid": "0400081500",
+      "stop_name": "五華街口",
+      "source_sequence_no": 46,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 17,
+          "public_stop_nid": "2415100540",
+          "source_stop_name": "五華街口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        10248
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "138073",
+      "route_id": "16581",
+      "stop_location_id": "3052",
+      "official_stop_nid": "2355100520",
+      "official_route_nid": "0400027500",
+      "stop_name": "連城錦和路口(暫時裁撤)",
+      "source_sequence_no": 16,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 16,
+          "public_stop_nid": "2355100520",
+          "source_stop_name": "連城錦和路口(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        187
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "138076",
+      "route_id": "16581",
+      "stop_location_id": "72487",
+      "official_stop_nid": "2355900521",
+      "official_route_nid": "0400027500",
+      "stop_name": "連城景平路(暫時裁撤)",
+      "source_sequence_no": 19,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 19,
+          "public_stop_nid": "2355900521",
+          "source_stop_name": "連城景平路(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        205
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "138155",
+      "route_id": "16581",
+      "stop_location_id": "10003",
+      "official_stop_nid": "2355900560",
+      "official_route_nid": "0400027500",
+      "stop_name": "連城景平路(暫時裁撤)",
+      "source_sequence_no": 100,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 42,
+          "public_stop_nid": "2355900560",
+          "source_stop_name": "連城景平路(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        1133
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "138158",
+      "route_id": "16581",
+      "stop_location_id": "10006",
+      "official_stop_nid": "2355100560",
+      "official_route_nid": "0400027500",
+      "stop_name": "連城錦和路口(暫時裁撤)",
+      "source_sequence_no": 103,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 45,
+          "public_stop_nid": "2355100560",
+          "source_stop_name": "連城錦和路口(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        1124
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "138523",
+      "route_id": "16584",
+      "stop_location_id": "3637",
+      "official_stop_nid": "2435700740",
+      "official_route_nid": "0400082000",
+      "stop_name": "環河路口",
+      "source_sequence_no": 9,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 9,
+          "public_stop_nid": "2435700740",
+          "source_stop_name": "環河路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        2793
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "138575",
+      "route_id": "16584",
+      "stop_location_id": "36073",
+      "official_stop_nid": "2435700700",
+      "official_route_nid": "0400082000",
+      "stop_name": "環河路口",
+      "source_sequence_no": 63,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 24,
+          "public_stop_nid": "2435700700",
+          "source_stop_name": "環河路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        2758
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "138588",
+      "route_id": "16585",
+      "stop_location_id": "3052",
+      "official_stop_nid": "2355100520",
+      "official_route_nid": "0400090800",
+      "stop_name": "連城錦和路口(暫時裁撤)",
+      "source_sequence_no": 10,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 10,
+          "public_stop_nid": "2355100520",
+          "source_stop_name": "連城錦和路口(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        2765
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "138591",
+      "route_id": "16585",
+      "stop_location_id": "72487",
+      "official_stop_nid": "2355900521",
+      "official_route_nid": "0400090800",
+      "stop_name": "連城景平路(暫時裁撤)",
+      "source_sequence_no": 13,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 13,
+          "public_stop_nid": "2355900521",
+          "source_stop_name": "連城景平路(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        2769
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "138597",
+      "route_id": "16585",
+      "stop_location_id": "10003",
+      "official_stop_nid": "2355900560",
+      "official_route_nid": "0400090800",
+      "stop_name": "連城景平路(暫時裁撤)",
+      "source_sequence_no": 20,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 3,
+          "public_stop_nid": "2355900560",
+          "source_stop_name": "連城景平路(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        2773
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "138600",
+      "route_id": "16585",
+      "stop_location_id": "10006",
+      "official_stop_nid": "2355100560",
+      "official_route_nid": "0400090800",
+      "stop_name": "連城錦和路口(暫時裁撤)",
+      "source_sequence_no": 23,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 6,
+          "public_stop_nid": "2355100560",
+          "source_stop_name": "連城錦和路口(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        3596
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "138601",
+      "route_id": "16585",
+      "stop_location_id": "10007",
+      "official_stop_nid": "2355300460",
+      "official_route_nid": "0400090800",
+      "stop_name": "連城中正路口",
+      "source_sequence_no": 24,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 7,
+          "public_stop_nid": "2355300460",
+          "source_stop_name": "連城中正路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        3597
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "139264",
+      "route_id": "16593",
+      "stop_location_id": "4038",
+      "official_stop_nid": "2415300160",
+      "official_route_nid": "0415001800",
+      "stop_name": "五華國小",
+      "source_sequence_no": 37,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 7,
+          "public_stop_nid": "2415300160",
+          "source_stop_name": "五華國小"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        8393
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "147447",
+      "route_id": "16664",
+      "stop_location_id": "3124",
+      "official_stop_nid": "2355300420",
+      "official_route_nid": "0400092100",
+      "stop_name": "連城中正路口",
+      "source_sequence_no": 19,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 19,
+          "public_stop_nid": "2355300420",
+          "source_stop_name": "連城中正路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        5002
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "147448",
+      "route_id": "16664",
+      "stop_location_id": "3052",
+      "official_stop_nid": "2355100520",
+      "official_route_nid": "0400092100",
+      "stop_name": "連城錦和路口(暫時裁撤)",
+      "source_sequence_no": 20,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 20,
+          "public_stop_nid": "2355100520",
+          "source_stop_name": "連城錦和路口(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        4990
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "147451",
+      "route_id": "16664",
+      "stop_location_id": "72487",
+      "official_stop_nid": "2355900521",
+      "official_route_nid": "0400092100",
+      "stop_name": "連城景平路(暫時裁撤)",
+      "source_sequence_no": 23,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 23,
+          "public_stop_nid": "2355900521",
+          "source_stop_name": "連城景平路(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        4982
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "147457",
+      "route_id": "16664",
+      "stop_location_id": "10003",
+      "official_stop_nid": "2355900560",
+      "official_route_nid": "0400092100",
+      "stop_name": "連城景平路(暫時裁撤)",
+      "source_sequence_no": 30,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 3,
+          "public_stop_nid": "2355900560",
+          "source_stop_name": "連城景平路(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        5012
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "147460",
+      "route_id": "16664",
+      "stop_location_id": "10006",
+      "official_stop_nid": "2355100560",
+      "official_route_nid": "0400092100",
+      "stop_name": "連城錦和路口(暫時裁撤)",
+      "source_sequence_no": 33,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 6,
+          "public_stop_nid": "2355100560",
+          "source_stop_name": "連城錦和路口(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        5007
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "147461",
+      "route_id": "16664",
+      "stop_location_id": "10007",
+      "official_stop_nid": "2355300460",
+      "official_route_nid": "0400092100",
+      "stop_name": "連城中正路口",
+      "source_sequence_no": 34,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 7,
+          "public_stop_nid": "2355300460",
+          "source_stop_name": "連城中正路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        5008
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "149631",
+      "route_id": "16689",
+      "stop_location_id": "3052",
+      "official_stop_nid": "2355100520",
+      "official_route_nid": "0400079300",
+      "stop_name": "連城錦和路口(暫時裁撤)",
+      "source_sequence_no": 37,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 37,
+          "public_stop_nid": "2355100520",
+          "source_stop_name": "連城錦和路口(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        10548
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "149634",
+      "route_id": "16689",
+      "stop_location_id": "72487",
+      "official_stop_nid": "2355900521",
+      "official_route_nid": "0400079300",
+      "stop_name": "連城景平路(暫時裁撤)",
+      "source_sequence_no": 40,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 40,
+          "public_stop_nid": "2355900521",
+          "source_stop_name": "連城景平路(暫時裁撤)"
+        },
+        {
+          "direction": "1",
+          "position_in_direction_array": 42,
+          "public_stop_nid": "2355900521",
+          "source_stop_name": "連城景平路(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        10566
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "149705",
+      "route_id": "16689",
+      "stop_location_id": "72487",
+      "official_stop_nid": "2355900521",
+      "official_route_nid": "0400079300",
+      "stop_name": "連城景平路(暫時裁撤)",
+      "source_sequence_no": 123,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 40,
+          "public_stop_nid": "2355900521",
+          "source_stop_name": "連城景平路(暫時裁撤)"
+        },
+        {
+          "direction": "1",
+          "position_in_direction_array": 42,
+          "public_stop_nid": "2355900521",
+          "source_stop_name": "連城景平路(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        11367
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "149708",
+      "route_id": "16689",
+      "stop_location_id": "10006",
+      "official_stop_nid": "2355100560",
+      "official_route_nid": "0400079300",
+      "stop_name": "連城錦和路口(暫時裁撤)",
+      "source_sequence_no": 126,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 45,
+          "public_stop_nid": "2355100560",
+          "source_stop_name": "連城錦和路口(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        11373
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "151102",
+      "route_id": "16668",
+      "stop_location_id": "4049",
+      "official_stop_nid": "2415101520",
+      "official_route_nid": "0415001300",
+      "stop_name": "自然公園",
+      "source_sequence_no": 0,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 0,
+          "public_stop_nid": "2415101520",
+          "source_stop_name": "自然公園"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        18052
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "151106",
+      "route_id": "16668",
+      "stop_location_id": "3652",
+      "official_stop_nid": "2415100540",
+      "official_route_nid": "0415001300",
+      "stop_name": "五華街口",
+      "source_sequence_no": 4,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 4,
+          "public_stop_nid": "2415100540",
+          "source_stop_name": "五華街口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        18042
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "151147",
+      "route_id": "16668",
+      "stop_location_id": "4048",
+      "official_stop_nid": "2415300360",
+      "official_route_nid": "0415001300",
+      "stop_name": "自然公園",
+      "source_sequence_no": 45,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 22,
+          "public_stop_nid": "2415300360",
+          "source_stop_name": "自然公園"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        17960
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "155533",
+      "route_id": "16748",
+      "stop_location_id": "4038",
+      "official_stop_nid": "2415300160",
+      "official_route_nid": "0415001870",
+      "stop_name": "五華國小",
+      "source_sequence_no": 40,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 7,
+          "public_stop_nid": "2415300160",
+          "source_stop_name": "五華國小"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        25306
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "170523",
+      "route_id": "16585",
+      "stop_location_id": "3124",
+      "official_stop_nid": "2355300420",
+      "official_route_nid": "0400090800",
+      "stop_name": "連城中正路口",
+      "source_sequence_no": 9,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 9,
+          "public_stop_nid": "2355300420",
+          "source_stop_name": "連城中正路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        25914
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "173761",
+      "route_id": "17293",
+      "stop_location_id": "1000895",
+      "official_stop_nid": "1149200760",
+      "official_route_nid": "0400094600",
+      "stop_name": "瑞光港墘路口",
+      "source_sequence_no": 38,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 38,
+          "public_stop_nid": "1149200760",
+          "source_stop_name": "瑞光港墘路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        13816
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "174408",
+      "route_id": "17294",
+      "stop_location_id": "1000895",
+      "official_stop_nid": "1149200760",
+      "official_route_nid": "0400094610",
+      "stop_name": "瑞光港墘路口",
+      "source_sequence_no": 29,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 29,
+          "public_stop_nid": "1149200760",
+          "source_stop_name": "瑞光港墘路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        12422
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "179214",
+      "route_id": "17526",
+      "stop_location_id": "3250",
+      "official_stop_nid": "2364600320",
+      "official_route_nid": "0400081300",
+      "stop_name": "駕訓中心",
+      "source_sequence_no": 45,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 45,
+          "public_stop_nid": "2364600320",
+          "source_stop_name": "駕訓中心"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        26156
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "179216",
+      "route_id": "17526",
+      "stop_location_id": "10055",
+      "official_stop_nid": "2364600360",
+      "official_route_nid": "0400081300",
+      "stop_name": "駕訓中心",
+      "source_sequence_no": 46,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 0,
+          "public_stop_nid": "2364600360",
+          "source_stop_name": "駕訓中心"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        26154
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "179263",
+      "route_id": "17527",
+      "stop_location_id": "10055",
+      "official_stop_nid": "2364600360",
+      "official_route_nid": "0400081320",
+      "stop_name": "駕訓中心",
+      "source_sequence_no": 0,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 0,
+          "public_stop_nid": "2364600360",
+          "source_stop_name": "駕訓中心"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        26065
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "179329",
+      "route_id": "17527",
+      "stop_location_id": "3250",
+      "official_stop_nid": "2364600320",
+      "official_route_nid": "0400081320",
+      "stop_name": "駕訓中心",
+      "source_sequence_no": 70,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 32,
+          "public_stop_nid": "2364600320",
+          "source_stop_name": "駕訓中心"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        24297
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "179862",
+      "route_id": "17536",
+      "stop_location_id": "4049",
+      "official_stop_nid": "2415101520",
+      "official_route_nid": "0400092700",
+      "stop_name": "自然公園",
+      "source_sequence_no": 0,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 0,
+          "public_stop_nid": "2415101520",
+          "source_stop_name": "自然公園"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        18580
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "179866",
+      "route_id": "17536",
+      "stop_location_id": "3652",
+      "official_stop_nid": "2415100540",
+      "official_route_nid": "0400092700",
+      "stop_name": "五華街口",
+      "source_sequence_no": 4,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 4,
+          "public_stop_nid": "2415100540",
+          "source_stop_name": "五華街口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        18576
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "179933",
+      "route_id": "17536",
+      "stop_location_id": "4048",
+      "official_stop_nid": "2415300360",
+      "official_route_nid": "0400092700",
+      "stop_name": "自然公園",
+      "source_sequence_no": 73,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 35,
+          "public_stop_nid": "2415300360",
+          "source_stop_name": "自然公園"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        19401
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "179934",
+      "route_id": "17537",
+      "stop_location_id": "4049",
+      "official_stop_nid": "2415101520",
+      "official_route_nid": "0400092800",
+      "stop_name": "自然公園",
+      "source_sequence_no": 0,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 0,
+          "public_stop_nid": "2415101520",
+          "source_stop_name": "自然公園"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        19400
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "179938",
+      "route_id": "17537",
+      "stop_location_id": "3652",
+      "official_stop_nid": "2415100540",
+      "official_route_nid": "0400092800",
+      "stop_name": "五華街口",
+      "source_sequence_no": 4,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 4,
+          "public_stop_nid": "2415100540",
+          "source_stop_name": "五華街口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        19396
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "180021",
+      "route_id": "17537",
+      "stop_location_id": "4048",
+      "official_stop_nid": "2415300360",
+      "official_route_nid": "0400092800",
+      "stop_name": "自然公園",
+      "source_sequence_no": 90,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 45,
+          "public_stop_nid": "2415300360",
+          "source_stop_name": "自然公園"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        25490
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "180510",
+      "route_id": "17545",
+      "stop_location_id": "4049",
+      "official_stop_nid": "2415101520",
+      "official_route_nid": "0400092790",
+      "stop_name": "自然公園",
+      "source_sequence_no": 0,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 0,
+          "public_stop_nid": "2415101520",
+          "source_stop_name": "自然公園"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        25252
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "180514",
+      "route_id": "17545",
+      "stop_location_id": "3652",
+      "official_stop_nid": "2415100540",
+      "official_route_nid": "0400092790",
+      "stop_name": "五華街口",
+      "source_sequence_no": 4,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 4,
+          "public_stop_nid": "2415100540",
+          "source_stop_name": "五華街口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        25258
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "180583",
+      "route_id": "17545",
+      "stop_location_id": "4048",
+      "official_stop_nid": "2415300360",
+      "official_route_nid": "0400092790",
+      "stop_name": "自然公園",
+      "source_sequence_no": 75,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 36,
+          "public_stop_nid": "2415300360",
+          "source_stop_name": "自然公園"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        25053
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "181735",
+      "route_id": "17304",
+      "stop_location_id": "4639",
+      "official_stop_nid": "1087900100",
+      "official_route_nid": "0410098500",
+      "stop_name": "西藏路口(施工取消停靠)",
+      "source_sequence_no": 69,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 69,
+          "public_stop_nid": "1087900100",
+          "source_stop_name": "西藏路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        32665
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "190076",
+      "route_id": "17775",
+      "stop_location_id": "3124",
+      "official_stop_nid": "2355300420",
+      "official_route_nid": "0400090870",
+      "stop_name": "連城中正路口",
+      "source_sequence_no": 15,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 15,
+          "public_stop_nid": "2355300420",
+          "source_stop_name": "連城中正路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [
+        "BackDirStops"
+      ],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        24732
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "190077",
+      "route_id": "17775",
+      "stop_location_id": "3052",
+      "official_stop_nid": "2355100520",
+      "official_route_nid": "0400090870",
+      "stop_name": "連城錦和路口(暫時裁撤)",
+      "source_sequence_no": 16,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 16,
+          "public_stop_nid": "2355100520",
+          "source_stop_name": "連城錦和路口(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [
+        "BackDirStops"
+      ],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        24739
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "190080",
+      "route_id": "17775",
+      "stop_location_id": "72487",
+      "official_stop_nid": "2355900521",
+      "official_route_nid": "0400090870",
+      "stop_name": "連城景平路(暫時裁撤)",
+      "source_sequence_no": 19,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 19,
+          "public_stop_nid": "2355900521",
+          "source_stop_name": "連城景平路(暫時裁撤)"
+        }
+      ],
+      "route_page_null_direction_arrays": [
+        "BackDirStops"
+      ],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        24743
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "191794",
+      "route_id": "17811",
+      "stop_location_id": "1000895",
+      "official_stop_nid": "1149200760",
+      "official_route_nid": "0463000800",
+      "stop_name": "瑞光港墘路口",
+      "source_sequence_no": 11,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 8,
+          "public_stop_nid": "1149200760",
+          "source_stop_name": "瑞光港墘路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [
+        "BackDirStops"
+      ],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        28156
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "191863",
+      "route_id": "17813",
+      "stop_location_id": "1000895",
+      "official_stop_nid": "1149200760",
+      "official_route_nid": "0463001000",
+      "stop_name": "瑞光港墘路口",
+      "source_sequence_no": 11,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 7,
+          "public_stop_nid": "1149200760",
+          "source_stop_name": "瑞光港墘路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        27050
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "191870",
+      "route_id": "17813",
+      "stop_location_id": "1007",
+      "official_stop_nid": "1149200020",
+      "official_route_nid": "0463001000",
+      "stop_name": "仁寶大樓",
+      "source_sequence_no": 17,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 2,
+          "public_stop_nid": "1149200020",
+          "source_stop_name": "仁寶大樓"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        27071
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "195782",
+      "route_id": "17904",
+      "stop_location_id": "1000895",
+      "official_stop_nid": "1149200760",
+      "official_route_nid": "0463002500",
+      "stop_name": "瑞光港墘路口",
+      "source_sequence_no": 10,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 7,
+          "public_stop_nid": "1149200760",
+          "source_stop_name": "瑞光港墘路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        31267
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "195786",
+      "route_id": "17904",
+      "stop_location_id": "1007",
+      "official_stop_nid": "1149200020",
+      "official_route_nid": "0463002500",
+      "stop_name": "仁寶大樓",
+      "source_sequence_no": 14,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 1,
+          "public_stop_nid": "1149200020",
+          "source_stop_name": "仁寶大樓"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        31254
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "195836",
+      "route_id": "17905",
+      "stop_location_id": "1000895",
+      "official_stop_nid": "1149200760",
+      "official_route_nid": "0463002600",
+      "stop_name": "瑞光港墘路口",
+      "source_sequence_no": 18,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 11,
+          "public_stop_nid": "1149200760",
+          "source_stop_name": "瑞光港墘路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [
+        "BackDirStops"
+      ],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        33688
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "196008",
+      "route_id": "17911",
+      "stop_location_id": "1000895",
+      "official_stop_nid": "1149200760",
+      "official_route_nid": "0463002900",
+      "stop_name": "瑞光港墘路口",
+      "source_sequence_no": 13,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 10,
+          "public_stop_nid": "1149200760",
+          "source_stop_name": "瑞光港墘路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        29631
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "196013",
+      "route_id": "17911",
+      "stop_location_id": "1007",
+      "official_stop_nid": "1149200020",
+      "official_route_nid": "0463002900",
+      "stop_name": "仁寶大樓",
+      "source_sequence_no": 19,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 2,
+          "public_stop_nid": "1149200020",
+          "source_stop_name": "仁寶大樓"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        29575
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "196382",
+      "route_id": "17917",
+      "stop_location_id": "1007",
+      "official_stop_nid": "1149200020",
+      "official_route_nid": "0463003100",
+      "stop_name": "仁寶大樓",
+      "source_sequence_no": 15,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 2,
+          "public_stop_nid": "1149200020",
+          "source_stop_name": "仁寶大樓"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        5187
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "199649",
+      "route_id": "17992",
+      "stop_location_id": "1000895",
+      "official_stop_nid": "1149200760",
+      "official_route_nid": "0463005400",
+      "stop_name": "瑞光港墘路口",
+      "source_sequence_no": 19,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 2,
+          "public_stop_nid": "1149200760",
+          "source_stop_name": "瑞光港墘路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        21226
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "199740",
+      "route_id": "17994",
+      "stop_location_id": "1000895",
+      "official_stop_nid": "1149200760",
+      "official_route_nid": "0463005500",
+      "stop_name": "瑞光港墘路口",
+      "source_sequence_no": 14,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 13,
+          "public_stop_nid": "1149200760",
+          "source_stop_name": "瑞光港墘路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        19917
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "202307",
+      "route_id": "17917",
+      "stop_location_id": "1000895",
+      "official_stop_nid": "1149200760",
+      "official_route_nid": "0463003100",
+      "stop_name": "瑞光港墘路口",
+      "source_sequence_no": 9,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 7,
+          "public_stop_nid": "1149200760",
+          "source_stop_name": "瑞光港墘路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        6667
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "202826",
+      "route_id": "18014",
+      "stop_location_id": "1000895",
+      "official_stop_nid": "1149200760",
+      "official_route_nid": "0463006100",
+      "stop_name": "瑞光港墘路口",
+      "source_sequence_no": 7,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 6,
+          "public_stop_nid": "1149200760",
+          "source_stop_name": "瑞光港墘路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        1251
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "202828",
+      "route_id": "18014",
+      "stop_location_id": "1007",
+      "official_stop_nid": "1149200020",
+      "official_route_nid": "0463006100",
+      "stop_name": "仁寶大樓",
+      "source_sequence_no": 13,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 2,
+          "public_stop_nid": "1149200020",
+          "source_stop_name": "仁寶大樓"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        1249
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "204324",
+      "route_id": "17994",
+      "stop_location_id": "1007",
+      "official_stop_nid": "1149200020",
+      "official_route_nid": "0463005500",
+      "stop_name": "仁寶大樓",
+      "source_sequence_no": 18,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 1,
+          "public_stop_nid": "1149200020",
+          "source_stop_name": "仁寶大樓"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        26085
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "205651",
+      "route_id": "18268",
+      "stop_location_id": "3652",
+      "official_stop_nid": "2415100540",
+      "official_route_nid": "0415001910",
+      "stop_name": "五華街口",
+      "source_sequence_no": 34,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 3,
+          "public_stop_nid": "2415100540",
+          "source_stop_name": "五華街口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        33811
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "205726",
+      "route_id": "17992",
+      "stop_location_id": "1007",
+      "official_stop_nid": "1149200020",
+      "official_route_nid": "0463005400",
+      "stop_name": "仁寶大樓",
+      "source_sequence_no": 13,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 13,
+          "public_stop_nid": "1149200020",
+          "source_stop_name": "仁寶大樓"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        34013
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "221420",
+      "route_id": "16987",
+      "stop_location_id": "1165610332",
+      "official_stop_nid": "2084210520",
+      "official_route_nid": "0454093170",
+      "stop_name": "兩福宮",
+      "source_sequence_no": 8,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 7,
+          "public_stop_nid": "2084210520",
+          "source_stop_name": "兩福宮"
+        }
+      ],
+      "route_page_null_direction_arrays": [
+        "BackDirStops"
+      ],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        29514
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "222926",
+      "route_id": "17532",
+      "stop_location_id": "3637",
+      "official_stop_nid": "2435700740",
+      "official_route_nid": "0400091800",
+      "stop_name": "環河路口",
+      "source_sequence_no": 9,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 9,
+          "public_stop_nid": "2435700740",
+          "source_stop_name": "環河路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        2246
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "222927",
+      "route_id": "17532",
+      "stop_location_id": "36073",
+      "official_stop_nid": "2435700700",
+      "official_route_nid": "0400091800",
+      "stop_name": "環河路口",
+      "source_sequence_no": 72,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 26,
+          "public_stop_nid": "2435700700",
+          "source_stop_name": "環河路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        2248
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "222928",
+      "route_id": "18318",
+      "stop_location_id": "3637",
+      "official_stop_nid": "2435700740",
+      "official_route_nid": "0400091820",
+      "stop_name": "環河路口",
+      "source_sequence_no": 9,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 9,
+          "public_stop_nid": "2435700740",
+          "source_stop_name": "環河路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        2249
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "222929",
+      "route_id": "18318",
+      "stop_location_id": "36073",
+      "official_stop_nid": "2435700700",
+      "official_route_nid": "0400091820",
+      "stop_name": "環河路口",
+      "source_sequence_no": 49,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 19,
+          "public_stop_nid": "2435700700",
+          "source_stop_name": "環河路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        2247
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "222930",
+      "route_id": "17526",
+      "stop_location_id": "3637",
+      "official_stop_nid": "2435700740",
+      "official_route_nid": "0400081300",
+      "stop_name": "環河路口",
+      "source_sequence_no": 9,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 9,
+          "public_stop_nid": "2435700740",
+          "source_stop_name": "環河路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        2243
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "222931",
+      "route_id": "17526",
+      "stop_location_id": "36073",
+      "official_stop_nid": "2435700700",
+      "official_route_nid": "0400081300",
+      "stop_name": "環河路口",
+      "source_sequence_no": 84,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 38,
+          "public_stop_nid": "2435700700",
+          "source_stop_name": "環河路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        2245
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "222932",
+      "route_id": "17524",
+      "stop_location_id": "36073",
+      "official_stop_nid": "2435700700",
+      "official_route_nid": "0400080500",
+      "stop_name": "環河路口",
+      "source_sequence_no": 35,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 35,
+          "public_stop_nid": "2435700700",
+          "source_stop_name": "環河路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        2239
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "222933",
+      "route_id": "17524",
+      "stop_location_id": "3637",
+      "official_stop_nid": "2435700740",
+      "official_route_nid": "0400080500",
+      "stop_name": "環河路口",
+      "source_sequence_no": 82,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 23,
+          "public_stop_nid": "2435700740",
+          "source_stop_name": "環河路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        2241
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "222934",
+      "route_id": "16595",
+      "stop_location_id": "3637",
+      "official_stop_nid": "2435700740",
+      "official_route_nid": "0400080300",
+      "stop_name": "環河路口",
+      "source_sequence_no": 17,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 17,
+          "public_stop_nid": "2435700740",
+          "source_stop_name": "環河路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        2232
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "222935",
+      "route_id": "16595",
+      "stop_location_id": "36073",
+      "official_stop_nid": "2435700700",
+      "official_route_nid": "0400080300",
+      "stop_name": "環河路口",
+      "source_sequence_no": 89,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 36,
+          "public_stop_nid": "2435700700",
+          "source_stop_name": "環河路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        2233
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "222936",
+      "route_id": "16672",
+      "stop_location_id": "3637",
+      "official_stop_nid": "2435700740",
+      "official_route_nid": "0400093800",
+      "stop_name": "環河路口",
+      "source_sequence_no": 11,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 11,
+          "public_stop_nid": "2435700740",
+          "source_stop_name": "環河路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        2230
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "222937",
+      "route_id": "16672",
+      "stop_location_id": "36073",
+      "official_stop_nid": "2435700700",
+      "official_route_nid": "0400093800",
+      "stop_name": "環河路口",
+      "source_sequence_no": 24,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 5,
+          "public_stop_nid": "2435700700",
+          "source_stop_name": "環河路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        2231
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "222938",
+      "route_id": "16518",
+      "stop_location_id": "3637",
+      "official_stop_nid": "2435700740",
+      "official_route_nid": "0400085900",
+      "stop_name": "環河路口",
+      "source_sequence_no": 3,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 3,
+          "public_stop_nid": "2435700740",
+          "source_stop_name": "環河路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        2234
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "222939",
+      "route_id": "16518",
+      "stop_location_id": "36073",
+      "official_stop_nid": "2435700700",
+      "official_route_nid": "0400085900",
+      "stop_name": "環河路口",
+      "source_sequence_no": 104,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 51,
+          "public_stop_nid": "2435700700",
+          "source_stop_name": "環河路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        2235
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "222940",
+      "route_id": "16485",
+      "stop_location_id": "3637",
+      "official_stop_nid": "2435700740",
+      "official_route_nid": "0400083500",
+      "stop_name": "環河路口",
+      "source_sequence_no": 1,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 1,
+          "public_stop_nid": "2435700740",
+          "source_stop_name": "環河路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        2291
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "222941",
+      "route_id": "16485",
+      "stop_location_id": "36073",
+      "official_stop_nid": "2435700700",
+      "official_route_nid": "0400083500",
+      "stop_name": "環河路口",
+      "source_sequence_no": 84,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 38,
+          "public_stop_nid": "2435700700",
+          "source_stop_name": "環河路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        2299
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "222942",
+      "route_id": "16694",
+      "stop_location_id": "3637",
+      "official_stop_nid": "2435700740",
+      "official_route_nid": "0400078600",
+      "stop_name": "環河路口",
+      "source_sequence_no": 38,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 38,
+          "public_stop_nid": "2435700740",
+          "source_stop_name": "環河路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        2301
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "222943",
+      "route_id": "16694",
+      "stop_location_id": "36073",
+      "official_stop_nid": "2435700700",
+      "official_route_nid": "0400078600",
+      "stop_name": "環河路口",
+      "source_sequence_no": 83,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 21,
+          "public_stop_nid": "2435700700",
+          "source_stop_name": "環河路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        2295
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "222944",
+      "route_id": "17719",
+      "stop_location_id": "3637",
+      "official_stop_nid": "2435700740",
+      "official_route_nid": "0400078620",
+      "stop_name": "環河路口",
+      "source_sequence_no": 36,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 36,
+          "public_stop_nid": "2435700740",
+          "source_stop_name": "環河路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        2297
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "222945",
+      "route_id": "17719",
+      "stop_location_id": "36073",
+      "official_stop_nid": "2435700700",
+      "official_route_nid": "0400078620",
+      "stop_name": "環河路口",
+      "source_sequence_no": 60,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 11,
+          "public_stop_nid": "2435700700",
+          "source_stop_name": "環河路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        2285
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "222946",
+      "route_id": "16692",
+      "stop_location_id": "3637",
+      "official_stop_nid": "2435700740",
+      "official_route_nid": "0400078300",
+      "stop_name": "環河路口",
+      "source_sequence_no": 27,
+      "source_direction_code": "0",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "0",
+          "position_in_direction_array": 27,
+          "public_stop_nid": "2435700740",
+          "source_stop_name": "環河路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        2286
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    },
+    {
+      "stop_id": "222947",
+      "route_id": "16692",
+      "stop_location_id": "36073",
+      "official_stop_nid": "2435700700",
+      "official_route_nid": "0400078300",
+      "stop_name": "環河路口",
+      "source_sequence_no": 80,
+      "source_direction_code": "1",
+      "pathdetail_membership_old_snapshot": false,
+      "pathdetail_membership_new_snapshot": false,
+      "official_main_route_page_memberships": [
+        {
+          "direction": "1",
+          "position_in_direction_array": 24,
+          "public_stop_nid": "2435700700",
+          "source_stop_name": "環河路口"
+        }
+      ],
+      "route_page_null_direction_arrays": [],
+      "estimate_time_codes": [
+        "-4"
+      ],
+      "estimate_source_record_numbers": [
+        2283
+      ],
+      "today_service_status": "official_not_operating_today",
+      "status": "verified_source_catalog_and_today_status",
+      "subroute_id": null,
+      "branch_membership_status": "not_supplied_by_either_pathdetail_snapshot",
+      "permanent_withdrawal_status": "not_established",
+      "cause_status": "not_inferred_from_current_day_or_name",
+      "route_page_relation": "verified_explicit_stop_location_nid"
+    }
+  ]
+}
