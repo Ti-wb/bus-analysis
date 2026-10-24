@@ -1,6 +1,6 @@
 import type { ExpressionSpecification } from 'maplibre-gl';
 import type { LayerProps } from 'react-map-gl/maplibre';
-import { COLORS, NO_SCHEDULE, NO_STOP, PLACE_BY_CATEGORY } from '../config';
+import { COLORS, ELDERLY_COLORS, NO_SCHEDULE, NO_STOP, PLACE_BY_CATEGORY, VILLAGE_COLORS } from '../config';
 
 /** Style layers only; react-map-gl's LayerProps also admits custom WebGL layers. */
 export type StyleLayer = Exclude<LayerProps, { type: 'custom' }>;
@@ -171,6 +171,70 @@ export const busStopsLayer: StyleLayer = {
     'circle-color': '#ffffff',
     'circle-stroke-color': '#4f6f8f',
     'circle-stroke-width': 1.4,
+  },
+};
+
+export function regionalRoutesLayer(leapfrogOnly: boolean): StyleLayer {
+  return {
+    id: 'regional-bus-routes', type: 'line',
+    filter: leapfrogOnly ? ['==', ['get', 'is_leapfrog'], true] : ['boolean', true],
+    layout: { 'line-join': 'round', 'line-cap': 'round' },
+    paint: {
+      'line-color': ['case', ['==', ['get', 'is_leapfrog'], true], '#a64a85', '#1d559f'],
+      'line-width': ['interpolate', ['linear'], ['zoom'], 9, 0.7, 15, 2.5],
+      'line-opacity': ['interpolate', ['linear'], ['zoom'], 9, 0.18, 14, 0.48],
+      'line-dasharray': [4, 1],
+    },
+  };
+}
+
+export function regionalStopsLayer(leapfrogOnly: boolean): StyleLayer {
+  return {
+    id: 'regional-bus-stops', type: 'circle', minzoom: 12,
+    filter: leapfrogOnly ? ['==', ['get', 'is_leapfrog'], true] : ['boolean', true],
+    paint: {
+      'circle-radius': ['interpolate', ['linear'], ['zoom'], 12, 1.5, 17, 5],
+      'circle-color': '#ffffff',
+      'circle-stroke-color': ['case', ['==', ['get', 'is_leapfrog'], true], '#a64a85', '#1d559f'],
+      'circle-stroke-width': 1.3,
+    },
+  };
+}
+
+export function villagesFillLayer(metric: 'population' | 'elderly_share'): StyleLayer {
+  const colors = metric === 'population' ? VILLAGE_COLORS : ELDERLY_COLORS;
+  const breaks = metric === 'population' ? [2000, 4000, 8000, 12000] : [0.15, 0.2, 0.25, 0.3];
+  return {
+    id: 'villages-fill', type: 'fill',
+    paint: {
+      'fill-color': ['case', ['==', ['get', metric], null], '#b9c1c8', ['step', ['get', metric], colors[0], ...breaks.flatMap((breakpoint, i) => [breakpoint, colors[i + 1]])]] as ExpressionSpecification,
+      'fill-opacity': 0.62,
+    },
+  };
+}
+
+export const villagesLineLayer: StyleLayer = {
+  id: 'villages-line', type: 'line',
+  paint: { 'line-color': '#74838c', 'line-opacity': 0.45, 'line-width': ['interpolate', ['linear'], ['zoom'], 9, 0.4, 15, 1.1] },
+};
+
+export const trafficSectionsLayer: StyleLayer = {
+  id: 'traffic-sections', type: 'line',
+  layout: { 'line-join': 'round', 'line-cap': 'round' },
+  paint: {
+    'line-color': ['case', ['==', ['get', 'travel_speed'], null], '#8996a4', ['step', ['get', 'travel_speed'], '#c34e42', 15, '#e59043', 30, '#bcb751', 50, '#398f81']],
+    'line-width': ['interpolate', ['linear'], ['zoom'], 9, 2, 15, 5],
+    'line-opacity': 0.85, 'line-dasharray': [3, 1],
+  },
+};
+
+export const busTravelTimesLayer: StyleLayer = {
+  id: 'bus-travel-times', type: 'line',
+  layout: { 'line-join': 'round', 'line-cap': 'round' },
+  paint: {
+    'line-color': ['case', ['==', ['get', 'seconds'], null], '#8996a4', ['step', ['get', 'seconds'], '#71b6b1', 30, '#3c9da4', 60, '#327caf', 120, '#625ca8', 240, '#963c87']],
+    'line-width': ['interpolate', ['linear'], ['zoom'], 9, 1.5, 15, 4],
+    'line-opacity': 0.9, 'line-dasharray': [2, 1],
   },
 };
 

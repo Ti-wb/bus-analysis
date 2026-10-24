@@ -579,6 +579,13 @@ def main():
         write(f"bus_grid_{cell_m}.json", grid)
         print(f"grid {cell_m} m status", dict(status), "scheduled subroutes", len(scheduled))
 
+    # Keep the deploy entry point responsible for all layers used by the map.
+    if __package__:
+        from .build_web_supplemental import build_all
+    else:
+        from build_web_supplemental import build_all
+    build_all(ROOT, OUT, built_at)
+
 
 if __name__ == "__main__":
     main()

@@ -42,6 +42,8 @@ export function readHash(): AppState & ViewState {
     coverageCell: COVERAGE_CELLS.some((c) => c.cell === coverageCell) ? (coverageCell as CoverageCell) : DEFAULT_COVERAGE_CELL,
     gridLines: params.get('gl') !== '0',
     labels: params.get('lbl') !== '0',
+    leapfrogOnly: params.get('frog') === '1',
+    villageMetric: params.get('village') === 'elderly_share' ? 'elderly_share' : 'population',
     center: center.length === 2 && center.every(Number.isFinite) ? (center as [number, number]) : DEFAULT_VIEW.center,
     zoom: Number(params.get('z')) || DEFAULT_VIEW.zoom,
   };
@@ -70,6 +72,8 @@ export function writeHash(state: AppState, view: ViewState): void {
     params.set('nw', state.weights.join(','));
   }
   if (!state.labels) params.set('lbl', '0');
+  if (state.leapfrogOnly) params.set('frog', '1');
+  if (state.villageMetric === 'elderly_share') params.set('village', 'elderly_share');
   params.set('z', view.zoom.toFixed(2));
   params.set('c', `${view.center[0].toFixed(4)},${view.center[1].toFixed(4)}`);
   window.history.replaceState(null, '', `#${params}`);

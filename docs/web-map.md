@@ -44,6 +44,10 @@ npm --prefix web run build
 | 捷運路網、車站 | `map-data/osm` 的 `railways`、`transport` | 只取具名的捷運與輕軌線，排除機廠、測試軌；車站取路線約 80 m 內的軌道車站 |
 | 重要地點 | `map-data/traffic-focus` 的 OSM 設施候選與臺北市社宅 | 依類別上色、可逐類開關；住宅區、商業產業等具名土地使用候選預設隱藏；社宅點大小依規劃戶數。位置是候選標記，不是出入口，也不代表人流 |
 | YouBike 站點 | `data/youbike/stations.geojson`（臺北市交通局 YouBike 2.0，見[資料整理](data-collection.md)） | 預設關閉，放大到 12.5 級後顯示；點大小依總停車格數，快照時暫停營運的站點為灰色。只有站點，沒有即時車數 |
+| 新北／跳蛙路網 | `data/official_cross_city` 的官方站序與 ID 核對證據 | 另有路線、站點開關與跳蛙篩選；依站序畫直線示意，不當作道路軌跡或當日營運證明 |
+| 北北基里人口／年齡 | `population_2026-09.json`、人口里界對照與官方里界 | 可切換人口總數／高齡占比；未通過代碼與名稱核對的里保留缺值 |
+| 道路速率快照 | `data/tdx_road_traffic` 的同機關、同日路段定義與觀測 | 僅在路段 ID 與基礎路段集合逐筆一致時關聯；只畫有完整座標的起迄示意線，零負異常值不作正常速率上色 |
+| 公車站間旅時 | `data/official_cross_city/travel_time_coverage` 的已核對相鄰站對與 TDX 時窗 | 以站對示意線查閱來源統計時窗，非即時行車時間或全日平均 |
 | 公車班次網格 | `fixed_schedules`、`headway_schedules` 加上站序 | 見下節 |
 | 站點覆蓋 | 公車站位、捷運車站、YouBike 站點 | 見〈站點覆蓋〉 |
 | 需求落差 | `data/analysis/transport_need_250.json`（見[說明](transport-need.md)） | 見〈需求落差〉 |
@@ -84,7 +88,7 @@ npm --prefix web run build
 依 Penpot 第 04 頁「站點資訊 / *」，點選公車、捷運或 YouBike 站點，或從搜尋結果選站，開啟同一張資訊浮卡。分析範圍固定為直線 350 m，與覆蓋圖層半徑分開；點另一站替換內容，關閉不移動地圖、不改原有設定。公車站仍會高亮經過的路線。
 
 - 人口與戶數：`station_catchments.json` 以各站實際顯示點位、TWD97 平面公尺計算；統計區部分在圈內時依面積比例分攤。三種站點使用各自來源 ID，不借用鄰近站的人口。
-- 年齡分布：現有人口來源未提供，顯示缺資料狀態；不套用設計稿的示意比例。
+- 年齡分布：另列站點所在里的官方年齡統計，與 350 m 人口估算分開；未找到已核對里界或人口時顯示缺值，不套用示意比例。
 - 附近重要設施：依左側已選類別，按直線距離排序，先列最近三處，可展開全部；候選位置未去重。
 - 「站點與周邊交通」可展開路線、班次、停車格與周邊站點數等既有資訊。
 
@@ -98,6 +102,12 @@ npm --prefix web run build
 - 只有臺北市公共運輸處 feed，新北市專屬路線不在內，市界附近會低估。
 - 這是計畫供給，不是實際發車或載客量；也不代表步行可達性。
 - 捷運沒有班次資料，只呈現路網；捷運站與公車站牌沒有做 ID 對應。
+
+上述班次、覆蓋與需求分析仍維持原臺北市模型。新北／跳蛙路網、北北基里人口及旅時／速率是可獨立開關的補充圖層，不會自動改變這三種分析數值。開啟里人口時暫藏分析填色，關閉後恢復原設定；里人口依人口月檔與保留的官方里界版本核對，尚不能據此證明該月份的邊界完全相同。
+
+補充圖層由 `scripts/build_web_supplemental.py` 產生，已納入一般建置入口；也可單獨執行 `uv run scripts/build_web_supplemental.py`。輸出 `regional_bus_routes.geojson`、`regional_bus_stops.geojson`、`villages.geojson`、`traffic_sections.geojson`、`bus_travel_times.geojson`、`supplemental_manifest.json` 至 `web/public/data/`，不進 Git。各檔保留來源路徑、網址、來源時間、單位與限制；獨立巡檢放在 `data/quality/`。來源異常或資料載入失敗會顯示狀態並可重試。
+
+獨立重算使用 `uv run scripts/review_web_supplemental.py`，結果為 `data/quality/web_supplemental_review.json`；除整理後資料外，需保留道路來源 OpenAPI 與原始回應快照。大型原檔不進 Git，網頁建置不依賴這些原檔；巡檢結果只對應所核對的快照，更新來源後需重做。
 
 ## 部署（GitHub Pages）
 

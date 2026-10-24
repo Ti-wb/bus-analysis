@@ -40,7 +40,7 @@ export function nearby(data: MapData, centre: [number, number], radius: number, 
 
   const mrt = within(data.mrt_stations.features).sort((a, b) => a.m - b.m);
   const youbike = within(data.youbike_stations.features);
-  const stops = within(data.bus_stops.features).filter((x) => x.p.id !== stopId);
+  const stops = within([...data.bus_stops.features, ...data.regional_bus_stops?.features ?? []]).filter((x) => x.p.id !== stopId);
   const placeCounts = new Map<string, number>();
   const facilities: Nearby['facilities'] = [];
   for (const { p, m } of within(data.places.features).sort((a, b) => a.m - b.m)) {

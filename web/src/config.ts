@@ -42,9 +42,17 @@ export const LAYER_GROUPS: Record<LayerGroup, string[]> = {
   mrt: ['mrt-lines-casing', 'mrt-lines', 'mrt-stations'],
   places: ['places'],
   youbike: ['youbike'],
+  regional_routes: ['regional-bus-routes'],
+  regional_stops: ['regional-bus-stops'],
+  villages: ['villages-fill', 'villages-line'],
+  traffic: ['traffic-sections'],
+  bus_times: ['bus-travel-times'],
 };
-export const DEFAULT_LAYERS: LayerGroup[] = ['grid', 'routes', 'mrt', 'places'];
-export const HOVER_LAYERS = ['places', 'youbike', 'bus-stops', 'mrt-stations', 'bus-routes', 'mrt-lines', 'grid-fill', 'grid-hatch'];
+export const DEFAULT_LAYERS: LayerGroup[] = ['grid', 'routes', 'regional_routes', 'regional_stops', 'mrt', 'places'];
+export const HOVER_LAYERS = ['places', 'youbike', 'bus-stops', 'regional-bus-stops', 'mrt-stations', 'bus-travel-times', 'traffic-sections', 'regional-bus-routes', 'bus-routes', 'mrt-lines', 'villages-fill', 'grid-fill', 'grid-hatch'];
+
+export const VILLAGE_COLORS = ['#edf4ec', '#c8ddbd', '#9abe96', '#639a70', '#28674c'];
+export const ELDERLY_COLORS = ['#f5ecdf', '#ecd3ae', '#ddad7c', '#be7d52', '#8d4938'];
 
 export interface PlaceCategory {
   key: string;
