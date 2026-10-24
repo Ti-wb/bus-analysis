@@ -148,6 +148,7 @@ export default function MapView({ villageAges = null, villageData = null, select
   const [hover, setHover] = useState<Hover | null>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const pickingStops = editor?.interaction === 'stops';
+  const editingRouteStops = pickingStops || editor?.interaction === 'path';
   useEffect(() => { setHover(null); }, [editor?.interaction]);
 
   // Keep the tooltip inside the map: place it below-right of the cursor, flipping to the
@@ -356,6 +357,9 @@ export default function MapView({ villageAges = null, villageData = null, select
     ...layer,
     beforeId,
     layout: { ...(layer.layout ?? {}), visibility: pickingStops && layer.id === 'bus-stops' ? 'none' : visible(layer.id!) },
+    ...(editingRouteStops && ['bus-stops', 'regional-bus-stops'].includes(layer.id!) ? { paint: { ...layer.paint,
+      'circle-color': '#e4e8eb', 'circle-opacity': .6, 'circle-stroke-color': '#9aa5ae',
+      'circle-stroke-opacity': .7, 'circle-stroke-width': 1.2 } } : {}),
     ...(editor && layer.id === 'bus-routes' ? { paint: { ...layer.paint, 'line-color': '#8aa2af', 'line-opacity': .025, 'line-width': .75 } } : {}),
     ...(editor && (layer.id === 'mrt-lines' || layer.id === 'mrt-lines-casing') ? { paint: { ...layer.paint, 'line-opacity': .2 } } : {}),
     ...(editor && layer.id === 'places' ? { paint: { ...layer.paint, 'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, 2, 15, 4], 'circle-opacity': .65, 'circle-stroke-width': 1 } } : {}),

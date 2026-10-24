@@ -35,14 +35,17 @@ export function RouteStopPicker({ editor, hoveredId }: { editor: EditorMapProps;
     ['!', ['in', ['get', 'id'], ['literal', editor.route?.stop_ids ?? []]]],
   ], [available, editor.route?.stop_ids]);
   return <>
+    {/* Retain this layer as the local-basemap anchor without highlighting every candidate. */}
     <Layer id="scenario-stop-halo" source="bus-stops" type="circle" filter={filter}
       paint={{ 'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 5, 13, 7, 15, 10, 17, 12],
-        'circle-color': '#337cda', 'circle-opacity': .16 }} />
+        'circle-color': '#aab3bb', 'circle-opacity': 0 }} />
     <Layer id={ROUTE_STOP_PICKER} source="bus-stops" type="circle" filter={filter}
       paint={{ 'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 2.5, 13, 3.5, 15, 6, 17, 7],
-        'circle-color': '#ffffff', 'circle-stroke-color': '#337cda', 'circle-stroke-width': ['interpolate', ['linear'], ['zoom'], 10, 1.6, 15, 2] }} />
+        'circle-color': '#e4e8eb', 'circle-opacity': .6, 'circle-stroke-color': '#9aa5ae', 'circle-stroke-opacity': .7,
+        'circle-stroke-width': ['interpolate', ['linear'], ['zoom'], 10, 1, 15, 1.2] }} />
     <Layer id="scenario-stop-hover" source="bus-stops" type="circle" filter={['all', ['==', ['get', 'id'], hoveredId ?? ''], filter]}
-      paint={{ 'circle-radius': 9, 'circle-color': '#337cda', 'circle-stroke-color': '#ffffff', 'circle-stroke-width': 3 }} />
+      paint={{ 'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 3.5, 13, 4.5, 15, 7, 17, 8],
+        'circle-color': '#f7f9fb', 'circle-stroke-color': '#547c98', 'circle-stroke-width': 2 }} />
   </>;
 }
 
@@ -89,7 +92,7 @@ export function RouteLayers({ editor, beforeId }: { editor: EditorMapProps; befo
     {route.stop_ids.map((id, i) => {
       const s = data.records.stops[id];
       return <Marker key={`${id}:${i}`} longitude={s.at[0]} latitude={s.at[1]}>
-        {editor.showStopNumbers ? <button className={`route-map-stop${deleting ? ' is-removed' : oldStops.has(id) ? ' is-existing' : ''}`}
+        {editor.showStopNumbers ? <button className={`route-map-stop${deleting ? ' is-removed' : interaction === 'select' && oldStops.has(id) ? ' is-existing' : ''}`}
           aria-label={`${i + 1} ${s.name}${interaction === 'stops' ? '，定位停靠站' : ''}`} title={`${i + 1}. ${s.name}`}
           onClick={(e) => { e.stopPropagation(); document.getElementById(`route-stop-${i}`)?.scrollIntoView({ block: 'nearest' }); }}>
           {deleting ? '×' : i + 1}

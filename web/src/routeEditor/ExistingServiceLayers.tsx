@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import { Layer, Source } from 'react-map-gl/maplibre';
 import type { FeatureCollection, LineString, Point, Polygon } from 'geojson';
-import type { ExpressionSpecification } from 'maplibre-gl';
 import { circle } from '../catchment';
 import { routePath } from './engine';
 import type { ExistingService } from './existingServices';
@@ -23,9 +22,6 @@ const SERVICE_STYLES: { status: ServiceStatus; color: string; opacity: number; d
   { status: 'unknown', color: '#91aaa9', opacity: .5, dash: [1, 2.5] },
   { status: 'running', color: '#168b89', opacity: .76 },
 ];
-const STOP_COLOR: ExpressionSpecification = ['match', ['get', 'status'],
-  'running', '#168b89', 'zero', '#8c939b', '#91aaa9'];
-
 function serviceStatus(frequency: number | null): ServiceStatus {
   if (frequency === null || !Number.isFinite(frequency) || frequency < 0) return 'unknown';
   return frequency > 0 ? 'running' : 'zero';
@@ -108,10 +104,9 @@ export default function ExistingServiceLayers({ data, services, selectedStopIds,
     </Source>
     <Source id="scenario-service-stops" type="geojson" data={collections.stops}>
       <Layer id="scenario-service-boarding-stops" type="circle" beforeId={beforeId}
-        paint={{ 'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 3, 13, 4.5, 15, 8.5, 17, 10],
-          'circle-color': STOP_COLOR, 'circle-opacity': 0,
-          'circle-stroke-color': STOP_COLOR, 'circle-stroke-width': 1.5,
-          'circle-stroke-opacity': ['case', ['get', 'emphasized'], .75, .14] }} />
+        paint={{ 'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 2.5, 13, 3.5, 15, 6, 17, 7],
+          'circle-color': '#aab3bb', 'circle-opacity': 0,
+          'circle-stroke-color': '#aab3bb', 'circle-stroke-width': 1, 'circle-stroke-opacity': .25 }} />
     </Source>
   </>;
 }
