@@ -24,6 +24,23 @@ def source_periods(doc):
 
 
 def review_matches_source(doc, review):
+    metadata = doc["metadata"]
+    snapshot_keys = ("reviewed_generated_at", "source", "sources")
+    if any(key in review for key in snapshot_keys):
+        if ("reviewed_generated_at" in review
+                and review["reviewed_generated_at"] != metadata.get("generated_at")):
+            return False
+        if any(key in review and review[key] != metadata.get(key) for key in ("source", "sources")):
+            return False
+        # Exact receipts support multi-source joins without inventing one common
+        # source date. Still honour any explicit legacy period/receipt checks.
+        if "source_periods" in review and review["source_periods"] != source_periods(doc):
+            return False
+        if ("source_downloaded_at" in review and review["source_downloaded_at"]
+                != metadata.get("source", {}).get("downloaded_at")):
+            return False
+        if any(review.get(key) for key in snapshot_keys):
+            return True
     periods = source_periods(doc)
     if periods:
         return review.get("source_periods", []) == periods
@@ -38,16 +55,22 @@ def build():
         for record in read(path).get("records", []):
             file = record.get("path") or record.get("file")
             if file:
-                reviews[file] = {"status": record.get("status", "pending"),
+                version_fields = {key: record[key] for key in (
+                    "source_periods", "source_downloaded_at", "reviewed_generated_at", "source", "sources"
+                ) if key in record}
+                if not any(key in record for key in ("reviewed_generated_at", "source", "sources")):
+                    # Keep the existing catalogue shape for legacy reviews.
+                    version_fields.setdefault("source_periods", [])
+                    version_fields.setdefault("source_downloaded_at", None)
+                reviews[file] = {"status": record.get("status", record.get("review_status", "pending")),
                                  "record_count": record.get("record_count"),
-                                 "source_periods": record.get("source_periods", []),
-                                 "source_downloaded_at": record.get("source_downloaded_at"),
+                                 **version_fields,
                                  "report": str(path.relative_to(MAP))}
     admin = read(MAP / "admin/manifest.json")
     osm = read(MAP / "osm/manifest.json")
     records = []
     groups = [("admin", admin), ("osm", osm)]
-    for group in ("traffic-focus/osm", "traffic-focus/housing"):
+    for group in ("traffic-focus/osm", "traffic-focus/housing", "population"):
         if (MAP / group / "manifest.json").exists():
             groups.append((group, read(MAP / group / "manifest.json")))
     for group, manifest in groups:
@@ -78,7 +101,7 @@ def build():
                               "record_count": len(rows), "bytes": path.stat().st_size,
                               "uncompressed_bytes": output.get("uncompressed_bytes", path.stat().st_size),
                               "bbox": doc.get("bbox"), "independent_review": review})
-                title = doc["metadata"].get("title", "行政區階層與標示點索引")
+                title = doc["metadata"].get("title", manifest.get("metadata", {}).get("title", "行政區階層與標示點索引"))
                 kind = "geojson" if doc.get("type") == "FeatureCollection" else "json"
             if all(file["independent_review"]["status"].startswith("pass") for file in files):
                 status = "passed"

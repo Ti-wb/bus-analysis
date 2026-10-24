@@ -1,0 +1,203 @@
+{
+  "schema_version": 1,
+  "dataset_id": "independent_population_age_review",
+  "metadata": {
+    "reviewer_agent": "independent_population_age_reviewer",
+    "independent_of_producer": true,
+    "reviewed_at": "2026-10-24T15:14:02+08:00",
+    "scope": "data/population/taipei_statistical_population_age5_base.json 及其 raw_data/population_age manifest.json、delivery.json",
+    "record_count": 1,
+    "method": "自行解析原始 XML 11490 列，逐列逐欄比對 CODEBASE/CODE1/CODE2/INFO_TIME（民國+1911）與 21 個年齡組；核對 OutTotal、ID 唯一與型別、縣市代碼；以年齡組加總比對最小統計區總人口，並彙總比對一級、二級發布區人口及邊界 ID；重算全市與各年齡組合計；檢查 metadata 規則、manifest 與 delivery。未匯入或執行整理者腳本。",
+    "check_script": "raw_data/reviews/review_population_age/review_population_age.py",
+    "blocking_findings": []
+  },
+  "records": [
+    {
+      "file": "data/population/taipei_statistical_population_age5_base.json",
+      "record_count": 11490,
+      "status": "pass_with_limitations",
+      "checks": {
+        "file_format": {
+          "utf8_no_bom": true,
+          "no_crlf": true,
+          "ends_with_newline": true
+        },
+        "top_level_keys": [
+          "schema_version",
+          "dataset_id",
+          "metadata",
+          "records"
+        ],
+        "raw_columns": {
+          "count": 25,
+          "age_columns": 21,
+          "non_age_columns": [
+            "INFO_TIME",
+            "CODE2",
+            "CODE1",
+            "CODEBASE"
+          ],
+          "age_column_units": [
+            "人"
+          ],
+          "age_column_types": [
+            "數值"
+          ]
+        },
+        "age_counts_order_matches_raw_column_order": true,
+        "source_fields_map_matches_raw": true,
+        "declared_out_total": 11490,
+        "raw_row_count": 11490,
+        "output_record_count": 11490,
+        "raw_rows_compared_in_order": 11490,
+        "field_mismatches": {
+          "base_area_id": 0,
+          "level1_id": 0,
+          "level2_id": 0,
+          "period": 0,
+          "age_counts": 0
+        },
+        "raw_period_codes": [
+          "113Y12M"
+        ],
+        "output_periods": [
+          "2024-12"
+        ],
+        "raw_missing_or_non_numeric_cells": 0,
+        "output_null_cells": 0,
+        "missing_replaced_by_zero": 0,
+        "non_integer_count_cells": 0,
+        "record_field_sets": [
+          [
+            "base_area_id",
+            "level1_id",
+            "level2_id",
+            "period",
+            "age_counts"
+          ]
+        ],
+        "unique_base_area_id": true,
+        "unique_period_base_area_id": true,
+        "ids_are_strings": true,
+        "raw_duplicate_codebase": 0,
+        "county": {
+          "raw_InCountyId": "63000",
+          "metadata_county_id": "63000",
+          "raw_InSTUnitCode": "U0200",
+          "metadata_source_unit_code": "U0200",
+          "raw_InMetaDatCode": "3A1FA_A1B49",
+          "metadata_source_dataset_code": "3A1FA_A1B49"
+        },
+        "ids_with_A63_prefix": 11490,
+        "base_population_crosscheck": {
+          "base_record_count": 11490,
+          "ids_only_in_age_output": 0,
+          "ids_only_in_base": 0,
+          "matched_ids": 11490,
+          "parent_id_mismatches": 0,
+          "period_mismatches": 0,
+          "age_sum_vs_population_mismatches": 0,
+          "zero_population_areas": 678
+        },
+        "parent_rollup_crosscheck": {
+          "level1_ids_in_output": 7672,
+          "level1_ids_in_level1_file": 7672,
+          "level1_set_equal": true,
+          "level1_population_mismatches": 0,
+          "level2_ids_in_output": 907,
+          "level2_ids_in_level2_file": 907,
+          "level2_set_equal": true,
+          "level2_population_mismatches": 0
+        },
+        "boundary_id_match": {
+          "boundary_features": 11490,
+          "matched": 11490,
+          "only_in_output": 0,
+          "only_in_boundary": 0
+        },
+        "totals": {
+          "recomputed_city_total_from_output": 2490646,
+          "recomputed_city_total_from_raw": 2490646,
+          "base_population_total": 2490646,
+          "metadata_city_total": 2490646,
+          "age_group_totals_match_metadata": true,
+          "age_group_totals_match_raw": true,
+          "recomputed_age_group_totals": {
+            "0-4": 78592,
+            "5-9": 107981,
+            "10-14": 116498,
+            "15-19": 98895,
+            "20-24": 107873,
+            "25-29": 133908,
+            "30-34": 150370,
+            "35-39": 162248,
+            "40-44": 204799,
+            "45-49": 202498,
+            "50-54": 181528,
+            "55-59": 183761,
+            "60-64": 187358,
+            "65-69": 185512,
+            "70-74": 164226,
+            "75-79": 98298,
+            "80-84": 64025,
+            "85-89": 37613,
+            "90-94": 17707,
+            "95-99": 5832,
+            "100_plus": 1124
+          },
+          "elderly_65_plus": 574337,
+          "children_0_14": 303071
+        },
+        "metadata_rules": {
+          "source_page_url": "https://data.gov.tw/dataset/18255",
+          "download_url_host": "https://segisws.moi.gov.tw/STATWSSTData/OpenService.asmx/GetStatSTDataForOpenCode",
+          "source_period": {
+            "start": "2024-12",
+            "end": "2024-12"
+          },
+          "source_period_equals_records": true,
+          "source_period_derived_from_info_time_not_download": true,
+          "source_updated_at": null,
+          "units": {
+            "age_counts": "persons"
+          },
+          "raw_display_unit_for_age_columns": [
+            "人"
+          ],
+          "non_snake_case_field_names": [],
+          "age_label_dict_keys_not_snake_case": 42,
+          "hash_fields_found": [],
+          "limitations_present": true
+        },
+        "manifest_delivery": {
+          "manifest_entry_equals_metadata_source": true,
+          "manifest_url_equals_output_url": true,
+          "manifest_raw_file_exists_locally": true,
+          "manifest_source_period": {
+            "start": "2024-12",
+            "end": "2024-12"
+          },
+          "delivery_dataset_id": "taipei_statistical_population_age5_base",
+          "delivery_record_count": 11490,
+          "delivery_period": {
+            "start": "2024-12",
+            "end": "2024-12"
+          },
+          "delivery_output_files": [
+            "data/population/taipei_statistical_population_age5_base.json"
+          ],
+          "delivery_limitations_equal_metadata": true,
+          "delivery_entries": 1
+        }
+      },
+      "limitations": [
+        "戶籍人口，不代表白天活動人口或公車搭乘需求；來源無性別拆分。",
+        "來源服務僅提供 2024-12 單一期間（INFO_TIME 113Y12M），非近三年序列；source_updated_at 與 last_modified 為 null。",
+        "原始 XML 被 .gitignore 排除，只留來源 URL 與 manifest；巡檢使用本機已下載檔，未重新下載。",
+        "統計區邊界檔名標示 2015，人口為 2024-12，兩者版本不同。",
+        "2024-12 統計區人口合計 2490646 人，民政局全市月人口 2490869 人，相差 -223 人（沿用既有人口巡檢紀錄）；本資料與統計區總人口一致。",
+        "metadata.source_fields 與 validation.age_group_totals 以年齡組標籤（如 \"0-4\"、\"100_plus\"）為鍵，屬資料標籤而非欄位名稱，未採 snake_case。"
+      ]
+    }
+  ]
+}

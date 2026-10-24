@@ -1,0 +1,707 @@
+{
+  "schema_version": 1,
+  "dataset_id": "independent_station_age_catchments_review",
+  "metadata": {
+    "reviewer_agent": "/root/national_reference",
+    "producer_imported": false,
+    "reviewed_at": "2026-10-24T15:33:35+08:00",
+    "status": "pass_with_limitations",
+    "method": "All displayed station IDs and radius/status records; independently projected full geometry, vectorized overlap pairs, manually constructed 256-vertex circles, scalar density arithmetic, and union areas for three stations across all three radii.",
+    "limitations": [
+      "9個站圈數值為分層抽樣重算；未逐一重算所有站圈，完整ID/半徑/狀態及拓樸集合另作全量核對。",
+      "均勻面積人口估算不等於實際乘客；相鄰站圈、兩套年齡分組不可加總。"
+    ]
+  },
+  "records": [
+    {
+      "file": "web/public/data/station_age_catchments.json",
+      "output_path": "web/public/data/station_age_catchments.json",
+      "record_count": 7352,
+      "review_status": "pass_with_limitations",
+      "reviewed_generated_at": "2026-10-24T15:05:21+08:00",
+      "reviewed_built_at": "2026-10-24T07:31:23+00:00",
+      "sources": [
+        {
+          "page_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+          "requested_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+          "effective_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+          "downloaded_at": "2026-10-24T15:05:18+08:00",
+          "source_data_time": null,
+          "http_status": 200,
+          "http_last_modified": "Fri, 04 Sep 2026 13:00:41 GMT",
+          "content_type": "text/html; charset=UTF-8",
+          "bytes": 24525,
+          "raw_file": "raw_data/national_village_age/ris_catalog.html"
+        },
+        {
+          "page_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+          "requested_url": "https://www.ris.gov.tw/documents/data/5/1/11509VillageUTF8.txt",
+          "effective_url": "https://www.ris.gov.tw/documents/data/5/1/11509VillageUTF8.txt",
+          "downloaded_at": "2026-10-24T15:05:18+08:00",
+          "source_data_time": null,
+          "http_status": 200,
+          "http_last_modified": "Fri, 04 Sep 2026 13:00:41 GMT",
+          "content_type": "text/plain; charset=UTF-8",
+          "bytes": 241310,
+          "raw_file": "raw_data/national_village_age/11509VillageUTF8.txt"
+        },
+        {
+          "page_url": "https://data.gov.tw/dataset/7438",
+          "requested_url": "https://data.gov.tw/dataset/7438",
+          "effective_url": "https://data.gov.tw/dataset/7438",
+          "downloaded_at": "2026-10-24T15:05:20+08:00",
+          "source_data_time": null,
+          "http_status": 200,
+          "http_last_modified": null,
+          "content_type": "text/html;charset=utf-8",
+          "bytes": 520693,
+          "raw_file": "raw_data/national_village_age/boundary_catalog.html"
+        },
+        {
+          "page_url": "https://data.gov.tw/dataset/7438",
+          "requested_url": "https://www.tgos.tw/tgos/VirtualDir/Product/a04697c8-64db-450a-a105-3eb471c45abd/%E6%9D%91(%E9%87%8C)%E7%95%8C(TWD97%E7%B6%93%E7%B7%AF%E5%BA%A6).zip",
+          "effective_url": "https://www.tgos.tw/tgos/VirtualDir/Product/a04697c8-64db-450a-a105-3eb471c45abd/%E6%9D%91(%E9%87%8C)%E7%95%8C(TWD97%E7%B6%93%E7%B7%AF%E5%BA%A6).zip",
+          "downloaded_at": "2026-10-24T15:05:21+08:00",
+          "source_data_time": null,
+          "http_status": 200,
+          "http_last_modified": "Tue, 25 Aug 2026 05:59:39 GMT",
+          "content_type": "application/x-zip-compressed",
+          "bytes": 21618481,
+          "raw_file": "map-data/raw/national_village_age/villages.zip"
+        }
+      ],
+      "checks": {
+        "station_namespace_counts": {
+          "bus": 5376,
+          "mrt": 154,
+          "youbike": 1822
+        },
+        "station_radius_status_counts": {
+          "complete": 21507,
+          "partial": 549
+        },
+        "independent_overlap_pair_count": 0,
+        "sample_station_count": 3,
+        "sample_radius_count": 9,
+        "station_layer_metadata": {
+          "bus_stops.geojson": {
+            "source": "data/taipei_feeds（臺北市公共運輸處 blob）",
+            "source_data_time": "2026-10-21T22:03:04+08:00",
+            "weekday_departures": "代表平日（週三）各附線計畫發車數加總；固定班表優先，否則以班距區間估算"
+          },
+          "mrt_stations.geojson": {
+            "source": "https://download.geofabrik.de/asia/taiwan.html",
+            "source_updated_at": "2026-10-20T20:23:47Z",
+            "attribution": "© OpenStreetMap contributors; processed by Geofabrik",
+            "license": "ODbL-1.0",
+            "selection": "OSM railway_station within about 80 m of a selected metro line; deduplicated by name"
+          },
+          "youbike_stations.geojson": {
+            "source": "data/youbike/stations.geojson（臺北市政府交通局 YouBike 2.0）",
+            "source_data_time": "2026-10-24T11:58:03+08:00",
+            "limitations": "只有站點與總停車格數，沒有即時可借車數，也不代表使用量；只含臺北市站點。"
+          }
+        },
+        "display_village_count": 1677,
+        "failure_count": 0,
+        "failures": []
+      },
+      "samples": [
+        {
+          "category": "complete",
+          "namespace": "youbike",
+          "station_id": "500101001",
+          "displayed_coordinate_wgs84": [
+            121.5436,
+            25.02605
+          ],
+          "radius_m": 200,
+          "expected": {
+            "population_estimate": 6266.42,
+            "population_known_estimate": 6266.42,
+            "boundary_share": 1.0,
+            "data_share": 1.0,
+            "population_data_share": 1.0,
+            "outside_boundary_share": 0.0,
+            "village_count": 6,
+            "unmatched_village_count": 0,
+            "geometry_conflict_village_count": 0,
+            "missing_population_village_count": 0,
+            "unknown_village_count": 0,
+            "age_group_estimates": {
+              "age_0_14": 822.17,
+              "age_15_64": 3684.44,
+              "age_65_plus": 1759.81,
+              "age_0_5": 228.85,
+              "age_6_17": 729.96,
+              "age_18_64": 3547.8,
+              "age_65_74": 983.77,
+              "age_75_plus": 776.03
+            },
+            "age_group_known_estimates": {
+              "age_0_14": 822.17,
+              "age_15_64": 3684.44,
+              "age_65_plus": 1759.81,
+              "age_0_5": 228.85,
+              "age_6_17": 729.96,
+              "age_18_64": 3547.8,
+              "age_65_74": 983.77,
+              "age_75_plus": 776.03
+            },
+            "age_group_data_shares": {
+              "age_0_14": 1.0,
+              "age_15_64": 1.0,
+              "age_65_plus": 1.0,
+              "age_0_5": 1.0,
+              "age_6_17": 1.0,
+              "age_18_64": 1.0,
+              "age_65_74": 1.0,
+              "age_75_plus": 1.0
+            },
+            "age_group_unknown_village_counts": {
+              "age_0_14": 0,
+              "age_15_64": 0,
+              "age_65_plus": 0,
+              "age_0_5": 0,
+              "age_6_17": 0,
+              "age_18_64": 0,
+              "age_65_74": 0,
+              "age_75_plus": 0
+            },
+            "status": "complete"
+          },
+          "status": "passed",
+          "mismatched_fields": []
+        },
+        {
+          "category": "complete",
+          "namespace": "youbike",
+          "station_id": "500101001",
+          "displayed_coordinate_wgs84": [
+            121.5436,
+            25.02605
+          ],
+          "radius_m": 350,
+          "expected": {
+            "population_estimate": 18073.06,
+            "population_known_estimate": 18073.06,
+            "boundary_share": 1.0,
+            "data_share": 1.0,
+            "population_data_share": 1.0,
+            "outside_boundary_share": 0.0,
+            "village_count": 9,
+            "unmatched_village_count": 0,
+            "geometry_conflict_village_count": 0,
+            "missing_population_village_count": 0,
+            "unknown_village_count": 0,
+            "age_group_estimates": {
+              "age_0_14": 2451.51,
+              "age_15_64": 10623.37,
+              "age_65_plus": 4998.18,
+              "age_0_5": 679.0,
+              "age_6_17": 2177.33,
+              "age_18_64": 10218.54,
+              "age_65_74": 2789.55,
+              "age_75_plus": 2208.63
+            },
+            "age_group_known_estimates": {
+              "age_0_14": 2451.51,
+              "age_15_64": 10623.37,
+              "age_65_plus": 4998.18,
+              "age_0_5": 679.0,
+              "age_6_17": 2177.33,
+              "age_18_64": 10218.54,
+              "age_65_74": 2789.55,
+              "age_75_plus": 2208.63
+            },
+            "age_group_data_shares": {
+              "age_0_14": 1.0,
+              "age_15_64": 1.0,
+              "age_65_plus": 1.0,
+              "age_0_5": 1.0,
+              "age_6_17": 1.0,
+              "age_18_64": 1.0,
+              "age_65_74": 1.0,
+              "age_75_plus": 1.0
+            },
+            "age_group_unknown_village_counts": {
+              "age_0_14": 0,
+              "age_15_64": 0,
+              "age_65_plus": 0,
+              "age_0_5": 0,
+              "age_6_17": 0,
+              "age_18_64": 0,
+              "age_65_74": 0,
+              "age_75_plus": 0
+            },
+            "status": "complete"
+          },
+          "status": "passed",
+          "mismatched_fields": []
+        },
+        {
+          "category": "complete",
+          "namespace": "youbike",
+          "station_id": "500101001",
+          "displayed_coordinate_wgs84": [
+            121.5436,
+            25.02605
+          ],
+          "radius_m": 500,
+          "expected": {
+            "population_estimate": 32394.04,
+            "population_known_estimate": 32394.04,
+            "boundary_share": 1.0,
+            "data_share": 1.0,
+            "population_data_share": 1.0,
+            "outside_boundary_share": 0.0,
+            "village_count": 12,
+            "unmatched_village_count": 0,
+            "geometry_conflict_village_count": 0,
+            "missing_population_village_count": 0,
+            "unknown_village_count": 0,
+            "age_group_estimates": {
+              "age_0_14": 4624.16,
+              "age_15_64": 19125.59,
+              "age_65_plus": 8644.29,
+              "age_0_5": 1246.7,
+              "age_6_17": 4168.37,
+              "age_18_64": 18334.69,
+              "age_65_74": 4713.44,
+              "age_75_plus": 3930.84
+            },
+            "age_group_known_estimates": {
+              "age_0_14": 4624.16,
+              "age_15_64": 19125.59,
+              "age_65_plus": 8644.29,
+              "age_0_5": 1246.7,
+              "age_6_17": 4168.37,
+              "age_18_64": 18334.69,
+              "age_65_74": 4713.44,
+              "age_75_plus": 3930.84
+            },
+            "age_group_data_shares": {
+              "age_0_14": 1.0,
+              "age_15_64": 1.0,
+              "age_65_plus": 1.0,
+              "age_0_5": 1.0,
+              "age_6_17": 1.0,
+              "age_18_64": 1.0,
+              "age_65_74": 1.0,
+              "age_75_plus": 1.0
+            },
+            "age_group_unknown_village_counts": {
+              "age_0_14": 0,
+              "age_15_64": 0,
+              "age_65_plus": 0,
+              "age_0_5": 0,
+              "age_6_17": 0,
+              "age_18_64": 0,
+              "age_65_74": 0,
+              "age_75_plus": 0
+            },
+            "status": "complete"
+          },
+          "status": "passed",
+          "mismatched_fields": []
+        },
+        {
+          "category": "partial_with_unmatched_boundary",
+          "namespace": "bus",
+          "station_id": "1755",
+          "displayed_coordinate_wgs84": [
+            121.50246,
+            25.04234
+          ],
+          "radius_m": 200,
+          "expected": {
+            "population_estimate": 3180.21,
+            "population_known_estimate": 3180.21,
+            "boundary_share": 1.0,
+            "data_share": 1.0,
+            "population_data_share": 1.0,
+            "outside_boundary_share": 0.0,
+            "village_count": 3,
+            "unmatched_village_count": 0,
+            "geometry_conflict_village_count": 0,
+            "missing_population_village_count": 0,
+            "unknown_village_count": 0,
+            "age_group_estimates": {
+              "age_0_14": 246.51,
+              "age_15_64": 2057.88,
+              "age_65_plus": 875.82,
+              "age_0_5": 82.33,
+              "age_6_17": 230.2,
+              "age_18_64": 1991.86,
+              "age_65_74": 524.53,
+              "age_75_plus": 351.29
+            },
+            "age_group_known_estimates": {
+              "age_0_14": 246.51,
+              "age_15_64": 2057.88,
+              "age_65_plus": 875.82,
+              "age_0_5": 82.33,
+              "age_6_17": 230.2,
+              "age_18_64": 1991.86,
+              "age_65_74": 524.53,
+              "age_75_plus": 351.29
+            },
+            "age_group_data_shares": {
+              "age_0_14": 1.0,
+              "age_15_64": 1.0,
+              "age_65_plus": 1.0,
+              "age_0_5": 1.0,
+              "age_6_17": 1.0,
+              "age_18_64": 1.0,
+              "age_65_74": 1.0,
+              "age_75_plus": 1.0
+            },
+            "age_group_unknown_village_counts": {
+              "age_0_14": 0,
+              "age_15_64": 0,
+              "age_65_plus": 0,
+              "age_0_5": 0,
+              "age_6_17": 0,
+              "age_18_64": 0,
+              "age_65_74": 0,
+              "age_75_plus": 0
+            },
+            "status": "complete"
+          },
+          "status": "passed",
+          "mismatched_fields": []
+        },
+        {
+          "category": "partial_with_unmatched_boundary",
+          "namespace": "bus",
+          "station_id": "1755",
+          "displayed_coordinate_wgs84": [
+            121.50246,
+            25.04234
+          ],
+          "radius_m": 350,
+          "expected": {
+            "population_estimate": 10171.35,
+            "population_known_estimate": 10171.35,
+            "boundary_share": 1.0,
+            "data_share": 1.0,
+            "population_data_share": 1.0,
+            "outside_boundary_share": 0.0,
+            "village_count": 7,
+            "unmatched_village_count": 0,
+            "geometry_conflict_village_count": 0,
+            "missing_population_village_count": 0,
+            "unknown_village_count": 0,
+            "age_group_estimates": {
+              "age_0_14": 788.85,
+              "age_15_64": 6540.12,
+              "age_65_plus": 2842.38,
+              "age_0_5": 265.99,
+              "age_6_17": 729.74,
+              "age_18_64": 6333.24,
+              "age_65_74": 1704.5,
+              "age_75_plus": 1137.88
+            },
+            "age_group_known_estimates": {
+              "age_0_14": 788.85,
+              "age_15_64": 6540.12,
+              "age_65_plus": 2842.38,
+              "age_0_5": 265.99,
+              "age_6_17": 729.74,
+              "age_18_64": 6333.24,
+              "age_65_74": 1704.5,
+              "age_75_plus": 1137.88
+            },
+            "age_group_data_shares": {
+              "age_0_14": 1.0,
+              "age_15_64": 1.0,
+              "age_65_plus": 1.0,
+              "age_0_5": 1.0,
+              "age_6_17": 1.0,
+              "age_18_64": 1.0,
+              "age_65_74": 1.0,
+              "age_75_plus": 1.0
+            },
+            "age_group_unknown_village_counts": {
+              "age_0_14": 0,
+              "age_15_64": 0,
+              "age_65_plus": 0,
+              "age_0_5": 0,
+              "age_6_17": 0,
+              "age_18_64": 0,
+              "age_65_74": 0,
+              "age_75_plus": 0
+            },
+            "status": "complete"
+          },
+          "status": "passed",
+          "mismatched_fields": []
+        },
+        {
+          "category": "partial_with_unmatched_boundary",
+          "namespace": "bus",
+          "station_id": "1755",
+          "displayed_coordinate_wgs84": [
+            121.50246,
+            25.04234
+          ],
+          "radius_m": 500,
+          "expected": {
+            "population_estimate": null,
+            "population_known_estimate": 20059.39,
+            "boundary_share": 1.0,
+            "data_share": 0.947078,
+            "population_data_share": 0.947078,
+            "outside_boundary_share": 0.0,
+            "village_count": 10,
+            "unmatched_village_count": 1,
+            "geometry_conflict_village_count": 0,
+            "missing_population_village_count": 0,
+            "unknown_village_count": 1,
+            "age_group_estimates": {
+              "age_0_14": null,
+              "age_15_64": null,
+              "age_65_plus": null,
+              "age_0_5": null,
+              "age_6_17": null,
+              "age_18_64": null,
+              "age_65_74": null,
+              "age_75_plus": null
+            },
+            "age_group_known_estimates": {
+              "age_0_14": 1556.5,
+              "age_15_64": 12841.48,
+              "age_65_plus": 5661.42,
+              "age_0_5": 531.12,
+              "age_6_17": 1422.18,
+              "age_18_64": 12444.67,
+              "age_65_74": 3398.43,
+              "age_75_plus": 2262.99
+            },
+            "age_group_data_shares": {
+              "age_0_14": 0.947078,
+              "age_15_64": 0.947078,
+              "age_65_plus": 0.947078,
+              "age_0_5": 0.947078,
+              "age_6_17": 0.947078,
+              "age_18_64": 0.947078,
+              "age_65_74": 0.947078,
+              "age_75_plus": 0.947078
+            },
+            "age_group_unknown_village_counts": {
+              "age_0_14": 1,
+              "age_15_64": 1,
+              "age_65_plus": 1,
+              "age_0_5": 1,
+              "age_6_17": 1,
+              "age_18_64": 1,
+              "age_65_74": 1,
+              "age_75_plus": 1
+            },
+            "status": "partial"
+          },
+          "status": "passed",
+          "mismatched_fields": []
+        },
+        {
+          "category": "outside_boundary_edge",
+          "namespace": "mrt",
+          "station_id": "3812564425",
+          "displayed_coordinate_wgs84": [
+            121.4119,
+            25.02208
+          ],
+          "radius_m": 200,
+          "expected": {
+            "population_estimate": null,
+            "population_known_estimate": 3562.91,
+            "boundary_share": 0.991374,
+            "data_share": 0.991374,
+            "population_data_share": 0.991374,
+            "outside_boundary_share": 0.008626,
+            "village_count": 3,
+            "unmatched_village_count": 0,
+            "geometry_conflict_village_count": 0,
+            "missing_population_village_count": 0,
+            "unknown_village_count": 0,
+            "age_group_estimates": {
+              "age_0_14": null,
+              "age_15_64": null,
+              "age_65_plus": null,
+              "age_0_5": null,
+              "age_6_17": null,
+              "age_18_64": null,
+              "age_65_74": null,
+              "age_75_plus": null
+            },
+            "age_group_known_estimates": {
+              "age_0_14": 486.07,
+              "age_15_64": 2570.35,
+              "age_65_plus": 506.49,
+              "age_0_5": 117.87,
+              "age_6_17": 468.43,
+              "age_18_64": 2470.12,
+              "age_65_74": 362.23,
+              "age_75_plus": 144.26
+            },
+            "age_group_data_shares": {
+              "age_0_14": 0.991374,
+              "age_15_64": 0.991374,
+              "age_65_plus": 0.991374,
+              "age_0_5": 0.991374,
+              "age_6_17": 0.991374,
+              "age_18_64": 0.991374,
+              "age_65_74": 0.991374,
+              "age_75_plus": 0.991374
+            },
+            "age_group_unknown_village_counts": {
+              "age_0_14": 0,
+              "age_15_64": 0,
+              "age_65_plus": 0,
+              "age_0_5": 0,
+              "age_6_17": 0,
+              "age_18_64": 0,
+              "age_65_74": 0,
+              "age_75_plus": 0
+            },
+            "status": "partial"
+          },
+          "status": "passed",
+          "mismatched_fields": []
+        },
+        {
+          "category": "outside_boundary_edge",
+          "namespace": "mrt",
+          "station_id": "3812564425",
+          "displayed_coordinate_wgs84": [
+            121.4119,
+            25.02208
+          ],
+          "radius_m": 350,
+          "expected": {
+            "population_estimate": null,
+            "population_known_estimate": 8932.33,
+            "boundary_share": 0.908462,
+            "data_share": 0.908462,
+            "population_data_share": 0.908462,
+            "outside_boundary_share": 0.091538,
+            "village_count": 4,
+            "unmatched_village_count": 0,
+            "geometry_conflict_village_count": 0,
+            "missing_population_village_count": 0,
+            "unknown_village_count": 0,
+            "age_group_estimates": {
+              "age_0_14": null,
+              "age_15_64": null,
+              "age_65_plus": null,
+              "age_0_5": null,
+              "age_6_17": null,
+              "age_18_64": null,
+              "age_65_74": null,
+              "age_75_plus": null
+            },
+            "age_group_known_estimates": {
+              "age_0_14": 1279.43,
+              "age_15_64": 6407.02,
+              "age_65_plus": 1245.88,
+              "age_0_5": 313.58,
+              "age_6_17": 1229.76,
+              "age_18_64": 6143.11,
+              "age_65_74": 891.18,
+              "age_75_plus": 354.7
+            },
+            "age_group_data_shares": {
+              "age_0_14": 0.908462,
+              "age_15_64": 0.908462,
+              "age_65_plus": 0.908462,
+              "age_0_5": 0.908462,
+              "age_6_17": 0.908462,
+              "age_18_64": 0.908462,
+              "age_65_74": 0.908462,
+              "age_75_plus": 0.908462
+            },
+            "age_group_unknown_village_counts": {
+              "age_0_14": 0,
+              "age_15_64": 0,
+              "age_65_plus": 0,
+              "age_0_5": 0,
+              "age_6_17": 0,
+              "age_18_64": 0,
+              "age_65_74": 0,
+              "age_75_plus": 0
+            },
+            "status": "partial"
+          },
+          "status": "passed",
+          "mismatched_fields": []
+        },
+        {
+          "category": "outside_boundary_edge",
+          "namespace": "mrt",
+          "station_id": "3812564425",
+          "displayed_coordinate_wgs84": [
+            121.4119,
+            25.02208
+          ],
+          "radius_m": 500,
+          "expected": {
+            "population_estimate": null,
+            "population_known_estimate": 15061.1,
+            "boundary_share": 0.853797,
+            "data_share": 0.853797,
+            "population_data_share": 0.853797,
+            "outside_boundary_share": 0.146203,
+            "village_count": 5,
+            "unmatched_village_count": 0,
+            "geometry_conflict_village_count": 0,
+            "missing_population_village_count": 0,
+            "unknown_village_count": 0,
+            "age_group_estimates": {
+              "age_0_14": null,
+              "age_15_64": null,
+              "age_65_plus": null,
+              "age_0_5": null,
+              "age_6_17": null,
+              "age_18_64": null,
+              "age_65_74": null,
+              "age_75_plus": null
+            },
+            "age_group_known_estimates": {
+              "age_0_14": 2218.03,
+              "age_15_64": 10743.73,
+              "age_65_plus": 2099.33,
+              "age_0_5": 550.17,
+              "age_6_17": 2125.91,
+              "age_18_64": 10285.68,
+              "age_65_74": 1498.23,
+              "age_75_plus": 601.1
+            },
+            "age_group_data_shares": {
+              "age_0_14": 0.853797,
+              "age_15_64": 0.853797,
+              "age_65_plus": 0.853797,
+              "age_0_5": 0.853797,
+              "age_6_17": 0.853797,
+              "age_18_64": 0.853797,
+              "age_65_74": 0.853797,
+              "age_75_plus": 0.853797
+            },
+            "age_group_unknown_village_counts": {
+              "age_0_14": 0,
+              "age_15_64": 0,
+              "age_65_plus": 0,
+              "age_0_5": 0,
+              "age_6_17": 0,
+              "age_18_64": 0,
+              "age_65_74": 0,
+              "age_75_plus": 0
+            },
+            "status": "partial"
+          },
+          "status": "passed",
+          "mismatched_fields": []
+        }
+      ]
+    }
+  ]
+}

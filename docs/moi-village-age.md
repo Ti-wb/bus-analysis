@@ -10,7 +10,7 @@
 
 ## 抓取、重建與巡檢
 
-Python 3.12+，新增流程只用標準函式庫。先依[專案安裝說明](uv.md)建立環境，在 repo 根目錄執行：
+Python 3.12+，逐歲 CSV 流程使用標準函式庫；後續里界與站圈使用專案既有的 Shapely、pyproj、pyshp。先依[專案安裝說明](uv.md)執行 `uv sync --locked`，在 repo 根目錄執行：
 
 ```bash
 # 預設只列計畫；明確指定月份，不追逐「最新」而改變同一指令結果。
@@ -82,34 +82,40 @@ uv run -m scripts.official_cross_city village-age \
 | --- | --- |
 | `period`, `year`, `year_roc`, `month` | `統計年月`，民國 11509 轉成 2026-09 |
 | `area_id` | 原始 `區域別代碼`，完整 11 碼字串，含前導零 |
-| `area_level`, `district_id` | 固定 village；來源碼前 8 碼的行政階層提示，未驗證跨來源 ID |
+| `area_level`, `district_id` | 固定 village；來源碼前 8 碼。此原始整理檔不自行宣告跨來源連接，獨立清冊核對結果另存 crosswalk |
 | `county_code`, `county_name` | 來源碼前 5 碼與縣市碼表，檢查 `區域別` 父行政區名稱 |
 | `area_name`, `village_name` | 原始 `區域別`（含縣市與鄉鎮市區）、`村里`，罕用字／造字保留原文 |
 | `sex`, `population` | male／female 對應 `人口數-男/女`；total 的總數對應原始 `人口數`，單位人 |
 | `age_counts` | 101 個人數；索引 0–99 為該整歲，索引 100 為 100+；順序見 `age_counts_order` |
 | `households` | 原始 `戶數`，單位戶，只出現在 sex=total，無性別分戶數 |
 | `source_file`, `source_row` | CSV 檔名及原始行號，可回查同一來源 |
-| `boundary_join_status` | 固定 not_verified，未因代碼形似就認定里界已連接 |
+| `boundary_join_status` | 原始整理檔固定 not_verified；後續已核對的里界狀態見獨立 crosswalk 及地圖檔，不回寫此檔 |
 
 每村里有 male／female／total 三筆，唯一鍵為 `period × area_id × sex`。
 total 逐歲格由男女相加，任一格缺值則為 null；總人口保留官方原值。
 **total 與男女是重疊統計，三種性別記錄不可一起加總。**
 核對每村里男女總數、逐歲合計、同碼唯一、22 縣市存在。缺值使加總驗證為 inconclusive；
-`known_sum` 必須連同 unknown 數一起解讀。這些檢查只證明下載月檔內部一致及逐列保留，
-沒有以另一份全國村里名冊證明來源絕無遺漏。
+`known_sum` 必須連同 unknown 數一起解讀。這些檢查證明下載月檔內部一致及逐列保留；
+後續另以戶政司 **11509 獨立村里代碼清冊**，雙向核對全部 7,781 個村里碼、父區碼及原名，
+沒有缺碼或名稱差異。清冊完整對應仍不證明人口月份與另一版本里界的幾何一致。
 
 ## 公車與地理資料的使用界線
 
 本檔是戶籍人口背景，沒有公車上下車、旅次頻率、通勤方向、旅客 OD 或白天活動人口。
 逐歲人口不能直接乘上假設係數，重標為實際乘車需求。
 
-既有 `regional_village_population`、人口里界 crosswalk 與臺北近三年年齡檔維持各自來源及期間，
-不能直接拼接、相加或沿用舊巡檢結論。新全國資料尚未核對全國同月份里界。
+既有 `regional_village_population`、舊人口里界 crosswalk 與臺北近三年年齡檔維持各自來源及期間，
+不能直接拼接、相加或沿用舊巡檢結論。新[全國清冊與里界核對](moi-village-age-geography.md)已處理官方 ZIP 所有圖層，
+主層為 2026-08-17，Sanhe 附層日期不明；**未取得獨立 2026-09 幾何快照**，`same_month_geometry_verified` 仍為 false。
 村里碼與 `base_area_id` 最小統計區碼是不同契約，不用截碼、補零或名稱猜配。
 地理連接須另查完整碼、父行政區名稱、異體字與實際里界版本，並揭露未匹配項目。
 
-站圈人口仍來自 `build_web_data.build_catchments` 的最小統計區面積分攤；
-村里總數不是 350 m 站圈人口，也沒有直接匯入站圈年齡估算。
+新 `station_age_catchments.json` 已將北北基完整里界與 2026-09 逐歲人口串接，
+對 7,352 站各產生 200／350／500 m 面積分攤估算，站卡使用 350 m。完整估算、已知部分、覆蓋率與 null 分開輸出；
+17 個名稱未核實及 7 個幾何衝突村里排除分攤，206 個未編定區塊不補零人口。
+村里總數不是站圈人口；另有 `station_catchments.json` 的 **2024-12 最小統計區人口與五歲年齡組、2015 邊界**，
+站卡合併為 0–14／15–24／25–64／65+ 四組。這套統計區來源與本資料的三段／規劃分組不同，
+不能比較兩者增減、混用分母、混接年齡組或把統計區總人口配上村里年齡人數。
 既有[需求落差模型](transport-need.md)使用假設權重與時段係數，其排名差不是缺班數。
 現行公車介面在 `data/taipei_feeds/`；計畫班表、到站預估與實際乘車量也必須分開。
 
@@ -119,6 +125,6 @@ total 逐歲格由男女相加，任一格缺值則為 null；總人口保留官
 uv run python -m unittest discover -s tests/official_cross_city -v
 ```
 
-CI 使用合成資料測試，不連政府 API。全量官方 CSV 核對是另外執行的獨立巡檢，
-不是合成測試的推論；報告明列來源、月份、欄位、筆數、逐格比較及未完成的地理／乘車需求驗收。
-來源與開源選擇依據見[研究筆記](research/moi-village-age.md)。
+CI 使用合成資料測試及已提交地圖資料建置，不連政府 API。全量官方 CSV、清冊、里界及站圈抽樣重算是另外執行的獨立巡檢，
+不是合成測試的推論。完整操作、輸出欄位與限制見[村里年齡與站圈](moi-village-age-geography.md)；
+原始人口選擇依據見[研究筆記](research/moi-village-age.md)。

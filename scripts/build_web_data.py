@@ -18,6 +18,11 @@ from shapely.geometry import box, mapping, shape
 from shapely.ops import unary_union
 from shapely.prepared import prep
 
+if __package__:
+    from .build_age_catchments import build_age_catchments
+else:
+    from build_age_catchments import build_age_catchments
+
 ROOT = Path(__file__).resolve().parents[1]
 FEEDS = ROOT / "data/taipei_feeds"
 MAP = ROOT / "map-data"
@@ -26,14 +31,16 @@ OUT = ROOT / "web/public/data"
 # Taipei City plus a margin of the surrounding New Taipei area.
 VIEW_BBOX = (121.40, 24.93, 121.70, 25.23)
 CELL_SIZES = (100, 150, 250, 500)
-# Station-coverage grids: distances in 10 m steps up to 2.5 km.
+# Station-coverage grids: distances in 10 m steps up to 3 km.
 # The web map lets readers pick the coverage cell size; each size is measured from its own cell centres.
 COVERAGE_CELL_SIZES = (50, 100, 200)
 COVERAGE_UNIT_M = 10
-COVERAGE_CAP = 250
-COVERAGE_OUTSIDE = 255
+COVERAGE_CAP = 300
+COVERAGE_OUTSIDE = 999
 # Walking catchment radii; station information always uses the 350 m entry.
 CATCHMENT_RADII = (200, 350, 500)
+# Station-card age groups as slices of the 21 five-year groups (0–4 … 95–99, 100+).
+AGE_GROUPS = {"0-14": slice(0, 3), "15-24": slice(3, 5), "25-64": slice(5, 13), "65_plus": slice(13, 21)}
 POPULATION = ROOT / "data/population"
 GRID_LAT0 = 25.05
 # ISO weekday used as the representative service day for each day type.
@@ -67,9 +74,12 @@ def read(path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def write(name, doc):
+def write(name, doc, *, compressed=False):
     OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / name).write_text(json.dumps(doc, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    encoded = json.dumps(doc, ensure_ascii=False, allow_nan=False, separators=(",", ":")).encode("utf-8")
+    (OUT / name).write_bytes(encoded)
+    if compressed:
+        (OUT / (name + ".gz")).write_bytes(gzip.compress(encoded, mtime=0))
     print(f"{name}: {(OUT / name).stat().st_size / 1e6:.2f} MB")
 
 
@@ -216,7 +226,7 @@ def build_coverage(city, station_types, cell_m):
         (index, _), distance = tree.query_nearest(centres, return_distance=True, all_matches=False)
         nearest = np.empty(len(centres))
         nearest[index] = distance
-        values = np.full(rows * cols, COVERAGE_OUTSIDE, dtype=np.uint8)
+        values = np.full(rows * cols, COVERAGE_OUTSIDE, dtype=np.uint16)
         values[inside] = np.minimum(np.rint(nearest / COVERAGE_UNIT_M), COVERAGE_CAP)
         fields[name] = values.tolist()
     return {
@@ -241,19 +251,26 @@ def build_catchments(stops):
     """
     boundaries = read(POPULATION / "taipei_statistical_area_boundaries.geojson")
     population = read(POPULATION / "taipei_statistical_population_base.json")
+    age = read(POPULATION / "taipei_statistical_population_age5_base.json")
     counts = {r["base_area_id"]: r for r in population["records"]}
+    # Age rows join on the same base_area_id and period; a missing group leaves the area's ages unknown.
+    age_counts = {r["base_area_id"]: r["age_counts"] for r in age["records"]
+                  if r["period"] == counts.get(r["base_area_id"], {}).get("period") and None not in r["age_counts"]}
     to_tm = Transformer.from_crs(4326, 3826, always_xy=True)
-    areas, people, households = [], [], []
+    areas, people, households, ages = [], [], [], []
     for feature in boundaries["features"]:
-        record = counts.get(feature["properties"]["base_area_id"])
+        area_id = feature["properties"]["base_area_id"]
+        record = counts.get(area_id)
         if record is None:
             continue
         areas.append(shapely.transform(shape(feature["geometry"]), lambda xy: np.column_stack(to_tm.transform(xy[:, 0], xy[:, 1]))))
         people.append(record["population"])
         households.append(record["households"])
+        five = age_counts.get(area_id)
+        ages.append([sum(five[part]) for part in AGE_GROUPS.values()] if five else [np.nan] * len(AGE_GROUPS))
     areas = np.array(areas)
     area_m2 = shapely.area(areas)
-    people, households = np.array(people, dtype=float), np.array(households, dtype=float)
+    people, households, ages = np.array(people, dtype=float), np.array(households, dtype=float), np.array(ages, dtype=float)
     tree = STRtree(areas)
     result = {}
     for stop_id, (lon, lat) in stops.items():
@@ -265,17 +282,30 @@ def build_catchments(stops):
             share = shapely.area(shapely.intersection(areas[candidates], circle)) / area_m2[candidates] if len(candidates) else np.zeros(0)
             data_share = float((share * area_m2[candidates]).sum() / circle.area) if len(candidates) else 0.0
             if data_share < 0.005:
-                values.append([None, None, 0])
+                values.append([None, None, 0, None])
             else:
-                values.append([round(float(share @ people[candidates])), round(float(share @ households[candidates])), round(min(data_share, 1.0), 2)])
+                total = round(float(share @ people[candidates]))
+                inside = share > 0
+                groups = None if np.isnan(ages[candidates][inside]).any() else apportion(share[inside] @ ages[candidates][inside], total)
+                values.append([total, round(float(share @ households[candidates])), round(min(data_share, 1.0), 2), groups])
         result[stop_id] = values
     meta = {
         "population_source": "data/population/taipei_statistical_population_base.json（內政部最小統計區戶籍人口）",
         "population_period": population["metadata"]["source_period"],
         "boundary_source": "data/population/taipei_statistical_area_boundaries.geojson",
         "boundary_vintage": boundaries["metadata"]["boundary_vintage_year_in_filename"],
+        "age_source": "data/population/taipei_statistical_population_age5_base.json（內政部最小統計區五歲年齡組人口）",
+        "age_period": age["metadata"]["source_period"],
     }
     return result, meta
+
+
+def apportion(values, total):
+    """Round apportioned group counts to whole people that add up to the rounded total."""
+    floors = np.floor(values).astype(int)
+    order = np.argsort(floors - values)
+    floors[order[:max(0, total - int(floors.sum()))]] += 1
+    return floors.tolist()
 
 
 def main():
@@ -446,6 +476,19 @@ def main():
         "mrt": {f["properties"]["id"]: f["geometry"]["coordinates"] for f in stations},
         "youbike": {f["properties"]["station_id"]: rounded(shape(f["geometry"]))["coordinates"] for f in youbike["features"]},
     }
+    # Keep the village-age source separate from the older statistical-area totals and age groups.
+    # Estimate with the complete, unsimplified geometry; simplify only the map copy.
+    village_ages = read(MAP / "population/moi_village_age_2026-09.geojson.gz")
+    age_catchments = build_age_catchments(station_points, village_ages, CATCHMENT_RADII)
+    age_catchments["metadata"].update({"built_at": built_at,
+        "station_sources": {"bus": "bus_stops.geojson: id", "mrt": "mrt_stations.geojson: id (OSM)",
+                            "youbike": "youbike_stations.geojson: station_id"}})
+    write("station_age_catchments.json", age_catchments, compressed=True)
+    age_features = [{**feature, "geometry": rounded(simplified(shape(feature["geometry"]), 0.00002))}
+                    for feature in village_ages["features"]]
+    write("village_age.geojson", {**village_ages, "features": age_features,
+        "metadata": {**village_ages["metadata"], "display_simplification_degrees": 0.00002,
+                     "display_geometry_only": True, "catchment_geometry": "full precision source; not this display simplification"}}, compressed=True)
     catchments, population_meta = build_catchments({
         f"{kind}:{station_id}": point
         for kind, points in station_points.items() for station_id, point in points.items()
@@ -454,7 +497,8 @@ def main():
         "schema_version": "1.0",
         "dataset_id": "web_station_catchments",
         "radii": list(CATCHMENT_RADII),
-        "fields": ["population", "households", "data_share"],
+        "fields": ["population", "households", "data_share", "age_groups"],
+        "age_groups": list(AGE_GROUPS),
         "records": {
             kind: {sid: catchments[f"{kind}:{sid}"] for sid in points}
             for kind, points in station_points.items()
@@ -465,8 +509,10 @@ def main():
             "built_at": built_at,
             "value": "站位為圓心、各半徑直線圓內的戶籍人口與戶數；統計區只有部分在圓內時，依面積比例分攤（假設區內人口均勻分布）",
             "data_share": "圓面積中有臺北市統計區人口資料的比例；覆蓋低於 0.5% 時人口與戶數為 null、data_share 為 0；其餘比例四捨五入至小數 2 位",
+            "age_groups": "0–14、15–24、25–64、65 歲以上人數，由五歲年齡組合併後以同一面積比例分攤，整數化後加總等於 population；有統計區缺年齡資料時為 null",
             "limitations": [
-                "戶籍人口不等於白天活動人口，也不是搭乘量；來源沒有年齡分布。",
+                "本檔為最小統計區總人口、戶數及五歲組彙整的四組年齡估算；村里逐歲年齡資料另見 station_age_catchments.json，兩個來源的期別與粒度不同，不可互換或混加總數。",
+                "戶籍人口不等於白天活動人口，也不是搭乘量；年齡分布同樣是戶籍人口。",
                 f"統計區邊界為 {population_meta['boundary_vintage']} 年版，人口為 {population_meta['population_period']['end']}，兩者版本不同。",
                 "只有臺北市人口；圓延伸到新北市的部分不計，data_share 會小於 1。",
                 "相鄰站點的範圍互相重疊，各站人口不可加總；捷運以車站點位而非出入口計算。",
@@ -578,6 +624,11 @@ def main():
         }
         write(f"bus_grid_{cell_m}.json", grid)
         print(f"grid {cell_m} m status", dict(status), "scheduled subroutes", len(scheduled))
+
+    from build_route_scenario import main as build_route_scenario
+    build_route_scenario()
+    from build_improvements import main as build_improvements
+    build_improvements()
 
 
 if __name__ == "__main__":

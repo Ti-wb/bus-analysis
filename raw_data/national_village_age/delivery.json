@@ -1,0 +1,21 @@
+{
+  "group": "national_village_age",
+  "datasets": [
+    {
+      "dataset_id": "national_village_population_boundary_crosswalk",
+      "status": "normalized_with_explicit_exclusions",
+      "period": "2026-09",
+      "output_files": [
+        "data/population/ris_village_registry_2026-09.json.gz",
+        "data/population/national_village_crosswalk_2026-09.json.gz",
+        "map-data/population/moi_village_age_2026-09.geojson.gz"
+      ],
+      "limitations": [
+        "清冊與人口逐碼／父碼／原名雙向核對；里界版本與人口月份不同，未證明同月幾何。",
+        "附層 Sanhe 日期未知且與六個主層村里重疊；相關人口保留原值，排除面積分攤。",
+        "名稱未審、無人口及未編定區塊不補零；全國保留遠島，地圖／站圈只使用北北基。",
+        "面積分攤假設村內人口均勻分布，不代表日間活動人口或實際公車搭乘需求。"
+      ]
+    }
+  ]
+}

@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react';
+import type { VillageAges } from '../age';
 import type { Coverage, Grid, NeedGrid } from '../types';
 
-export default function AboutDialog({ open, grid, coverage, need, onClose }: { open: boolean; grid: Grid | null; coverage: Coverage | null; need: NeedGrid | null; onClose: () => void }) {
+export default function AboutDialog({ open, grid, coverage, need, ages, onClose }: { open: boolean; grid: Grid | null; coverage: Coverage | null; need: NeedGrid | null; ages: VillageAges | null; onClose: () => void }) {
   const ref = useRef<HTMLDialogElement>(null);
   useEffect(() => {
     const dialog = ref.current;
@@ -52,7 +53,17 @@ export default function AboutDialog({ open, grid, coverage, need, onClose }: { o
           <ul>
             <li>點選公車、捷運或 YouBike 站點，以該站為圓心查看固定直線 350 m 內的戶籍人口、戶數與附近設施；不改變覆蓋圖層設定。</li>
             <li>統計區只有部分在圓內時依面積比例分攤，假設區內人口均勻分布；只有臺北市人口，新北市部分不計。</li>
-            <li>戶籍人口不是白天活動人口或搭乘量；相鄰站點範圍重疊，各站人口不可加總。現有來源未提供年齡分布，缺值不以 0 代替。</li>
+            <li>戶籍人口不是白天活動人口或搭乘量；相鄰站點範圍重疊，各站人口不可加總。最小統計區人口卡與村里年齡估算來源、月份不同，不能直接比較總數；缺值不以 0 代替。</li>
+          </ul>
+          <h3>村里年齡與站圈分攤</h3>
+          <ul>
+            <li>人口來源為內政部戶政司「村里戶數、單一年齡人口」，清冊與里界另依官方完整代碼、父行政區及名稱核對；全國核對不代表全國地圖已收錄。地圖僅顯示北北基既有範圍。</li>
+            <li>村里圖層呈現所選年齡層占整個村里戶籍總人口的比例；三段與細分分組分開顯示。未匹配、缺值或總人口為 0 時比例為未知，顯示灰色。</li>
+            <li>站圈以 TWD97 公尺投影計算村里與直線圓的相交面積，假設村里各年齡人口均勻分布。各年齡組缺值及涵蓋率分開保留；部分站圈只顯已知部分人數，不顯完整站圈比例。無里界部分也不是 0 人。</li>
+            <li>站點資訊使用固定 350 m，資料另保留 200／350／500 m；站圈重疊，人口不可跨站加總。戶籍人口背景與面積估算都不等於實際乘車需求，不加入既有需求模型。</li>
+            {ages && <li>人口 {ages.metadata.population_period}；清冊 {ages.metadata.roster_period}；里界 {ages.metadata.boundary_vintage}。{!ages.metadata.same_month_geometry_verified && '里界與人口月份不同，尚未證明同月幾何一致。'}</li>}
+            {ages?.metadata.limitations.map((limitation) => <li key={limitation}>{limitation}</li>)}
+            <li>資料來源：內政部戶政司、內政部國土測繪中心；政府資料開放授權條款第 1 版。</li>
           </ul>
           <h3>需求落差怎麼算（研究草案）</h3>
           <ul>

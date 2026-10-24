@@ -145,11 +145,16 @@ def identical(expected, actual):
 def audit_frontend(root):
     path = root / "web/src/components/StationInfo.tsx"
     text = path.read_text(encoding="utf-8")
+    age_path = root / "web/src/components/StationAge.tsx"
+    age_text = age_path.read_text(encoding="utf-8") if age_path.is_file() else ""
+    # This is a wording audit, not proof that the component rendered or loaded
+    # its data. The integrated age card owns the scoped empty state now.
+    scoped_age_text = age_text if "StationAge" in text else text
     return {"file": path.relative_to(root).as_posix(),
             "registered_population_estimate_label": "戶籍估算" in text,
             "not_ridership_label": "戶籍人口估算，非搭乘量" in text,
-            "age_empty_state_is_station_scope": "尚未提供此站範圍的年齡估算" in text,
-            "no_false_source_age_absence": "現有來源未提供年齡資料" not in text}
+            "age_empty_state_is_station_scope": "尚未提供此站範圍的年齡估算" in scoped_age_text,
+            "no_false_source_age_absence": "現有來源未提供年齡資料" not in text + age_text}
 
 
 def review(root=ROOT, month="2026-09"):
@@ -298,7 +303,7 @@ def review(root=ROOT, month="2026-09"):
     status = "needs_correction" if errors else "pass_with_limitations"
     limitations = ["戶籍年齡人口是居住人口參考，不是實際乘客、白天活動人口、通勤 OD 或公車搭乘需求。",
                    "只加總 sex=total；不可再加上 male/female，100_plus 是開放上限，不是精確 100 歲。",
-                   "boundary_join_status=not_verified；全國代碼未逐筆核實特定版本村里界，也不推定最小統計區或公車站點 ID 關聯。",
+                   "本人口月檔維持 boundary_join_status=not_verified；清冊／特定版本里界的另行核對見 national_village_age_review.json，不推定最小統計區或公車站點 ID 關聯。",
                    "站點人口仍為既有統計區面積分攤估算；本資料未接入站點年齡估算或需求權重，前端維持此範圍的年齡缺資料狀態。",
                    "此報告僅驗證所列本地官方 CSV 與輸出快照，不表示政府來源之後未修訂。"]
     checks.update({"failure_count": len(errors), "failures": errors})

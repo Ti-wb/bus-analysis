@@ -44,6 +44,52 @@ class PopulationCatalogTests(unittest.TestCase):
             self.assertEqual(result["records"][0]["outputs"][0]["independent_review"]["status"],
                              "pending_changed_snapshot")
 
+    def test_review_sources_array_must_match_even_with_same_count_and_generation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            relative = "data/population/national_village_crosswalk_2026-09.json"
+            sources = [{"requested_url": "https://official.example/roster.txt", "downloaded_at": "first"},
+                       {"requested_url": "https://official.example/boundary.zip", "downloaded_at": "second"}]
+            content = {"metadata": {"generated_at": "fixed generation", "sources": sources},
+                       "records": [{"area_id": "63000010001"}]}
+            write_json(root / relative, content)
+            write_json(root / "raw_data/national_village_age/delivery.json", {
+                "records": [{"dataset_id": "national_village_crosswalk", "output_files": [relative]}]})
+            write_json(root / "data/quality/village_age_geography_review.json", {
+                "records": [{"output_path": relative, "record_count": 1,
+                             "review_status": "pass_with_limitations",
+                             "reviewed_generated_at": "fixed generation", "sources": sources}]})
+
+            def reviewed_output():
+                with patch.object(catalog, "ROOT", root):
+                    result = catalog.build()
+                return result["records"][0]["outputs"][0]["independent_review"]
+
+            self.assertEqual(reviewed_output()["status"], "pass_with_limitations")
+            for changed in ([sources[0], {**sources[1], "downloaded_at": "new receipt"}],
+                            [sources[0]], list(reversed(sources)), None):
+                with self.subTest(sources=changed):
+                    content["metadata"]["sources"] = changed
+                    write_json(root / relative, content)
+                    review = reviewed_output()
+                    self.assertEqual(review["status"], "pending_changed_snapshot")
+                    self.assertEqual(review["sources"], sources)
+
+    def test_legacy_source_reviews_still_match_without_a_sources_array(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            relative = "data/population/legacy.json"
+            source = {"downloaded_at": "known receipt"}
+            write_json(root / relative, {"metadata": {"source": source}, "records": [{}]})
+            write_json(root / "raw_data/population/delivery.json", {
+                "datasets": [{"dataset_id": "legacy", "output_files": [relative]}]})
+            write_json(root / "data/quality/population_review.json", {
+                "records": [{"file": relative, "record_count": 1, "review_status": "passed", "source": source}]})
+            with patch.object(catalog, "ROOT", root):
+                result = catalog.build()
+            self.assertEqual(result["records"][0]["independent_review_status"], "passed")
+            self.assertEqual(result["records"][0]["outputs"][0]["independent_review"]["source"], source)
+
     def test_source_namespace_isolated_and_offline_provenance_checked(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

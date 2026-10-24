@@ -11,7 +11,9 @@ GROUPS = {
     "pto_extended": "路線及公司營運、專用道與公車評鑑",
     "metro": "捷運各站分時進出量與出口公車資訊",
     "population": "臺北市人口、年齡與統計區界",
+    "population_age": "臺北市最小統計區五歲年齡組人口",
     "moi_village_age": "全國村里逐歲戶籍人口",
+    "national_village_age": "全國村里清冊、里界對照與北北基年齡圖層",
     "urban": "臺北市專用道、停車、通行限制與公廁",
     "background": "臺北市客運統計與運具使用調查",
     "tdx": "TDX 歷史與加值服務",
@@ -38,7 +40,7 @@ def review_index():
                     "status": record.get("review_status", record.get("status", "pending")),
                     "report": path.relative_to(ROOT).as_posix(),
                     "record_count": record.get("record_count"),
-                    **{key: record[key] for key in ("reviewed_generated_at", "source") if key in record},
+                    **{key: record[key] for key in ("reviewed_generated_at", "source", "sources") if key in record},
                 }
     return result
 
@@ -74,7 +76,7 @@ def build():
                 if review:
                     meta = content.get("metadata", {})
                     if (("reviewed_generated_at" in review and review["reviewed_generated_at"] != meta.get("generated_at"))
-                            or ("source" in review and review["source"] != meta.get("source"))):
+                            or any(key in review and review[key] != meta.get(key) for key in ("source", "sources"))):
                         output["independent_review"] = {**review, "status": "pending_changed_snapshot"}
                 outputs.append(output)
             if not outputs:

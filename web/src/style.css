@@ -56,11 +56,11 @@ h1, h2, h3, p { margin: 0; }
 .btn-outline:hover { border-color: var(--accent); }
 
 .stage { position: relative; flex: 1; min-height: 0; overflow: hidden; }
-.data-error { position: absolute; right: 20px; bottom: 20px; padding: 16px 20px; max-width: 420px; z-index: 5; }
+.data-error { position: absolute; right: 20px; bottom: 40px; padding: 16px 20px; max-width: 420px; z-index: 5; }
 .data-error p { margin-top: 6px; font-size: 13px; }
 
 .card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); }
-.panel { position: absolute; top: 20px; left: 20px; width: 300px; display: flex; flex-direction: column; gap: 14px; z-index: 2; max-height: calc(100% - 40px); overflow: auto; }
+.panel { position: absolute; top: 20px; left: 20px; width: 300px; display: flex; flex-direction: column; gap: 14px; z-index: 2; max-height: calc(100% - 60px); overflow: auto; }
 .intro { padding: 24px; }
 .intro h1 { font-size: 26px; line-height: 1.45; font-weight: 800; letter-spacing: 0.02em; }
 .intro > .muted { margin-top: 10px; font-size: 13px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
@@ -104,7 +104,7 @@ h1, h2, h3, p { margin: 0; }
 .search-results li:hover, .search-results li.is-active { background: var(--accent-soft); }
 .status-chip { position: absolute; top: 26px; left: 716px; z-index: 2; font-size: 13px; padding: 7px 12px; background: rgba(255, 255, 255, 0.92); border-radius: 8px; box-shadow: var(--shadow); white-space: nowrap; }
 
-.explainer { position: absolute; left: 340px; right: 20px; bottom: 20px; z-index: 2; padding: 14px 18px; max-width: 900px; }
+.explainer { position: absolute; left: 340px; right: 20px; bottom: 40px; z-index: 2; padding: 14px 18px; max-width: 900px; }
 .explainer-head { display: flex; align-items: center; justify-content: space-between; }
 .explainer h3 { font-size: 14px; }
 .explainer p { font-size: 13px; color: var(--muted); margin-top: 6px; line-height: 1.6; }
@@ -236,6 +236,8 @@ dialog.about .close { position: absolute; right: 16px; top: 12px; border: 0; bac
 .pref-number input { width: 100%; border: 0; outline: 0; font: inherit; font-size: 13px; font-weight: 700; color: #2d4b57; background: none; -moz-appearance: textfield; }
 .pref-number input::-webkit-outer-spin-button, .pref-number input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 .pref-number span { font-size: 12px; color: #7a8b92; }
+.pref-number:has(input[aria-invalid="true"]) { border-color: #c2481d; }
+.pref-error { margin: 6px 0 0; font-size: 12px; color: #c2481d; text-align: right; }
 .pref-radius input[type="range"] { width: 100%; height: 13px; margin: 8px 0 0; -webkit-appearance: none; appearance: none; background: transparent; }
 .pref-radius input[type="range"]::-webkit-slider-runnable-track { height: 3px; border-radius: 1px; background: linear-gradient(90deg, var(--c) var(--fill), #e5ecec var(--fill)); }
 .pref-radius input[type="range"]::-moz-range-track { height: 3px; border-radius: 1px; background: linear-gradient(90deg, var(--c) var(--fill), #e5ecec var(--fill)); }
@@ -249,7 +251,11 @@ dialog.about .close { position: absolute; right: 16px; top: 12px; border: 0; bac
 .pref-switch input::after { content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: transform 0.15s; }
 .pref-switch input:checked { background: var(--c); }
 .pref-switch input:checked::after { transform: translateX(16px); }
-.prefs-subhead { font-size: 13px; color: #3a555f; margin: 10px 0 8px; }
+.prefs-subhead { display: flex; align-items: baseline; justify-content: space-between; font-size: 13px; color: #3a555f; margin: 10px 0 8px; }
+.prefs-subhead small { font-size: 11px; color: #7a8c91; }
+.prefs-body h3 + .prefs-cells { margin-top: 8px; }
+.prefs-body .prefs-note + h3 { margin-top: 16px; }
+.prefs-place-chips { padding: 2px 0 8px; }
 .prefs-markers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 6px; }
 .prefs-markers label { display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 11px; border-radius: 6px; background: #f4f7f7; font-size: 12px; color: #46616b; cursor: pointer; }
 .prefs-markers input { width: 14px; height: 14px; margin: 0; accent-color: var(--accent); }
@@ -257,6 +263,8 @@ dialog.about .close { position: absolute; right: 16px; top: 12px; border: 0; bac
 .prefs-foot button { height: 40px; border-radius: 8px; font-size: 13px; }
 .prefs-cancel { border: 1px solid #d9e3e6; background: #fff; color: #2e4b57; }
 .prefs-apply { border: 1px solid var(--bcs-navy); background: var(--bcs-navy); color: #fff; font-weight: 700; }
+.prefs-apply:disabled { border-color: #c5d0d8; background: #c5d0d8; cursor: not-allowed; }
+.prefs-foot-note { grid-column: 1 / -1; margin: 0; font-size: 12px; color: #c2481d; }
 
 /* Penpot page 04: one 350 m station card, independent of the coverage settings. */
 .station-bus { --station-color: #267bd4; --station-soft: #edf4fd; }
@@ -286,6 +294,11 @@ dialog.about .close { position: absolute; right: 16px; top: 12px; border: 0; bac
 .station-empty b, .station-empty-title { display: block; font-size: 20px; color: #355969; margin: 10px 0 4px; }
 .station-empty small { font-size: 11px; color: #8a9da5; }
 .station-age-empty { padding: 12px 16px; background: #f4f7f8; border-radius: 8px; }
+.station-age-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 0; padding: 0; list-style: none; }
+.station-age-grid li { display: grid; grid-template-columns: auto 1fr; align-items: baseline; gap: 0 8px; padding: 8px 12px; background: var(--station-soft, #f4f7f8); border-radius: 8px; }
+.station-age-grid span { grid-column: 1 / -1; font-size: 11px; color: #688491; }
+.station-age-grid b { font-size: 18px; color: var(--station-color, #264d60); font-variant-numeric: tabular-nums; }
+.station-age-grid small { font-size: 11px; color: #688491; font-variant-numeric: tabular-nums; }
 .station-facilities { margin-top: 16px; border-top: 1px solid #dfe8ec; }
 .station-facilities ul { list-style: none; padding: 0; margin: 10px 0 0; }
 .station-facilities li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: start; gap: 10px; padding: 5px 0; }
@@ -310,7 +323,44 @@ dialog.about .close { position: absolute; right: 16px; top: 12px; border: 0; bac
   .panel { top: 68px; left: 12px; width: 230px; max-height: calc(100% - 148px); }
   .intro { padding: 18px; }
   .intro h1 { font-size: 22px; }
-  .explainer { left: 12px; right: 12px; bottom: 12px; padding: 10px 12px; }
+  .explainer { left: 12px; right: 12px; bottom: 40px; padding: 10px 12px; }
   .explainer p { display: none; }
   .station-card { border-radius: 16px; }
+}
+
+/* Village age is a background layer; estimate and coverage labels remain visible on small screens. */
+.age-entry { margin-top: 12px; padding: 6px 0; }
+.age-controls { margin-top: 8px; padding-top: 12px; border-top: 1px solid var(--line); }
+.age-controls h2 { font-size: 14px; }
+.age-scope { margin: 4px 0 10px; font-size: 11px; color: #587477; }
+.age-label { display: grid; gap: 4px; margin: 9px 0; font-size: 12px; color: #385969; }
+.age-label select { min-width: 0; width: 100%; min-height: 38px; padding: 7px 8px; border: 1px solid #bdcdd4; border-radius: 7px; color: #193641; background: #fff; font: inherit; }
+.age-label select:focus-visible, .village-dialog button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.age-source-line, .age-help { font-size: 11px; line-height: 1.6; }
+.age-warning { color: #875515; font-size: 11px; line-height: 1.6; margin-top: 6px; }
+.age-legend-labels { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; font-size: 9px; margin-top: 5px; color: var(--muted); text-align: center; }
+.age-legend .legend-note i { display: inline-block; width: 16px; height: 12px; margin-right: 6px; border-radius: 3px; flex-shrink: 0; }
+.village-dialog { position: absolute; right: 16px; top: 76px; z-index: 5; width: 340px; max-width: calc(100% - 24px); max-height: calc(100% - 100px); overflow-y: auto; padding: 18px; font-size: 12px; line-height: 1.7; }
+.village-dialog header { position: relative; margin-bottom: 12px; padding-right: 32px; }
+.village-dialog h2 { font-size: 18px; }
+.village-dialog p { margin-top: 5px; overflow-wrap: anywhere; }
+.village-dialog a { color: #1d559f; text-underline-offset: 3px; }
+.age-details { margin: 10px 0; }
+.age-details summary { cursor: pointer; }
+.age-details ul { margin: 5px 0 0; padding-left: 18px; }
+.station-age { margin-top: 12px; padding-top: 2px; border-top: 1px solid #dfe8ec; }
+.station-age-total { margin-top: 6px; font-size: 18px; font-weight: 700; }
+.station-age-table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 11px; font-variant-numeric: tabular-nums; }
+.station-age-table th, .station-age-table td { padding: 6px 3px; text-align: right; border-bottom: 1px solid #e5ecef; }
+.station-age-table th:first-child { text-align: left; font-weight: 400; }
+.station-age-table thead th { font-size: 10px; font-weight: 400; color: #58747b; }
+.station-age-table small { display: block; color: #58747b; }
+.station-age-coverage { margin: 8px 0 0; display: grid; gap: 3px; font-size: 11px; }
+.station-age-coverage div { display: flex; justify-content: space-between; }
+.station-age-coverage dd { margin: 0; }
+.station-age .station-more ul { padding-left: 16px; margin: 6px 0; font-size: 11px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+@media (max-width: 600px) {
+  .village-dialog { right: 12px; top: 68px; max-height: calc(100% - 92px); }
+  .age-controls .age-help { font-size: 10px; }
 }

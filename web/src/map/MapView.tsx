@@ -15,6 +15,8 @@ import Map, {
   type MapLayerMouseEvent,
   type MapRef,
 } from 'react-map-gl/maplibre';
+import { groupFor, type VillageAges, type VillageAgeMap } from '../age';
+import { VillageDialog, VillageFacts } from '../components/VillageAge';
 import { circle } from '../catchment';
 import StationInfo, { StationIcon } from '../components/StationInfo';
 import { BASE_STYLE, HOVER_LAYERS, LAYER_GROUPS, PLACE_CATEGORIES } from '../config';
@@ -23,6 +25,7 @@ import type { NeedCellProps, NeedResult } from '../need';
 import { STATION_LAYERS, STATION_RADIUS, stationFromFeature } from '../stations';
 import { CoverageTooltip, FeatureTooltip, NeedTooltip, RoutePopup, type PopupFeature } from './FeatureInfo';
 import * as L from './layers';
+import { ROUTE_STOP_PICKER, RouteLayers, RouteStopPicker, ScenarioGrid, type EditorMapProps } from '../routeEditor/RouteLayers';
 import type { AppState, Coverage, Grid, LayerGroup, MapData, NeedGrid, StationSelection, ViewState } from '../types';
 
 const LABEL_NAME: ExpressionSpecification = ['coalesce', ['get', 'name:zh-Hant'], ['get', 'name:nonlatin'], ['get', 'name']];
@@ -31,6 +34,12 @@ const LAYER_GROUP_OF: Record<string, LayerGroup> = Object.fromEntries(
 );
 
 interface Props {
+  villageAges?: VillageAges | null;
+  villageData?: VillageAgeMap | null;
+  selectedVillage?: string | null;
+  onVillage?: (id: string | null, fly?: boolean) => void;
+  onCloseVillage?: () => void;
+  editor?: EditorMapProps;
   mapRef: RefObject<MapRef | null>;
   initialView: ViewState;
   data: MapData;
@@ -83,14 +92,21 @@ function addHatchPattern(map: MaplibreMap) {
   ctx.lineTo(size, 0);
   ctx.stroke();
   map.addImage('hatch-line', ctx.getImageData(0, 0, size, size));
+  ctx.clearRect(0, 0, size, size);
+  ctx.strokeStyle = '#be4966';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(0, size); ctx.lineTo(size, 0); ctx.stroke();
+  map.addImage('scenario-hatch', ctx.getImageData(0, 0, size, size));
 }
 
-export default function MapView({ mapRef, initialView, data, grid, gridData, coverage, coverageImage, coverageLines, need, state, station, onStation, onCloseStation, onReady, onMoveEnd }: Props) {
+export default function MapView({ villageAges = null, villageData = null, selectedVillage = null, onVillage, onCloseVillage, editor, mapRef, initialView, data, grid, gridData, coverage, coverageImage, coverageLines, need, state, station, onStation, onCloseStation, onReady, onMoveEnd }: Props) {
   // First label layer of the base style: our layers go below it so road names stay on top.
   const [labelLayer, setLabelLayer] = useState<string | null>(null);
   const baseLabels = useRef<string[]>([]);
   const [hover, setHover] = useState<Hover | null>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
+  const pickingStops = editor?.interaction === 'stops';
+  useEffect(() => { setHover(null); }, [editor?.interaction]);
 
   // Keep the tooltip inside the map: place it below-right of the cursor, flipping to the
   // other side when it would cross the right or bottom edge.
@@ -108,17 +124,36 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
   const [showDistrictLabels, setShowDistrictLabels] = useState(true);
   const catchmentShape = useMemo(() => (station ? circle(station.at, STATION_RADIUS) : null), [station]);
 
+  const villageIndex = useMemo(() => new globalThis.Map(villageAges?.features.map((feature) => [feature.properties.boundary_id, feature.properties]) ?? []), [villageAges]);
+  const currentAgeGroup = villageAges && groupFor(villageAges.metadata, state.ageGroup, state.ageSet);
+  const selectedVillageProps = selectedVillage ? villageIndex.get(selectedVillage) : undefined;
+  const closeVillage = useCallback(() => {
+    if (onCloseVillage) onCloseVillage();
+    else mapRef.current?.getCanvas().focus({ preventScroll: true });
+  }, [mapRef, onCloseVillage]);
+
   // Search and map clicks share one selected station; a route popup must not linger.
-  useEffect(() => { if (station) setPopup(null); }, [station]);
+  useEffect(() => { if (station || selectedVillage) { setPopup(null); setHover(null); } }, [station, selectedVillage]);
 
   useEffect(() => {
     if (!labelLayer) return;
     const map = mapRef.current!;
     const canvas = map.getCanvas();
-    canvas.setAttribute('aria-label', '互動地圖；方向鍵移動，Enter 開啟畫面中央最近的可見站點，Escape 關閉資訊');
+    canvas.setAttribute('aria-label', pickingStops
+      ? '選擇公車站；方向鍵移動，Enter 加入畫面中央最近的可選公車站'
+      : state.mode === 'village_age' && !editor
+      ? '互動地圖；方向鍵移動，Enter 查詢畫面中央的村里年齡，Escape 關閉資訊'
+      : '互動地圖；方向鍵移動，Enter 開啟畫面中央最近的可見站點，Escape 關閉資訊');
     const openStation = (event: KeyboardEvent) => {
       if (event.key !== 'Enter') return;
-      const layers = STATION_LAYERS.filter((id) => map.getLayer(id) && state.layers.has(LAYER_GROUP_OF[id]));
+      if (!editor && state.mode === 'village_age' && map.getLayer('village-age-fill')) {
+        const centre: [number, number] = [canvas.clientWidth / 2, canvas.clientHeight / 2];
+        const village = map.queryRenderedFeatures(centre, { layers: ['village-age-fill'] })[0];
+        if (village) { event.preventDefault(); onStation(null); onVillage?.(String(village.properties.boundary_id), false); setHover(null); }
+        return;
+      }
+      const layers = pickingStops ? (map.getLayer(ROUTE_STOP_PICKER) ? [ROUTE_STOP_PICKER] : [])
+        : STATION_LAYERS.filter((id) => map.getLayer(id) && state.layers.has(LAYER_GROUP_OF[id]));
       if (!layers.length) return;
       const centre = { x: canvas.clientWidth / 2, y: canvas.clientHeight / 2 };
       const stations = map.queryRenderedFeatures(undefined, { layers });
@@ -127,17 +162,28 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
         return Math.hypot(point.x - centre.x, point.y - centre.y);
       };
       stations.sort((a, b) => distance(a) - distance(b));
+      if (pickingStops && editor && stations[0]) {
+        event.preventDefault(); setHover(null); setPopup(null);
+        editor.onStop(String(stations[0].properties.id)); return;
+      }
       const next = stations[0] && stationFromFeature(stations[0], data);
-      if (next) { event.preventDefault(); setHover(null); setPopup(null); onStation(next, canvas); }
+      if (next) { event.preventDefault(); setHover(null); setPopup(null);
+        onStation(next, canvas);
+      }
     };
     canvas.addEventListener('keydown', openStation);
     return () => canvas.removeEventListener('keydown', openStation);
-  }, [data, labelLayer, mapRef, onStation, state.layers]);
+  }, [data, editor, labelLayer, mapRef, onStation, onVillage, pickingStops, state.layers, state.mode]);
 
   const handleLoad = useCallback(() => {
     const map = mapRef.current!.getMap();
     // The container can be measured before the stylesheet applies; re-measure once ready.
     map.resize();
+    // On phones the expanded attribution wraps over the bottom cards, so it starts as its ⓘ button.
+    // MapLibre only expands it once the attribution text arrives, hence waiting for the first idle.
+    if (map.getContainer().clientWidth <= 640) {
+      map.once('idle', () => map.getContainer().querySelector('.maplibregl-compact-show')?.classList.remove('maplibregl-compact-show'));
+    }
     addHatchPattern(map);
     const labels = map.getStyle().layers.filter((l) => l.type === 'symbol');
     for (const layer of labels) {
@@ -158,12 +204,15 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
   }, [mapRef, labelLayer, state.labels]);
 
   // The frequency grid belongs to frequency mode; coverage mode draws its own raster instead.
-  const shown = (group: LayerGroup) => state.layers.has(group) && (group !== 'grid' || state.mode === 'frequency');
+  const shown = (group: LayerGroup) => state.layers.has(group) && (group !== 'grid' || (!editor && state.mode === 'frequency'));
   const visible = (id: string) => (shown(LAYER_GROUP_OF[id]) ? 'visible' : 'none');
   const withVisibility = (layer: L.StyleLayer, beforeId?: string): LayerProps => ({
     ...layer,
     beforeId,
-    layout: { ...(layer.layout ?? {}), visibility: visible(layer.id!) },
+    layout: { ...(layer.layout ?? {}), visibility: pickingStops && layer.id === 'bus-stops' ? 'none' : visible(layer.id!) },
+    ...(editor && layer.id === 'bus-routes' ? { paint: { ...layer.paint, 'line-color': '#8aa2af', 'line-opacity': .025, 'line-width': .75 } } : {}),
+    ...(editor && (layer.id === 'mrt-lines' || layer.id === 'mrt-lines-casing') ? { paint: { ...layer.paint, 'line-opacity': .2 } } : {}),
+    ...(editor && layer.id === 'places' ? { paint: { ...layer.paint, 'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, 2, 15, 4], 'circle-opacity': .65, 'circle-stroke-width': 1 } } : {}),
   } as LayerProps);
 
   const placeMembers = useMemo(
@@ -173,13 +222,28 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
 
   const featureAt = (e: MapLayerMouseEvent): MapGeoJSONFeature | undefined => {
     const map = mapRef.current!.getMap();
+    const { x, y } = e.point;
+    if (pickingStops) {
+      if (!map.getLayer(ROUTE_STOP_PICKER)) return;
+      // Nearby MRT / YouBike points must not intercept stop selection. Pick the
+      // closest bus stop when several enlarged targets overlap.
+      const stops = map.queryRenderedFeatures([[x - 8, y - 8], [x + 8, y + 8]], { layers: [ROUTE_STOP_PICKER] });
+      const distance = (f: MapGeoJSONFeature) => {
+        const point = map.project((f.geometry as Point).coordinates as [number, number]);
+        return Math.hypot(point.x - x, point.y - y);
+      };
+      return stops.reduce<MapGeoJSONFeature | undefined>((best, f) => !best || distance(f) < distance(best) ? f : best, undefined);
+    }
     const layers = HOVER_LAYERS.filter((id) => map.getLayer(id) && shown(LAYER_GROUP_OF[id]));
     // In need mode the grid cell outranks route lines, but point markers still win.
     if (state.mode === 'need' && map.getLayer('need-fill')) {
       const firstLine = layers.findIndex((id) => id === 'bus-routes' || id === 'mrt-lines');
       layers.splice(firstLine < 0 ? layers.length : firstLine, 0, 'need-fill');
     }
-    const { x, y } = e.point;
+    if (!editor && state.mode === 'village_age' && map.getLayer('village-age-fill')) {
+      const firstLine = layers.findIndex((id) => id === 'bus-routes' || id === 'mrt-lines');
+      layers.splice(firstLine < 0 ? layers.length : firstLine, 0, 'village-age-fill');
+    }
     const features = map.queryRenderedFeatures([[x - 4, y - 4], [x + 4, y + 4]], { layers });
     // Station points win; retain the analysis mode's priority for all other features.
     const stationFeature = features.find((f) => STATION_LAYERS.includes(f.layer.id));
@@ -203,16 +267,27 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
   const handleClick = (e: MapLayerMouseEvent) => {
     const feature = featureAt(e);
     const id = feature?.layer.id;
+    if (feature && id === ROUTE_STOP_PICKER && pickingStops && editor) {
+      editor.onStop(String(feature.properties.id)); setHover(null); setPopup(null); return;
+    }
     if (feature && STATION_LAYERS.includes(id!)) {
       onStation(stationFromFeature(feature, data), mapRef.current!.getCanvas());
       setPopup(null);
       setHover(null);
-    } else if (feature && id === 'bus-routes') {
+    } else if (feature && id === 'village-age-fill') {
       onStation(null);
+      onVillage?.(String(feature.properties.boundary_id), false);
+      setPopup(null);
+      setHover(null);
+    } else if (feature && id === 'bus-routes') {
+      if (editor) { editor.onRoute(String(feature.properties.route_id)); setHover(null); return; }
+      onStation(null);
+      onVillage?.(null, false);
       setPopup({ feature, lngLat: [e.lngLat.lng, e.lngLat.lat] });
       setHover(null);
     } else {
       setPopup(null);
+      onVillage?.(null, false);
       if (station) onCloseStation();
     }
   };
@@ -247,7 +322,8 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
         onMoveEnd={(e) => onMoveEnd({ center: [e.viewState.longitude, e.viewState.latitude], zoom: e.viewState.zoom })}
       >
         <NavigationControl position="top-right" visualizePitch={false} />
-        <AttributionControl position="top-right" compact customAttribution="公車：臺北市公共運輸處｜行政界：內政部國土測繪中心" />
+        {/* Same corner in every view; floating cards keep 40 px clear at the bottom for it. */}
+        <AttributionControl position="bottom-right" compact customAttribution="公車：臺北市公共運輸處｜行政界：內政部國土測繪中心" />
 
         {labelLayer !== null && (
           <>
@@ -255,6 +331,13 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
               <Layer {...withVisibility(L.gridFillLayer, below)} />
               <Layer {...withVisibility(L.gridHatchLayer, below)} />
             </Source>
+            {editor && <ScenarioGrid editor={editor} beforeId={below} />}
+            {!editor && villageData && (
+              <Source id="village-age" type="geojson" data={villageData}>
+                <Layer {...L.villageAgeFillLayer} beforeId={below} layout={{ visibility: state.mode === 'village_age' ? 'visible' : 'none' }} />
+                <Layer {...L.villageAgeOutlineLayer} beforeId={below} filter={['==', ['get', 'boundary_id'], selectedVillage ?? '']} layout={{ visibility: state.mode === 'village_age' ? 'visible' : 'none' }} />
+              </Source>
+            )}
             {need && (
               <Source id="need" type="geojson" data={need.data}>
                 <Layer {...L.needFillLayer} beforeId={below} layout={{ visibility: state.mode === 'need' ? 'visible' : 'none' }} />
@@ -307,6 +390,9 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
             <Source id="places" type="geojson" data={data.places}>
               <Layer {...withVisibility(L.placesLayer(placeMembers))} />
             </Source>
+            {pickingStops && editor && <RouteStopPicker editor={editor}
+              hoveredId={hover?.feature?.layer.id === ROUTE_STOP_PICKER ? String(hover.feature.properties.id) : null} />}
+            {editor && <RouteLayers editor={editor} beforeId={below} />}
           </>
         )}
 
@@ -326,11 +412,18 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
         )}
       </Map>
 
+      {!editor && state.mode === 'village_age' && selectedVillageProps && villageAges && currentAgeGroup && <VillageDialog properties={selectedVillageProps} metadata={villageAges.metadata} group={currentAgeGroup} onClose={closeVillage} />}
+
       {station && <StationInfo station={station} mapRef={mapRef} data={data} placeKeys={state.places} onClose={onCloseStation} />}
 
       {hover && (
         <div ref={tooltipRef} className="tooltip" style={{ left: hover.x, top: hover.y }}>
-          {hover.feature?.layer.id === 'need-fill' && need
+          {hover.feature?.layer.id === ROUTE_STOP_PICKER && pickingStops && editor
+            ? <><b>{hover.feature.properties.name}</b><br />公車站位 #{hover.feature.properties.id}
+              <strong className="route-stop-pick-action">＋ 點擊加入第 {editor.insertIndex + 1} 站</strong></>
+            : hover.feature?.layer.id === 'village-age-fill' && villageAges && currentAgeGroup && villageIndex.get(String(hover.feature.properties.boundary_id))
+            ? <VillageFacts properties={villageIndex.get(String(hover.feature.properties.boundary_id))!} metadata={villageAges.metadata} group={currentAgeGroup} compact />
+            : hover.feature?.layer.id === 'need-fill' && need
             ? <NeedTooltip i={Number(hover.feature.properties.i)} grid={need.grid} result={need.result} state={state} />
             : hover.feature
             ? <FeatureTooltip feature={hover.feature} grid={grid} state={state} />

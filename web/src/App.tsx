@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { MapRef } from 'react-map-gl/maplibre';
+import { groupFor, villageAgeCollection, villageCenter, type VillageAges } from './age';
 import AboutDialog from './components/AboutDialog';
 import Panel from './components/Panel';
 import Preferences from './components/Preferences';
@@ -7,9 +8,13 @@ import Search, { type SearchItem } from './components/Search';
 import Topbar from './components/Topbar';
 import { DAY_LABELS, NEED_BANDS, type Quadrant } from './config';
 import { coverageGridLines, coverageImage } from './coverage';
-import { gridCollection, hourText, loadCoverage, loadGrid, loadMapData, loadNeed } from './data';
+import { gridCollection, hourText, loadCoverage, loadGrid, loadMapData, loadNeed, loadVillageAges } from './data';
 import { readHash, writeHash } from './hashState';
 import MapView from './map/MapView';
+import RouteWorkspace, { type RouteWorkspaceHandle } from './routeEditor/RouteWorkspace';
+import ImprovementList, { type ImprovementHandle } from './improvements/ImprovementList';
+import { PERIODS, type Filters } from './improvements/types';
+import type { RouteTarget } from './routeEditor/RouteWorkspace';
 import { computeNeed, needCollection, quadrantOf } from './need';
 import type { AppState, Coverage, Grid, MapData, NeedGrid, StationSelection, ViewState } from './types';
 
@@ -24,6 +29,10 @@ export default function App() {
   });
   const [coverage, setCoverage] = useState<Coverage | null>(null);
   const [needGrid, setNeedGrid] = useState<NeedGrid | null>(null);
+  const [villageAges, setVillageAges] = useState<VillageAges | null>(null);
+  const [ageError, setAgeError] = useState<Error | null>(null);
+  const [ageAttempt, setAgeAttempt] = useState(0);
+  const [selectedVillage, setSelectedVillage] = useState<string | null>(null);
   const [data, setData] = useState<MapData | null>(null);
   const [grid, setGrid] = useState<Grid | null>(null);
   const [mapReady, setMapReady] = useState(false);
@@ -33,7 +42,16 @@ export default function App() {
   const [explainerOpen, setExplainerOpen] = useState(true);
   const [prefsOpen, setPrefsOpen] = useState(false);
   const [station, setStation] = useState<StationSelection | null>(null);
+  const [page, setPage] = useState<'explore' | 'routes' | 'improvements'>(() => {
+    const value = new URLSearchParams(window.location.hash.slice(1)).get('page');
+    return value === 'improvements' || value === 'routes' ? value : 'explore';
+  });
+  const routeTool = page === 'routes';
+  const [routeTarget, setRouteTarget] = useState<RouteTarget | null>(null);
+  const improvementRef = useRef<ImprovementHandle>(null);
+  const editorRef = useRef<RouteWorkspaceHandle>(null);
   const stationOrigin = useRef<HTMLElement | null>(null);
+  const villageOrigin = useRef<HTMLElement | null>(null);
   const focusFrame = useRef<number | null>(null);
 
   const selectStation = useCallback((next: StationSelection | null, origin?: HTMLElement) => {
@@ -42,6 +60,7 @@ export default function App() {
     focusFrame.current = null;
     if (next) stationOrigin.current = origin ?? document.activeElement as HTMLElement;
     setStation(next);
+    if (next) setSelectedVillage(null);
   }, []);
   const closeStation = useCallback(() => {
     setStation(null);
@@ -78,7 +97,26 @@ export default function App() {
     if (state.mode === 'need' && !needGrid) loadNeed().then(setNeedGrid, setError);
   }, [state.mode, needGrid]);
 
+  useEffect(() => {
+    if (state.mode !== 'village_age' || villageAges) return;
+    let current = true;
+    loadVillageAges().then((value) => {
+      if (current) { setVillageAges(value); setAgeError(null); }
+    }, (reason: unknown) => {
+      if (current) setAgeError(reason instanceof Error ? reason : new Error(String(reason)));
+    });
+    return () => { current = false; };
+  }, [state.mode, villageAges, ageAttempt]);
+
   useEffect(() => writeHash(state, viewRef.current), [state]);
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.hash.slice(1));
+    params.set('page', page); window.history.replaceState(null, '', `#${params}`);
+  }, [page]);
+  const improvementTime = useCallback((filters: Filters) => {
+    const hour = filters.period === 'all' ? 24 : PERIODS[filters.period].start;
+    setState((s) => s.day === filters.day && s.hour === hour ? s : { ...s, day: filters.day, hour });
+  }, []);
 
   useEffect(() => {
     if (!playing) return undefined;
@@ -108,7 +146,29 @@ export default function App() {
     });
     return { grid: needGrid, result, counts, data: needCollection(needGrid, result, { band, needView, weights }) };
   }, [needGrid, band, needView, weights]);
+  const villageData = useMemo(() => villageAges ? villageAgeCollection(villageAges, groupFor(villageAges.metadata, state.ageGroup, state.ageSet)) : null, [villageAges, state.ageGroup, state.ageSet]);
+  const selectVillage = useCallback((id: string | null, fly = true) => {
+    setSelectedVillage(id);
+    if (id) {
+      if (focusFrame.current !== null) cancelAnimationFrame(focusFrame.current);
+      focusFrame.current = null;
+      villageOrigin.current = fly ? document.activeElement as HTMLElement : mapRef.current?.getCanvas() ?? null;
+      setStation(null);
+      const feature = villageAges?.features.find((village) => village.properties.boundary_id === id);
+      if (feature && fly) mapRef.current?.flyTo({ center: villageCenter(feature), zoom: 13.8 });
+    }
+  }, [villageAges]);
+  const closeVillage = useCallback(() => {
+    setSelectedVillage(null);
+    if (focusFrame.current !== null) cancelAnimationFrame(focusFrame.current);
+    focusFrame.current = requestAnimationFrame(() => {
+      focusFrame.current = null;
+      if (villageOrigin.current?.isConnected) villageOrigin.current.focus({ preventScroll: true });
+      else mapRef.current?.getCanvas().focus({ preventScroll: true });
+    });
+  }, []);
   const frequency = state.mode === 'frequency';
+  const ageMode = state.mode === 'village_age';
   const needMode = state.mode === 'need';
 
   const handleMoveEnd =useCallback((view: ViewState) => {
@@ -137,11 +197,27 @@ export default function App() {
   };
 
   const loading = !error && !(data && gridData && mapReady);
+  const navigate = (next: typeof page) => {
+    const move = () => {
+      if (next !== page) setMapReady(false);
+      setPage(next); setStation(null); setPlaying(false); setAboutOpen(false);
+    };
+    if (routeTool && next !== 'routes' && editorRef.current) editorRef.current.leave(move); else move();
+  };
 
   return (
     <>
-      <Topbar mode={state.mode} onAbout={() => setAboutOpen(true)} aboutActive={aboutOpen} onPreferences={() => setPrefsOpen(true)} onShare={share} />
+      <Topbar mode={state.mode} onAbout={() => setAboutOpen(true)} aboutActive={aboutOpen}
+        routeTool={routeTool} improvements={page === 'improvements'} onImprovements={() => navigate('improvements')}
+        onExport={() => improvementRef.current?.exportCsv()}
+        onRoutes={() => { setRouteTarget(null); navigate('routes'); }}
+        onExplore={() => navigate('explore')}
+        onIndicators={() => editorRef.current?.indicators()}
+        onPreferences={() => routeTool ? editorRef.current?.preferences() : page === 'improvements' ? improvementRef.current?.preferences() : setPrefsOpen(true)} onShare={share} />
       <main className="stage">
+        {page === 'improvements' ? <ImprovementList ref={improvementRef} map={data} onTime={improvementTime} onEdit={(variant, filters) => {
+          setRouteTarget({ variant, day: filters.day, period: filters.period }); navigate('routes');
+        }} /> : routeTool && data && grid && gridData ? <RouteWorkspace ref={editorRef} target={routeTarget} map={data} grid={grid} gridData={gridData} state={state} initialView={viewRef.current} /> : <>
         {data && grid && gridData && (
           <MapView
             mapRef={mapRef}
@@ -153,6 +229,11 @@ export default function App() {
             coverageImage={coverageRaster}
             coverageLines={coverageLines}
             need={need}
+            villageAges={villageAges}
+            villageData={villageData}
+            selectedVillage={selectedVillage}
+            onVillage={selectVillage}
+            onCloseVillage={closeVillage}
             state={state}
             station={station}
             onStation={selectStation}
@@ -161,19 +242,22 @@ export default function App() {
             onMoveEnd={handleMoveEnd}
           />
         )}
-        <Panel state={state} playing={playing} needCounts={need?.counts ?? null} onChange={update} onTogglePlay={() => setPlaying((p) => !p)} onPreferences={() => setPrefsOpen(true)} />
+        <Panel villageAges={villageAges} ageError={ageError} onRetryAges={() => { setAgeError(null); setAgeAttempt((attempt) => attempt + 1); }} selectedVillage={selectedVillage} onVillage={selectVillage} state={state} playing={playing} needCounts={need?.counts ?? null} onChange={update} onTogglePlay={() => setPlaying((p) => !p)} onPreferences={() => setPrefsOpen(true)} />
         {data && <Search data={data} onChoose={handleSearch} />}
         <div className="status-chip">
           {frequency ? `${DAY_LABELS[state.day]} · ${hourText(state.hour)}`
             : needMode ? `需求落差 · ${NEED_BANDS.find((b) => b.key === state.band)!.label}`
+            : ageMode ? `村里年齡 · ${villageAges?.metadata.population_period ?? '載入中'} · 北北基`
             : '站點覆蓋 · 直線距離，不分時段'}
         </div>
         <section className={`card explainer${explainerOpen ? '' : ' is-collapsed'}`}>
           <div className="explainer-head">
-            <h3>{frequency ? '班次網格怎麼看？' : needMode ? '需求落差怎麼看？' : '從站心出發，看見步行與騎乘的不同尺度。'}</h3>
+            <h3>{frequency ? '班次網格怎麼看？' : needMode ? '需求落差怎麼看？' : ageMode ? '村里人口與站圈估算怎麼看？' : '從站心出發，看見步行與騎乘的不同尺度。'}</h3>
             <button className="icon-btn" aria-label={explainerOpen ? '收合說明' : '展開說明'} onClick={() => setExplainerOpen((o) => !o)}>ⓘ</button>
           </div>
-          {needMode
+          {ageMode
+            ? <p>色彩是整個村里所選年齡層占戶籍人口的比例，灰色是未匹配、缺值或比例無分母。全國清冊與里界已另行核對，地圖只呈現北北基；里界版本與人口月份不同。點選站點可查看直線 350 m 內按村里面積分攤的年齡估算，只有涵蓋完整才顯示全站圈比例；人口不是實際搭乘量。</p>
+            : needMode
             ? <p>每格約 250 m。需求由居住人口、重要地點（依時段加權）與附近捷運進出量的排名加權而成；供給由附近公車班次與捷運距離算出。兩者都是同一時段內的排名，橘色偏「需求高、供給低」，藍色偏「供給多於需求」。這是研究草案，權重是假設值，不是實際搭乘量。</p>
             : frequency
             ? <p>每格約 100、150、250 或 500 m，數值為格內公車站牌所屬附線在該小時的計畫發車數加總（同一附線只計一次、不分方向）。以起站發車時刻歸入小時，未計行駛時間；不代表實際載客或步行可達性。</p>
@@ -186,9 +270,10 @@ export default function App() {
             <p className="muted">請先在 repo 根目錄執行 <code>uv run scripts/build_web_data.py</code>。<br />{error.message}</p>
           </div>
         )}
+        </>}
       </main>
       {prefsOpen && <Preferences state={state} onApply={(patch) => { update(patch); setPrefsOpen(false); }} onClose={() => setPrefsOpen(false)} />}
-      <AboutDialog open={aboutOpen} grid={grid} coverage={coverage} need={needGrid} onClose={() => setAboutOpen(false)} />
+      <AboutDialog open={aboutOpen} grid={grid} coverage={coverage} need={needGrid} ages={villageAges} onClose={() => setAboutOpen(false)} />
     </>
   );
 }

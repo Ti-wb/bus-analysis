@@ -10,7 +10,7 @@
       "static_data": "採目前官方可取得版本，保留實際版本日期",
       "cross_boundary_services": "保留臺北主管來源的跨市路線與捷運旅次；未以站名猜測行政區裁切"
     },
-    "record_count": 50,
+    "record_count": 52,
     "pending_source_groups": [],
     "preferred_current_bus_data": "data/taipei_feeds/",
     "legacy_stop_map": "data/bus_stops.geojson 是 2021 年舊圖資，現行站牌請用 data/taipei_feeds/stops.geojson",
@@ -786,6 +786,35 @@
       "source_delivery": "raw_data/population/delivery.json"
     },
     {
+      "dataset_id": "taipei_statistical_population_age5_base",
+      "group": "population_age",
+      "group_title": "臺北市最小統計區五歲年齡組人口",
+      "status": "normalized",
+      "period": {
+        "start": "2024-12",
+        "end": "2024-12"
+      },
+      "outputs": [
+        {
+          "path": "data/population/taipei_statistical_population_age5_base.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/population_age_review.json",
+            "record_count": 11490
+          },
+          "record_count": 11490
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "戶籍人口，不代表白天活動人口或公車搭乘需求。",
+        "來源只提供年齡組總數，沒有性別拆分。",
+        "統計區代碼與行政里代碼不同，不以名稱或碼前綴關聯里別資料。",
+        "邊界檔名標示 2015，人口為 2024-12；兩者版本不同。"
+      ],
+      "source_delivery": "raw_data/population_age/delivery.json"
+    },
+    {
       "dataset_id": "moi_village_population_age_monthly",
       "group": "moi_village_age",
       "group_title": "全國村里逐歲戶籍人口",
@@ -824,6 +853,203 @@
         "缺值保留 null，任一年齡值缺漏之區間加總為 null；100_plus 包含 100 歲以上全部人口。"
       ],
       "source_delivery": "raw_data/moi_village_age/delivery.json"
+    },
+    {
+      "dataset_id": "national_village_population_boundary_crosswalk",
+      "group": "national_village_age",
+      "group_title": "全國村里清冊、里界對照與北北基年齡圖層",
+      "status": "normalized_with_explicit_exclusions",
+      "period": "2026-09",
+      "outputs": [
+        {
+          "path": "data/population/ris_village_registry_2026-09.json.gz",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/national_village_age_review.json",
+            "record_count": 7781,
+            "reviewed_generated_at": "2026-10-24T15:05:21+08:00",
+            "sources": [
+              {
+                "page_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+                "requested_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+                "effective_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+                "downloaded_at": "2026-10-24T15:05:18+08:00",
+                "source_data_time": null,
+                "http_status": 200,
+                "http_last_modified": "Fri, 04 Sep 2026 13:00:41 GMT",
+                "content_type": "text/html; charset=UTF-8",
+                "bytes": 24525,
+                "raw_file": "raw_data/national_village_age/ris_catalog.html"
+              },
+              {
+                "page_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+                "requested_url": "https://www.ris.gov.tw/documents/data/5/1/11509VillageUTF8.txt",
+                "effective_url": "https://www.ris.gov.tw/documents/data/5/1/11509VillageUTF8.txt",
+                "downloaded_at": "2026-10-24T15:05:18+08:00",
+                "source_data_time": null,
+                "http_status": 200,
+                "http_last_modified": "Fri, 04 Sep 2026 13:00:41 GMT",
+                "content_type": "text/plain; charset=UTF-8",
+                "bytes": 241310,
+                "raw_file": "raw_data/national_village_age/11509VillageUTF8.txt"
+              },
+              {
+                "page_url": "https://data.gov.tw/dataset/7438",
+                "requested_url": "https://data.gov.tw/dataset/7438",
+                "effective_url": "https://data.gov.tw/dataset/7438",
+                "downloaded_at": "2026-10-24T15:05:20+08:00",
+                "source_data_time": null,
+                "http_status": 200,
+                "http_last_modified": null,
+                "content_type": "text/html;charset=utf-8",
+                "bytes": 520693,
+                "raw_file": "raw_data/national_village_age/boundary_catalog.html"
+              },
+              {
+                "page_url": "https://data.gov.tw/dataset/7438",
+                "requested_url": "https://www.tgos.tw/tgos/VirtualDir/Product/a04697c8-64db-450a-a105-3eb471c45abd/%E6%9D%91(%E9%87%8C)%E7%95%8C(TWD97%E7%B6%93%E7%B7%AF%E5%BA%A6).zip",
+                "effective_url": "https://www.tgos.tw/tgos/VirtualDir/Product/a04697c8-64db-450a-a105-3eb471c45abd/%E6%9D%91(%E9%87%8C)%E7%95%8C(TWD97%E7%B6%93%E7%B7%AF%E5%BA%A6).zip",
+                "downloaded_at": "2026-10-24T15:05:21+08:00",
+                "source_data_time": null,
+                "http_status": 200,
+                "http_last_modified": "Tue, 25 Aug 2026 05:59:39 GMT",
+                "content_type": "application/x-zip-compressed",
+                "bytes": 21618481,
+                "raw_file": "map-data/raw/national_village_age/villages.zip"
+              }
+            ]
+          },
+          "record_count": 7781
+        },
+        {
+          "path": "data/population/national_village_crosswalk_2026-09.json.gz",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/national_village_age_review.json",
+            "record_count": 7987,
+            "reviewed_generated_at": "2026-10-24T15:05:21+08:00",
+            "sources": [
+              {
+                "page_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+                "requested_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+                "effective_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+                "downloaded_at": "2026-10-24T15:05:18+08:00",
+                "source_data_time": null,
+                "http_status": 200,
+                "http_last_modified": "Fri, 04 Sep 2026 13:00:41 GMT",
+                "content_type": "text/html; charset=UTF-8",
+                "bytes": 24525,
+                "raw_file": "raw_data/national_village_age/ris_catalog.html"
+              },
+              {
+                "page_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+                "requested_url": "https://www.ris.gov.tw/documents/data/5/1/11509VillageUTF8.txt",
+                "effective_url": "https://www.ris.gov.tw/documents/data/5/1/11509VillageUTF8.txt",
+                "downloaded_at": "2026-10-24T15:05:18+08:00",
+                "source_data_time": null,
+                "http_status": 200,
+                "http_last_modified": "Fri, 04 Sep 2026 13:00:41 GMT",
+                "content_type": "text/plain; charset=UTF-8",
+                "bytes": 241310,
+                "raw_file": "raw_data/national_village_age/11509VillageUTF8.txt"
+              },
+              {
+                "page_url": "https://data.gov.tw/dataset/7438",
+                "requested_url": "https://data.gov.tw/dataset/7438",
+                "effective_url": "https://data.gov.tw/dataset/7438",
+                "downloaded_at": "2026-10-24T15:05:20+08:00",
+                "source_data_time": null,
+                "http_status": 200,
+                "http_last_modified": null,
+                "content_type": "text/html;charset=utf-8",
+                "bytes": 520693,
+                "raw_file": "raw_data/national_village_age/boundary_catalog.html"
+              },
+              {
+                "page_url": "https://data.gov.tw/dataset/7438",
+                "requested_url": "https://www.tgos.tw/tgos/VirtualDir/Product/a04697c8-64db-450a-a105-3eb471c45abd/%E6%9D%91(%E9%87%8C)%E7%95%8C(TWD97%E7%B6%93%E7%B7%AF%E5%BA%A6).zip",
+                "effective_url": "https://www.tgos.tw/tgos/VirtualDir/Product/a04697c8-64db-450a-a105-3eb471c45abd/%E6%9D%91(%E9%87%8C)%E7%95%8C(TWD97%E7%B6%93%E7%B7%AF%E5%BA%A6).zip",
+                "downloaded_at": "2026-10-24T15:05:21+08:00",
+                "source_data_time": null,
+                "http_status": 200,
+                "http_last_modified": "Tue, 25 Aug 2026 05:59:39 GMT",
+                "content_type": "application/x-zip-compressed",
+                "bytes": 21618481,
+                "raw_file": "map-data/raw/national_village_age/villages.zip"
+              }
+            ]
+          },
+          "record_count": 7987
+        },
+        {
+          "path": "map-data/population/moi_village_age_2026-09.geojson.gz",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/national_village_age_review.json",
+            "record_count": 1677,
+            "reviewed_generated_at": "2026-10-24T15:05:21+08:00",
+            "sources": [
+              {
+                "page_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+                "requested_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+                "effective_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+                "downloaded_at": "2026-10-24T15:05:18+08:00",
+                "source_data_time": null,
+                "http_status": 200,
+                "http_last_modified": "Fri, 04 Sep 2026 13:00:41 GMT",
+                "content_type": "text/html; charset=UTF-8",
+                "bytes": 24525,
+                "raw_file": "raw_data/national_village_age/ris_catalog.html"
+              },
+              {
+                "page_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+                "requested_url": "https://www.ris.gov.tw/documents/data/5/1/11509VillageUTF8.txt",
+                "effective_url": "https://www.ris.gov.tw/documents/data/5/1/11509VillageUTF8.txt",
+                "downloaded_at": "2026-10-24T15:05:18+08:00",
+                "source_data_time": null,
+                "http_status": 200,
+                "http_last_modified": "Fri, 04 Sep 2026 13:00:41 GMT",
+                "content_type": "text/plain; charset=UTF-8",
+                "bytes": 241310,
+                "raw_file": "raw_data/national_village_age/11509VillageUTF8.txt"
+              },
+              {
+                "page_url": "https://data.gov.tw/dataset/7438",
+                "requested_url": "https://data.gov.tw/dataset/7438",
+                "effective_url": "https://data.gov.tw/dataset/7438",
+                "downloaded_at": "2026-10-24T15:05:20+08:00",
+                "source_data_time": null,
+                "http_status": 200,
+                "http_last_modified": null,
+                "content_type": "text/html;charset=utf-8",
+                "bytes": 520693,
+                "raw_file": "raw_data/national_village_age/boundary_catalog.html"
+              },
+              {
+                "page_url": "https://data.gov.tw/dataset/7438",
+                "requested_url": "https://www.tgos.tw/tgos/VirtualDir/Product/a04697c8-64db-450a-a105-3eb471c45abd/%E6%9D%91(%E9%87%8C)%E7%95%8C(TWD97%E7%B6%93%E7%B7%AF%E5%BA%A6).zip",
+                "effective_url": "https://www.tgos.tw/tgos/VirtualDir/Product/a04697c8-64db-450a-a105-3eb471c45abd/%E6%9D%91(%E9%87%8C)%E7%95%8C(TWD97%E7%B6%93%E7%B7%AF%E5%BA%A6).zip",
+                "downloaded_at": "2026-10-24T15:05:21+08:00",
+                "source_data_time": null,
+                "http_status": 200,
+                "http_last_modified": "Tue, 25 Aug 2026 05:59:39 GMT",
+                "content_type": "application/x-zip-compressed",
+                "bytes": 21618481,
+                "raw_file": "map-data/raw/national_village_age/villages.zip"
+              }
+            ]
+          },
+          "record_count": 1677
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "清冊與人口逐碼／父碼／原名雙向核對；里界版本與人口月份不同，未證明同月幾何。",
+        "附層 Sanhe 日期未知且與六個主層村里重疊；相關人口保留原值，排除面積分攤。",
+        "名稱未審、無人口及未編定區塊不補零；全國保留遠島，地圖／站圈只使用北北基。",
+        "面積分攤假設村內人口均勻分布，不代表日間活動人口或實際公車搭乘需求。"
+      ],
+      "source_delivery": "raw_data/national_village_age/delivery.json"
     },
     {
       "dataset_id": "taipei_bus_lanes",

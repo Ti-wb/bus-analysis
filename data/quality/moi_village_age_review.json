@@ -4,7 +4,7 @@
   "metadata": {
     "reviewer_agent": "/root/interface_audit",
     "independent_of_producer": true,
-    "reviewed_at": "2026-10-24T14:47:15+08:00",
+    "reviewed_at": "2026-10-24T15:33:35+08:00",
     "reviewed_generated_at": "2026-10-24T14:45:13+08:00",
     "reviewed_source": {
       "page_url": "https://data.gov.tw/dataset/77132",
@@ -26,7 +26,7 @@
     "limitations": [
       "戶籍年齡人口是居住人口參考，不是實際乘客、白天活動人口、通勤 OD 或公車搭乘需求。",
       "只加總 sex=total；不可再加上 male/female，100_plus 是開放上限，不是精確 100 歲。",
-      "boundary_join_status=not_verified；全國代碼未逐筆核實特定版本村里界，也不推定最小統計區或公車站點 ID 關聯。",
+      "本人口月檔維持 boundary_join_status=not_verified；清冊／特定版本里界的另行核對見 national_village_age_review.json，不推定最小統計區或公車站點 ID 關聯。",
       "站點人口仍為既有統計區面積分攤估算；本資料未接入站點年齡估算或需求權重，前端維持此範圍的年齡缺資料狀態。",
       "此報告僅驗證所列本地官方 CSV 與輸出快照，不表示政府來源之後未修訂。"
     ]
@@ -132,7 +132,7 @@
       "limitations": [
         "戶籍年齡人口是居住人口參考，不是實際乘客、白天活動人口、通勤 OD 或公車搭乘需求。",
         "只加總 sex=total；不可再加上 male/female，100_plus 是開放上限，不是精確 100 歲。",
-        "boundary_join_status=not_verified；全國代碼未逐筆核實特定版本村里界，也不推定最小統計區或公車站點 ID 關聯。",
+        "本人口月檔維持 boundary_join_status=not_verified；清冊／特定版本里界的另行核對見 national_village_age_review.json，不推定最小統計區或公車站點 ID 關聯。",
         "站點人口仍為既有統計區面積分攤估算；本資料未接入站點年齡估算或需求權重，前端維持此範圍的年齡缺資料狀態。",
         "此報告僅驗證所列本地官方 CSV 與輸出快照，不表示政府來源之後未修訂。"
       ]

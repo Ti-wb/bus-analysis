@@ -4,7 +4,7 @@
   "metadata": {
     "reviewer_agent": "/root/review_station_data",
     "independent_of_producer": true,
-    "reviewed_at": "2026-10-24T13:46:09+08:00",
+    "reviewed_at": "2026-10-24T15:16:06+08:00",
     "scope": "新增三種站點的人口服務範圍輸出與站點圖層；使用既有本地來源，不重新蒐集資料。",
     "method": "逐筆比對各來源 ID、名稱與取至 5 位小數的 WGS84 座標；獨立將邊界與顯示站點投影 EPSG:3826，以 scalar intersection 和 math.fsum 重算圓內面積分攤，未呼叫 builder。圓使用每象限 16 段，與輸出精度相同。",
     "sources": [
@@ -27,6 +27,17 @@
         "source_updated_at": null,
         "source_period": null,
         "boundary_vintage_year": 2015
+      },
+      {
+        "path": "data/population/taipei_statistical_population_age5_base.json",
+        "page_url": "https://data.gov.tw/dataset/18255",
+        "url": "https://segisws.moi.gov.tw/STATWSSTData/OpenService.asmx/GetStatSTDataForOpenCode?oCode=6E03CA29B955A854397166638603FC3B51A1FBEE829C41DB383C1E6118239FA900541D4FC678FFFA0956DEC9A8D69E14E03D116C7D8EACF3",
+        "raw_file": "raw_data/population_age/statistical_population_age5_base.xml",
+        "source_updated_at": null,
+        "source_period": {
+          "start": "2024-12",
+          "end": "2024-12"
+        }
       }
     ],
     "blocking_findings": [],
@@ -36,7 +47,15 @@
         "issue": "缺值門檻原未說明低於 0.5% 覆蓋亦會轉 null。",
         "resolution": "builder 與重產後 station_catchments.json 已標明 0.5% 門檻、data_share=0 與小數 2 位規則，複查通過。"
       }
-    ]
+    ],
+    "age_groups_review": {
+      "reviewer_agent": "independent_population_age_reviewer",
+      "independent_of_producer": true,
+      "reviewed_at": "2026-10-24T15:16:06+08:00",
+      "check_script": "raw_data/reviews/review_population_age/review_catchment_age_groups.py",
+      "method": "全檔檢查 22056 個站點×半徑值的 age_groups 型別、非負、加總等於 population 及 null 對齊；以種子 20261024 抽 300 站（bus 120、mrt 60、youbike 120）三種半徑，獨立將邊界投影 EPSG:3826、圓 quad_segs=16，以 scalar intersection 計算面積比例，將五歲組合併為四組後分攤，比對整數值與未整數化值差距小於 1；未呼叫 builder。",
+      "blocking_findings": []
+    }
   },
   "records": [
     {
@@ -114,7 +133,8 @@
         "fields": [
           "population",
           "households",
-          "data_share"
+          "data_share",
+          "age_groups"
         ],
         "population_source": {
           "population_record_count": 11490,
@@ -222,13 +242,154 @@
               0.9
             ]
           }
-        ]
+        ],
+        "age_groups": {
+          "age_groups_order": [
+            "0-14",
+            "15-24",
+            "25-64",
+            "65_plus"
+          ],
+          "group_definition_five_year_slices": {
+            "0-14": "0-4..10-14",
+            "15-24": "15-19..20-24",
+            "25-64": "25-29..60-64",
+            "65_plus": "65-69..100_plus"
+          },
+          "metadata_age_period": {
+            "start": "2024-12",
+            "end": "2024-12"
+          },
+          "age_source": {
+            "age_records": 11490,
+            "base_records": 11490,
+            "id_sets_equal": true,
+            "areas_with_unknown_age": 0,
+            "age_sum_equals_population_all_areas": true
+          },
+          "full_file": {
+            "station_radius_values": 22056,
+            "non_null_age_groups": 16295,
+            "null_age_groups": 5761,
+            "null_population": 5761,
+            "sum_mismatch": 0,
+            "bad_shape_or_type": 0,
+            "negative_values": 0,
+            "null_misaligned": 0,
+            "values_with_wrong_length": 0,
+            "by_kind": {
+              "bus": {
+                "stations": 5376,
+                "non_null": 10606,
+                "null": 5522
+              },
+              "mrt": {
+                "stations": 154,
+                "non_null": 223,
+                "null": 239
+              },
+              "youbike": {
+                "stations": 1822,
+                "non_null": 5466,
+                "null": 0
+              }
+            }
+          },
+          "independent_sample": {
+            "stations": 300,
+            "station_radius_values": 900,
+            "by_kind": {
+              "bus": 120,
+              "mrt": 60,
+              "youbike": 120
+            },
+            "non_null_compared": 697,
+            "null_compared": 203,
+            "population_round_mismatch": 0,
+            "data_share_mismatch": 0,
+            "null_alignment_mismatch": 0,
+            "group_outside_1": 0,
+            "group_sum_mismatch": 0,
+            "unrounded_group_sum_vs_population_max_abs_diff": 0.0,
+            "max_abs_rounded_minus_unrounded": 0.739596,
+            "missing_station_point": 0,
+            "seed": 20261024,
+            "sample_per_kind": {
+              "bus": 120,
+              "mrt": 60,
+              "youbike": 120
+            },
+            "radii_m": [
+              200,
+              350,
+              500
+            ],
+            "rule": "rounded group within 1 of unrounded area-share value; four groups sum to population"
+          },
+          "example_350m_results": [
+            {
+              "kind": "bus",
+              "station_id": "1165610510",
+              "radius_m": 350,
+              "population": 3935,
+              "output_age_groups": [
+                469,
+                334,
+                2366,
+                766
+              ],
+              "independent_unrounded": [
+                469.164,
+                334.038,
+                2366.186,
+                765.802
+              ]
+            },
+            {
+              "kind": "mrt",
+              "station_id": "3530915063",
+              "radius_m": 350,
+              "population": 4483,
+              "output_age_groups": [
+                557,
+                353,
+                2429,
+                1144
+              ],
+              "independent_unrounded": [
+                556.656,
+                353.261,
+                2428.938,
+                1144.027
+              ]
+            },
+            {
+              "kind": "youbike",
+              "station_id": "500106149",
+              "radius_m": 350,
+              "population": 17712,
+              "output_age_groups": [
+                2169,
+                1389,
+                9936,
+                4218
+              ],
+              "independent_unrounded": [
+                2168.547,
+                1389.038,
+                9936.013,
+                4218.199
+              ]
+            }
+          ],
+          "status": "pass"
+        }
       },
       "limitations": [
         "2024-12 戶籍人口搭配檔名標示 2015 的統計區邊界；所有 11,490 個 ID 相符，但不代表同年邊界。",
         "按統計區內均勻人口密度分攤，僅臺北市；不是實際步行路網、白天活動人口或搭乘量，站點間重疊範圍不可加總。",
         "使用來源的站點原始 ID，不跨運具借用鄰近站點數值；捷運是 OSM 車站點位，不是出入口或已核驗的官方完整車站名冊。",
-        "本次最小統計區人口來源沒有年齡欄位；未將不同代碼及粒度的里年齡人口自動連接。",
+        "年齡組來自同代碼、同期間（2024-12）的最小統計區五歲年齡組人口，按同一面積比例分攤後以整數化使四組加總等於 population；各組整數值與未整數化值差距小於 1，屬估算值。未使用里別年齡人口。",
         "data_share 取至小數點後兩位，1 可能是四捨五入；低於 0.5% 覆蓋時人口與戶數為 null、data_share 為 0。",
         "既有人口來源總數與同月民政局全市人口相差 223 人，沿用既有來源差異說明，不混用為同一基準。"
       ]

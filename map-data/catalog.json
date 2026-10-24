@@ -9,7 +9,7 @@
       "latitude"
     ],
     "path_base": "map-data/",
-    "record_count": 27,
+    "record_count": 28,
     "bbox": [
       121.282688085,
       24.673192106,
@@ -30,7 +30,7 @@
       "63000",
       "65000"
     ],
-    "total_layer_file_bytes": 49131096,
+    "total_layer_file_bytes": 52520304,
     "attributions": [
       {
         "name": "政府資料開放授權條款－第1版",
@@ -990,6 +990,7 @@
               "2026-10-20T20:23:47Z"
             ],
             "source_downloaded_at": "2026-10-22T00:16:54+08:00",
+            "reviewed_generated_at": "2026-10-24T09:57:28+08:00",
             "report": "quality/traffic_focus_review.json"
           }
         }
@@ -1021,6 +1022,7 @@
               "2026-10-20T20:23:47Z"
             ],
             "source_downloaded_at": "2026-10-22T00:16:54+08:00",
+            "reviewed_generated_at": "2026-10-24T09:57:28+08:00",
             "report": "quality/traffic_focus_review.json"
           }
         }
@@ -1050,6 +1052,7 @@
             "record_count": 78,
             "source_periods": [],
             "source_downloaded_at": "2026-10-24T09:55:24+08:00",
+            "reviewed_generated_at": "2026-10-24T09:59:03+08:00",
             "report": "quality/traffic_focus_review.json"
           }
         }
@@ -1077,12 +1080,89 @@
             "record_count": 6,
             "source_periods": [],
             "source_downloaded_at": "2026-10-24T09:55:24+08:00",
+            "reviewed_generated_at": "2026-10-24T09:59:03+08:00",
             "report": "quality/traffic_focus_review.json"
           }
         }
       ],
       "source_periods": [],
       "manifest": "traffic-focus/housing/manifest.json",
+      "independent_review_status": "passed"
+    },
+    {
+      "dataset_id": "northern_official_village_age_geometry",
+      "title": "北北基官方村里逐歲戶籍人口與完整里界",
+      "group": "population",
+      "format": "geojson",
+      "record_count": 1677,
+      "files": [
+        {
+          "path": "population/moi_village_age_2026-09.geojson.gz",
+          "encoding": "gzip",
+          "record_count": 1677,
+          "bytes": 3389208,
+          "uncompressed_bytes": 12541242,
+          "bbox": null,
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "record_count": 1677,
+            "reviewed_generated_at": "2026-10-24T15:05:21+08:00",
+            "sources": [
+              {
+                "page_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+                "requested_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+                "effective_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+                "downloaded_at": "2026-10-24T15:05:18+08:00",
+                "source_data_time": null,
+                "http_status": 200,
+                "http_last_modified": "Fri, 04 Sep 2026 13:00:41 GMT",
+                "content_type": "text/html; charset=UTF-8",
+                "bytes": 24525,
+                "raw_file": "raw_data/national_village_age/ris_catalog.html"
+              },
+              {
+                "page_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+                "requested_url": "https://www.ris.gov.tw/documents/data/5/1/11509VillageUTF8.txt",
+                "effective_url": "https://www.ris.gov.tw/documents/data/5/1/11509VillageUTF8.txt",
+                "downloaded_at": "2026-10-24T15:05:18+08:00",
+                "source_data_time": null,
+                "http_status": 200,
+                "http_last_modified": "Fri, 04 Sep 2026 13:00:41 GMT",
+                "content_type": "text/plain; charset=UTF-8",
+                "bytes": 241310,
+                "raw_file": "raw_data/national_village_age/11509VillageUTF8.txt"
+              },
+              {
+                "page_url": "https://data.gov.tw/dataset/7438",
+                "requested_url": "https://data.gov.tw/dataset/7438",
+                "effective_url": "https://data.gov.tw/dataset/7438",
+                "downloaded_at": "2026-10-24T15:05:20+08:00",
+                "source_data_time": null,
+                "http_status": 200,
+                "http_last_modified": null,
+                "content_type": "text/html;charset=utf-8",
+                "bytes": 520693,
+                "raw_file": "raw_data/national_village_age/boundary_catalog.html"
+              },
+              {
+                "page_url": "https://data.gov.tw/dataset/7438",
+                "requested_url": "https://www.tgos.tw/tgos/VirtualDir/Product/a04697c8-64db-450a-a105-3eb471c45abd/%E6%9D%91(%E9%87%8C)%E7%95%8C(TWD97%E7%B6%93%E7%B7%AF%E5%BA%A6).zip",
+                "effective_url": "https://www.tgos.tw/tgos/VirtualDir/Product/a04697c8-64db-450a-a105-3eb471c45abd/%E6%9D%91(%E9%87%8C)%E7%95%8C(TWD97%E7%B6%93%E7%B7%AF%E5%BA%A6).zip",
+                "downloaded_at": "2026-10-24T15:05:21+08:00",
+                "source_data_time": null,
+                "http_status": 200,
+                "http_last_modified": "Tue, 25 Aug 2026 05:59:39 GMT",
+                "content_type": "application/x-zip-compressed",
+                "bytes": 21618481,
+                "raw_file": "map-data/raw/national_village_age/villages.zip"
+              }
+            ],
+            "report": "quality/village_age_geography_review.json"
+          }
+        }
+      ],
+      "source_periods": [],
+      "manifest": "population/manifest.json",
       "independent_review_status": "passed"
     }
   ]
