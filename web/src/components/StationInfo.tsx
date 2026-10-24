@@ -21,6 +21,23 @@ export function StationIcon({ type }: { type: StationType }) {
   );
 }
 
+const AGE_LABELS: Record<string, string> = { '0-14': '0–14 歲', '15-24': '15–24 歲', '25-64': '25–64 歲', '65_plus': '65 歲以上' };
+
+/** Age groups as share and head count; groups follow the catchment file's own order. */
+function AgeGroups({ groups, counts, total }: { groups: string[]; counts: number[]; total: number }) {
+  return (
+    <ul className="station-age-grid">
+      {groups.map((group, k) => (
+        <li key={group}>
+          <span>{AGE_LABELS[group] ?? group}</span>
+          <b>{total ? Math.round((counts[k] / total) * 100) : 0}%</b>
+          <small>{counts[k].toLocaleString('zh-TW')} 人</small>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 interface Props {
   station: StationSelection;
   mapRef: RefObject<MapRef | null>;
@@ -96,12 +113,13 @@ export default function StationInfo({ station, mapRef, data, placeKeys, onClose 
     [data, station, placeKeys],
   );
   const value = !regionalBus ? catchments?.records[station.type]?.[station.id]?.[catchments.radii.indexOf(STATION_RADIUS)] : undefined;
-  const [people, households, share] = value ?? [null, null, 0];
+  const [people, households, share, ages] = value ?? [null, null, 0, null];
+  const catchmentAgeGroups = catchments?.age_groups;
   const loading = !regionalBus && !catchments && !failed;
   const facilities = expanded ? surroundings.facilities : surroundings.facilities.slice(0, 3);
   const period = catchments?.metadata.population_period.end;
   const village = useMemo(() => villageAt(data.villages, station.at), [data.villages, station.at]);
-  const ageGroups = village ? [
+  const villageAgeGroups = village ? [
     { label: '0–14 歲', value: village.population_age_0_14, color: '#337cda' },
     { label: '15–64 歲', value: village.population_age_15_64, color: '#639a70' },
     { label: '65 歲以上', value: village.population_age_65_plus, color: '#be7d52' },
@@ -128,6 +146,14 @@ export default function StationInfo({ station, mapRef, data, placeKeys, onClose 
                 <p className="station-meta">約 {households?.toLocaleString('zh-TW') ?? '—'} 戶 · {period} 戶籍人口</p>
                 {share < 1 && <p className="station-warning">僅 {Math.round(share * 100)}% 範圍有臺北市資料，其餘未計。</p>}
               </>}
+        <h3 className="station-age-title">周邊 {STATION_RADIUS} m 年齡分布（估算）</h3>
+        {regionalBus ? <div className="station-empty station-age-empty"><p>尚無此站的 {STATION_RADIUS} m 年齡估算</p><small>下方整里年齡另依里界統計，不代替此範圍估算。</small></div>
+          : loading || failed ? null
+            : people !== null && ages && catchmentAgeGroups ? <>
+              <p className="station-meta">{catchments?.metadata.age_period?.end ?? '統計期未提供'} · 臺北統計區面積分攤</p>
+              <AgeGroups groups={catchmentAgeGroups} counts={ages} total={people} />
+            </>
+              : <div className="station-empty station-age-empty"><p>暫無可用的年齡分布</p><small>{people === null ? '此範圍沒有人口資料' : '範圍內有統計區缺年齡資料'}</small></div>}
       </section>
 
       <section className="station-village">
@@ -136,7 +162,7 @@ export default function StationInfo({ station, mapRef, data, placeKeys, onClose 
           <p className="station-village-name">{village.city_name}{village.district_name}{village.name}</p>
           <p className="station-village-total">{countText(village.population)}<span>{village.population !== null ? ' 人' : ''} · {countText(village.households)}{village.households !== null ? ' 戶' : ''}</span></p>
           {village.population === null && <p className="station-warning">里界名稱與人口資料尚未核對，或此里未提供數值；缺值非 0。</p>}
-          {ageGroups.map((group) => <div className="station-age-row" key={group.label}>
+          {villageAgeGroups.map((group) => <div className="station-age-row" key={group.label}>
             <span><i style={{ background: group.color }} />{group.label}</span>
             <b>{countText(group.value)}{group.value !== null ? ' 人' : ''}</b>
           </div>)}
@@ -162,7 +188,7 @@ export default function StationInfo({ station, mapRef, data, placeKeys, onClose 
         {station.type !== 'mrt' && surroundings.mrt.nearest && <p>最近捷運：{surroundings.mrt.nearest.name} · 約 {surroundings.mrt.nearest.metres} m</p>}
         {surroundings.youbike.count > 0 && <p>範圍內 YouBike 停車格：{surroundings.youbike.docks?.toLocaleString('zh-TW') ?? '資料不完整'}；無即時可借車數。</p>}
         <p className="muted">同類站點統計含本站（公車站位除外）。{station.type === 'bus' && '公車計畫班次不代表本站到站時刻。'}</p>
-        <p className="muted">{!regionalBus && <>350 m 人口依統計區面積分攤，相鄰範圍不可加總。{catchments && <>人口 {period}、邊界 {catchments.metadata.boundary_vintage} 年。</>}</>}設施依地點篩選，為未去重的候選位置，非出入口。</p>
+        <p className="muted">{!regionalBus && <>350 m 人口與年齡依統計區面積分攤，相鄰範圍不可加總；比例四捨五入，合計可能不是 100%。{catchments && <>人口 {period}、邊界 {catchments.metadata.boundary_vintage} 年。</>}</>}設施依地點篩選，為未去重的候選位置，非出入口。</p>
       </details>
 
       <footer className="station-note">戶籍人口資料，非搭乘量 · 設施距離採直線估算</footer>

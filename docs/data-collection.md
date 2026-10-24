@@ -10,6 +10,7 @@
 | 路線年報、公司月報、專用道及公車評鑑 | `data/pto_extended/` | `scripts/update_pto_extended.py` |
 | 捷運各站分時進出量、出口公車資訊 | `data/metro/` | `scripts/update_metro.py` |
 | 里人口年齡、統計區人口與邊界 | `data/population/` | `scripts/update_population.py` |
+| 統計區五歲年齡組人口（2024/12） | `data/population/` | `scripts/update_population_age.py` |
 | 專用道、停車、通行限制、公廁 | `data/urban/` | `scripts/update_urban.py` |
 | 全市客運統計、2024 臺北市運具調查 | `data/background/` | `scripts/update_background.py` |
 | TDX 歷史及加值資料 | `data/tdx/` | `scripts/update_tdx.py` |
@@ -22,6 +23,7 @@
 ```bash
 uv run scripts/update_population.py
 uv run scripts/update_population.py --offline
+uv run scripts/update_population_age.py
 uv run scripts/build_collection_catalog.py
 ```
 
@@ -36,5 +38,5 @@ uv run scripts/build_collection_catalog.py
 - 捷運來源的進站與出站名稱不完全相同，兩組字典分開保存，不能用相同向量索引直接比較某站的進出量。
 - TDX 歷史事件只留最近完整日的少量樣本，站間時間先留 307 路線；三年歷史與其餘路線保留取用連結，不能把樣本當成完整營運紀錄。
 - 全市月報目前至 2026/07；道路旅行時間來源回傳空集合且資料時間停在 2024/12，皆未補零。
-- 統計區人口是 2024/12；邊界檔名標示 2015。不同版本保留原值，不能視為最新行政里界。
+- 統計區人口與五歲年齡組都是 2024/12，以相同統計區代碼對應且各區加總一致；年齡原始 XML 不進 Git，`--offline` 需先下載。邊界檔名標示 2015。不同版本保留原值，不能視為最新行政里界。
 - 全國公路月報、舊行車成本及業者違規暫緩，僅留[來源連結](../raw_data/background/references.json)。

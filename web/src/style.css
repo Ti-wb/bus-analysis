@@ -330,6 +330,11 @@ dialog.about .close { position: absolute; right: 16px; top: 12px; border: 0; bac
 .station-empty b, .station-empty-title { display: block; font-size: 20px; color: #355969; margin: 10px 0 4px; }
 .station-empty small { font-size: 11px; color: #8a9da5; }
 .station-age-empty { padding: 12px 16px; background: #f4f7f8; border-radius: 8px; }
+.station-age-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 0; padding: 0; list-style: none; }
+.station-age-grid li { display: grid; grid-template-columns: auto 1fr; align-items: baseline; gap: 0 8px; padding: 8px 12px; background: var(--station-soft, #f4f7f8); border-radius: 8px; }
+.station-age-grid span { grid-column: 1 / -1; font-size: 11px; color: #688491; }
+.station-age-grid b { font-size: 18px; color: var(--station-color, #264d60); font-variant-numeric: tabular-nums; }
+.station-age-grid small { font-size: 11px; color: #688491; font-variant-numeric: tabular-nums; }
 .station-facilities { margin-top: 16px; border-top: 1px solid #dfe8ec; }
 .station-facilities ul { list-style: none; padding: 0; margin: 10px 0 0; }
 .station-facilities li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: start; gap: 10px; padding: 5px 0; }
