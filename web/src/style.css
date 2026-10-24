@@ -116,6 +116,16 @@ h1, h2, h3, p { margin: 0; }
 .maplibregl-popup-content { border-radius: 10px; padding: 12px 14px; font-size: 13px; line-height: 1.6; box-shadow: var(--shadow); max-width: 280px; }
 .maplibregl-popup-content h4 { margin: 0 0 4px; font-size: 14px; }
 .maplibregl-popup-content .routes { color: var(--muted); font-size: 12px; max-height: 96px; overflow: auto; }
+.stop-popup { width: 252px; }
+.stop-popup .segmented { margin: 6px 0 8px; }
+.stop-popup .segmented button { padding: 4px 0; font-size: 12px; }
+.stop-popup dl { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; margin: 0 0 6px; }
+.stop-popup dt { color: var(--muted); font-size: 12px; white-space: nowrap; }
+.stop-popup dd { margin: 0; }
+.stop-popup .warn { color: #b45309; font-size: 12px; }
+.place-count { display: inline-flex; align-items: center; gap: 4px; margin-right: 8px; white-space: nowrap; }
+.place-count i { width: 7px; height: 7px; border-radius: 50%; }
+.stop-popup .note { margin: 6px 0 0; font-size: 11px; line-height: 1.5; }
 .district-label { font-size: 15px; font-weight: 700; color: rgba(31, 42, 44, 0.72); text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff; pointer-events: none; white-space: nowrap; }
 .district-label.is-ntpc { font-size: 13px; font-weight: 500; color: rgba(31, 42, 44, 0.45); }
 .map-hide-labels .district-label { display: none; }

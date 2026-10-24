@@ -117,3 +117,13 @@ export interface CoverageState {
   walkRadius: number;
   rideRadius: number;
 }
+
+/** [population, households, data_share] per radius; see scripts/build_web_data.py build_catchments. */
+export type CatchmentValue = [number | null, number | null, number];
+
+export interface StopCatchments {
+  radii: number[];
+  fields: string[];
+  stops: Record<string, CatchmentValue[]>;
+  metadata: { built_at: string; population_period: { start: string; end: string }; boundary_vintage: number; value: string; data_share: string; limitations: string[] };
+}
