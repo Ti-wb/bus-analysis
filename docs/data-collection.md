@@ -14,6 +14,8 @@
 | 全市客運統計、2024 臺北市運具調查 | `data/background/` | `scripts/update_background.py` |
 | TDX 歷史及加值資料 | `data/tdx/` | `scripts/update_tdx.py` |
 | YouBike 2.0 站點 | `data/youbike/` | `scripts/update_youbike.py` |
+| 政府行政機關辦公日曆（2025–2026） | `data/calendar/` | `scripts/update_office_calendar.py` |
+| 運輸需求供需落差（研究草案，衍生資料） | `data/analysis/` | `scripts/build_transport_need.py`，見[說明](transport-need.md) |
 
 安裝依賴（`uv sync`）見[既有更新說明](data-updates.md)。各來源獨立更新，例如：
 

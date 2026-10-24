@@ -84,7 +84,7 @@ export interface ViewState {
   zoom: number;
 }
 
-export interface AppState extends CoverageState {
+export interface AppState extends CoverageState, NeedState {
   day: DayType;
   hour: number;
   cell: CellSize;
@@ -92,7 +92,7 @@ export interface AppState extends CoverageState {
   places: Set<string>;
 }
 
-export type AnalysisMode = 'frequency' | 'coverage';
+export type AnalysisMode = 'frequency' | 'coverage' | 'need';
 export type CoverageLayer = 'walk' | 'ride';
 export type StationType = 'bus' | 'mrt' | 'youbike';
 
@@ -126,4 +126,48 @@ export interface StopCatchments {
   fields: string[];
   stops: Record<string, CatchmentValue[]>;
   metadata: { built_at: string; population_period: { start: string; end: string }; boundary_vintage: number; value: string; data_share: string; limitations: string[] };
+}
+
+export type NeedBand = 'weekday_am' | 'weekday_midday' | 'weekday_pm' | 'weekday_evening' | 'saturday' | 'sunday';
+export type NeedView = 'quadrant' | 'gap';
+/** Weight percentages for population, places and metro activity. */
+export type NeedWeights = [number, number, number];
+
+export interface NeedState {
+  band: NeedBand;
+  needView: NeedView;
+  weights: NeedWeights;
+}
+
+interface NeedBandValues {
+  poi: number[];
+  rail: number[];
+  f: number[];
+  supply: number[];
+  /** Ranks are null for cells outside the analysis scope. */
+  r_poi: (number | null)[];
+  r_rail: (number | null)[];
+  r_supply: (number | null)[];
+  robust: (number | null)[];
+}
+
+/** Transport-need grid in column form; see scripts/build_web_data.py and build_transport_need.py. */
+export interface NeedGrid {
+  cell_m: number;
+  origin: [number, number];
+  step: [number, number];
+  bands: { key: NeedBand; label: string }[];
+  weights: { population: number; places: number; metro: number };
+  cells: {
+    ix: number[];
+    iy: number[];
+    district: (string | null)[];
+    population: number[];
+    in_scope: (0 | 1)[];
+    partial: (0 | 1)[];
+    r_pop: (number | null)[];
+    s_metro: number[];
+  };
+  values: Record<NeedBand, NeedBandValues>;
+  metadata: { built_at: string; scope: string; population_period: { start: string; end: string }; metro_period: { start: string; end: string }; robust_rule: string; limitations: string[] };
 }

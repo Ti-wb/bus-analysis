@@ -17,9 +17,10 @@ import { circle, nearby } from '../catchment';
 import { BASE_STYLE, COVERAGE_LAYERS, HOVER_LAYERS, LAYER_GROUPS, PLACE_CATEGORIES } from '../config';
 import { distancesAt, type CoverageImage } from '../coverage';
 import { loadCatchments } from '../data';
-import { CoverageTooltip, FeatureTooltip, RoutePopup, StopPopup, stopRoutes, type PopupFeature } from './FeatureInfo';
+import type { NeedCellProps, NeedResult } from '../need';
+import { CoverageTooltip, FeatureTooltip, NeedTooltip, RoutePopup, StopPopup, stopRoutes, type PopupFeature } from './FeatureInfo';
 import * as L from './layers';
-import type { AppState, Coverage, Grid, LayerGroup, MapData, StopCatchments, ViewState } from '../types';
+import type { AppState, Coverage, Grid, LayerGroup, MapData, NeedGrid, StopCatchments, ViewState } from '../types';
 
 const LABEL_NAME = ['coalesce', ['get', 'name:zh-Hant'], ['get', 'name:nonlatin'], ['get', 'name']];
 const LAYER_GROUP_OF: Record<string, LayerGroup> = Object.fromEntries(
@@ -34,6 +35,7 @@ interface Props {
   gridData: FeatureCollection<Polygon, { k: number }>;
   coverage: Coverage | null;
   coverageImage: CoverageImage | null;
+  need: { grid: NeedGrid; result: NeedResult; data: FeatureCollection<Polygon, NeedCellProps> } | null;
   state: AppState;
   onReady: () => void;
   onMoveEnd: (view: ViewState) => void;
@@ -64,9 +66,19 @@ function addHatchPattern(map: MaplibreMap) {
   ctx.lineTo(size, 0);
   ctx.stroke();
   map.addImage('hatch', ctx.getImageData(0, 0, size, size));
+
+  // Transparent hatch drawn over coloured cells (transport-need cells with missing schedules).
+  ctx.clearRect(0, 0, size, size);
+  ctx.strokeStyle = 'rgba(40,40,40,0.55)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(0, size);
+  ctx.lineTo(size, 0);
+  ctx.stroke();
+  map.addImage('hatch-line', ctx.getImageData(0, 0, size, size));
 }
 
-export default function MapView({ mapRef, initialView, data, grid, gridData, coverage, coverageImage, state, onReady, onMoveEnd }: Props) {
+export default function MapView({ mapRef, initialView, data, grid, gridData, coverage, coverageImage, need, state, onReady, onMoveEnd }: Props) {
   // First label layer of the base style: our layers go below it so road names stay on top.
   const [labelLayer, setLabelLayer] = useState<string | null>(null);
   const [hover, setHover] = useState<Hover | null>(null);
@@ -152,14 +164,21 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
   const featureAt = (e: MapLayerMouseEvent): MapGeoJSONFeature | undefined => {
     const map = mapRef.current!.getMap();
     const layers = HOVER_LAYERS.filter((id) => map.getLayer(id) && shown(LAYER_GROUP_OF[id]));
+    // In need mode the grid cell outranks route lines, but point markers still win.
+    if (state.mode === 'need' && map.getLayer('need-fill')) {
+      const firstLine = layers.findIndex((id) => id === 'bus-routes' || id === 'mrt-lines');
+      layers.splice(firstLine < 0 ? layers.length : firstLine, 0, 'need-fill');
+    }
     const { x, y } = e.point;
-    return map.queryRenderedFeatures([[x - 4, y - 4], [x + 4, y + 4]], { layers })[0];
+    const features = map.queryRenderedFeatures([[x - 4, y - 4], [x + 4, y + 4]], { layers });
+    const priority = (f: MapGeoJSONFeature) => layers.indexOf(f.layer.id);
+    return features.reduce<MapGeoJSONFeature | undefined>((best, f) => (!best || priority(f) < priority(best) ? f : best), undefined);
   };
 
   const handleMouseMove = (e: MapLayerMouseEvent) => {
     const feature = featureAt(e);
     const canvas = mapRef.current!.getCanvas();
-    canvas.style.cursor = feature && !feature.layer.id.startsWith('grid') ? 'pointer' : '';
+    canvas.style.cursor = feature && !/^(grid|need)/.test(feature.layer.id) ? 'pointer' : '';
     const { x, y } = e.point;
     if (feature) setHover({ feature, x, y });
     else if (state.mode === 'coverage' && coverage) {
@@ -221,6 +240,13 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
               <Layer {...withVisibility(L.gridFillLayer, below)} />
               <Layer {...withVisibility(L.gridHatchLayer, below)} />
             </Source>
+            {need && (
+              <Source id="need" type="geojson" data={need.data}>
+                <Layer {...L.needFillLayer} beforeId={below} layout={{ visibility: state.mode === 'need' ? 'visible' : 'none' }} />
+                <Layer {...L.needPartialLayer} beforeId={below} layout={{ visibility: state.mode === 'need' ? 'visible' : 'none' }} />
+                <Layer {...L.needRobustLayer} beforeId={below} layout={{ visibility: state.mode === 'need' ? 'visible' : 'none' }} />
+              </Source>
+            )}
             {coverageImage && (
               <Source id="coverage" type="image" url={coverageImage.url} coordinates={coverageImage.coordinates}>
                 <Layer {...L.coverageLayer} beforeId={below} layout={{ visibility: state.mode === 'coverage' ? 'visible' : 'none' }} />
@@ -288,7 +314,9 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
 
       {hover && (
         <div ref={tooltipRef} className="tooltip" style={{ left: hover.x, top: hover.y }}>
-          {hover.feature
+          {hover.feature?.layer.id === 'need-fill' && need
+            ? <NeedTooltip i={Number(hover.feature.properties.i)} grid={need.grid} result={need.result} state={state} />
+            : hover.feature
             ? <FeatureTooltip feature={hover.feature} grid={grid} state={state} />
             : hover.distances && <CoverageTooltip distances={hover.distances} state={state} />}
         </div>

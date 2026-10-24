@@ -47,6 +47,31 @@ export const gridHatchLayer: StyleLayer = {
   paint: { 'fill-pattern': 'hatch' },
 };
 
+// Transport-need grid: colour comes from need.ts; cells outside the analysis scope are a faint grey.
+export const needFillLayer: StyleLayer = {
+  id: 'need-fill',
+  type: 'fill',
+  paint: {
+    'fill-color': ['case', ['==', ['get', 'scope'], 1], ['get', 'color'], '#f4f4f2'],
+    'fill-opacity': ['case', ['==', ['get', 'scope'], 1], 0.8, 0.45],
+    'fill-outline-color': 'rgba(255,255,255,0.6)',
+  },
+};
+
+export const needPartialLayer: StyleLayer = {
+  id: 'need-partial',
+  type: 'fill',
+  filter: ['all', ['==', ['get', 'scope'], 1], ['==', ['get', 'partial'], 1]],
+  paint: { 'fill-pattern': 'hatch-line' },
+};
+
+export const needRobustLayer: StyleLayer = {
+  id: 'need-robust',
+  type: 'line',
+  filter: ['==', ['get', 'robust'], 1],
+  paint: { 'line-color': '#7a2a0c', 'line-width': ['interpolate', ['linear'], ['zoom'], 11, 1.2, 15, 2.4] },
+};
+
 // One pixel per 50 m cell; nearest resampling keeps the cells square when zoomed in.
 export const coverageLayer: StyleLayer = {
   id: 'coverage',

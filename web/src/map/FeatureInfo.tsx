@@ -1,10 +1,11 @@
 import type { MapGeoJSONFeature } from 'maplibre-gl';
 import type { ReactNode } from 'react';
-import { DAY_LABELS, PLACE_BY_CATEGORY, STATION_TYPES } from '../config';
+import { DAY_LABELS, NEED_BANDS, NEED_WEIGHT_LABELS, PLACE_BY_CATEGORY, QUADRANTS, STATION_TYPES } from '../config';
 import { distanceText } from '../coverage';
 import { cellValue, formatCount, hourText } from '../data';
 import type { Nearby } from '../catchment';
-import type { AppState, CatchmentValue, Grid, PlaceProps, StationType } from '../types';
+import { quadrantOf, type NeedResult } from '../need';
+import type { AppState, CatchmentValue, Grid, NeedGrid, PlaceProps, StationType } from '../types';
 
 export interface PopupFeature {
   feature: MapGeoJSONFeature;
@@ -157,5 +158,45 @@ export function StopPopup({ feature, radii, radius, onRadius, catchment, nearby 
       <div className="routes">{routes.join('、')}</div>
       <p className="muted note">直線 {distanceText(radius)} 圓內。戶籍人口不是搭乘量；相鄰站牌範圍重疊，不可加總；地點依左側篩選類別計算，為候選標記、未去重。</p>
     </div>
+  );
+}
+
+const pct = (r: number) => `${Math.round(r * 100)}`;
+
+/** Breakdown of one transport-need cell: demand components, supply and raw inputs. */
+export function NeedTooltip({ i, grid, result, state }: { i: number; grid: NeedGrid; result: NeedResult; state: AppState }) {
+  const c = grid.cells;
+  const v = grid.values[state.band];
+  const band = NEED_BANDS.find((b) => b.key === state.band)!;
+  const head = <><b>{c.district[i] ?? ''} · {band.label}</b><br /></>;
+  if (!c.in_scope[i]) {
+    return <>{head}人口 {c.population[i]} 人，附近沒有主要地點<br /><span className="muted-light">不在分析範圍，不排名</span></>;
+  }
+  const quadrant = quadrantOf(result.rDemand[i], result.rSupply[i])!;
+  const total = state.weights.reduce((a, b) => a + b, 0) || 1;
+  const parts = [c.r_pop[i]!, v.r_poi[i]!, v.r_rail[i]!].map((r, k) => (r * state.weights[k]) / total);
+  const gap = result.gap[i];
+  return (
+    <>
+      {head}
+      <b className="need-quadrant">{QUADRANTS[quadrant].label}</b>
+      <span className="muted-light"> · 落差 {gap > 0 ? '+' : ''}{pct(gap)}</span>
+      <div className="need-bars">
+        <span>需求排名</span>
+        <div className="need-bar">
+          {parts.map((p, k) => <i key={k} className={`need-part-${k}`} style={{ width: `${p * 100}%` }} title={NEED_WEIGHT_LABELS[k]} />)}
+        </div>
+        <b>{pct(result.rDemand[i])}</b>
+        <span>供給排名</span>
+        <div className="need-bar"><i className="need-supply" style={{ width: `${result.rSupply[i] * 100}%` }} /></div>
+        <b>{pct(result.rSupply[i])}</b>
+      </div>
+      <div className="need-legend-mini">
+        {NEED_WEIGHT_LABELS.map((label, k) => <span key={label}><i className={`need-part-${k}`} />{label} {pct([c.r_pop[i]!, v.r_poi[i]!, v.r_rail[i]!][k])}</span>)}
+      </div>
+      人口 {c.population[i].toLocaleString()} 人 · 地點分數 {v.poi[i].toFixed(1)} · 捷運活動 {Math.round(v.rail[i]).toLocaleString()} 人次／時<br />
+      公車加權 {v.f[i].toFixed(1)} 班／時 · 捷運鄰近度 {pct(c.s_metro[i])}%
+      {c.partial[i] === 1 && <><br /><Warn>附近有附線缺班表，供給是下限</Warn></>}
+    </>
   );
 }

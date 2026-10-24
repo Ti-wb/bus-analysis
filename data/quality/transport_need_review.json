@@ -1,0 +1,243 @@
+{
+  "schema_version": 1,
+  "dataset_id": "transport_need_independent_review",
+  "metadata": {
+    "reviewer_task": "review_transport_need",
+    "producer_task": "transport_need",
+    "reviewed_at": "2026-10-24T13:48:00+08:00",
+    "reviewed_output_built_at": "2026-10-24T13:44:16+08:00",
+    "scope": "data/analysis/transport_need_250.json 全部 4,317 格 × 6 時段由來源獨立重算（未匯入 build_transport_need.py 或 build_web_data.py）：格網、人口面積分配、地點分數、捷運活動、公車加權班次、捷運供給、partial、分析範圍、排名、gap、象限，並以另一個亂數種子重做 1,000 次權重抽樣；另抽 15 個範圍內格子逐格列出比對值。修正後的複查也重算了 web/public/data/bus_grid_250.json 的平日逐時班次。",
+    "validation_script": "raw_data/reviews/review_transport_need/review_transport_need.py",
+    "method_differences": "距離改用 GRS80 局部等距近似（整理者用 TWD97 TM2）；人口面積比在經緯度空間計算（整理者在 TM2）；排名用 scipy rankdata。差異只在 600 m／1,000 m 截斷邊緣與四捨五入。",
+    "resolved_findings": [
+      {
+        "id": "zero_length_headway_window",
+        "issue": "班距表起訖相同（subroute 159288，小15，平日 16:20–16:20）被當成跨日 24 小時，平日每小時多 3 班；266 格最多多算 2.99 班/時，平日各時段象限改變 0–7 格。",
+        "resolution": "build_web_data.subroute_departures 改為只有 end < start 才跨日；end == start 視為該小時 1 班。複查：159288 平日各時段的每小時發車數從 3.0 降為 0（只有 16 時有 1 班，16 時不在任何時段內）；公車加權班次與重算值的差只剩 2 格截斷邊緣（250-34-88、250-37-24，站距 600.02／600.06 m）。web bus_grid_250 共 4,591 格，平日逐時班次與重算值 0 格不一致（最大差 0.1，為四捨五入），其中含 159288 站位的 47 格也全部一致。"
+      },
+      {
+        "id": "new_station_partial_period_mean",
+        "issue": "廣慈/奉天宮站 2026-08-01 才有資料，卻除以整年日數，活動量低估約 5.9 倍（weekday_am 147.6 對 874.8），約 40 格 metro_activity 低估超過 5%。",
+        "resolution": "每站每時段改以有觀測值的日×時數為分母，進站、出站分開計。metadata.inputs.metro 新增 averaging；station_matches 新增 observed_entry_hours_weekday_am。複查：119 站的 observed_entry_hours_weekday_am 都與重算相同（廣慈/奉天宮 = 82）；metro_activity 最大相對差 ≤ 0.0031；以新規則重算的 r_demand 與輸出相差 > 0.02 的格數為 0。"
+      },
+      {
+        "id": "supply_saturation_relative_priority",
+        "issue": "市區供給分數普遍飽和（weekday_am 範圍內中位數 0.985），priority 格的加權班次中位數為 28.3 班/時，limitations 沒寫明 priority 只是相對排名。",
+        "resolution": "limitations 新增一條：供給排名是相對值，priority 格可能仍有每小時二十班以上，代表比同時段其他格少，不是絕對不足。複查：說明與資料相符。"
+      },
+      {
+        "id": "robust_share_definition_wording",
+        "issue": "公式寫「全體格數前 5%」，實際 N 是分析範圍格數的 5%（101 格）；名單也會包含 saturated 格。",
+        "resolution": "formulas.robust_top5_share 改為 N = 分析範圍格數 × 5%（無條件進位），並註明可能含 saturated 格。複查：top_n = ceil(0.05 × 2,008) = 101；robust ≥ 0.8 的格子中，saturated 每時段 14–19 格，與說明一致。"
+      },
+      {
+        "id": "metro_activity_imputation_and_weekend_days_undocumented",
+        "issue": "環狀線 10 站出站以進站 ×2 補值，週末偏低日（60%–100%）是否保留，原本都沒寫明。",
+        "resolution": "metadata.inputs.metro 新增 exit_imputation，formulas 新增 metro_activity_imputation；anomaly_rule 改寫為平日、週六、週日各自計算中位數，低於 60% 剔除，60%–100% 保留。複查：exits_imputed = true 的仍是中原、中和、十四張、幸福、新北產業園區、新埔民生、景平、板新、橋和、秀朗橋；剔除日仍為 2026-07-10、07-11；保留的偏低週末日為 2026-08-09（0.762）、02-15（0.768）、04-04（0.788）、02-14（0.811）、08-08（0.835），與規則一致。"
+      },
+      {
+        "id": "docs12_probe_counts_stale",
+        "issue": "docs/12 §2、§3.3 仍寫探測時的「4,087 格」與「2,002 格 partial」。",
+        "resolution": "§2 改為 4,317 格、合計 2,486,635 人；§3.3 寫明探測時的舊判斷是 4,087 格中 2,002 格，第一版的新規則是 4,317 格中 555 格。複查：與輸出一致。"
+      }
+    ],
+    "open_findings": [],
+    "anomaly_date_check": {
+      "excluded": {"2026-07-10": 0.278, "2026-07-11": 0.096},
+      "plausibility": "2026-07-10（五）巴威颱風，臺北市於 7/9 晚間宣布停止上班上課；當日 06 時起各小時量只有平常的 0.11–0.6。7/11（六）全天約 0.1，符合颱風影響。",
+      "external_reference": "https://www.taiwannews.com.tw/zh/news/6398453",
+      "next_lowest_workday_ratio": {"2025-11-11": 0.926},
+      "missed_workday_anomalies": 0
+    }
+  },
+  "records": [
+    {
+      "dataset_id": "taipei_transport_need_250",
+      "output_path": "data/analysis/transport_need_250.json",
+      "record_count": 4317,
+      "review_status": "pass_with_limitations",
+      "checks": [
+        {
+          "name": "schema_ids_nulls",
+          "status": "pass",
+          "top_level_keys": ["schema_version", "dataset_id", "metadata", "records"],
+          "non_snake_case_keys": 0,
+          "cell_id_string_unique_and_matches_ix_iy": true,
+          "band_array_length": 13,
+          "band_fields_order_documented": true,
+          "null_district_name": 0,
+          "out_of_scope_nonnull_rank_gap_quadrant_robust": 0,
+          "delivery_record_count": 4317,
+          "delivery_bytes_match_output": true,
+          "delivery_limitations_equal_metadata": true
+        },
+        {
+          "name": "grid_definition_and_cell_set",
+          "status": "pass",
+          "step_deg_recomputed_equal": true,
+          "origin": [121.4557265, 24.9585403],
+          "origin_equals_web_bus_grid_250": true,
+          "centres_inside_city_recomputed": 4317,
+          "missing_from_output": 0,
+          "extra_in_output": 0,
+          "max_centre_error_deg": 5.0e-07,
+          "district_point_in_polygon_mismatch": 0
+        },
+        {
+          "name": "population_allocation",
+          "status": "pass",
+          "source_total_2024_12": 2490646,
+          "full_grid_allocated_total": 2490646,
+          "centre_in_city_cells_total_recomputed": 2486635,
+          "metadata_allocated_total": 2486635,
+          "lost_in_cells_with_centre_outside_city": 4011,
+          "lost_share": 0.00161,
+          "per_cell_max_abs_diff": 0.06,
+          "cells_diff_gt_1_person": 0
+        },
+        {
+          "name": "places_inputs",
+          "status": "pass",
+          "counts_recomputed_equal_metadata": true,
+          "counts": {"school": 358, "government": 41, "market": 106, "hospital": 47, "mall": 75, "business_park": 8, "social_housing": 54},
+          "social_housing_median_households": 128.5,
+          "place_score_max_abs_diff": 0.0567,
+          "note": "最大差值出現在地點距離剛好約 600 m 截斷處（w(600) = 0.056），屬距離方法差異。"
+        },
+        {
+          "name": "bus_weighted_departures",
+          "status": "pass",
+          "day_type_weekday_iso": {"weekday": 3, "saturday": 6, "sunday": 7},
+          "rule_checked": "每小時固定班表優先，否則以 (long + low)/2 班距換算重疊分鐘；end < start 才跨日，end == start 為該小時 1 班；時段 [start, end) 每小時平均；每附線取最近站 w(d)",
+          "cells_diff_gt_0_05": 2,
+          "outlier_cells": {"250-34-88": "站距 600.02 m（截斷邊緣）", "250-37-24": "站距 600.06 m（截斷邊緣）"},
+          "subroute_159288_weekday_band_rate": {"before_fix": 3.0, "after_fix": 0.0},
+          "sequence_subroutes": 735,
+          "scheduled_subroutes": 598,
+          "partial_cells_recomputed": 555,
+          "partial_mismatch": 0,
+          "unscheduled_subroutes_nearby_mismatch": 0
+        },
+        {
+          "name": "web_bus_grid_250_after_headway_fix",
+          "status": "pass",
+          "output_path": "web/public/data/bus_grid_250.json",
+          "cells": 4591,
+          "weekday_hourly_mismatch_cells": 0,
+          "cells_with_subroute_159288": 47,
+          "max_abs_hourly_diff": 0.1
+        },
+        {
+          "name": "metro_supply_score",
+          "status": "pass",
+          "max_abs_diff": 0.0006,
+          "cells_diff_gt_0_01": 0
+        },
+        {
+          "name": "metro_day_sets_and_anomalies",
+          "status": "pass",
+          "day_counts_recomputed": {"workday": 243, "saturday": 51, "sunday": 52},
+          "weekday_holidays_left_out": 17,
+          "makeup_workdays_in_period": 0,
+          "excluded_anomaly_dates": ["2026-07-10", "2026-07-11"],
+          "medians": {"workday": 2279543.5, "saturday": 1988951.5, "sunday": 1662452.5},
+          "anomaly_rule_documented": true
+        },
+        {
+          "name": "metro_station_matching",
+          "status": "pass",
+          "flow_station_names": 119,
+          "status_counts": {"matched": 107, "matched_merged": 12},
+          "max_coordinate_offset_from_recomputed_osm_mean_m": 0.1,
+          "max_merged_spread_m": {"台北車站": 209, "三重": 148, "板橋": 89},
+          "observed_entry_hours_weekday_am_mismatch": 0,
+          "observed_entry_hours_weekday_am_guangci_fengtian": 82,
+          "osm_metro_stations_inside_taipei_without_flows": 0
+        },
+        {
+          "name": "metro_activity",
+          "status": "pass",
+          "averaging_rule": "每站每時段以有觀測值的日×時數為分母，進站、出站分開計；環狀線 10 站出站以進站代替",
+          "max_relative_diff": 0.0031,
+          "guangci_fengtian_per_hour": {"weekday_am": 874.8, "saturday": 729.9, "sunday": 920.1}
+        },
+        {
+          "name": "spot_checks_15_random_in_scope_cells",
+          "status": "pass",
+          "cells": ["250-4-75", "250-15-80", "250-24-59", "250-27-38", "250-27-68", "250-35-32", "250-38-39", "250-40-34", "250-42-56", "250-47-34", "250-50-41", "250-53-34", "250-54-51", "250-56-47", "250-59-46"],
+          "bands_compared": ["weekday_am", "saturday"],
+          "fields": ["population", "metro_supply_score", "bus_weighted_departures_per_hour", "place_score", "metro_activity"],
+          "max_diff": {"population": 0.0, "metro_supply_score": 0.001, "bus_weighted_departures_per_hour": 0.01, "place_score": 0.001, "metro_activity_relative": 0.0002},
+          "example": {"cell_id": "250-27-38", "bus_f_weekday_am": [131.87, 131.87], "place_weekday_am": [3.224, 3.224]}
+        },
+        {
+          "name": "scope_ranks_gap_quadrant",
+          "status": "pass",
+          "in_scope_recomputed": 2008,
+          "in_scope_mismatch": 0,
+          "in_scope_population_share": 0.9881,
+          "in_scope_cells_under_100_residents_place_only": 395,
+          "rank_max_abs_diff_any_band": {"r_population": 0.0007, "r_places": 0.0194, "r_metro": 0.001, "r_supply": 0.0135, "r_demand": 0.007, "gap": 0.0137},
+          "cells_rank_diff_gt_0_02": 0,
+          "zero_value_rank_0_violations": 0,
+          "gap_equals_r_demand_minus_r_supply_max_abs": 0.001,
+          "quadrant_mismatch_vs_recomputed": {"saturday": 2, "other_bands": 0},
+          "quadrant_note": "saturday 的 250-32-17、250-65-37 輸出 r_demand 都是 0.5，剛好落在分界上。每時段約 2 格輸出 rank 四捨五入成 0.5，以未四捨五入的值計算時一致。priority 與 oversupplied 格數必然相等（兩邊都以排名中位數切分），是方法的固有性質。",
+          "quadrant_counts": {
+            "weekday_am": {"priority": 237, "saturated": 767, "oversupplied": 237, "low_low": 767, "null": 2309},
+            "weekday_midday": {"priority": 208, "saturated": 796, "oversupplied": 208, "low_low": 796, "null": 2309},
+            "weekday_pm": {"priority": 223, "saturated": 781, "oversupplied": 223, "low_low": 781, "null": 2309},
+            "weekday_evening": {"priority": 237, "saturated": 767, "oversupplied": 237, "low_low": 767, "null": 2309},
+            "saturday": {"priority": 230, "saturated": 774, "oversupplied": 230, "low_low": 774, "null": 2309},
+            "sunday": {"priority": 230, "saturated": 774, "oversupplied": 230, "low_low": 774, "null": 2309}
+          }
+        },
+        {
+          "name": "robustness_independent_seed",
+          "status": "pass",
+          "samples": 1000,
+          "top_n": 101,
+          "max_abs_diff": 0.046,
+          "mean_abs_diff": 0.0005,
+          "cells_ge_0_8_output_vs_recomputed": {"weekday_am": [91, 92], "weekday_midday": [88, 89], "weekday_pm": [90, 90], "weekday_evening": [90, 89], "saturday": [84, 83], "sunday": [83, 83]},
+          "saturated_cells_with_share_ge_0_8": {"weekday_am": 14, "weekday_midday": 19, "weekday_pm": 19, "weekday_evening": 18, "saturday": 17, "sunday": 17},
+          "share_range": [0.0, 1.0],
+          "definition_documented": true
+        },
+        {
+          "name": "top_priority_cells_populated",
+          "status": "pass",
+          "robust_ge_0_8_weekday_am": 91,
+          "min_population": 760.3,
+          "median_population": 2630.5,
+          "cells_under_100_residents": 0,
+          "partial_cells": 9,
+          "districts": {"萬華區": 19, "北投區": 14, "文山區": 13, "信義區": 10, "士林區": 7, "南港區": 7, "內湖區": 6, "大同區": 5, "中山區": 5, "大安區": 3, "松山區": 2},
+          "note": "名單上沒有空山區格子。萬華區占比偏高，原因是地點分數高、捷運距離中等，加上供給接近飽和；limitations 已說明 priority 是相對值。"
+        },
+        {
+          "name": "limitations_present_and_accurate",
+          "status": "pass",
+          "count": 9,
+          "added": "供給排名是相對值，priority 格可能仍有每小時二十班以上",
+          "metadata_documents": ["inputs.metro.averaging", "inputs.metro.exit_imputation", "inputs.metro.anomaly_rule", "formulas.metro_activity_imputation", "formulas.robust_top5_share"]
+        }
+      ],
+      "findings": [
+        {
+          "severity": "info",
+          "issue": "6 項修正複查全部通過；整理者輸出與獨立重算只在截斷邊緣及四捨五入範圍內不同。",
+          "action": "可作為研究草案使用；權重、時間係數仍是假設值。"
+        }
+      ],
+      "limitations": [
+        "研究草案；權重、時間係數、衰減參數是假設值，未以實測運量校準。",
+        "需求與供給都是排名，priority 只代表相對位置，不代表缺多少班次。",
+        "只含臺北市人口與公運處公車；直線距離。"
+      ],
+      "source_data_time": null,
+      "statistical_period": {"population": "2024-12", "metro": {"start": "2025-10-01", "end": "2026-09-30"}, "bus": "現行班表快照"},
+      "usable_for": "研究用的相對供需落差圖層與敏感度討論；不可當作班次缺口數量或正式政策排序。"
+    }
+  ]
+}
