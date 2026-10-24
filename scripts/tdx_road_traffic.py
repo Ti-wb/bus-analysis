@@ -20,8 +20,10 @@ from zoneinfo import ZoneInfo
 
 try:
     from scripts.update_tdx import token
+    from scripts.tdx_bus_travel_time import next_request_time
 except ModuleNotFoundError:
     from update_tdx import token
+    from tdx_bus_travel_time import next_request_time
 
 HOST = "https://tdx.transportdata.tw"
 SPEC_IDS = {"basic": "7f07d940-91a4-495d-9465-1c9df89d709c", "historical": "4b4708cc-ab49-4037-a896-e24544d51609"}
@@ -124,6 +126,7 @@ class Store:
                     raise ValueError("Missing OpenAPI paths")
                 if key.endswith("supply") and not isinstance(obj.get("list"), list):
                     raise ValueError("Missing official supply catalog")
+                json.dumps(obj, allow_nan=False)
                 save_raw(path, payload)
                 self.put({"source_id": key, "source_page": source_page, "download_url": url,
                     "downloaded_at": now(), "source_updated_at": None, "raw_file": str(path.relative_to(self.root)),
@@ -184,7 +187,7 @@ def catalog(store, offline=False):
     candidates = [r for r in supply["list"] if r.get("domainL2Name") == "縣市即時路況" and "臺北" in r["name"]]
     records = []
     today = datetime.now(ZoneInfo("Asia/Taipei")).date()
-    window = today.replace(year=today.year - 3)
+    window = today.replace(year=today.year - 3, day=28) if today.month == 2 and today.day == 29 else today.replace(year=today.year - 3)
     for key, (_, label, kind) in ENDPOINTS.items():
         # The source spells historical Section as 發佈, whereas basic uses 發布.
         matching = [r for r in candidates if r["domainL3Name"] == label]
@@ -282,16 +285,22 @@ def parse_payload(payload, request):
         if any(not isinstance(row.get("InfoDate"), str) for row in rows):
             raise ValueError("Missing historical InfoDate")
         for row in rows: date.fromisoformat(row["InfoDate"])
+    # Validate original numbers before ID normalization can turn NaN/Infinity
+    # into apparently valid strings such as "nan" or "inf".
+    try:
+        json.dumps([rows, wrapper], allow_nan=False)
+    except ValueError:
+        raise ValueError("Non-finite original JSON number") from None
     return rows, wrapper
 
 
-def parse_saved(store, receipt):
+def prepare_output(store, receipt, payload):
+    """Normalize and construct an output before publishing any new snapshot."""
     req = receipt["request"]
     expected_url = HOST + "/api/" + req["category"] + path_for(req["key"], req["category"] == "historical") + "?" + urlencode(req["query_parameters"])
-    if req.get("request_url") != expected_url or req["source_id"] != receipt["source_id"]:
+    if req.get("request_url") != expected_url or receipt.get("download_url") != expected_url or req["source_id"] != receipt["source_id"]:
         raise ValueError("Saved request does not match endpoint identity")
-    path = store.saved_path(receipt, expected_url)
-    rows, wrapper = parse_payload(path.read_bytes(), req)
+    rows, wrapper = parse_payload(payload, req)
     collection = wrapper.pop("__collection_field", None)
     records = [normalize(row) for row in rows]
     for row in records:
@@ -365,9 +374,17 @@ def parse_saved(store, receipt):
     if req["key"] in {"section", "vd"}:
         meta["coordinate_reference_system"] = "Source coordinate fields retained in JSON; no GeoJSON emitted and no CRS transformation inferred."
     target = store.out / ("availability" if req["mode"] == "meta" else "observations") / (req["source_id"] + ".json")
-    write(target, envelope("tdx_road_traffic_" + req["source_id"], records, meta))
-    return {"source_id": req["source_id"], "output_file": str(target.relative_to(store.root)), "record_count": len(records),
+    document = envelope("tdx_road_traffic_" + req["source_id"], records, meta)
+    result = {"source_id": req["source_id"], "output_file": str(target.relative_to(store.root)), "record_count": len(records),
         "scope_status": status, "data_kind": req["data_kind"], "statistical_period": meta["statistical_period"]}
+    return target, document, result
+
+
+def parse_saved(store, receipt):
+    path = store.saved_path(receipt, receipt["request"]["request_url"])
+    target, document, result = prepare_output(store, receipt, path.read_bytes())
+    write(target, document)
+    return result
 
 
 def meta_counts(obj):
@@ -424,28 +441,47 @@ def reference_diagnostics(store):
 
 def fetch(store, requests, args):
     auth = token()
-    total = 0
+    total = used = 0
+    response_bytes_unknown = False
+    stop_reason = None
     attempts = store.records + [r["last_failed_attempt"] for r in store.records if r.get("last_failed_attempt")]
-    last_at = max((datetime.fromisoformat(r["downloaded_at"]).timestamp() for r in attempts if r.get("request") and r.get("downloaded_at")), default=0)
+    allowed_at = time.time()
+    for attempt in attempts:
+        stamp = attempt.get("checked_at") or attempt.get("downloaded_at")
+        if attempt.get("request") and stamp:
+            allowed_at = max(allowed_at, next_request_time(attempt.get("usage_headers"),
+                datetime.fromisoformat(stamp).timestamp(), args.min_request_interval))
     for index, request in enumerate(requests):
-        if index >= args.max_requests: raise ValueError("Reached request budget; completed sources retained")
-        remaining = min(int(args.max_response_mb * 1024**2), int(args.max_total_mb * 1024**2) - total)
-        if remaining <= 0: raise ValueError("Reached total response budget")
-        delay = max(0, args.min_request_interval - (time.time() - last_at))
-        if delay: time.sleep(delay)
-        last_at = time.time()
+        if used >= args.max_requests:
+            stop_reason = "request_budget_reached"
+            break
+        available = int(args.max_total_mb * 1024**2) - total
+        response_limit = int(args.max_response_mb * 1024**2)
+        # A local batch limit leaves the next endpoint untouched for resuming.
+        if available <= 0 or (used and available < response_limit):
+            stop_reason = "total_response_budget_reached"
+            break
+        remaining = min(response_limit, available)
+        delay = max(0, allowed_at - time.time())
+        while delay > 0:
+            step = min(delay, 60)
+            time.sleep(step)
+            delay -= step
         suffix = ".jsonl" if request["category"] == "historical" and request["mode"] != "meta" else ".json"
         path = store.raw / "responses" / (request["source_id"] + suffix)
         receipt = {"source_id": request["source_id"], "source_page": HOST + "/api-service/swagger/" + request["category"] + "/" + SPEC_IDS[request["category"]],
             "download_url": request["request_url"], "downloaded_at": now(), "source_updated_at": None, "request": request,
             "evidence_type": "api_availability_statistics" if request["mode"] == "meta" else "business_api_response"}
         payload = None
+        failure_stage = "transport"
+        used += 1
         try:
             req = Request(request["request_url"], headers={"Authorization": "Bearer " + auth, "Accept-Encoding": "identity"})
             with urlopen(req, timeout=180) as response:
                 receipt["http_status"] = response.status
                 receipt["content_type"] = response.headers.get("Content-Type")
                 receipt["usage_headers"] = usage_headers(response.headers)
+                allowed_at = next_request_time(receipt["usage_headers"], time.time(), args.min_request_interval)
                 if response.status != 200 and not (response.status == 249 and request["mode"] == "meta"):
                     raise ValueError("Unexpected HTTP status")
                 if int(response.headers.get("Content-Length", 0)) > remaining: raise ValueError("Response exceeds byte budget")
@@ -453,33 +489,83 @@ def fetch(store, requests, args):
                 total += len(payload)
                 if len(payload) > remaining: raise ValueError("Response exceeds byte budget")
                 check_length(payload, response.headers.get("Content-Length"))
-            parse_payload(payload, request)  # Validate before replacing a previous successful snapshot.
+            receipt.update({"raw_file": str(path.relative_to(store.root)), "bytes": len(payload), "status": "downloaded", "downloaded_at": now()})
+            failure_stage = "normalization"
+            target, document, result = prepare_output(store, receipt, payload)
+            # json.loads accepts NaN/Infinity; enforce the actual normalized
+            # serialization contract before replacing successful raw/receipt.
+            failure_stage = "serialization"
+            json.dumps(document, ensure_ascii=False, allow_nan=False).encode("utf-8")
+            failure_stage = "snapshot_persistence"
             save_raw(path, payload)
-            receipt.update({"raw_file": str(path.relative_to(store.root)), "bytes": len(payload), "status": "downloaded"})
             store.put(receipt)
-            result = parse_saved(store, receipt)
+            write(target, document)
             print(request["source_id"] + ": " + str(result["record_count"]) + " records", flush=True)
         except HTTPError as exc:
             receipt.update({"http_status": exc.code, "status": "provider_http_error", "raw_file": None, "bytes": None,
+                "checked_at": now(), "failure_stage": "transport", "rejection_reason": "provider_http_error",
                 "content_type": exc.headers.get("Content-Type") if exc.headers else None,
                 "usage_headers": usage_headers(exc.headers) if exc.headers else {}})
-            payload = exc.read(remaining + 1)
-            if len(payload) <= remaining:
+            try:
+                payload = exc.read(remaining + 1)
+            except IncompleteRead as partial:
+                payload = partial.partial
+                receipt["error_body_transport_complete"] = False
+            except OSError as body_error:
+                payload = None
+                response_bytes_unknown = True
+                receipt.update({"error_body_transport_complete": False, "error_type": type(body_error).__name__,
+                    "rejection_reason": "http_error_body_read_failed"})
+            if payload is not None:
+                total += len(payload)
+            receipt["response_bytes_received"] = len(payload) if payload is not None else None
+            if payload is not None and len(payload) <= remaining:
                 failed = store.raw / "failures" / (request["source_id"] + ".http_error")
                 save_raw(failed, payload)
                 receipt.update({"raw_file": str(failed.relative_to(store.root)), "bytes": len(payload)})
             store.put(receipt)
             print(request["source_id"] + ": HTTP " + str(exc.code), flush=True)
-            if exc.code in {401, 403, 429}: break
+            if response_bytes_unknown:
+                # The failed read may already have consumed unknown bytes.
+                # Do not admit another response against an unknowable balance.
+                stop_reason = "http_error_body_read_failed"
+                break
+            allowed_at = next_request_time(receipt["usage_headers"], time.time(), args.min_request_interval)
+            if exc.code in {401, 403, 429}:
+                stop_reason = "provider_http_" + str(exc.code)
+                break
         except (ValueError, UnicodeError, OSError, IncompleteRead) as exc:
+            if isinstance(exc, IncompleteRead):
+                payload = exc.partial
+                total += len(payload)
+            reasons = {"Response Content-Length does not match bytes received": "response_length_mismatch",
+                "Response exceeds byte budget": "response_exceeds_local_budget",
+                "Unexpected HTTP status": "unexpected_http_status", "Normalized field collision": "normalized_field_collision",
+                "Non-finite original JSON number": "non_finite_source_number"}
+            reason = reasons.get(str(exc), "incomplete_http_body" if isinstance(exc, IncompleteRead)
+                else "strict_json_serialization_failed" if failure_stage == "serialization"
+                else "response_contract_mismatch" if failure_stage == "normalization"
+                else "snapshot_persistence_failed" if failure_stage == "snapshot_persistence"
+                else "invalid_transport_response")
+            if isinstance(exc, OSError) and failure_stage == "transport" and payload is None and receipt.get("http_status") is not None:
+                response_bytes_unknown = True
+                reason = "response_body_read_failed"
+                receipt["response_bytes_received"] = None
             receipt.update({"status": "response_exceeds_local_budget" if "byte budget" in str(exc) else "invalid_provider_response",
-                "raw_file": None, "bytes": None, "error_type": type(exc).__name__})
+                "raw_file": None, "bytes": None, "error_type": type(exc).__name__, "checked_at": now(),
+                "failure_stage": failure_stage, "rejection_reason": reason})
             if payload is not None and len(payload) <= remaining:
                 failed = store.raw / "failures" / (request["source_id"] + ".invalid_response")
                 save_raw(failed, payload)
                 receipt.update({"raw_file": str(failed.relative_to(store.root)), "bytes": len(payload)})
             store.put(receipt)
             print(request["source_id"] + ": " + receipt["status"], flush=True)
+            if response_bytes_unknown:
+                stop_reason = "response_body_read_failed"
+                break
+    return {"requests_used": used, "response_bytes": None if response_bytes_unknown else total,
+            "known_response_bytes": total, "stop_reason": stop_reason,
+            "not_requested_source_ids": [r["source_id"] for r in requests[used:]]}
 
 
 def main(argv=None):
@@ -513,21 +599,14 @@ def main(argv=None):
         "max_requests": args.max_requests, "max_response_bytes": int(args.max_response_mb * 1024**2),
         "max_total_bytes": int(args.max_total_mb * 1024**2), "min_request_interval_seconds": args.min_request_interval,
         "account_balance_verified": False, "purchases_performed": False}))
-    if args.fetch: fetch(store, requests, args)
+    acquisition = fetch(store, requests, args) if args.fetch else None
     results = []
     for receipt in list(store.records):
         if not receipt.get("request"): continue
         if receipt.get("status") == "downloaded":
             results.append(parse_saved(store, receipt))
-        elif receipt.get("status") == "invalid_provider_response" and receipt.get("raw_file"):
-            candidate = {**receipt, "status": "downloaded"}
-            candidate.pop("error_type", None)
-            try:
-                result = parse_saved(store, candidate)
-            except (ValueError, UnicodeError):
-                continue
-            store.put(candidate)
-            results.append(result)
+        # Rejected bodies remain failure evidence. Being parseable offline
+        # cannot establish that the original HTTP transport was complete.
     attempts = [r for r in store.records if r.get("request") and r.get("status") != "downloaded"]
     attempts += [r["last_failed_attempt"] for r in store.records if r.get("last_failed_attempt")]
     failures = [{"source_id": r["source_id"], "status": r["status"], "http_status": r.get("http_status"), "download_url": r["download_url"], "raw_file": r.get("raw_file")}
@@ -535,6 +614,11 @@ def main(argv=None):
     reference_diagnostics(store)
     write(store.out / "delivery.json", envelope("tdx_road_traffic_delivery", results, {
         "grain": "one parsed local output", "source_updated_at": None, "statistical_period": {"planned_historical_date": day},
+        "acquisition_stop_reason": acquisition["stop_reason"] if acquisition else None,
+        "new_business_request_count": acquisition["requests_used"] if acquisition else 0,
+        "response_bytes_received": acquisition["response_bytes"] if acquisition else 0,
+        "known_response_bytes_received": acquisition["known_response_bytes"] if acquisition else 0,
+        "not_requested_source_ids": acquisition["not_requested_source_ids"] if acquisition else [],
         "failures": failures, "business_data_downloaded": bool(results), "independent_review_status": "pending",
         "limitations": ["現況只是下載時的單一快照，並非整日序列。", "全量歷史動態不落地；保留近三年可取得目錄及小量真實樣本。", "流量積分期間與 VD 速率單位尚未由所附官方規格定義。"]}))
     store.save()

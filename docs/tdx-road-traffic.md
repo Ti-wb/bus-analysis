@@ -24,4 +24,6 @@ uv run scripts/tdx_road_traffic.py --offline
 
 預設歷史日期採四項服務目錄共同的最新完整日；可加 `--date YYYY-MM-DD`。金鑰只從專案 `.env` 或環境的 TDX_CLIENT_ID／TDX_CLIENT_SECRET 讀取，不輸出、不保存。預設最多 10 次資料請求、每次 8 MB、總計 32 MB、間隔 26 秒；不購買額度。公開目錄更新不需金鑰；`--use-cached-catalog --plan` 可預覽而不連網，`--offline` 僅重建自己的已保存來源。可重複加 `--request-id` 只執行計畫中的指定來源。HTTP 401／403／429 立即停止，保留可取得的非敏感限額標頭；不可藉重試增加額度。失敗更新保留上一版成功資料及 `last_failed_attempt`。官方 API 的預設 top 是 30，完整歷史取用需先查 Meta，再明確設定 top。
 
+達到請求或回應容量上限時，仍寫出已完成的 `delivery.json`，並列停止原因與本輪未請求的來源；錯誤回應實際讀取的位元組也計入容量。回應內文讀取失敗而無法計量時停止本批，總已讀量為 null，另列已知位元組數。後續請求及再次執行均遵守已保存的 `Retry-After` 與每分鐘剩餘額度標頭。新回應須通過傳輸、正規化與嚴格 JSON 序列化才替換成功快取；被拒絕的原文只留作失敗證據，不能因離線解析成功而升為有效資料。
+
 API 參數及欄位定義見 `api_catalog.json`、`field_dictionary.json`；來源位置與下載資訊見 manifest。
