@@ -3,6 +3,8 @@ import { useMemo } from 'react';
 import type { ExpressionSpecification } from 'maplibre-gl';
 import type { FeatureCollection, Polygon } from 'geojson';
 import { routePath } from './engine';
+import ExistingServiceLayers from './ExistingServiceLayers';
+import type { ExistingService } from './existingServices';
 import type { Coordinate, Route, ScenarioData } from './types';
 
 export interface EditorMapProps {
@@ -16,6 +18,8 @@ export interface EditorMapProps {
   insertIndex: number;
   gridLines: boolean;
   bike: boolean;
+  existingServices?: ExistingService[] | null;
+  highlightedServiceRouteId?: string | null;
   onStop: (id: string) => void;
   onRoute: (routeId: string) => void;
   onPath: (path: Coordinate[]) => void;
@@ -74,9 +78,14 @@ export function RouteLayers({ editor, beforeId }: { editor: EditorMapProps; befo
       <Layer id="scenario-original-line" type="line" beforeId={beforeId} paint={{ 'line-color': '#627e91', 'line-width': 3, 'line-opacity': .6, 'line-dasharray': [2, 2] }} />
     </Source>}
     <Source id="scenario-route" type="geojson" data={line(path)}>
-      <Layer id="scenario-route-casing" type="line" beforeId={beforeId} paint={{ 'line-color': '#ffffff', 'line-width': 7 }} />
       <Layer id="scenario-route-line" type="line" beforeId={beforeId} paint={{ 'line-color': deleting ? '#be4966' : '#337cda', 'line-width': 3.5, ...(deleting ? { 'line-dasharray': [2, 2] } : {}) }} />
+      <Layer id="scenario-route-casing" type="line" beforeId="scenario-route-line" paint={{ 'line-color': '#ffffff', 'line-width': 7 }} />
     </Source>
+    {/* Keep services below the draft, including when the overlay mounts mid-session.
+        On the local basemap, also leave the stop picker above these context layers. */}
+    {editor.existingServices && <ExistingServiceLayers data={data} services={editor.existingServices}
+      selectedStopIds={route.stop_ids} highlightedRouteId={editor.highlightedServiceRouteId ?? null}
+      beforeId={interaction === 'stops' && !beforeId ? 'scenario-stop-halo' : 'scenario-route-casing'} />}
     {route.stop_ids.map((id, i) => {
       const s = data.records.stops[id];
       return <Marker key={`${id}:${i}`} longitude={s.at[0]} latitude={s.at[1]}>

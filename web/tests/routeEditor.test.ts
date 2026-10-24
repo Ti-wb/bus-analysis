@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { assess, draftChanges, duration, frequency, network, routesWithChanges } from '../src/routeEditor/engine';
+import { buildExistingServices } from '../src/routeEditor/existingServices';
 import { loadScenario, saveScenario } from '../src/routeEditor/storage';
 import type { MapData } from '../src/types';
 import type { AppliedAction, Route, ScenarioData } from '../src/routeEditor/types';
@@ -23,6 +24,58 @@ function fixture() {
 test('overlapping stops and repeated visits count each direction once per cell', () => {
   const { data } = fixture();
   assert.deepEqual(network(data, data.records.routes, 'am').frequency, [4, 6, 2, 0]);
+});
+test('existing services require a boarding stop within 350 m, including the boundary and exact stop evidence', () => {
+  const { data } = fixture();
+  data.records.stops = {
+    centre: { name: '本站', at: [121.5, 0] },
+    near: { name: '鄰近站', at: [121.5, 349 / 110574] },
+    boundary: { name: '邊界站', at: [121.5, 350 / 110574] },
+    outside: { name: '範圍外', at: [121.5, 351 / 110574] },
+  };
+  data.records.stop_cells = { centre: [0], near: [0], boundary: [0], outside: [0] };
+  const direct = route('direct:0', 'direct', ['centre', 'near', 'boundary', 'outside', 'near'], 4);
+  const near = route('near:0', 'near', ['near'], 2);
+  const boundary = route('boundary:0', 'boundary', ['boundary'], 1);
+  const outside = { ...route('outside:0', 'outside', ['outside', 'missing'], 8), path: [[121.49, 0], [121.51, 0]] as [number, number][] };
+  const services = buildExistingServices(data, [direct, near, boundary, outside], ['missing', 'centre'], 'am');
+  assert.deepEqual(services.map((s) => s.route.id), ['direct:0', 'near:0', 'boundary:0']);
+  assert.deepEqual(services[0].areaMatches, [{ selectedStopId: 'centre', boardingStopIds: ['centre', 'near', 'boundary'], direct: true }]);
+  assert.deepEqual(services[1].areaMatches, [{ selectedStopId: 'centre', boardingStopIds: ['near'], direct: false }]);
+  assert.deepEqual(services[2].areaMatches, [{ selectedStopId: 'centre', boardingStopIds: ['boundary'], direct: false }]);
+});
+test('existing services deduplicate overlapping areas and exact variants while preserving opposite directions', () => {
+  const { data, a, b } = fixture();
+  const inbound = { ...a, id: 'a:1', direction: '1', direction_label: '返程', stop_ids: ['s1b'] };
+  const routes = [inbound, a, b, a];
+  const services = buildExistingServices(data, routes, ['s1', 's1b', 's1'], 'am');
+  assert.deepEqual(services.map((s) => s.route.id), ['a:0', 'a:1']);
+  assert.deepEqual(services[0].areaMatches, [
+    { selectedStopId: 's1', boardingStopIds: ['s1', 's1b'], direct: true },
+    { selectedStopId: 's1b', boardingStopIds: ['s1', 's1b'], direct: true },
+  ]);
+  assert.deepEqual(services[1].areaMatches, [
+    { selectedStopId: 's1', boardingStopIds: ['s1b'], direct: false },
+    { selectedStopId: 's1b', boardingStopIds: ['s1b'], direct: true },
+  ]);
+  assert.deepEqual(buildExistingServices(data, [...routes].reverse(), ['s1', 's1b'], 'am'), services);
+});
+test('existing service frequencies follow the selected band and supplied scenario, retaining zero and unknown values', () => {
+  const { data, a } = fixture();
+  const unknown = route('u:0', 'u', ['s1'], null);
+  const routes = routesWithChanges(data, { [a.id]: { ...a, frequencies: { am: 0, pm: 6 } }, [unknown.id]: unknown });
+  const morning = buildExistingServices(data, routes, ['s1'], 'am');
+  assert.deepEqual(morning.map((s) => [s.route.id, s.frequency]), [['a:0', 0], ['u:0', null]]);
+  assert.deepEqual(buildExistingServices(data, routes, ['s1'], 'pm').map((s) => [s.route.id, s.frequency]), [['a:0', 6], ['u:0', null]]);
+  const beforeRemoval = buildExistingServices(data, routes, ['s1', 's2'], 'am');
+  const afterRemoval = buildExistingServices(data, routes, ['s2'], 'am');
+  assert.equal(beforeRemoval.find((s) => s.route.id === a.id)?.areaMatches.length, 2);
+  assert.deepEqual(afterRemoval.find((s) => s.route.id === a.id)?.areaMatches.map((m) => m.selectedStopId), ['s2']);
+  assert.equal(afterRemoval.some((s) => s.route.id === unknown.id), false);
+  assert.deepEqual(buildExistingServices(data, routes, [], 'am'), []);
+  const moved = routesWithChanges(data, { [a.id]: { ...a, stop_ids: ['s4'] } });
+  assert.deepEqual(buildExistingServices(data, moved, ['s1'], 'am'), []);
+  assert.deepEqual(buildExistingServices(data, [], ['s1'], 'am'), []);
 });
 test('deletion preserves alternative service, distinguishes lost reach from reduced frequency, and excludes YouBike', () => {
   const { data, map } = fixture();
