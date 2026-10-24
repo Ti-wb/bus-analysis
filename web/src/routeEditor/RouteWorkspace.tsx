@@ -6,8 +6,10 @@ import Search from '../components/Search';
 import type { AppState, Grid, MapData, StationSelection, ViewState } from '../types';
 import type { Filters } from '../improvements/types';
 import { draftChanges, frequency, gridFeatures, routePath, routesWithChanges } from './engine';
+import { buildExistingServices } from './existingServices';
 import { loadScenario, saveScenario } from './storage';
 import Dialog from './Dialog';
+import ExistingServicesPanel from './ExistingServicesPanel';
 import Impact, { Duration, PopulationSummary, rate } from './Impact';
 import { ACTION_LABELS, BANDS, type AppliedAction, type Assessment, type Band, type Changes, type Draft, type Route, type ScenarioData } from './types';
 import type { EditorMapProps } from './RouteLayers';
@@ -59,6 +61,8 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
   const [dialog, setDialog] = useState<'discard' | 'metrics' | 'preferences' | null>(null);
   const exit = useRef<(() => void) | null>(null);
   const [station, setStation] = useState<StationSelection | null>(null);
+  const [desktop, setDesktop] = useState(() => window.matchMedia('(min-width: 901px)').matches);
+  const [highlightedServiceRouteId, setHighlightedServiceRouteId] = useState<string | null>(null);
   const [settings, setSettings] = useState({ gridLines: true, bike: true, labels: state.labels, speed: 18, dwell: 30 });
   const [prefDraft, setPrefDraft] = useState(settings);
   const [retry, setRetry] = useState(0);
@@ -68,6 +72,12 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
   const last = history.at(-1);
   const activeDraft = step === 'review' && last ? { kind: last.kind, route: last.route, original: last.original, band: last.band } : draft;
   const effectiveBand = activeDraft?.band ?? band;
+  const selectedStopIds = draft?.route.stop_ids;
+  const showExistingServices = desktop && step === 'edit' && draft?.kind === 'add';
+  const existingServices = useMemo(() => showExistingServices && selectedStopIds
+    ? buildExistingServices(data, routes, selectedStopIds, effectiveBand) : null,
+  [data, routes, selectedStopIds, effectiveBand, showExistingServices]);
+  const activeServiceRouteId = existingServices?.some((service) => service.route.route_id === highlightedServiceRouteId) ? highlightedServiceRouteId : null;
   const evaluated = useMemo(() => draft ? draftChanges(data, changes, draft) : changes, [data, changes, draft]);
   const request = useMemo(() => ({ changes: evaluated, band: effectiveBand, retry }), [evaluated, effectiveBand, retry]);
   const [response, setResponse] = useState<{ request: typeof request; result?: Assessment; error?: string } | null>(null);
@@ -77,6 +87,15 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
   const error = !busy ? response?.error ?? '' : '';
   const dirty = draft !== null && JSON.stringify(draft.route) !== JSON.stringify(draft.kind === 'add' ? edits[0] : draft.original);
 
+  useEffect(() => {
+    const query = window.matchMedia('(min-width: 901px)');
+    const update = () => setDesktop(query.matches);
+    update(); query.addEventListener('change', update);
+    return () => query.removeEventListener('change', update);
+  }, []);
+  useEffect(() => {
+    if (highlightedServiceRouteId !== activeServiceRouteId) setHighlightedServiceRouteId(null);
+  }, [activeServiceRouteId, highlightedServiceRouteId]);
   useEffect(() => {
     const worker = new Worker(new URL('./worker.ts', import.meta.url), { type: 'module' });
     worker.onmessage = (event: MessageEvent<{ result?: Assessment; error?: string }>) => {
@@ -190,6 +209,7 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
   const activeRoute = activeDraft?.route ?? selected;
   const editor: EditorMapProps = { data, grid: raster, route: activeRoute, original: activeDraft?.original ?? null, deleting: activeDraft?.kind === 'delete', showStopNumbers: step !== 'overview',
     interaction: step === 'edit' ? interaction : 'select', insertIndex, gridLines: settings.gridLines, bike: settings.bike,
+    existingServices, highlightedServiceRouteId: activeServiceRouteId,
     onStop: addStop, onRoute: (id) => { if (step === 'overview') { const r = routes.find((r) => r.route_id === id); if (r) select(r); } },
     onPath: (path) => draft && changeRoute({ ...draft.route, path }) };
   const mapState = useMemo((): AppState => ({ ...state, mode: 'frequency', labels: settings.labels,
@@ -266,9 +286,11 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
       <p className="route-map-hint">{interaction === 'stops'
         ? <><span className="route-stop-key" aria-hidden="true" />藍框圓點可選取 · 點擊加入第 {insertIndex + 1} 站 · 已選站點顯示編號</>
         : '拖曳控制點調整路徑；＋新增點，方向鍵微調，Delete 移除。'}<br />站序變動會重建連線；圖上路徑不代表可行駛導航。</p>
-      <section className="card route-draft-summary"><h3>{draft.route.name || '未命名路線'}・草稿</h3><span className="route-tag">{ACTION_LABELS[draft.kind]}</span>
+      {existingServices !== null ? <ExistingServicesPanel data={data} services={existingServices} selectedStopIds={draft.route.stop_ids} band={effectiveBand}
+        draft={draft} draftFrequency={f} applied={Object.keys(changes).length > 0} highlightedRouteId={activeServiceRouteId} onHighlight={setHighlightedServiceRouteId} />
+        : <section className="card route-draft-summary"><h3>{draft.route.name || '未命名路線'}・草稿</h3><span className="route-tag">{ACTION_LABELS[draft.kind]}</span>
         <b>{draft.route.direction_label}</b><p>{draft.route.stop_ids.length} 個停靠站 · 每小時 {rate(f)} 班</p>
-        {draft.original && <p>新增 {added.length} 站／取消 {removed.length} 站</p>}<p className="route-note">人口與設施影響請至下一步比較。</p></section>
+        {draft.original && <p>新增 {added.length} 站／取消 {removed.length} 站</p>}<p className="route-note">人口與設施影響請至下一步比較。</p></section>}
     </>}
 
     {(step === 'preview' || step === 'review') && activeDraft && <>
