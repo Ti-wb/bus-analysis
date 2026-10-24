@@ -180,3 +180,20 @@ npm --prefix web run build
 `.github/workflows/deploy-web.yml` 在 `main` 的前端程式或來源資料變更時，產生地圖資料、型別檢查並建置，再發布到 GitHub Pages；也可在 Actions 頁面手動執行。相關 PR 只建置不發布，用來提早發現錯誤。
 
 網址為 <https://bus.tw.pe/>。Pages 來源（GitHub Actions）與自訂網域都在 **Settings → Pages** 設定，需 repo 管理員權限；DNS 以 CNAME 指向 `ti-wb.github.io`。建置使用相對路徑，換網域不用改程式。
+
+### 快取與 Cloudflare
+
+GitHub Pages 對所有檔案固定回傳 `Cache-Control: max-age=600`，無法調整。程式檔名每次建置都會改變，但 `data/` 的檔名固定，所以前端讀資料時會在網址加上建置版本 `?v=…`：CI 用 commit 前 12 碼，本機 `npm run build` 用建置時間，`npm run dev` 不加。部署後新程式只會讀到同一次建置的資料，不會拿到前一版快取。
+
+網域經 Cloudflare 代理。`.json`、`.geojson` 不在 Cloudflare 預設快取的副檔名內，沒有規則時只會轉送（`cf-cache-status: DYNAMIC`）。在 Cloudflare 後台 **Caching → Cache Rules** 依序新增：
+
+| 規則 | 條件（Edit expression） | 設定 |
+|---|---|---|
+| 帶版本的資料 | `starts_with(http.request.uri.path, "/data/") and http.request.uri.query contains "v="` | Eligible for cache；Edge TTL：Ignore cache-control header，1 年；Browser TTL：Override origin，1 年 |
+| 建置產物 | `starts_with(http.request.uri.path, "/assets/")` | 同上 |
+| 不帶版本的資料（選用） | `starts_with(http.request.uri.path, "/data/") and not http.request.uri.query contains "v="` | Eligible for cache；Edge TTL：Use cache-control header if present（沿用 10 分鐘）；Browser TTL：Respect origin |
+
+- **不能清掉的設定：** Cache key 保留預設的完整 query string，不可開啟「忽略 query string」，否則各版資料會共用同一份快取。
+- **其他路徑不設規則：** `index.html` 等路徑維持預設。首頁必須在部署後盡快更新，才會指向新的程式與版本號。
+- **部署後不需清快取：** 每次部署的網址都會改變。
+- **設定後檢查：** 對同一網址連續送兩次 `curl -sI "https://bus.tw.pe/data/villages.geojson?v=check"`，第二次應出現 `cf-cache-status: HIT`。

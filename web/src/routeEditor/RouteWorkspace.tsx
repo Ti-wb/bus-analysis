@@ -2,6 +2,7 @@ import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRe
 import type { MapRef } from 'react-map-gl/maplibre';
 import type { FeatureCollection, Polygon } from 'geojson';
 import MapView from '../map/MapView';
+import { dataURL } from '../data';
 import Search from '../components/Search';
 import type { AppState, Grid, MapData, StationSelection, ViewState } from '../types';
 import type { Filters } from '../improvements/types';
@@ -30,7 +31,7 @@ const RouteWorkspace = forwardRef<RouteWorkspaceHandle, Props>(function RouteWor
   useEffect(() => {
     const controller = new AbortController();
     setLoadError('');
-    fetch(`${import.meta.env.BASE_URL}data/route_scenario.json`, { signal: controller.signal })
+    fetch(dataURL('route_scenario.json'), { signal: controller.signal })
       .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
       .then((d: ScenarioData) => { if (d.schema_version !== '1.0' || !d.records?.routes.length) throw new Error(); setData(d); })
       .catch((error: Error) => { if (error.name !== 'AbortError') setLoadError('路線資料暫時無法載入，請重試。'); });
