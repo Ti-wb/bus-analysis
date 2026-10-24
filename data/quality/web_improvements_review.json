@@ -1,0 +1,331 @@
+{
+  "schema_version": 1,
+  "dataset_id": "independent_web_improvements_review",
+  "metadata": {
+    "reviewer_agent": "/root/review_improvement_data",
+    "independent_of_producer": true,
+    "reviewed_at": "2026-10-24T07:09:35.460376+00:00",
+    "reviewed_output_built_at": "2026-10-24T07:08:41.315060+00:00",
+    "status": "pass_with_limitations",
+    "scope": "第 07 頁 improvements.json 的來源、精確 ID、四種粒度、去重班次、缺值、捷運重疊、公廁及區塊人口；包含 Mock 欄位與 CSV 標示的靜態核對，不涵蓋瀏覽器或政策成效。",
+    "method": "未匯入或呼叫產生器。由正規化來源重建附線方向與站序；班距逐分鐘積分再按小時彙總；全量站點最近距離使用座標矩陣直接計算，允許同座標等距設施；重新連接來源線形、投影、聯集與緩衝；獨立以格心重算 1 km 區塊及人口加總。",
+    "sources": [
+      {
+        "path": "web/public/data/route_scenario.json",
+        "source_data_time": "2026-10-21T22:03:04+08:00",
+        "source_period": null,
+        "source_page": null,
+        "download_url": null,
+        "raw_file": null,
+        "source_updated_at": null
+      },
+      {
+        "path": "data/taipei_feeds/route_stop_sequences.json",
+        "source_data_time": "2026-10-21T22:03:04+08:00",
+        "source_period": null,
+        "source_page": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579",
+        "download_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetPathDetail.gz",
+        "raw_file": "raw_data/taipei_feeds/GetPathDetail.gz",
+        "source_updated_at": null
+      },
+      {
+        "path": "data/taipei_feeds/route_branches.json",
+        "source_data_time": "2026-10-21T23:03:04+08:00",
+        "source_period": null,
+        "source_page": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579",
+        "download_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetRoute.gz",
+        "raw_file": "raw_data/taipei_feeds/GetRoute.gz",
+        "source_updated_at": null
+      },
+      {
+        "path": "data/taipei_feeds/stop_locations.geojson",
+        "source_data_time": "2026-10-21T22:03:04+08:00",
+        "source_period": null,
+        "source_page": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579",
+        "download_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetStopLocation.gz",
+        "raw_file": "raw_data/taipei_feeds/GetStopLocation.gz",
+        "source_updated_at": null
+      },
+      {
+        "path": "data/taipei_feeds/fixed_schedules.json",
+        "source_data_time": "2026-10-21T22:03:04+08:00",
+        "source_period": null,
+        "source_page": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579",
+        "download_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetTimeTable.gz",
+        "raw_file": "raw_data/taipei_feeds/GetTimeTable.gz",
+        "source_updated_at": null
+      },
+      {
+        "path": "data/taipei_feeds/headway_schedules.json",
+        "source_data_time": "2026-10-21T22:03:04+08:00",
+        "source_period": null,
+        "source_page": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579",
+        "download_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetSemiTimeTable.gz",
+        "raw_file": "raw_data/taipei_feeds/GetSemiTimeTable.gz",
+        "source_updated_at": null
+      },
+      {
+        "path": "data/taipei_feeds/route_shapes.geojson",
+        "source_data_time": null,
+        "source_period": null,
+        "source_page": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579",
+        "download_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetBusShape.gz",
+        "raw_file": "raw_data/taipei_feeds/GetBusShape.gz",
+        "source_updated_at": null
+      },
+      {
+        "path": "web/public/data/mrt_lines.geojson",
+        "source_data_time": null,
+        "source_period": null,
+        "source_page": "https://download.geofabrik.de/asia/taiwan.html",
+        "download_url": null,
+        "raw_file": null,
+        "source_updated_at": "2026-10-20T20:23:47Z"
+      },
+      {
+        "path": "web/public/data/mrt_stations.geojson",
+        "source_data_time": null,
+        "source_period": null,
+        "source_page": "https://download.geofabrik.de/asia/taiwan.html",
+        "download_url": null,
+        "raw_file": null,
+        "source_updated_at": "2026-10-20T20:23:47Z"
+      },
+      {
+        "path": "map-data/osm/manifest.json",
+        "source_data_time": null,
+        "source_period": null,
+        "source_page": "https://download.geofabrik.de/asia/taiwan.html",
+        "download_url": "https://download.geofabrik.de/asia/taiwan-261020-free.gpkg.zip",
+        "raw_file": null,
+        "source_updated_at": "2026-10-20T20:23:47Z"
+      },
+      {
+        "path": "map-data/admin/districts.geojson",
+        "source_data_time": null,
+        "source_period": "2025-03-18",
+        "source_page": "https://data.gov.tw/dataset/7441",
+        "download_url": "https://www.tgos.tw/tgos/VirtualDir/Product/3fe61d4a-ca23-4f45-8aca-4a536f40f290/鄉(鎮、市、區)界線1140318.zip",
+        "raw_file": "map-data/raw/admin/districts.zip",
+        "source_updated_at": null
+      },
+      {
+        "path": "data/urban/public_toilets.geojson",
+        "source_data_time": null,
+        "source_period": null,
+        "source_page": "https://data.taipei/dataset/detail?id=ca205b54-a06f-4d84-894c-d6ab5079ce79",
+        "download_url": "https://data.taipei/api/frontstage/tpeod/dataset/resource.download?rid=9e0e6ad4-b9f9-4810-8551-0cffd1b915b3",
+        "raw_file": "raw_data/urban/public_toilets_0.csv",
+        "source_updated_at": "2026-08-24T10:59:06+08:00"
+      },
+      {
+        "path": "data/population/taipei_statistical_population_base.json",
+        "source_data_time": null,
+        "source_period": {
+          "start": "2024-12",
+          "end": "2024-12"
+        },
+        "source_page": "https://data.gov.tw/dataset/18681",
+        "download_url": "https://segisws.moi.gov.tw/STATWSSTData/OpenService.asmx/GetStatSTDataForOpenCode?oCode=6E03CA29B955A854397166638603FC3B51A1FBEE829C41DBA1D61A4DBA84DCB43EC2490B4BC27DD1320C3EF6DBC4DE80A46DEC5BF5F23516",
+        "raw_file": "raw_data/population/statistical_population_base.xml",
+        "source_updated_at": null
+      },
+      {
+        "path": "data/population/taipei_statistical_area_boundaries.geojson",
+        "source_data_time": null,
+        "source_period": null,
+        "source_page": "https://data.gov.tw/dataset/25128",
+        "download_url": "https://opdadm.moi.gov.tw/api/v1/no-auth/resource/api/dataset/03C1D0A5-1F39-4C1F-AA2E-BB37A0405369/resource/DCC6FE32-D76A-4541-800C-5665B60D489D/download",
+        "raw_file": "raw_data/population/statistical_boundary_base.zip",
+        "source_updated_at": null
+      }
+    ],
+    "blocking_findings": [],
+    "open_findings": [],
+    "resolved_findings": [
+      {
+        "issue": "初版 source_exclusions 讀取錯誤的上游鍵，輸出 null。",
+        "resolution": "改取 excluded_directions，重建後與上游缺附線及不足兩站方向清單全量一致。"
+      },
+      {
+        "issue": "初版未完整傳遞平日代表日、班表導出、MRT 線形選取及人口方法。",
+        "resolution": "補入 day_types、timezone、schedule_method、metro_layers 及 population_method，來源 metadata 逐檔一致；班距描述保留來源欄位，不推定為最長／最短。"
+      },
+      {
+        "issue": "合成問題標籤未列入 mock_fields_generated_in_ui。",
+        "resolution": "補入 problems，與模型及 CSV 的 problems_is_mock 對齊；合成後的 Ranked 資料另標示 is_mock。"
+      }
+    ],
+    "limitations": [
+      "僅臺北市主管機關公車 feed，保留跨市站序；416 主路線不是完整雙北路網。5,375 站位依實體 stop_location_id，不合併同名站牌；目前未另產生連續路段紀錄。",
+      "平日取 ISO 週三，週六、週日分開。固定時刻優先，兩個有效班距欄位取平均補其餘小時；不是實際發車或載客。班表不分方向，同附線不重覆累加；部分缺班表只提供已知小計，不能視為完整供給。",
+      "幾何重疊僅 152 路線有可用來源，其中 59 路線只有部分方向；264 路線保持 null。沿用來源線形簡化 0.00003 度與座標 5 位小數，100 m 緩衝不是實際可替代旅次。",
+      "捷運站點採 OSM 站心 300 m 直線距離，非官方出入口或步行路網。OSM 圖資快照時間為 2026-10-20；站心可能與官方站位有差。",
+      "端點來自原生站序首末站，不是已驗證調度站。公廁只有臺北市，市外返回 null；公廁位置不保證開放時間、停車或駕駛可進入。",
+      "DRTS 瀏覽單元為 EPSG:3826 的 1 km 方格，只有包含臺北市站位的區塊。不是 H3 或 Gi* 冷點，不能直接當作 DRTS 合格區。",
+      "人口為 2024-12 戶籍人口、2015 統計區界，以既有面積分攤 100 m 格心彙整；19 區塊含缺人口格，只提供已知小計。不是乘客、旅次或需求觀測值。",
+      "旅次重疊、每班次載客、載客剖面、冷區、駕駛休息、影響、優先分數、問題標籤與建議含穩定合成值。JSON 基礎欄位不含運量；合成指標在 UI 及 CSV 標為 Mock Data，不可用作實際裁撤效果。"
+    ]
+  },
+  "records": [
+    {
+      "file": "web/public/data/improvements.json",
+      "section": "contract_and_grain",
+      "status": "pass",
+      "record_count": 6744,
+      "counts": {
+        "routes": 416,
+        "stops": 5375,
+        "drts": 235,
+        "terminals": 718
+      },
+      "source_counts": {
+        "main_routes": 416,
+        "subroutes": 730,
+        "directions": 1235,
+        "physical_stops": 5375,
+        "terminals": 718,
+        "drts_blocks": 235
+      },
+      "checks": {
+        "schema_contract": true,
+        "unique_string_ids": true,
+        "counts_metadata": true,
+        "source_retained_variant_ids": true,
+        "source_variant_exact_id_and_sequence": true,
+        "main_route_grain_ids": true,
+        "physical_stop_grain_ids": true,
+        "native_endpoint_grain_ids": true,
+        "all_entry_route_and_variant_links_valid": true,
+        "all_entry_stop_links_valid": true,
+        "physical_stop_coordinates": true,
+        "district_containment": true,
+        "route_memberships_and_shared_routes": true,
+        "stop_route_counts_deduplicated": true,
+        "drts_block_ids": true
+      },
+      "note": "由 730 附線、1,235 方向重建；主路線與共站數以主路線 ID 去重。原上游 5,376 站中 1 站未被保留方向使用。"
+    },
+    {
+      "file": "web/public/data/improvements.json",
+      "section": "planned_schedules",
+      "status": "pass_with_limitations",
+      "day_types": {
+        "weekday": "representative ISO weekday 3",
+        "saturday": "ISO weekday 6",
+        "sunday": "ISO weekday 7"
+      },
+      "hours_per_day": 24,
+      "states": {
+        "weekday": {
+          "complete": 3400,
+          "partial": 3296,
+          "all_missing": 48
+        },
+        "saturday": {
+          "complete": 1951,
+          "partial": 4235,
+          "all_missing": 558
+        },
+        "sunday": {
+          "complete": 1945,
+          "partial": 4238,
+          "all_missing": 561
+        }
+      },
+      "independent_mismatches": 0,
+      "checks": {
+        "all_hourly_schedules_and_missing_counts": true
+      },
+      "note": "各資料列以去重附線加總，方向或同一附線的多個站位不重覆計數。全缺為 null；部分缺為已知小計並保留缺附線數，零班次只來自有班表的無發車小時。"
+    },
+    {
+      "file": "web/public/data/improvements.json",
+      "section": "metro_overlap_and_distance",
+      "status": "pass_with_limitations",
+      "crs_for_distance": "EPSG:3826",
+      "line_buffer_m": 100,
+      "station_radius_m": 300,
+      "routes_with_some_shape": 152,
+      "routes_without_shape": 264,
+      "routes_with_partial_shapes": 59,
+      "source_mrt_line_features": 593,
+      "source_mrt_station_features": 154,
+      "checks": {
+        "exact_shape_key_and_frontend_simplification": true,
+        "all_route_100m_geometry_overlap": true,
+        "route_shape_coverage_counts": true,
+        "route_300m_station_overlap": true,
+        "station_300m_exact_threshold": true,
+        "mrt_nearest_distance": true,
+        "representative_path_and_stop_profile": true
+      },
+      "note": "分母使用所有可精確連接線形的聯集長度；無來源不以站序連線補算。站點分母為所有不同實體站位，最近距離全量直接重算。"
+    },
+    {
+      "file": "web/public/data/improvements.json",
+      "section": "terminals_and_toilets",
+      "status": "pass_with_limitations",
+      "terminal_count": 718,
+      "public_toilet_source_features": 1537,
+      "checks": {
+        "terminal_memberships_and_facilities": true,
+        "toilet_nearest_distance_and_taipei_scope": true
+      },
+      "note": "以原生首末站重建全部端點，端點共站數只計使用該站作端點的主路線。同座標多間公廁產生等距候選，輸出名稱均在最近候選集合內；來源時間維持 null，資源更新時間另保留。"
+    },
+    {
+      "file": "web/public/data/improvements.json",
+      "section": "drts_blocks_and_population",
+      "status": "pass_with_limitations",
+      "block_width_m": 1000,
+      "scenario_cell_count": 27683,
+      "scenario_sum": 2490202.0639,
+      "displayed_block_population_sum": 2475685.9,
+      "block_population_sum_before_rounding": 2475685.5268,
+      "selected_blocks_with_missing_cells": 19,
+      "missing_cells_in_selected_blocks": 43,
+      "excluded_populated_block_sum": 14516.5371,
+      "source_period": {
+        "start": "2024-12",
+        "end": "2024-12"
+      },
+      "checks": {
+        "drts_membership_population_and_nearest_mrt": true
+      },
+      "note": "235 區塊人口加總四捨五入前為 2,475,685.5268；未納入有站區塊的人口 14,516.5371，兩者合計回到上游 2,490,202.0639。輸出各塊保留 1 位小數，總和多 0.3732 人屬逐塊捨入。19 區塊的 43 個缺人口格均明列，未補成 0。"
+    },
+    {
+      "file": "scripts/build_improvements.py",
+      "section": "provenance_mock_contract_and_integration",
+      "status": "pass_with_limitations",
+      "mock_fields_generated_in_ui": [
+        "trip_overlap",
+        "passengers_per_trip",
+        "cold_share",
+        "cold_period",
+        "uninterrupted_minutes",
+        "rest_minutes",
+        "load_profile",
+        "affected_trips",
+        "released_vehicle_hours",
+        "population_change",
+        "priority_score",
+        "problems",
+        "recommendation"
+      ],
+      "checks": {
+        "source_metadata_exact_copy": true,
+        "metadata_upstream_exclusions": true,
+        "only_actual_fields_in_json": true,
+        "metro_layer_metadata_matches_source": true,
+        "population_upstream_metadata_matches_source": true,
+        "mock_fields_cover_model_and_profile": true,
+        "csv_has_mock_flags_for_synthetic_metrics": true,
+        "builder_only_writes_owned_output": true,
+        "build_web_data_runs_after_route_scenario": true
+      },
+      "note": "靜態核對 model.ts 的合成欄位及 Detail.tsx 載客剖面，CSV 為合成分數、標籤、運量、影響與建議提供 is_mock 標記；UI 的瀏覽器呈現另由主實作者驗收。"
+    }
+  ]
+}

@@ -581,6 +581,8 @@ def main():
 
     from build_route_scenario import main as build_route_scenario
     build_route_scenario()
+    from build_improvements import main as build_improvements
+    build_improvements()
 
 
 if __name__ == "__main__":
