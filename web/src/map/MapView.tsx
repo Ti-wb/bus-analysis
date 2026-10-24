@@ -1,6 +1,8 @@
 import type { FeatureCollection, MultiLineString, Point, Polygon } from 'geojson';
-import type { MapGeoJSONFeature, Map as MaplibreMap } from 'maplibre-gl';
+import type { ExpressionSpecification, MapGeoJSONFeature, Map as MaplibreMap } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+// MapLibre 6 resolves its worker next to its own module, which the bundle does not copy; ship it as an asset.
+import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type RefObject } from 'react';
 import Map, {
   AttributionControl,
@@ -23,7 +25,7 @@ import { CoverageTooltip, FeatureTooltip, NeedTooltip, RoutePopup, type PopupFea
 import * as L from './layers';
 import type { AppState, Coverage, Grid, LayerGroup, MapData, NeedGrid, StationSelection, ViewState } from '../types';
 
-const LABEL_NAME = ['coalesce', ['get', 'name:zh-Hant'], ['get', 'name:nonlatin'], ['get', 'name']];
+const LABEL_NAME: ExpressionSpecification = ['coalesce', ['get', 'name:zh-Hant'], ['get', 'name:nonlatin'], ['get', 'name']];
 const LAYER_GROUP_OF: Record<string, LayerGroup> = Object.fromEntries(
   Object.entries(LAYER_GROUPS).flatMap(([group, ids]) => ids.map((id) => [id, group as LayerGroup])),
 );
@@ -225,6 +227,7 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
       <Map
         ref={mapRef}
         mapStyle={BASE_STYLE}
+        workerUrl={workerUrl}
         initialViewState={{ longitude: initialView.center[0], latitude: initialView.center[1], zoom: initialView.zoom }}
         localIdeographFontFamily="'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif"
         minZoom={9.5}
