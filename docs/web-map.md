@@ -1,6 +1,8 @@
-# 前端地圖（覆蓋臺北）
+# 前端地圖（Bus coming soon）
 
 `web/` 是單頁地圖，呈現臺北市及周邊的公車路線、捷運路網，以及三種可切換的分析圖層：公車計畫班次網格、站點覆蓋、需求落差。可點選公車、捷運與 YouBike 查看站點資訊。用 React、TypeScript、react-map-gl（MapLibre GL JS）與 Vite 建置，輸出為靜態網站，不需要地圖金鑰或後端；底圖與路名使用 OpenFreeMap 公開圖磚，需連網。
+
+品牌依 [`branding/BCS-Brand-Guidelines.pdf`](../branding/BCS-Brand-Guidelines.pdf)：介面色彩與字體用其中的 Web tokens（`--bcs-*`，Nunito＋Noto Sans TC 由 Google Fonts 載入），地圖上的資料配色不受影響。網站用的 favicon、App 圖示、分享圖與 logo 複製自 `branding/assets/`，放在 `web/public/` 與 `web/src/assets/`；素材更新時要一併替換。
 
 ## 執行
 
