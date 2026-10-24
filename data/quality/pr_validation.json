@@ -7,18 +7,25 @@
     "overall_status": "incomplete_source_and_scope_requirements",
     "all_original_validation_items_passed": false,
     "source_updated_at": null,
-    "scope": "逐項記錄實作與證據，未完成原驗收不勾選。",
+    "scope": "已交付快照逐項列證據；來源無資料、跨版幾何、實際營運與合法步行未核實時不視為通過。",
     "record_count": 9,
     "local_program_checks": {
       "runtime": "3.12.11",
-      "official_cross_city_tests_passed": 149,
+      "official_cross_city_tests_passed": 240,
       "base_tests_passed": 13,
       "compileall": "passed",
-      "cli_help_commands_passed": 9,
-      "live_data_review": "separate_reports_not_unit_tests",
-      "total_unit_tests_passed": 162,
+      "cli_help_commands_passed": 15,
+      "live_data_review": "separate_full_raw_reviews_not_unit_tests",
+      "total_unit_tests_passed": 253,
       "integrated_main_commit": "f91ba8139253e485c1167284375fb68ef4851a67",
-      "merged_map_catalog_read_only_build": "passed"
+      "merged_map_catalog_read_only_build": "passed_27_datasets_31_files",
+      "ci_evidence": "GitHub Actions current-head checks; exact SHA and run links in PR description",
+      "stdlib_ci_mode": {
+        "discovered": 240,
+        "passed": 223,
+        "skipped_gis_cases": 17,
+        "status": "passed_without_gis_dependencies"
+      }
     }
   },
   "records": [
@@ -29,34 +36,48 @@
         "data/quality/id_crosswalk_review.json",
         "data/quality/regional_validation_review.json",
         "data/quality/tdx_bus_travel_time_review.json",
-        "data/quality/tdx_road_traffic_review.json"
+        "data/quality/tdx_road_traffic_review.json",
+        "data/quality/boundary_evidence_review.json",
+        "data/quality/id_evidence_review.json",
+        "data/quality/taipei_id_evidence_review.json",
+        "data/quality/service_coverage_review.json",
+        "data/quality/regional_service_evidence_review.json",
+        "map-data/quality/walking_evidence_review.json",
+        "map-data/quality/walking_further_evidence_review.json"
       ],
-      "scope": "來源、欄位、期間、筆數及必要加總已由非整理者獨立核對；各資料來源限制保留。"
+      "scope": "非整理者逐筆核對已交付來源、欄位、期間、筆數與必要加總；巡檢通過不取消來源缺口。"
     },
     {
       "validation_id": "population_and_village_boundaries",
-      "status": "partial_requires_source_review",
+      "status": "partial_period_geometry_unverified",
       "evidence": [
         "data/official_cross_city/population_boundary_crosswalk.json",
-        "data/quality/regional_validation_review.json"
+        "data/quality/regional_validation_review.json",
+        "data/quality/boundary_evidence_review.json"
       ],
-      "completed": "2026-09人口1652里全數找到2026-08-17官方里碼；1646名稱相符，6名稱差異與25未編定區塊逐筆保留。",
+      "completed": "2026-09人口1652里全數找到官方里碼；6筆造字／異體字已有官方維護報告逐碼證明。北北基RIS六月至九月代碼、上層與名稱穩定；10月重新下載的現行發布圖資仍與8月17日版本相同。",
       "remaining": [
-        "6筆造字／異體字名稱的正式對照釐清。",
-        "人口月份與里界版本不同；未取得證明兩版本期間幾何完全等價的異動依據。"
-      ]
+        "未取得獨立九月幾何快照或完整法定異動紀錄，不能證明人口月份與里界版本之間幾何完全等價。"
+      ],
+      "subchecks": {
+        "official_code_name_aliases": "passed_6_exact_code_pairs",
+        "current_published_geometry_recheck": "passed_for_2026_08_17_vintage",
+        "same_month_geometry_equivalence": "not_verified"
+      }
     },
     {
       "validation_id": "leapfrog_and_cross_source_ids",
-      "status": "partial_explicit_relations_verified",
+      "status": "partial_explicit_id_and_order_verified",
       "evidence": [
-        "data/quality/id_crosswalk_review.json"
+        "data/quality/id_crosswalk_review.json",
+        "data/quality/id_evidence_review.json",
+        "data/quality/taipei_id_evidence_review.json"
       ],
-      "completed": "1084路線分支×業者對照、70官方跳蛙主線及95附線、1041筆TDX主線橋接。",
+      "completed": "跳蛙65列中62列共用欄位完全相符，3列衝突不連接；10條缺NId主線另以官方票價XML核實行政route/subroute/operator關係，NId仍null。完整新北43270站牌會員及1383站序已核對（194組只差來源明示虛擬站）；臺北43235會員及1241完整有序陣列全符。",
       "remaining": [
-        "65筆跳蛙CSV沒有明示route ID，不能靠名稱猜配。",
-        "10條TDX主線缺有效NId，維持未知。",
-        "站牌／站位的TDX與直接feed ID未完成跨來源對照。"
+        "3筆跳蛙清單時刻／端點衝突未消除；CSV沒有route ID，不把欄位等價提升為明示ID。",
+        "10筆NId缺值仍未知；不能用核實的行政ID補造網站NId。",
+        "兩來源座標差異均保留：新北2個StopID、臺北1335會員；不能當位置可互換或搬站證據。"
       ]
     },
     {
@@ -64,12 +85,13 @@
       "status": "unresolved_source_membership_missing",
       "evidence": [
         "data/official_cross_city/ntpc_unlinked_stops_crosswalk.json",
-        "data/quality/id_crosswalk_review.json"
+        "data/quality/id_crosswalk_review.json",
+        "data/quality/id_evidence_review.json"
       ],
-      "completed": "33314站牌與官方GetStop全欄一致；PathDetail43582列涵蓋33200站牌，114缺列均已列出。",
+      "completed": "114站牌經完整TDX及兩份PathDetail均未見附線會員；官方eBus站位頁確認全部UniStopId及主線關係，當日ETA=-4只表示今日未營運。",
       "remaining": [
-        "114站牌沒有明示附線站序；39暫時裁撤、1施工文字僅為來源標籤線索，74無此類標籤。",
-        "需官方明示PathDetail更新或可核實的站牌服務狀態來源，不補造關聯。"
+        "114站牌仍沒有來源明示的附線站序；附線與未發布原因保持null。",
+        "暫時裁撤／施工等來源名稱及當日ETA均不足以判定永久停駛。"
       ]
     },
     {
@@ -83,28 +105,35 @@
     },
     {
       "validation_id": "keelung_and_intercity_operational_coverage",
-      "status": "not_validated_insufficient_inputs",
+      "status": "published_service_coverage_audited_actual_operation_unverified",
       "evidence": [
         "data/quality/regional_validation_review.json",
+        "data/quality/service_coverage_review.json",
+        "data/quality/regional_service_evidence_review.json",
         "data/quality/remaining_validation_review.json"
       ],
-      "completed": "2026-10-23新北635、基隆116、全國公路客運485路線主檔依官方Count全量驗證。",
+      "completed": "四主管範圍完整StopOfRoute共4651模型、155189原始站牌會員；基隆及全國公路客運Schedule共1899模型。依官方同版里界聯集核對81947站點版本、4815業者關係，以及ServiceDay與SpecialDays發布支持；全國模型保留，不以名稱裁切。",
       "remaining": [
-        "完整營運涵蓋需要可核實站序、上下客限制、班表／服務日曆與實際營運事件。",
-        "全國公路客運未以名稱裁切北北基，485不是北北基路線數。"
+        "基隆與公路客運各2個主檔RouteUID未見發布班表，仍為未知；臺北、新北Schedule尚未取得。",
+        "128個站序業者關係未見相同五維班表（基隆3、公路客運125）；這不是128條路線停駛。",
+        "實際行駛、停駛、改道及驗收日期的營運事件尚未核實；發布班表不能證明實際營運。",
+        "同一模型可跨多市且依業者展開；城市摘要、業者模型及日曆物件不可相加當實際路線或班次。"
       ]
     },
     {
       "validation_id": "bus_segment_travel_times",
-      "status": "partial_bounded_route_selection",
+      "status": "partial_route_coverage_with_explicit_availability",
       "evidence": [
+        "data/tdx_bus_travel_time/route_catalog.json",
+        "data/tdx_bus_travel_time/coverage.json",
         "data/tdx_bus_travel_time/delivery.json",
         "data/quality/tdx_bus_travel_time_review.json"
       ],
-      "completed": "7查詢範圍、41模型、43322時段站間列；855首站缺值保留null，臺北416線目錄有4個RouteUID的實際旅時。",
+      "completed": "87查詢範圍、86成功、1官方明示無資料、0技術失敗；282模型、234613時段列、5923缺RunTime保持null；臺北416個參考RouteUID有83個出現在已保存旅時。",
       "remaining": [
-        "13個代表查詢尚未請求；全臺北可用--all-taipei分批續抓，未宣稱全市覆蓋。",
-        "現行官方站間推估端點無Date/Version參數，不能回填三年歷史版本。"
+        "臺北其餘參考路線仍在分批取得，未宣稱全市或北北基完整旅時覆蓋。",
+        "南港幹線HTTP200明示無資料，完整原文保留；不推論路線停駛。",
+        "當期推估端點沒有歷史Date/Version參數，不能回填三年觀測。"
       ]
     },
     {
@@ -122,14 +151,17 @@
     },
     {
       "validation_id": "legal_walking_transfers",
-      "status": "not_validated_insufficient_inputs",
+      "status": "not_validated_unresolved_crossings_and_connectors",
       "evidence": [
+        "map-data/quality/walking_evidence_review.json",
+        "map-data/quality/walking_further_evidence_review.json",
         "data/quality/remaining_validation_review.json"
       ],
-      "completed": "已逐檔檢視143394個OSM道路线形與官方捷運出入口欄位。",
+      "completed": "士林、關渡、新莊三區已保存原始OSM節點／邊、foot/access/conditional、障礙、方向與樓層；637官方設施圖徵已核對。18端點組合中0條完整合法路徑、1條645.402公尺未驗收候選；五個保守邊旗標及關渡端點另有6筆補證、13個官方來源。",
       "remaining": [
-        "現有圖層缺行人通行權、access/conditional、障礙物、過街與節點拓樸。",
-        "需可驗證步行圖網、出口至正確乘車側站牌的連接與具體端到端路徑驗收；不以直線距離造轉乘邊。"
+        "候選路徑4條邊對應2處實際穿越，仍缺足夠的當期行穿設施／合法通行證據；另一整邊的車道交會已證明在實走片段外。",
+        "關渡出口與70056站位雖有官方位置及地址，尚無可核實的完整站外人行接線。",
+        "18組status均unverified、walking_distance_m均null，0條路徑獲接受；候選距離不能轉為可用轉乘邊或無障礙保證。"
       ]
     }
   ]

@@ -394,7 +394,7 @@ def run(root, run_tests=True):
         tests = {"status": "passed", "tests_run": int(match.group(1)), "skipped": 0,
                  "test_file": "tests/official_cross_city/test_walking_evidence.py"}
     return {"schema_version": 1, "dataset_id": "walking_evidence_independent_review", "metadata": {
-        "reviewed_at": datetime.now().astimezone().isoformat(), "status": "pass_with_source_limitations",
+        "reviewed_at": datetime.now().astimezone().isoformat(), "status": "pass_with_source_limitations", "reviewer_agent": "/root/crosswalk",
         "review_method": "Independent raw parsing, projected geometry, edge membership, permission/crossing checks, Dijkstra node distances and candidate length sums; producer not imported",
         "reviewed_generated_at": {"transfers": transfers["metadata"]["generated_at"], "graphs": graphs["metadata"]["generated_at"], "source_manifest": manifest["metadata"]["generated_at"]},
         "source_record_counts": source_counts, "facility_review": facility_stats, "graph_review": graph_stats,

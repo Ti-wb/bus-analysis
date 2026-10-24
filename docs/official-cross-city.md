@@ -18,6 +18,11 @@
 ID 對照用法見 [ID 對照說明](id-crosswalk.md)；新增站間旅時與道路資料分別見
 [公車站間旅行時間](tdx-bus-travel-time.md)及[道路速率與流量](tdx-road-traffic.md)。
 
+逐項補證見[新北與跳蛙 ID](id-evidence.md)、[臺北 ID 與完整站序](taipei-id-evidence.md)、
+[里名及里界版本](boundary-evidence.md)、[區域站序與服務日曆](regional-service-coverage.md)、
+[北北基地理會員與發布覆蓋](regional-service-evidence.md)、[步行轉乘](walking-evidence.md)及
+[過街與端點補證](walking-further-evidence.md)。
+
 ## 執行
 
 Python 3.12+；以下基礎 collector 使用標準函式庫，地圖對照另需專案 GIS 依賴。
@@ -68,4 +73,6 @@ TDX 模組從專案 `.env` 或環境讀取 `TDX_CLIENT_ID`、`TDX_CLIENT_SECRET`
 班距描述不是完整班表，核定班次不是實際班次，捷運旅次不是公車潛在需求。
 相鄰負載差無法唯一識別上下車或 OD；IPF／人口權重推估不可重標為觀測。
 出口位置、直線距離及缺乏行人通行權／拓樸的 OSM 圖層不能證明合法步行轉乘。
+本次三處示範區已有帶原始節點、通行限制及過街檢查的圖網；18 個端點組合仍未通過完整合法路徑驗收。
+發布站序與班表不等於指定日期的實際行駛；未取得班表、來源無資料及身分差異各自保留為未知。
 路線名稱或區域缺資料不能解讀成沒有服務，不直接據此給出減班或 DRTS 結論。
