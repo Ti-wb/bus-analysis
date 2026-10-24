@@ -13,6 +13,8 @@ on:
       - 'tests/test_age_catchments.py'
       - 'tests/test_web_age_stations.py'
       - 'tests/official_cross_city/test_national_villages.py'
+      - 'tests/official_cross_city/test_village_age_geography_review.py'
+      - 'scripts/review_village_age_geography.py'
       - 'scripts/build_route_scenario.py'
       - 'scripts/build_improvements.py'
       - 'data/urban/public_toilets.geojson'
@@ -34,6 +36,8 @@ on:
       - 'tests/test_age_catchments.py'
       - 'tests/test_web_age_stations.py'
       - 'tests/official_cross_city/test_national_villages.py'
+      - 'tests/official_cross_city/test_village_age_geography_review.py'
+      - 'scripts/review_village_age_geography.py'
       - 'scripts/build_route_scenario.py'
       - 'scripts/build_improvements.py'
       - 'data/urban/public_toilets.geojson'
@@ -72,6 +76,7 @@ jobs:
       - name: Verify village joins and age allocation with GIS dependencies
         run: |
           uv run python -m unittest discover -s tests/official_cross_city -p 'test_national_villages.py' -v
+          uv run python -m unittest discover -s tests/official_cross_city -p 'test_village_age_geography_review.py' -v
           uv run python -m unittest discover -s tests -p 'test_age_catchments.py' -v
           uv run python -m unittest discover -s tests -p 'test_web_age_stations.py' -v
       - name: Generate map layers into web/public/data/
