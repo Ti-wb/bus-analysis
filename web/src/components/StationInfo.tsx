@@ -119,7 +119,7 @@ export default function StationInfo({ station, mapRef, data, placeKeys, onClose 
                 {share < 1 && <p className="station-warning">僅 {Math.round(share * 100)}% 範圍有臺北市資料，其餘未計。</p>}
               </>}
         <h3 className="station-age-title">年齡分布</h3>
-        <div className="station-empty station-age-empty"><p>暫無可用的年齡分布</p><small>現有來源未提供年齡資料</small></div>
+        <div className="station-empty station-age-empty"><p>暫無可用的年齡分布</p><small>尚未提供此站範圍的年齡估算</small></div>
       </section>
 
       <section className="station-facilities">

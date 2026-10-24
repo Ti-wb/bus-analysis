@@ -59,12 +59,15 @@ def write_json(path: Path, value: object) -> None:
 
 
 def fetch(root: Path, name: str, url: str, page_url: str, hosts: set[str],
-          *, offline: bool, max_mb: int = 80) -> tuple[Path, dict]:
+          *, offline: bool, max_mb: int = 80,
+          raw_namespace: str = "official_cross_city") -> tuple[Path, dict]:
     """Fetch a complete file, not an API preview page. No keys or paid services."""
     check_url(url, hosts)
     if Path(name).name != name or not re.fullmatch(r"[A-Za-z0-9_.-]+", name):
         raise ValueError("Raw filename must be a simple local name")
-    raw = root / "raw_data/official_cross_city"
+    if not re.fullmatch(r"[A-Za-z0-9_-]+", raw_namespace):
+        raise ValueError("Raw namespace must be a simple source directory name")
+    raw = root / "raw_data" / raw_namespace
     path, receipt_path = raw / name, raw / (name + ".source.json")
     if offline:
         if not path.is_file() or not receipt_path.is_file():

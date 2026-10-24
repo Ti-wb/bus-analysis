@@ -10,7 +10,7 @@
       "static_data": "採目前官方可取得版本，保留實際版本日期",
       "cross_boundary_services": "保留臺北主管來源的跨市路線與捷運旅次；未以站名猜測行政區裁切"
     },
-    "record_count": 49,
+    "record_count": 50,
     "pending_source_groups": [],
     "preferred_current_bus_data": "data/taipei_feeds/",
     "legacy_stop_map": "data/bus_stops.geojson 是 2021 年舊圖資，現行站牌請用 data/taipei_feeds/stops.geojson",
@@ -784,6 +784,46 @@
         "統計區人口為 2024-12，邊界版本不同；即使 ID 全數相符，仍應在分析結果標示兩者的版本。"
       ],
       "source_delivery": "raw_data/population/delivery.json"
+    },
+    {
+      "dataset_id": "moi_village_population_age_monthly",
+      "group": "moi_village_age",
+      "group_title": "全國村里逐歲戶籍人口",
+      "status": "normalized",
+      "period": "2026-09",
+      "outputs": [
+        {
+          "path": "data/population/moi_village_age_2026-09.json.gz",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/moi_village_age_review.json",
+            "record_count": 23343,
+            "reviewed_generated_at": "2026-10-24T14:45:13+08:00",
+            "source": {
+              "page_url": "https://data.gov.tw/dataset/77132",
+              "requested_url": "https://opdadm.moi.gov.tw/api/v1/no-auth/resource/api/dataset/2C7688CB-B505-4D00-B11C-66C4D31B024F/resource/4B0C00ED-C271-4A3E-A547-3C00EE6BF3E4/download",
+              "effective_url": "https://opdadm.moi.gov.tw/api/v1/no-auth/resource/api/dataset/2C7688CB-B505-4D00-B11C-66C4D31B024F/resource/4B0C00ED-C271-4A3E-A547-3C00EE6BF3E4/download",
+              "downloaded_at": "2026-10-24T14:45:13+08:00",
+              "source_data_time": null,
+              "http_status": 200,
+              "http_last_modified": null,
+              "content_type": "text/csv;charset=UTF-8",
+              "bytes": 4410232,
+              "raw_file": "raw_data/moi_village_age/moi_village_age_2026-09.csv"
+            }
+          },
+          "record_count": 23343
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "戶籍人口不是日間活動人口、實際公車上下車人次、通勤 OD 或真實乘車需求；不得以年齡人口直接替代乘車觀測。",
+        "只驗證來源快照內 22 縣市存在、欄位、唯一鍵與可計算加總，未以獨立全國村里清冊核實村里全量完整性。",
+        "行政代碼保留原字串；district_id 是來源 11 碼代碼之前 8 碼階層提示，不表示已驗證與其他里界或公車資料之 ID 關聯。",
+        "sex=total 與 male/female 為重疊統計，不可三類加總；人口、邊界及公車觀測期間須分別核對。",
+        "缺值保留 null，任一年齡值缺漏之區間加總為 null；100_plus 包含 100 歲以上全部人口。"
+      ],
+      "source_delivery": "raw_data/moi_village_age/delivery.json"
     },
     {
       "dataset_id": "taipei_bus_lanes",
