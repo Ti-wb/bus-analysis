@@ -263,7 +263,7 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
           <p className="route-note">{draft.kind === 'add' ? '單向路線；未設定時段的班次為未知。' : '僅編輯此附線方向，其餘方向維持。'} {BANDS.find((b) => b.id === draft.band)?.label}</p>
         </div>
         <div className="route-section-title"><h3>停靠站序・{draft.original ? `${draft.original.stop_ids.length} → ` : ''}{draft.route.stop_ids.length} 站</h3><button className="link-btn" onClick={() => fitRoute(draft.route)}>顯示全線</button></div>
-        <p className="route-note">點選地圖藍框公車站加入；拖曳清單調整站序。</p>
+        <p className="route-note">點選地圖灰色公車站加入；拖曳清單調整站序。</p>
         <label className="route-stop-search">加入公車站<input type="search" value={stopQuery} placeholder="搜尋站名或站位編號" onChange={(e) => setStopQuery(e.target.value)} /></label>
         {stopQuery && <div className="route-stop-results" aria-label="可加入站點">{stopMatches.map(([id, s]) => <button key={id} onClick={() => { addStop(id); locate(s.at); }}>{s.name}<small>#{id}</small><b>＋</b></button>)}{!stopMatches.length && <p>找不到公車站</p>}</div>}
         <label className="route-insert-label">插入位置<select value={insertAfter} onChange={(e) => setInsertAfter(Number(e.target.value))}><option value={-1}>路線末端</option>{draft.route.stop_ids.map((id, i) => <option key={i} value={i}>第 {i + 1} 站 {data.records.stops[id].name} 之後</option>)}</select></label>
@@ -272,7 +272,7 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
             <span className="route-drag" aria-hidden="true">⠿</span><span className="route-number">{i + 1}</span><button className="route-stop-name" onClick={() => locate(data.records.stops[id].at)}>{data.records.stops[id].name}</button>
             <div className="route-stop-actions"><button disabled={i === 0} aria-label={`上移第 ${i + 1} 站`} onClick={() => moveStop(i, i - 1)}>↑</button><button disabled={i === draft.route.stop_ids.length - 1} aria-label={`下移第 ${i + 1} 站`} onClick={() => moveStop(i, i + 1)}>↓</button><button aria-label={`取消停靠第 ${i + 1} 站`} onClick={() => { changeRoute({ ...draft.route, stop_ids: draft.route.stop_ids.filter((_, k) => k !== i), path: null }); setInsertAfter(-1); }}>×</button></div>
           </li>)}
-          {!draft.route.stop_ids.length && <li className="route-empty">點選地圖上的藍框圓點加入第一站，<br />也可搜尋站名；至少需要 2 個不同站點。</li>}
+          {!draft.route.stop_ids.length && <li className="route-empty">點選地圖上的灰色站點加入第一站，<br />也可搜尋站名；至少需要 2 個不同站點。</li>}
         </ol>
         {!!removed.length && <details className="route-removed"><summary>取消停靠 {removed.length} 站</summary>{removed.map((id, i) => <div key={i}><s>{data.records.stops[id].name}</s><button className="link-btn" onClick={() => addStop(id)}>加回</button></div>)}</details>}
         <div className="route-sidebar-bottom"><Duration draft={draft} data={data} speed={settings.speed} dwell={settings.dwell} />
@@ -284,7 +284,7 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
         <button disabled={editIndex === 0} onClick={() => undoDraft(editIndex - 1)}>復原</button><button disabled={editIndex >= edits.length - 1} onClick={() => undoDraft(editIndex + 1)}>重做</button>
       </div>
       <p className="route-map-hint">{interaction === 'stops'
-        ? <><span className="route-stop-key" aria-hidden="true" />藍框圓點可選取 · 點擊加入第 {insertIndex + 1} 站 · 已選站點顯示編號</>
+        ? <><span className="route-stop-key" aria-hidden="true" />點選灰色站點加入第 {insertIndex + 1} 站 · 已選站顯示藍色編號</>
         : '拖曳控制點調整路徑；＋新增點，方向鍵微調，Delete 移除。'}<br />站序變動會重建連線；圖上路徑不代表可行駛導航。</p>
       {existingServices !== null ? <ExistingServicesPanel data={data} services={existingServices} selectedStopIds={draft.route.stop_ids} band={effectiveBand}
         draft={draft} draftFrequency={f} applied={Object.keys(changes).length > 0} highlightedRouteId={activeServiceRouteId} onHighlight={setHighlightedServiceRouteId} />
