@@ -15,6 +15,21 @@ def model(stops):
 
 
 class RawPairReviewTests(unittest.TestCase):
+    def test_complete_http_200_index_error_stays_technical_without_observations(self):
+        body = {"message": "Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')"}
+        source = {"status": "failed", "availability_status": "technical_failure", "failure_reason": "unusable_response_format_or_contract"}
+        receipt = {"status": "failed", "http_status": 200, "availability_status": "technical_failure",
+                   "complete_unparsed_response_retained": True, "raw_parse_error": "Expected the documented array of travel-time models"}
+        self.assertEqual(REVIEW.audit_failed_response(source, receipt, body), body["message"])
+        self.assertNotIn("output_file", source)
+        with self.subTest("upstream error is not an official absence message"), self.assertRaises(ValueError):
+            REVIEW.audit_failed_response({**source, "availability_status": "published_no_data_message"},
+                                         {**receipt, "availability_status": "published_no_data_message"}, body)
+        with self.subTest("failed endpoint cannot supply observation output"), self.assertRaises(ValueError):
+            REVIEW.audit_failed_response({**source, "output_file": "observations/907.json.gz"}, receipt, body)
+        with self.subTest("incomplete raw body cannot certify failure class"), self.assertRaises(ValueError):
+            REVIEW.audit_failed_response(source, {**receipt, "complete_unparsed_response_retained": False}, body)
+
     def test_missing_start_is_never_filled_from_sequence(self):
         row = {"Sequence": 2, "FromStopID": None, "ToStopID": "02", "RunTime": None}
         self.assertEqual(REVIEW.classify_raw_pair(model(["01", "02"]), row), ("missing_from_stop_id", []))

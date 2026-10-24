@@ -182,6 +182,27 @@ def require_equal(actual, expected, label):
         raise ValueError("Independent raw reconstruction differs: " + label)
 
 
+def audit_failed_response(source, receipt, raw):
+    """Classify the retained error body, without creating observation data."""
+    require_equal(source.get("status"), "failed", "failed source status")
+    require_equal(receipt.get("status"), "failed", "failed receipt status")
+    require_equal(receipt.get("http_status"), 200, "complete HTTP 200 error receipt")
+    message = raw.get("message") if isinstance(raw, dict) else None
+    no_data = isinstance(message, str) and re.fullmatch(r"目前沒有.*公車路線資料", message) is not None
+    if no_data:
+        require_equal(source.get("availability_status"), "published_no_data_message", "official no-data availability class")
+        require_equal(message, source["upstream_response_message"], "official no-data message")
+    else:
+        if not isinstance(message, str) or not receipt.get("complete_unparsed_response_retained") or not receipt.get("raw_parse_error"):
+            raise ValueError("Technical source failure lacks its complete original error response/parse diagnostic")
+        require_equal(source.get("availability_status"), "technical_failure", "upstream error remains a technical failure")
+        require_equal(source.get("failure_reason"), "unusable_response_format_or_contract", "upstream error contract failure")
+    require_equal(receipt.get("availability_status"), source["availability_status"], "failure receipt availability class")
+    if source.get("output_file") is not None:
+        raise ValueError("A failed source must not supply an observation file")
+    return message
+
+
 def compare_rows(actual, expected, label):
     if len(actual) != len(expected):
         raise ValueError(f"{label}: record count {len(actual)} != {len(expected)}")
@@ -236,6 +257,7 @@ def reconstruct(root, documents):
     require_equal(len(bridge), sum(len(row["stops"]) for row in reference_rows), "verified namespace denominator")
     expected = {"reference_models.json.gz": reference_rows}
     models, unmatched, source_counts = [], [], []
+    numeric_rows_by_instance, failure_diagnostics = {}, []
     matched = defaultdict(list)
     instances_by_reference = defaultdict(list)
     row_counts, source_values = Counter(), Counter()
@@ -252,10 +274,10 @@ def reconstruct(root, documents):
         require_equal(receipt["download_url"], source["download_url"], "receipt request lineage")
         raw = read_receipt(root, receipt)
         if source["status"] != "downloaded":
-            message = raw.get("message") if isinstance(raw, dict) else None
-            if source.get("availability_status") != "published_no_data_message" or not isinstance(message, str) or not re.fullmatch(r"目前沒有.*公車路線資料", message):
-                raise ValueError("Unavailable source lacks a complete official no-data message")
-            require_equal(message, source["upstream_response_message"], "official no-data message")
+            message = audit_failed_response(source, receipt, raw)
+            failure_diagnostics.append({"source_id": sid, "availability_status": source["availability_status"],
+                                        "reference_route_uids_from_exact_request_url": [uid for uid, url in urls.items() if url == source["download_url"]],
+                                        "source_receipt": receipt, "upstream_error_message": message})
             source_counts.append({"source_id": sid, "availability_status": source.get("availability_status"), "source_model_count": None, "source_row_count": None,
                                   "reference_route_uids_from_exact_request_url": [uid for uid, url in urls.items() if url == source["download_url"]]})
             continue
@@ -272,6 +294,7 @@ def reconstruct(root, documents):
                               "reference_route_uids_from_exact_request_url": [uid for uid, url in urls.items() if url == source["download_url"]]})
         for model_number, model in enumerate(raw, 1):
             iid = f"{sid}:model:{model_number}"
+            numeric_rows_by_instance[iid] = sum(value_status(row.get("RunTime")) in {"source_positive", "source_zero"} for row in model.get("TravelTimes", []))
             normalized_model = normalize_raw_model(model)
             identity = raw_model_key(model)
             references = reference_by_key.get(identity, [])
@@ -370,18 +393,70 @@ def reconstruct(root, documents):
                "model_service_status_counts": dict(Counter(row["status"] for row in model_services)), "pair_service_status_counts": dict(Counter(row["status"] for row in pair_services)),
                "unmatched_or_origin_placeholder_rows": len(unmatched), "unmatched_rows_are_not_usable_time_costs": True, "source_population": source_counts}
     expected.update({"premium_models.json.gz": models, "unmatched_rows.json.gz": unmatched, "model_service_coverage.json.gz": model_services, "pair_coverage.json.gz": pair_services, "summary.json": [summary]})
-    return expected, summary
+    reference_uids = {row["route_uid"] for row in reference_rows}
+    reference_instances = [model for model in models if model["model_relation_status"] == "matched_explicit_model_key"]
+    returned_uids = {model["route_uid"] for model in models if model["route_uid"] in reference_uids}
+    numeric_uids = {model["route_uid"] for model in models if model["route_uid"] in reference_uids and numeric_rows_by_instance[model["premium_instance_id"]]}
+    usable_pairs = [pair for pair in pair_services if pair["status"] == "matched"]
+    usable_uids = {pair["route_uid"] for pair in usable_pairs}
+    usable_instances = {group["premium_instance_id"] for pair in usable_pairs for group in pair["source_rows_by_premium_instance"] if group["usable_numeric_window_row_numbers"]}
+    empty_reference = [model for model in reference_instances if model["source_row_count"] == 0]
+    nonempty_all_null = [model for model in reference_instances if model["source_row_count"] > 0 and not numeric_rows_by_instance[model["premium_instance_id"]]
+                         and sum(interval["missing_runtime_row_count"] for group in model["service_groups"] for interval in group["intervals_in_source_first_appearance_order"]) == model["source_row_count"]]
+    first_null_only = [model for model in nonempty_all_null if set(model["row_status_counts"]) == {"null_origin_at_current_first_stop"}]
+
+    def identities(selected):
+        return [{key: model[key] for key in ("premium_instance_id", "source_id", "source_model_number", "route_uid", "sub_route_uid", "direction", "source_row_count", "row_status_counts")} for model in selected]
+
+    def describe_uids(selected):
+        names = {row["route_uid"]: row["route_name"] for row in raw_route_catalog["records"]}
+        return [{"route_uid": uid, "route_name": names[uid],
+                 "returned_model_count": sum(model["route_uid"] == uid for model in models),
+                 "source_row_count": sum(model["source_row_count"] for model in models if model["route_uid"] == uid),
+                 "source_numeric_runtime_row_count": sum(numeric_rows_by_instance[model["premium_instance_id"]] for model in models if model["route_uid"] == uid),
+                 "usable_unique_adjacent_pair_service_count": sum(pair["route_uid"] == uid for pair in usable_pairs)} for uid in sorted(selected)]
+
+    for failure in failure_diagnostics:
+        failed_uids = set(failure["reference_route_uids_from_exact_request_url"])
+        affected_models = [row for row in model_services if row["route_uid"] in failed_uids]
+        affected_pairs = [row for row in pair_services if row["route_uid"] in failed_uids]
+        expected_failure_status = "source_published_no_data" if failure["availability_status"] == "published_no_data_message" else "request_technical_failure"
+        if any(row["status"] != expected_failure_status for row in affected_models + affected_pairs):
+            raise ValueError("Failed source was misclassified as unrequested or usable")
+        failure["reference_model_service_row_count"] = len(affected_models)
+        failure["reference_pair_service_row_count"] = len(affected_pairs)
+        failure["propagated_status"] = expected_failure_status
+    diagnostics = {
+        "reference_route_uid_count": len(reference_uids), "returned_model_route_uid_count": len(returned_uids), "returned_model_route_uids": sorted(returned_uids),
+        "source_numeric_runtime_route_uid_count": len(numeric_uids), "source_numeric_runtime_route_uids": sorted(numeric_uids),
+        "usable_unique_adjacent_pair_route_uid_count": len(usable_uids), "usable_unique_adjacent_pair_route_uids": sorted(usable_uids),
+        "usable_unique_adjacent_pair_service_count": len(usable_pairs), "usable_premium_instance_count": len(usable_instances),
+        "returned_models_without_numeric_runtime_uids": describe_uids(returned_uids - numeric_uids),
+        "numeric_runtime_without_usable_unique_adjacent_pair_uids": describe_uids(numeric_uids - usable_uids),
+        "reference_uids_without_returned_models": sorted(reference_uids - returned_uids),
+        "empty_reference_model_count": len(empty_reference), "empty_reference_model_route_uid_count": len({model["route_uid"] for model in empty_reference}),
+        "empty_reference_models": identities(empty_reference), "empty_all_scope_model_count": sum(model["source_row_count"] == 0 for model in models),
+        "nonempty_all_null_runtime_reference_models": identities(nonempty_all_null), "only_current_first_stop_null_reference_models": identities(first_null_only),
+        "failed_source_propagation": failure_diagnostics,
+        "definitions": {"source_numeric_runtime": "Finite nonnegative original RunTime; includes explicit source zero and does not certify IDs or clock windows.",
+                        "usable_unique_adjacent_pair": "Exact reference model key, unique ordered adjacent explicit StopIDs, finite nonnegative original RunTime and valid original increasing HH:mm window. No boarding or actual-operation claim.",
+                        "empty_model": "TravelTimes has zero original rows; never converted into a zero cost.", "nonempty_all_null_runtime": "At least one original row and every RunTime is null; separate from an empty array."}}
+    return expected, summary, diagnostics
 
 
 def review(root=ROOT):
     documents = {name: read_document(root / DIRECTORY / name) for name in NAMES}
     generation = documents["summary.json"]["metadata"]["generated_at"]
-    expected, summary = reconstruct(root, documents)
+    expected, summary, diagnostics = reconstruct(root, documents)
     spec = read_document(root / "raw_data/tdx_bus_travel_time/specifications/travel_time.json")["components"]["schemas"]["TravelTime"]["properties"]
     results = []
     for name, dataset_id in NAMES.items():
         doc, errors = documents[name], []
+        stored = (root / DIRECTORY / name).read_bytes()
+        decoded_bytes = len(gzip.decompress(stored) if name.endswith(".gz") else stored)
         try:
+            if decoded_bytes > 128 * 1024 * 1024:
+                raise ValueError("Decoded dataset exceeds the unchanged 128 MiB catalog input budget")
             require_equal(doc["dataset_id"], dataset_id, "dataset ID")
             require_equal(doc["metadata"]["record_count"], len(doc["records"]), "declared record count")
             if name == "source_inventory.json":
@@ -402,6 +477,7 @@ def review(root=ROOT):
             errors.append(str(error))
         results.append({"output_file": str(DIRECTORY / name), "dataset_id": dataset_id,
                         "status": "fail" if errors else "pass_with_source_limitations", "record_count": len(doc["records"]),
+                        "stored_bytes": len(stored), "decoded_bytes": decoded_bytes,
                         "reviewed_generated_at": generation, "errors": errors})
     if "0: 周末weekend; 1: 平日weekdays" not in spec["ServiceTag"]["description"]:
         raise ValueError("Saved official ServiceTag semantics differ")
@@ -418,6 +494,7 @@ def review(root=ROOT):
         "reference_model_count": summary["reference_models"], "reference_stop_membership_count": summary["reference_stop_memberships"],
         "reference_pair_occurrence_count": summary["reference_adjacent_pair_occurrences"], "row_status_counts": summary["row_status_counts"],
         "model_service_status_counts": summary["model_service_status_counts"], "pair_service_status_counts": summary["pair_service_status_counts"],
+        "route_uid_and_empty_model_diagnostics": diagnostics,
         "limitations": ["Only the explicitly frozen endpoint population was reviewed; later raw acquisition is outside this snapshot.",
             "Matching current adjacent stop IDs proves only the retained original model/period/window estimate; it does not establish full-day service, holiday calendars or real-time operation.",
             "Unmatched, null-origin, outside-reference and unavailable source evidence is retained and supplies no usable station-pair cost; no Sequence/name/StationID substitution is allowed."]}, "records": results}
