@@ -53,3 +53,11 @@ npm --prefix web run build
 - 只有臺北市公共運輸處 feed，新北市專屬路線不在內，市界附近會低估。
 - 這是計畫供給，不是實際發車或載客量；也不代表步行可達性。
 - 捷運沒有班次資料，只呈現路網；捷運站與公車站牌沒有做 ID 對應。
+
+## 部署（GitHub Pages）
+
+`.github/workflows/deploy-web.yml` 在 `main` 的前端程式或來源資料變更時，產生地圖資料、型別檢查並建置，再發布到 GitHub Pages；也可在 Actions 頁面手動執行。相關 PR 只建置不發布，用來提早發現錯誤。
+
+第一次使用前，repo 管理員須在 **Settings → Pages → Build and deployment** 把 Source 設為 **GitHub Actions**。網址為 `https://ti-wb.github.io/bus-analysis/`。
+
+自訂網域：在同一頁填入網域並勾選 Enforce HTTPS；DNS 子網域設 CNAME 指向 `ti-wb.github.io`，根網域設 A 記錄指向 GitHub Pages IP。建置使用相對路徑，換網域不用改程式。
