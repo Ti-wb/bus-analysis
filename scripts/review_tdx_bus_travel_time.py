@@ -42,6 +42,75 @@ def clock(value):
     return hour * 60 + minute
 
 
+def audit_delivery_accounting(manifest, delivery):
+    """Check the latest HTTP batch separately from cumulative retained responses."""
+    batch = manifest["metadata"]["last_batch"]
+    planned_rows = batch["planned_requests"]
+    planned = {r["source_id"]: r for r in planned_rows}
+    check(len(planned) == len(planned_rows), "Duplicate latest-batch planned scope")
+    attempted = batch.get("attempted_source_ids")
+    check(isinstance(attempted, list) and all(isinstance(s, str) and s for s in attempted),
+          "Latest batch requires explicit attempted source IDs")
+    check(len(set(attempted)) == len(attempted), "Duplicate latest-batch attempted scope")
+    check(set(attempted) <= set(planned), "Attempted scope outside latest-batch plan")
+    count = batch.get("new_business_request_count")
+    check(isinstance(count, int) and not isinstance(count, bool) and count == len(attempted),
+          "Latest-batch attempted IDs/request count mismatch")
+    receipts = [r for r in manifest["records"] if r.get("kind") in {"route_reference", "travel_time"}]
+    business_receipts = {r["source_id"]: r for r in receipts}
+    check(len(business_receipts) == len(receipts), "Duplicate cumulative business receipt")
+    check(set(attempted) <= set(business_receipts), "Attempted scope has no retained acquisition result")
+    # Only current planned references enter delivery; old references remain in
+    # the manifest. All retained travel observations stay visible across batches.
+    expected_ids = set(planned) | {r["source_id"] for r in receipts if r["kind"] == "travel_time"}
+    delivery_rows = delivery["records"]
+    delivery_index = {r["source_id"]: r for r in delivery_rows}
+    check(len(delivery_index) == len(delivery_rows) and set(delivery_index) == expected_ids,
+          "Delivery population differs from latest planned/retained travel endpoints")
+    pending, reused = [], 0
+    for source_id, record in delivery_index.items():
+        request = planned.get(source_id) or business_receipts[source_id]
+        for field in ["kind", "city", "route_name", "reference_date", "download_url", "source_page"]:
+            check(record.get(field) == request.get(field), "Delivery planned request field mismatch: " + field)
+        receipt = business_receipts.get(source_id)
+        if receipt is None:
+            check(record["acquisition_status"] == "not_requested_in_this_bounded_stage", "Unrequested delivery marked successful/failed")
+            check(all(record.get(k) is None for k in ["downloaded_at", "raw_file", "http_status"]), "Unrequested scope has fabricated receipt")
+            check(record["reused_existing_response"] is False, "Unrequested scope marked reused")
+            pending.append(source_id)
+        else:
+            check(record["acquisition_status"] == receipt["status"], "Delivery acquisition status differs from manifest")
+            for field in ["downloaded_at", "raw_file", "http_status"]:
+                check(record.get(field) == receipt.get(field), "Delivery source receipt changed: " + field)
+            is_reused = bool(receipt.get("reused_existing_response", False))
+            check(record["reused_existing_response"] is is_reused, "Delivery reuse flag differs")
+            reused += is_reused
+    meta = delivery["metadata"]
+    pending_ids = meta["not_requested_scope_ids"]
+    check(len(pending_ids) == len(set(pending_ids)) and set(pending_ids) == set(pending), "Delivery pending list differs from records")
+    check(meta["not_requested_is_failure"] is False, "Unrequested scopes mislabeled as failures")
+    check(type(meta["new_business_request_count"]) is int and meta["new_business_request_count"] == count,
+          "Delivery/latest-batch request count mismatch")
+    check(meta["reused_response_count"] == reused, "Reused response accounting differs")
+    check(meta.get("acquisition_stop_reason") == batch.get("stop_reason"), "Delivery stop reason differs from batch evidence")
+    expected_stage = "partial_bounded_acquisition" if pending else "completed_bounded_acquisition"
+    check(meta["stage_status"] == expected_stage, "Stage claim differs from pending scope population")
+    successful = batch.get("successful_source_ids")
+    if successful is not None:
+        check(isinstance(successful, list) and all(isinstance(s, str) and s for s in successful)
+              and len(set(successful)) == len(successful) and set(successful) <= set(attempted),
+              "Successful scope IDs differ from latest attempts")
+        check(all(business_receipts[s]["status"] == "downloaded" for s in successful),
+              "Successful latest-batch scope has no successful receipt")
+    return {"planned_endpoint_count": len(planned), "delivery_endpoint_count_including_reuse": len(delivery_index),
+            "new_business_requests_including_route_reference": count,
+            "latest_batch_attempted_source_ids": attempted,
+            "cumulative_retained_travel_response_count": sum(r["kind"] == "travel_time" and r["status"] == "downloaded" for r in receipts),
+            "reused_responses": reused, "not_requested_scopes": len(pending),
+            "not_requested_scopes_are_failures": False, "stage_status": expected_stage,
+            "stop_reason_matches_manifest": True}
+
+
 def audit(root):
     manifest = read(root / "raw_data/tdx_bus_travel_time/manifest.json")
     check(manifest["metadata"].get("license", {}).get("url") == TERMS_URL, "Manifest lacks TDX terms URL")
@@ -168,37 +237,7 @@ def audit(root):
     delivery_meta = delivery["metadata"]
     check(delivery_meta.get("license", {}).get("url") == TERMS_URL, "Delivery lacks TDX terms URL")
     check(TERMS_URL in (root / "docs/tdx-bus-travel-time.md").read_text(encoding="utf-8"), "Usage document lacks TDX terms URL")
-    batch = manifest["metadata"]["last_batch"]
-    planned = {r["source_id"]: r for r in batch["planned_requests"]}
-    business_receipts = {r["source_id"]: r for r in manifest["records"] if r.get("kind") in {"route_reference", "travel_time"}}
-    expected_ids = set(planned) | set(business_receipts)
-    delivery_index = {r["source_id"]: r for r in delivery["records"]}
-    check(len(delivery_index) == len(delivery["records"]) and set(delivery_index) == expected_ids, "Delivery population differs from planned/reused endpoints")
-    pending, newly_downloaded, reused = [], 0, 0
-    for source_id, record in delivery_index.items():
-        request = planned.get(source_id) or business_receipts[source_id]
-        for field in ["kind", "city", "route_name", "reference_date", "download_url", "source_page"]:
-            check(record.get(field) == request.get(field), "Delivery planned request field mismatch: " + field)
-        receipt = business_receipts.get(source_id)
-        if receipt is None:
-            check(record["acquisition_status"] == "not_requested_in_this_bounded_stage", "Unrequested delivery marked successful/failed")
-            check(all(record.get(k) is None for k in ["downloaded_at", "raw_file", "http_status"]), "Unrequested scope has fabricated receipt")
-            check(record["reused_existing_response"] is False, "Unrequested scope marked reused")
-            pending.append(source_id)
-        else:
-            check(record["acquisition_status"] == receipt["status"], "Delivery acquisition status differs from manifest")
-            for field in ["downloaded_at", "raw_file", "http_status"]:
-                check(record.get(field) == receipt.get(field), "Delivery source receipt changed: " + field)
-            is_reused = bool(receipt.get("reused_existing_response", False))
-            check(record["reused_existing_response"] is is_reused, "Delivery reuse flag differs")
-            reused += is_reused
-            newly_downloaded += receipt["status"] == "downloaded" and not is_reused
-    check(set(delivery_meta["not_requested_scope_ids"]) == set(pending), "Delivery pending list differs from records")
-    check(delivery_meta["not_requested_is_failure"] is False, "Unrequested scopes mislabeled as failures")
-    check(delivery_meta["new_business_request_count"] == batch["new_business_request_count"] == newly_downloaded, "New business request accounting differs")
-    check(delivery_meta["reused_response_count"] == reused, "Reused response accounting differs")
-    check(delivery_meta["acquisition_stop_reason"] == batch["stop_reason"], "Delivery stop reason differs from batch evidence")
-    check(delivery_meta["stage_status"] == "partial_bounded_acquisition" and pending, "Partial stage claim differs from acquisition population")
+    delivery_accounting = audit_delivery_accounting(manifest, delivery)
     return {"schema_version": 1, "dataset_id": "independent_tdx_bus_travel_time_review", "metadata": {
         "reviewer_agent": "/root/crosswalk", "reviewed_at": datetime.now(ZoneInfo("Asia/Taipei")).isoformat(timespec="seconds"),
         "independent_review_status": "pass_with_limitations", "producer_module_imported": False,
@@ -207,12 +246,8 @@ def audit(root):
         "review_population": {"successful_endpoint_responses": success, "models": total_groups, "station_time_rows": total_rows,
                               "missing_run_time_rows": total_missing, "taipei_route_reference_rows": len(reference_rows),
                               "taipei_route_uids_with_retained_travel_time": cmeta["taipei_route_uids_retained"]},
-        "terms_url_checked": TERMS_URL, "terms_scope": "all seven observations, catalog, coverage, delivery, manifest and usage document",
-        "delivery_accounting": {"planned_endpoint_count": len(planned), "delivery_endpoint_count_including_reuse": len(delivery_index),
-                                "new_business_requests_including_route_reference": newly_downloaded,
-                                "reused_responses": reused, "not_requested_scopes": len(pending),
-                                "not_requested_scopes_are_failures": False,
-                                "stop_reason_matches_manifest": True},
+        "terms_url_checked": TERMS_URL, "terms_scope": "all retained observations, catalog, coverage, delivery, manifest and usage document",
+        "delivery_accounting": delivery_accounting,
         "limitations": ["只巡檢已成功保存的回應；有限選線不代表臺北、雙北或北北基公路客運完整服務涵蓋。",
                         "官方端點是使用近三個月來源資料推估的當期模型，無歷史日期／版本參數；不是近三年觀測或當日實際耗時。",
                         "原始來源時間沒有UTC offset者保持原字串，不推定為臺北時區。",

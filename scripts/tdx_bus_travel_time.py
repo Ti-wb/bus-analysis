@@ -325,18 +325,21 @@ def fetch_requests(store, requests, args):
         delay = args.min_request_interval - (time.monotonic() - last_at)
         if delay > 0:
             time.sleep(delay)
-        last_at = time.monotonic()
-        requests_used += 1
-        batch = store.manifest['metadata'].get('last_batch')
-        if batch is not None:
-            batch['new_business_request_count'] = requests_used
-            batch['last_request_started_at'] = now()
-            store.save()
         path = store.raw / 'responses' / (request['source_id'] + '.json')
         path.parent.mkdir(parents=True, exist_ok=True)
         part = path.with_suffix('.part')
         try:
             req = Request(request['download_url'], headers={'Authorization': 'Bearer ' + auth, 'Accept-Encoding': 'identity'})
+            last_at = time.monotonic()
+            requests_used += 1
+            batch = store.manifest['metadata'].get('last_batch')
+            if batch is not None:
+                # Batch accounting covers actual HTTP attempts, independently
+                # of successful receipts retained from earlier invocations.
+                batch.setdefault('attempted_source_ids', []).append(request['source_id'])
+                batch['new_business_request_count'] = len(batch['attempted_source_ids'])
+                batch['last_request_started_at'] = now()
+                store.save()
             with urlopen(req, timeout=120) as response:
                 if response.status != 200:
                     raise ValueError('Unexpected HTTP status ' + str(response.status))
@@ -368,6 +371,8 @@ def fetch_requests(store, requests, args):
                 if not rows or wrapper.get('Count') != len(rows):
                     raise ValueError('route_reference_count_mismatch')
             part.replace(path)
+            if batch is not None:
+                batch.setdefault('successful_source_ids', []).append(request['source_id'])
             store.upsert(source)
             print(request['source_id'] + ': saved ' + str(size) + ' bytes', flush=True)
         except HTTPError as exc:
@@ -454,7 +459,8 @@ def main(argv=None):
     store.import_existing()
     if args.fetch:
         store.manifest['metadata']['last_batch'] = {'started_at': now(), 'planned_requests': requests,
-            'status': 'started', 'stop_reason': None}
+            'status': 'started', 'stop_reason': None, 'attempted_source_ids': [],
+            'successful_source_ids': [], 'new_business_request_count': 0}
         store.save()
         try:
             stats = fetch_requests(store, requests, args)

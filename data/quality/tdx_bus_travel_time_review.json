@@ -3,7 +3,7 @@
   "dataset_id": "independent_tdx_bus_travel_time_review",
   "metadata": {
     "reviewer_agent": "/root/crosswalk",
-    "reviewed_at": "2026-10-24T11:01:07+08:00",
+    "reviewed_at": "2026-10-24T11:06:04+08:00",
     "independent_review_status": "pass_with_limitations",
     "producer_module_imported": false,
     "method": "Independent raw JSON parsing and explicit official-schema field mapping; every retained model and station/service/time row compared without calling producer normalize.",
@@ -18,14 +18,25 @@
       "taipei_route_uids_with_retained_travel_time": 4
     },
     "terms_url_checked": "https://tdx.transportdata.tw/term",
-    "terms_scope": "all seven observations, catalog, coverage, delivery, manifest and usage document",
+    "terms_scope": "all retained observations, catalog, coverage, delivery, manifest and usage document",
     "delivery_accounting": {
       "planned_endpoint_count": 20,
       "delivery_endpoint_count_including_reuse": 21,
       "new_business_requests_including_route_reference": 7,
+      "latest_batch_attempted_source_ids": [
+        "Taipei_routes_2026-10-23",
+        "NewTaipei_918",
+        "Keelung_101",
+        "InterCity_1815",
+        "Taipei_306",
+        "Taipei_307%E8%A5%BF%E8%97%8F%E4%B8%89%E6%B0%91",
+        "Taipei_%E5%8D%97%E4%BA%AC%E5%B9%B9%E7%B7%9A"
+      ],
+      "cumulative_retained_travel_response_count": 7,
       "reused_responses": 1,
       "not_requested_scopes": 13,
       "not_requested_scopes_are_failures": false,
+      "stage_status": "partial_bounded_acquisition",
       "stop_reason_matches_manifest": true
     },
     "limitations": [

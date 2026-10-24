@@ -186,6 +186,74 @@ class TravelTimeTests(unittest.TestCase):
         self.assertNotIn('synthetic-private', store.path.read_text())
         self.assertFalse((store.raw / 'responses' / (self.request['source_id'] + '.part')).exists())
 
+    def test_resumed_batch_records_only_new_http_attempt_not_cached_receipt(self):
+        store = bus.Store(self.root)
+        cached = bus.travel_request(spec(), 'Taipei', '先前已取得')
+        store.upsert({**cached, 'status': 'downloaded', 'downloaded_at': '2026-10-21T10:00:00+08:00'})
+        store.manifest['metadata']['last_batch'] = {'planned_requests': [cached, self.request],
+            'attempted_source_ids': [], 'successful_source_ids': [], 'new_business_request_count': 0}
+        store.save()
+        response = io.BytesIO(json.dumps([model()]).encode())
+        response.status = 200
+        response.headers = {'Content-Type': 'application/json'}
+        args = SimpleNamespace(max_requests=1, max_response_mb=8, max_total_mb=20,
+                               min_request_interval=13, refresh=False)
+
+        def transport(request, **kwargs):
+            saved = bus.Store(self.root).manifest['metadata']['last_batch']
+            self.assertEqual(saved['attempted_source_ids'], [self.request['source_id']])
+            self.assertEqual(saved['new_business_request_count'], 1)
+            self.assertEqual(saved['successful_source_ids'], [])
+            return response
+
+        with patch.object(bus, 'token', return_value='synthetic-token'), patch.object(bus, 'urlopen', side_effect=transport) as opener, redirect_stdout(io.StringIO()):
+            result = bus.fetch_requests(store, [cached, self.request], args)
+        self.assertEqual(opener.call_count, 1)
+        self.assertEqual(result['requests_used'], 1)
+        saved = bus.Store(self.root).manifest
+        self.assertEqual(saved['metadata']['last_batch']['attempted_source_ids'], [self.request['source_id']])
+        self.assertEqual(saved['metadata']['last_batch']['successful_source_ids'], [self.request['source_id']])
+        self.assertEqual(len([r for r in saved['records'] if r['status'] == 'downloaded']), 2)
+
+    def test_cached_main_rerun_initializes_zero_request_batch(self):
+        store = bus.Store(self.root)
+        bus.write(store.raw / 'specifications/travel_time.json', spec())
+        reference = bus.route_request('2026-10-23')
+        for request in [reference, self.request]:
+            store.upsert({**request, 'status': 'downloaded', 'downloaded_at': '2026-10-21T10:00:00+08:00'})
+        store.manifest['metadata']['last_batch'] = {'planned_requests': [reference, self.request],
+            'attempted_source_ids': ['previous-request'], 'successful_source_ids': ['previous-request'],
+            'new_business_request_count': 1}
+        store.save()
+        response = io.BytesIO(json.dumps(spec()).encode())
+        response.status = 200
+        response.headers = {'Content-Type': 'application/json'}
+        with patch.object(bus, 'token', return_value='synthetic-token'), patch.object(bus, 'urlopen', return_value=response) as opener, patch.object(bus.Store, 'rebuild', return_value=[]), redirect_stdout(io.StringIO()):
+            bus.main(['--root', str(self.root), '--fetch', '--route', 'Taipei:測試線', '--as-of', '2026-10-24'])
+        # The public specification request is separate from business requests.
+        self.assertEqual(opener.call_count, 1)
+        saved = bus.Store(self.root).manifest
+        batch = saved['metadata']['last_batch']
+        self.assertEqual(batch['attempted_source_ids'], [])
+        self.assertEqual(batch['successful_source_ids'], [])
+        self.assertEqual(batch['new_business_request_count'], 0)
+        self.assertEqual(batch['status'], 'bounded_batch_finished')
+        self.assertEqual({r['source_id'] for r in batch['planned_requests']}, {reference['source_id'], self.request['source_id']})
+
+    def test_failed_http_attempt_is_counted_without_successful_id(self):
+        store = bus.Store(self.root)
+        store.manifest['metadata']['last_batch'] = {'planned_requests': [self.request],
+            'attempted_source_ids': [], 'successful_source_ids': [], 'new_business_request_count': 0}
+        args = SimpleNamespace(max_requests=1, max_response_mb=8, max_total_mb=20,
+                               min_request_interval=13, refresh=False)
+        error = HTTPError(self.request['download_url'], 429, 'Too many requests', {'Retry-After': '47'}, None)
+        with patch.object(bus, 'token', return_value='synthetic-token'), patch.object(bus, 'urlopen', side_effect=error), redirect_stdout(io.StringIO()), self.assertRaises(RuntimeError):
+            bus.fetch_requests(store, [self.request], args)
+        batch = bus.Store(self.root).manifest['metadata']['last_batch']
+        self.assertEqual(batch['attempted_source_ids'], [self.request['source_id']])
+        self.assertEqual(batch['successful_source_ids'], [])
+        self.assertEqual(batch['new_business_request_count'], 1)
+
 
 if __name__ == '__main__':
     unittest.main()
