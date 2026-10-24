@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "dataset_id": "taipei_travel_time_coverage_independent_review",
+  "metadata": {
+    "reviewed_at": "2026-10-24T12:07:00+08:00",
+    "reviewer_agent": "/root/crosswalk",
+    "producer_imported": false,
+    "network_requests": 0,
+    "source_inventory": "data/official_cross_city/travel_time_coverage/source_inventory.json",
+    "reviewed_generated_at": "2026-10-24T12:06:20+08:00",
+    "status": "pass_with_source_limitations",
+    "method": "Decode frozen raw receipts with byte checks; independently map all premium fields and reconstruct current basic raw array adjacency, model/tag/period/window accounting, row identities and totals. No producer imports or Sequence alignment.",
+    "source_scope_count": 87,
+    "premium_model_count": 282,
+    "premium_row_count": 234613,
+    "reference_model_count": 1241,
+    "reference_stop_membership_count": 43235,
+    "reference_pair_occurrence_count": 41994,
+    "row_status_counts": {
+      "null_origin_at_current_first_stop": 5180,
+      "matched_unique_adjacent_pair": 199230,
+      "outside_reference_route_uid": 22184,
+      "null_origin_at_current_nonfirst_stop": 135,
+      "same_model_stop_ids_not_adjacent": 5270,
+      "stop_id_absent_from_current_snapshot": 2337,
+      "stop_ids_known_only_in_other_models": 162,
+      "null_origin_stop_absent_from_current_model": 115
+    },
+    "model_service_status_counts": {
+      "unrequested": 1976,
+      "published_windows": 357,
+      "service_tag_not_observed_in_published_model": 149
+    },
+    "pair_service_status_counts": {
+      "unrequested": 66580,
+      "pair_not_observed_in_published_windows": 639,
+      "matched": 12432,
+      "service_tag_not_observed_in_published_model": 4337
+    },
+    "limitations": [
+      "Only the explicitly frozen endpoint population was reviewed; later raw acquisition is outside this snapshot.",
+      "Matching current adjacent stop IDs proves only the retained original model/period/window estimate; it does not establish full-day service, holiday calendars or real-time operation.",
+      "Unmatched, null-origin, outside-reference and unavailable source evidence is retained and supplies no usable station-pair cost; no Sequence/name/StationID substitution is allowed."
+    ]
+  },
+  "records": [
+    {
+      "output_file": "data/official_cross_city/travel_time_coverage/source_inventory.json",
+      "dataset_id": "taipei_travel_time_source_inventory",
+      "status": "pass_with_source_limitations",
+      "record_count": 87,
+      "reviewed_generated_at": "2026-10-24T12:06:20+08:00",
+      "errors": []
+    },
+    {
+      "output_file": "data/official_cross_city/travel_time_coverage/reference_models.json.gz",
+      "dataset_id": "taipei_travel_time_reference_models",
+      "status": "pass_with_source_limitations",
+      "record_count": 1241,
+      "reviewed_generated_at": "2026-10-24T12:06:20+08:00",
+      "errors": []
+    },
+    {
+      "output_file": "data/official_cross_city/travel_time_coverage/premium_models.json.gz",
+      "dataset_id": "taipei_travel_time_premium_model_accounting",
+      "status": "pass_with_source_limitations",
+      "record_count": 282,
+      "reviewed_generated_at": "2026-10-24T12:06:20+08:00",
+      "errors": []
+    },
+    {
+      "output_file": "data/official_cross_city/travel_time_coverage/model_service_coverage.json.gz",
+      "dataset_id": "taipei_travel_time_model_service_coverage",
+      "status": "pass_with_source_limitations",
+      "record_count": 2482,
+      "reviewed_generated_at": "2026-10-24T12:06:20+08:00",
+      "errors": []
+    },
+    {
+      "output_file": "data/official_cross_city/travel_time_coverage/pair_coverage.json.gz",
+      "dataset_id": "taipei_travel_time_pair_service_coverage",
+      "status": "pass_with_source_limitations",
+      "record_count": 83988,
+      "reviewed_generated_at": "2026-10-24T12:06:20+08:00",
+      "errors": []
+    },
+    {
+      "output_file": "data/official_cross_city/travel_time_coverage/unmatched_rows.json.gz",
+      "dataset_id": "taipei_travel_time_unmatched_rows",
+      "status": "pass_with_source_limitations",
+      "record_count": 35383,
+      "reviewed_generated_at": "2026-10-24T12:06:20+08:00",
+      "errors": []
+    },
+    {
+      "output_file": "data/official_cross_city/travel_time_coverage/summary.json",
+      "dataset_id": "taipei_travel_time_coverage_summary",
+      "status": "pass_with_source_limitations",
+      "record_count": 1,
+      "reviewed_generated_at": "2026-10-24T12:06:20+08:00",
+      "errors": []
+    }
+  ]
+}

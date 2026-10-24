@@ -1,0 +1,959 @@
+{
+  "schema_version": "1.0",
+  "dataset_id": "taipei_travel_time_coverage_summary",
+  "metadata": {
+    "generated_at": "2026-10-24T12:06:20+08:00",
+    "source_updated_at": null,
+    "statistical_period": null,
+    "scope": "All retained premium response models accounted; coverage denominator is the full Taipei StopOfRoute reference.",
+    "source_inventory": "data/official_cross_city/travel_time_coverage/source_inventory.json",
+    "reference_file": "data/official_cross_city/service_coverage/Taipei_StopOfRoute.json.gz",
+    "reference_sources": [
+      {
+        "source_id": "Taipei_StopOfRoute_skip_0_top_500",
+        "scope": "Taipei",
+        "service": "StopOfRoute",
+        "path": "/v2/Bus/StopOfRoute/City/Taipei",
+        "skip": 0,
+        "top": 500,
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/basic/2998e851-81d0-40f5-b26d-77e2f5ac4118",
+        "download_url": "https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/City/Taipei?%24format=JSON&%24top=500&%24skip=0&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+        "status": "downloaded",
+        "downloaded_at": "2026-10-24T11:38:01+08:00",
+        "source_updated_at": null,
+        "http_status": 200,
+        "usage_headers": {
+          "x-ratelimit-remaining-minute": "4",
+          "x-ratelimit-limit-minute": "5"
+        },
+        "content_type": "application/json; charset=utf-8",
+        "raw_file": "raw_data/official_cross_city/service_coverage/responses/Taipei_StopOfRoute_skip_0_top_500.json.gz",
+        "storage_encoding": "gzip",
+        "bytes": 5551985,
+        "stored_bytes": 546616,
+        "record_count": 500
+      },
+      {
+        "source_id": "Taipei_StopOfRoute_skip_500_top_500",
+        "scope": "Taipei",
+        "service": "StopOfRoute",
+        "path": "/v2/Bus/StopOfRoute/City/Taipei",
+        "skip": 500,
+        "top": 500,
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/basic/2998e851-81d0-40f5-b26d-77e2f5ac4118",
+        "download_url": "https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/City/Taipei?%24format=JSON&%24top=500&%24skip=500&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+        "status": "downloaded",
+        "downloaded_at": "2026-10-24T11:38:16+08:00",
+        "source_updated_at": null,
+        "http_status": 200,
+        "usage_headers": {
+          "x-ratelimit-limit-minute": "5",
+          "x-ratelimit-remaining-minute": "3"
+        },
+        "content_type": "application/json; charset=utf-8",
+        "raw_file": "raw_data/official_cross_city/service_coverage/responses/Taipei_StopOfRoute_skip_500_top_500.json.gz",
+        "storage_encoding": "gzip",
+        "bytes": 5401018,
+        "stored_bytes": 545381,
+        "record_count": 500
+      },
+      {
+        "source_id": "Taipei_StopOfRoute_skip_1000_top_500",
+        "scope": "Taipei",
+        "service": "StopOfRoute",
+        "path": "/v2/Bus/StopOfRoute/City/Taipei",
+        "skip": 1000,
+        "top": 500,
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/basic/2998e851-81d0-40f5-b26d-77e2f5ac4118",
+        "download_url": "https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/City/Taipei?%24format=JSON&%24top=500&%24skip=1000&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+        "status": "downloaded",
+        "downloaded_at": "2026-10-24T11:38:31+08:00",
+        "source_updated_at": null,
+        "http_status": 200,
+        "usage_headers": {
+          "x-ratelimit-limit-minute": "5",
+          "x-ratelimit-remaining-minute": "2"
+        },
+        "content_type": "application/json; charset=utf-8",
+        "raw_file": "raw_data/official_cross_city/service_coverage/responses/Taipei_StopOfRoute_skip_1000_top_500.json.gz",
+        "storage_encoding": "gzip",
+        "bytes": 1856674,
+        "stored_bytes": 221766,
+        "record_count": 241
+      }
+    ],
+    "route_catalog": "data/tdx_bus_travel_time/route_catalog.json",
+    "premium_specification": "raw_data/tdx_bus_travel_time/specifications/travel_time.json",
+    "premium_specification_url": "https://tdx.transportdata.tw/webapi/File/Swagger/V3/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+    "field_semantics": {
+      "Sequence": "站間序號",
+      "FromStopID": "起站站牌代碼",
+      "ToStopID": "迄站站牌代碼",
+      "ServiceTag": "服務日標籤(0: 周末weekend; 1: 平日weekdays)",
+      "StartTime": "開始時間(HH:mm 制)",
+      "EndTime": "結束時間(HH:mm 制)",
+      "RunTime": "站間預估行駛時間(秒)"
+    },
+    "identity_key": [
+      "route_uid",
+      "sub_route_uid",
+      "direction"
+    ],
+    "namespace_evidence": {
+      "file": "data/official_cross_city/taipei_id_evidence/memberships.json.gz",
+      "independent_review": "data/quality/taipei_id_evidence_review.json",
+      "verified_reference_memberships": 43235
+    },
+    "pair_policy": "Only exact ordered adjacent StopID pairs in source array order; repeated pairs are ambiguous. Sequence is retained but never used to infer alignment or an offset.",
+    "pair_evidence_resolution": "For each pair source_rows_by_premium_instance group, premium_instance_id resolves through premium_models.json.gz to source_id and source_model_number (one-based). source_inventory.json resolves source_id to output_file; records[source_model_number-1].travel_times[source_row_number-1] retains original interval/RunTime/Sequence. usable_numeric_window_row_numbers is an ordered subset, never a reindexed or inferred row.",
+    "service_tag_dictionary": {
+      "0": "weekend",
+      "1": "weekdays"
+    },
+    "units": {
+      "run_time": "seconds",
+      "start_time": "source civil clock HH:mm",
+      "end_time": "source civil clock HH:mm including 24:00"
+    },
+    "license": {
+      "name": "TDX資料使用條款",
+      "url": "https://tdx.transportdata.tw/term"
+    },
+    "independent_review_status": "pending_separate_agent",
+    "independent_review_report": "data/quality/travel_time_coverage_review.json",
+    "requires_source_review": true,
+    "limitations": [
+      "版本不同可造成同一模型部分站對不相鄰或ID缺列；不以Sequence偏移、名稱或StationID補配。",
+      "ServiceTag 0為周末，1為平日；不是完整法定假日日曆。有效期與來源UpdateTime原樣分開保留。",
+      "匹配只證明所列原時段有發布估值，不是全日、三年歷史或實際當日旅行時間。",
+      "首站null起站列不構成站對；null RunTime不是0，來源明示0另列。",
+      "未取用、來源明示無資料、模型/服務日/站對未發布及ID不支援分開，均不能解讀停駛。",
+      "保留原始站序、迴圈及上下客碼；有行駛時間不等於端點可上下客。premium未提供業者，不按業者複製或加總模型。",
+      "各來源模型及有效期獨立，不選最新值或合併為單一完整班次；相同站對多次出現不按Sequence任配。"
+    ],
+    "record_count": 1,
+    "grain": "one frozen retained source population and full reference denominator"
+  },
+  "records": [
+    {
+      "attempted_source_count": 87,
+      "source_models": 282,
+      "source_rows": 234613,
+      "reference_route_uid_count": 416,
+      "reference_models": 1241,
+      "reference_stop_memberships": 43235,
+      "reference_adjacent_pair_occurrences": 41994,
+      "row_status_counts": {
+        "null_origin_at_current_first_stop": 5180,
+        "matched_unique_adjacent_pair": 199230,
+        "outside_reference_route_uid": 22184,
+        "null_origin_at_current_nonfirst_stop": 135,
+        "same_model_stop_ids_not_adjacent": 5270,
+        "stop_id_absent_from_current_snapshot": 2337,
+        "stop_ids_known_only_in_other_models": 162,
+        "null_origin_stop_absent_from_current_model": 115
+      },
+      "premium_model_relation_counts": {
+        "matched_explicit_model_key": 253,
+        "outside_reference_route_uid": 29
+      },
+      "source_value_counts": {
+        "null_origin_rows": 5923,
+        "literal_zero_origin_rows": 0,
+        "null_runtime_rows": 5923,
+        "source_zero_runtime_rows": 0,
+        "source_sequence_zero_rows": 0
+      },
+      "model_service_status_counts": {
+        "unrequested": 1976,
+        "published_windows": 357,
+        "service_tag_not_observed_in_published_model": 149
+      },
+      "pair_service_status_counts": {
+        "unrequested": 66580,
+        "pair_not_observed_in_published_windows": 639,
+        "matched": 12432,
+        "service_tag_not_observed_in_published_model": 4337
+      },
+      "unmatched_or_origin_placeholder_rows": 35383,
+      "unmatched_rows_are_not_usable_time_costs": true,
+      "source_population": [
+        {
+          "source_id": "Taipei_307",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 5500,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE16111"
+          ]
+        },
+        {
+          "source_id": "NewTaipei_918",
+          "availability_status": "models_returned",
+          "source_model_count": 12,
+          "source_row_count": 6810,
+          "reference_route_uids_from_exact_request_url": []
+        },
+        {
+          "source_id": "Keelung_101",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 2488,
+          "reference_route_uids_from_exact_request_url": []
+        },
+        {
+          "source_id": "InterCity_1815",
+          "availability_status": "models_returned",
+          "source_model_count": 15,
+          "source_row_count": 12886,
+          "reference_route_uids_from_exact_request_url": []
+        },
+        {
+          "source_id": "Taipei_306",
+          "availability_status": "models_returned",
+          "source_model_count": 4,
+          "source_row_count": 7036,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE10473"
+          ]
+        },
+        {
+          "source_id": "Taipei_307%E8%A5%BF%E8%97%8F%E4%B8%89%E6%B0%91",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 4788,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE19108"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E5%8D%97%E4%BA%AC%E5%B9%B9%E7%B7%9A",
+          "availability_status": "models_returned",
+          "source_model_count": 4,
+          "source_row_count": 3814,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE10251"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E4%BF%A1%E7%BE%A9%E5%B9%B9%E7%B7%9A",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 2404,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE15708"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E5%9F%BA%E9%9A%86%E8%B7%AF%E5%B9%B9%E7%B7%9A",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 3440,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE10334"
+          ]
+        },
+        {
+          "source_id": "Taipei_670",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 2920,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE10771"
+          ]
+        },
+        {
+          "source_id": "Taipei_63",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 2614,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE10847"
+          ]
+        },
+        {
+          "source_id": "Taipei_276",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 2998,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE11851"
+          ]
+        },
+        {
+          "source_id": "Taipei_303",
+          "availability_status": "models_returned",
+          "source_model_count": 14,
+          "source_row_count": 1558,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE10272"
+          ]
+        },
+        {
+          "source_id": "Taipei_915",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 1754,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE10754"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E5%85%A7%E6%B9%96%E5%B9%B9%E7%B7%9A",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 4410,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE10851"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E6%B0%91%E7%94%9F%E5%B9%B9%E7%B7%9A",
+          "availability_status": "models_returned",
+          "source_model_count": 4,
+          "source_row_count": 2622,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE10293"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E5%8D%97%E6%B8%AF%E5%B9%B9%E7%B7%9A",
+          "availability_status": "published_no_data_message",
+          "source_model_count": null,
+          "source_row_count": null,
+          "reference_route_uids_from_exact_request_url": []
+        },
+        {
+          "source_id": "Taipei_%E9%80%9A%E5%8B%A429",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 10,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE19539"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E5%8D%97%E8%BB%9F%E9%80%9A%E5%8B%A4%E5%B0%88%E8%BB%8A%E4%B8%AD%E5%92%8C%E7%B7%9A",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 145,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE15694"
+          ]
+        },
+        {
+          "source_id": "Taipei_232",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 3198,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE10416"
+          ]
+        },
+        {
+          "source_id": "Taipei_22",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 1938,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE10832"
+          ]
+        },
+        {
+          "source_id": "Taipei_28",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 2494,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE15141"
+          ]
+        },
+        {
+          "source_id": "Taipei_278%E5%8D%80",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 1162,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE16439"
+          ]
+        },
+        {
+          "source_id": "Taipei_660%E5%8D%80",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 2520,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE17825"
+          ]
+        },
+        {
+          "source_id": "Taipei_2",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 3360,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE10262"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E6%A3%9510",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 1543,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE11031"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E5%B0%8F1%E5%8D%80",
+          "availability_status": "models_returned",
+          "source_model_count": 4,
+          "source_row_count": 2871,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE11062"
+          ]
+        },
+        {
+          "source_id": "Taipei_660",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 4910,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE15191"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E7%B4%8519",
+          "availability_status": "models_returned",
+          "source_model_count": 4,
+          "source_row_count": 840,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE15341"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E9%80%9A%E5%8B%A430",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 0,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE19759"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E5%85%A7%E7%A7%91%E9%80%9A%E5%8B%A4%E5%B0%88%E8%BB%8A22",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 108,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE10253"
+          ]
+        },
+        {
+          "source_id": "Taipei_302",
+          "availability_status": "models_returned",
+          "source_model_count": 4,
+          "source_row_count": 4995,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE11125"
+          ]
+        },
+        {
+          "source_id": "Taipei_270%E5%8D%80",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 469,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE11842"
+          ]
+        },
+        {
+          "source_id": "Taipei_240%E7%9B%B4",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 110,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE15355"
+          ]
+        },
+        {
+          "source_id": "Taipei_605%E5%BF%AB",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 644,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE15516"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E5%85%A7%E7%A7%91%E9%80%9A%E5%8B%A4%E5%B0%88%E8%BB%8A12",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 134,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE15678"
+          ]
+        },
+        {
+          "source_id": "Taipei_679",
+          "availability_status": "models_returned",
+          "source_model_count": 4,
+          "source_row_count": 6542,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE16127"
+          ]
+        },
+        {
+          "source_id": "Taipei_536%E5%8D%80",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 2700,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE19720"
+          ]
+        },
+        {
+          "source_id": "Taipei_303%E5%8D%80",
+          "availability_status": "models_returned",
+          "source_model_count": 13,
+          "source_row_count": 5389,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE10273"
+          ]
+        },
+        {
+          "source_id": "Taipei_508%E5%8D%80",
+          "availability_status": "models_returned",
+          "source_model_count": 7,
+          "source_row_count": 11304,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE10442"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E5%B0%8F3",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 1885,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE11058"
+          ]
+        },
+        {
+          "source_id": "Taipei_49",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 2484,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE11831"
+          ]
+        },
+        {
+          "source_id": "Taipei_214",
+          "availability_status": "models_returned",
+          "source_model_count": 4,
+          "source_row_count": 5143,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE15561"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E7%B4%8550",
+          "availability_status": "models_returned",
+          "source_model_count": 4,
+          "source_row_count": 1496,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE16166"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E9%80%9A%E5%8B%A422",
+          "availability_status": "models_returned",
+          "source_model_count": 1,
+          "source_row_count": 18,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE18648"
+          ]
+        },
+        {
+          "source_id": "Taipei_18",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 2572,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE10726"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E5%B0%8F36",
+          "availability_status": "models_returned",
+          "source_model_count": 10,
+          "source_row_count": 3406,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE11064"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E6%89%BF%E5%BE%B7%E5%B9%B9%E7%B7%9A",
+          "availability_status": "models_returned",
+          "source_model_count": 4,
+          "source_row_count": 7325,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE11152"
+          ]
+        },
+        {
+          "source_id": "Taipei_265%E7%B6%93%E6%98%8E%E5%BE%B7%E8%B7%AF",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 3544,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE11171"
+          ]
+        },
+        {
+          "source_id": "Taipei_109",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 3239,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE11813"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E7%B4%8512",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 1548,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE15531"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E5%85%A7%E7%A7%91%E9%80%9A%E5%8B%A4%E5%B0%88%E8%BB%8A18",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 122,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE15683"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E6%87%B7%E6%81%A9%E5%B0%88%E8%BB%8AS32",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 198,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE17018"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E7%B4%859",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 2560,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE10421"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E8%97%8D5",
+          "availability_status": "models_returned",
+          "source_model_count": 6,
+          "source_row_count": 1844,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE10831"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E8%97%8D25",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 1320,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE10941"
+          ]
+        },
+        {
+          "source_id": "Taipei_37",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 1543,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE11091"
+          ]
+        },
+        {
+          "source_id": "Taipei_308",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 1200,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE15151"
+          ]
+        },
+        {
+          "source_id": "Taipei_267",
+          "availability_status": "models_returned",
+          "source_model_count": 4,
+          "source_row_count": 4748,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE15332"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E7%B4%8568",
+          "availability_status": "models_returned",
+          "source_model_count": 8,
+          "source_row_count": 466,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE17929"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E8%97%8D7%E5%89%AF",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 2142,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE18044"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E5%B0%8F8%E5%8D%80",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 1805,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE19418"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E5%B0%8F7",
+          "availability_status": "models_returned",
+          "source_model_count": 8,
+          "source_row_count": 3841,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE11145"
+          ]
+        },
+        {
+          "source_id": "Taipei_218",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 3400,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE11156"
+          ]
+        },
+        {
+          "source_id": "Taipei_521",
+          "availability_status": "models_returned",
+          "source_model_count": 4,
+          "source_row_count": 1962,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE15313"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E5%85%A7%E7%A7%91%E9%80%9A%E5%8B%A4%E5%B0%88%E8%BB%8A15",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 114,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE15680"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E5%85%A7%E7%A7%91%E9%80%9A%E5%8B%A4%E5%B0%88%E8%BB%8A5",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 181,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE15688"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E5%85%A7%E7%A7%91%E5%BF%AB%E7%B7%9A1",
+          "availability_status": "models_returned",
+          "source_model_count": 6,
+          "source_row_count": 309,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE15702"
+          ]
+        },
+        {
+          "source_id": "Taipei_295%E5%89%AF",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 1700,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE18057"
+          ]
+        },
+        {
+          "source_id": "Taipei_643",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 4794,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE10328"
+          ]
+        },
+        {
+          "source_id": "Taipei_232%E5%BF%AB",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 118,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE10419"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E8%97%8D29",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 2378,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE10722"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E5%B0%8F19",
+          "availability_status": "models_returned",
+          "source_model_count": 4,
+          "source_row_count": 4863,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE11213"
+          ]
+        },
+        {
+          "source_id": "Taipei_292",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 3200,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE11246"
+          ]
+        },
+        {
+          "source_id": "Taipei_912",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 2260,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE15173"
+          ]
+        },
+        {
+          "source_id": "Taipei_72",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 2700,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE15362"
+          ]
+        },
+        {
+          "source_id": "Taipei_711",
+          "availability_status": "models_returned",
+          "source_model_count": 4,
+          "source_row_count": 4148,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE15513"
+          ]
+        },
+        {
+          "source_id": "Taipei_668",
+          "availability_status": "models_returned",
+          "source_model_count": 4,
+          "source_row_count": 3974,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE15515"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E6%A3%9520",
+          "availability_status": "models_returned",
+          "source_model_count": 4,
+          "source_row_count": 1184,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE16174"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E6%9D%BE%E6%B1%9F%E6%96%B0%E7%94%9F%E5%B9%B9%E7%B7%9A",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 3236,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE10332"
+          ]
+        },
+        {
+          "source_id": "Taipei_221",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 3434,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE10415"
+          ]
+        },
+        {
+          "source_id": "Taipei_671",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 3112,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE10736"
+          ]
+        },
+        {
+          "source_id": "Taipei_252",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 3860,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE10746"
+          ]
+        },
+        {
+          "source_id": "Taipei_5",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 2672,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE11861"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E7%B4%8530",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 1137,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE15551"
+          ]
+        },
+        {
+          "source_id": "Taipei_261%E9%A0%90",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 0,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE19678"
+          ]
+        },
+        {
+          "source_id": "Taipei_%E7%B4%8568%E9%A0%90",
+          "availability_status": "models_returned",
+          "source_model_count": 2,
+          "source_row_count": 0,
+          "reference_route_uids_from_exact_request_url": [
+            "TPE19719"
+          ]
+        }
+      ]
+    }
+  ]
+}
