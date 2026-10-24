@@ -1,0 +1,774 @@
+{
+  "schema_version": 1,
+  "dataset_id": "ntpc_leapfrog_list_crosswalk",
+  "metadata": {
+    "provider": "新北市政府交通局／大臺北公車／交通部 TDX（各來源分別標示）",
+    "generated_at": "2026-10-24T10:50:27+08:00",
+    "source_data_time": null,
+    "sources": [
+      {
+        "page_url": "https://data.gov.tw/dataset/174364",
+        "requested_url": "https://data.ntpc.gov.tw/api/datasets/f5e9a430-f337-476f-801e-dc167a112aa2/csv/file",
+        "effective_url": "https://data.ntpc.gov.tw/api/datasets/f5e9a430-f337-476f-801e-dc167a112aa2/csv/file",
+        "downloaded_at": "2026-10-24T10:45:12+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/csv;charset=UTF-8",
+        "bytes": 9853,
+        "raw_file": "raw_data/official_cross_city/crosswalk/ntpc_leapfrog.csv"
+      }
+    ],
+    "grain": "one explicit source identifier relation or one unresolved source record",
+    "field_units": {
+      "*_id": "source namespace identifier",
+      "sequence_no": "source sequence"
+    },
+    "independent_review_status": "pending",
+    "specification_page": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=C668AE404DCD2EFE",
+    "source_terms": {
+      "ntpc_csv": {
+        "name": "政府資料開放授權條款-第1版",
+        "url": "https://data.gov.tw/license"
+      },
+      "ntpcbus": {
+        "name": "政府資料開放授權條款-第1版",
+        "url": "https://data.taipei/rule",
+        "evidence_page": "https://data.taipei/dataset/detail?id=2a8f5f42-942c-4974-8366-b44e90ad9701"
+      },
+      "ebus_route_list": {
+        "license_status": "no_open_data_license_asserted",
+        "url": "https://ebus.gov.taipei/Home/CopyrightNotice"
+      },
+      "tdx": {
+        "url": "https://tdx.transportdata.tw/term",
+        "note": "依各 TDX 參考版本 metadata 保留使用條款，不沿用 NTPC CSV 授權。"
+      }
+    },
+    "limitations": [
+      "只代表所列版本的官方明示識別碼關聯；不推論跨版本或全北北基營運覆蓋。",
+      "路線、附線、站牌、實體站位與 NId 分別保留命名空間，不互相替代。",
+      "名稱僅保留為人工查核線索，不用來產生已核實 ID。",
+      "來源資料時間與下載時間分開；未知關聯不補成沒有服務。"
+    ],
+    "verified_record_count": 0,
+    "unresolved_record_count": 65
+  },
+  "records": [
+    {
+      "source_sequence": "156",
+      "agency_codes_raw": "382290000H",
+      "route_name": "853跳蛙",
+      "source_row_number": 2,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "240",
+      "agency_codes_raw": "382290000H",
+      "route_name": "939跳蛙",
+      "source_row_number": 3,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "463",
+      "agency_codes_raw": "382290000H",
+      "route_name": "三峽-中和高中",
+      "source_row_number": 4,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "464",
+      "agency_codes_raw": "382290000H",
+      "route_name": "三峽-內科",
+      "source_row_number": 5,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "465",
+      "agency_codes_raw": "382290000H",
+      "route_name": "三峽-捷運台大醫院站",
+      "source_row_number": 6,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "466",
+      "agency_codes_raw": "382290000H",
+      "route_name": "三峽-捷運府中站",
+      "source_row_number": 7,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "467",
+      "agency_codes_raw": "382290000H",
+      "route_name": "三峽-捷運永寧站",
+      "source_row_number": 8,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "468",
+      "agency_codes_raw": "382290000H",
+      "route_name": "三峽-臺北市信義區",
+      "source_row_number": 9,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "469",
+      "agency_codes_raw": "382290000H",
+      "route_name": "三重-內科",
+      "source_row_number": 10,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "470",
+      "agency_codes_raw": "382290000H",
+      "route_name": "中和-新北板橋公車站",
+      "source_row_number": 11,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "471",
+      "agency_codes_raw": "382290000H",
+      "route_name": "中和左岸社區-捷運頂溪站",
+      "source_row_number": 12,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "472",
+      "agency_codes_raw": "382290000H",
+      "route_name": "中和環河西路-永和仁愛路",
+      "source_row_number": 13,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "473",
+      "agency_codes_raw": "382290000H",
+      "route_name": "中和自立路-新店",
+      "source_row_number": 14,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "474",
+      "agency_codes_raw": "382290000H",
+      "route_name": "五股-內湖科技園區",
+      "source_row_number": 15,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "475",
+      "agency_codes_raw": "382290000H",
+      "route_name": "北大社區-捷運頂埔站",
+      "source_row_number": 16,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "476",
+      "agency_codes_raw": "382290000H",
+      "route_name": "台北小城-大坪林",
+      "source_row_number": 17,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "477",
+      "agency_codes_raw": "382290000H",
+      "route_name": "合宜住宅-捷運亞東醫院站",
+      "source_row_number": 18,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "479",
+      "agency_codes_raw": "382290000H",
+      "route_name": "土城-南天母廣場",
+      "source_row_number": 19,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "480",
+      "agency_codes_raw": "382290000H",
+      "route_name": "土城金城路-樹林大安路",
+      "source_row_number": 20,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "489",
+      "agency_codes_raw": "382290000H",
+      "route_name": "捷運七張站-全球工業區",
+      "source_row_number": 21,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "490",
+      "agency_codes_raw": "382290000H",
+      "route_name": "捷運中和站-政大附中",
+      "source_row_number": 22,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "491",
+      "agency_codes_raw": "382290000H",
+      "route_name": "捷運忠孝復興站-三峽",
+      "source_row_number": 23,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "492",
+      "agency_codes_raw": "382290000H",
+      "route_name": "捷運新店站-坪林",
+      "source_row_number": 24,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "493",
+      "agency_codes_raw": "382290000H",
+      "route_name": "捷運景安站-三峽臺北大學",
+      "source_row_number": 25,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "494",
+      "agency_codes_raw": "382290000H",
+      "route_name": "捷運蘆洲站-內湖科技園區",
+      "source_row_number": 26,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "495",
+      "agency_codes_raw": "382290000H",
+      "route_name": "捷運頂溪站-捷運頂埔站",
+      "source_row_number": 27,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "496",
+      "agency_codes_raw": "382290000H",
+      "route_name": "政大附中-捷運景美站",
+      "source_row_number": 28,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "500",
+      "agency_codes_raw": "382290000H",
+      "route_name": "新店-汐止",
+      "source_row_number": 29,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "501",
+      "agency_codes_raw": "382290000H",
+      "route_name": "新店(綠中海)-捷運新店站",
+      "source_row_number": 30,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "502",
+      "agency_codes_raw": "382290000H",
+      "route_name": "新店北新路-政大一街",
+      "source_row_number": 31,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "503",
+      "agency_codes_raw": "382290000H",
+      "route_name": "新店高中-三峽",
+      "source_row_number": 32,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "504",
+      "agency_codes_raw": "382290000H",
+      "route_name": "林口-內湖科技園區",
+      "source_row_number": 33,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "505",
+      "agency_codes_raw": "382290000H",
+      "route_name": "林口-捷運圓山站",
+      "source_row_number": 34,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "506",
+      "agency_codes_raw": "382290000H",
+      "route_name": "林口-捷運府中站",
+      "source_row_number": 35,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "507",
+      "agency_codes_raw": "382290000H",
+      "route_name": "林口-捷運忠孝敦化站",
+      "source_row_number": 36,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "508",
+      "agency_codes_raw": "382290000H",
+      "route_name": "林口-板橋",
+      "source_row_number": 37,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "509",
+      "agency_codes_raw": "382290000H",
+      "route_name": "林口-臺北車站(承德)",
+      "source_row_number": 38,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "510",
+      "agency_codes_raw": "382290000H",
+      "route_name": "林口-臺北長庚醫院",
+      "source_row_number": 39,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "511",
+      "agency_codes_raw": "382290000H",
+      "route_name": "林口(文化三路)-捷運圓山站",
+      "source_row_number": 40,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "512",
+      "agency_codes_raw": "382290000H",
+      "route_name": "林口(文化北路)-捷運圓山站",
+      "source_row_number": 41,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "516",
+      "agency_codes_raw": "382290000H",
+      "route_name": "樹林後火車站-海洋公園",
+      "source_row_number": 42,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "535",
+      "agency_codes_raw": "382290000H",
+      "route_name": "汐止-台北101",
+      "source_row_number": 43,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "536",
+      "agency_codes_raw": "382290000H",
+      "route_name": "泰山-內湖",
+      "source_row_number": 44,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "537",
+      "agency_codes_raw": "382290000H",
+      "route_name": "泰山-內湖(直達)",
+      "source_row_number": 45,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "538",
+      "agency_codes_raw": "382290000H",
+      "route_name": "淡水-內湖科技園區",
+      "source_row_number": 46,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "539",
+      "agency_codes_raw": "382290000H",
+      "route_name": "淡水-國道1號-南港車站",
+      "source_row_number": 47,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "540",
+      "agency_codes_raw": "382290000H",
+      "route_name": "淡水新市鎮-板橋",
+      "source_row_number": 48,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "541",
+      "agency_codes_raw": "382290000H",
+      "route_name": "湯泉-十四張-大坪林",
+      "source_row_number": 49,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "542",
+      "agency_codes_raw": "382290000H",
+      "route_name": "湯泉-大坪林-湯泉",
+      "source_row_number": 50,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "543",
+      "agency_codes_raw": "382290000H",
+      "route_name": "湯泉-崇光中學",
+      "source_row_number": 51,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "544",
+      "agency_codes_raw": "382290000H",
+      "route_name": "瑞芳-內科(北客)",
+      "source_row_number": 52,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "545",
+      "agency_codes_raw": "382290000H",
+      "route_name": "瑞芳-內科(基客)",
+      "source_row_number": 53,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "546",
+      "agency_codes_raw": "382290000H",
+      "route_name": "瑞芳-南港",
+      "source_row_number": 54,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "547",
+      "agency_codes_raw": "382290000H",
+      "route_name": "瑞芳-松山車站(北客)",
+      "source_row_number": 55,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "548",
+      "agency_codes_raw": "382290000H",
+      "route_name": "瑞芳-松山車站(基客)",
+      "source_row_number": 56,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "549",
+      "agency_codes_raw": "382290000H",
+      "route_name": "瑞芳(經東碇路)-松山車站",
+      "source_row_number": 57,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "551",
+      "agency_codes_raw": "382290000H",
+      "route_name": "石碇高中-捷運忠孝復興站",
+      "source_row_number": 58,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "552",
+      "agency_codes_raw": "382290000H",
+      "route_name": "石門-捷運紅樹林站",
+      "source_row_number": 59,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "582",
+      "agency_codes_raw": "382290000H",
+      "route_name": "萬里-內湖科技園區",
+      "source_row_number": 60,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "609",
+      "agency_codes_raw": "382290000H",
+      "route_name": "蘆洲-中正高中",
+      "source_row_number": 61,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "610",
+      "agency_codes_raw": "382290000H",
+      "route_name": "蘆洲-內湖",
+      "source_row_number": 62,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "611",
+      "agency_codes_raw": "382290000H",
+      "route_name": "蘆洲-南港",
+      "source_row_number": 63,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "612",
+      "agency_codes_raw": "382290000H",
+      "route_name": "蘆洲中正路-士林中正路",
+      "source_row_number": 64,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "614",
+      "agency_codes_raw": "382290000H",
+      "route_name": "鶯歌火車站-中正紀念堂",
+      "source_row_number": 65,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    },
+    {
+      "source_sequence": "615",
+      "agency_codes_raw": "382290000H",
+      "route_name": "鶯歌火車站-松山機場",
+      "source_row_number": 66,
+      "route_id": null,
+      "route_nid": null,
+      "subroute_id": null,
+      "linkage_status": "unresolved_source_has_no_explicit_route_identifier",
+      "source_namespace": "ntpc_leapfrog_list"
+    }
+  ]
+}

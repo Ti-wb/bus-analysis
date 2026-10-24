@@ -1,0 +1,1208 @@
+{
+  "schema_version": 1,
+  "dataset_id": "ntpc_leapfrog_crosswalk",
+  "metadata": {
+    "provider": "新北市政府交通局／大臺北公車／交通部 TDX（各來源分別標示）",
+    "generated_at": "2026-10-24T10:50:27+08:00",
+    "source_data_time": null,
+    "sources": [
+      {
+        "page_url": "https://data.gov.tw/dataset/123112",
+        "requested_url": "https://data.ntpc.gov.tw/api/datasets/0ee4e6bf-cee6-4ec8-8fe1-71f544015127/csv/file",
+        "effective_url": "https://data.ntpc.gov.tw/api/datasets/0ee4e6bf-cee6-4ec8-8fe1-71f544015127/csv/file",
+        "downloaded_at": "2026-10-24T10:45:11+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/csv;charset=UTF-8",
+        "bytes": 314480,
+        "raw_file": "raw_data/official_cross_city/crosswalk/ntpc_routes.csv"
+      },
+      {
+        "page_url": "https://data.gov.tw/dataset/123091",
+        "requested_url": "https://data.ntpc.gov.tw/api/datasets/34b402a8-53d9-483d-9406-24a682c2d6dc/csv/file",
+        "effective_url": "https://data.ntpc.gov.tw/api/datasets/34b402a8-53d9-483d-9406-24a682c2d6dc/csv/file",
+        "downloaded_at": "2026-10-24T10:45:12+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/csv;charset=UTF-8",
+        "bytes": 4823849,
+        "raw_file": "raw_data/official_cross_city/crosswalk/ntpc_stops.csv"
+      },
+      {
+        "page_url": "https://data.gov.tw/dataset/174364",
+        "requested_url": "https://data.ntpc.gov.tw/api/datasets/f5e9a430-f337-476f-801e-dc167a112aa2/csv/file",
+        "effective_url": "https://data.ntpc.gov.tw/api/datasets/f5e9a430-f337-476f-801e-dc167a112aa2/csv/file",
+        "downloaded_at": "2026-10-24T10:45:12+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/csv;charset=UTF-8",
+        "bytes": 9853,
+        "raw_file": "raw_data/official_cross_city/crosswalk/ntpc_leapfrog.csv"
+      },
+      {
+        "page_url": "https://data.taipei/dataset/detail?id=2a8f5f42-942c-4974-8366-b44e90ad9701",
+        "requested_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetRoute.gz",
+        "effective_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetRoute.gz",
+        "downloaded_at": "2026-10-24T10:45:29+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": "Sat, 24 Oct 2026 02:44:21 GMT",
+        "content_type": "application/octet-stream",
+        "bytes": 97469,
+        "raw_file": "raw_data/official_cross_city/crosswalk/ntpc_route_feed.gz"
+      },
+      {
+        "page_url": "https://data.taipei/dataset/detail?id=2a8f5f42-942c-4974-8366-b44e90ad9701",
+        "requested_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetStop.gz",
+        "effective_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetStop.gz",
+        "downloaded_at": "2026-10-24T10:46:39+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": "Sat, 24 Oct 2026 02:46:12 GMT",
+        "content_type": "application/octet-stream",
+        "bytes": 1485268,
+        "raw_file": "raw_data/official_cross_city/crosswalk/ntpc_stop_feed.gz"
+      },
+      {
+        "page_url": "https://data.taipei/dataset/detail?id=2a8f5f42-942c-4974-8366-b44e90ad9701",
+        "requested_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetPathDetail.gz",
+        "effective_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetPathDetail.gz",
+        "downloaded_at": "2026-10-24T10:45:13+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": "Sat, 24 Oct 2026 02:44:21 GMT",
+        "content_type": "application/octet-stream",
+        "bytes": 338364,
+        "raw_file": "raw_data/official_cross_city/crosswalk/ntpc_pathdetail.gz"
+      },
+      {
+        "page_url": "https://ebus.gov.taipei/EBus2/RouteList2?ct=ntpc",
+        "requested_url": "https://ebus.gov.taipei/EBus2/RouteList2?ct=ntpc",
+        "effective_url": "https://ebus.gov.taipei/EBus2/RouteList2?ct=ntpc",
+        "downloaded_at": "2026-10-24T10:47:03+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": "Sat, 24 Oct 2026 02:47:04 GMT",
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 171228,
+        "raw_file": "raw_data/official_cross_city/crosswalk/ebus_ntpc_routes.html"
+      }
+    ],
+    "grain": "one explicit source identifier relation or one unresolved source record",
+    "field_units": {
+      "*_id": "source namespace identifier",
+      "sequence_no": "source sequence"
+    },
+    "independent_review_status": "pending",
+    "specification_page": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=C668AE404DCD2EFE",
+    "source_terms": {
+      "ntpc_csv": {
+        "name": "政府資料開放授權條款-第1版",
+        "url": "https://data.gov.tw/license"
+      },
+      "ntpcbus": {
+        "name": "政府資料開放授權條款-第1版",
+        "url": "https://data.taipei/rule",
+        "evidence_page": "https://data.taipei/dataset/detail?id=2a8f5f42-942c-4974-8366-b44e90ad9701"
+      },
+      "ebus_route_list": {
+        "license_status": "no_open_data_license_asserted",
+        "url": "https://ebus.gov.taipei/Home/CopyrightNotice"
+      },
+      "tdx": {
+        "url": "https://tdx.transportdata.tw/term",
+        "note": "依各 TDX 參考版本 metadata 保留使用條款，不沿用 NTPC CSV 授權。"
+      }
+    },
+    "limitations": [
+      "只代表所列版本的官方明示識別碼關聯；不推論跨版本或全北北基營運覆蓋。",
+      "路線、附線、站牌、實體站位與 NId 分別保留命名空間，不互相替代。",
+      "名稱僅保留為人工查核線索，不用來產生已核實 ID。",
+      "來源資料時間與下載時間分開；未知關聯不補成沒有服務。"
+    ],
+    "classification_method": "Explicit Jump Frog Bus category href NId; GetRoute supplies numeric main/subroute IDs.",
+    "csv_list_relation_status": "not_established_no_explicit_route_id_in_csv"
+  },
+  "records": [
+    {
+      "route_nid": "0463085300",
+      "route_id": "17621",
+      "subroute_ids": [
+        "158793"
+      ],
+      "operator_ids": [
+        "16186"
+      ],
+      "route_name": "853跳蛙",
+      "official_category_link_label": "853Frogbus",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463093900",
+      "route_id": "17720",
+      "subroute_ids": [
+        "158908"
+      ],
+      "operator_ids": [
+        "16176"
+      ],
+      "route_name": "939跳蛙",
+      "official_category_link_label": "939Frog Bus",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463001200",
+      "route_id": "17815",
+      "subroute_ids": [
+        "159163"
+      ],
+      "operator_ids": [
+        "16186"
+      ],
+      "route_name": "淡水-國道1號-南港車站",
+      "official_category_link_label": "Tamsui-State Road No. 1-Nangang Main Sta.",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463003000",
+      "route_id": "17915",
+      "subroute_ids": [
+        "159385"
+      ],
+      "operator_ids": [
+        "16188"
+      ],
+      "route_name": "汐止-台北101",
+      "official_category_link_label": "Xizhi-Taipei101",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463006100",
+      "route_id": "18014",
+      "subroute_ids": [
+        "159631",
+        "159632"
+      ],
+      "operator_ids": [
+        "16189"
+      ],
+      "route_name": "泰山-內湖(直達)",
+      "official_category_link_label": "Taishan Elementary School-BR15",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463003500",
+      "route_id": "17930",
+      "subroute_ids": [
+        "159418",
+        "160097"
+      ],
+      "operator_ids": [
+        "16181"
+      ],
+      "route_name": "新店北新路-政大一街",
+      "official_category_link_label": "XindianBeixin Rd Xindian-Zhengda 1st St.",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463008700",
+      "route_id": "18888",
+      "subroute_ids": [
+        "161047"
+      ],
+      "operator_ids": [
+        "16181"
+      ],
+      "route_name": "政大附中-捷運景美站",
+      "official_category_link_label": "AHSNCCU-MRT Jingmei Sta.",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463009100",
+      "route_id": "19238",
+      "subroute_ids": [
+        "161597"
+      ],
+      "operator_ids": [
+        "16176"
+      ],
+      "route_name": "北大社區-捷運頂埔站",
+      "official_category_link_label": "Beta Community - MRT Dingpu Sta.",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463006700",
+      "route_id": "18054",
+      "subroute_ids": [
+        "159712"
+      ],
+      "operator_ids": [
+        "16176"
+      ],
+      "route_name": "新店(綠中海)-捷運新店站",
+      "official_category_link_label": "Green Villa-MRT Xindian stn",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463009600",
+      "route_id": "19744",
+      "subroute_ids": [
+        "162451"
+      ],
+      "operator_ids": [
+        "16176"
+      ],
+      "route_name": "合宜住宅-捷運亞東醫院站",
+      "official_category_link_label": "Heyi Housing-MRT Far Eastern Hospital Station",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463002000",
+      "route_id": "17873",
+      "subroute_ids": [
+        "159302"
+      ],
+      "operator_ids": [
+        "16176"
+      ],
+      "route_name": "新店高中-三峽",
+      "official_category_link_label": "Hsin Tien Senior High School-Sanxia",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463001300",
+      "route_id": "17835",
+      "subroute_ids": [
+        "159209"
+      ],
+      "operator_ids": [
+        "16176"
+      ],
+      "route_name": "林口-板橋",
+      "official_category_link_label": "L-B Frog",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463008200",
+      "route_id": "18568",
+      "subroute_ids": [
+        "160537"
+      ],
+      "operator_ids": [
+        "16179"
+      ],
+      "route_name": "林口(文化北路)-捷運圓山站",
+      "official_category_link_label": "LINKOU(Wenhua N. Rd.)-MRT Yuanshan Station",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463005000",
+      "route_id": "17970",
+      "subroute_ids": [
+        "159547",
+        "160149"
+      ],
+      "operator_ids": [
+        "16176"
+      ],
+      "route_name": "林口-捷運府中站",
+      "official_category_link_label": "Linkou-MRT Fuzhong Station",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463000500",
+      "route_id": "17671",
+      "subroute_ids": [
+        "158849",
+        "158907"
+      ],
+      "operator_ids": [
+        "16179"
+      ],
+      "route_name": "林口-捷運圓山站",
+      "official_category_link_label": "Linkou-MRT Yuanshan",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463001600",
+      "route_id": "17866",
+      "subroute_ids": [
+        "159267",
+        "159268"
+      ],
+      "operator_ids": [
+        "16182"
+      ],
+      "route_name": "林口(文化三路)-捷運圓山站",
+      "official_category_link_label": "Linkou-MRT Yuanshan Sta.",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463007300",
+      "route_id": "18209",
+      "subroute_ids": [
+        "160088"
+      ],
+      "operator_ids": [
+        "16179"
+      ],
+      "route_name": "林口-捷運忠孝敦化站",
+      "official_category_link_label": "linkou-MRT Zhongxiao Dunhua Station",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463000800",
+      "route_id": "17811",
+      "subroute_ids": [
+        "159157"
+      ],
+      "operator_ids": [
+        "16179"
+      ],
+      "route_name": "林口-內湖科技園區",
+      "official_category_link_label": "Linkou-Neihu",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463003200",
+      "route_id": "17918",
+      "subroute_ids": [
+        "159389"
+      ],
+      "operator_ids": [
+        "16179"
+      ],
+      "route_name": "林口-臺北長庚醫院",
+      "official_category_link_label": "Linkou-Taipei",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463007200",
+      "route_id": "18208",
+      "subroute_ids": [
+        "160087"
+      ],
+      "operator_ids": [
+        "16179"
+      ],
+      "route_name": "林口-臺北車站(承德)",
+      "official_category_link_label": "linkou-Taipei Main Station(Chengde)",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463005700",
+      "route_id": "17996",
+      "subroute_ids": [
+        "159603"
+      ],
+      "operator_ids": [
+        "16179"
+      ],
+      "route_name": "蘆洲-南港",
+      "official_category_link_label": "Luzhou-Nangan",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463006400",
+      "route_id": "18028",
+      "subroute_ids": [
+        "159649"
+      ],
+      "operator_ids": [
+        "16179"
+      ],
+      "route_name": "蘆洲-內湖",
+      "official_category_link_label": "Luzhou-Neihu",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463004900",
+      "route_id": "17968",
+      "subroute_ids": [
+        "159544"
+      ],
+      "operator_ids": [
+        "16179"
+      ],
+      "route_name": "蘆洲中正路-士林中正路",
+      "official_category_link_label": "Luzhou-shilin",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463007000",
+      "route_id": "18168",
+      "subroute_ids": [
+        "160017"
+      ],
+      "operator_ids": [
+        "16189"
+      ],
+      "route_name": "蘆洲-中正高中",
+      "official_category_link_label": "Luzhou-ZZHS",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463008000",
+      "route_id": "18538",
+      "subroute_ids": [
+        "160507"
+      ],
+      "operator_ids": [
+        "16176"
+      ],
+      "route_name": "捷運頂溪站-捷運頂埔站",
+      "official_category_link_label": "MRT DingXi Station-MRT Dingpu Station",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463003300",
+      "route_id": "17919",
+      "subroute_ids": [
+        "159391",
+        "159392"
+      ],
+      "operator_ids": [
+        "16176"
+      ],
+      "route_name": "捷運景安站-三峽臺北大學",
+      "official_category_link_label": "MRT Jingan Sta.-National Taipei University(Sanxia Campus)",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463003400",
+      "route_id": "17922",
+      "subroute_ids": [
+        "159399"
+      ],
+      "operator_ids": [
+        "16182"
+      ],
+      "route_name": "捷運蘆洲站-內湖科技園區",
+      "official_category_link_label": "MRT Luzhou Sta.-Neihu Tech. Park",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463007400",
+      "route_id": "18248",
+      "subroute_ids": [
+        "160147",
+        "160148"
+      ],
+      "operator_ids": [
+        "16176"
+      ],
+      "route_name": "捷運七張站-全球工業區",
+      "official_category_link_label": "MRT Qizhang station-Global Industrial Area",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463009000",
+      "route_id": "19148",
+      "subroute_ids": [
+        "161467"
+      ],
+      "operator_ids": [
+        "16176"
+      ],
+      "route_name": "捷運新店站-坪林",
+      "official_category_link_label": "MRT Xindian Station-Pinglin",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463010100",
+      "route_id": "19793",
+      "subroute_ids": [
+        "162588",
+        "162589"
+      ],
+      "operator_ids": [
+        "16176"
+      ],
+      "route_name": "捷運鶯桃福德站-銘傳大學(桃園校區)",
+      "official_category_link_label": "MRT Yingtao Fude Sta.-Ming Chuan University (Taoyuan Campus)",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463008600",
+      "route_id": "18798",
+      "subroute_ids": [
+        "160907"
+      ],
+      "operator_ids": [
+        "16185"
+      ],
+      "route_name": "捷運中和站-政大附中",
+      "official_category_link_label": "MRT Zhonghe Sta.-Affiliated High School of NCU",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463008900",
+      "route_id": "19078",
+      "subroute_ids": [
+        "161377",
+        "161378"
+      ],
+      "operator_ids": [
+        "16190"
+      ],
+      "route_name": "瑞芳(經東碇路)-松山車站",
+      "official_category_link_label": "Ruifang(Via Dongding Rd.)-Songshan Station",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463008400",
+      "route_id": "18779",
+      "subroute_ids": [
+        "160857",
+        "160858"
+      ],
+      "operator_ids": [
+        "16190"
+      ],
+      "route_name": "瑞芳-南港",
+      "official_category_link_label": "Ruifang-Nangang",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463002500",
+      "route_id": "17904",
+      "subroute_ids": [
+        "159360",
+        "159361"
+      ],
+      "operator_ids": [
+        "16176"
+      ],
+      "route_name": "瑞芳-內科(北客)",
+      "official_category_link_label": "Ruifang-Neik?",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463002900",
+      "route_id": "17911",
+      "subroute_ids": [
+        "159373",
+        "159374"
+      ],
+      "operator_ids": [
+        "16190"
+      ],
+      "route_name": "瑞芳-內科(基客)",
+      "official_category_link_label": "Ruifang-Neik?",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463002300",
+      "route_id": "17902",
+      "subroute_ids": [
+        "159358",
+        "159359"
+      ],
+      "operator_ids": [
+        "16176"
+      ],
+      "route_name": "瑞芳-松山車站(北客)",
+      "official_category_link_label": "Ruifang-Songshan Station",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463002400",
+      "route_id": "17903",
+      "subroute_ids": [
+        "159362",
+        "159363"
+      ],
+      "operator_ids": [
+        "16190"
+      ],
+      "route_name": "瑞芳-松山車站(基客)",
+      "official_category_link_label": "Ruifang-Songshan Station",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463005400",
+      "route_id": "17992",
+      "subroute_ids": [
+        "159586",
+        "159587"
+      ],
+      "operator_ids": [
+        "16189"
+      ],
+      "route_name": "三重-內科",
+      "official_category_link_label": "Sanchong-Neihu Tech.Park",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463004000",
+      "route_id": "17948",
+      "subroute_ids": [
+        "159446"
+      ],
+      "operator_ids": [
+        "16176"
+      ],
+      "route_name": "三峽-捷運府中站",
+      "official_category_link_label": "Sanxia-MRT Fuzhong Sta.",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463000300",
+      "route_id": "17711",
+      "subroute_ids": [
+        "158894"
+      ],
+      "operator_ids": [
+        "16176"
+      ],
+      "route_name": "三峽-捷運台大醫院站",
+      "official_category_link_label": "Sanxia-National Taiw",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463002600",
+      "route_id": "17905",
+      "subroute_ids": [
+        "159364"
+      ],
+      "operator_ids": [
+        "16176"
+      ],
+      "route_name": "三峽-內科",
+      "official_category_link_label": "Sanxia-Neihu",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463004500",
+      "route_id": "17962",
+      "subroute_ids": [
+        "159510"
+      ],
+      "operator_ids": [
+        "16176"
+      ],
+      "route_name": "三峽-臺北市信義區",
+      "official_category_link_label": "Sanxia-Xinyi Dist. Taipei City",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463000400",
+      "route_id": "17689",
+      "subroute_ids": [
+        "158867"
+      ],
+      "operator_ids": [
+        "16176",
+        "16177"
+      ],
+      "route_name": "三峽-捷運永寧站",
+      "official_category_link_label": "Sanxia-Yongning MRT station",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463009500",
+      "route_id": "19733",
+      "subroute_ids": [
+        "162430"
+      ],
+      "operator_ids": [
+        "16176"
+      ],
+      "route_name": "三峽-中和高中",
+      "official_category_link_label": "Sanxia-Zhonghe High School",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463010000",
+      "route_id": "19787",
+      "subroute_ids": [
+        "162578"
+      ],
+      "operator_ids": [
+        "16186"
+      ],
+      "route_name": "三芝-馬偕醫學大學",
+      "official_category_link_label": "Sanzhi-Mackay Medical University",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463009800",
+      "route_id": "19772",
+      "subroute_ids": [
+        "162501"
+      ],
+      "operator_ids": [
+        "16179"
+      ],
+      "route_name": "沙崙國小(篤行路)-捷運亞東醫院站",
+      "official_category_link_label": "Shalun Elementary School(Duxing Rd.)-MRT Far Eastern Hospital Sta.",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463009400",
+      "route_id": "19729",
+      "subroute_ids": [
+        "162420"
+      ],
+      "operator_ids": [
+        "16176"
+      ],
+      "route_name": "石碇高中-捷運忠孝復興站",
+      "official_category_link_label": "Shiding High School-MRT Zhongxiao Fuxing Sta.",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463005100",
+      "route_id": "17975",
+      "subroute_ids": [
+        "159558",
+        "159559"
+      ],
+      "operator_ids": [
+        "16186"
+      ],
+      "route_name": "石門-捷運紅樹林站",
+      "official_category_link_label": "Shimen-MRT Hongshulin Sta.",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463004400",
+      "route_id": "17961",
+      "subroute_ids": [
+        "159506"
+      ],
+      "operator_ids": [
+        "16177"
+      ],
+      "route_name": "樹林後火車站-海洋公園",
+      "official_category_link_label": "Shulin Train Station Rear-Ocean Park",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463005200",
+      "route_id": "17977",
+      "subroute_ids": [
+        "159564"
+      ],
+      "operator_ids": [
+        "16181"
+      ],
+      "route_name": "台北小城-大坪林",
+      "official_category_link_label": "Taipei Xiaocheng-Dapinglin",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463001000",
+      "route_id": "17813",
+      "subroute_ids": [
+        "159159",
+        "159161"
+      ],
+      "operator_ids": [
+        "16189"
+      ],
+      "route_name": "泰山-內湖",
+      "official_category_link_label": "Taishan-Neihu",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463001800",
+      "route_id": "17871",
+      "subroute_ids": [
+        "159300"
+      ],
+      "operator_ids": [
+        "16186"
+      ],
+      "route_name": "淡水新市鎮-板橋",
+      "official_category_link_label": "Tamsui New Town-Banqio",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463001100",
+      "route_id": "17814",
+      "subroute_ids": [
+        "159162"
+      ],
+      "operator_ids": [
+        "16186"
+      ],
+      "route_name": "淡水-內湖科技園區",
+      "official_category_link_label": "Tamsui-Neihu Technology Park",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463006300",
+      "route_id": "18017",
+      "subroute_ids": [
+        "159643"
+      ],
+      "operator_ids": [
+        "16181"
+      ],
+      "route_name": "湯泉-崇光中學",
+      "official_category_link_label": "Tangquan─ckgsh",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463003900",
+      "route_id": "17941",
+      "subroute_ids": [
+        "159440",
+        "159655"
+      ],
+      "operator_ids": [
+        "16181"
+      ],
+      "route_name": "湯泉-大坪林-湯泉",
+      "official_category_link_label": "Tangquan─Dapinglin",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463006800",
+      "route_id": "18078",
+      "subroute_ids": [
+        "159728"
+      ],
+      "operator_ids": [
+        "16181"
+      ],
+      "route_name": "湯泉-十四張-大坪林",
+      "official_category_link_label": "Tangquan─MRT Shisizhang─Dapinglin",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463008500",
+      "route_id": "18778",
+      "subroute_ids": [
+        "160867",
+        "160868",
+        "160869",
+        "160870"
+      ],
+      "operator_ids": [
+        "16176"
+      ],
+      "route_name": "土城-南天母廣場",
+      "official_category_link_label": "Tucheng-Nantianmu Square",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463003600",
+      "route_id": "17931",
+      "subroute_ids": [
+        "159420"
+      ],
+      "operator_ids": [
+        "16179"
+      ],
+      "route_name": "土城金城路-樹林大安路",
+      "official_category_link_label": "Tucheng-Shulin",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463005500",
+      "route_id": "17994",
+      "subroute_ids": [
+        "159589",
+        "159590"
+      ],
+      "operator_ids": [
+        "16190"
+      ],
+      "route_name": "萬里-內湖科技園區",
+      "official_category_link_label": "Wanli-Neihu",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463009900",
+      "route_id": "19785",
+      "subroute_ids": [
+        "162565",
+        "162574"
+      ],
+      "operator_ids": [
+        "16185",
+        "16186"
+      ],
+      "route_name": "五股-板橋",
+      "official_category_link_label": "Wugu-Banqiao Leapfrog bus",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463003100",
+      "route_id": "17917",
+      "subroute_ids": [
+        "159387",
+        "159388"
+      ],
+      "operator_ids": [
+        "16179"
+      ],
+      "route_name": "五股-內湖科技園區",
+      "official_category_link_label": "Wugu-Neihu",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463000900",
+      "route_id": "17812",
+      "subroute_ids": [
+        "159158",
+        "159160"
+      ],
+      "operator_ids": [
+        "16189"
+      ],
+      "route_name": "新店-汐止",
+      "official_category_link_label": "Xindian-Xizhi",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463001500",
+      "route_id": "17847",
+      "subroute_ids": [
+        "159225"
+      ],
+      "operator_ids": [
+        "16176"
+      ],
+      "route_name": "鶯歌火車站-松山機場",
+      "official_category_link_label": "Yingge Rail Sta.- Songshan Airport",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463001400",
+      "route_id": "17846",
+      "subroute_ids": [
+        "159224"
+      ],
+      "operator_ids": [
+        "16176"
+      ],
+      "route_name": "鶯歌火車站-中正紀念堂",
+      "official_category_link_label": "Yingge Rail Sta.-C.K.S. Memorial Hall",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463007900",
+      "route_id": "18478",
+      "subroute_ids": [
+        "160417"
+      ],
+      "operator_ids": [
+        "16176"
+      ],
+      "route_name": "中和環河西路-永和仁愛路",
+      "official_category_link_label": "Zhonghe Huanhe W. Rd-yonghe Ren'ai Rd",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463007700",
+      "route_id": "18368",
+      "subroute_ids": [
+        "160288"
+      ],
+      "operator_ids": [
+        "16176"
+      ],
+      "route_name": "中和左岸社區-捷運頂溪站",
+      "official_category_link_label": "Zhonghe ZuoAn Commumity-MRT Dingxi Station",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463007500",
+      "route_id": "18288",
+      "subroute_ids": [
+        "160197"
+      ],
+      "operator_ids": [
+        "16177"
+      ],
+      "route_name": "中和自立路-新店",
+      "official_category_link_label": "Zhonghe(Zili road)-Xindian",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463004600",
+      "route_id": "17963",
+      "subroute_ids": [
+        "159524"
+      ],
+      "operator_ids": [
+        "16176"
+      ],
+      "route_name": "中和-新北板橋公車站",
+      "official_category_link_label": "Zhonghe-NTPC Banqiao Bus Stop",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463009200",
+      "route_id": "19538",
+      "subroute_ids": [
+        "162057"
+      ],
+      "operator_ids": [
+        "16176"
+      ],
+      "route_name": "捷運忠孝復興站-三峽",
+      "official_category_link_label": "Zhongxiao Fuxing Sta.-Sanxia",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    },
+    {
+      "route_nid": "0463009700",
+      "route_id": "19762",
+      "subroute_ids": [
+        "162485"
+      ],
+      "operator_ids": [
+        "16179"
+      ],
+      "route_name": "中原中平路口-建國中學",
+      "official_category_link_label": "Zhongyuan & Zhongping Intersection-Taipei Municipal Chien Kuo High School",
+      "source_namespace": "ebus_route_list",
+      "reference_namespace": "ntpcbus",
+      "linkage_status": "verified_explicit_category_nid_and_getroute_ids"
+    }
+  ]
+}
