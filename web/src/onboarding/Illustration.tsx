@@ -42,10 +42,12 @@ function Improvements() {
   return <div className="tour-demo tour-list-demo">
     <div className="tour-demo-heading"><h3>改善優先清單</h3><span className="tour-tag tour-mock">部分為 Mock</span></div>
     <div className="tour-filters"><span className="tour-tag">平日早峰</span><span className="tour-tag">所有行政區</span><span className="tour-tag">問題類型</span></div>
-    <div className="tour-table-head"><span>候選路線</span><span>要釐清的問題</span></div>
-    <div className="tour-table">{rows.map(([route, issue, detail]) => <div className="tour-table-row" key={route}>
-      <b>{route}</b><div><b>{issue}</b><small>{detail}</small></div><span aria-hidden="true">›</span>
-    </div>)}</div>
+    <div className="tour-list">
+      <div className="tour-table-head"><span>候選路線</span><span>要釐清的問題</span></div>
+      <div className="tour-table">{rows.map(([route, issue, detail]) => <div className="tour-table-row" key={route}>
+        <b>{route}</b><div><b>{issue}</b><small>{detail}</small></div><span aria-hidden="true">›</span>
+      </div>)}</div>
+    </div>
     <p className="tour-demo-flow tour-demo-flow-dark">展開詳情 → 在地圖上檢視 → 加入路線編輯方案</p>
   </div>;
 }
