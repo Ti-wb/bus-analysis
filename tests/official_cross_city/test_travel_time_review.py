@@ -4,7 +4,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from scripts.review_tdx_bus_travel_time import audit_delivery_accounting, audit_unavailable_source, read, read_source
+from scripts.review_tdx_bus_travel_time import audit_catalog_endpoint, audit_delivery_accounting, audit_unavailable_source, read, read_source
 
 
 def request(source_id, kind="travel_time"):
@@ -29,6 +29,22 @@ def delivered(query, source=None):
 
 
 class LatestBatchReviewTest(unittest.TestCase):
+    def test_route_catalog_preserves_unrequested_and_source_unavailability(self):
+        row = {"route_name": "南港幹線", "download_url": "https://tdx.transportdata.tw/example",
+               "endpoint_acquisition_status": "not_requested", "endpoint_response_empty": None,
+               "endpoint_http_status": None, "endpoint_availability_status": None}
+        audit_catalog_endpoint(row, [])
+        endpoint = {"city": "Taipei", "route_name": row["route_name"], "download_url": row["download_url"],
+                    "status": "failed", "http_status": 200, "availability_status": "published_no_data_message"}
+        with self.assertRaisesRegex(ValueError, "availability/accounting"):
+            audit_catalog_endpoint(row, [endpoint])
+        row.update(endpoint_acquisition_status="failed", endpoint_http_status=200,
+                   endpoint_availability_status="published_no_data_message")
+        audit_catalog_endpoint(row, [endpoint])
+        row["endpoint_response_empty"] = True
+        with self.assertRaisesRegex(ValueError, "availability/accounting"):
+            audit_catalog_endpoint(row, [endpoint])
+
     def test_source_unavailability_requires_explicit_retained_message(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

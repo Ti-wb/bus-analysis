@@ -78,6 +78,21 @@ def clock(value):
     return hour * 60 + minute
 
 
+def audit_catalog_endpoint(row, endpoints):
+    matches = [source for source in endpoints if source.get("city") == "Taipei"
+               and source.get("route_name") == row["route_name"]]
+    check(len(matches) <= 1, "Reference route has multiple acquisition receipts")
+    endpoint = matches[0] if matches else None
+    expected = {"endpoint_acquisition_status": endpoint["status"] if endpoint else "not_requested",
+                "endpoint_response_empty": endpoint.get("record_count") == 0 if endpoint and endpoint["status"] == "downloaded" else None,
+                "endpoint_http_status": endpoint.get("http_status") if endpoint else None,
+                "endpoint_availability_status": endpoint.get("availability_status") if endpoint else None}
+    check(all(type(row.get(key)) is type(value) and row.get(key) == value for key, value in expected.items()),
+          "Reference route endpoint availability/accounting differs")
+    if endpoint:
+        check(endpoint["download_url"] == row["download_url"], "Reference route acquisition URL differs")
+
+
 def audit_delivery_accounting(manifest, delivery):
     """Check the latest HTTP batch separately from cumulative retained responses."""
     batch = manifest["metadata"]["last_batch"]
@@ -259,6 +274,7 @@ def audit(root):
     reference_rows = route_wrapper["BusRoutes"]
     check(len(reference_rows) == route_wrapper["Count"] == len(catalog["records"]), "Catalog reference Count differs")
     for original, row in zip(reference_rows, catalog["records"]):
+        audit_catalog_endpoint(row, coverage["records"])
         check((row["route_id"], row["route_uid"], row["route_name"]) == (original["RouteID"], original["RouteUID"], original["RouteName"]["Zh_tw"]), "Catalog route identity changed")
         check(row["retained_files"] == sorted(retained.get(original["RouteUID"], [])), "Catalog retained-file coverage differs")
         check(row["coverage_status"] == ("downloaded_route_uid_present" if row["retained_files"] else "reference_only_not_downloaded"), "Catalog coverage status differs")
