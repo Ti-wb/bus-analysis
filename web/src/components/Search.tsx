@@ -8,7 +8,7 @@ export interface SearchItem {
   at: [number, number];
   zoom: number;
   /** Layer to switch on when this item is chosen. */
-  layer?: 'stops' | 'places';
+  layer?: 'stops' | 'places' | 'youbike';
   place?: string;
 }
 
@@ -30,6 +30,13 @@ function buildIndex(data: MapData): SearchItem[] {
       at: f.geometry.coordinates as [number, number],
       zoom: 16.5,
       layer: 'stops' as const,
+    })),
+    ...data.youbike_stations.features.filter((f) => f.properties.name).map((f) => ({
+      name: f.properties.name!,
+      kind: 'YouBike',
+      at: f.geometry.coordinates as [number, number],
+      zoom: 16.5,
+      layer: 'youbike' as const,
     })),
   ];
 }

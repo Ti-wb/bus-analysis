@@ -109,7 +109,20 @@ export const busStopsLayer: StyleLayer = {
   },
 };
 
-const placeColor = ['match', ['get', 'category'], ...Object.entries(PLACE_BY_CATEGORY).flatMap(([m, c]) => [m, c.color]), '#888888'] as unknown as ExpressionSpecification;
+// Matches --youbike / --youbike-edge in style.css; stations paused at snapshot time are grey.
+export const youbikeLayer: StyleLayer = {
+  id: 'youbike',
+  type: 'circle',
+  minzoom: 12.5,
+  paint: {
+    'circle-radius': ['interpolate', ['linear'], ['zoom'], 12.5, 2, 17, ['interpolate', ['linear'], ['coalesce', ['get', 'dock_count'], 0], 10, 4, 60, 8]],
+    'circle-color': ['case', ['==', ['get', 'is_active'], false], '#b8b8b8', '#f2b705'],
+    'circle-stroke-color': '#8a6d00',
+    'circle-stroke-width': ['interpolate', ['linear'], ['zoom'], 12.5, 0.6, 16, 1.2],
+  },
+};
+
+const placeColor =['match', ['get', 'category'], ...Object.entries(PLACE_BY_CATEGORY).flatMap(([m, c]) => [m, c.color]), '#888888'] as unknown as ExpressionSpecification;
 // Social housing scales with planned households; other places only with zoom.
 const housingRadius = (min: number, max: number): ExpressionSpecification => (
   ['interpolate', ['linear'], ['coalesce', ['get', 'planned_households'], 0], 0, min, 1500, max]

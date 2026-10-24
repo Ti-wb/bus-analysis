@@ -16,6 +16,7 @@ const LAYER_TOGGLES: { group: LayerGroup; label: string; swatch: string; note?: 
   { group: 'stops', label: '公車站牌', swatch: 'swatch-stop', note: () => '放大後顯示' },
   { group: 'mrt', label: '捷運路網', swatch: 'swatch-mrt' },
   { group: 'places', label: '重要地點', swatch: 'swatch-place', note: () => '點選類別篩選' },
+  { group: 'youbike', label: 'YouBike 站點', swatch: 'swatch-youbike', note: () => '放大後顯示' },
 ];
 
 function toggled<T>(set: Set<T>, value: T): Set<T> {

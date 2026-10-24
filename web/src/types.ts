@@ -2,7 +2,7 @@ import type { FeatureCollection, Point } from 'geojson';
 
 export type DayType = 'weekday' | 'saturday' | 'sunday';
 export type CellSize = 250 | 500;
-export type LayerGroup = 'grid' | 'routes' | 'stops' | 'mrt' | 'places';
+export type LayerGroup = 'grid' | 'routes' | 'stops' | 'mrt' | 'places' | 'youbike';
 
 /** [ix, iy, stop_count, subroute_count, unscheduled_subroute_count, weekday, saturday, sunday] */
 export type GridCell = [number, number, number, number, number, number[] | null, number[] | null, number[] | null];
@@ -53,6 +53,14 @@ export interface PlaceProps {
   progress?: string | null;
 }
 
+export interface YouBikeProps {
+  station_id: string;
+  name: string | null;
+  district: string | null;
+  dock_count: number | null;
+  is_active: boolean | null;
+}
+
 export interface NamedProps {
   name: string;
   city_code?: string;
@@ -68,6 +76,7 @@ export interface MapData {
   mrt_stations: FeatureCollection<Point, NamedProps>;
   district_labels: FeatureCollection<Point, NamedProps>;
   places: FeatureCollection<Point, PlaceProps>;
+  youbike_stations: FeatureCollection<Point, YouBikeProps>;
 }
 
 export interface ViewState {

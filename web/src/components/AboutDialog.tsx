@@ -24,6 +24,7 @@ export default function AboutDialog({ open, grid, onClose }: { open: boolean; gr
             <li>行政區界：內政部國土測繪中心（map-data/admin）</li>
             <li>捷運路線與車站、主要道路、重要地點：© OpenStreetMap contributors（Geofabrik 快照，map-data/osm、map-data/traffic-focus）</li>
             <li>社會住宅：臺北市都市發展局社宅 API（map-data/traffic-focus）</li>
+            <li>YouBike 2.0 站點：臺北市政府交通局（data.taipei），只有站點與總停車格數</li>
             <li>底圖與路名：OpenFreeMap（OpenMapTiles／OpenStreetMap）</li>
           </ul>
           <h3>網格怎麼算</h3>
