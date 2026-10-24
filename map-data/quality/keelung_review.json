@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "dataset_id": "keelung_boundary_independent_review",
+  "metadata": {
+    "reviewed_at": "2026-10-24T10:53:24+08:00",
+    "reviewer": "independent_agent_travel_time",
+    "method": "independent CSV/DBF/ZIP and raw API row comparison; no producer parser/normalizer/matcher imported",
+    "source_updated_at": null,
+    "limitations": [
+      "人口月份與里界版本不同；未宣稱相同月份幾何相等。",
+      "六筆里名異體字/造字差異仍為requires_review，不自動改名。",
+      "公路客運保留全國主檔；完整主檔不代表完整站序/班表或北北基營運普查。"
+    ],
+    "overall_status": "passed_with_explicit_limitations"
+  },
+  "records": [
+    {
+      "check_id": "official_boundary_source_receipts",
+      "status": "passed",
+      "source_files": [
+        "map-data/raw/validation/villages_page.html",
+        "map-data/raw/validation/villages.zip"
+      ]
+    },
+    {
+      "check_id": "national_boundary_official_catalog_resource",
+      "status": "passed",
+      "advertised_resource_url": "https://www.tgos.tw/tgos/VirtualDir/Product/a04697c8-64db-450a-a105-3eb471c45abd/村(里)界(TWD97經緯度).zip"
+    },
+    {
+      "check_id": "keelung_source_crs_and_all_geometry_coordinates",
+      "status": "passed",
+      "source_crs_epsg": 3824,
+      "output_crs_epsg": 4326,
+      "national_raw_feature_count": 7986,
+      "source_shapefile": "VILLAGE_NLSC_1150817.shp",
+      "boundary_version": "2026-08-17",
+      "keelung_feature_count": 165,
+      "max_source_output_hausdorff_distance_degrees": 0,
+      "bounding_box": [
+        121.62679457400009,
+        25.052469833000032,
+        122.10915909000005,
+        25.63337877600003
+      ],
+      "unassigned_feature_count": 8,
+      "mismatches": []
+    }
+  ]
+}
