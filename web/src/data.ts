@@ -1,6 +1,6 @@
 import type { Feature, FeatureCollection, Polygon } from 'geojson';
 import { ALL_DAY, DAY_COLUMN, NO_SCHEDULE, NO_STOP, SCALES } from './config';
-import type { AppState, Coverage, Grid, GridCell, MapData, NeedGrid, StopCatchments } from './types';
+import type { AppState, Coverage, Grid, GridCell, MapData, NeedGrid, StationCatchments } from './types';
 
 const DATA = `${import.meta.env.BASE_URL}data/`;
 
@@ -35,9 +35,12 @@ export function loadNeed(): Promise<NeedGrid> {
   return need;
 }
 
-let catchments: Promise<StopCatchments> | null = null;
-export function loadCatchments(): Promise<StopCatchments> {
-  catchments ??= loadJSON<StopCatchments>('stop_catchments.json');
+let catchments: Promise<StationCatchments> | null = null;
+export function loadCatchments(): Promise<StationCatchments> {
+  catchments ??= loadJSON<StationCatchments>('station_catchments.json').catch((error: unknown) => {
+    catchments = null; // A failed request must be retryable from the station card.
+    throw error;
+  });
   return catchments;
 }
 

@@ -79,7 +79,7 @@ export const coverageLayer: StyleLayer = {
   paint: { 'raster-resampling': 'nearest', 'raster-fade-duration': 0, 'raster-opacity': 0.85 },
 };
 
-// Walking catchment around a clicked bus stop; matches the walk colour of the coverage mode.
+// Fixed 350 m catchment around the selected station, independent of the coverage settings.
 export const catchmentFillLayer: StyleLayer = {
   id: 'catchment-fill',
   type: 'fill',

@@ -24,16 +24,17 @@ export function circle(centre: [number, number], radius: number): Feature<Polygo
 
 export interface Nearby {
   mrt: { count: number; nearest: { name: string; metres: number } | null };
-  youbike: { count: number; docks: number };
+  youbike: { count: number; docks: number | null };
   stops: number;
   places: { key: string; label: string; color: string; count: number }[];
+  facilities: { id: string; name: string; label: string; metres: number }[];
 }
 
 /**
  * Stations and places within `radius` metres of `centre`. `stopId` is left out of the stop count;
  * places count only the categories in `placeKeys` (the place filter).
  */
-export function nearby(data: MapData, centre: [number, number], radius: number, stopId: string, placeKeys: Set<string>): Nearby {
+export function nearby(data: MapData, centre: [number, number], radius: number, stopId: string | null, placeKeys: Set<string>): Nearby {
   const within = <P>(features: Feature<Point, P>[]) =>
     features.map((f) => ({ p: f.properties, m: metresBetween(centre, f.geometry.coordinates) })).filter((x) => x.m <= radius);
 
@@ -41,14 +42,19 @@ export function nearby(data: MapData, centre: [number, number], radius: number, 
   const youbike = within(data.youbike_stations.features);
   const stops = within(data.bus_stops.features).filter((x) => x.p.id !== stopId);
   const placeCounts = new Map<string, number>();
-  for (const { p } of within(data.places.features)) {
+  const facilities: Nearby['facilities'] = [];
+  for (const { p, m } of within(data.places.features).sort((a, b) => a.m - b.m)) {
     const key = PLACE_BY_CATEGORY[p.category]?.key;
-    if (key && placeKeys.has(key)) placeCounts.set(key, (placeCounts.get(key) ?? 0) + 1);
+    if (key && placeKeys.has(key)) {
+      placeCounts.set(key, (placeCounts.get(key) ?? 0) + 1);
+      facilities.push({ id: p.id, name: p.name ?? '未命名設施', label: PLACE_BY_CATEGORY[p.category].label, metres: Math.round(m) });
+    }
   }
   return {
     mrt: { count: mrt.length, nearest: mrt[0] ? { name: mrt[0].p.name, metres: Math.round(mrt[0].m) } : null },
-    youbike: { count: youbike.length, docks: youbike.reduce((sum, x) => sum + (x.p.dock_count ?? 0), 0) },
+    youbike: { count: youbike.length, docks: youbike.some((x) => x.p.dock_count === null) ? null : youbike.reduce((sum, x) => sum + x.p.dock_count!, 0) },
     stops: stops.length,
+    facilities,
     places: PLACE_CATEGORIES.filter((c) => placeCounts.has(c.key)).map((c) => ({ key: c.key, label: c.label, color: c.color, count: placeCounts.get(c.key)! })),
   };
 }

@@ -1,5 +1,5 @@
 import type { FeatureCollection, Point, Polygon } from 'geojson';
-import type { MapGeoJSONFeature, Map as MaplibreMap, Popup as MaplibrePopup } from 'maplibre-gl';
+import type { MapGeoJSONFeature, Map as MaplibreMap } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type RefObject } from 'react';
 import Map, {
@@ -13,14 +13,15 @@ import Map, {
   type MapLayerMouseEvent,
   type MapRef,
 } from 'react-map-gl/maplibre';
-import { circle, nearby } from '../catchment';
-import { BASE_STYLE, COVERAGE_LAYERS, HOVER_LAYERS, LAYER_GROUPS, PLACE_CATEGORIES } from '../config';
+import { circle } from '../catchment';
+import StationInfo, { StationIcon } from '../components/StationInfo';
+import { BASE_STYLE, HOVER_LAYERS, LAYER_GROUPS, PLACE_CATEGORIES } from '../config';
 import { distancesAt, type CoverageImage } from '../coverage';
-import { loadCatchments } from '../data';
 import type { NeedCellProps, NeedResult } from '../need';
-import { CoverageTooltip, FeatureTooltip, NeedTooltip, RoutePopup, StopPopup, stopRoutes, type PopupFeature } from './FeatureInfo';
+import { STATION_LAYERS, STATION_RADIUS, stationFromFeature } from '../stations';
+import { CoverageTooltip, FeatureTooltip, NeedTooltip, RoutePopup, type PopupFeature } from './FeatureInfo';
 import * as L from './layers';
-import type { AppState, Coverage, Grid, LayerGroup, MapData, NeedGrid, StopCatchments, ViewState } from '../types';
+import type { AppState, Coverage, Grid, LayerGroup, MapData, NeedGrid, StationSelection, ViewState } from '../types';
 
 const LABEL_NAME = ['coalesce', ['get', 'name:zh-Hant'], ['get', 'name:nonlatin'], ['get', 'name']];
 const LAYER_GROUP_OF: Record<string, LayerGroup> = Object.fromEntries(
@@ -37,6 +38,9 @@ interface Props {
   coverageImage: CoverageImage | null;
   need: { grid: NeedGrid; result: NeedResult; data: FeatureCollection<Polygon, NeedCellProps> } | null;
   state: AppState;
+  station: StationSelection | null;
+  onStation: (station: StationSelection | null, origin?: HTMLElement) => void;
+  onCloseStation: () => void;
   onReady: () => void;
   onMoveEnd: (view: ViewState) => void;
 }
@@ -78,7 +82,7 @@ function addHatchPattern(map: MaplibreMap) {
   map.addImage('hatch-line', ctx.getImageData(0, 0, size, size));
 }
 
-export default function MapView({ mapRef, initialView, data, grid, gridData, coverage, coverageImage, need, state, onReady, onMoveEnd }: Props) {
+export default function MapView({ mapRef, initialView, data, grid, gridData, coverage, coverageImage, need, state, station, onStation, onCloseStation, onReady, onMoveEnd }: Props) {
   // First label layer of the base style: our layers go below it so road names stay on top.
   const [labelLayer, setLabelLayer] = useState<string | null>(null);
   const [hover, setHover] = useState<Hover | null>(null);
@@ -98,39 +102,33 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
   }, [hover, mapRef]);
   const [popup, setPopup] = useState<PopupFeature | null>(null);
   const [showDistrictLabels, setShowDistrictLabels] = useState(true);
-  const radii = COVERAGE_LAYERS.walk.radii;
-  const [catchRadius, setCatchRadius] = useState(radii.includes(state.walkRadius) ? state.walkRadius : COVERAGE_LAYERS.walk.radius);
-  const [catchments, setCatchments] = useState<StopCatchments | null>(null);
+  const catchmentShape = useMemo(() => (station ? circle(station.at, STATION_RADIUS) : null), [station]);
 
-  const stop = popup?.feature.layer.id === 'bus-stops' ? popup : null;
-  // Population per stop is only needed once a stop is opened.
-  useEffect(() => {
-    if (stop && !catchments) loadCatchments().then(setCatchments, () => {});
-  }, [stop, catchments]);
-  const stopId = stop?.feature.properties.id as string | undefined;
-  const stopNearby = useMemo(
-    () => (stop ? nearby(data, stop.lngLat, catchRadius, stopId!, state.places) : null),
-    [data, stop, catchRadius, stopId, state.places],
-  );
-  const catchmentShape = useMemo(() => (stop ? circle(stop.lngLat, catchRadius) : null), [stop, catchRadius]);
+  // Search and map clicks share one selected station; a route popup must not linger.
+  useEffect(() => { if (station) setPopup(null); }, [station]);
 
-  // The stop popup is tall; pan the map once it opens so the whole popup is visible.
-  const popupRef = useRef<MaplibrePopup>(null);
   useEffect(() => {
-    if (!stop) return;
-    const frame = requestAnimationFrame(() => {
-      const el = popupRef.current?.getElement();
-      const map = mapRef.current;
-      if (!el || !map) return;
-      const tip = el.getBoundingClientRect();
-      const box = map.getContainer().getBoundingClientRect();
-      const margin = 12;
-      const dx = Math.max(0, tip.right + margin - box.right) - Math.max(0, box.left + margin - tip.left);
-      const dy = Math.max(0, tip.bottom + margin - box.bottom) - Math.max(0, box.top + margin - tip.top);
-      if (dx || dy) map.panBy([dx, dy]);
-    });
-    return () => cancelAnimationFrame(frame);
-  }, [stop, mapRef]);
+    if (!labelLayer) return;
+    const map = mapRef.current!;
+    const canvas = map.getCanvas();
+    canvas.setAttribute('aria-label', '互動地圖；方向鍵移動，Enter 開啟畫面中央最近的可見站點，Escape 關閉資訊');
+    const openStation = (event: KeyboardEvent) => {
+      if (event.key !== 'Enter') return;
+      const layers = STATION_LAYERS.filter((id) => map.getLayer(id) && state.layers.has(LAYER_GROUP_OF[id]));
+      if (!layers.length) return;
+      const centre = { x: canvas.clientWidth / 2, y: canvas.clientHeight / 2 };
+      const stations = map.queryRenderedFeatures(undefined, { layers });
+      const distance = (f: MapGeoJSONFeature) => {
+        const point = map.project((f.geometry as Point).coordinates as [number, number]);
+        return Math.hypot(point.x - centre.x, point.y - centre.y);
+      };
+      stations.sort((a, b) => distance(a) - distance(b));
+      const next = stations[0] && stationFromFeature(stations[0], data);
+      if (next) { event.preventDefault(); setHover(null); setPopup(null); onStation(next, canvas); }
+    };
+    canvas.addEventListener('keydown', openStation);
+    return () => canvas.removeEventListener('keydown', openStation);
+  }, [data, labelLayer, mapRef, onStation, state.layers]);
 
   const handleLoad = useCallback(() => {
     const map = mapRef.current!.getMap();
@@ -171,6 +169,9 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
     }
     const { x, y } = e.point;
     const features = map.queryRenderedFeatures([[x - 4, y - 4], [x + 4, y + 4]], { layers });
+    // Station points win; retain the analysis mode's priority for all other features.
+    const stationFeature = features.find((f) => STATION_LAYERS.includes(f.layer.id));
+    if (stationFeature) return stationFeature;
     const priority = (f: MapGeoJSONFeature) => layers.indexOf(f.layer.id);
     return features.reduce<MapGeoJSONFeature | undefined>((best, f) => (!best || priority(f) < priority(best) ? f : best), undefined);
   };
@@ -190,22 +191,23 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
   const handleClick = (e: MapLayerMouseEvent) => {
     const feature = featureAt(e);
     const id = feature?.layer.id;
-    if (feature && id === 'bus-stops') {
-      // Centre the catchment on the stop itself, not on the click.
-      const [lng, lat] = (feature.geometry as Point).coordinates;
-      setPopup({ feature, lngLat: [lng, lat] });
+    if (feature && STATION_LAYERS.includes(id!)) {
+      onStation(stationFromFeature(feature, data), mapRef.current!.getCanvas());
+      setPopup(null);
       setHover(null);
     } else if (feature && id === 'bus-routes') {
+      onStation(null);
       setPopup({ feature, lngLat: [e.lngLat.lng, e.lngLat.lat] });
       setHover(null);
     } else {
       setPopup(null);
+      if (station) onCloseStation();
     }
   };
 
   const highlightedRoutes = popup?.feature.layer.id === 'bus-routes'
     ? { routeId: popup.feature.properties.route_id as string }
-    : stop ? { names: stopRoutes(stop.feature) } : null;
+    : station?.type === 'bus' ? { names: station.properties.routes } : null;
   const below = labelLayer ?? undefined;
 
   return (
@@ -296,21 +298,17 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
           </Marker>
         ))}
 
-        {popup && (
-          <Popup ref={popupRef} longitude={popup.lngLat[0]} latitude={popup.lngLat[1]} offset={8} onClose={() => setPopup(null)} closeOnClick={false}>
-            {stop && stopNearby ? (
-              <StopPopup
-                feature={stop.feature}
-                radii={radii}
-                radius={catchRadius}
-                onRadius={setCatchRadius}
-                catchment={catchments ? (catchments.stops[stopId!] ?? null) : undefined}
-                nearby={stopNearby}
-              />
-            ) : <RoutePopup feature={popup.feature} />}
+        {station && <Marker longitude={station.at[0]} latitude={station.at[1]} anchor="center">
+          <div className={`station-pin station-${station.type}`} aria-hidden="true"><StationIcon type={station.type} /></div>
+        </Marker>}
+        {popup && !station && (
+          <Popup longitude={popup.lngLat[0]} latitude={popup.lngLat[1]} offset={8} onClose={() => setPopup(null)} closeOnClick={false}>
+            <RoutePopup feature={popup.feature} />
           </Popup>
         )}
       </Map>
+
+      {station && <StationInfo station={station} mapRef={mapRef} data={data} placeKeys={state.places} onClose={onCloseStation} />}
 
       {hover && (
         <div ref={tooltipRef} className="tooltip" style={{ left: hover.x, top: hover.y }}>

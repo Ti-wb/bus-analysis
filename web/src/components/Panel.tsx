@@ -195,7 +195,7 @@ export default function Panel({ state, playing, needCounts, onChange, onTogglePl
     <aside className="panel">
       <section className="card intro">
         <h1>城市裡的連結，<br />一眼看見。</h1>
-        <p className="muted">公車、捷運與 YouBike 的路網、班次與站點覆蓋</p>
+        <p className="muted">公車、捷運與 YouBike 的路網與覆蓋。點選站點，認識周邊人口與設施。</p>
 
         <h2>分析圖層</h2>
         <div className="segmented" role="radiogroup" aria-label="分析圖層">

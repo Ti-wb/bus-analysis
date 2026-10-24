@@ -83,7 +83,7 @@ h1, h2, h3, p { margin: 0; }
 .nostop { background: rgba(241, 214, 207, 0.45); border: 1px solid #f1d6cf; }
 
 .search { position: absolute; top: 20px; left: 340px; width: 360px; z-index: 2; display: flex; align-items: center; gap: 8px; padding: 0 14px; height: 44px; background: var(--card); border-radius: 10px; box-shadow: var(--shadow); color: var(--muted); }
-.search input { flex: 1; border: 0; outline: 0; font: inherit; font-size: 14px; color: var(--ink); background: none; }
+.search input { flex: 1; min-width: 0; border: 0; outline: 0; font: inherit; font-size: 14px; color: var(--ink); background: none; }
 .search-results { position: absolute; top: 48px; left: 0; right: 0; margin: 0; padding: 6px; list-style: none; background: var(--card); border-radius: 10px; box-shadow: var(--shadow); max-height: 320px; overflow: auto; }
 .search-results li { padding: 8px 10px; border-radius: 6px; font-size: 14px; color: var(--ink); cursor: pointer; display: flex; justify-content: space-between; }
 .search-results li small { color: var(--muted); }
@@ -116,16 +116,6 @@ h1, h2, h3, p { margin: 0; }
 .maplibregl-popup-content { border-radius: 10px; padding: 12px 14px; font-size: 13px; line-height: 1.6; box-shadow: var(--shadow); max-width: 280px; }
 .maplibregl-popup-content h4 { margin: 0 0 4px; font-size: 14px; }
 .maplibregl-popup-content .routes { color: var(--muted); font-size: 12px; max-height: 96px; overflow: auto; }
-.stop-popup { width: 252px; }
-.stop-popup .segmented { margin: 6px 0 8px; }
-.stop-popup .segmented button { padding: 4px 0; font-size: 12px; }
-.stop-popup dl { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; margin: 0 0 6px; }
-.stop-popup dt { color: var(--muted); font-size: 12px; white-space: nowrap; }
-.stop-popup dd { margin: 0; }
-.stop-popup .warn { color: #b45309; font-size: 12px; }
-.place-count { display: inline-flex; align-items: center; gap: 4px; margin-right: 8px; white-space: nowrap; }
-.place-count i { width: 7px; height: 7px; border-radius: 50%; }
-.stop-popup .note { margin: 6px 0 0; font-size: 11px; line-height: 1.5; }
 .district-label { font-size: 15px; font-weight: 700; color: rgba(31, 42, 44, 0.72); text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff; pointer-events: none; white-space: nowrap; }
 .district-label.is-ntpc { font-size: 13px; font-weight: 500; color: rgba(31, 42, 44, 0.45); }
 .map-hide-labels .district-label { display: none; }
@@ -193,3 +183,60 @@ dialog.about .close { position: absolute; right: 16px; top: 12px; border: 0; bac
 .need-legend-mini span { display: inline-flex; align-items: center; gap: 4px; }
 .tooltip .need-bars { width: 236px; }
 .need-weight input { width: 100%; min-width: 0; }
+
+/* Penpot page 04: one 350 m station card, independent of the coverage settings. */
+.station-bus { --station-color: #267bd4; --station-soft: #edf4fd; }
+.station-mrt { --station-color: #8764d5; --station-soft: #f2eefb; }
+.station-youbike { --station-color: #00998d; --station-soft: #eaf7f4; }
+.station-pin { width: 44px; height: 44px; border: 2px solid var(--station-color); border-radius: 12px; display: grid; place-items: center; background: #fff; color: var(--station-color); box-shadow: 0 3px 10px #19364130; pointer-events: none; }
+.station-card { position: absolute; z-index: 5; width: 356px; max-width: calc(100% - 24px); max-height: calc(100% - 24px); overflow-y: auto; overscroll-behavior: contain; padding: 16px 20px 12px; border: 1px solid #d5e2e8; border-radius: 20px; background: #fff; color: #193641; box-shadow: 0 10px 30px #19364130; font-size: 12px; line-height: 1.6; scrollbar-width: thin; }
+.station-header { position: relative; padding-bottom: 10px; border-bottom: 1px solid #dfe8ec; }
+.station-kind { display: flex; gap: 10px; align-items: center; color: var(--station-color); font-weight: 700; }
+.station-icon { width: 28px; height: 28px; border-radius: 7px; background: var(--station-soft); display: grid; place-items: center; }
+.station-close { position: absolute; top: -4px; right: -8px; display: grid; place-items: center; width: 32px; height: 32px; border: 0; border-radius: 9px; color: #64818e; background: #f2f6f7; }
+.station-close:hover { background: #e7eff2; }
+.station-card button:focus-visible, .station-card summary:focus-visible { outline: 2px solid var(--station-color); outline-offset: 3px; }
+.station-header h2 { margin: 8px 24px 1px 0; font-size: 20px; line-height: 1.4; overflow-wrap: anywhere; }
+.station-header p, .station-meta { color: #688491; }
+.station-section-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 12px 0 4px; }
+.station-card h3 { font-size: 13px; color: #264d60; }
+.station-population .station-section-head h3 { font-weight: 400; color: #557684; }
+.station-section-head > span { color: #79909c; font-size: 11px; }
+.station-badge { background: #f0f4f6; border-radius: 6px; padding: 2px 10px; }
+.station-population-value { font-size: 38px; line-height: 1.25; font-weight: 700; letter-spacing: 0.01em; font-variant-numeric: tabular-nums; }
+.station-population-value span { font-size: 13px; font-weight: 400; color: #688491; margin-left: 8px; }
+.station-meta { margin-top: 2px; font-size: 11px; }
+.station-warning { margin-top: 4px; color: #946020; font-size: 11px; }
+.station-age-title { margin: 16px 0 8px; }
+.station-empty { padding: 8px 0; color: #79909c; }
+.station-empty b, .station-empty-title { display: block; font-size: 20px; color: #355969; margin: 10px 0 4px; }
+.station-empty small { font-size: 11px; color: #8a9da5; }
+.station-age-empty { padding: 12px 16px; background: #f4f7f8; border-radius: 8px; }
+.station-facilities { margin-top: 16px; border-top: 1px solid #dfe8ec; }
+.station-facilities ul { list-style: none; padding: 0; margin: 10px 0 0; }
+.station-facilities li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: start; gap: 10px; padding: 5px 0; }
+.station-facility-kind { background: #f1f5f6; color: #708b97; border-radius: 4px; padding: 2px 5px; font-size: 10px; }
+.station-facility-name { color: #355969; font-size: 11px; overflow-wrap: anywhere; }
+.station-distance { color: #79909c; font-size: 11px; white-space: nowrap; }
+.station-text-button { padding: 4px 0; color: #557684; background: none; border: 0; font-size: 11px; text-decoration: underline; text-underline-offset: 3px; }
+.station-more { border-top: 1px solid #dfe8ec; padding-top: 8px; margin-top: 10px; color: #557684; }
+.station-more summary { cursor: pointer; font-size: 11px; }
+.station-more p { margin-top: 6px; font-size: 11px; }
+.station-routes { max-height: 100px; overflow: auto; }
+.station-note { margin-top: 10px; padding-top: 10px; border-top: 1px solid #dfe8ec; color: #79909c; font-size: 11px; line-height: 1.6; }
+
+@media (max-width: 600px) {
+  .topbar { height: 56px; gap: 14px; }
+  .brand { font-size: 16px; }
+  .brand-mark { width: 28px; height: 28px; }
+  .tabs { gap: 12px; }
+  .tab { font-size: 12px; }
+  .topbar-right .btn-outline { padding: 6px 8px; font-size: 12px; }
+  .search { top: 12px; left: 12px; right: 48px; }
+  .panel { top: 68px; left: 12px; width: 230px; max-height: calc(100% - 148px); }
+  .intro { padding: 18px; }
+  .intro h1 { font-size: 22px; }
+  .explainer { left: 12px; right: 12px; bottom: 12px; padding: 10px 12px; }
+  .explainer p { display: none; }
+  .station-card { border-radius: 16px; }
+}

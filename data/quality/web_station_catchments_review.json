@@ -1,0 +1,237 @@
+{
+  "schema_version": 1,
+  "dataset_id": "independent_web_station_catchments_review",
+  "metadata": {
+    "reviewer_agent": "/root/review_station_data",
+    "independent_of_producer": true,
+    "reviewed_at": "2026-10-24T13:46:09+08:00",
+    "scope": "新增三種站點的人口服務範圍輸出與站點圖層；使用既有本地來源，不重新蒐集資料。",
+    "method": "逐筆比對各來源 ID、名稱與取至 5 位小數的 WGS84 座標；獨立將邊界與顯示站點投影 EPSG:3826，以 scalar intersection 和 math.fsum 重算圓內面積分攤，未呼叫 builder。圓使用每象限 16 段，與輸出精度相同。",
+    "sources": [
+      {
+        "path": "data/population/taipei_statistical_population_base.json",
+        "page_url": "https://data.gov.tw/dataset/18681",
+        "url": "https://segisws.moi.gov.tw/STATWSSTData/OpenService.asmx/GetStatSTDataForOpenCode?oCode=6E03CA29B955A854397166638603FC3B51A1FBEE829C41DBA1D61A4DBA84DCB43EC2490B4BC27DD1320C3EF6DBC4DE80A46DEC5BF5F23516",
+        "raw_file": "raw_data/population/statistical_population_base.xml",
+        "source_updated_at": null,
+        "source_period": {
+          "start": "2024-12",
+          "end": "2024-12"
+        }
+      },
+      {
+        "path": "data/population/taipei_statistical_area_boundaries.geojson",
+        "page_url": "https://data.gov.tw/dataset/25128",
+        "url": "https://opdadm.moi.gov.tw/api/v1/no-auth/resource/api/dataset/03C1D0A5-1F39-4C1F-AA2E-BB37A0405369/resource/DCC6FE32-D76A-4541-800C-5665B60D489D/download",
+        "raw_file": "raw_data/population/statistical_boundary_base.zip",
+        "source_updated_at": null,
+        "source_period": null,
+        "boundary_vintage_year": 2015
+      }
+    ],
+    "blocking_findings": [],
+    "open_findings": [],
+    "resolved_findings": [
+      {
+        "issue": "缺值門檻原未說明低於 0.5% 覆蓋亦會轉 null。",
+        "resolution": "builder 與重產後 station_catchments.json 已標明 0.5% 門檻、data_share=0 與小數 2 位規則，複查通過。"
+      }
+    ]
+  },
+  "records": [
+    {
+      "file": "web/public/data/bus_stops.geojson",
+      "kind": "bus",
+      "record_count": 5376,
+      "status": "pass",
+      "source_path": "data/taipei_feeds/stop_locations.geojson",
+      "source_data_time": "2026-10-21T22:03:04+08:00",
+      "checks": {
+        "unique_string_ids": true,
+        "catchment_id_set_matches": true,
+        "names_and_rounded_coordinates_match_source": true,
+        "point_geometry_wgs84_longitude_latitude": true
+      },
+      "catchment_350m_counts": {
+        "missing_population": 1846,
+        "partial_rounded_data_share": 228,
+        "rounded_data_share_one": 3302
+      }
+    },
+    {
+      "file": "web/public/data/mrt_stations.geojson",
+      "kind": "mrt",
+      "record_count": 154,
+      "status": "pass",
+      "source_path": "map-data/osm/transport.geojson.gz",
+      "source_data_time": "2026-10-20T20:23:47Z",
+      "checks": {
+        "unique_string_ids": true,
+        "catchment_id_set_matches": true,
+        "names_and_rounded_coordinates_match_source": true,
+        "point_geometry_wgs84_longitude_latitude": true
+      },
+      "catchment_350m_counts": {
+        "missing_population": 80,
+        "partial_rounded_data_share": 2,
+        "rounded_data_share_one": 72
+      }
+    },
+    {
+      "file": "web/public/data/youbike_stations.geojson",
+      "kind": "youbike",
+      "record_count": 1822,
+      "status": "pass",
+      "source_path": "data/youbike/stations.geojson",
+      "source_data_time": "2026-10-24T11:58:03+08:00",
+      "checks": {
+        "unique_string_ids": true,
+        "catchment_id_set_matches": true,
+        "names_and_rounded_coordinates_match_source": true,
+        "point_geometry_wgs84_longitude_latitude": true
+      },
+      "catchment_350m_counts": {
+        "missing_population": 0,
+        "partial_rounded_data_share": 90,
+        "rounded_data_share_one": 1732
+      }
+    },
+    {
+      "file": "web/public/data/station_catchments.json",
+      "record_count": 7352,
+      "status": "pass_with_limitations",
+      "checks": {
+        "separate_source_id_namespaces": [
+          "bus.id",
+          "mrt.id (OSM)",
+          "youbike.station_id"
+        ],
+        "radii_m": [
+          200,
+          350,
+          500
+        ],
+        "fields": [
+          "population",
+          "households",
+          "data_share"
+        ],
+        "population_source": {
+          "population_record_count": 11490,
+          "boundary_record_count": 11490,
+          "population_sum": 2490646,
+          "households_sum": 1071497,
+          "period": "2024-12",
+          "boundary_vintage": 2015,
+          "population_boundary_id_sets_equal": true,
+          "null_population_or_households": 0
+        },
+        "population_and_households_nonnegative_integer_or_null": true,
+        "missing_population_and_households_remain_null": true,
+        "finite_data_share_between_zero_and_one": true,
+        "population_monotonic_with_radius_when_available": true,
+        "independently_recomputed_station_radius_combinations": 22056,
+        "recalculation_mismatch_count": 0,
+        "nonzero_coverage_below_half_percent_suppressed_count": 17,
+        "example_350m_results": [
+          {
+            "kind": "bus",
+            "station_id": "6017",
+            "coverage_class": "full",
+            "radius_m": 350,
+            "independently_recomputed": [
+              3327,
+              1628,
+              1.0
+            ]
+          },
+          {
+            "kind": "bus",
+            "station_id": "2717",
+            "coverage_class": "missing",
+            "radius_m": 350,
+            "independently_recomputed": [
+              null,
+              null,
+              0
+            ]
+          },
+          {
+            "kind": "bus",
+            "station_id": "1780",
+            "coverage_class": "partial",
+            "radius_m": 350,
+            "independently_recomputed": [
+              8584,
+              4873,
+              0.87
+            ]
+          },
+          {
+            "kind": "mrt",
+            "station_id": "253559357",
+            "coverage_class": "full",
+            "radius_m": 350,
+            "independently_recomputed": [
+              13155,
+              5853,
+              1.0
+            ]
+          },
+          {
+            "kind": "mrt",
+            "station_id": "373399546",
+            "coverage_class": "missing",
+            "radius_m": 350,
+            "independently_recomputed": [
+              null,
+              null,
+              0
+            ]
+          },
+          {
+            "kind": "mrt",
+            "station_id": "1945578205",
+            "coverage_class": "partial",
+            "radius_m": 350,
+            "independently_recomputed": [
+              5399,
+              2288,
+              0.93
+            ]
+          },
+          {
+            "kind": "youbike",
+            "station_id": "500101001",
+            "coverage_class": "full",
+            "radius_m": 350,
+            "independently_recomputed": [
+              19472,
+              8109,
+              1.0
+            ]
+          },
+          {
+            "kind": "youbike",
+            "station_id": "500103007",
+            "coverage_class": "partial",
+            "radius_m": 350,
+            "independently_recomputed": [
+              7176,
+              3184,
+              0.9
+            ]
+          }
+        ]
+      },
+      "limitations": [
+        "2024-12 戶籍人口搭配檔名標示 2015 的統計區邊界；所有 11,490 個 ID 相符，但不代表同年邊界。",
+        "按統計區內均勻人口密度分攤，僅臺北市；不是實際步行路網、白天活動人口或搭乘量，站點間重疊範圍不可加總。",
+        "使用來源的站點原始 ID，不跨運具借用鄰近站點數值；捷運是 OSM 車站點位，不是出入口或已核驗的官方完整車站名冊。",
+        "本次最小統計區人口來源沒有年齡欄位；未將不同代碼及粒度的里年齡人口自動連接。",
+        "data_share 取至小數點後兩位，1 可能是四捨五入；低於 0.5% 覆蓋時人口與戶數為 null、data_share 為 0。",
+        "既有人口來源總數與同月民政局全市人口相差 223 人，沿用既有來源差異說明，不混用為同一基準。"
+      ]
+    }
+  ]
+}

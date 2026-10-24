@@ -66,6 +66,16 @@ export interface NamedProps {
   city_code?: string;
 }
 
+export interface MrtStationProps extends NamedProps {
+  /** Native OSM ID, kept separate from bus and YouBike IDs. */
+  id: string;
+}
+
+export type StationSelection =
+  | { type: 'bus'; id: string; at: [number, number]; properties: BusStopProps }
+  | { type: 'mrt'; id: string; at: [number, number]; properties: MrtStationProps }
+  | { type: 'youbike'; id: string; at: [number, number]; properties: YouBikeProps };
+
 export interface MapData {
   roads: FeatureCollection;
   districts: FeatureCollection;
@@ -73,7 +83,7 @@ export interface MapData {
   bus_routes: FeatureCollection;
   bus_stops: FeatureCollection<Point, BusStopProps>;
   mrt_lines: FeatureCollection;
-  mrt_stations: FeatureCollection<Point, NamedProps>;
+  mrt_stations: FeatureCollection<Point, MrtStationProps>;
   district_labels: FeatureCollection<Point, NamedProps>;
   places: FeatureCollection<Point, PlaceProps>;
   youbike_stations: FeatureCollection<Point, YouBikeProps>;
@@ -121,10 +131,10 @@ export interface CoverageState {
 /** [population, households, data_share] per radius; see scripts/build_web_data.py build_catchments. */
 export type CatchmentValue = [number | null, number | null, number];
 
-export interface StopCatchments {
+export interface StationCatchments {
   radii: number[];
   fields: string[];
-  stops: Record<string, CatchmentValue[]>;
+  records: Record<StationType, Record<string, CatchmentValue[]>>;
   metadata: { built_at: string; population_period: { start: string; end: string }; boundary_vintage: number; value: string; data_share: string; limitations: string[] };
 }
 
