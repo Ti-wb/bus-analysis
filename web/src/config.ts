@@ -12,6 +12,14 @@ interface Scale {
 
 // Breaks follow the value quantiles of each cell size, so larger cells get a wider scale.
 export const SCALES: Record<CellSize, { hourly: Scale; daily: Scale }> = {
+  100: {
+    hourly: { breaks: [0, 1, 5, 13, 31, 61], labels: ['0', '1–4', '5–12', '13–30', '31–60', '61+'] },
+    daily: { breaks: [0, 1, 41, 161, 401, 801], labels: ['0', '1–40', '41–160', '161–400', '401–800', '801+'] },
+  },
+  150: {
+    hourly: { breaks: [0, 1, 6, 15, 36, 71], labels: ['0', '1–5', '6–14', '15–35', '36–70', '71+'] },
+    daily: { breaks: [0, 1, 51, 181, 451, 851], labels: ['0', '1–50', '51–180', '181–450', '451–850', '851+'] },
+  },
   250: {
     hourly: { breaks: [0, 1, 6, 16, 41, 81], labels: ['0', '1–5', '6–15', '16–40', '41–80', '81+'] },
     daily: { breaks: [0, 1, 51, 201, 501, 1001], labels: ['0', '1–50', '51–200', '201–500', '501–1k', '1k+'] },
@@ -21,7 +29,7 @@ export const SCALES: Record<CellSize, { hourly: Scale; daily: Scale }> = {
     daily: { breaks: [0, 1, 101, 301, 701, 1201], labels: ['0', '1–100', '101–300', '301–700', '701–1.2k', '1.2k+'] },
   },
 };
-export const CELL_SIZES = [250, 500] as const satisfies readonly CellSize[];
+export const CELL_SIZES = [100, 150, 250, 500] as const satisfies readonly CellSize[];
 
 // Cell classes beyond the colour scale.
 export const NO_STOP = -1;

@@ -151,7 +151,7 @@ export default function Panel({ state, playing, onChange, onTogglePlay }: Props)
         {frequency && (
           <>
             <h2>網格大小</h2>
-            <div className="segmented segmented-2" role="radiogroup" aria-label="網格大小">
+            <div className="segmented segmented-4" role="radiogroup" aria-label="網格大小">
               {CELL_SIZES.map((cell) => (
                 <button key={cell} role="radio" aria-checked={state.cell === cell} className={state.cell === cell ? 'is-active' : ''} onClick={() => onChange({ cell })}>
                   {cell} m

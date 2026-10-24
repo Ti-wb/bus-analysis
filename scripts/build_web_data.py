@@ -25,7 +25,7 @@ OUT = ROOT / "web/public/data"
 
 # Taipei City plus a margin of the surrounding New Taipei area.
 VIEW_BBOX = (121.40, 24.93, 121.70, 25.23)
-CELL_SIZES = (250, 500)
+CELL_SIZES = (100, 150, 250, 500)
 # Station-coverage grid: 50 m cells, distances in 10 m steps up to 2.5 km.
 COVERAGE_CELL_M = 50
 COVERAGE_UNIT_M = 10
