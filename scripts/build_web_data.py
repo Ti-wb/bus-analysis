@@ -32,7 +32,7 @@ COVERAGE_CELL_SIZES = (50, 100, 200)
 COVERAGE_UNIT_M = 10
 COVERAGE_CAP = 250
 COVERAGE_OUTSIDE = 255
-# Walking catchment radii around each bus stop, matching the coverage walk radii.
+# Walking catchment radii; station information always uses the 350 m entry.
 CATCHMENT_RADII = (200, 350, 500)
 POPULATION = ROOT / "data/population"
 GRID_LAT0 = 25.05
@@ -233,7 +233,7 @@ def build_coverage(city, station_types, cell_m):
 
 
 def build_catchments(stops):
-    """Registered population within each walking radius of every bus stop.
+    """Registered population within each walking radius of the supplied station points.
 
     Each statistical area's population is split by the share of its area inside the circle
     (uniform density within the area). data_share is the share of the circle covered by
@@ -346,7 +346,7 @@ def main():
         if props["name"] in seen:
             continue
         seen.add(props["name"])
-        stations.append({"type": "Feature", "properties": {"name": props["name"]}, "geometry": rounded(geometry)})
+        stations.append({"type": "Feature", "properties": {"id": str(props["osm_id"]), "name": props["name"]}, "geometry": rounded(geometry)})
     write("mrt_stations.geojson", collection(stations, {**osm_meta, "selection": "OSM railway_station within about 80 m of a selected metro line; deduplicated by name"}))
 
     # Important places: OSM demand candidates and official social-housing projects.
@@ -439,21 +439,37 @@ def main():
     }
     write("bus_stops.geojson", collection(stop_features, bus_meta))
 
-    catchments, population_meta = build_catchments(stops)
-    write("stop_catchments.json", {
+    # Use the exact displayed points, with separate source ID namespaces. Never join
+    # a metro or bike station to a nearby bus stop to borrow its population estimate.
+    station_points = {
+        "bus": {f["properties"]["id"]: f["geometry"]["coordinates"] for f in stop_features},
+        "mrt": {f["properties"]["id"]: f["geometry"]["coordinates"] for f in stations},
+        "youbike": {f["properties"]["station_id"]: rounded(shape(f["geometry"]))["coordinates"] for f in youbike["features"]},
+    }
+    catchments, population_meta = build_catchments({
+        f"{kind}:{station_id}": point
+        for kind, points in station_points.items() for station_id, point in points.items()
+    })
+    write("station_catchments.json", {
+        "schema_version": "1.0",
+        "dataset_id": "web_station_catchments",
         "radii": list(CATCHMENT_RADII),
         "fields": ["population", "households", "data_share"],
-        "stops": catchments,
+        "records": {
+            kind: {sid: catchments[f"{kind}:{sid}"] for sid in points}
+            for kind, points in station_points.items()
+        },
         "metadata": {
             **population_meta,
+            "station_sources": {"bus": "bus_stops.geojson: id", "mrt": "mrt_stations.geojson: id (OSM)", "youbike": "youbike_stations.geojson: station_id"},
             "built_at": built_at,
             "value": "站位為圓心、各半徑直線圓內的戶籍人口與戶數；統計區只有部分在圓內時，依面積比例分攤（假設區內人口均勻分布）",
-            "data_share": "圓面積中有臺北市統計區人口資料的比例；圓內沒有任何臺北市統計區時，人口與戶數為 null",
+            "data_share": "圓面積中有臺北市統計區人口資料的比例；覆蓋低於 0.5% 時人口與戶數為 null、data_share 為 0；其餘比例四捨五入至小數 2 位",
             "limitations": [
-                "戶籍人口不等於白天活動人口，也不是公車搭乘量。",
+                "戶籍人口不等於白天活動人口，也不是搭乘量；來源沒有年齡分布。",
                 f"統計區邊界為 {population_meta['boundary_vintage']} 年版，人口為 {population_meta['population_period']['end']}，兩者版本不同。",
                 "只有臺北市人口；圓延伸到新北市的部分不計，data_share 會小於 1。",
-                "相鄰站牌的範圍互相重疊，各站人口不可加總。",
+                "相鄰站點的範圍互相重疊，各站人口不可加總；捷運以車站點位而非出入口計算。",
                 "直線距離，未計入路網、河川或高架阻隔。",
             ],
         },

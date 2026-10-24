@@ -95,8 +95,6 @@ export const COVERAGE_CELLS: { cell: CoverageCell; label: string }[] = [
   { cell: 200, label: '粗略' },
 ];
 export const DEFAULT_COVERAGE_CELL: CoverageCell = 100;
-/** Radii precomputed in stop_catchments.json for the stop popup. */
-export const CATCHMENT_RADII = [200, 350, 500];
 /** Opacity of the five distance bands, from the station outwards. */
 export const COVERAGE_ALPHA = [0.6, 0.48, 0.37, 0.27, 0.18];
 export const COVERAGE_BANDS = COVERAGE_ALPHA.length;

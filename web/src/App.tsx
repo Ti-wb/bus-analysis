@@ -11,7 +11,7 @@ import { gridCollection, hourText, loadCoverage, loadGrid, loadMapData, loadNeed
 import { readHash, writeHash } from './hashState';
 import MapView from './map/MapView';
 import { computeNeed, needCollection, quadrantOf } from './need';
-import type { AppState, Coverage, Grid, MapData, NeedGrid, ViewState } from './types';
+import type { AppState, Coverage, Grid, MapData, NeedGrid, StationSelection, ViewState } from './types';
 
 const initial = readHash();
 
@@ -32,6 +32,27 @@ export default function App() {
   const [aboutOpen, setAboutOpen] = useState(false);
   const [explainerOpen, setExplainerOpen] = useState(true);
   const [prefsOpen, setPrefsOpen] = useState(false);
+  const [station, setStation] = useState<StationSelection | null>(null);
+  const stationOrigin = useRef<HTMLElement | null>(null);
+  const focusFrame = useRef<number | null>(null);
+
+  const selectStation = useCallback((next: StationSelection | null, origin?: HTMLElement) => {
+    // A new selection supersedes any focus restoration from the previous card.
+    if (focusFrame.current !== null) cancelAnimationFrame(focusFrame.current);
+    focusFrame.current = null;
+    if (next) stationOrigin.current = origin ?? document.activeElement as HTMLElement;
+    setStation(next);
+  }, []);
+  const closeStation = useCallback(() => {
+    setStation(null);
+    const origin = stationOrigin.current;
+    if (focusFrame.current !== null) cancelAnimationFrame(focusFrame.current);
+    focusFrame.current = requestAnimationFrame(() => {
+      focusFrame.current = null;
+      if (origin?.isConnected) origin.focus({ preventScroll: true });
+      else mapRef.current?.getCanvas().focus({ preventScroll: true });
+    });
+  }, []);
 
   const update = useCallback((patch: Partial<AppState>) => setState((s) => ({ ...s, ...patch })), []);
 
@@ -101,6 +122,7 @@ export default function App() {
       const places = item.place ? new Set(state.places).add(item.place) : state.places;
       update({ layers, places });
     }
+    selectStation(item.station ?? null);
     mapRef.current?.flyTo({ center: item.at, zoom: item.zoom });
   };
 
@@ -132,6 +154,9 @@ export default function App() {
             coverageLines={coverageLines}
             need={need}
             state={state}
+            station={station}
+            onStation={selectStation}
+            onCloseStation={closeStation}
             onReady={() => setMapReady(true)}
             onMoveEnd={handleMoveEnd}
           />
