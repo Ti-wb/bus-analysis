@@ -1,16 +1,18 @@
 """Synthetic contract tests; live responses are independently reviewed separately."""
 from __future__ import annotations
 
-from contextlib import redirect_stdout
+from contextlib import contextmanager, redirect_stdout
+from http.client import IncompleteRead
 import io
 import gzip
 import json
 from pathlib import Path
+import ssl
 import tempfile
 from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
-from urllib.error import HTTPError
+from urllib.error import HTTPError, URLError
 
 from scripts import tdx_bus_travel_time as bus
 
@@ -41,6 +43,47 @@ class TravelTimeTests(unittest.TestCase):
         self.root = Path(self.tmp.name)
         self.request = bus.travel_request(spec(), 'Taipei', '測試線')
         self.source = {'downloaded_at': '2026-10-21T23:47:11+08:00', 'fixture': 'synthetic'}
+
+    def response(self, body):
+        payload = body if isinstance(body, bytes) else json.dumps(body, ensure_ascii=False).encode()
+        result = io.BytesIO(payload)
+        result.status = 200
+        result.headers = {'Content-Type': 'application/json', 'Content-Length': str(len(payload))}
+        return result
+
+    def reference_body(self):
+        return {'Count': 1, 'StartDate': '2026-10-01', 'EndDate': '2026-10-31',
+                'BusRoutes': [{'RouteUID': 'TPE001', 'RouteID': '001',
+                               'RouteName': {'Zh_tw': '測試線'}, 'SubRoutes': []}]}
+
+    def seed_snapshot(self, root, compressed=False):
+        store = bus.Store(root)
+        bus.write(store.raw / 'specifications/travel_time.json', spec())
+        for request, body in [(bus.route_request('2026-10-23'), self.reference_body()),
+                              (self.request, [model(RouteName='前次有效模型')])]:
+            payload = json.dumps(body, ensure_ascii=False).encode()
+            path = store.raw / 'responses' / (request['source_id'] + ('.json.gz' if compressed else '.json'))
+            path.parent.mkdir(parents=True, exist_ok=True)
+            stored = gzip.compress(payload, mtime=0) if compressed else payload
+            path.write_bytes(stored)
+            source = {**request, 'status': 'downloaded', 'raw_file': str(path.relative_to(root)),
+                      'downloaded_at': '2026-10-21T10:00:00+08:00', 'bytes': len(payload), 'http_status': 200}
+            if compressed:
+                source.update(storage_encoding='gzip', stored_bytes=len(stored))
+            store.upsert(source)
+        store.rebuild(bus.date(2026, 10, 24))
+        return store
+
+    @contextmanager
+    def virtual_clock(self):
+        current = [bus.datetime.fromisoformat('2026-10-24T12:00:00+08:00').timestamp()]
+        def sleep(seconds):
+            current[0] += seconds
+        with patch.object(bus.time, 'time', side_effect=lambda: current[0]), \
+                patch.object(bus.time, 'monotonic', side_effect=lambda: current[0]), \
+                patch.object(bus.time, 'sleep', side_effect=sleep), \
+                patch.object(bus, 'now', side_effect=lambda: bus.datetime.fromtimestamp(current[0], bus.ZoneInfo('Asia/Taipei')).isoformat(timespec='seconds')):
+            yield current
 
     def test_missing_runtime_and_first_stop_preserved_null(self):
         result = bus.normalize_travel([model()], self.request, self.source)
@@ -217,6 +260,198 @@ class TravelTimeTests(unittest.TestCase):
                          'x-ratelimit-remaining-minute': '0', 'x-rate-limit-reset': '123456'})
         self.assertNotIn('synthetic-private', store.path.read_text())
         self.assertFalse((store.raw / 'responses' / (self.request['source_id'] + '.part')).exists())
+
+    def test_http_error_headers_delay_the_next_scope_in_the_same_batch(self):
+        for label, headers, expected_delay in [('retry', {'Retry-After': '90'}, 90),
+                                                ('remaining', {'X-RateLimit-Remaining-Minute': '0'}, 60)]:
+            with self.subTest(header=label):
+                store = bus.Store(self.root / label)
+                next_request = bus.travel_request(spec(), 'Taipei', '下一條')
+                args = SimpleNamespace(max_requests=2, max_response_mb=8, max_total_mb=20,
+                                       min_request_interval=13, refresh=False)
+                calls = []
+                with self.virtual_clock() as current:
+                    def transport(request, **kwargs):
+                        calls.append(current[0])
+                        if len(calls) == 1:
+                            raise HTTPError(self.request['download_url'], 503, 'Unavailable', headers, None)
+                        return self.response([model()])
+                    with patch.object(bus, 'token', return_value='synthetic'), patch.object(bus, 'urlopen', side_effect=transport), redirect_stdout(io.StringIO()):
+                        result = bus.fetch_requests(store, [self.request, next_request], args)
+                self.assertEqual(result['requests_used'], 2)
+                self.assertGreaterEqual(calls[1] - calls[0], expected_delay)
+
+    def test_resume_honors_error_headers_from_failed_refresh(self):
+        store = bus.Store(self.root)
+        with self.virtual_clock() as current:
+            observed = current[0]
+            store.upsert({**self.request, 'status': 'downloaded', 'downloaded_at': '2026-10-21T10:00:00+08:00'})
+            store.upsert({**self.request, 'status': 'failed', 'checked_at': bus.now(), 'http_status': 503,
+                          'usage_headers': {'retry-after': '90'}})
+            current[0] += 10
+            next_request = bus.travel_request(spec(), 'Taipei', '下一條')
+            calls = []
+            def transport(request, **kwargs):
+                calls.append(current[0])
+                return self.response([model()])
+            args = SimpleNamespace(max_requests=1, max_response_mb=8, max_total_mb=20,
+                                   min_request_interval=13, refresh=False)
+            with patch.object(bus, 'token', return_value='synthetic'), patch.object(bus, 'urlopen', side_effect=transport), redirect_stdout(io.StringIO()):
+                bus.fetch_requests(store, [self.request, next_request], args)
+        self.assertEqual(len(calls), 1)
+        self.assertGreaterEqual(calls[0] - observed, 90)
+
+    def test_main_successful_refresh_switches_raw_and_output_encoding_without_stale_files(self):
+        for compressed in [False, True]:
+            with self.subTest(new_compressed=compressed):
+                root = self.root / str(compressed)
+                store = self.seed_snapshot(root, not compressed)
+                old_source = dict(store.successful(self.request['source_id']))
+                old_raw = root / old_source['raw_file']
+                old_output = store.out / 'observations' / (self.request['source_id'] + ('.json' if compressed else '.json.gz'))
+                responses = [self.response(spec()), self.response(self.reference_body()), self.response([model(RouteName='新模型')])]
+                arguments = ['--root', str(root), '--fetch', '--refresh', '--route', 'Taipei:測試線', '--as-of', '2026-10-24']
+                if compressed:
+                    arguments.append('--compress')
+                with self.virtual_clock(), patch.object(bus, 'token', return_value='synthetic'), patch.object(bus, 'urlopen', side_effect=responses), redirect_stdout(io.StringIO()):
+                    bus.main(arguments)
+                latest = bus.Store(root).successful(self.request['source_id'])
+                self.assertTrue((root / latest['raw_file']).is_file())
+                self.assertFalse(old_raw.exists())
+                self.assertFalse(old_output.exists())
+                new_output = store.out / 'observations' / (self.request['source_id'] + ('.json.gz' if compressed else '.json'))
+                stored = new_output.read_bytes()
+                result = json.loads(gzip.decompress(stored) if compressed else stored)
+                self.assertEqual(result['records'][0]['route_name'], '新模型')
+                self.assertFalse(list(root.rglob('*.part')))
+
+    def test_main_transport_failures_finalize_progress_and_preserve_refresh_snapshot(self):
+        for refresh in [False, True]:
+            for label in ['timeout', 'connection', 'incomplete', 'os_read', 'tls_read']:
+                with self.subTest(refresh=refresh, failure=label):
+                    root = self.root / (str(refresh) + label)
+                    store = self.seed_snapshot(root)
+                    old_source = dict(store.successful(self.request['source_id']))
+                    old_raw = (root / old_source['raw_file']).read_bytes()
+                    class SocketReadError(OSError):
+                        pass
+                    error = {'timeout': TimeoutError('timed out'), 'connection': URLError(ConnectionResetError('reset')),
+                             'incomplete': IncompleteRead(b'partial', 20), 'os_read': SocketReadError('read failed'),
+                             'tls_read': ssl.SSLError('TLS read failed')}[label]
+                    broken = self.request if refresh else bus.travel_request(spec(), 'Taipei', '失敗線')
+                    responses = [self.response(spec())]
+                    if refresh:
+                        responses.append(self.response(self.reference_body()))
+                    responses.append(self.response([model(RouteUID='TPE002', RouteName='本批成功')]))
+                    read_failure = label in {'incomplete', 'os_read', 'tls_read'}
+                    if read_failure:
+                        interrupted = self.response(b'partial')
+                        def read_interrupted(size):
+                            raise error
+                        interrupted.read = read_interrupted
+                        responses.append(interrupted)
+                    else:
+                        responses.append(error)
+                    arguments = ['--root', str(root), '--fetch', '--route', 'Taipei:新增線', '--route', 'Taipei:' + broken['route_name'], '--as-of', '2026-10-24']
+                    if refresh:
+                        arguments.append('--refresh')
+                    with self.virtual_clock(), patch.object(bus, 'token', return_value='synthetic'), patch.object(bus, 'urlopen', side_effect=responses), redirect_stdout(io.StringIO()), self.assertRaises(type(error)):
+                        bus.main(arguments)
+                    saved = bus.Store(root)
+                    batch = saved.manifest['metadata']['last_batch']
+                    self.assertEqual(batch['status'], 'partial_stopped')
+                    self.assertEqual(batch['stop_reason'], 'transport_error')
+                    self.assertEqual(batch['new_business_request_count'], 3 if refresh else 2)
+                    self.assertEqual(len(batch['successful_source_ids']), 2 if refresh else 1)
+                    failed = next(r for r in saved.manifest['records'] if r['source_id'] == broken['source_id'])
+                    failure = failed['last_failed_attempt'] if refresh else failed
+                    self.assertEqual(failure['failure_reason'], 'transport_error')
+                    self.assertEqual(failure['transport_error_type'], type(error).__name__)
+                    self.assertEqual(failure.get('http_status'), 200 if read_failure else None)
+                    self.assertEqual((root / old_source['raw_file']).read_bytes(), old_raw)
+                    self.assertEqual(saved.successful(self.request['source_id'])['downloaded_at'], old_source['downloaded_at'])
+                    coverage = json.loads((store.out / 'coverage.json').read_text())
+                    self.assertIn('本批成功', [r['RouteName'] for r in saved.raw_body(saved.successful('Taipei_%E6%96%B0%E5%A2%9E%E7%B7%9A'))])
+                    self.assertEqual(coverage['metadata']['successful_response_count'], 2)
+                    self.assertFalse(list(root.rglob('*.part')))
+
+    def test_main_strict_serialization_failure_preserves_valid_refresh_before_install(self):
+        for compressed in [False, True]:
+            with self.subTest(compressed=compressed):
+                root = self.root / str(compressed)
+                store = self.seed_snapshot(root, compressed)
+                old_source = dict(store.successful(self.request['source_id']))
+                old_raw = (root / old_source['raw_file']).read_bytes()
+                responses = [self.response(spec()), self.response(self.reference_body()),
+                             self.response([model(RouteName='不能安裝的模型', UpdateInterval=float('nan'))])]
+                arguments = ['--root', str(root), '--fetch', '--refresh', '--route', 'Taipei:測試線', '--as-of', '2026-10-24']
+                if compressed:
+                    arguments.append('--compress')
+                with self.virtual_clock(), patch.object(bus, 'token', return_value='synthetic'), patch.object(bus, 'urlopen', side_effect=responses), redirect_stdout(io.StringIO()):
+                    bus.main(arguments)
+                latest = bus.Store(root).successful(self.request['source_id'])
+                self.assertEqual((root / old_source['raw_file']).read_bytes(), old_raw)
+                self.assertEqual({key: latest[key] for key in old_source}, old_source)
+                self.assertEqual(latest['last_failed_attempt']['failure_reason'], 'unusable_response_format_or_contract')
+                output_path = store.out / 'observations' / (self.request['source_id'] + ('.json.gz' if compressed else '.json'))
+                body = output_path.read_bytes()
+                output = json.loads(gzip.decompress(body) if compressed else body)
+                self.assertEqual(output['records'][0]['route_name'], '前次有效模型')
+                self.assertNotIn(self.request['source_id'], bus.Store(root).manifest['metadata']['last_batch']['successful_source_ids'])
+
+    def test_main_first_reference_timeout_finalizes_manifest_without_masking_transport_error(self):
+        bus.write(bus.Store(self.root).raw / 'specifications/travel_time.json', spec())
+        with self.virtual_clock(), patch.object(bus, 'token', return_value='synthetic'), \
+                patch.object(bus, 'urlopen', side_effect=[self.response(spec()), TimeoutError('timed out')]), \
+                redirect_stdout(io.StringIO()), self.assertRaises(TimeoutError):
+            bus.main(['--root', str(self.root), '--fetch', '--route', 'Taipei:測試線', '--as-of', '2026-10-24'])
+        saved = bus.Store(self.root)
+        batch = saved.manifest['metadata']['last_batch']
+        self.assertEqual(batch['status'], 'partial_stopped')
+        self.assertEqual(batch['stop_reason'], 'transport_error')
+        self.assertEqual(batch['attempted_source_ids'], [bus.route_request('2026-10-23')['source_id']])
+        failure = next(r for r in saved.manifest['records'] if r['kind'] == 'route_reference')
+        self.assertEqual(failure['failure_reason'], 'transport_error')
+        self.assertFalse((saved.out / 'coverage.json').exists())
+
+    def test_nonfinite_or_unencodable_source_cannot_be_hidden_by_normalization(self):
+        for label, body in [('nan_id', [model(RouteID=float('nan'))]),
+                            ('surrogate', [model(ValidityDescription='\ud800')])]:
+            with self.subTest(source=label):
+                root = self.root / label
+                store = self.seed_snapshot(root, True)
+                old_source = dict(store.successful(self.request['source_id']))
+                old_raw = (root / old_source['raw_file']).read_bytes()
+                args = SimpleNamespace(max_requests=1, max_response_mb=8, max_total_mb=20,
+                                       min_request_interval=13, refresh=True, compress=True)
+                payload = json.dumps(body, ensure_ascii=True).encode()
+                with self.virtual_clock(), patch.object(bus, 'token', return_value='synthetic'), \
+                        patch.object(bus, 'urlopen', return_value=self.response(payload)), redirect_stdout(io.StringIO()):
+                    bus.fetch_requests(store, [self.request], args)
+                latest = bus.Store(root).successful(self.request['source_id'])
+                self.assertEqual((root / old_source['raw_file']).read_bytes(), old_raw)
+                self.assertEqual({key: latest[key] for key in old_source}, old_source)
+                self.assertEqual(latest['last_failed_attempt']['failure_reason'], 'unusable_response_format_or_contract')
+
+    def test_local_part_file_error_is_not_mislabeled_as_transport_failure(self):
+        store = self.seed_snapshot(self.root, True)
+        old_source = dict(store.successful(self.request['source_id']))
+        old_raw = (self.root / old_source['raw_file']).read_bytes()
+        part = (self.root / old_source['raw_file']).with_suffix('.part')
+        original_open = Path.open
+        def open_file(path, *args, **kwargs):
+            if path == part:
+                raise PermissionError('local write denied')
+            return original_open(path, *args, **kwargs)
+        args = SimpleNamespace(max_requests=1, max_response_mb=8, max_total_mb=20,
+                               min_request_interval=13, refresh=True, compress=True)
+        with self.virtual_clock(), patch.object(bus, 'token', return_value='synthetic'), \
+                patch.object(bus, 'urlopen', return_value=self.response([model()])), \
+                patch.object(Path, 'open', new=open_file), redirect_stdout(io.StringIO()), self.assertRaises(PermissionError):
+            bus.fetch_requests(store, [self.request], args)
+        self.assertEqual(bus.Store(self.root).successful(self.request['source_id']), old_source)
+        self.assertEqual((self.root / old_source['raw_file']).read_bytes(), old_raw)
+        self.assertFalse(part.exists())
 
     def test_remaining_batch_budget_leaves_next_endpoint_unrequested(self):
         store = bus.Store(self.root)

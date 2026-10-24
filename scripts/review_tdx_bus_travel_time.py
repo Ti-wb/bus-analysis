@@ -282,7 +282,8 @@ def audit(root, reviewer_agent=None):
         expected_period = {"effective_dates": sorted({a for a, _ in periods}), "expire_dates": sorted({b for _, b in periods}),
                            "historical_input_period": "近3個月；精確起訖未由來源給定"}
         check(metadata["statistical_period"] == expected_period == covered["statistical_period"], "Effective period changed")
-        check(metadata["scope_status"] == covered["scope_status"] == "complete_unpaginated_requested_endpoint_response", "Response completeness claim differs")
+        expected_scope = "complete_unpaginated_requested_endpoint_response" if raw else "empty_requested_endpoint_response"
+        check(metadata["scope_status"] == covered["scope_status"] == expected_scope, "Response completeness claim differs")
         total_rows += len(pairs); total_missing += missing; total_groups += len(raw)
         review.append({"source_id": receipt["source_id"], "status": "pass_with_limitations", "source": receipt,
                        "output_file": covered["output_file"], "source_model_count": len(raw), "source_station_time_row_count": len(pairs),

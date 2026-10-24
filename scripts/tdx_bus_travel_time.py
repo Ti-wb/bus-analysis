@@ -10,6 +10,7 @@ import argparse
 from datetime import date, datetime, timedelta
 from email.utils import parsedate_to_datetime
 import gzip
+from http.client import IncompleteRead
 import json
 import math
 from pathlib import Path
@@ -61,6 +62,21 @@ def write_compressed(path, obj):
         part.replace(path)
     finally:
         part.unlink(missing_ok=True)
+
+
+def remove_alternate_encoding(path):
+    """Remove only the same JSON scope's obsolete storage representation."""
+    alternate = path.with_suffix('') if path.name.endswith('.json.gz') else path.with_suffix('.json.gz')
+    alternate.unlink(missing_ok=True)
+
+
+def transport_call(operation, *args, **kwargs):
+    """Keep original network exceptions distinguishable from local file I/O."""
+    try:
+        return operation(*args, **kwargs)
+    except (OSError, IncompleteRead) as exc:
+        exc.tdx_transport_failure = True
+        raise
 
 
 def next_request_time(headers, observed_at, interval):
@@ -315,6 +331,7 @@ class Store:
                     write_compressed(self.root / filename, dataset)
                 else:
                     write(self.root / filename, dataset)
+                remove_alternate_encoding(self.root / filename)
                 m = dataset['metadata']
                 record.update({k: m[k] for k in ['record_count', 'travel_time_row_count', 'missing_run_time_count', 'statistical_period', 'scope_status']})
                 record['output_file'] = filename
@@ -449,6 +466,7 @@ def fetch_requests(store, requests, args):
         body = None
         content_type = None
         usage = {}
+        http_status = None
         try:
             req = Request(request['download_url'], headers={'Authorization': 'Bearer ' + auth, 'Accept-Encoding': 'identity'})
             last_at = time.monotonic()
@@ -461,7 +479,11 @@ def fetch_requests(store, requests, args):
                 batch['new_business_request_count'] = len(batch['attempted_source_ids'])
                 batch['last_request_started_at'] = now()
                 store.save()
-            with urlopen(req, timeout=120) as response:
+            with transport_call(urlopen, req, timeout=120) as response:
+                http_status = response.status
+                content_type = response.headers.get('Content-Type')
+                usage = {k.lower(): v for k, v in response.headers.items()
+                         if k.lower() == 'retry-after' or k.lower().startswith(('x-ratelimit', 'x-rate-limit', 'x-quota', 'x-point'))}
                 if response.status != 200:
                     raise ValueError('Unexpected HTTP status ' + str(response.status))
                 declared_header = response.headers.get('Content-Length')
@@ -470,7 +492,7 @@ def fetch_requests(store, requests, args):
                     raise ValueError('response_exceeds_local_size_limit')
                 size = 0
                 with part.open('wb') as output:
-                    while chunk := response.read(min(65536, max(1, limit - size + 1))):
+                    while chunk := transport_call(response.read, min(65536, max(1, limit - size + 1))):
                         size += len(chunk); total += len(chunk)
                         if size > limit:
                             raise ValueError('response_exceeds_local_size_limit')
@@ -479,12 +501,11 @@ def fetch_requests(store, requests, args):
                 # array). Reject it before parsing or replacing a valid cache.
                 if declared_length is not None and size != declared_length:
                     raise ValueError('response_length_mismatch')
-                content_type = response.headers.get('Content-Type')
-                usage = {k.lower(): v for k, v in response.headers.items() if k.lower().startswith(('x-ratelimit', 'x-rate-limit', 'x-quota', 'x-point'))}
-                if response.headers.get('Retry-After'):
-                    usage['retry-after'] = response.headers['Retry-After']
                 allowed_at = next_request_time(usage, time.time(), args.min_request_interval)
             body = json.loads(part.read_bytes())
+            # ID normalization stringifies source values; validate the raw
+            # JSON as well so NaN cannot be hidden as an identifier string.
+            json.dumps(body, ensure_ascii=False, allow_nan=False).encode('utf-8')
             source = {**request, 'status': 'downloaded', 'raw_file': str(path.relative_to(store.root)),
                       'downloaded_at': now(), 'source_updated_at': None, 'bytes': size, 'http_status': 200,
                       'content_type': content_type, 'usage_headers': usage}
@@ -492,26 +513,41 @@ def fetch_requests(store, requests, args):
                 compressed = gzip.compress(part.read_bytes(), mtime=0)
                 source.update({'storage_encoding': 'gzip', 'stored_bytes': len(compressed)})
             if request['kind'] == 'travel_time':
-                normalize_travel(body, request, source)
+                normalized = normalize_travel(body, request, source)
             else:
                 rows, wrapper = response_records(body)
                 if not rows or wrapper.get('Count') != len(rows):
                     raise ValueError('route_reference_count_mismatch')
+                normalized = normalize(body)
+            # Validate every normalized field, not just RunTime, before the
+            # raw response or its successful receipt can replace a valid one.
+            json.dumps(normalized, ensure_ascii=False, allow_nan=False).encode('utf-8')
             if compress:
                 part.write_bytes(compressed)
             part.replace(path)
             if batch is not None:
                 batch.setdefault('successful_source_ids', []).append(request['source_id'])
             store.upsert(source)
+            remove_alternate_encoding(path)
             print(request['source_id'] + ': saved ' + str(size) + ' bytes', flush=True)
         except HTTPError as exc:
             usage = {k.lower(): v for k, v in (exc.headers or {}).items()
                      if k.lower() == 'retry-after' or k.lower().startswith(('x-ratelimit', 'x-rate-limit', 'x-quota', 'x-point'))}
             store.upsert({**request, 'status': 'failed', 'checked_at': now(), 'http_status': exc.code,
                           'failure_reason': 'provider_http_error', 'usage_headers': usage})
+            allowed_at = next_request_time(usage, time.time(), args.min_request_interval)
             print(request['source_id'] + ': HTTP ' + str(exc.code), flush=True)
             if exc.code in {401, 403, 429}:
                 raise RuntimeError('TDX denied/limited the request; no retries or account changes performed') from None
+        except (OSError, IncompleteRead) as exc:
+            if not getattr(exc, 'tdx_transport_failure', False):
+                raise
+            store.upsert({**request, 'status': 'failed', 'checked_at': now(), 'http_status': http_status,
+                          'failure_reason': 'transport_error', 'transport_error_type': type(exc).__name__,
+                          'availability_status': 'technical_failure', 'partial_file_retained': False,
+                          'content_type': content_type, 'usage_headers': usage})
+            print(request['source_id'] + ': transport_error', flush=True)
+            raise
         except (ValueError, UnicodeError) as exc:
             reason = str(exc) if str(exc) in {'response_exceeds_local_size_limit', 'response_length_mismatch'} else 'unusable_response_format_or_contract'
             failure = {**request, 'status': 'failed', 'checked_at': now(), 'failure_reason': reason,
@@ -616,12 +652,21 @@ def main(argv=None):
         store.save()
         try:
             stats = fetch_requests(store, requests, args)
-        except (KeyboardInterrupt, RuntimeError) as exc:
+        except (KeyboardInterrupt, RuntimeError, OSError, IncompleteRead) as exc:
+            if isinstance(exc, (OSError, IncompleteRead)) and not getattr(exc, 'tdx_transport_failure', False):
+                raise
             batch = store.manifest['metadata']['last_batch']
+            stop_reason = ('local_interrupt' if isinstance(exc, KeyboardInterrupt) else
+                           'transport_error' if getattr(exc, 'tdx_transport_failure', False)
+                           else 'provider_denied_or_limited_request')
             batch.update({'status': 'partial_stopped', 'finished_at': now(),
-                          'stop_reason': 'local_interrupt' if isinstance(exc, KeyboardInterrupt) else 'provider_denied_or_limited_request'})
+                          'stop_reason': stop_reason})
             store.save()
-            store.rebuild(args.as_of)
+            has_reference = any(r.get('kind') == 'route_reference' and r.get('status') == 'downloaded'
+                                for r in store.manifest['records'])
+            fallback = args.root / 'data/tdx/observations/Taipei_2026-10-20_Route_top_100000.json'
+            if has_reference or fallback.is_file():
+                store.rebuild(args.as_of)
             raise
         store.manifest['metadata']['last_batch'].update({'status': 'bounded_batch_finished', 'finished_at': now(),
                                                         'new_business_request_count': stats['requests_used']})

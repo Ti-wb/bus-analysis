@@ -4,7 +4,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from scripts.review_tdx_bus_travel_time import audit_catalog_endpoint, audit_delivery_accounting, audit_taipei_endpoint_totals, audit_unavailable_source, read, read_source
+from scripts.review_tdx_bus_travel_time import audit, audit_catalog_endpoint, audit_delivery_accounting, audit_taipei_endpoint_totals, audit_unavailable_source, read, read_source
 
 
 def request(source_id, kind="travel_time"):
@@ -29,6 +29,52 @@ def delivered(query, source=None):
 
 
 class LatestBatchReviewTest(unittest.TestCase):
+    def test_full_audit_accepts_http_200_empty_array_without_claiming_nonempty_completeness(self):
+        # Generate a small producer snapshot; the reviewer still independently
+        # reads its retained raw source rather than invoking producer parsing.
+        from scripts import tdx_bus_travel_time as producer
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            store = producer.Store(root)
+            spec = {'servers': [{'url': producer.HOST + '/api/premium'}],
+                    'paths': {path: {'get': {'parameters': [{'name': 'RouteName', 'in': 'path', 'required': True},
+                               {'name': 'City', 'in': 'path', 'schema': {'enum': ['Taipei']}}]}}
+                              for path in [producer.CITY_PATH, producer.INTERCITY_PATH]},
+                    'components': {'schemas': {'TravelTime': {'properties': {
+                        'RunTime': {'description': '秒'},
+                        'ServiceTag': {'description': '0: 周末weekend; 1: 平日weekdays'}}}}}}
+            producer.write(store.raw / 'specifications/travel_time.json', spec)
+            reference = producer.route_request('2026-10-23')
+            query = producer.travel_request(spec, 'Taipei', '空回應線')
+            for req, body in [(reference, {'Count': 1, 'StartDate': '2026-10-01', 'EndDate': '2026-10-31', 'BusRoutes': [{'RouteUID': 'TPE001', 'RouteID': '001',
+                                    'RouteName': {'Zh_tw': '空回應線'}, 'SubRoutes': []}]}), (query, [])]:
+                path = store.raw / 'responses' / (req['source_id'] + '.json')
+                producer.write(path, body)
+                store.upsert({**req, 'status': 'downloaded', 'raw_file': str(path.relative_to(root)),
+                              'bytes': path.stat().st_size, 'http_status': 200,
+                              'downloaded_at': '2026-10-24T10:00:00+08:00'})
+            store.manifest['metadata']['last_batch'] = {'planned_requests': [reference, query],
+                'attempted_source_ids': [query['source_id']], 'successful_source_ids': [query['source_id']],
+                'new_business_request_count': 1, 'stop_reason': None}
+            store.save()
+            store.rebuild(producer.date(2026, 10, 24))
+            (root / 'docs').mkdir()
+            (root / 'docs/tdx-bus-travel-time.md').write_text(producer.TERMS['url'])
+            result = audit(root)
+            self.assertEqual(result['metadata']['review_population']['successful_endpoint_responses'], 1)
+            self.assertEqual(result['metadata']['review_population']['models'], 0)
+            self.assertEqual(result['metadata']['review_population']['station_time_rows'], 0)
+            coverage_path = store.out / 'coverage.json'
+            coverage = json.loads(coverage_path.read_text())
+            output_path = root / coverage['records'][0]['output_file']
+            output = json.loads(output_path.read_text())
+            # Both claims agreeing is insufficient when the actual source is [].
+            coverage['records'][0]['scope_status'] = output['metadata']['scope_status'] = 'complete_unpaginated_requested_endpoint_response'
+            producer.write(coverage_path, coverage)
+            producer.write(output_path, output)
+            with self.assertRaisesRegex(ValueError, 'completeness claim'):
+                audit(root)
+
     def test_all_attempts_cannot_be_claimed_from_retained_route_count(self):
         rows = [{"download_url": "same", "endpoint_acquisition_status": "downloaded",
                  "endpoint_availability_status": "models_returned", "retained_files": ["observations.json"]},
