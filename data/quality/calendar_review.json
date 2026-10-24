@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "dataset_id": "office_calendar_independent_review",
+  "metadata": {
+    "reviewer_task": "review_calendar",
+    "producer_task": "office_calendar",
+    "reviewed_at": "2026-10-24T13:47:00+08:00",
+    "scope": "政府行政機關辦公日曆表 114（1141020 更新版，Big5）與 115（UTF-8）兩個原始 CSV 的全部 730 列，逐列逐欄重新解析比對；並比對 data.gov.tw 14718 目前的資源清單。修正後以同一腳本複查。",
+    "validation_script": "raw_data/reviews/review_calendar/review_calendar.py",
+    "resolved_findings": [
+      {
+        "issue": "114 年來源標題寫明「1141020更新」，但 source_updated_at 原本是 null。",
+        "resolution": "整理者把 114 年的 source_updated_at 填為 2025-10-20，並在 metadata 新增 source_updated_at_note，說明日期取自來源檔名，115 年未標日期所以為 null。複查：730 筆記錄、備註、代碼與原始檔仍完全一致；sources 的其餘欄位與 manifest 相同；delivery 的檔案大小與輸出相符。"
+      }
+    ],
+    "open_findings": [],
+    "source_catalog_observation": {
+      "checked_at": "2026-10-24T13:40:00+08:00",
+      "catalog_url": "https://data.gov.tw/api/v2/rest/dataset/14718",
+      "dataset_modified": "2026-07-15T11:29:25+08:00",
+      "selected_114_is_latest_non_google_revision": true,
+      "selected_115_is_latest_non_google_revision": true,
+      "note": "目錄另有 116 年檔（202607 上架）與 Google 行事曆專用版；本期間 2025–2026 不需要。"
+    }
+  },
+  "records": [
+    {
+      "dataset_id": "tw_government_office_calendar",
+      "output_path": "data/calendar/office_calendar.json",
+      "record_count": 730,
+      "review_status": "pass",
+      "checks": [
+        {
+          "name": "raw_row_counts_and_complete_years",
+          "status": "pass",
+          "raw_rows": {"office_calendar_114.csv": 365, "office_calendar_115.csv": 365},
+          "output_records": 730,
+          "unique_dates": 730,
+          "sorted_by_date": true,
+          "every_calendar_day_present_once": true
+        },
+        {
+          "name": "raw_files_encoding_and_bytes",
+          "status": "pass",
+          "office_calendar_114.csv": {"manifest_encoding": "big5", "decodes_as_big5_cp950": true, "bytes": 6029, "bytes_match_manifest": true},
+          "office_calendar_115.csv": {"manifest_encoding": "utf-8-sig", "bytes": 6499, "bytes_match_manifest": true},
+          "header": ["西元日期", "星期", "是否放假", "備註"]
+        },
+        {
+          "name": "every_row_and_field_matches_raw",
+          "status": "pass",
+          "fields_compared": ["date", "weekday_iso", "is_holiday", "source_holiday_code", "note", "source_file"],
+          "mismatch_count": 0
+        },
+        {
+          "name": "date_weekday_consistency",
+          "status": "pass",
+          "source_weekday_label_mismatch": 0,
+          "weekday_iso_vs_date_mismatch": 0
+        },
+        {
+          "name": "holiday_code_mapping",
+          "status": "pass",
+          "source_codes": {"2025": {"0": 247, "2": 118}, "2026": {"0": 245, "2": 120}},
+          "rule": "2 → is_holiday true；0 → false；無其他代碼",
+          "holidays": {"2025": 118, "2026": 120},
+          "workdays": {"2025": 247, "2026": 245}
+        },
+        {
+          "name": "notes_preserved",
+          "status": "pass",
+          "raw_nonblank_notes": 41,
+          "output_nonnull_notes": 41,
+          "blank_strings_in_output": 0
+        },
+        {
+          "name": "makeup_workdays_and_weekday_holidays",
+          "status": "pass",
+          "weekend_workdays": ["2025-02-08"],
+          "weekend_workday_note": "補行上班",
+          "weekday_holidays_2025": 15,
+          "weekday_holidays_2026": 16,
+          "spot_checks": [
+            "2025-01-27 小年夜放假、2025-02-08（六）補行上班",
+            "2025-09-29、2025-10-24 補假；2025-12-25 行憲紀念日",
+            "2026-05-01 勞動節、2026-09-28 教師節、2026-10-26 補假、2026-12-25 行憲紀念日"
+          ]
+        },
+        {
+          "name": "provenance_fields",
+          "status": "pass",
+          "sources_match_manifest": true,
+          "fields": ["page_url", "description", "download_url", "raw_file", "downloaded_at", "source_updated_at"],
+          "source_updated_at": ["2025-10-20", null],
+          "source_updated_at_basis": "114 年取自來源檔名「1141020更新」，metadata.source_updated_at_note 已說明；downloaded_at 未被當成資料時間。"
+        },
+        {
+          "name": "schema_null_policy_and_delivery",
+          "status": "pass",
+          "top_level_keys": ["schema_version", "dataset_id", "metadata", "records"],
+          "non_snake_case_keys": 0,
+          "source_period": {"start": "2025-01-01", "end": "2026-12-31"},
+          "delivery_record_count": 730,
+          "delivery_bytes_match_output": true,
+          "delivery_limitations_equal_metadata": true
+        }
+      ],
+      "findings": [
+        {
+          "severity": "info",
+          "issue": "辦公日曆不含颱風等臨時停班。2026-07-10（五）巴威颱風臺北市停班停課，日曆仍標為上班日。",
+          "action": "使用者需另外剔除停班日；transport_need_250 已用捷運日總量規則剔除 2026-07-10、07-11。"
+        }
+      ],
+      "limitations": [
+        "行政機關辦公日曆，不含颱風、天災等臨時停班停課，也不代表學校或各業別的上班日。",
+        "114 年使用 1141020 修訂版；若來源再修訂需重新下載。"
+      ],
+      "source_data_time": "2025-10-20",
+      "statistical_period": {"start": "2025-01-01", "end": "2026-12-31"},
+      "usable_for": "區分 2025–2026 年行政機關上班日、放假日與補班日；不可代表颱風停班或學校行事曆。"
+    }
+  ]
+}
