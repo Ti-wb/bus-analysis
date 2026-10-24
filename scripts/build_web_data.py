@@ -31,6 +31,9 @@ COVERAGE_CELL_M = 50
 COVERAGE_UNIT_M = 10
 COVERAGE_CAP = 250
 COVERAGE_OUTSIDE = 255
+# Walking catchment radii around each bus stop, matching the coverage walk radii.
+CATCHMENT_RADII = (200, 350, 500)
+POPULATION = ROOT / "data/population"
 GRID_LAT0 = 25.05
 # ISO weekday used as the representative service day for each day type.
 DAY_TYPES = {"weekday": 3, "saturday": 6, "sunday": 7}
@@ -224,6 +227,52 @@ def build_coverage(city, station_types):
     }, int(inside.sum())
 
 
+def build_catchments(stops):
+    """Registered population within each walking radius of every bus stop.
+
+    Each statistical area's population is split by the share of its area inside the circle
+    (uniform density within the area). data_share is the share of the circle covered by
+    Taipei statistical areas; the rest (New Taipei, mountains outside the data) adds nothing.
+    """
+    boundaries = read(POPULATION / "taipei_statistical_area_boundaries.geojson")
+    population = read(POPULATION / "taipei_statistical_population_base.json")
+    counts = {r["base_area_id"]: r for r in population["records"]}
+    to_tm = Transformer.from_crs(4326, 3826, always_xy=True)
+    areas, people, households = [], [], []
+    for feature in boundaries["features"]:
+        record = counts.get(feature["properties"]["base_area_id"])
+        if record is None:
+            continue
+        areas.append(shapely.transform(shape(feature["geometry"]), lambda xy: np.column_stack(to_tm.transform(xy[:, 0], xy[:, 1]))))
+        people.append(record["population"])
+        households.append(record["households"])
+    areas = np.array(areas)
+    area_m2 = shapely.area(areas)
+    people, households = np.array(people, dtype=float), np.array(households, dtype=float)
+    tree = STRtree(areas)
+    result = {}
+    for stop_id, (lon, lat) in stops.items():
+        centre = shapely.Point(to_tm.transform(lon, lat))
+        candidates = tree.query(centre.buffer(max(CATCHMENT_RADII)), predicate="intersects")
+        values = []
+        for radius in CATCHMENT_RADII:
+            circle = centre.buffer(radius, quad_segs=16)
+            share = shapely.area(shapely.intersection(areas[candidates], circle)) / area_m2[candidates] if len(candidates) else np.zeros(0)
+            data_share = float((share * area_m2[candidates]).sum() / circle.area) if len(candidates) else 0.0
+            if data_share < 0.005:
+                values.append([None, None, 0])
+            else:
+                values.append([round(float(share @ people[candidates])), round(float(share @ households[candidates])), round(min(data_share, 1.0), 2)])
+        result[stop_id] = values
+    meta = {
+        "population_source": "data/population/taipei_statistical_population_base.json（內政部最小統計區戶籍人口）",
+        "population_period": population["metadata"]["source_period"],
+        "boundary_source": "data/population/taipei_statistical_area_boundaries.geojson",
+        "boundary_vintage": boundaries["metadata"]["boundary_vintage_year_in_filename"],
+    }
+    return result, meta
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.parse_args()
@@ -384,6 +433,26 @@ def main():
         "weekday_departures": "代表平日（週三）各附線計畫發車數加總；固定班表優先，否則以班距區間估算",
     }
     write("bus_stops.geojson", collection(stop_features, bus_meta))
+
+    catchments, population_meta = build_catchments(stops)
+    write("stop_catchments.json", {
+        "radii": list(CATCHMENT_RADII),
+        "fields": ["population", "households", "data_share"],
+        "stops": catchments,
+        "metadata": {
+            **population_meta,
+            "built_at": built_at,
+            "value": "站位為圓心、各半徑直線圓內的戶籍人口與戶數；統計區只有部分在圓內時，依面積比例分攤（假設區內人口均勻分布）",
+            "data_share": "圓面積中有臺北市統計區人口資料的比例；圓內沒有任何臺北市統計區時，人口與戶數為 null",
+            "limitations": [
+                "戶籍人口不等於白天活動人口，也不是公車搭乘量。",
+                f"統計區邊界為 {population_meta['boundary_vintage']} 年版，人口為 {population_meta['population_period']['end']}，兩者版本不同。",
+                "只有臺北市人口；圓延伸到新北市的部分不計，data_share 會小於 1。",
+                "相鄰站牌的範圍互相重疊，各站人口不可加總。",
+                "直線距離，未計入路網、河川或高架阻隔。",
+            ],
+        },
+    })
 
     coverage, inside = build_coverage(city, {
         "bus": list(stops.values()),
