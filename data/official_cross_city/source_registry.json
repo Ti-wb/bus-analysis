@@ -12,7 +12,8 @@
       "核對官方目錄不等於下載／解析官方完整資料。",
       "本目錄不可當作公車服務、運量或可及性資料。",
       "未申請或使用 TDX 憑證；不呼叫付費資料。"
-    ]
+    ],
+    "validation_note": "2026-10-23 快照曾實抓及獨立核對；2026-10-24 僅重跑離線程式測試，未重新下載。pending 不代表否定先前核對，亦不能將先前結果套用到新快照或未完成的區域／里界驗收。"
   },
   "records": [
     {
@@ -30,12 +31,14 @@
       "auth_required": false,
       "data_kind": "official_published_data",
       "catalog_verification": "verified_from_official_pages",
-      "collector_status": "implemented_live_unverified",
+      "collector_status": "implemented_previously_live_checked_snapshot_not_committed",
       "last_catalog_review_date": "2026-10-22",
       "downloaded_at": null,
       "source_data_time": null,
       "snapshot_committed": false,
-      "complete_regional_coverage": false
+      "complete_regional_coverage": false,
+      "last_live_validation_date": "2026-10-23",
+      "validation_scope": "Dated source snapshot only; not a current availability check or complete regional/boundary validation"
     },
     {
       "dataset_id": "ntpc_stops",
@@ -52,12 +55,14 @@
       "auth_required": false,
       "data_kind": "official_published_data",
       "catalog_verification": "verified_from_official_pages",
-      "collector_status": "implemented_live_unverified",
+      "collector_status": "implemented_previously_live_checked_snapshot_not_committed",
       "last_catalog_review_date": "2026-10-22",
       "downloaded_at": null,
       "source_data_time": null,
       "snapshot_committed": false,
-      "complete_regional_coverage": false
+      "complete_regional_coverage": false,
+      "last_live_validation_date": "2026-10-23",
+      "validation_scope": "Dated source snapshot only; not a current availability check or complete regional/boundary validation"
     },
     {
       "dataset_id": "ntpc_leapfrog",
@@ -74,12 +79,14 @@
       "auth_required": false,
       "data_kind": "official_published_data",
       "catalog_verification": "verified_from_official_pages",
-      "collector_status": "implemented_live_unverified",
+      "collector_status": "implemented_previously_live_checked_snapshot_not_committed",
       "last_catalog_review_date": "2026-10-22",
       "downloaded_at": null,
       "source_data_time": null,
       "snapshot_committed": false,
-      "complete_regional_coverage": false
+      "complete_regional_coverage": false,
+      "last_live_validation_date": "2026-10-23",
+      "validation_scope": "Dated source snapshot only; not a current availability check or complete regional/boundary validation"
     },
     {
       "dataset_id": "regional_village_population",
@@ -99,10 +106,12 @@
         "基隆市"
       ],
       "catalog_verification": "verified_from_official_page",
-      "collector_status": "implemented_live_unverified",
+      "collector_status": "implemented_previously_live_checked_snapshot_not_committed",
       "last_catalog_review_date": "2026-10-22",
       "downloaded_at": null,
-      "snapshot_committed": false
+      "snapshot_committed": false,
+      "last_live_validation_date": "2026-10-23",
+      "validation_scope": "Dated source snapshot only; not a current availability check or complete regional/boundary validation"
     },
     {
       "dataset_id": "metro_corridor_od",
@@ -118,11 +127,13 @@
       "grain": "日期×小時×進站×出站",
       "auth_required": false,
       "catalog_verification": "verified_from_official_page",
-      "collector_status": "implemented_live_unverified",
+      "collector_status": "implemented_previously_live_checked_snapshot_not_committed",
       "last_catalog_review_date": "2026-10-22",
       "downloaded_at": null,
       "snapshot_committed": false,
-      "bus_demand": false
+      "bus_demand": false,
+      "last_live_validation_date": "2026-10-23",
+      "validation_scope": "Dated source snapshot only; not a current availability check or complete regional/boundary validation"
     },
     {
       "dataset_id": "tdx_bus_travel_time",

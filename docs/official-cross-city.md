@@ -1,17 +1,32 @@
-# 官方跨市資料補充（Draft）
+# 官方跨市資料補充
 
 本組只做官方資料取得、正規化與品質檢查；不包含參賽介面、最佳化或需求推估。
 來源目錄：[`source_registry.json`](../data/official_cross_city/source_registry.json)。
 不改寫既有 `data/taipei_feeds/`、`data/metro/` 或共用 collector。
 
-## 初始 Draft 狀態（歷史紀錄；後續驗證見個別資料報告）
+## 驗證狀態與審查範圍
 
-- 官方目錄、欄位與授權已核對；**尚未完成本環境的官方完整檔下載及端到端驗證**。
-- 本環境不能解析外部主機名稱；另以閱讀工具取 CSV 時遇到內容類型限制／來源防護。
-  不能因此宣稱來源已下架，也不能產生空資料代替它。
-- 單元測試使用明示的合成資料，只驗證解析和防錯行為，不代表官方資料內容正確。
-- Repo 要求的另一位 Agent 獨立巡檢尚未執行；所有產物的 `independent_review_status` 為 `pending`。
-- 不提交任何假造的政府資料快照。轉為 ready 前必須實抓、檢查並完成獨立巡檢。
+本 PR 可進入正式程式碼審查，但 **Ready for review 不等於所有資料驗收完成、核准合併或可正式營運**。
+初始環境的 DNS 失敗是歷史紀錄，不再代表後續下載結果；2026-10-23 已完成官方來源實抓及
+獨立資料核對。這些是有日期的快照檢查，不保證之後的來源仍可用或內容不變。
+
+- 新北路線來源 1,106 列，完全相同列去重後 1,084 列；站牌 33,314 列；跳蛙清單 65 列。
+- 2026-09 人口來源 7,781 列，北北基選取 1,652 里，已核對三市同月與人口／性別／年齡加總。
+  人口與里界的完整版本對照仍未完成，不能把代碼相符當成完整空間驗收。
+- 2026-09 北捷月檔 8,240,400 列；新莊與關渡／士林雙向選取 2,520 列、10,129 人次，
+  已逐列對照來源。來源每日只發布 21 個小時，未發布的 02–04 時不補零。
+- 新北 PathDetail 的獨立逐列檢查見 [`ntpc_pathdetail_validation.json`](../data/quality/ntpc_pathdetail_validation.json)；
+  43,582 筆關聯仍有 114 個參考站牌未連結，保留未知，不猜測關聯。
+- 2026-10-24 在助手雲端以 Git blob ID 核對 `3bacca7f82485d2620816ae7fc5663b2840944fe`
+  的程式與測試原文後，Python 3.12.14 重跑 81 項離線單元測試、compileall 及四個子命令的
+  `--help` 均通過。此次環境沒有先前完整 raw／receipt，**沒有重新下載或重跑完整資料比對**。
+- 同一 head 的 [CI](https://github.com/Ti-wb/bus-analysis/actions/runs/39968263553) 在 Python 3.12／3.13 通過；
+  這是離線程式測試，不是即時來源、前端 Demo 或正式營運驗收。
+
+大型快照不納入 Git；先前資料檢查與本次離線程式檢查須分開解讀。
+產生的新快照仍維持 `independent_review_status=pending`，直到該份快照另行獨立核對。
+下方原有驗收要求保留，尚未完成的里界版本、跨來源 ID、基隆／公路客運覆蓋、步行與行車時間
+不會因 PR 轉為 Ready for review 而自動通過。
 
 ## 來源與範圍
 
@@ -46,7 +61,7 @@ python -m scripts.official_cross_city ntpc --kind stops --fetch
 python -m scripts.official_cross_city ntpc --kind leapfrog --fetch
 
 # 只有官方目錄真的列有該月才會選用；不存在或歧義時停止，不猜測網址。
-# 2026-09 是示範輸入，不是聲稱已驗證該月資源。
+# 2026-09 曾於 2026-10-23 驗證；後續下載仍需重新檢查來源與快照。
 python -m scripts.official_cross_city population --month 2026-09 --fetch
 
 # 利用現有 data/metro/source_references.json 已紀錄的官方月檔網址。
@@ -84,7 +99,7 @@ python -m unittest discover -s tests/official_cross_city -v
   不是需求為零的格數。`known_*_sum` 只加總已知值，缺值數必須一起顯示。
 - `downloaded_at` 與 HTTP `Last-Modified` 不是官方統計期間或逐筆觀測時間。
 
-## 轉為 ready 的驗收
+## 資料驗收要求（未全部完成）
 
 1. 在可連線環境依序執行官方下載；核對 HTTP receipt、實檔欄位、期間、列數與授權。
 2. 由另一位 reviewer/Agent 巡檢來源與欄位，將結果另存 `data/quality/`；不得把本測試
@@ -127,4 +142,4 @@ python -m scripts.official_cross_city ntpc-pathdetail --offline
 2026-10-23 實抓來源時間 `2026/10/23 21:02:56`，43582 筆明示關聯覆蓋
 1008 個附線、33200 個站牌；相對本次 33314 個站牌快照仍有 114 個未連結。
 這是下載快照的 ID 關聯驗證，不代表即時營運、全北北基服務覆蓋或跳蛙路線 ID 對照。
-本次重建重用原檔與 receipt，不宣稱再次下載；大型產物不納入 Git。
+2026-10-23 的後續重建重用當時原檔與 receipt，不宣稱再次下載；大型產物不納入 Git。

@@ -87,8 +87,11 @@ class DownloadTests(unittest.TestCase):
         obj = json.loads(registry.read_text())
         self.assertEqual(len(obj["records"]), obj["metadata"]["record_count"])
         self.assertEqual(obj["metadata"]["snapshot_status"], "no_live_observations_committed")
-        implemented = [r for r in obj["records"] if r["collector_status"] == "implemented_live_unverified"]
+        implemented = [r for r in obj["records"] if r["collector_status"] == "implemented_previously_live_checked_snapshot_not_committed"]
         self.assertEqual(len(implemented), 5)
+        self.assertTrue(all(r["last_live_validation_date"] == "2026-10-23" for r in implemented))
+        self.assertTrue(all("not a current availability check" in r["validation_scope"] for r in implemented))
+        self.assertEqual(obj["metadata"]["independent_review_status"], "pending")
         self.assertTrue(all(r["downloaded_at"] is None for r in implemented))
         self.assertTrue(all(not r["snapshot_committed"] for r in implemented))
 
