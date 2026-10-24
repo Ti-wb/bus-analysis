@@ -161,9 +161,12 @@ export default function App() {
 
   const regionalReady = regionalGrid?.cell_m === state.cell;
   const shownGrid = state.mode === 'frequency' && !routeTool && regionalReady ? regionalGrid : grid;
+  // Rebuilding tens of thousands of polygons on an unrelated UI/layer toggle
+  // is expensive; geometry/classes only depend on size and service day/hour.
+  const { cell, day, hour } = state;
   const gridData = useMemo(
-    () => (shownGrid && shownGrid.cell_m === state.cell ? gridCollection(shownGrid, state) : null),
-    [shownGrid, state],
+    () => (shownGrid && shownGrid.cell_m === cell ? gridCollection(shownGrid, { cell, day, hour }) : null),
+    [shownGrid, cell, day, hour],
   );
 
   const { coverage: coverageLayers, walkTypes, walkRadii, rideRadius } = state;
