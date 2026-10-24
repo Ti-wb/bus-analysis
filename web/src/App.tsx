@@ -11,6 +11,7 @@ import { coverageGridLines, coverageImage } from './coverage';
 import { EMPTY_SUPPLEMENTAL, gridCollection, hourText, loadCoverage, loadGrid, loadRegionalGrid, loadMapData, loadNeed, loadVillageAges, loadSupplementalLayer, SUPPLEMENTAL_FILES, type SupplementalKey } from './data';
 import { readHash, writeHash } from './hashState';
 import MapView from './map/MapView';
+import type { MapStatus } from './map/loadState';
 import FocusSidebar from './focus/FocusSidebar';
 import { buildFocusRoutes, initialFocus, overviewFocus, selectFocusRoute, showAllFocusRoutes, toggleFocusRoute, type BusFocusState } from './focus/model';
 import RouteWorkspace, { type RouteWorkspaceHandle } from './routeEditor/RouteWorkspace';
@@ -48,7 +49,7 @@ export default function App() {
   const data = useMemo(() => baseData ? { ...baseData, ...supplemental } : null, [baseData, supplemental]);
   const [grid, setGrid] = useState<Grid | null>(null);
   const [regionalGrid, setRegionalGrid] = useState<Grid | null>(null);
-  const [mapReady, setMapReady] = useState(false);
+  const [mapStatus, setMapStatus] = useState<MapStatus>('loading');
   const [error, setError] = useState<Error | null>(null);
   const [analysisError, setAnalysisError] = useState<Error | null>(null);
   const [playing, setPlaying] = useState(false);
@@ -295,7 +296,7 @@ export default function App() {
     }
   };
 
-  const loading = !error && !analysisError && (!(data && gridData && mapReady) || (frequency && !routeTool && !regionalReady));
+  const loading = !error && !analysisError && mapStatus !== 'failed' && (!(data && gridData) || mapStatus === 'loading' || (frequency && !routeTool && !regionalReady));
   const navigate = (next: typeof page) => {
     const move = () => {
       if (focusReturnView.current) {
@@ -308,7 +309,7 @@ export default function App() {
         viewRef.current = { center: previous.center, zoom: previous.zoom };
         writeHash(state, viewRef.current);
       }
-      if (next !== page) setMapReady(false);
+      if (next !== page) setMapStatus('loading');
       setPage(next); setStation(null); setBusFocus(null); setPlaying(false); setAboutOpen(false);
     };
     if (routeTool && next !== 'routes' && editorRef.current) editorRef.current.leave(move); else move();
@@ -350,7 +351,8 @@ export default function App() {
             onFocusRoute={selectRoute}
             onStation={selectStation}
             onCloseStation={closeStation}
-            onReady={() => setMapReady(true)}
+            onReady={() => {}}
+            onStatusChange={setMapStatus}
             onMoveEnd={handleMoveEnd}
           />
         )}
