@@ -43,7 +43,8 @@ export const LAYER_GROUPS: Record<LayerGroup, string[]> = {
   places: ['places'],
   youbike: ['youbike'],
 };
-export const DEFAULT_LAYERS: LayerGroup[] = ['grid', 'routes', 'mrt', 'places'];
+// Station markers start on, as in the Penpot preferences defaults; bus stops and YouBike appear when zoomed in.
+export const DEFAULT_LAYERS: LayerGroup[] = ['grid', 'routes', 'stops', 'mrt', 'places', 'youbike'];
 export const HOVER_LAYERS = ['places', 'youbike', 'bus-stops', 'mrt-stations', 'bus-routes', 'mrt-lines', 'grid-fill', 'grid-hatch'];
 
 export interface PlaceCategory {

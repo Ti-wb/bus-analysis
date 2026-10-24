@@ -27,7 +27,7 @@ export function readHash(): AppState & ViewState {
     places: new Set(params.has('places')
       ? list('places').filter((k) => PLACE_CATEGORIES.some((c) => c.key === k))
       : PLACE_CATEGORIES.filter((c) => c.on).map((c) => c.key)),
-    mode: mode === 'coverage' || mode === 'need' ? (mode as AnalysisMode) : 'frequency',
+    mode: mode === 'frequency' || mode === 'need' ? (mode as AnalysisMode) : 'coverage',
     band: NEED_BANDS.some((b) => b.key === band) ? (band as NeedBand) : 'weekday_am',
     needView: params.get('nview') === 'gap' ? 'gap' : 'quadrant',
     weights: weights.length === 3 && weights.every((w) => Number.isInteger(w) && w >= 0 && w <= 100) && weights.some((w) => w > 0)
