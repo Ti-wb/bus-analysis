@@ -1,9 +1,9 @@
-import type { CSSProperties } from 'react';
-import { ALL_DAY, CELL_SIZES, COLORS, COVERAGE_ALPHA, COVERAGE_LAYERS, DAY_LABELS, DEFAULT_NEED_WEIGHTS, GAP_COLORS, NEED_BANDS, NEED_COLORS, NEED_WEIGHT_LABELS, PLACE_CATEGORIES, QUADRANTS, STATION_TYPES, type Quadrant } from '../config';
+import type { CSSProperties, ReactNode } from 'react';
+import { ALL_DAY, COLORS, COVERAGE_ALPHA, COVERAGE_LAYERS, DAY_LABELS, GAP_COLORS, NEED_BANDS, NEED_COLORS, QUADRANTS, STATION_TYPES, type Quadrant } from '../config';
 import { distanceText } from '../coverage';
 import { hourText, scaleFor } from '../data';
 import { isDefaultWeights } from '../need';
-import type { AnalysisMode, AppState, CoverageLayer, DayType, LayerGroup, NeedView, NeedWeights } from '../types';
+import type { AppState, CoverageLayer } from '../types';
 
 interface Props {
   state: AppState;
@@ -14,31 +14,12 @@ interface Props {
   onPreferences: () => void;
 }
 
-const MODES: { key: AnalysisMode; label: string }[] = [
-  { key: 'frequency', label: '班次網格' },
-  { key: 'coverage', label: '站點覆蓋' },
-  { key: 'need', label: '需求落差' },
-];
-
-const NEED_VIEWS: { key: NeedView; label: string }[] = [
-  { key: 'quadrant', label: '需求 × 供給' },
-  { key: 'gap', label: '落差值' },
-];
-
-const LAYER_TOGGLES: { group: LayerGroup; label: string; swatch: string; note?: (s: AppState) => string }[] = [
-  { group: 'grid', label: '公車班次網格', swatch: 'swatch-grid', note: (s) => `${s.cell} m` },
-  { group: 'routes', label: '公車路線', swatch: 'swatch-bus' },
-  { group: 'stops', label: '公車站牌', swatch: 'swatch-stop', note: () => '放大後顯示' },
-  { group: 'mrt', label: '捷運路網', swatch: 'swatch-mrt' },
-  { group: 'places', label: '重要地點', swatch: 'swatch-place', note: () => '點選類別篩選' },
-  { group: 'youbike', label: 'YouBike 站點', swatch: 'swatch-youbike', note: () => '放大後顯示' },
-];
-
-function toggled<T>(set: Set<T>, value: T): Set<T> {
-  const next = new Set(set);
-  if (next.has(value)) next.delete(value);
-  else next.add(value);
-  return next;
+interface SummaryRow {
+  key: string;
+  label: string;
+  value: string;
+  color: string;
+  off?: boolean;
 }
 
 const rgba = (layer: CoverageLayer, alpha = 1) => `rgba(${COVERAGE_LAYERS[layer].rgb.join(',')},${alpha})`;
@@ -51,23 +32,45 @@ function walkText(state: AppState): string {
   return low === high ? distanceText(low) : `${low}–${high} m`;
 }
 
-/** Settings now live in the preferences sidebar; this card only summarises them. */
-function CoverageSummary({ state, onPreferences }: { state: AppState; onPreferences: () => void }) {
-  const rows: { layer: CoverageLayer; value: string }[] = [
-    { layer: 'walk', value: walkText(state) },
-    { layer: 'ride', value: distanceText(state.rideRadius) },
+function coverageRows(state: AppState): SummaryRow[] {
+  return (['walk', 'ride'] as CoverageLayer[]).map((layer) => ({
+    key: layer,
+    label: COVERAGE_LAYERS[layer].label,
+    value: layer === 'walk' ? walkText(state) : distanceText(state.rideRadius),
+    color: rgba(layer),
+    off: !state.coverage.has(layer),
+  }));
+}
+
+function frequencyRows(state: AppState): SummaryRow[] {
+  return [
+    { key: 'grid', label: '公車班次網格', value: DAY_LABELS[state.day], color: COLORS[5], off: !state.layers.has('grid') },
   ];
+}
+
+function needRows(state: AppState): SummaryRow[] {
+  const total = state.weights.reduce((a, b) => a + b, 0) || 1;
+  return [
+    { key: 'band', label: '時段', value: NEED_BANDS.find((b) => b.key === state.band)!.label, color: NEED_COLORS[2][0] },
+    { key: 'view', label: '呈現方式', value: state.needView === 'quadrant' ? '需求 × 供給' : '落差值', color: NEED_COLORS[2][2] },
+    { key: 'weights', label: '需求權重', value: state.weights.map((w) => Math.round((w / total) * 100)).join('／'), color: NEED_COLORS[1][1] },
+  ];
+}
+
+/** Settings live in the preferences sidebar; this card only summarises them. */
+function Summary({ rows, foot, onPreferences, children }: { rows: SummaryRow[]; foot: string; onPreferences: () => void; children?: ReactNode }) {
   return (
     <div className="coverage-summary">
       <h2>目前顯示</h2>
-      {rows.map(({ layer, value }) => (
-        <div key={layer} className={`summary-row${state.coverage.has(layer) ? '' : ' is-off'}`} style={{ '--c': rgba(layer) } as CSSProperties}>
-          <i />{COVERAGE_LAYERS[layer].label}
-          <b>{state.coverage.has(layer) ? value : '關閉'}</b>
+      {rows.map(({ key, label, value, color, off }) => (
+        <div key={key} className={`summary-row${off ? ' is-off' : ''}`} style={{ '--c': color } as CSSProperties}>
+          <i />{label}
+          <b>{off ? '關閉' : value}</b>
         </div>
       ))}
+      {children}
       <div className="summary-foot">
-        <span>{state.coverageCell} m 網格</span>
+        <span>{foot}</span>
         <button className="link-btn" onClick={onPreferences}>到「偏好」調整</button>
       </div>
     </div>
@@ -78,63 +81,18 @@ function CoverageLegend({ state }: { state: AppState }) {
   const layers = (Object.keys(COVERAGE_LAYERS) as CoverageLayer[]).filter((layer) => state.coverage.has(layer));
   return (
     <section className="card legend">
-      <h3>由站心向外，逐格變淡</h3>
+      <h3>同一張網格，兩種移動範圍</h3>
       {layers.map((layer) => (
         <div key={layer} className="coverage-legend">
           <p>{COVERAGE_LAYERS[layer].label} · {layer === 'walk' ? walkText(state) : distanceText(state.rideRadius)}</p>
           <div className="legend-scale legend-scale-5">
             {COVERAGE_ALPHA.map((a) => <span key={a} style={{ background: rgba(layer, a) }} />)}
           </div>
-          <div className="legend-ends"><span>站心</span><span>外圍</span></div>
+          <div className="legend-ends"><span>{layer === 'walk' ? '近站' : '站心'}</span><span>外圍</span></div>
         </div>
       ))}
       {!layers.length && <p className="muted">兩個覆蓋圖層都已關閉。</p>}
-      <p className="legend-note">每格約 {state.coverageCell} m；直線半徑，未計路網與河川阻隔。</p>
     </section>
-  );
-}
-
-function NeedControls({ state, onChange }: Pick<Props, 'state' | 'onChange'>) {
-  const total = state.weights.reduce((a, b) => a + b, 0) || 1;
-  const setWeight = (k: number, value: number) => {
-    const weights = [...state.weights] as NeedWeights;
-    weights[k] = value;
-    if (weights.some((w) => w > 0)) onChange({ weights });
-  };
-  return (
-    <>
-      <h2>時段</h2>
-      <div className="segmented" role="radiogroup" aria-label="時段">
-        {NEED_BANDS.map((b) => (
-          <button key={b.key} role="radio" aria-checked={state.band === b.key} title={b.label} className={state.band === b.key ? 'is-active' : ''} onClick={() => onChange({ band: b.key })}>
-            {b.short}
-          </button>
-        ))}
-      </div>
-      <p className="hour-label muted">{NEED_BANDS.find((b) => b.key === state.band)!.label}</p>
-
-      <h2>呈現方式</h2>
-      <div className="segmented segmented-2" role="radiogroup" aria-label="呈現方式">
-        {NEED_VIEWS.map((v) => (
-          <button key={v.key} role="radio" aria-checked={state.needView === v.key} className={state.needView === v.key ? 'is-active' : ''} onClick={() => onChange({ needView: v.key })}>
-            {v.label}
-          </button>
-        ))}
-      </div>
-
-      <h2 className="need-weights-head">
-        需求權重
-        {!isDefaultWeights(state.weights) && <button className="link-btn" onClick={() => onChange({ weights: DEFAULT_NEED_WEIGHTS })}>重設</button>}
-      </h2>
-      {NEED_WEIGHT_LABELS.map((label, k) => (
-        <label key={label} className="need-weight">
-          <span><i className={`need-part-${k}`} />{label}</span>
-          <input type="range" min={0} max={100} step={5} value={state.weights[k]} aria-label={`${label}權重`} onChange={(e) => setWeight(k, Number(e.target.value))} />
-          <b>{Math.round((state.weights[k] / total) * 100)}%</b>
-        </label>
-      ))}
-      <p className="muted need-note">預設 50／30／20 是方法文件的假設值；總和自動換算成 100%。</p>
-    </>
   );
 }
 
@@ -182,64 +140,9 @@ export default function Panel({ state, playing, needCounts, onChange, onTogglePl
         <h1>城市裡的連結，<br />一眼看見。</h1>
         <p className="muted">公車、捷運與 YouBike 的路網與覆蓋。點選站點，認識周邊人口與設施。</p>
 
-        <h2>分析圖層</h2>
-        <div className="segmented" role="radiogroup" aria-label="分析圖層">
-          {MODES.map((m) => (
-            <button key={m.key} role="radio" aria-checked={state.mode === m.key} className={state.mode === m.key ? 'is-active' : ''} onClick={() => onChange({ mode: m.key })}>
-              {m.label}
-            </button>
-          ))}
-        </div>
-
-        {state.mode === 'coverage' && <CoverageSummary state={state} onPreferences={onPreferences} />}
-        {state.mode === 'need' && <NeedControls state={state} onChange={onChange} />}
-
-        <h2>顯示圖層</h2>
-        {LAYER_TOGGLES.filter(({ group }) => frequency || group !== 'grid').map(({ group, label, swatch, note }) => (
-          <div key={group}>
-            <label className="layer-toggle">
-              <input type="checkbox" checked={state.layers.has(group)} onChange={() => onChange({ layers: toggled(state.layers, group) })} />
-              <span className={`swatch ${swatch}`} />
-              {label}
-              {note && <small>{note(state)}</small>}
-            </label>
-            {group === 'places' && state.layers.has('places') && (
-              <div className="place-chips">
-                {PLACE_CATEGORIES.map((c) => (
-                  <button
-                    key={c.key}
-                    className={`place-chip${state.places.has(c.key) ? ' is-on' : ''}`}
-                    style={{ '--c': c.color } as CSSProperties}
-                    aria-pressed={state.places.has(c.key)}
-                    onClick={() => onChange({ places: toggled(state.places, c.key) })}
-                  >
-                    <i />{c.label}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
-
-        {frequency && (
-          <>
-            <h2>網格大小</h2>
-            <div className="segmented segmented-4" role="radiogroup" aria-label="網格大小">
-              {CELL_SIZES.map((cell) => (
-                <button key={cell} role="radio" aria-checked={state.cell === cell} className={state.cell === cell ? 'is-active' : ''} onClick={() => onChange({ cell })}>
-                  {cell} m
-                </button>
-              ))}
-            </div>
-
-            <h2>時段</h2>
-            <div className="segmented" role="radiogroup" aria-label="日型">
-              {(Object.keys(DAY_LABELS) as DayType[]).map((day) => (
-                <button key={day} role="radio" aria-checked={state.day === day} className={state.day === day ? 'is-active' : ''} onClick={() => onChange({ day })}>
-                  {DAY_LABELS[day]}
-                </button>
-              ))}
-            </div>
+        {state.mode === 'coverage' && <Summary rows={coverageRows(state)} foot={`${state.coverageCell} m 網格`} onPreferences={onPreferences} />}
+        {state.mode === 'frequency' && (
+          <Summary rows={frequencyRows(state)} foot={`${state.cell} m 網格`} onPreferences={onPreferences}>
             <div className="hour-row">
               <button className={`icon-btn${playing ? ' is-playing' : ''}`} title="播放 24 小時" aria-label={playing ? '暫停' : '播放'} onClick={onTogglePlay}>
                 {playing ? '❚❚' : '▶'}
@@ -250,8 +153,9 @@ export default function Panel({ state, playing, needCounts, onChange, onTogglePl
               <span className="hour-text">{hourText(state.hour)}</span>
               <span className="muted">拉到最右為全日</span>
             </div>
-          </>
+          </Summary>
         )}
+        {state.mode === 'need' && <Summary rows={needRows(state)} foot="250 m 網格" onPreferences={onPreferences} />}
       </section>
 
       {frequency ? (
