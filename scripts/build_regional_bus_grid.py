@@ -81,6 +81,8 @@ def load_services(root: Path):
                 "source_updated_at": meta.get("source_updated_at"),
                 "source_record_update_times": meta.get("source_record_update_times"),
                 "source_pages": sorted({x.get("source_page") for x in meta.get("sources", []) if x.get("source_page")}),
+                "download_urls": [x.get("download_url") for x in meta.get("sources", [])],
+                "raw_files": [x.get("raw_file") for x in meta.get("sources", [])],
                 "records": len(doc["records"]),
             })
             for model in doc["records"]:
@@ -300,6 +302,8 @@ def build_all(root=ROOT, output=OUTPUT, built_at=None):
         grid["metadata"] = {
             "source": "交通部 TDX 官方 Bus StopOfRoute / Schedule (retained snapshots)",
             "source_data_time": None,
+            "statistical_period": None,
+            "units": {"frequency": "estimated planned departure trips per hour", "position": "WGS84 longitude/latitude degrees"},
             "built_at": built_at,
             "cell": f"約 {cell_m} m 統一經緯度網格，{scope}；北北基行政遮罩",
             "value": "格內同一 RouteUID／SubRouteUID／方向計畫起站發車數，按小時計；跨市重複站序去重",
