@@ -3,7 +3,7 @@
   "dataset_id": "additional_transport_validation_catalog",
   "metadata": {
     "kind": "dataset_index_not_observations",
-    "record_count": 372,
+    "record_count": 392,
     "source_updated_at": null,
     "validation_status": "data/quality/pr_validation.json",
     "update_command": "uv run scripts/build_validation_catalog.py",
@@ -486,6 +486,80 @@
       "kind": "normalized_records",
       "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
       "source_updated_at": "2026-10-24T03:14:39",
+      "period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "units": {
+        "run_time": "seconds",
+        "update_interval": "months",
+        "start_time": "source local civil clock HH:mm",
+        "end_time": "source local civil clock HH:mm; 24:00 retained"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_bus_travel_time_review.json"
+      },
+      "limitations": [
+        "歷史推估，不是當日實際旅行時間；有效期與各子路線說明原樣保留。",
+        "官方端點無歷史日期/版本參數；不能回填近三年每月版本。",
+        "完整只指該次未分頁端點回應，不代表全市、所有時段或每一站間均有值。",
+        "RouteName查詢如回傳其他名稱/子路線，全部保留，不用名稱推斷跨市範圍。",
+        "缺少起站ID或RunTime的首站/其他來源列保留null，不推算成0秒。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_bus_s2s_Taipei_%E5%85%92%E6%A8%821%E8%99%9F%E7%B7%9A",
+      "path": "data/tdx_bus_travel_time/observations/Taipei_%E5%85%92%E6%A8%821%E8%99%9F%E7%B7%9A.json.gz",
+      "record_count": 1,
+      "kind": "normalized_records",
+      "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
+      "source_updated_at": "2026-10-24T05:12:44",
+      "period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "units": {
+        "run_time": "seconds",
+        "update_interval": "months",
+        "start_time": "source local civil clock HH:mm",
+        "end_time": "source local civil clock HH:mm; 24:00 retained"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_bus_travel_time_review.json"
+      },
+      "limitations": [
+        "歷史推估，不是當日實際旅行時間；有效期與各子路線說明原樣保留。",
+        "官方端點無歷史日期/版本參數；不能回填近三年每月版本。",
+        "完整只指該次未分頁端點回應，不代表全市、所有時段或每一站間均有值。",
+        "RouteName查詢如回傳其他名稱/子路線，全部保留，不用名稱推斷跨市範圍。",
+        "缺少起站ID或RunTime的首站/其他來源列保留null，不推算成0秒。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_bus_s2s_Taipei_%E5%85%92%E6%A8%822%E8%99%9F%E7%B7%9A",
+      "path": "data/tdx_bus_travel_time/observations/Taipei_%E5%85%92%E6%A8%822%E8%99%9F%E7%B7%9A.json.gz",
+      "record_count": 1,
+      "kind": "normalized_records",
+      "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
+      "source_updated_at": "2026-10-24T05:13:00",
       "period": {
         "effective_dates": [
           "2026-10-01"
@@ -1775,6 +1849,43 @@
       ]
     },
     {
+      "dataset_id": "tdx_bus_s2s_Taipei_%E5%B0%8F22",
+      "path": "data/tdx_bus_travel_time/observations/Taipei_%E5%B0%8F22.json.gz",
+      "record_count": 2,
+      "kind": "normalized_records",
+      "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
+      "source_updated_at": "2026-10-24T05:13:46",
+      "period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "units": {
+        "run_time": "seconds",
+        "update_interval": "months",
+        "start_time": "source local civil clock HH:mm",
+        "end_time": "source local civil clock HH:mm; 24:00 retained"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_bus_travel_time_review.json"
+      },
+      "limitations": [
+        "歷史推估，不是當日實際旅行時間；有效期與各子路線說明原樣保留。",
+        "官方端點無歷史日期/版本參數；不能回填近三年每月版本。",
+        "完整只指該次未分頁端點回應，不代表全市、所有時段或每一站間均有值。",
+        "RouteName查詢如回傳其他名稱/子路線，全部保留，不用名稱推斷跨市範圍。",
+        "缺少起站ID或RunTime的首站/其他來源列保留null，不推算成0秒。"
+      ]
+    },
+    {
       "dataset_id": "tdx_bus_s2s_Taipei_%E5%B0%8F23",
       "path": "data/tdx_bus_travel_time/observations/Taipei_%E5%B0%8F23.json.gz",
       "record_count": 4,
@@ -2632,6 +2743,43 @@
       "kind": "normalized_records",
       "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
       "source_updated_at": "2026-10-24T04:10:48",
+      "period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "units": {
+        "run_time": "seconds",
+        "update_interval": "months",
+        "start_time": "source local civil clock HH:mm",
+        "end_time": "source local civil clock HH:mm; 24:00 retained"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_bus_travel_time_review.json"
+      },
+      "limitations": [
+        "歷史推估，不是當日實際旅行時間；有效期與各子路線說明原樣保留。",
+        "官方端點無歷史日期/版本參數；不能回填近三年每月版本。",
+        "完整只指該次未分頁端點回應，不代表全市、所有時段或每一站間均有值。",
+        "RouteName查詢如回傳其他名稱/子路線，全部保留，不用名稱推斷跨市範圍。",
+        "缺少起站ID或RunTime的首站/其他來源列保留null，不推算成0秒。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_bus_s2s_Taipei_%E5%B8%82%E6%B0%91%E5%B0%8F%E5%B7%B48",
+      "path": "data/tdx_bus_travel_time/observations/Taipei_%E5%B8%82%E6%B0%91%E5%B0%8F%E5%B7%B48.json.gz",
+      "record_count": 4,
+      "kind": "normalized_records",
+      "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
+      "source_updated_at": "2026-10-24T05:11:43",
       "period": {
         "effective_dates": [
           "2026-10-01"
@@ -3958,6 +4106,43 @@
       ]
     },
     {
+      "dataset_id": "tdx_bus_s2s_Taipei_%E7%B4%855",
+      "path": "data/tdx_bus_travel_time/observations/Taipei_%E7%B4%855.json.gz",
+      "record_count": 6,
+      "kind": "normalized_records",
+      "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
+      "source_updated_at": "2026-10-24T05:09:24",
+      "period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "units": {
+        "run_time": "seconds",
+        "update_interval": "months",
+        "start_time": "source local civil clock HH:mm",
+        "end_time": "source local civil clock HH:mm; 24:00 retained"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_bus_travel_time_review.json"
+      },
+      "limitations": [
+        "歷史推估，不是當日實際旅行時間；有效期與各子路線說明原樣保留。",
+        "官方端點無歷史日期/版本參數；不能回填近三年每月版本。",
+        "完整只指該次未分頁端點回應，不代表全市、所有時段或每一站間均有值。",
+        "RouteName查詢如回傳其他名稱/子路線，全部保留，不用名稱推斷跨市範圍。",
+        "缺少起站ID或RunTime的首站/其他來源列保留null，不推算成0秒。"
+      ]
+    },
+    {
       "dataset_id": "tdx_bus_s2s_Taipei_%E7%B4%8550",
       "path": "data/tdx_bus_travel_time/observations/Taipei_%E7%B4%8550.json.gz",
       "record_count": 4,
@@ -4038,6 +4223,43 @@
       "kind": "normalized_records",
       "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
       "source_updated_at": "2026-10-24T04:13:52",
+      "period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "units": {
+        "run_time": "seconds",
+        "update_interval": "months",
+        "start_time": "source local civil clock HH:mm",
+        "end_time": "source local civil clock HH:mm; 24:00 retained"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_bus_travel_time_review.json"
+      },
+      "limitations": [
+        "歷史推估，不是當日實際旅行時間；有效期與各子路線說明原樣保留。",
+        "官方端點無歷史日期/版本參數；不能回填近三年每月版本。",
+        "完整只指該次未分頁端點回應，不代表全市、所有時段或每一站間均有值。",
+        "RouteName查詢如回傳其他名稱/子路線，全部保留，不用名稱推斷跨市範圍。",
+        "缺少起站ID或RunTime的首站/其他來源列保留null，不推算成0秒。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_bus_s2s_Taipei_%E7%B4%8557",
+      "path": "data/tdx_bus_travel_time/observations/Taipei_%E7%B4%8557.json.gz",
+      "record_count": 2,
+      "kind": "normalized_records",
+      "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
+      "source_updated_at": "2026-10-24T05:12:29",
       "period": {
         "effective_dates": [
           "2026-10-01"
@@ -4334,6 +4556,43 @@
       "kind": "normalized_records",
       "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
       "source_updated_at": null,
+      "period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "units": {
+        "run_time": "seconds",
+        "update_interval": "months",
+        "start_time": "source local civil clock HH:mm",
+        "end_time": "source local civil clock HH:mm; 24:00 retained"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_bus_travel_time_review.json"
+      },
+      "limitations": [
+        "歷史推估，不是當日實際旅行時間；有效期與各子路線說明原樣保留。",
+        "官方端點無歷史日期/版本參數；不能回填近三年每月版本。",
+        "完整只指該次未分頁端點回應，不代表全市、所有時段或每一站間均有值。",
+        "RouteName查詢如回傳其他名稱/子路線，全部保留，不用名稱推斷跨市範圍。",
+        "缺少起站ID或RunTime的首站/其他來源列保留null，不推算成0秒。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_bus_s2s_Taipei_%E8%8A%B1%E5%AD%A3%E5%B0%88%E8%BB%8A124",
+      "path": "data/tdx_bus_travel_time/observations/Taipei_%E8%8A%B1%E5%AD%A3%E5%B0%88%E8%BB%8A124.json.gz",
+      "record_count": 2,
+      "kind": "normalized_records",
+      "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
+      "source_updated_at": "2026-10-24T05:09:09",
       "period": {
         "effective_dates": [
           "2026-10-01"
@@ -5216,6 +5475,43 @@
       ]
     },
     {
+      "dataset_id": "tdx_bus_s2s_Taipei_%E9%87%8D%E6%85%B6%E5%B9%B9%E7%B7%9A",
+      "path": "data/tdx_bus_travel_time/observations/Taipei_%E9%87%8D%E6%85%B6%E5%B9%B9%E7%B7%9A.json.gz",
+      "record_count": 4,
+      "kind": "normalized_records",
+      "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
+      "source_updated_at": "2026-10-24T05:10:26",
+      "period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "units": {
+        "run_time": "seconds",
+        "update_interval": "months",
+        "start_time": "source local civil clock HH:mm",
+        "end_time": "source local civil clock HH:mm; 24:00 retained"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_bus_travel_time_review.json"
+      },
+      "limitations": [
+        "歷史推估，不是當日實際旅行時間；有效期與各子路線說明原樣保留。",
+        "官方端點無歷史日期/版本參數；不能回填近三年每月版本。",
+        "完整只指該次未分頁端點回應，不代表全市、所有時段或每一站間均有值。",
+        "RouteName查詢如回傳其他名稱/子路線，全部保留，不用名稱推斷跨市範圍。",
+        "缺少起站ID或RunTime的首站/其他來源列保留null，不推算成0秒。"
+      ]
+    },
+    {
       "dataset_id": "tdx_bus_s2s_Taipei_%E9%9B%99%E5%9C%92%E5%B7%B4%E5%A3%AB",
       "path": "data/tdx_bus_travel_time/observations/Taipei_%E9%9B%99%E5%9C%92%E5%B7%B4%E5%A3%AB.json.gz",
       "record_count": 12,
@@ -5296,6 +5592,43 @@
       "kind": "normalized_records",
       "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
       "source_updated_at": null,
+      "period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "units": {
+        "run_time": "seconds",
+        "update_interval": "months",
+        "start_time": "source local civil clock HH:mm",
+        "end_time": "source local civil clock HH:mm; 24:00 retained"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_bus_travel_time_review.json"
+      },
+      "limitations": [
+        "歷史推估，不是當日實際旅行時間；有效期與各子路線說明原樣保留。",
+        "官方端點無歷史日期/版本參數；不能回填近三年每月版本。",
+        "完整只指該次未分頁端點回應，不代表全市、所有時段或每一站間均有值。",
+        "RouteName查詢如回傳其他名稱/子路線，全部保留，不用名稱推斷跨市範圍。",
+        "缺少起站ID或RunTime的首站/其他來源列保留null，不推算成0秒。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_bus_s2s_Taipei_1",
+      "path": "data/tdx_bus_travel_time/observations/Taipei_1.json.gz",
+      "record_count": 4,
+      "kind": "normalized_records",
+      "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
+      "source_updated_at": "2026-10-24T05:13:15",
       "period": {
         "effective_dates": [
           "2026-10-01"
@@ -5925,6 +6258,43 @@
       "kind": "normalized_records",
       "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
       "source_updated_at": "2026-10-24T05:05:33",
+      "period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "units": {
+        "run_time": "seconds",
+        "update_interval": "months",
+        "start_time": "source local civil clock HH:mm",
+        "end_time": "source local civil clock HH:mm; 24:00 retained"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_bus_travel_time_review.json"
+      },
+      "limitations": [
+        "歷史推估，不是當日實際旅行時間；有效期與各子路線說明原樣保留。",
+        "官方端點無歷史日期/版本參數；不能回填近三年每月版本。",
+        "完整只指該次未分頁端點回應，不代表全市、所有時段或每一站間均有值。",
+        "RouteName查詢如回傳其他名稱/子路線，全部保留，不用名稱推斷跨市範圍。",
+        "缺少起站ID或RunTime的首站/其他來源列保留null，不推算成0秒。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_bus_s2s_Taipei_214%E7%9B%B4",
+      "path": "data/tdx_bus_travel_time/observations/Taipei_214%E7%9B%B4.json.gz",
+      "record_count": 4,
+      "kind": "normalized_records",
+      "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
+      "source_updated_at": "2026-10-24T05:11:27",
       "period": {
         "effective_dates": [
           "2026-10-01"
@@ -8102,6 +8472,43 @@
       ]
     },
     {
+      "dataset_id": "tdx_bus_s2s_Taipei_286",
+      "path": "data/tdx_bus_travel_time/observations/Taipei_286.json.gz",
+      "record_count": 2,
+      "kind": "normalized_records",
+      "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
+      "source_updated_at": "2026-10-24T05:13:30",
+      "period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "units": {
+        "run_time": "seconds",
+        "update_interval": "months",
+        "start_time": "source local civil clock HH:mm",
+        "end_time": "source local civil clock HH:mm; 24:00 retained"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_bus_travel_time_review.json"
+      },
+      "limitations": [
+        "歷史推估，不是當日實際旅行時間；有效期與各子路線說明原樣保留。",
+        "官方端點無歷史日期/版本參數；不能回填近三年每月版本。",
+        "完整只指該次未分頁端點回應，不代表全市、所有時段或每一站間均有值。",
+        "RouteName查詢如回傳其他名稱/子路線，全部保留，不用名稱推斷跨市範圍。",
+        "缺少起站ID或RunTime的首站/其他來源列保留null，不推算成0秒。"
+      ]
+    },
+    {
       "dataset_id": "tdx_bus_s2s_Taipei_288",
       "path": "data/tdx_bus_travel_time/observations/Taipei_288.json.gz",
       "record_count": 2,
@@ -8842,6 +9249,43 @@
       ]
     },
     {
+      "dataset_id": "tdx_bus_s2s_Taipei_310",
+      "path": "data/tdx_bus_travel_time/observations/Taipei_310.json.gz",
+      "record_count": 4,
+      "kind": "normalized_records",
+      "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
+      "source_updated_at": "2026-10-24T05:11:58",
+      "period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "units": {
+        "run_time": "seconds",
+        "update_interval": "months",
+        "start_time": "source local civil clock HH:mm",
+        "end_time": "source local civil clock HH:mm; 24:00 retained"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_bus_travel_time_review.json"
+      },
+      "limitations": [
+        "歷史推估，不是當日實際旅行時間；有效期與各子路線說明原樣保留。",
+        "官方端點無歷史日期/版本參數；不能回填近三年每月版本。",
+        "完整只指該次未分頁端點回應，不代表全市、所有時段或每一站間均有值。",
+        "RouteName查詢如回傳其他名稱/子路線，全部保留，不用名稱推斷跨市範圍。",
+        "缺少起站ID或RunTime的首站/其他來源列保留null，不推算成0秒。"
+      ]
+    },
+    {
       "dataset_id": "tdx_bus_s2s_Taipei_311%E5%8D%80",
       "path": "data/tdx_bus_travel_time/observations/Taipei_311%E5%8D%80.json.gz",
       "record_count": 4,
@@ -8885,6 +9329,43 @@
       "kind": "normalized_records",
       "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
       "source_updated_at": "2026-10-24T04:32:04",
+      "period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "units": {
+        "run_time": "seconds",
+        "update_interval": "months",
+        "start_time": "source local civil clock HH:mm",
+        "end_time": "source local civil clock HH:mm; 24:00 retained"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_bus_travel_time_review.json"
+      },
+      "limitations": [
+        "歷史推估，不是當日實際旅行時間；有效期與各子路線說明原樣保留。",
+        "官方端點無歷史日期/版本參數；不能回填近三年每月版本。",
+        "完整只指該次未分頁端點回應，不代表全市、所有時段或每一站間均有值。",
+        "RouteName查詢如回傳其他名稱/子路線，全部保留，不用名稱推斷跨市範圍。",
+        "缺少起站ID或RunTime的首站/其他來源列保留null，不推算成0秒。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_bus_s2s_Taipei_32",
+      "path": "data/tdx_bus_travel_time/observations/Taipei_32.json.gz",
+      "record_count": 2,
+      "kind": "normalized_records",
+      "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
+      "source_updated_at": "2026-10-24T05:09:55",
       "period": {
         "effective_dates": [
           "2026-10-01"
@@ -9323,12 +9804,86 @@
       ]
     },
     {
+      "dataset_id": "tdx_bus_s2s_Taipei_529",
+      "path": "data/tdx_bus_travel_time/observations/Taipei_529.json.gz",
+      "record_count": 2,
+      "kind": "normalized_records",
+      "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
+      "source_updated_at": "2026-10-24T05:10:10",
+      "period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "units": {
+        "run_time": "seconds",
+        "update_interval": "months",
+        "start_time": "source local civil clock HH:mm",
+        "end_time": "source local civil clock HH:mm; 24:00 retained"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_bus_travel_time_review.json"
+      },
+      "limitations": [
+        "歷史推估，不是當日實際旅行時間；有效期與各子路線說明原樣保留。",
+        "官方端點無歷史日期/版本參數；不能回填近三年每月版本。",
+        "完整只指該次未分頁端點回應，不代表全市、所有時段或每一站間均有值。",
+        "RouteName查詢如回傳其他名稱/子路線，全部保留，不用名稱推斷跨市範圍。",
+        "缺少起站ID或RunTime的首站/其他來源列保留null，不推算成0秒。"
+      ]
+    },
+    {
       "dataset_id": "tdx_bus_s2s_Taipei_53",
       "path": "data/tdx_bus_travel_time/observations/Taipei_53.json.gz",
       "record_count": 2,
       "kind": "normalized_records",
       "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
       "source_updated_at": "2026-10-24T04:48:10",
+      "period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "units": {
+        "run_time": "seconds",
+        "update_interval": "months",
+        "start_time": "source local civil clock HH:mm",
+        "end_time": "source local civil clock HH:mm; 24:00 retained"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_bus_travel_time_review.json"
+      },
+      "limitations": [
+        "歷史推估，不是當日實際旅行時間；有效期與各子路線說明原樣保留。",
+        "官方端點無歷史日期/版本參數；不能回填近三年每月版本。",
+        "完整只指該次未分頁端點回應，不代表全市、所有時段或每一站間均有值。",
+        "RouteName查詢如回傳其他名稱/子路線，全部保留，不用名稱推斷跨市範圍。",
+        "缺少起站ID或RunTime的首站/其他來源列保留null，不推算成0秒。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_bus_s2s_Taipei_530",
+      "path": "data/tdx_bus_travel_time/observations/Taipei_530.json.gz",
+      "record_count": 3,
+      "kind": "normalized_records",
+      "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
+      "source_updated_at": "2026-10-24T05:10:41",
       "period": {
         "effective_dates": [
           "2026-10-01"
@@ -9767,12 +10322,123 @@
       ]
     },
     {
+      "dataset_id": "tdx_bus_s2s_Taipei_604",
+      "path": "data/tdx_bus_travel_time/observations/Taipei_604.json.gz",
+      "record_count": 2,
+      "kind": "normalized_records",
+      "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
+      "source_updated_at": "2026-10-24T05:12:13",
+      "period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "units": {
+        "run_time": "seconds",
+        "update_interval": "months",
+        "start_time": "source local civil clock HH:mm",
+        "end_time": "source local civil clock HH:mm; 24:00 retained"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_bus_travel_time_review.json"
+      },
+      "limitations": [
+        "歷史推估，不是當日實際旅行時間；有效期與各子路線說明原樣保留。",
+        "官方端點無歷史日期/版本參數；不能回填近三年每月版本。",
+        "完整只指該次未分頁端點回應，不代表全市、所有時段或每一站間均有值。",
+        "RouteName查詢如回傳其他名稱/子路線，全部保留，不用名稱推斷跨市範圍。",
+        "缺少起站ID或RunTime的首站/其他來源列保留null，不推算成0秒。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_bus_s2s_Taipei_605%E5%89%AF",
+      "path": "data/tdx_bus_travel_time/observations/Taipei_605%E5%89%AF.json.gz",
+      "record_count": 2,
+      "kind": "normalized_records",
+      "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
+      "source_updated_at": "2026-10-24T05:10:57",
+      "period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "units": {
+        "run_time": "seconds",
+        "update_interval": "months",
+        "start_time": "source local civil clock HH:mm",
+        "end_time": "source local civil clock HH:mm; 24:00 retained"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_bus_travel_time_review.json"
+      },
+      "limitations": [
+        "歷史推估，不是當日實際旅行時間；有效期與各子路線說明原樣保留。",
+        "官方端點無歷史日期/版本參數；不能回填近三年每月版本。",
+        "完整只指該次未分頁端點回應，不代表全市、所有時段或每一站間均有值。",
+        "RouteName查詢如回傳其他名稱/子路線，全部保留，不用名稱推斷跨市範圍。",
+        "缺少起站ID或RunTime的首站/其他來源列保留null，不推算成0秒。"
+      ]
+    },
+    {
       "dataset_id": "tdx_bus_s2s_Taipei_605%E5%BF%AB",
       "path": "data/tdx_bus_travel_time/observations/Taipei_605%E5%BF%AB.json.gz",
       "record_count": 2,
       "kind": "normalized_records",
       "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
       "source_updated_at": "2026-10-24T03:24:29",
+      "period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "units": {
+        "run_time": "seconds",
+        "update_interval": "months",
+        "start_time": "source local civil clock HH:mm",
+        "end_time": "source local civil clock HH:mm; 24:00 retained"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_bus_travel_time_review.json"
+      },
+      "limitations": [
+        "歷史推估，不是當日實際旅行時間；有效期與各子路線說明原樣保留。",
+        "官方端點無歷史日期/版本參數；不能回填近三年每月版本。",
+        "完整只指該次未分頁端點回應，不代表全市、所有時段或每一站間均有值。",
+        "RouteName查詢如回傳其他名稱/子路線，全部保留，不用名稱推斷跨市範圍。",
+        "缺少起站ID或RunTime的首站/其他來源列保留null，不推算成0秒。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_bus_s2s_Taipei_605%E6%96%B0%E5%8F%B0%E4%BA%94",
+      "path": "data/tdx_bus_travel_time/observations/Taipei_605%E6%96%B0%E5%8F%B0%E4%BA%94.json.gz",
+      "record_count": 2,
+      "kind": "normalized_records",
+      "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
+      "source_updated_at": "2026-10-24T05:11:12",
       "period": {
         "effective_dates": [
           "2026-10-01"
@@ -10032,6 +10698,43 @@
       "kind": "normalized_records",
       "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
       "source_updated_at": "2026-10-24T03:16:09",
+      "period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "units": {
+        "run_time": "seconds",
+        "update_interval": "months",
+        "start_time": "source local civil clock HH:mm",
+        "end_time": "source local civil clock HH:mm; 24:00 retained"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_bus_travel_time_review.json"
+      },
+      "limitations": [
+        "歷史推估，不是當日實際旅行時間；有效期與各子路線說明原樣保留。",
+        "官方端點無歷史日期/版本參數；不能回填近三年每月版本。",
+        "完整只指該次未分頁端點回應，不代表全市、所有時段或每一站間均有值。",
+        "RouteName查詢如回傳其他名稱/子路線，全部保留，不用名稱推斷跨市範圍。",
+        "缺少起站ID或RunTime的首站/其他來源列保留null，不推算成0秒。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_bus_s2s_Taipei_630",
+      "path": "data/tdx_bus_travel_time/observations/Taipei_630.json.gz",
+      "record_count": 4,
+      "kind": "normalized_records",
+      "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
+      "source_updated_at": "2026-10-24T05:09:40",
       "period": {
         "effective_dates": [
           "2026-10-01"
@@ -11543,6 +12246,43 @@
       ]
     },
     {
+      "dataset_id": "tdx_bus_s2s_Taipei_950",
+      "path": "data/tdx_bus_travel_time/observations/Taipei_950.json.gz",
+      "record_count": 4,
+      "kind": "normalized_records",
+      "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
+      "source_updated_at": "2026-10-24T05:08:54",
+      "period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "units": {
+        "run_time": "seconds",
+        "update_interval": "months",
+        "start_time": "source local civil clock HH:mm",
+        "end_time": "source local civil clock HH:mm; 24:00 retained"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_bus_travel_time_review.json"
+      },
+      "limitations": [
+        "歷史推估，不是當日實際旅行時間；有效期與各子路線說明原樣保留。",
+        "官方端點無歷史日期/版本參數；不能回填近三年每月版本。",
+        "完整只指該次未分頁端點回應，不代表全市、所有時段或每一站間均有值。",
+        "RouteName查詢如回傳其他名稱/子路線，全部保留，不用名稱推斷跨市範圍。",
+        "缺少起站ID或RunTime的首站/其他來源列保留null，不推算成0秒。"
+      ]
+    },
+    {
       "dataset_id": "tdx_bus_s2s_Taipei_955",
       "path": "data/tdx_bus_travel_time/observations/Taipei_955.json.gz",
       "record_count": 4,
@@ -11582,7 +12322,7 @@
     {
       "dataset_id": "tdx_bus_travel_time_coverage",
       "path": "data/tdx_bus_travel_time/coverage.json",
-      "record_count": 307,
+      "record_count": 327,
       "kind": "acquisition_coverage",
       "grain": "one attempted/reused selected route endpoint",
       "source_updated_at": null,
