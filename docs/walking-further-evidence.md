@@ -9,3 +9,13 @@
 
 本檔沒有新增可用轉乘邊，距離保持 `null`；[獨立巡檢](../map-data/quality/walking_further_evidence_review.json)核對原始圖、號誌列與實走片段。
 圖面保留原印版本；2026年4至7月的Y26公告與2021至2022年排水施工公告不能延用為當期開放或封閉證明。
+
+[`additional_evidence.json`](../map-data/walking/additional_evidence.json) 另保留新莊工程總量、2026年獎項、截至2026年10月1日的機車禁停範圍及官方目的地交通指引。
+地址或路段只作背景，不連接站牌ID；禁停、工程或獲獎資料不代表特定穿越及出口至站牌的接線已核實，指引的約2分鐘也不作案例轉乘成本。
+下載連結與收據見 `raw_data/walking_additional/manifest.json`；HTML、PDF和圖片原文留本機，不進Git。
+先依來源目錄下載原始檔至各筆 `raw_file`，即可離線重建及巡檢：
+
+```sh
+.venv/bin/python -m scripts.official_cross_city.walking_additional --offline
+.venv/bin/python scripts/review_walking_additional_evidence.py
+```
