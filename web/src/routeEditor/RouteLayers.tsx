@@ -1,4 +1,6 @@
 import { Layer, Marker, Source } from 'react-map-gl/maplibre';
+import { useMemo } from 'react';
+import type { ExpressionSpecification } from 'maplibre-gl';
 import type { FeatureCollection, Polygon } from 'geojson';
 import { routePath } from './engine';
 import type { Coordinate, Route, ScenarioData } from './types';
@@ -11,11 +13,33 @@ export interface EditorMapProps {
   deleting: boolean;
   showStopNumbers: boolean;
   interaction: 'select' | 'stops' | 'path';
+  insertIndex: number;
   gridLines: boolean;
   bike: boolean;
   onStop: (id: string) => void;
   onRoute: (routeId: string) => void;
   onPath: (path: Coordinate[]) => void;
+}
+
+export const ROUTE_STOP_PICKER = 'scenario-stop-candidates';
+
+/** Reuse the station source, keeping selectable stops visible at every editor zoom. */
+export function RouteStopPicker({ editor, hoveredId }: { editor: EditorMapProps; hoveredId: string | null }) {
+  const available = useMemo(() => Object.keys(editor.data.records.stops), [editor.data]);
+  const filter = useMemo<ExpressionSpecification>(() => ['all',
+    ['in', ['get', 'id'], ['literal', available]],
+    ['!', ['in', ['get', 'id'], ['literal', editor.route?.stop_ids ?? []]]],
+  ], [available, editor.route?.stop_ids]);
+  return <>
+    <Layer id="scenario-stop-halo" source="bus-stops" type="circle" filter={filter}
+      paint={{ 'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 5, 13, 7, 15, 10, 17, 12],
+        'circle-color': '#337cda', 'circle-opacity': .16 }} />
+    <Layer id={ROUTE_STOP_PICKER} source="bus-stops" type="circle" filter={filter}
+      paint={{ 'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 2.5, 13, 3.5, 15, 6, 17, 7],
+        'circle-color': '#ffffff', 'circle-stroke-color': '#337cda', 'circle-stroke-width': ['interpolate', ['linear'], ['zoom'], 10, 1.6, 15, 2] }} />
+    <Layer id="scenario-stop-hover" source="bus-stops" type="circle" filter={['all', ['==', ['get', 'id'], hoveredId ?? ''], filter]}
+      paint={{ 'circle-radius': 9, 'circle-color': '#337cda', 'circle-stroke-color': '#ffffff', 'circle-stroke-width': 3 }} />
+  </>;
 }
 
 export function ScenarioGrid({ editor, beforeId }: { editor: EditorMapProps; beforeId?: string }) {
@@ -64,7 +88,10 @@ export function RouteLayers({ editor, beforeId }: { editor: EditorMapProps; befo
       </Marker>;
     })}
     {removed.map((id, i) => <Marker key={`removed:${i}`} longitude={data.records.stops[id].at[0]} latitude={data.records.stops[id].at[1]}>
-      <span className="route-map-stop is-removed" title={`取消停靠：${data.records.stops[id].name}`}>×</span>
+      {interaction === 'stops'
+        ? <button className="route-map-stop is-removed" aria-label={`加回 ${data.records.stops[id].name}`} title={`點擊加回：${data.records.stops[id].name}`}
+          onClick={(e) => { e.stopPropagation(); editor.onStop(id); }}>×</button>
+        : <span className="route-map-stop is-removed" title={`取消停靠：${data.records.stops[id].name}`}>×</span>}
     </Marker>)}
     {interaction === 'path' && path.map((at, i) => <Marker key={`vertex:${i}`} longitude={at[0]} latitude={at[1]} draggable
       onDragEnd={(e) => editor.onPath(path.map((p, j) => j === i ? [e.lngLat.lng, e.lngLat.lat] : p))}>

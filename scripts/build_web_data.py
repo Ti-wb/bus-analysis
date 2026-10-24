@@ -616,7 +616,14 @@ def main():
         write(f"bus_grid_{cell_m}.json", grid)
         print(f"grid {cell_m} m status", dict(status), "scheduled subroutes", len(scheduled))
 
-    from build_route_scenario import main as build_route_scenario
+    # Keep the deploy entry point responsible for all layers used by the map.
+    if __package__:
+        from .build_web_supplemental import build_all
+        from .build_route_scenario import main as build_route_scenario
+    else:
+        from build_web_supplemental import build_all
+        from build_route_scenario import main as build_route_scenario
+    build_all(ROOT, OUT, built_at)
     build_route_scenario()
     from build_improvements import main as build_improvements
     build_improvements()

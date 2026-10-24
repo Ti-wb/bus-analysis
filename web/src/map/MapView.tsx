@@ -1,5 +1,5 @@
 import type { FeatureCollection, MultiLineString, Point, Polygon } from 'geojson';
-import type { ExpressionSpecification, MapGeoJSONFeature, Map as MaplibreMap } from 'maplibre-gl';
+import type { ExpressionSpecification, MapGeoJSONFeature, Map as MaplibreMap, StyleSpecification } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 // MapLibre 6 resolves its worker next to its own module, which the bundle does not copy; ship it as an asset.
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url';
@@ -12,6 +12,7 @@ import Map, {
   Popup,
   Source,
   type LayerProps,
+  type MapEvent,
   type MapLayerMouseEvent,
   type MapRef,
 } from 'react-map-gl/maplibre';
@@ -21,18 +22,23 @@ import { BASE_STYLE, HOVER_LAYERS, LAYER_GROUPS, PLACE_CATEGORIES } from '../con
 import { distancesAt, type CoverageImage } from '../coverage';
 import type { BusFocusState } from '../focus/model';
 import type { NeedCellProps, NeedResult } from '../need';
+import { travelCollection } from '../regional';
 import { STATION_LAYERS, STATION_RADIUS, stationFromFeature } from '../stations';
 import { CoverageTooltip, FeatureTooltip, NeedTooltip, RoutePopup, type PopupFeature } from './FeatureInfo';
 import * as L from './layers';
 import { focusLocalBounds, focusRouteBounds, focusStops } from './focusGeometry';
 import { buildFocusCoverage, focusCoverageGridLines, focusCoverageImage, focusDistanceAt } from './focusCoverage';
-import { RouteLayers, ScenarioGrid, type EditorMapProps } from '../routeEditor/RouteLayers';
+import { ROUTE_STOP_PICKER, RouteLayers, RouteStopPicker, ScenarioGrid, type EditorMapProps } from '../routeEditor/RouteLayers';
 import type { AppState, Coverage, Grid, LayerGroup, MapData, NeedGrid, StationSelection, ViewState } from '../types';
 
 const LABEL_NAME: ExpressionSpecification = ['coalesce', ['get', 'name:zh-Hant'], ['get', 'name:nonlatin'], ['get', 'name']];
+const LOCAL_STYLE: StyleSpecification = {
+  version: 8, sources: {}, layers: [{ id: 'local-background', type: 'background', paint: { 'background-color': '#eef3f7' } }],
+};
 const LAYER_GROUP_OF: Record<string, LayerGroup> = Object.fromEntries(
   Object.entries(LAYER_GROUPS).flatMap(([group, ids]) => ids.map((id) => [id, group as LayerGroup])),
 );
+const POPUP_LAYERS = ['bus-routes', 'regional-bus-routes', 'traffic-sections', 'bus-travel-times', 'villages-fill'];
 
 interface Props {
   editor?: EditorMapProps;
@@ -88,7 +94,7 @@ function addHatchPattern(map: MaplibreMap) {
   ctx.moveTo(0, size);
   ctx.lineTo(size, 0);
   ctx.stroke();
-  map.addImage('hatch', ctx.getImageData(0, 0, size, size));
+  if (!map.hasImage('hatch')) map.addImage('hatch', ctx.getImageData(0, 0, size, size));
 
   // Transparent hatch drawn over coloured cells (transport-need cells with missing schedules).
   ctx.clearRect(0, 0, size, size);
@@ -98,12 +104,12 @@ function addHatchPattern(map: MaplibreMap) {
   ctx.moveTo(0, size);
   ctx.lineTo(size, 0);
   ctx.stroke();
-  map.addImage('hatch-line', ctx.getImageData(0, 0, size, size));
+  if (!map.hasImage('hatch-line')) map.addImage('hatch-line', ctx.getImageData(0, 0, size, size));
   ctx.clearRect(0, 0, size, size);
   ctx.strokeStyle = '#be4966';
   ctx.lineWidth = 1.5;
   ctx.beginPath(); ctx.moveTo(0, size); ctx.lineTo(size, 0); ctx.stroke();
-  map.addImage('scenario-hatch', ctx.getImageData(0, 0, size, size));
+  if (!map.hasImage('scenario-hatch')) map.addImage('scenario-hatch', ctx.getImageData(0, 0, size, size));
 
   // Square stops distinguish the local catchment from stops on the visible routes.
   for (const solid of [false, true]) {
@@ -115,16 +121,23 @@ function addHatchPattern(map: MaplibreMap) {
     iconContext.lineWidth = 3;
     iconContext.fillRect(3, 3, 14, 14);
     iconContext.strokeRect(3, 3, 14, 14);
-    map.addImage(`focus-stop-${solid ? 'solid' : 'hollow'}`, iconContext.getImageData(0, 0, 20, 20), { pixelRatio: 2 });
+    if (!map.hasImage(`focus-stop-${solid ? 'solid' : 'hollow'}`)) map.addImage(`focus-stop-${solid ? 'solid' : 'hollow'}`, iconContext.getImageData(0, 0, 20, 20), { pixelRatio: 2 });
   }
 }
 
 export default function MapView({ editor, focus, onFocusRoute, mapRef, initialView, data, grid, gridData, coverage, coverageImage, coverageLines, need, state, station, onStation, onCloseStation, onReady, onMoveEnd }: Props) {
   // First label layer of the base style: our layers go below it so road names stay on top.
   const [labelLayer, setLabelLayer] = useState<string | null>(null);
+  const [styleLoaded, setStyleLoaded] = useState(false);
+  const [localBase, setLocalBase] = useState(false);
+  const [fallbackView, setFallbackView] = useState<ViewState | null>(null);
+  const notifiedReady = useRef(false);
+  const [mapNotice, setMapNotice] = useState<string | null>(null);
   const baseLabels = useRef<string[]>([]);
   const [hover, setHover] = useState<Hover | null>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
+  const pickingStops = editor?.interaction === 'stops';
+  useEffect(() => { setHover(null); }, [editor?.interaction]);
 
   // Keep the tooltip inside the map: place it below-right of the cursor, flipping to the
   // other side when it would cross the right or bottom edge.
@@ -141,7 +154,7 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
   const [popup, setPopup] = useState<PopupFeature | null>(null);
   const [showDistrictLabels, setShowDistrictLabels] = useState(true);
   const catchmentShape = useMemo(() => (station ? circle(station.at, STATION_RADIUS) : null), [station]);
-  const activeFocus = !editor && station?.type === 'bus' ? focus ?? null : null;
+  const activeFocus = !editor && station?.type === 'bus' && !station.properties.source_scope ? focus ?? null : null;
   const visibleRouteIds = useMemo(() => activeFocus?.routes.filter((route) => route.visible).map((route) => route.route_id) ?? [], [activeFocus?.routes]);
   const nearbyAndRouteStops = useMemo(() => activeFocus && station?.type === 'bus' ? focusStops(data, station, visibleRouteIds) : null, [activeFocus !== null, data, station, visibleRouteIds]);
   const focusedCoverage = useMemo(() => activeFocus && station?.type === 'bus' ? buildFocusCoverage(data, station, visibleRouteIds, state.coverageCell) : null, [activeFocus !== null, data, station, visibleRouteIds, state.coverageCell]);
@@ -153,7 +166,7 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
   // Camera actions belong to Focus; user layer preferences are never rewritten.
   useEffect(() => {
     const map = mapRef.current?.getMap();
-    if (!map || labelLayer === null) return;
+    if (!map || !styleLoaded) return;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!activeFocus || station?.type !== 'bus') {
       cameraRequest.current = null;
@@ -191,19 +204,42 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
       pitch: 0,
       duration: reducedMotion ? 0 : 550,
     });
-  }, [activeFocus, data, labelLayer, mapRef, station, visibleRouteIds]);
+  }, [activeFocus, data, styleLoaded, mapRef, station, visibleRouteIds]);
+  const travelData = useMemo(() => travelCollection(data.bus_travel_times, state), [data.bus_travel_times, state.day, state.hour]);
+  const useLocalBase = useCallback(() => {
+    const map = mapRef.current;
+    if (map) {
+      const center = map.getCenter();
+      setFallbackView({ center: [center.lng, center.lat], zoom: map.getZoom() });
+    }
+    setStyleLoaded(false);
+    setLabelLayer(null);
+    setLocalBase(true);
+    setMapNotice('已使用本地簡圖；道路、行政界與資料圖層可繼續操作，沒有線上底圖路名。');
+  }, [mapRef]);
+
+  useEffect(() => {
+    if (styleLoaded || localBase) return;
+    const timer = setTimeout(useLocalBase, 12_000);
+    return () => clearTimeout(timer);
+  }, [styleLoaded, localBase, useLocalBase]);
 
   // Search and map clicks share one selected station; a route popup must not linger.
   useEffect(() => { if (station) setPopup(null); }, [station]);
+  // MapLibre event features are snapshots: discard values when their time or filter changes.
+  useEffect(() => { setPopup(null); setHover(null); }, [state.day, state.hour, state.villageMetric, state.leapfrogOnly, state.layers]);
 
   useEffect(() => {
-    if (!labelLayer) return;
+    if (!styleLoaded) return;
     const map = mapRef.current!;
     const canvas = map.getCanvas();
-    canvas.setAttribute('aria-label', '互動地圖；方向鍵移動，Enter 開啟畫面中央最近的可見站點，Escape 關閉資訊');
+    canvas.setAttribute('aria-label', pickingStops
+      ? '選擇公車站；方向鍵移動，Enter 加入畫面中央最近的可選公車站'
+      : '互動地圖；方向鍵移動，Enter 開啟畫面中央最近的可見站點，Escape 關閉資訊');
     const openStation = (event: KeyboardEvent) => {
       if (event.key !== 'Enter') return;
-      const layers = [...(activeFocus ? ['focus-bus-stops', 'focus-mrt-stations', 'focus-youbike'] : []), ...STATION_LAYERS.filter((id) => state.layers.has(LAYER_GROUP_OF[id]))].filter((id) => map.getLayer(id));
+      const layers = pickingStops ? (map.getLayer(ROUTE_STOP_PICKER) ? [ROUTE_STOP_PICKER] : [])
+        : [...(activeFocus ? ['focus-bus-stops', 'focus-mrt-stations', 'focus-youbike'] : []), ...STATION_LAYERS.filter((id) => state.layers.has(LAYER_GROUP_OF[id]))].filter((id) => map.getLayer(id));
       if (!layers.length) return;
       const centre = { x: canvas.clientWidth / 2, y: canvas.clientHeight / 2 };
       const stations = map.queryRenderedFeatures(undefined, { layers });
@@ -212,19 +248,22 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
         return Math.hypot(point.x - centre.x, point.y - centre.y);
       };
       stations.sort((a, b) => distance(a) - distance(b));
+      if (pickingStops && editor && stations[0]) {
+        event.preventDefault(); setHover(null); setPopup(null);
+        editor.onStop(String(stations[0].properties.id)); return;
+      }
       const feature = stations[0];
       const next = feature && stationFromFeature({ ...feature, geometry: feature.geometry, layer: { ...feature.layer, id: FOCUS_ORIGINAL_LAYERS[feature.layer.id] ?? feature.layer.id } } as MapGeoJSONFeature, data);
       if (next) { event.preventDefault(); setHover(null); setPopup(null);
-        if (editor?.interaction === 'stops' && next.type === 'bus') editor.onStop(next.id);
-        else onStation(next, canvas);
+        onStation(next, canvas);
       }
     };
     canvas.addEventListener('keydown', openStation);
     return () => canvas.removeEventListener('keydown', openStation);
-  }, [activeFocus !== null, data, editor, labelLayer, mapRef, onStation, state.layers]);
+  }, [activeFocus !== null, data, editor, styleLoaded, mapRef, onStation, pickingStops, state.layers]);
 
-  const handleLoad = useCallback(() => {
-    const map = mapRef.current!.getMap();
+  const handleLoad = useCallback((event: MapEvent) => {
+    const map = event.target;
     // The container can be measured before the stylesheet applies; re-measure once ready.
     map.resize();
     // On phones the expanded attribution wraps over the bottom cards, so it starts as its ⓘ button.
@@ -233,7 +272,7 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
       map.once('idle', () => map.getContainer().querySelector('.maplibregl-compact-show')?.classList.remove('maplibregl-compact-show'));
     }
     addHatchPattern(map);
-    const labels = map.getStyle().layers.filter((l) => l.type === 'symbol');
+    const labels = map.getStyle().layers?.filter((l) => l.type === 'symbol') ?? [];
     for (const layer of labels) {
       if (JSON.stringify(map.getLayoutProperty(layer.id, 'text-field') ?? '').includes('name')) {
         map.setLayoutProperty(layer.id, 'text-field', LABEL_NAME);
@@ -241,30 +280,42 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
     }
     baseLabels.current = labels.map((l) => l.id);
     setLabelLayer(labels[0]?.id ?? null);
-    onReady();
-  }, [mapRef, onReady]);
+    setStyleLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    // Replacing the basemap must not repeat the route workspace's initial fit.
+    // Notify after the replacement's ref has been attached.
+    if (styleLoaded && !notifiedReady.current) {
+      notifiedReady.current = true;
+      onReady();
+    }
+  }, [styleLoaded, onReady]);
 
   // Base-map place and road names follow the label preference.
   useEffect(() => {
     const map = mapRef.current?.getMap();
-    if (!map || labelLayer === null) return;
+    if (!map || !styleLoaded) return;
     for (const id of baseLabels.current) map.setLayoutProperty(id, 'visibility', state.labels ? 'visible' : 'none');
-  }, [mapRef, labelLayer, state.labels]);
+  }, [mapRef, styleLoaded, state.labels]);
 
   // The frequency grid belongs to frequency mode; coverage mode draws its own raster instead.
-  const shown = (group: LayerGroup) => state.layers.has(group) && (group !== 'grid' || (!editor && !activeFocus && state.mode === 'frequency'));
+  const villageView = state.layers.has('villages');
+  const shown = (group: LayerGroup) => state.layers.has(group)
+    && !(activeFocus && ['grid', 'villages', 'traffic', 'bus_times'].includes(group))
+    && (group !== 'grid' || (!editor && state.mode === 'frequency' && !villageView));
   const visible = (id: string) => (shown(LAYER_GROUP_OF[id]) ? 'visible' : 'none');
   const withVisibility = (layer: L.StyleLayer, beforeId?: string): LayerProps => ({
     ...layer,
     beforeId,
-    layout: { ...(layer.layout ?? {}), visibility: visible(layer.id!) },
+    layout: { ...(layer.layout ?? {}), visibility: pickingStops && layer.id === 'bus-stops' ? 'none' : visible(layer.id!) },
     ...(editor && layer.id === 'bus-routes' ? { paint: { ...layer.paint, 'line-color': '#8aa2af', 'line-opacity': .025, 'line-width': .75 } } : {}),
     ...(editor && (layer.id === 'mrt-lines' || layer.id === 'mrt-lines-casing') ? { paint: { ...layer.paint, 'line-opacity': .2 } } : {}),
     ...(editor && layer.id === 'places' ? { paint: { ...layer.paint, 'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, 2, 15, 4], 'circle-opacity': .65, 'circle-stroke-width': 1 } } : {}),
-    ...(activeFocus && layer.id === 'bus-routes' ? { paint: { ...layer.paint, 'line-color': '#b7c1c6', 'line-opacity': .2, 'line-width': .8 } } : {}),
+    ...(activeFocus && ['bus-routes', 'regional-bus-routes'].includes(layer.id!) ? { paint: { ...layer.paint, 'line-color': '#b7c1c6', 'line-opacity': .2, 'line-width': .8 } } : {}),
     ...(activeFocus && layer.id === 'mrt-lines' ? { paint: { ...layer.paint, 'line-color': '#b7c1c6', 'line-opacity': .3, 'line-width': 1.4 } } : {}),
     ...(activeFocus && layer.id === 'mrt-lines-casing' ? { paint: { ...layer.paint, 'line-opacity': .3 } } : {}),
-    ...(activeFocus && ['bus-stops', 'mrt-stations', 'youbike', 'places'].includes(layer.id!) ? { paint: { ...layer.paint, 'circle-opacity': .2, 'circle-stroke-opacity': .2 } } : {}),
+    ...(activeFocus && ['bus-stops', 'regional-bus-stops', 'mrt-stations', 'youbike', 'places'].includes(layer.id!) ? { paint: { ...layer.paint, 'circle-opacity': .2, 'circle-stroke-opacity': .2 } } : {}),
   } as LayerProps);
 
   const placeMembers = useMemo(
@@ -274,13 +325,24 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
 
   const featureAt = (e: MapLayerMouseEvent): MapGeoJSONFeature | undefined => {
     const map = mapRef.current!.getMap();
-    const layers = [...(activeFocus ? Object.keys(FOCUS_ORIGINAL_LAYERS) : []), ...HOVER_LAYERS.filter((id) => (!activeFocus || id !== 'bus-routes') && shown(LAYER_GROUP_OF[id]))].filter((id) => map.getLayer(id));
+    const { x, y } = e.point;
+    if (pickingStops) {
+      if (!map.getLayer(ROUTE_STOP_PICKER)) return;
+      // Nearby MRT / YouBike points must not intercept stop selection. Pick the
+      // closest bus stop when several enlarged targets overlap.
+      const stops = map.queryRenderedFeatures([[x - 8, y - 8], [x + 8, y + 8]], { layers: [ROUTE_STOP_PICKER] });
+      const distance = (f: MapGeoJSONFeature) => {
+        const point = map.project((f.geometry as Point).coordinates as [number, number]);
+        return Math.hypot(point.x - x, point.y - y);
+      };
+      return stops.reduce<MapGeoJSONFeature | undefined>((best, f) => !best || distance(f) < distance(best) ? f : best, undefined);
+    }
+    const layers = [...(activeFocus ? Object.keys(FOCUS_ORIGINAL_LAYERS) : []), ...HOVER_LAYERS.filter((id) => (!activeFocus || !['bus-routes', 'regional-bus-routes'].includes(id)) && shown(LAYER_GROUP_OF[id]))].filter((id) => map.getLayer(id));
     // In need mode the grid cell outranks route lines, but point markers still win.
-    if (state.mode === 'need' && map.getLayer('need-fill')) {
-      const firstLine = layers.findIndex((id) => id === 'bus-routes' || id === 'mrt-lines');
+    if (!activeFocus && state.mode === 'need' && !villageView && map.getLayer('need-fill')) {
+      const firstLine = layers.findIndex((id) => id === 'bus-routes' || id === 'mrt-lines' || id === 'regional-bus-routes');
       layers.splice(firstLine < 0 ? layers.length : firstLine, 0, 'need-fill');
     }
-    const { x, y } = e.point;
     const features = map.queryRenderedFeatures([[x - 4, y - 4], [x + 4, y + 4]], { layers }).map((feature) => {
       const original = FOCUS_ORIGINAL_LAYERS[feature.layer.id];
       return original ? { ...feature, geometry: feature.geometry, layer: { ...feature.layer, id: original } } as MapGeoJSONFeature : feature;
@@ -295,14 +357,16 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
   const handleMouseMove = (e: MapLayerMouseEvent) => {
     const feature = featureAt(e);
     const canvas = mapRef.current!.getCanvas();
-    canvas.style.cursor = feature && !/^(grid|need)/.test(feature.layer.id) ? 'pointer' : '';
+    const clickable = feature && (STATION_LAYERS.includes(feature.layer.id)
+      || POPUP_LAYERS.includes(feature.layer.id) || feature.layer.id === ROUTE_STOP_PICKER);
+    canvas.style.cursor = clickable ? 'pointer' : '';
     const { x, y } = e.point;
     if (feature) setHover({ feature, x, y });
     else if (focusedCoverage) {
       const focusDistance = focusDistanceAt(focusedCoverage, e.lngLat.lng, e.lngLat.lat);
       setHover(focusDistance === null ? null : { focusDistance, x, y });
     }
-    else if (!activeFocus && state.mode === 'coverage' && coverage) {
+    else if (!activeFocus && state.mode === 'coverage' && !villageView && coverage) {
       const distances = distancesAt(coverage, e.lngLat.lng, e.lngLat.lat);
       setHover(distances ? { distances, x, y } : null);
     } else setHover(null);
@@ -311,16 +375,16 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
   const handleClick = (e: MapLayerMouseEvent) => {
     const feature = featureAt(e);
     const id = feature?.layer.id;
+    if (feature && id === ROUTE_STOP_PICKER && pickingStops && editor) {
+      editor.onStop(String(feature.properties.id)); setHover(null); setPopup(null); return;
+    }
     if (feature && STATION_LAYERS.includes(id!)) {
-      if (editor?.interaction === 'stops' && id === 'bus-stops') {
-        editor.onStop(String(feature.properties.id)); setHover(null); return;
-      }
       onStation(stationFromFeature(feature, data), mapRef.current!.getCanvas());
       setPopup(null);
       setHover(null);
-    } else if (feature && id === 'bus-routes') {
-      if (editor) { editor.onRoute(String(feature.properties.route_id)); setHover(null); return; }
-      if (activeFocus) { onFocusRoute?.(String(feature.properties.route_id)); setHover(null); return; }
+    } else if (feature && POPUP_LAYERS.includes(id!)) {
+      if (editor && id === 'bus-routes') { editor.onRoute(String(feature.properties.route_id)); setHover(null); return; }
+      if (activeFocus && id === 'bus-routes') { onFocusRoute?.(String(feature.properties.route_id)); setHover(null); return; }
       onStation(null);
       setPopup({ feature, lngLat: [e.lngLat.lng, e.lngLat.lat] });
       setHover(null);
@@ -332,25 +396,28 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
 
   const highlightedRoutes = activeFocus ? null
     : popup?.feature.layer.id === 'bus-routes' ? [String(popup.feature.properties.route_id)]
-      : station?.type === 'bus' ? station.properties.route_ids ?? [] : null;
+      : station?.type === 'bus' && !station.properties.source_scope ? station.properties.route_ids ?? [] : null;
   const below = labelLayer ?? undefined;
+  const mapView = fallbackView ?? initialView;
 
   return (
     <>
       <Map
+        key={localBase ? 'local-map' : 'online-map'}
         ref={mapRef}
-        mapStyle={BASE_STYLE}
+        mapStyle={localBase ? LOCAL_STYLE : BASE_STYLE}
         workerUrl={workerUrl}
-        initialViewState={{ longitude: initialView.center[0], latitude: initialView.center[1], zoom: initialView.zoom }}
+        initialViewState={{ longitude: mapView.center[0], latitude: mapView.center[1], zoom: mapView.zoom }}
         localIdeographFontFamily="'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif"
-        minZoom={9.5}
+        minZoom={8}
         maxZoom={17}
-        maxBounds={[121.2, 24.8, 121.9, 25.4]}
+        maxBounds={[121.05, 24.65, 122.15, 25.45]}
         attributionControl={false}
         style={{ position: 'absolute', inset: 0 }}
         onLoad={handleLoad}
+        onError={() => setMapNotice(localBase ? '部分資料圖層無法繪製，請重新載入頁面或檢查資料快照。' : '網路底圖部分內容載入失敗；可切換本地簡圖繼續查看資料。')}
         onMouseMove={handleMouseMove}
-        onMouseOut={() => setHover(null)}
+        onMouseOut={() => { setHover(null); const canvas = mapRef.current?.getCanvas(); if (canvas) canvas.style.cursor = ''; }}
         onClick={handleClick}
         onZoom={(e) => {
           const zoom = e.viewState.zoom;
@@ -361,10 +428,14 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
       >
         <NavigationControl position="top-right" visualizePitch={false} />
         {/* Same corner in every view; floating cards keep 40 px clear at the bottom for it. */}
-        <AttributionControl position="bottom-right" compact customAttribution="公車：臺北市公共運輸處｜行政界：內政部國土測繪中心" />
+        <AttributionControl position="bottom-right" compact customAttribution="公車：臺北市公共運輸處／新北市政府交通局｜人口與行政界：內政部" />
 
-        {labelLayer !== null && (
+        {styleLoaded && (
           <>
+            {data.villages && <Source id="villages" type="geojson" data={data.villages}>
+              <Layer {...withVisibility(L.villagesFillLayer(state.villageMetric), below)} />
+              <Layer {...withVisibility(L.villagesLineLayer, below)} />
+            </Source>}
             <Source id="grid" type="geojson" data={gridData}>
               <Layer {...withVisibility(L.gridFillLayer, below)} />
               <Layer {...withVisibility(L.gridHatchLayer, below)} />
@@ -372,19 +443,19 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
             {editor && <ScenarioGrid editor={editor} beforeId={below} />}
             {need && (
               <Source id="need" type="geojson" data={need.data}>
-                <Layer {...L.needFillLayer} beforeId={below} layout={{ visibility: !activeFocus && state.mode === 'need' ? 'visible' : 'none' }} />
-                <Layer {...L.needPartialLayer} beforeId={below} layout={{ visibility: !activeFocus && state.mode === 'need' ? 'visible' : 'none' }} />
-                <Layer {...L.needRobustLayer} beforeId={below} layout={{ visibility: !activeFocus && state.mode === 'need' ? 'visible' : 'none' }} />
+                <Layer {...L.needFillLayer} beforeId={below} layout={{ visibility: !activeFocus && state.mode === 'need' && !villageView ? 'visible' : 'none' }} />
+                <Layer {...L.needPartialLayer} beforeId={below} layout={{ visibility: !activeFocus && state.mode === 'need' && !villageView ? 'visible' : 'none' }} />
+                <Layer {...L.needRobustLayer} beforeId={below} layout={{ visibility: !activeFocus && state.mode === 'need' && !villageView ? 'visible' : 'none' }} />
               </Source>
             )}
             {coverageImage && (
               <Source id="coverage" type="image" url={coverageImage.url} coordinates={coverageImage.coordinates}>
-                <Layer {...L.coverageLayer} beforeId={below} layout={{ visibility: !activeFocus && state.mode === 'coverage' ? 'visible' : 'none' }} />
+                <Layer {...L.coverageLayer} beforeId={below} layout={{ visibility: !activeFocus && state.mode === 'coverage' && !villageView ? 'visible' : 'none' }} />
               </Source>
             )}
             {coverageLines && coverage && (
               <Source id="coverage-grid" type="geojson" data={coverageLines}>
-                <Layer {...L.coverageGridLayer(coverage.cell_m)} beforeId={below} layout={{ visibility: !activeFocus && state.mode === 'coverage' && state.gridLines ? 'visible' : 'none' }} />
+                <Layer {...L.coverageGridLayer(coverage.cell_m)} beforeId={below} layout={{ visibility: !activeFocus && state.mode === 'coverage' && !villageView && state.gridLines ? 'visible' : 'none' }} />
               </Source>
             )}
             {focusedCoverageImage && (
@@ -417,21 +488,33 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
               <Layer {...L.busRouteHighlightLayer(highlightedRoutes)} beforeId={below} />
               {activeFocus && L.busFocusRouteLayers(activeFocus).map((layer) => <Layer key={layer.id} {...layer} beforeId={below} />)}
             </Source>
+            {data.regional_bus_routes && <Source id="regional-bus-routes" type="geojson" data={data.regional_bus_routes}>
+              <Layer {...withVisibility(L.regionalRoutesLayer(state.leapfrogOnly), below)} />
+            </Source>}
+            {data.traffic_sections && <Source id="traffic-sections" type="geojson" data={data.traffic_sections}>
+              <Layer {...withVisibility(L.trafficSectionsLayer, below)} />
+            </Source>}
+            {travelData && <Source id="bus-travel-times" type="geojson" data={travelData}>
+              <Layer {...withVisibility(L.busTravelTimesLayer, below)} />
+            </Source>}
             <Source id="mrt-lines" type="geojson" data={data.mrt_lines}>
               <Layer {...withVisibility(L.mrtCasingLayer, below)} />
               <Layer {...withVisibility(L.mrtLinesLayer, below)} />
             </Source>
-            <Source id="mrt-stations" type="geojson" data={data.mrt_stations}>
-              <Layer {...withVisibility(L.mrtStationsLayer)} />
-            </Source>
-            <Source id="bus-stops" type="geojson" data={data.bus_stops}>
-              <Layer {...withVisibility(L.busStopsLayer)} />
+            <Source id="places" type="geojson" data={data.places}>
+              <Layer {...withVisibility(L.placesLayer(placeMembers))} />
             </Source>
             <Source id="youbike" type="geojson" data={data.youbike_stations}>
               <Layer {...withVisibility(L.youbikeLayer)} />
             </Source>
-            <Source id="places" type="geojson" data={data.places}>
-              <Layer {...withVisibility(L.placesLayer(placeMembers))} />
+            {data.regional_bus_stops && <Source id="regional-bus-stops" type="geojson" data={data.regional_bus_stops}>
+              <Layer {...withVisibility(L.regionalStopsLayer(state.leapfrogOnly))} />
+            </Source>}
+            <Source id="bus-stops" type="geojson" data={data.bus_stops}>
+              <Layer {...withVisibility(L.busStopsLayer)} />
+            </Source>
+            <Source id="mrt-stations" type="geojson" data={data.mrt_stations}>
+              <Layer {...withVisibility(L.mrtStationsLayer)} />
             </Source>
             {nearbyAndRouteStops && <>
               <Source id="focus-bus-stops" type="geojson" data={nearbyAndRouteStops.bus}>
@@ -447,6 +530,8 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
                 <Layer {...L.placesLayer(placeMembers)} id="focus-places" />
               </Source>
             </>}
+            {pickingStops && editor && <RouteStopPicker editor={editor}
+              hoveredId={hover?.feature?.layer.id === ROUTE_STOP_PICKER ? String(hover.feature.properties.id) : null} />}
             {editor && <RouteLayers editor={editor} beforeId={below} />}
           </>
         )}
@@ -465,16 +550,25 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
         </Marker>}
         {popup && !station && (
           <Popup longitude={popup.lngLat[0]} latitude={popup.lngLat[1]} offset={8} onClose={() => setPopup(null)} closeOnClick={false}>
-            <RoutePopup feature={popup.feature} />
+            <RoutePopup feature={popup.feature} state={state} />
           </Popup>
         )}
       </Map>
+
+      {mapNotice && <div className="map-notice" role="status">
+        <span>{mapNotice}</span>
+        {!localBase && <button onClick={useLocalBase}>使用本地簡圖</button>}
+        <button className="notice-close" aria-label="關閉底圖提示" onClick={() => setMapNotice(null)}>×</button>
+      </div>}
 
       {station && <StationInfo station={station} mode={activeFocus ? 'focus' : 'popup'} mapRef={mapRef} data={data} placeKeys={state.places} onClose={onCloseStation} />}
 
       {hover && (
         <div ref={tooltipRef} className="tooltip" style={{ left: hover.x, top: hover.y }}>
-          {hover.feature?.layer.id === 'need-fill' && need
+          {hover.feature?.layer.id === ROUTE_STOP_PICKER && pickingStops && editor
+            ? <><b>{hover.feature.properties.name}</b><br />公車站位 #{hover.feature.properties.id}
+              <strong className="route-stop-pick-action">＋ 點擊加入第 {editor.insertIndex + 1} 站</strong></>
+            : hover.feature?.layer.id === 'need-fill' && need
             ? <NeedTooltip i={Number(hover.feature.properties.i)} grid={need.grid} result={need.result} state={state} />
             : hover.feature
             ? <FeatureTooltip feature={hover.feature} grid={grid} state={state} />

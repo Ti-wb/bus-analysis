@@ -42,10 +42,18 @@ export const LAYER_GROUPS: Record<LayerGroup, string[]> = {
   mrt: ['mrt-lines-casing', 'mrt-lines', 'mrt-stations'],
   places: ['places'],
   youbike: ['youbike'],
+  regional_routes: ['regional-bus-routes'],
+  regional_stops: ['regional-bus-stops'],
+  villages: ['villages-fill', 'villages-line'],
+  traffic: ['traffic-sections'],
+  bus_times: ['bus-travel-times'],
 };
-// Station markers start on, as in the Penpot preferences defaults; bus stops and YouBike appear when zoomed in.
-export const DEFAULT_LAYERS: LayerGroup[] = ['grid', 'routes', 'stops', 'mrt', 'places', 'youbike'];
-export const HOVER_LAYERS = ['places', 'youbike', 'bus-stops', 'mrt-stations', 'bus-routes', 'mrt-lines', 'grid-fill', 'grid-hatch'];
+// Station markers start on; bus / MRT are visible in the default view, YouBike appears when zoomed in.
+export const DEFAULT_LAYERS: LayerGroup[] = ['grid', 'routes', 'stops', 'regional_routes', 'regional_stops', 'mrt', 'places', 'youbike'];
+export const HOVER_LAYERS = ['places', 'youbike', 'bus-stops', 'regional-bus-stops', 'mrt-stations', 'bus-travel-times', 'traffic-sections', 'regional-bus-routes', 'bus-routes', 'mrt-lines', 'villages-fill', 'grid-fill', 'grid-hatch'];
+
+export const VILLAGE_COLORS = ['#edf4ec', '#c8ddbd', '#9abe96', '#639a70', '#28674c'];
+export const ELDERLY_COLORS = ['#f5ecdf', '#ecd3ae', '#ddad7c', '#be7d52', '#8d4938'];
 
 export interface PlaceCategory {
   key: string;

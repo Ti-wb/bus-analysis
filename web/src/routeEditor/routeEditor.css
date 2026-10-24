@@ -85,6 +85,8 @@
 .route-toolbar button { border: 0; background: none; padding: 8px 16px; font-size: 12px; border-radius: 6px; color: var(--muted); }
 .route-toolbar button[aria-pressed=true] { background: #edf4ff; color: #337cda; font-weight: 600; }
 .route-map-hint { position: absolute; top: 145px; left: 396px; color: #607f93; font-size: 11px; line-height: 1.65; text-shadow: 0 1px 3px white, 0 0 6px white; pointer-events: none; }
+.route-stop-key { display: inline-block; width: 10px; height: 10px; border: 2px solid #337cda; border-radius: 50%; background: white; box-shadow: 0 0 0 3px #337cda26; margin-right: 7px; vertical-align: -1px; }
+.route-stop-pick-action { display: block; margin-top: 5px; padding-top: 5px; border-top: 1px solid #ffffff40; color: #c3dcff; }
 .route-draft-summary { position: absolute; right: 24px; top: 30%; width: 360px; padding: 24px 20px; z-index: 2; display: grid; gap: 16px; border: 1px solid var(--line); }
 .route-draft-summary .route-tag { justify-self: start; }
 .route-draft-summary p { color: var(--muted); line-height: 1.65; }
@@ -145,7 +147,7 @@
 .route-preferences { display: grid; gap: 16px; font-size: 13px; }
 .route-preferences label { display: flex; align-items: center; gap: 10px; }
 .route-preferences input[type=number] { max-width: 110px; margin-left: auto; }
-.route-preferences input[type=checkbox] { accent-color: var(--accent); }
+.route-preferences input[type=checkbox] { flex: none; width: 16px; height: 16px; margin: 0; padding: 0; accent-color: var(--accent); }
 .route-loading { margin: 30px; padding: 25px; max-width: 500px; }
 .route-loading h2 { font-size: 20px; }
 .route-loading p { margin: 16px 0; color: var(--muted); }

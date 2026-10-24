@@ -27,7 +27,7 @@ interface Props {
 }
 
 export default function FocusSidebar({ station, data, focus, onClose, onOverview, onSelectRoute, onToggleRoute, onHoverRoute, onShowAll }: Props) {
-  const neighbours = useMemo(() => nearby(data, station.at, STATION_RADIUS, station.id, new Set()), [data, station]);
+  const neighbours = useMemo(() => nearby({ ...data, regional_bus_stops: null }, station.at, STATION_RADIUS, station.id, new Set()), [data, station]);
   const visible = focus.routes.filter((route) => route.visible && route.has_geometry).length;
   const enabled = focus.routes.filter((route) => route.visible).length;
   const available = focus.routes.filter((route) => route.has_geometry).length;

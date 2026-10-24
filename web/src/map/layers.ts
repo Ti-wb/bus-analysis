@@ -1,6 +1,6 @@
 import type { ExpressionSpecification } from 'maplibre-gl';
 import type { LayerProps } from 'react-map-gl/maplibre';
-import { COLORS, NO_SCHEDULE, NO_STOP, PLACE_BY_CATEGORY } from '../config';
+import { COLORS, ELDERLY_COLORS, NO_SCHEDULE, NO_STOP, PLACE_BY_CATEGORY, VILLAGE_COLORS } from '../config';
 import type { BusFocusState } from '../focus/model';
 
 /** Style layers only; react-map-gl's LayerProps also admits custom WebGL layers. */
@@ -196,22 +196,84 @@ export const mrtStationsLayer: StyleLayer = {
   type: 'circle',
   minzoom: 11,
   paint: {
-    'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, 2.5, 15, 6],
+    'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, 4.5, 15, 7],
     'circle-color': '#ffffff',
-    'circle-stroke-color': '#3d3f4a',
-    'circle-stroke-width': 1.5,
+    'circle-stroke-color': '#032c68',
+    'circle-stroke-width': 2,
   },
 };
 
 export const busStopsLayer: StyleLayer = {
   id: 'bus-stops',
   type: 'circle',
-  minzoom: 13.5,
+  minzoom: 11,
   paint: {
-    'circle-radius': ['interpolate', ['linear'], ['zoom'], 13.5, 2, 17, ['interpolate', ['linear'], ['get', 'route_count'], 1, 4, 30, 9]],
+    'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, 1.6, 14, 4, 17, ['interpolate', ['linear'], ['get', 'route_count'], 1, 5, 30, 8]],
     'circle-color': '#ffffff',
-    'circle-stroke-color': '#4f6f8f',
-    'circle-stroke-width': 1.4,
+    'circle-stroke-color': '#1d559f',
+    'circle-stroke-width': ['interpolate', ['linear'], ['zoom'], 11, 1, 14, 1.8, 17, 2],
+  },
+};
+
+export function regionalRoutesLayer(leapfrogOnly: boolean): StyleLayer {
+  return {
+    id: 'regional-bus-routes', type: 'line',
+    filter: leapfrogOnly ? ['==', ['get', 'is_leapfrog'], true] : ['boolean', true],
+    layout: { 'line-join': 'round', 'line-cap': 'round' },
+    paint: {
+      'line-color': ['case', ['==', ['get', 'is_leapfrog'], true], '#a64a85', '#1d559f'],
+      'line-width': ['interpolate', ['linear'], ['zoom'], 9, 0.7, 15, 2.5],
+      'line-opacity': ['interpolate', ['linear'], ['zoom'], 9, 0.18, 14, 0.48],
+      'line-dasharray': [4, 1],
+    },
+  };
+}
+
+export function regionalStopsLayer(leapfrogOnly: boolean): StyleLayer {
+  return {
+    id: 'regional-bus-stops', type: 'circle', minzoom: busStopsLayer.minzoom,
+    filter: leapfrogOnly ? ['==', ['get', 'is_leapfrog'], true] : ['boolean', true],
+    paint: {
+      ...busStopsLayer.paint,
+      'circle-stroke-color': ['case', ['==', ['get', 'is_leapfrog'], true], '#a64a85', '#1d559f'],
+    },
+  };
+}
+
+export function villagesFillLayer(metric: 'population' | 'elderly_share'): StyleLayer {
+  const colors = metric === 'population' ? VILLAGE_COLORS : ELDERLY_COLORS;
+  const breaks = metric === 'population' ? [2000, 4000, 8000, 12000] : [0.15, 0.2, 0.25, 0.3];
+  return {
+    id: 'villages-fill', type: 'fill',
+    paint: {
+      'fill-color': ['case', ['==', ['get', metric], null], '#b9c1c8', ['step', ['get', metric], colors[0], ...breaks.flatMap((breakpoint, i) => [breakpoint, colors[i + 1]])]] as ExpressionSpecification,
+      'fill-opacity': 0.62,
+    },
+  };
+}
+
+export const villagesLineLayer: StyleLayer = {
+  id: 'villages-line', type: 'line',
+  paint: { 'line-color': '#74838c', 'line-opacity': 0.45, 'line-width': ['interpolate', ['linear'], ['zoom'], 9, 0.4, 15, 1.1] },
+};
+
+export const trafficSectionsLayer: StyleLayer = {
+  id: 'traffic-sections', type: 'line',
+  layout: { 'line-join': 'round', 'line-cap': 'round' },
+  paint: {
+    'line-color': ['case', ['==', ['get', 'travel_speed'], null], '#8996a4', ['step', ['get', 'travel_speed'], '#c34e42', 15, '#e59043', 30, '#bcb751', 50, '#398f81']],
+    'line-width': ['interpolate', ['linear'], ['zoom'], 9, 2, 15, 5],
+    'line-opacity': 0.85, 'line-dasharray': [3, 1],
+  },
+};
+
+export const busTravelTimesLayer: StyleLayer = {
+  id: 'bus-travel-times', type: 'line',
+  layout: { 'line-join': 'round', 'line-cap': 'round' },
+  paint: {
+    'line-color': ['case', ['==', ['get', 'seconds'], null], '#8996a4', ['step', ['get', 'seconds'], '#71b6b1', 30, '#3c9da4', 60, '#327caf', 120, '#625ca8', 240, '#963c87']],
+    'line-width': ['interpolate', ['linear'], ['zoom'], 9, 1.5, 15, 4],
+    'line-opacity': 0.9, 'line-dasharray': [2, 1],
   },
 };
 
@@ -229,7 +291,7 @@ export const youbikeLayer: StyleLayer = {
 };
 
 const placeColor =['match', ['get', 'category'], ...Object.entries(PLACE_BY_CATEGORY).flatMap(([m, c]) => [m, c.color]), '#888888'] as unknown as ExpressionSpecification;
-// Social housing scales with planned households; other places only with zoom.
+// Keep facilities secondary to transit stops, including the largest housing sites.
 const housingRadius = (min: number, max: number): ExpressionSpecification => (
   ['interpolate', ['linear'], ['coalesce', ['get', 'planned_households'], 0], 0, min, 1500, max]
 );
@@ -242,10 +304,11 @@ export function placesLayer(members: string[]): StyleLayer {
     paint: {
       'circle-color': placeColor,
       'circle-radius': ['interpolate', ['linear'], ['zoom'],
-        10, ['case', ['has', 'planned_households'], housingRadius(2.5, 6), 2.5],
-        15, ['case', ['has', 'planned_households'], housingRadius(6, 14), 6]],
+        10, ['case', ['has', 'planned_households'], housingRadius(1.5, 2.5), 1.5],
+        15, ['case', ['has', 'planned_households'], housingRadius(3, 4), 3]],
+      'circle-opacity': .8,
       'circle-stroke-color': '#ffffff',
-      'circle-stroke-width': ['interpolate', ['linear'], ['zoom'], 10, 0.8, 15, 1.6],
+      'circle-stroke-width': ['interpolate', ['linear'], ['zoom'], 10, 0.6, 15, 1],
     },
   };
 }
