@@ -13,6 +13,7 @@
 | 專用道、停車、通行限制、公廁 | `data/urban/` | `scripts/update_urban.py` |
 | 全市客運統計、2024 臺北市運具調查 | `data/background/` | `scripts/update_background.py` |
 | TDX 歷史及加值資料 | `data/tdx/` | `scripts/update_tdx.py` |
+| YouBike 2.0 站點 | `data/youbike/` | `scripts/update_youbike.py` |
 
 安裝依賴（`uv sync`）見[既有更新說明](data-updates.md)。各來源獨立更新，例如：
 
