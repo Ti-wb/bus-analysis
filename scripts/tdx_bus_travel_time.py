@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import argparse
 from datetime import date, datetime, timedelta
+from email.utils import parsedate_to_datetime
+import gzip
 import json
 import math
 from pathlib import Path
@@ -47,6 +49,36 @@ def now():
 
 def envelope(dataset_id, metadata, records):
     return {'schema_version': 1, 'dataset_id': dataset_id, 'metadata': metadata, 'records': records}
+
+
+def write_compressed(path, obj):
+    """Lossless compact JSON in a deterministic gzip container."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    part = path.with_suffix(path.suffix + '.part')
+    try:
+        payload = (json.dumps(obj, ensure_ascii=False, allow_nan=False, separators=(',', ':')) + '\n').encode()
+        part.write_bytes(gzip.compress(payload, mtime=0))
+        part.replace(path)
+    finally:
+        part.unlink(missing_ok=True)
+
+
+def next_request_time(headers, observed_at, interval):
+    """Conservative per-minute/Retry-After pacing, without guessing reset codes."""
+    result = observed_at + interval
+    values = {k.lower(): str(v) for k, v in (headers or {}).items()}
+    if any(values.get(k) == '0' for k in ['x-ratelimit-remaining-minute', 'x-rate-limit-remaining-minute']):
+        result = max(result, observed_at + 60)
+    retry = values.get('retry-after')
+    if retry:
+        if retry.isdecimal():
+            result = max(result, observed_at + int(retry))
+        else:
+            try:
+                result = max(result, parsedate_to_datetime(retry).timestamp())
+            except (TypeError, ValueError, OverflowError):
+                raise RuntimeError('Unrecognized Retry-After header; stopped for source review') from None
+    return result
 
 
 def scope_id(city, route_name):
@@ -182,11 +214,21 @@ class Store:
     def successful(self, source_id):
         return next((x for x in self.manifest['records'] if x['source_id'] == source_id and x.get('status') == 'downloaded'), None)
 
+    def needs_request(self, source_id, refresh=False, retry_failed=False):
+        if refresh:
+            return True
+        receipt = next((x for x in self.manifest['records'] if x['source_id'] == source_id), None)
+        return receipt is None or (retry_failed and receipt.get('status') == 'failed')
+
     def raw_body(self, source):
         path = self.root / source['raw_file']
-        if not path.is_file() or path.stat().st_size != source['bytes']:
+        stored_size = source.get('stored_bytes', source['bytes'])
+        if not path.is_file() or path.stat().st_size != stored_size:
             raise ValueError('Raw file missing or size differs from saved receipt: ' + source['source_id'])
-        return json.loads(path.read_bytes())
+        payload = gzip.decompress(path.read_bytes()) if source.get('storage_encoding') == 'gzip' else path.read_bytes()
+        if len(payload) != source['bytes']:
+            raise ValueError('Uncompressed raw size differs from saved HTTP byte count: ' + source['source_id'])
+        return json.loads(payload)
 
     def import_existing(self):
         # Reuse only a known complete unpaginated 307 response, retaining its own
@@ -232,7 +274,11 @@ class Store:
             if source.get('status') == 'downloaded':
                 dataset = normalize_travel(self.raw_body(source), {k: source[k] for k in ['source_id', 'kind', 'city', 'route_name', 'source_page', 'download_url']}, source)
                 filename = 'data/tdx_bus_travel_time/observations/' + source['source_id'] + '.json'
-                write(self.root / filename, dataset)
+                if source.get('storage_encoding') == 'gzip':
+                    filename += '.gz'
+                    write_compressed(self.root / filename, dataset)
+                else:
+                    write(self.root / filename, dataset)
                 m = dataset['metadata']
                 record.update({k: m[k] for k in ['record_count', 'travel_time_row_count', 'missing_run_time_count', 'statistical_period', 'scope_status']})
                 record['output_file'] = filename
@@ -241,16 +287,21 @@ class Store:
                         retained.setdefault(group['route_uid'], []).append(filename)
             coverage.append(record)
         catalog = []
+        endpoint_coverage = {r['source_id']: r for r in coverage}
         for route in route_rows:
             name = route.get('route_name', {}).get('zh_tw')
             if not isinstance(name, str) or not route.get('route_uid'):
                 raise ValueError('Route reference lacks route name or UID')
             request = travel_request(json.loads((self.raw / 'specifications/travel_time.json').read_text()), 'Taipei', name)
+            endpoint = endpoint_coverage.get(request['source_id'])
             catalog.append({'city': 'Taipei', 'route_uid': route['route_uid'], 'route_id': route['route_id'], 'route_name': name,
                             'sub_routes': [{k: s.get(k) for k in ['sub_route_uid', 'sub_route_id', 'sub_route_name', 'direction']} for s in route.get('sub_routes', [])],
                             'download_url': request['download_url'], 'download_unit': 'one RouteName, no pagination/date/version parameters',
                             'retained_files': sorted(set(retained.get(route['route_uid'], []))),
                             'coverage_status': 'downloaded_route_uid_present' if route['route_uid'] in retained else 'reference_only_not_downloaded',
+                            'endpoint_acquisition_status': endpoint['status'] if endpoint else 'not_requested',
+                            'endpoint_response_empty': endpoint.get('record_count') == 0 if endpoint and endpoint['status'] == 'downloaded' else None,
+                            'endpoint_http_status': endpoint.get('http_status') if endpoint else None,
                             'historical_retrieval_status': 'no_historical_date_or_version_parameter_in_official_spec'})
         start = as_of.replace(year=as_of.year - 3) if not (as_of.month == 2 and as_of.day == 29) else as_of.replace(year=as_of.year - 3, day=28)
         write(self.out / 'route_catalog.json', envelope('tdx_bus_travel_time_route_catalog', {
@@ -314,18 +365,33 @@ def fetch_requests(store, requests, args):
     requests_used = 0
     total = 0
     last_at = time.monotonic() - args.min_request_interval
+    allowed_at = time.time()
+    # Keep the interval across separate resumable invocations as well.
+    pacing_sources = list(store.manifest['records'])
+    service_manifest = store.root / 'raw_data/official_cross_city/service_coverage/manifest.json'
+    if service_manifest.exists():
+        pacing_sources.extend(json.loads(service_manifest.read_text())['records'])
+    for source in pacing_sources:
+        for receipt in [source, source.get('last_failed_attempt', {})]:
+            stamp = receipt.get('downloaded_at') or receipt.get('checked_at')
+            if (receipt.get('kind') in {'travel_time', 'route_reference'} or receipt.get('service') in {'StopOfRoute', 'Schedule'}) and stamp:
+                allowed_at = max(allowed_at, next_request_time(receipt.get('usage_headers'),
+                    datetime.fromisoformat(stamp).timestamp(), args.min_request_interval))
     for request in requests:
-        if store.successful(request['source_id']) and not args.refresh:
+        if not store.needs_request(request['source_id'], args.refresh, getattr(args, 'retry_failed', False)):
             continue
         if requests_used >= args.max_requests:
             break
         limit = min(int(args.max_response_mb * 1024**2), int(args.max_total_mb * 1024**2) - total)
         if limit <= 0:
             break
-        delay = args.min_request_interval - (time.monotonic() - last_at)
-        if delay > 0:
-            time.sleep(delay)
-        path = store.raw / 'responses' / (request['source_id'] + '.json')
+        delay = max(args.min_request_interval - (time.monotonic() - last_at), allowed_at - time.time())
+        while delay > 0:
+            step = min(delay, 60)
+            time.sleep(step)
+            delay -= step
+        compress = getattr(args, 'compress', False)
+        path = store.raw / 'responses' / (request['source_id'] + ('.json.gz' if compress else '.json'))
         path.parent.mkdir(parents=True, exist_ok=True)
         part = path.with_suffix('.part')
         try:
@@ -360,16 +426,24 @@ def fetch_requests(store, requests, args):
                     raise ValueError('response_length_mismatch')
                 content_type = response.headers.get('Content-Type')
                 usage = {k.lower(): v for k, v in response.headers.items() if k.lower().startswith(('x-ratelimit', 'x-rate-limit', 'x-quota', 'x-point'))}
+                if response.headers.get('Retry-After'):
+                    usage['retry-after'] = response.headers['Retry-After']
+                allowed_at = next_request_time(usage, time.time(), args.min_request_interval)
             body = json.loads(part.read_bytes())
             source = {**request, 'status': 'downloaded', 'raw_file': str(path.relative_to(store.root)),
                       'downloaded_at': now(), 'source_updated_at': None, 'bytes': size, 'http_status': 200,
                       'content_type': content_type, 'usage_headers': usage}
+            if compress:
+                compressed = gzip.compress(part.read_bytes(), mtime=0)
+                source.update({'storage_encoding': 'gzip', 'stored_bytes': len(compressed)})
             if request['kind'] == 'travel_time':
                 normalize_travel(body, request, source)
             else:
                 rows, wrapper = response_records(body)
                 if not rows or wrapper.get('Count') != len(rows):
                     raise ValueError('route_reference_count_mismatch')
+            if compress:
+                part.write_bytes(compressed)
             part.replace(path)
             if batch is not None:
                 batch.setdefault('successful_source_ids', []).append(request['source_id'])
@@ -385,7 +459,20 @@ def fetch_requests(store, requests, args):
                 raise RuntimeError('TDX denied/limited the request; no retries or account changes performed') from None
         except (ValueError, UnicodeError) as exc:
             reason = str(exc) if str(exc) in {'response_exceeds_local_size_limit', 'response_length_mismatch'} else 'unusable_response_format_or_contract'
-            store.upsert({**request, 'status': 'failed', 'checked_at': now(), 'failure_reason': reason, 'partial_file_retained': False})
+            failure = {**request, 'status': 'failed', 'checked_at': now(), 'failure_reason': reason, 'partial_file_retained': False}
+            if reason == 'unusable_response_format_or_contract' and part.exists():
+                # A fully received but unusable business response is evidence.
+                # Keep it separately so a failed refresh cannot replace a
+                # previously valid raw file or its successful receipt.
+                rejected = path.with_name(request['source_id'] + '.unparsed.response' + ('.gz' if compress else ''))
+                payload = part.read_bytes()
+                stored = gzip.compress(payload, mtime=0) if compress else payload
+                rejected.write_bytes(stored)
+                failure.update({'raw_file': str(rejected.relative_to(store.root)), 'bytes': len(payload),
+                                'stored_bytes': len(stored), 'storage_encoding': 'gzip' if compress else 'identity',
+                                'http_status': 200, 'content_type': locals().get('content_type'),
+                                'raw_parse_error': str(exc), 'complete_unparsed_response_retained': True})
+            store.upsert(failure)
             print(request['source_id'] + ': ' + reason, flush=True)
         finally:
             part.unlink(missing_ok=True)
@@ -406,6 +493,8 @@ def main(argv=None):
     parser.add_argument('--max-total-mb', type=float, default=20)
     parser.add_argument('--min-request-interval', type=float, default=26)
     parser.add_argument('--refresh', action='store_true', help='explicitly re-fetch cached successful scopes')
+    parser.add_argument('--retry-failed', action='store_true', help='explicitly retry prior failed scopes; default skips them')
+    parser.add_argument('--compress', action='store_true', help='lossless gzip for new raw responses and observations')
     args = parser.parse_args(argv)
     if args.max_requests < 1 or min(args.max_response_mb, args.max_total_mb) <= 0 or args.min_request_interval < 13:
         parser.error('Positive request/byte limits and at least 13 seconds between requests required')
@@ -445,7 +534,7 @@ def main(argv=None):
     # Exact endpoint scopes are deduplicated without joining IDs from other feeds.
     requests = list({x['source_id']: x for x in requests}.values())
     if not args.fetch and not args.offline:
-        pending = [x for x in requests if args.refresh or not store.successful(x['source_id'])]
+        pending = [x for x in requests if store.needs_request(x['source_id'], args.refresh, args.retry_failed)]
         print(json.dumps(envelope('tdx_bus_travel_time_request_plan', {
             'default_mode': 'plan_only_no_network_or_writes', 'max_requests': args.max_requests,
             'max_response_bytes': int(args.max_response_mb * 1024**2), 'max_total_bytes': int(args.max_total_mb * 1024**2),

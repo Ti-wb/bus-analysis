@@ -1,6 +1,10 @@
+import gzip
+import json
+from pathlib import Path
+import tempfile
 import unittest
 
-from scripts.review_tdx_bus_travel_time import audit_delivery_accounting
+from scripts.review_tdx_bus_travel_time import audit_delivery_accounting, read, read_source
 
 
 def request(source_id, kind="travel_time"):
@@ -108,6 +112,35 @@ class LatestBatchReviewTest(unittest.TestCase):
             delivery["metadata"]["stage_status"] = "partial_bounded_acquisition" if complete else "completed_bounded_acquisition"
             with self.subTest(complete=complete), self.assertRaisesRegex(ValueError, "Stage claim"):
                 audit_delivery_accounting(manifest, delivery)
+
+    def test_mixed_json_and_gzip_sources_validate_storage_and_decoded_bytes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            body = json.dumps({"values": [None, 1.25, "001"]}).encode()
+            for compressed in [False, True]:
+                path = root / ("source.json.gz" if compressed else "source.json")
+                path.write_bytes(gzip.compress(body) if compressed else body)
+                source = {"raw_file": path.name, "http_status": 200, "bytes": len(body)}
+                if compressed:
+                    source.update(storage_encoding="gzip", stored_bytes=path.stat().st_size)
+                self.assertEqual(read_source(root, source), json.loads(body))
+                self.assertEqual(read(path), json.loads(body))
+                source["bytes"] += 1
+                with self.assertRaisesRegex(ValueError, "byte"):
+                    read_source(root, source)
+
+    def test_gzip_rejects_incorrect_stored_size_or_missing_encoding(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            path = root / "source.json.gz"
+            path.write_bytes(gzip.compress(b"[]"))
+            source = {"raw_file": path.name, "http_status": 200, "bytes": 2,
+                      "storage_encoding": "gzip", "stored_bytes": path.stat().st_size + 1}
+            with self.assertRaisesRegex(ValueError, "stored-byte"):
+                read_source(root, source)
+            source.pop("storage_encoding")
+            with self.assertRaisesRegex(ValueError, "encoding/suffix"):
+                read_source(root, source)
 
 
 if __name__ == "__main__":

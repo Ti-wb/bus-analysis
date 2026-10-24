@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 from collections import Counter, defaultdict
 from datetime import date, datetime
+import gzip
 import json
 import math
 from pathlib import Path
@@ -26,7 +27,27 @@ PAIR_FIELDS = {"Sequence": "sequence", "FromStopID": "from_stop_id", "ToStopID":
 
 
 def read(path):
-    return json.loads(path.read_text(encoding="utf-8"))
+    return json.loads(decoded_bytes(path))
+
+
+def decoded_bytes(path):
+    if path.suffix != ".gz":
+        return path.read_bytes()
+    with gzip.open(path, "rb") as stream:
+        body = stream.read(128 * 1024 * 1024 + 1)
+    check(len(body) <= 128 * 1024 * 1024, "Compressed review input exceeds decoded byte limit")
+    return body
+
+
+def read_source(root, receipt):
+    path = root / receipt["raw_file"]
+    compressed = receipt.get("storage_encoding") == "gzip"
+    check(compressed == (path.suffix == ".gz"), "Source storage encoding/suffix mismatch")
+    stored_bytes = receipt.get("stored_bytes") if compressed else receipt["bytes"]
+    check(receipt["http_status"] == 200 and path.stat().st_size == stored_bytes, "Source receipt/stored-byte mismatch")
+    body = decoded_bytes(path)
+    check(len(body) == receipt["bytes"], "Source decoded-byte receipt mismatch")
+    return json.loads(body)
 
 
 def check(condition, message):
@@ -138,12 +159,11 @@ def audit(root):
         if receipt["status"] != "downloaded":
             review.append({"source_id": receipt["source_id"], "status": "not_run_no_successful_source", "provider_status": receipt["status"]})
             continue
-        raw_path = root / receipt["raw_file"]
-        check(receipt["http_status"] == 200 and raw_path.stat().st_size == receipt["bytes"], "Source receipt/byte mismatch")
+        raw = read_source(root, receipt)
         url = urlsplit(receipt["download_url"])
         check(url.scheme == "https" and url.netloc == "tdx.transportdata.tw", "Unrecognized business source host")
         check(parse_qs(url.query) == {"$format": ["JSON"]}, "Response is selected, filtered or paginated")
-        raw, output = read(raw_path), read(root / covered["output_file"])
+        output = read(root / covered["output_file"])
         check(output["schema_version"] == 1 and len(raw) == len(output["records"]), "Output group population changed")
         seen, duplicate_count, pairs, raw_values = set(), 0, [], []
         row_checks = 0
@@ -212,7 +232,7 @@ def audit(root):
                        "source_fields_periods_ids_direction_service_tags_and_intervals_preserved": True,
                        "missing_values_retained_as_null": True})
     route_source = max((r for r in manifest["records"] if r.get("kind") == "route_reference" and r["status"] == "downloaded"), key=lambda r: r["reference_date"])
-    route_wrapper = read(root / route_source["raw_file"])
+    route_wrapper = read_source(root, route_source)
     catalog = read(root / "data/tdx_bus_travel_time/route_catalog.json")
     check(catalog["metadata"].get("license", {}).get("url") == TERMS_URL, "Catalog lacks TDX terms URL")
     reference_rows = route_wrapper["BusRoutes"]

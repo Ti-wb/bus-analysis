@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from contextlib import redirect_stdout
 import io
+import gzip
 import json
 from pathlib import Path
 import tempfile
@@ -253,6 +254,71 @@ class TravelTimeTests(unittest.TestCase):
         self.assertEqual(batch['attempted_source_ids'], [self.request['source_id']])
         self.assertEqual(batch['successful_source_ids'], [])
         self.assertEqual(batch['new_business_request_count'], 1)
+
+    def test_gzip_raw_and_output_preserve_full_json_and_both_byte_counts(self):
+        store = bus.Store(self.root)
+        response_bytes = json.dumps([model()], ensure_ascii=False).encode()
+        response = io.BytesIO(response_bytes)
+        response.status = 200
+        response.headers = {'Content-Type': 'application/json', 'Content-Length': str(len(response_bytes))}
+        args = SimpleNamespace(max_requests=1, max_response_mb=8, max_total_mb=20,
+                               min_request_interval=13, refresh=False, compress=True)
+        with patch.object(bus, 'token', return_value='synthetic-token'), patch.object(bus, 'urlopen', return_value=response), redirect_stdout(io.StringIO()):
+            bus.fetch_requests(store, [self.request], args)
+        receipt = bus.Store(self.root).successful(self.request['source_id'])
+        path = self.root / receipt['raw_file']
+        self.assertTrue(str(path).endswith('.json.gz'))
+        self.assertEqual(receipt['storage_encoding'], 'gzip')
+        self.assertEqual(receipt['bytes'], len(response_bytes))
+        self.assertEqual(receipt['stored_bytes'], path.stat().st_size)
+        self.assertEqual(gzip.decompress(path.read_bytes()), response_bytes)
+        self.assertEqual(store.raw_body(receipt), [model()])
+        dataset = bus.normalize_travel(store.raw_body(receipt), self.request, receipt)
+        target = self.root / 'observation.json.gz'
+        bus.write_compressed(target, dataset)
+        self.assertEqual(json.loads(gzip.decompress(target.read_bytes())), dataset)
+        wrong = {**receipt, 'bytes': receipt['bytes'] + 1}
+        with self.assertRaises(ValueError):
+            store.raw_body(wrong)
+
+    def test_rate_limit_zero_and_retry_after_delay_next_request(self):
+        self.assertEqual(bus.next_request_time({}, 1000, 15), 1015)
+        self.assertEqual(bus.next_request_time({'X-RateLimit-Remaining-Minute': '0'}, 1000, 15), 1060)
+        self.assertEqual(bus.next_request_time({'Retry-After': '90'}, 1000, 15), 1090)
+        self.assertEqual(bus.next_request_time({'Retry-After': 'Thu, 01 Jan 1970 00:20:00 GMT'}, 1000, 15), 1200)
+        with self.assertRaises(RuntimeError):
+            bus.next_request_time({'Retry-After': 'unknown'}, 1000, 15)
+
+    def test_resuming_all_routes_skips_known_failure_without_explicit_retry(self):
+        store = bus.Store(self.root)
+        store.upsert({**self.request, 'status': 'failed', 'http_status': 500, 'checked_at': '2026-10-21T10:00:00+08:00'})
+        args = SimpleNamespace(max_requests=1, max_response_mb=8, max_total_mb=20,
+                               min_request_interval=13, refresh=False, retry_failed=False)
+        with patch.object(bus, 'token', return_value='synthetic-token'), patch.object(bus, 'urlopen', side_effect=AssertionError('Do not repeatedly query a failed source')):
+            result = bus.fetch_requests(store, [self.request], args)
+        self.assertEqual(result['requests_used'], 0)
+        self.assertTrue(store.needs_request(self.request['source_id'], retry_failed=True))
+
+    def test_complete_unusable_response_retained_separately_from_valid_cache(self):
+        store = bus.Store(self.root)
+        old_bytes = gzip.compress(json.dumps([model()]).encode(), mtime=0)
+        path = store.raw / 'responses' / (self.request['source_id'] + '.json.gz')
+        path.parent.mkdir(parents=True, exist_ok=True); path.write_bytes(old_bytes)
+        receipt = {**self.request, 'status': 'downloaded', 'raw_file': str(path.relative_to(self.root)),
+                   'storage_encoding': 'gzip', 'stored_bytes': len(old_bytes), 'bytes': len(gzip.decompress(old_bytes))}
+        store.upsert(receipt)
+        payload = b'{"Message":"No supported model"}'
+        response = io.BytesIO(payload); response.status = 200
+        response.headers = {'Content-Length': str(len(payload)), 'Content-Type': 'application/json'}
+        args = SimpleNamespace(max_requests=1, max_response_mb=8, max_total_mb=20, min_request_interval=13, refresh=True, compress=True)
+        with patch.object(bus, 'token', return_value='synthetic-token'), patch.object(bus, 'urlopen', return_value=response), redirect_stdout(io.StringIO()):
+            bus.fetch_requests(store, [self.request], args)
+        latest = bus.Store(self.root).successful(self.request['source_id'])
+        failure = latest['last_failed_attempt']
+        self.assertEqual(path.read_bytes(), old_bytes)
+        self.assertNotEqual(failure['raw_file'], receipt['raw_file'])
+        self.assertTrue(failure['complete_unparsed_response_retained'])
+        self.assertEqual(gzip.decompress((self.root / failure['raw_file']).read_bytes()), payload)
 
 
 if __name__ == '__main__':
