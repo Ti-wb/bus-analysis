@@ -18,7 +18,7 @@
 
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; background: var(--bg); }
-body { display: flex; flex-direction: column; }
+#root { height: 100%; display: flex; flex-direction: column; }
 button { font: inherit; color: inherit; cursor: pointer; }
 h1, h2, h3, p { margin: 0; }
 .muted { color: var(--muted); }
@@ -40,7 +40,8 @@ h1, h2, h3, p { margin: 0; }
 .btn-outline:hover { border-color: var(--teal); }
 
 .stage { position: relative; flex: 1; min-height: 0; }
-#map { position: absolute; inset: 0; }
+.data-error { position: absolute; right: 20px; bottom: 20px; padding: 16px 20px; max-width: 420px; z-index: 5; }
+.data-error p { margin-top: 6px; font-size: 13px; }
 
 .card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); }
 .panel { position: absolute; top: 20px; left: 20px; width: 300px; display: flex; flex-direction: column; gap: 14px; z-index: 2; max-height: calc(100% - 40px); overflow: auto; }
@@ -66,7 +67,7 @@ h1, h2, h3, p { margin: 0; }
 .icon-btn.is-playing { background: var(--teal); border-color: var(--teal); color: #fff; }
 .hour-label { display: flex; justify-content: space-between; margin-top: 6px; font-size: 13px; }
 .hour-label .muted { font-size: 12px; }
-#hour-text { font-weight: 600; font-variant-numeric: tabular-nums; }
+.hour-text { font-weight: 600; font-variant-numeric: tabular-nums; }
 
 .legend { padding: 18px 20px; }
 .legend h3 { font-size: 14px; margin-bottom: 12px; }
@@ -80,10 +81,10 @@ h1, h2, h3, p { margin: 0; }
 
 .search { position: absolute; top: 20px; left: 340px; width: 360px; z-index: 2; display: flex; align-items: center; gap: 8px; padding: 0 14px; height: 44px; background: var(--card); border-radius: 10px; box-shadow: var(--shadow); color: var(--muted); }
 .search input { flex: 1; border: 0; outline: 0; font: inherit; font-size: 14px; color: var(--ink); background: none; }
-#search-results { position: absolute; top: 48px; left: 0; right: 0; margin: 0; padding: 6px; list-style: none; background: var(--card); border-radius: 10px; box-shadow: var(--shadow); max-height: 320px; overflow: auto; }
-#search-results li { padding: 8px 10px; border-radius: 6px; font-size: 14px; color: var(--ink); cursor: pointer; display: flex; justify-content: space-between; }
-#search-results li small { color: var(--muted); }
-#search-results li:hover, #search-results li.is-active { background: var(--teal-soft); }
+.search-results { position: absolute; top: 48px; left: 0; right: 0; margin: 0; padding: 6px; list-style: none; background: var(--card); border-radius: 10px; box-shadow: var(--shadow); max-height: 320px; overflow: auto; }
+.search-results li { padding: 8px 10px; border-radius: 6px; font-size: 14px; color: var(--ink); cursor: pointer; display: flex; justify-content: space-between; }
+.search-results li small { color: var(--muted); }
+.search-results li:hover, .search-results li.is-active { background: var(--teal-soft); }
 .status-chip { position: absolute; top: 26px; left: 716px; z-index: 2; font-size: 13px; padding: 7px 12px; background: rgba(255, 255, 255, 0.92); border-radius: 8px; box-shadow: var(--shadow); white-space: nowrap; }
 
 .explainer { position: absolute; left: 340px; right: 20px; bottom: 20px; z-index: 2; padding: 14px 18px; max-width: 900px; }
@@ -115,13 +116,13 @@ h1, h2, h3, p { margin: 0; }
 .district-label.is-ntpc { font-size: 13px; font-weight: 500; color: rgba(31, 42, 44, 0.45); }
 .map-hide-labels .district-label { display: none; }
 
-dialog#about { border: 0; border-radius: var(--radius); box-shadow: var(--shadow); width: min(720px, 92vw); padding: 28px 32px; }
-dialog#about::backdrop { background: rgba(31, 42, 44, 0.35); }
-dialog#about h2 { font-size: 20px; margin-bottom: 12px; }
-dialog#about h3 { font-size: 15px; margin: 18px 0 6px; }
-dialog#about p, dialog#about li { font-size: 14px; line-height: 1.7; }
-dialog#about ul { padding-left: 20px; margin: 4px 0; }
-dialog#about .close { position: absolute; right: 16px; top: 12px; border: 0; background: none; font-size: 24px; color: var(--muted); }
+dialog.about { border: 0; border-radius: var(--radius); box-shadow: var(--shadow); width: min(720px, 92vw); padding: 28px 32px; }
+dialog.about::backdrop { background: rgba(31, 42, 44, 0.35); }
+dialog.about h2 { font-size: 20px; margin-bottom: 12px; }
+dialog.about h3 { font-size: 15px; margin: 18px 0 6px; }
+dialog.about p, dialog.about li { font-size: 14px; line-height: 1.7; }
+dialog.about ul { padding-left: 20px; margin: 4px 0; }
+dialog.about .close { position: absolute; right: 16px; top: 12px; border: 0; background: none; font-size: 24px; color: var(--muted); }
 
 @media (max-width: 900px) {
   .topbar { gap: 16px; padding: 0 12px; }

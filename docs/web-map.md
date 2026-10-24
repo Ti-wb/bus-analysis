@@ -1,6 +1,6 @@
 # 前端地圖（覆蓋臺北）
 
-`web/` 是單頁地圖，呈現臺北市及周邊的公車路線、捷運路網，以及公車計畫班次網格。用 MapLibre GL JS 與 Vite 建置，輸出為靜態網站，不需要地圖金鑰或後端；底圖與路名使用 OpenFreeMap 公開圖磚，需連網。
+`web/` 是單頁地圖，呈現臺北市及周邊的公車路線、捷運路網，以及公車計畫班次網格。用 React、TypeScript、react-map-gl（MapLibre GL JS）與 Vite 建置，輸出為靜態網站，不需要地圖金鑰或後端；底圖與路名使用 OpenFreeMap 公開圖磚，需連網。
 
 ## 執行
 
@@ -10,11 +10,23 @@ uv run scripts/build_web_data.py
 # 2. 安裝前端套件並啟動開發伺服器（http://localhost:5173）
 npm --prefix web install
 npm --prefix web run dev
-# 3. 建置靜態檔到 web/dist/
+# 3. 型別檢查並建置靜態檔到 web/dist/
 npm --prefix web run build
 ```
 
-資料更新後重跑第 1 步即可。
+資料更新後重跑第 1 步即可。只檢查型別可用 `npm --prefix web run typecheck`。
+
+## 程式結構
+
+| 位置 | 內容 |
+| --- | --- |
+| `web/src/App.tsx` | 狀態（日型、小時、網格大小、圖層、地點類別）、資料載入、網址同步 |
+| `web/src/map/` | 地圖、圖層樣式、滑鼠提示與彈出視窗 |
+| `web/src/components/` | 頂列、左側面板、搜尋、資料與方法說明 |
+| `web/src/config.ts` | 色階、類別、圖層分組等設定 |
+| `web/src/data.ts`、`hashState.ts` | 資料讀取與網格計算、網址狀態 |
+
+資料內容一律以 JSX 輸出，不直接寫入 HTML 字串。
 
 ## 圖層與來源
 
