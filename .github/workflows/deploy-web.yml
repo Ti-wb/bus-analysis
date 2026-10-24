@@ -116,6 +116,8 @@ jobs:
       - run: npm ci --prefix web
       - name: Verify route scenario calculations
         run: npm run test:routes --prefix web
+      - name: Verify regional grid dataset loading
+        run: npm run test:regional --prefix web
       - name: Verify population age presentation
         run: npm run test:age --prefix web
       - name: Verify improvement rankings and exports

@@ -7,6 +7,7 @@ municipal TDX IDs to the independent Taipei public-transport-office feed.
 from __future__ import annotations
 
 from collections import Counter, defaultdict
+from datetime import datetime, timezone
 import gzip
 import json
 import math
@@ -298,17 +299,20 @@ def make_grid(region, route_stops, services, cell_m):
 
 
 def build_all(root=ROOT, output=OUTPUT, built_at=None):
+    if built_at is None:
+        built_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
     region = region_geometry(root)
     route_stops, services, sources, uncertain = load_services(root)
     output.mkdir(parents=True, exist_ok=True)
     for cell_m in SIZES:
         grid, status, scope = make_grid(region, route_stops, services, cell_m)
-        grid["metadata"] = {
+        metadata = {
             "source": "交通部 TDX 官方 Bus StopOfRoute / Schedule (retained snapshots)",
             "source_data_time": None,
             "statistical_period": None,
             "units": {"frequency": "estimated planned departure trips per hour", "position": "WGS84 longitude/latitude degrees"},
             "built_at": built_at,
+            "grid_definition": {name: grid[name] for name in ("origin", "step", "cell_m", "fields")},
             "cell": f"約 {cell_m} m 統一經緯度網格，{scope}；北北基行政遮罩",
             "value": "格內同一 RouteUID／SubRouteUID／方向計畫起站發車數，按小時計；跨市重複站序去重",
             "scope_city_codes": list(CITY_CODES),
@@ -327,8 +331,14 @@ def build_all(root=ROOT, output=OUTPUT, built_at=None):
                 "與臺北市公共運輸處本地 Feed 屬不同識別碼空間；既有路線模擬與人口需求模型仍使用原臺北市資料。",
             ],
         }
+        document = {
+            "schema_version": 1,
+            "dataset_id": f"regional_bus_grid_{cell_m}",
+            "metadata": metadata,
+            "records": grid["cells"],
+        }
         (output / f"regional_bus_grid_{cell_m}.json").write_text(
-            json.dumps(grid, ensure_ascii=False, allow_nan=False, separators=(",", ":")) + "\n",
+            json.dumps(document, ensure_ascii=False, allow_nan=False, separators=(",", ":")) + "\n",
             encoding="utf-8")
         print(f"regional bus grid {cell_m}m: {len(grid['cells'])} cells; {status}")
 

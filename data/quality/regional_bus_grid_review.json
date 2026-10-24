@@ -4,7 +4,7 @@
   "metadata": {
     "review_implementation_author_agent": "/root/independent_audit",
     "independent_implementation": true,
-    "reviewed_at": "2026-10-24T16:10:39+08:00",
+    "reviewed_at": "2026-10-24T16:16:11+08:00",
     "status": "passed",
     "record_count": 4,
     "check_script": "scripts/review_regional_bus_grid.py",
@@ -16,6 +16,13 @@
     },
     "source_data_time": null,
     "statistical_period": null,
+    "checked_document_fields": [
+      "schema_version",
+      "dataset_id",
+      "metadata.grid_definition",
+      "metadata.built_at",
+      "records"
+    ],
     "checked_grid_fields": [
       "ix",
       "iy",
@@ -520,6 +527,8 @@
       "status": "passed",
       "record_count": 92006,
       "checks": {
+        "required_envelope_valid": true,
+        "built_at_timestamp_valid": true,
         "all_cells_recomputed": true,
         "all_24_hour_values_reconciled": true,
         "source_metadata_reconciled": true,
@@ -637,6 +646,8 @@
       "status": "passed",
       "record_count": 45578,
       "checks": {
+        "required_envelope_valid": true,
+        "built_at_timestamp_valid": true,
         "all_cells_recomputed": true,
         "all_24_hour_values_reconciled": true,
         "source_metadata_reconciled": true,
@@ -754,6 +765,8 @@
       "status": "passed",
       "record_count": 40443,
       "checks": {
+        "required_envelope_valid": true,
+        "built_at_timestamp_valid": true,
         "all_cells_recomputed": true,
         "all_24_hour_values_reconciled": true,
         "source_metadata_reconciled": true,
@@ -871,6 +884,8 @@
       "status": "passed",
       "record_count": 10326,
       "checks": {
+        "required_envelope_valid": true,
+        "built_at_timestamp_valid": true,
         "all_cells_recomputed": true,
         "all_24_hour_values_reconciled": true,
         "source_metadata_reconciled": true,

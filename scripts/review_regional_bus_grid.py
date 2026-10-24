@@ -49,6 +49,15 @@ def number(value):
     return type(value) in (int, float) and math.isfinite(value)
 
 
+def timestamp(value):
+    if not isinstance(value, str) or "T" not in value:
+        return False
+    try:
+        return datetime.fromisoformat(value.replace("Z", "+00:00")).utcoffset() is not None
+    except ValueError:
+        return False
+
+
 def service_key(row):
     require(all(isinstance(row.get(k), str) and row[k] for k in ("route_uid", "sub_route_uid")),
             "TDX service IDs must be nonempty strings")
@@ -291,12 +300,20 @@ def cell_expected(location, cell_stops, memberships, services):
 def review_grid(root, size, region, stops, services, sources):
     relative = f"web/public/data/regional_bus_grid_{size}.json"
     doc = load(root / relative)
-    require(doc.get("cell_m") == size and doc.get("fields") == FIELDS, relative + ": schema drift")
-    origin, step, coordinates, cell_stops, memberships = grid_geometry(region, stops, size)
-    require(doc.get("origin") == origin and isinstance(doc.get("step"), list) and len(doc["step"]) == 2 and
-            all(number(v) and math.isclose(v, expected, rel_tol=0, abs_tol=1e-12) for v, expected in zip(doc["step"], step)),
-            relative + ": source-derived grid origin/step mismatch")
+    require(isinstance(doc, dict) and set(doc) == {"schema_version", "dataset_id", "metadata", "records"} and
+            type(doc.get("schema_version")) is int and doc["schema_version"] == 1 and
+            doc.get("dataset_id") == f"regional_bus_grid_{size}" and isinstance(doc.get("metadata"), dict) and
+            isinstance(doc.get("records"), list), relative + ": required grid envelope missing or invalid")
     meta = doc["metadata"]
+    definition = meta.get("grid_definition")
+    require(isinstance(definition, dict) and set(definition) == {"origin", "step", "cell_m", "fields"} and
+            type(definition.get("cell_m")) is int and definition["cell_m"] == size and
+            definition.get("fields") == FIELDS, relative + ": grid definition/schema drift")
+    require(timestamp(meta.get("built_at")), relative + ": built_at must be an ISO datetime with timezone")
+    origin, step, coordinates, cell_stops, memberships = grid_geometry(region, stops, size)
+    require(definition.get("origin") == origin and isinstance(definition.get("step"), list) and len(definition["step"]) == 2 and
+            all(number(v) and math.isclose(v, expected, rel_tol=0, abs_tol=1e-12) for v, expected in zip(definition["step"], step)),
+            relative + ": source-derived grid origin/step mismatch")
     require({"source_data_time", "statistical_period", "units"}.issubset(meta),
             relative + ": required source period/units fields missing")
     require(meta.get("scope_city_codes") == CITY_CODES and meta.get("geometry_sources") == GEOMETRIES,
@@ -311,11 +328,10 @@ def review_grid(root, size, region, stops, services, sources):
     require(isinstance(meta.get("limitations"), list) and meta["limitations"], relative + ": limitations missing")
     if size < 250:
         require("350" in meta.get("cell", ""), relative + ": fine-grid corridor caveat missing")
-    require(isinstance(doc.get("cells"), list), relative + ": grid rows missing")
     observed, statuses, known_cells = set(), Counter(), Counter()
     totals = {day: [0.] * 24 for day in DAYS}
     stop_total = service_total = uncertain_total = 0
-    for row in doc["cells"]:
+    for row in doc["records"]:
         require(isinstance(row, list) and len(row) == len(FIELDS), relative + ": cell column contract drift")
         require(all(type(n) is int and n >= 0 for n in row[:5]), relative + ": invalid cell index/count type")
         location = tuple(row[:2])
@@ -343,7 +359,8 @@ def review_grid(root, size, region, stops, services, sources):
     require(meta.get("status_counts") == {k: statuses[k] for k in ("ok", "partial", "no_stop", "no_schedule")},
             relative + ": source-derived status counts mismatch")
     return {"path": relative, "cell_m": size, "status": "passed", "record_count": len(observed),
-            "checks": {"all_cells_recomputed": True, "all_24_hour_values_reconciled": True,
+            "checks": {"required_envelope_valid": True, "built_at_timestamp_valid": True,
+                       "all_cells_recomputed": True, "all_24_hour_values_reconciled": True,
                        "source_metadata_reconciled": True, "full_expected_geographic_mask_reconciled": True},
             "counts": {"status_counts": dict(statuses), "cells_with_published_hours": dict(known_cells),
                        "stop_cell_memberships": stop_total, "service_cell_memberships": service_total,
@@ -359,6 +376,7 @@ def audit(root=ROOT):
         "status": "failed", "record_count": 0, "check_script": "scripts/review_regional_bus_grid.py",
         "method": "Independent retained-source calendar, operator-specific timetable/frequency precedence, duplicate identity, hourly origin-departure, stop/service cell mapping, full geometry mask, metadata and aggregate reconciliation; no generator imports.",
         "representative_days": DAYS, "source_data_time": None, "statistical_period": None,
+        "checked_document_fields": ["schema_version", "dataset_id", "metadata.grid_definition", "metadata.built_at", "records"],
         "checked_grid_fields": FIELDS,
         "comparison_tolerances": {"hourly_departures_absolute": 1e-7, "grid_step_degrees_absolute": 1e-12,
                                   "origin_decimal_places": 7, "cell_locations_and_counts": "exact"},

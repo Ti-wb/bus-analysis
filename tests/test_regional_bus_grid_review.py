@@ -85,10 +85,12 @@ def fixture(root, *, unknown=False):
                 "scope_city_codes": list(review.CITY_CODES), "geometry_sources": list(review.GEOMETRIES),
                 "sources": source_metadata, "operator_ambiguous_service_models": 0, "sequence_subroutes": 1,
                 "scheduled_subroutes": int(not unknown), "limitations": ["synthetic hand-counted fixture"],
+                "built_at": "2026-10-24T12:00:00+08:00",
+                "grid_definition": {"origin": [round(ox, 7), round(oy, 7)], "step": [dx, dy],
+                                    "cell_m": size, "fields": list(review.FIELDS)},
                 "status_counts": {k: int(k == status) for k in ("ok", "partial", "no_stop", "no_schedule")}}
         write_json(root / f"web/public/data/regional_bus_grid_{size}.json", {
-            "origin": [round(ox, 7), round(oy, 7)], "step": [dx, dy], "cell_m": size,
-            "fields": list(review.FIELDS), "metadata": meta, "cells": cells})
+            "schema_version": 1, "dataset_id": f"regional_bus_grid_{size}", "metadata": meta, "records": cells})
 
 
 class IndependentRegionalGridTests(unittest.TestCase):
@@ -119,13 +121,58 @@ class IndependentRegionalGridTests(unittest.TestCase):
             self.assertEqual(row["counts"]["stop_cell_memberships"], 1)
         self.assertIsNone(result["metadata"]["source_inputs"][0]["source_updated_at"])
 
+    def test_required_envelope_fields_cannot_be_omitted(self):
+        for field in ("schema_version", "dataset_id", "metadata", "records"):
+            with self.subTest(field=field):
+                fixture(self.root)
+                self.mutate_grid(lambda d: d.pop(field))
+                self.assertIn("required grid envelope missing or invalid", self.failures())
+
+    def test_legacy_compact_document_and_duplicate_cells_are_rejected(self):
+        def legacy(doc):
+            definition = doc["metadata"].pop("grid_definition")
+            cells = doc["records"]
+            meta = doc["metadata"]
+            doc.clear()
+            doc.update({**definition, "metadata": meta, "cells": cells})
+        self.mutate_grid(legacy)
+        self.assertIn("required grid envelope missing or invalid", self.failures())
+        fixture(self.root)
+        self.mutate_grid(lambda d: d.__setitem__("cells", d["records"]))
+        self.assertIn("required grid envelope missing or invalid", self.failures())
+
+    def test_envelope_version_and_dataset_identity_are_checked(self):
+        for field, value in (("schema_version", True), ("schema_version", 1.0),
+                             ("schema_version", 2), ("dataset_id", "regional_bus_grid_500")):
+            with self.subTest(field=field, value=value):
+                fixture(self.root)
+                self.mutate_grid(lambda d: d.__setitem__(field, value))
+                self.assertIn("required grid envelope missing or invalid", self.failures())
+
+    def test_grid_definition_fields_cannot_be_omitted(self):
+        for field in ("origin", "step", "cell_m", "fields"):
+            with self.subTest(field=field):
+                fixture(self.root)
+                self.mutate_grid(lambda d: d["metadata"]["grid_definition"].pop(field))
+                self.assertIn("grid definition/schema drift", self.failures())
+
+    def test_built_at_requires_iso_datetime_with_timezone(self):
+        for value in (None, "", "not-a-date", "2026-10-24", "2026-10-24T12:00:00"):
+            with self.subTest(value=value):
+                fixture(self.root)
+                self.mutate_grid(lambda d: d["metadata"].__setitem__("built_at", value))
+                self.assertIn("built_at must be an ISO datetime with timezone", self.failures())
+        fixture(self.root)
+        self.mutate_grid(lambda d: d["metadata"].__setitem__("built_at", "2026-10-24T04:00:00Z"))
+        self.assertEqual(review.audit(self.root)["metadata"]["status"], "passed")
+
     def test_numeric_tampering_is_rejected_despite_valid_structure(self):
-        self.mutate_grid(lambda d: d["cells"][0][5].__setitem__(8, 1.0))
+        self.mutate_grid(lambda d: d["records"][0][5].__setitem__(8, 1.0))
         self.assertIn("hourly departures mismatch", self.failures())
 
     def test_unknown_is_not_accepted_as_zero(self):
         fixture(self.root, unknown=True)
-        self.mutate_grid(lambda d: d["cells"][0].__setitem__(5, [0.] * 24))
+        self.mutate_grid(lambda d: d["records"][0].__setitem__(5, [0.] * 24))
         self.assertIn("unknown/null changed to numeric", self.failures())
 
     def test_all_unknown_delivery_fails_minimum_service_gate(self):
@@ -133,7 +180,7 @@ class IndependentRegionalGridTests(unittest.TestCase):
         self.assertIn("no published service available", self.failures())
 
     def test_known_series_cannot_disappear(self):
-        self.mutate_grid(lambda d: d["cells"][0].__setitem__(5, None))
+        self.mutate_grid(lambda d: d["records"][0].__setitem__(5, None))
         self.assertIn("missing known", self.failures())
 
     def test_null_source_update_cannot_be_replaced_by_download_time(self):
@@ -153,20 +200,20 @@ class IndependentRegionalGridTests(unittest.TestCase):
 
     def test_missing_mask_cell_is_rejected_even_if_status_counts_are_adjusted(self):
         def update(doc):
-            doc["cells"] = []
+            doc["records"] = []
             doc["metadata"]["status_counts"]["ok"] = 0
         self.mutate_grid(update)
         self.assertIn("geographic coverage incomplete", self.failures())
 
     def test_stop_mapping_and_geometry_drift_are_rejected(self):
-        self.mutate_grid(lambda d: d["cells"][0].__setitem__(2, 2))
+        self.mutate_grid(lambda d: d["records"][0].__setitem__(2, 2))
         self.assertIn("stop/service/unknown count mismatch", self.failures())
         fixture(self.root)
-        self.mutate_grid(lambda d: d["origin"].__setitem__(0, 121.0))
+        self.mutate_grid(lambda d: d["metadata"]["grid_definition"]["origin"].__setitem__(0, 121.0))
         self.assertIn("grid origin/step mismatch", self.failures())
 
     def test_invalid_numeric_type_is_rejected(self):
-        self.mutate_grid(lambda d: d["cells"][0][5].__setitem__(8, True))
+        self.mutate_grid(lambda d: d["records"][0][5].__setitem__(8, True))
         self.assertIn("invalid weekday hourly series", self.failures())
 
     def test_missing_calendar_produces_unknown_not_zero(self):

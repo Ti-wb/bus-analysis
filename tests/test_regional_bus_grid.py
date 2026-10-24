@@ -1,9 +1,11 @@
 """Synthetic north-region frequency tests; no TDX requests and no fake ridership."""
 import gzip
 import json
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from shapely.geometry import box, mapping
 
@@ -36,6 +38,17 @@ def frequency_model(operator=None, *, end="09:00"):
 
 
 class RegionalGridTests(unittest.TestCase):
+    def build_sample(self, output, **kwargs):
+        key = ("NWT0123", "NWT012301", "0")
+        stops = {key: {("S01", 121.410, 25.010)}}
+        services = {key: (grid.service_departures([model("OP1")]), False)}
+        sources = [{"scope": "NewTaipei", "source_updated_at": "2026-10-01T00:00:00+08:00"}]
+        with patch.object(grid, "region_geometry", return_value=box(121.409, 25.009, 121.412, 25.012)), \
+                patch.object(grid, "load_services", return_value=(stops, services, sources, 0)):
+            grid.build_all(output=output, **kwargs)
+        return {size: json.loads((output / f"regional_bus_grid_{size}.json").read_text())
+                for size in grid.SIZES}
+
     def test_timetables_do_not_double_count_duplicate_source_records(self):
         trips = grid.service_departures([model("OP1"), model("OP1")])
         self.assertEqual(trips["weekday"][8], 1)
@@ -102,6 +115,45 @@ class RegionalGridTests(unittest.TestCase):
         self.assertEqual(marked[0][2:5], [2, 2, 1])
         self.assertEqual(marked[0][5][0], 1.0)
         self.assertGreater(statuses.get("no_stop", 0), 0)
+
+    def test_build_all_writes_dataset_envelope_and_preserves_explicit_built_at(self):
+        built_at = "2026-10-24T01:02:03+00:00"
+        with tempfile.TemporaryDirectory() as tmp:
+            docs = self.build_sample(Path(tmp), built_at=built_at)
+        for size, doc in docs.items():
+            with self.subTest(size=size):
+                self.assertEqual(set(doc), {"schema_version", "dataset_id", "metadata", "records"})
+                self.assertEqual(doc["schema_version"], 1)
+                self.assertEqual(doc["dataset_id"], f"regional_bus_grid_{size}")
+                metadata = doc["metadata"]
+                definition = metadata["grid_definition"]
+                self.assertEqual(set(definition), {"origin", "step", "cell_m", "fields"})
+                self.assertEqual(definition["cell_m"], size)
+                self.assertEqual(len(definition["origin"]), 2)
+                self.assertEqual(len(definition["step"]), 2)
+                self.assertEqual(definition["fields"], ["ix", "iy", "stop_count", "subroute_count",
+                                                       "unscheduled_subroute_count", "weekday", "saturday", "sunday"])
+                self.assertTrue(doc["records"])
+                self.assertTrue(all(len(record) == len(definition["fields"]) for record in doc["records"]))
+                self.assertTrue(any(record[3] == 1 and record[5][8] == 1 for record in doc["records"]))
+                self.assertEqual(metadata["built_at"], built_at)
+                self.assertIsNone(metadata["source_data_time"])
+                self.assertEqual(metadata["sources"][0]["source_updated_at"], "2026-10-01T00:00:00+08:00")
+
+    def test_build_all_defaults_to_current_utc_build_time(self):
+        before = datetime.now(timezone.utc).replace(microsecond=0)
+        with tempfile.TemporaryDirectory() as tmp:
+            docs = self.build_sample(Path(tmp))
+        after = datetime.now(timezone.utc)
+        timestamps = {doc["metadata"]["built_at"] for doc in docs.values()}
+        self.assertEqual(len(timestamps), 1)
+        timestamp = timestamps.pop()
+        self.assertIsInstance(timestamp, str)
+        built_at = datetime.fromisoformat(timestamp)
+        self.assertEqual(built_at.utcoffset(), timedelta(0))
+        self.assertEqual(built_at.microsecond, 0)
+        self.assertLessEqual(before, built_at)
+        self.assertLessEqual(built_at, after)
 
     def test_complete_publication_is_required_and_anonymous_only_once(self):
         with tempfile.TemporaryDirectory() as tmp:
