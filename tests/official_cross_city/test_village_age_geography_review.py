@@ -4,6 +4,7 @@ import gzip
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 try:
     from shapely.geometry import box, mapping
@@ -12,12 +13,17 @@ except ImportError:
 
 from scripts.review_village_age_geography import (
     GROUP_INTERVALS, fnv1a32_utf8, gzip_copy_matches, inspect_outputs, inspect_station_shards,
-    recompute_circle, registry_rows, station_points_from_layers,
+    population_source_snapshot, recompute_circle, registry_rows, station_points_from_layers,
 )
+from scripts import review_village_age_geography as audit
 
 MONTH = "2026-09"
 MAIN = "VILLAGE_NLSC_1150817"
 VINTAGE = "2026-08-17"
+POPULATION_SOURCE = {"raw_file": "raw_data/moi_village_age/moi_village_age_2026-09.csv",
+                     "requested_url": "https://www.ris.gov.tw/fixture-population.csv",
+                     "downloaded_at": "2026-10-24T10:00:00+08:00", "http_status": 200,
+                     "bytes": 1234, "source_data_time": None, "http_last_modified": None}
 
 
 def fixture():
@@ -61,7 +67,9 @@ def fixture():
                "same_month_geometry_verified": False,
                "supplemental_overlap_records": [{"supplement_area_id": "10013280006", "main_area_id": "10013130021", "geometry_eligible": False}]}
     meta = {"population_period": MONTH, "roster_period": MONTH, "boundary_vintage": VINTAGE,
-            "same_month_geometry_verified": False, "national_audit_summary": summary}
+            "same_month_geometry_verified": False, "national_audit_summary": summary,
+            "population_source": deepcopy(POPULATION_SOURCE), "generated_at": "2026-10-24T12:00:00+08:00",
+            "sources": [{"raw_file": "map-data/raw/national_village_age/villages.zip"}]}
     crosswalk = {"metadata": deepcopy(meta), "records": [
         cross("63000010001", "甲里", "verified", 10), cross("63000010S01", None, "unassigned", None, present=False),
         cross("10013280006", "三和村", "geometry_conflict", None, "Village_Sanhe", None),
@@ -81,13 +89,25 @@ def fixture():
                            "age_75_plus": 10} if ages is not None else {
                                key: None for key in ("age_0_14", "age_15_64", "age_65_plus", "age_0_5", "age_6_17", "age_18_64", "age_65_74", "age_75_plus")},
         }, "geometry": mapping(boundaries[code]["geometry"])})
-    return [roster, boundaries, layers, {"metadata": {"period": MONTH}, "records": poprows},
+    return [roster, boundaries, layers, {"metadata": {"period": MONTH, "source": deepcopy(POPULATION_SOURCE)}, "records": poprows},
             {"metadata": deepcopy(meta), "records": list(roster.values())}, crosswalk,
             {"type": "FeatureCollection", "metadata": deepcopy(meta), "features": features}, MONTH]
 
 
 @unittest.skipIf(box is None, "Run geometry audit tests with the project GIS dependencies")
 class IndependentVillageGeographyReviewTests(unittest.TestCase):
+    def test_failed_review_still_emits_each_reviewed_document_receipt(self):
+        documents = fixture()[4:7]
+        with patch.object(audit, "read", side_effect=[*documents, OSError("missing source")]):
+            result = audit.review(Path("/unused-fixture-root"), MONTH)
+        self.assertEqual(result["metadata"]["status"], "needs_correction")
+        self.assertEqual(len(result["records"]), 3)
+        for document, record in zip(documents, result["records"]):
+            self.assertEqual(record["population_source"], document["metadata"]["population_source"])
+            self.assertIsNot(record["population_source"], document["metadata"]["population_source"])
+            document["metadata"]["population_source"]["downloaded_at"] = "changed"
+            self.assertEqual(record["population_source"], POPULATION_SOURCE)
+
     def test_valid_independent_fixture_preserves_null_and_supplement_exclusion(self):
         report = inspect_outputs(*fixture())
         self.assertEqual(report["failures"], [])
@@ -132,6 +152,45 @@ class IndependentVillageGeographyReviewTests(unittest.TestCase):
         self.assertTrue(any("full geometry coordinates differ" in error for error in errors))
         self.assertTrue(any("source_population differs" in error for error in errors))
         self.assertTrue(any("101 source age cells differ" in error for error in errors))
+
+    def test_population_receipt_change_is_detected_with_identical_geography_snapshot(self):
+        for changed in (3, 4, 5, 6):  # Population input, then each delivered document.
+            args = fixture()
+            geography_snapshots = [(deepcopy(doc["metadata"]["sources"]), doc["metadata"]["generated_at"])
+                                   for doc in args[4:7]]
+            key = "source" if changed == 3 else "population_source"
+            args[changed]["metadata"][key]["downloaded_at"] = "2026-10-25T10:00:00+08:00"
+            with self.subTest(changed_document=changed):
+                errors = inspect_outputs(*args)["failures"]
+                self.assertTrue(any("population source snapshot differs" in error for error in errors))
+                self.assertEqual(geography_snapshots, [(doc["metadata"]["sources"], doc["metadata"]["generated_at"])
+                                                      for doc in args[4:7]])
+
+    def test_equal_missing_or_invalid_population_receipts_do_not_pass(self):
+        for value in (None, {}, []):
+            args = fixture()
+            args[3]["metadata"]["source"] = deepcopy(value)
+            for document in args[4:7]:
+                document["metadata"]["population_source"] = deepcopy(value)
+            with self.subTest(value=value):
+                self.assertTrue(any("receipt is missing or invalid" in error for error in inspect_outputs(*args)["failures"]))
+        args = fixture()
+        args[3]["metadata"].pop("source")
+        for document in args[4:7]:
+            document["metadata"].pop("population_source")
+        self.assertTrue(any("receipt is missing or invalid" in error for error in inspect_outputs(*args)["failures"]))
+
+
+class ReviewedPopulationSourceSnapshotTests(unittest.TestCase):
+    def test_actual_reviewed_metadata_receipt_is_preserved_including_valid_nulls(self):
+        metadata = {"population_source": deepcopy(POPULATION_SOURCE)}
+        snapshot = population_source_snapshot(metadata)
+        self.assertEqual(snapshot, POPULATION_SOURCE)
+        self.assertIn("source_data_time", snapshot)
+        self.assertIsNone(snapshot["source_data_time"])
+        self.assertIsNone(snapshot["http_last_modified"])
+        metadata["population_source"]["downloaded_at"] = "2026-10-25T10:00:00+08:00"
+        self.assertEqual(snapshot["downloaded_at"], POPULATION_SOURCE["downloaded_at"])
 
 
 class IndependentRegistryRawTests(unittest.TestCase):

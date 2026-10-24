@@ -40,7 +40,7 @@ def review_index():
                     "status": record.get("review_status", record.get("status", "pending")),
                     "report": path.relative_to(ROOT).as_posix(),
                     "record_count": record.get("record_count"),
-                    **{key: record[key] for key in ("reviewed_generated_at", "source", "sources") if key in record},
+                    **{key: record[key] for key in ("reviewed_generated_at", "source", "sources", "population_source") if key in record},
                 }
     return result
 
@@ -75,8 +75,14 @@ def build():
                     output["independent_review"] = {**review, "status": "pending_changed_record_count"}
                 if review:
                     meta = content.get("metadata", {})
+                    population_source = meta.get("population_source")
+                    population_snapshot_changed = (
+                        ("population_source" in meta or "population_source" in review)
+                        and (not isinstance(population_source, dict) or not population_source
+                             or population_source != review.get("population_source")))
                     if (("reviewed_generated_at" in review and review["reviewed_generated_at"] != meta.get("generated_at"))
-                            or any(key in review and review[key] != meta.get(key) for key in ("source", "sources"))):
+                            or any(key in review and review[key] != meta.get(key) for key in ("source", "sources"))
+                            or population_snapshot_changed):
                         output["independent_review"] = {**review, "status": "pending_changed_snapshot"}
                 outputs.append(output)
             if not outputs:

@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter
+from copy import deepcopy
 import csv
 from datetime import date, datetime
 import gzip
@@ -49,6 +50,11 @@ def exact(a, b):
     if isinstance(a, list):
         return len(a) == len(b) and all(exact(x, y) for x, y in zip(a, b))
     return a == b
+
+
+def population_source_snapshot(metadata):
+    """Retain the reviewed document's receipt, including valid nested nulls."""
+    return deepcopy(metadata.get("population_source"))
 
 
 def registry_rows(path):
@@ -153,6 +159,9 @@ def inspect_outputs(roster, boundaries, layers, population, registry, crosswalk,
         return result
 
     check(population["metadata"]["period"] == month, "population month differs")
+    population_source = population["metadata"].get("source")
+    check(isinstance(population_source, dict) and bool(population_source),
+          "reviewed population input source receipt is missing or invalid")
     pop = indexed([row for row in population["records"] if row["sex"] == "total"], "area_id", "population")
     check(set(pop) == set(roster), "population/RIS code sets differ")
     for code, row in pop.items():
@@ -249,6 +258,11 @@ def inspect_outputs(roster, boundaries, layers, population, registry, crosswalk,
     check(all(row.get("geometry_eligible") is False for row in summary.get("supplemental_overlap_records", [])), "supplemental overlaps are not excluded")
     for label, document in (("registry", registry), ("crosswalk", crosswalk), ("geometry", geo)):
         meta = document["metadata"]
+        delivered_population_source = meta.get("population_source")
+        check(isinstance(delivered_population_source, dict) and bool(delivered_population_source),
+              label + ": population_source receipt is missing or invalid")
+        check(exact(delivered_population_source, population_source),
+              label + ": population source snapshot differs from the reviewed input")
         check(meta.get("population_period") == month and meta.get("roster_period") == month
               and meta.get("same_month_geometry_verified") is False, label + ": temporal claims differ")
         check(exact(meta.get("national_audit_summary"), summary), label + ": national summary snapshot differs")
@@ -290,8 +304,6 @@ def review(root=ROOT, month="2026-09"):
         boundaries, layers = boundary_rows(root / "map-data/raw/national_village_age/villages.zip")
         population = read(root / f"data/population/moi_village_age_{month}.json.gz")
         for document in documents:
-            if not exact(document["metadata"].get("population_source"), population["metadata"].get("source")):
-                errors.append("delivered population source snapshot differs from the reviewed input")
             if document["metadata"].get("generated_at") != metadata["sources"][-1].get("downloaded_at"):
                 errors.append("delivered generation does not identify the retained boundary archive snapshot")
         checks = inspect_outputs(roster, boundaries, layers, population, *documents, month)
@@ -305,6 +317,7 @@ def review(root=ROOT, month="2026-09"):
         records.append({"file": path, "output_path": path, "review_status": status,
                         "record_count": len(doc.get("records", doc.get("features", []))),
                         "reviewed_generated_at": doc["metadata"].get("generated_at"),
+                        "population_source": population_source_snapshot(doc["metadata"]),
                         "sources": doc["metadata"].get("sources", []), "checks": checks})
     return {"schema_version": 1, "dataset_id": "independent_national_village_age_geography_review",
             "metadata": {"reviewer_agent": "/root/national_reference", "producer_imported": False,
@@ -491,6 +504,9 @@ def station_review(root=ROOT, month="2026-09"):
         if not condition:
             errors.append(message)
     check(gzip_copy_matches(root / relative), "canonical station gzip/plain contents differ")
+    for label, document in (("station", doc), ("village geometry", full)):
+        receipt = document["metadata"].get("population_source")
+        check(isinstance(receipt, dict) and bool(receipt), label + ": population_source receipt is missing or invalid")
     inventory = station_points_from_layers({name: read(root / "web/public/data" / name) for name in (
         "bus_stops.geojson", "regional_bus_stops.geojson", "mrt_stations.geojson", "youbike_stations.geojson")})
     expected_points = inventory["points"]
@@ -638,6 +654,7 @@ def station_review(root=ROOT, month="2026-09"):
                                 "均勻面積人口估算不等於實際乘客；相鄰站圈、兩套年齡分組不可加總。"]},
             "records": [{"file": relative, "output_path": relative, "record_count": sum(len(points) for points in expected_points.values()),
                          "review_status": status, "reviewed_generated_at": doc["metadata"].get("generated_at"),
+                         "population_source": population_source_snapshot(doc["metadata"]),
                          "reviewed_built_at": doc["metadata"].get("built_at"), "sources": doc["metadata"].get("sources", []),
                          "checks": checks, "samples": samples}]}
 

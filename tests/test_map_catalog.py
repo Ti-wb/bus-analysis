@@ -105,6 +105,41 @@ class MapCatalogPopulationTests(unittest.TestCase):
         }))
         self.assertFalse(catalog.review_matches_source({"metadata": {}}, {"reviewed_generated_at": None}))
 
+    def test_population_snapshot_must_be_recorded_and_unchanged(self):
+        receipt = {"requested_url": "https://official.example/population.csv", "downloaded_at": "first",
+                   "source_data_time": None}
+        self.doc["metadata"]["population_source"] = deepcopy(receipt)
+        self.output_and_manifest()
+        self.review(population_source=deepcopy(receipt))
+        matched = self.build()["records"][0]
+        self.assertEqual(matched["independent_review_status"], "passed")
+        self.assertEqual(matched["files"][0]["independent_review"]["population_source"], receipt)
+        original = deepcopy(self.doc)
+        for change in ("refresh", "missing_output", "old_report", "null_output", "null_review",
+                       "both_null", "both_empty", "both_malformed"):
+            with self.subTest(change=change):
+                self.doc = deepcopy(original)
+                reviewed = {"population_source": deepcopy(receipt)}
+                if change == "refresh":
+                    self.doc["metadata"]["population_source"]["downloaded_at"] = "refreshed population"
+                    self.doc["features"][0]["properties"]["population"] = 101
+                elif change == "missing_output":
+                    self.doc["metadata"].pop("population_source")
+                elif change == "old_report":
+                    reviewed = {}
+                elif change == "null_output":
+                    self.doc["metadata"]["population_source"] = None
+                elif change == "null_review":
+                    reviewed["population_source"] = None
+                else:
+                    invalid = {"both_null": None, "both_empty": {}, "both_malformed": [receipt]}[change]
+                    self.doc["metadata"]["population_source"] = reviewed["population_source"] = invalid
+                self.output_and_manifest()
+                self.review(**reviewed)
+                result = self.build()["records"][0]
+                self.assertEqual(result["files"][0]["independent_review"]["status"], "pending_source_version")
+                self.assertEqual(result["independent_review_status"], "pending_or_needs_correction")
+
 
 if __name__ == "__main__":
     unittest.main()

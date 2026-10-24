@@ -96,6 +96,8 @@ npm run build --prefix web
 全量站圈約 122.1 MB JSON／7.5 MB gzip，保留作驗證基準。站卡以 `FNV1a32(UTF-8(站種 + ":" + 完整站碼)) % 32` 選片，
 每片最大約 3.9 MB JSON／264 KB gzip，32 片 gzip 合計約 8.2 MB；每片 metadata 的 `shard` 明列 algorithm、index、count=32 與該片站數。
 Metadata 保存 `population_period`、`roster_period`、主層 `boundary_vintage`、逐層版本及筆數、來源 receipt、授權及限制。
+巡檢紀錄另保存實際核對的 `population_source`；兩個資料目錄會與輸出的人口 receipt 精確比對。
+人口來源變更、缺失或舊巡檢未記錄該 receipt 時，必須重新巡檢，不能沿用地理來源未變的通過狀態。
 `generated_at` 識別固定來源下載快照；前端 `built_at` 才是本次建置時間，兩者都不是人口統計日期。
 
 Crosswalk 每筆保存 `area_id`、三種來源是否存在、兩端原名、`district_id`、`roster_match_status`、

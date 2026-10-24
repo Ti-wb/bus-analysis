@@ -2,6 +2,7 @@
 import gzip
 import hashlib
 import json
+from copy import deepcopy
 from pathlib import Path
 import tempfile
 import unittest
@@ -89,6 +90,53 @@ class PopulationCatalogTests(unittest.TestCase):
                 result = catalog.build()
             self.assertEqual(result["records"][0]["independent_review_status"], "passed")
             self.assertEqual(result["records"][0]["outputs"][0]["independent_review"]["source"], source)
+
+    def test_population_snapshot_must_be_recorded_and_unchanged(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            relative = "data/population/national_village_crosswalk_2026-09.json"
+            receipt = {"requested_url": "https://official.example/population.csv", "downloaded_at": "first",
+                       "source_data_time": None}
+            original = {"metadata": {"generated_at": "fixed boundary generation",
+                                    "sources": [{"downloaded_at": "cached geography"}],
+                                    "population_source": receipt},
+                        "records": [{"area_id": "63000010001", "source_population": 100}]}
+            report = {"file": relative, "record_count": 1, "review_status": "pass_with_limitations",
+                      "reviewed_generated_at": original["metadata"]["generated_at"],
+                      "sources": original["metadata"]["sources"], "population_source": receipt}
+            write_json(root / "raw_data/national_village_age/delivery.json", {
+                "datasets": [{"dataset_id": "national_village_crosswalk", "output_files": [relative]}]})
+
+            def build(document, reviewed):
+                write_json(root / relative, document)
+                write_json(root / "data/quality/national_village_age_review.json", {"records": [reviewed]})
+                with patch.object(catalog, "ROOT", root):
+                    return catalog.build()["records"][0]
+
+            matched = build(original, report)
+            self.assertEqual(matched["independent_review_status"], "passed")
+            self.assertEqual(matched["outputs"][0]["independent_review"]["population_source"], receipt)
+            for change in ("refresh", "missing_output", "old_report", "null_output", "null_review",
+                           "both_null", "both_empty", "both_malformed"):
+                with self.subTest(change=change):
+                    document, reviewed = deepcopy(original), deepcopy(report)
+                    if change == "refresh":
+                        document["metadata"]["population_source"]["downloaded_at"] = "refreshed population"
+                        document["records"][0]["source_population"] = 101
+                    elif change == "missing_output":
+                        document["metadata"].pop("population_source")
+                    elif change == "old_report":
+                        reviewed.pop("population_source")
+                    elif change == "null_output":
+                        document["metadata"]["population_source"] = None
+                    elif change == "null_review":
+                        reviewed["population_source"] = None
+                    else:
+                        invalid = {"both_null": None, "both_empty": {}, "both_malformed": [receipt]}[change]
+                        document["metadata"]["population_source"] = reviewed["population_source"] = invalid
+                    result = build(document, reviewed)
+                    self.assertEqual(result["outputs"][0]["independent_review"]["status"], "pending_changed_snapshot")
+                    self.assertEqual(result["independent_review_status"], "pending")
 
     def test_source_namespace_isolated_and_offline_provenance_checked(self):
         with tempfile.TemporaryDirectory() as directory:

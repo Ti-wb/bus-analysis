@@ -25,7 +25,12 @@ def source_periods(doc):
 
 def review_matches_source(doc, review):
     metadata = doc["metadata"]
-    snapshot_keys = ("reviewed_generated_at", "source", "sources")
+    population_source = metadata.get("population_source")
+    if (("population_source" in metadata or "population_source" in review)
+            and (not isinstance(population_source, dict) or not population_source
+                 or population_source != review.get("population_source"))):
+        return False
+    snapshot_keys = ("reviewed_generated_at", "source", "sources", "population_source")
     if any(key in review for key in snapshot_keys):
         if ("reviewed_generated_at" in review
                 and review["reviewed_generated_at"] != metadata.get("generated_at")):
@@ -56,9 +61,9 @@ def build():
             file = record.get("path") or record.get("file")
             if file:
                 version_fields = {key: record[key] for key in (
-                    "source_periods", "source_downloaded_at", "reviewed_generated_at", "source", "sources"
+                    "source_periods", "source_downloaded_at", "reviewed_generated_at", "source", "sources", "population_source"
                 ) if key in record}
-                if not any(key in record for key in ("reviewed_generated_at", "source", "sources")):
+                if not any(key in record for key in ("reviewed_generated_at", "source", "sources", "population_source")):
                     # Keep the existing catalogue shape for legacy reviews.
                     version_fields.setdefault("source_periods", [])
                     version_fields.setdefault("source_downloaded_at", None)
