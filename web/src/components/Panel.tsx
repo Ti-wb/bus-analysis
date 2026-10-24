@@ -44,7 +44,7 @@ interface SummaryRow {
 export function ExtraControls({ state, data, supplementalPending, onChange, onRetrySupplemental }: Pick<Props, 'state' | 'data' | 'supplementalPending' | 'onChange' | 'onRetrySupplemental'>) {
   return <>
     <h3>跨市資料圖層</h3>
-    <p className="layer-scope-note">資料快照；班次、覆蓋與需求模型範圍仍為臺北市。</p>
+    <p className="layer-scope-note">班次網格已改用北北基 TDX 官方發布班表；站點覆蓋與需求落差仍限臺北市。此處路線／站位屬獨立補充圖層。</p>
     {EXTRA_LAYERS.map(({ group, key, label, swatch }) => {
       const loaded = data?.[key];
       const failed = data?.supplemental_errors.some((message) => message.startsWith(key));
