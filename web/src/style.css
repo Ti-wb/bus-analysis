@@ -56,7 +56,7 @@ h1, h2, h3, p { margin: 0; }
 .btn-outline:hover { border-color: var(--accent); }
 
 .stage { position: relative; flex: 1; min-height: 0; overflow: hidden; }
-.data-error { position: absolute; right: 20px; bottom: 20px; padding: 16px 20px; max-width: 420px; z-index: 5; }
+.data-error { position: absolute; right: 20px; bottom: 40px; padding: 16px 20px; max-width: 420px; z-index: 5; }
 .data-error p { margin-top: 6px; font-size: 13px; }
 .retry-button { margin-top: 8px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 7px; background: var(--accent-soft); color: var(--ink); font-size: 12px; }
 .map-notice { position: absolute; z-index: 4; right: 54px; top: 74px; display: flex; align-items: center; flex-wrap: wrap; gap: 8px; width: min(440px, calc(100% - 360px)); padding: 10px 12px; border: 1px solid #d3deeb; border-radius: 10px; background: #fff; color: var(--ink); box-shadow: var(--shadow); font-size: 12px; line-height: 1.6; }
@@ -64,7 +64,7 @@ h1, h2, h3, p { margin: 0; }
 .map-notice .notice-close { margin-left: auto; border: 0; background: transparent; padding: 0 4px; font-size: 18px; }
 
 .card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); }
-.panel { position: absolute; top: 20px; left: 20px; width: 300px; display: flex; flex-direction: column; gap: 14px; z-index: 2; max-height: calc(100% - 40px); overflow: auto; }
+.panel { position: absolute; top: 20px; left: 20px; width: 300px; display: flex; flex-direction: column; gap: 14px; z-index: 2; max-height: calc(100% - 60px); overflow: auto; }
 .intro { padding: 24px; }
 .intro h1 { font-size: 26px; line-height: 1.45; font-weight: 800; letter-spacing: 0.02em; }
 .intro > .muted { margin-top: 10px; font-size: 13px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
@@ -132,7 +132,7 @@ h1, h2, h3, p { margin: 0; }
 .search-results li:hover, .search-results li.is-active { background: var(--accent-soft); }
 .status-chip { position: absolute; top: 26px; left: 716px; z-index: 2; font-size: 13px; padding: 7px 12px; background: rgba(255, 255, 255, 0.92); border-radius: 8px; box-shadow: var(--shadow); white-space: nowrap; }
 
-.explainer { position: absolute; left: 340px; right: 20px; bottom: 20px; z-index: 2; padding: 14px 18px; max-width: 900px; }
+.explainer { position: absolute; left: 340px; right: 20px; bottom: 40px; z-index: 2; padding: 14px 18px; max-width: 900px; }
 .explainer-head { display: flex; align-items: center; justify-content: space-between; }
 .explainer h3 { font-size: 14px; }
 .explainer p { font-size: 13px; color: var(--muted); margin-top: 6px; line-height: 1.6; }
@@ -355,7 +355,7 @@ dialog.about .close { position: absolute; right: 16px; top: 12px; border: 0; bac
   .panel { top: 68px; left: 12px; width: 230px; max-height: calc(100% - 148px); }
   .intro { padding: 18px; }
   .intro h1 { font-size: 22px; }
-  .explainer { left: 12px; right: 12px; bottom: 12px; padding: 10px 12px; }
+  .explainer { left: 12px; right: 12px; bottom: 40px; padding: 10px 12px; }
   .explainer p { display: none; }
   .station-card { border-radius: 16px; }
 }
