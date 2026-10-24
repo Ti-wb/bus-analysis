@@ -4,7 +4,7 @@ import type { MapData } from '../types';
 import Dialog from '../routeEditor/Dialog';
 import Detail, { Mock, number, Score, Tags } from './Detail';
 import ImprovementMap from './ImprovementMap';
-import { csv, loadFilters, matches, rankEntries, saveFilters, sortRows } from './model';
+import { csv, emptyResults, loadFilters, matches, rankEntries, saveFilters, sortRows } from './model';
 import { DEFAULTS, KINDS, PERIODS, PROBLEMS, type Entry, type Filters, type ImprovementData, type Kind, type Ranked, type SortKey, type Weights } from './types';
 import './improvements.css';
 
@@ -107,6 +107,7 @@ const ImprovementList = forwardRef<ImprovementHandle, Props>(function Improvemen
   const ranked = useMemo(() => rankEntries(all, deferred), [all, deferred]);
   const matched = useMemo(() => ranked.filter((r) => matches(r, deferred)), [ranked, deferred]);
   const rows = useMemo(() => sortRows(matched.filter((r) => deferred.showLow || r.score >= 60), deferred), [matched, deferred]);
+  const empty = useMemo(() => emptyResults(deferred, !deferred.query.trim() || ranked.some((r) => matches(r, { ...deferred, district: '', problems: [] })), matched.length), [ranked, deferred, matched.length]);
   const lookup = useMemo(() => new Map<string, Entry>(data?.records.map((r) => [r.id, r])), [data]);
   const districts = useMemo(() => [...new Set(data?.records.flatMap((r) => r.districts) ?? [])].sort(), [data]);
   const selected = rows.find((r) => r.id === deferred.selected) ?? null;
@@ -146,7 +147,7 @@ const ImprovementList = forwardRef<ImprovementHandle, Props>(function Improvemen
     <div className="im-results" aria-busy={busy}>
       {busy && <div className="im-computing" role="status">正在重算分數與排序…</div>}
       {!data ? <div className="im-empty" role={error ? 'alert' : 'status'}><h2>{error || '正在載入改善清單…'}</h2><p>準備路線、站位、班表與空間重疊指標</p>{error && <button className="im-primary" onClick={() => setRetry((n) => n + 1)}>重新載入</button>}</div>
-      : !rows.length ? <div className="im-empty"><span>⌕</span><h2>沒有符合目前門檻的{KINDS[filters.kind]}</h2><p>試著放寬篩選條件，或展開低優先項目。</p><div><button className="im-primary" onClick={reset}>重設為預設值</button>{!filters.showLow && <button className="btn-outline" onClick={() => update({ showLow: true })}>顯示低優先項目</button>}</div></div>
+      : !rows.length ? <div className="im-empty"><span>⌕</span><h2>{empty.title}</h2><p>{empty.hint}</p><div>{deferred.query.trim() && <button className="im-primary" onClick={() => update({ query: '' })}>清除搜尋</button>}<button className="btn-outline" onClick={reset}>重設為預設值</button>{empty.showLow && !filters.showLow && <button className="btn-outline" onClick={() => update({ showLow: true })}>顯示低優先項目</button>}</div></div>
       : filters.view === 'map' ? (map ? <ImprovementMap rows={rows} selected={selected} map={map} onSelect={select} /> : <div className="im-empty" role="status">正在載入地圖…</div>)
       : <div className="im-table-scroll" ref={scroll}><table className={`im-table im-table-${filters.kind}`}><thead><tr><th className="im-rank-column">#</th>{cols.map((col) => <th key={col.key} className={col.className} aria-sort={filters.sort === col.key ? (filters.descending ? 'descending' : 'ascending') : 'none'}><button onClick={() => update({ sort: col.key, descending: filters.sort === col.key ? !filters.descending : col.key !== 'name' })}>{col.title}{filters.sort === col.key && <span>{filters.descending ? ' ↓' : ' ↑'}</span>}</button></th>)}</tr></thead>
         <tbody>{visible.map((row, i) => <tr key={row.id} className={selected?.id === row.id ? 'is-selected' : ''} onClick={(e) => select(row.id, e.currentTarget.querySelector('button'))} aria-selected={selected?.id === row.id}><td className="im-rank-column">{(currentPage - 1) * PAGE_SIZE + i + 1}</td>{cols.map((col) => <td key={col.key} className={col.className}>{col.render(row)}</td>)}</tr>)}</tbody>

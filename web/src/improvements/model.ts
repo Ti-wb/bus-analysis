@@ -63,6 +63,22 @@ export function matches(r: Ranked, f: Filters): boolean {
     && (!query || `${r.name} ${r.subtitle ?? ''} ${r.source_id} ${r.districts.join(' ')}`.toLocaleLowerCase().includes(query))
     && (!f.problems.length || f.problems.some((p) => r.problems.includes(p)));
 }
+
+/** Explain the first useful recovery action when no visible result remains. */
+export function emptyResults(f: Filters, keywordMatches: boolean, filteredCount: number) {
+  if (f.query.trim() && !keywordMatches) return {
+    title: `沒有符合關鍵字的${KINDS[f.kind]}`,
+    hint: '請確認名稱或編號，或清除搜尋關鍵字。', showLow: false,
+  };
+  if (!filteredCount) return {
+    title: `沒有符合目前篩選的${KINDS[f.kind]}`,
+    hint: '試著變更行政區、問題篩選，或重設為預設值。', showLow: false,
+  };
+  return {
+    title: `符合條件的${KINDS[f.kind]}皆為低優先項目`,
+    hint: '可展開低優先項目（<60 分），或調整評分偏好與門檻。', showLow: true,
+  };
+}
 export function sortValue(r: Ranked, key: SortKey): string | number | null {
   switch (key) {
     case 'geometry': return r.geometry_overlap;

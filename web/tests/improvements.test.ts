@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { csv, loadFilters, matches, rankEntries, sortRows } from '../src/improvements/model';
+import { csv, emptyResults, loadFilters, matches, rankEntries, sortRows } from '../src/improvements/model';
 import { DEFAULTS, type Entry, type Filters } from '../src/improvements/types';
 import { BANDS, type Band } from '../src/routeEditor/types';
 import { frequency } from '../src/routeEditor/engine';
@@ -64,4 +64,32 @@ test('all list time choices map to editor bands without dropping the selected da
       hourly: { weekday: Array(24).fill(4), saturday: Array(24).fill(2), sunday: Array(24).fill(1) } };
     assert.equal(frequency(r, id), day === 'weekday' ? 4 : day === 'saturday' ? 2 : 1);
   }
+});
+
+test('nonexistent keyword recovery asks to clear search rather than lower the priority threshold', () => {
+  const f = { ...DEFAULTS, query: '不存在的路線' };
+  const rows = rankEntries([entry('292')], f);
+  const keywordMatches = rows.some((r) => matches(r, { ...f, district: '', problems: [] }));
+  const empty = emptyResults(f, keywordMatches, rows.filter((r) => matches(r, f)).length);
+  assert.equal(empty.title, '沒有符合關鍵字的路線');
+  assert.equal(empty.showLow, false);
+  assert.match(empty.hint, /清除搜尋/);
+  assert.doesNotMatch(empty.hint, /門檻|低優先/);
+  assert.equal(rows.filter((r) => matches(r, { ...f, query: '' })).length, 1);
+});
+
+test('empty recovery distinguishes other filters from results hidden only by low priority', () => {
+  const f = { ...DEFAULTS, query: '292', district: '臺北市 北投區' };
+  const rows = rankEntries([entry('292')], f);
+  const keywordMatches = rows.some((r) => matches(r, { ...f, district: '', problems: [] }));
+  const hiddenByFilter = emptyResults(f, keywordMatches, rows.filter((r) => matches(r, f)).length);
+  assert.equal(hiddenByFilter.title, '沒有符合目前篩選的路線');
+  assert.equal(hiddenByFilter.showLow, false);
+  assert.match(hiddenByFilter.hint, /行政區/);
+  const low = rankEntries([entry('292', { station_overlap: 0 })], { ...DEFAULTS, weights: [100, 0, 0, 0] });
+  assert(low[0].score < 60);
+  const hiddenByScore = emptyResults(DEFAULTS, true, low.length);
+  assert.equal(hiddenByScore.showLow, true);
+  assert.match(hiddenByScore.hint, /低優先/);
+  assert.equal(emptyResults({ ...DEFAULTS, query: '  ' }, true, 0).showLow, false);
 });
