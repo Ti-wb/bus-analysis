@@ -189,7 +189,7 @@ def audit_delivery_accounting(manifest, delivery):
             "stop_reason_matches_manifest": True}
 
 
-def audit(root):
+def audit(root, reviewer_agent=None):
     manifest = read(root / "raw_data/tdx_bus_travel_time/manifest.json")
     check(manifest["metadata"].get("license", {}).get("url") == TERMS_URL, "Manifest lacks TDX terms URL")
     spec = read(root / "raw_data/tdx_bus_travel_time/specifications/travel_time.json")
@@ -326,7 +326,8 @@ def audit(root):
     delivery_accounting = audit_delivery_accounting(manifest, delivery)
     endpoint_totals = audit_taipei_endpoint_totals(catalog, coverage, delivery)
     return {"schema_version": 1, "dataset_id": "independent_tdx_bus_travel_time_review", "metadata": {
-        "reviewer_agent": "/root/crosswalk", "reviewed_at": datetime.now(ZoneInfo("Asia/Taipei")).isoformat(timespec="seconds"),
+        "reviewer_agent": reviewer_agent, "review_script_author_agent": "/root/crosswalk",
+        "reviewed_at": datetime.now(ZoneInfo("Asia/Taipei")).isoformat(timespec="seconds"),
         "independent_review_status": "pass_with_limitations", "producer_module_imported": False,
         "method": "Independent raw JSON parsing and explicit official-schema field mapping; every retained model and station/service/time row compared without calling producer normalize.",
         "review_script": "scripts/review_tdx_bus_travel_time.py", "official_specification": "raw_data/tdx_bus_travel_time/specifications/travel_time.json",
@@ -348,8 +349,9 @@ def audit(root):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=ROOT)
+    parser.add_argument("--reviewer-agent", help="Actual independent agent executing this review, when applicable")
     args = parser.parse_args()
-    result = audit(args.root)
+    result = audit(args.root, args.reviewer_agent)
     output = args.root / "data/quality/tdx_bus_travel_time_review.json"
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False) + "\n", encoding="utf-8")
