@@ -126,26 +126,33 @@ def csv_rows(path: Path, required: Iterable[str], *, encoding="utf-8-sig",
              lower_headers=False) -> Iterator[tuple[int, dict[str, str]]]:
     """Fail closed on HTML errors, duplicate headers and malformed record widths."""
     with path.open(encoding=encoding, newline="") as f:
-        reader = csv.reader(f)
-        header = next(reader, None)
-        if not header:
-            raise ValueError("Empty CSV")
-        keys = [v.strip().lower() if lower_headers else v.strip() for v in header]
-        if any(not k for k in keys) or len(keys) != len(set(keys)):
-            raise ValueError("Empty or duplicate CSV headers")
-        missing = set(required) - set(keys)
-        if missing:
-            raise ValueError(f"CSV schema mismatch; missing: {sorted(missing)}")
-        found = False
-        for row in reader:
-            if not row or not any(cell.strip() for cell in row):
-                continue
-            if len(row) != len(keys):
-                raise ValueError(f"CSV row width mismatch at line {reader.line_num}")
-            found = True
-            yield reader.line_num, dict(zip(keys, (v.strip() for v in row)))
-        if not found:
-            raise ValueError("CSV has a header but no data rows")
+        reader = csv.reader(f, strict=True)
+        try:
+            yield from _csv_records(reader, required, lower_headers=lower_headers)
+        except csv.Error as exc:
+            raise ValueError(f"Malformed CSV at line {reader.line_num}: {exc}") from exc
+
+
+def _csv_records(reader, required, *, lower_headers=False):
+    header = next(reader, None)
+    if not header:
+        raise ValueError("Empty CSV")
+    keys = [v.strip().lower() if lower_headers else v.strip() for v in header]
+    if any(not k for k in keys) or len(keys) != len(set(keys)):
+        raise ValueError("Empty or duplicate CSV headers")
+    missing = set(required) - set(keys)
+    if missing:
+        raise ValueError(f"CSV schema mismatch; missing: {sorted(missing)}")
+    found = False
+    for row in reader:
+        if not row or not any(cell.strip() for cell in row):
+            continue
+        if len(row) != len(keys):
+            raise ValueError(f"CSV row width mismatch at line {reader.line_num}")
+        found = True
+        yield reader.line_num, dict(zip(keys, (v.strip() for v in row)))
+    if not found:
+        raise ValueError("CSV has a header but no data rows")
 
 
 def text(value: str | None) -> str | None:

@@ -142,8 +142,8 @@ def main(argv=None):
         return
     directory = args.root / "data/official_cross_city"
     # Require validated local NTPC snapshots before making any network request.
-    routes = json.loads((directory / "ntpc_routes.json").read_text())
-    stops = json.loads((directory / "ntpc_stops.json").read_text())
+    routes = json.loads((directory / "ntpc_routes.json").read_text(encoding="utf-8"))
+    stops = json.loads((directory / "ntpc_stops.json").read_text(encoding="utf-8"))
     references(routes, "routes")
     references(stops, "stops")
     path, source = fetch(args.root, "ntpc_pathdetail.gz", URL, PAGE, HOSTS, offline=args.offline, max_mb=8)
