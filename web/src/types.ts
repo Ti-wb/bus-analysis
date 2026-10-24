@@ -1,7 +1,7 @@
 import type { FeatureCollection, Point } from 'geojson';
 
 export type DayType = 'weekday' | 'saturday' | 'sunday';
-export type CellSize = 250 | 500;
+export type CellSize = 100 | 150 | 250 | 500;
 export type LayerGroup = 'grid' | 'routes' | 'stops' | 'mrt' | 'places' | 'youbike';
 
 /** [ix, iy, stop_count, subroute_count, unscheduled_subroute_count, weekday, saturday, sunday] */
