@@ -165,7 +165,7 @@ def frequency_hours(item):
 
 
 def service_departures(models):
-    """Each TDX timetable trip counts once; frequency fills hours without trips.
+    """Each TDX timetable trip counts once; frequency fills its identity's empty hours.
 
     Missing calendars, missing clock values and absent models become null; an
     explicit complete calendar with no operation on a day yields zero.
@@ -174,8 +174,8 @@ def service_departures(models):
         return {d: None for d in DAY_NAMES}
     result = {}
     for day in DAY_NAMES:
-        fixed = defaultdict(float)
-        frequencies = defaultdict(float)
+        fixed = defaultdict(lambda: [0.] * 24)
+        frequencies = defaultdict(lambda: [0.] * 24)
         any_record = False
         uncertain = False
         trips_seen = set()
@@ -203,7 +203,7 @@ def service_departures(models):
                         if ident in trips_seen:
                             continue
                         trips_seen.add(ident)
-                        fixed[minute // 60 % 24] += 1.
+                        fixed[identity][minute // 60 % 24] += 1.
                     else:
                         hours = frequency_hours(entry)
                         if hours is None:
@@ -215,11 +215,15 @@ def service_departures(models):
                             continue
                         freq_seen.add(ident)
                         for hour, n in enumerate(hours):
-                            frequencies[hour] += n
+                            frequencies[identity][hour] += n
         if not any_record or uncertain:
             result[day] = None
         else:
-            result[day] = [round(fixed[h] if fixed[h] else frequencies[h], 1) for h in range(24)]
+            identities = fixed.keys() | frequencies.keys()
+            # One operator's timetable must not suppress another's frequency.
+            result[day] = [round(sum(fixed[identity][h] if fixed[identity][h]
+                                     else frequencies[identity][h]
+                                     for identity in identities), 1) for h in range(24)]
     return result
 
 

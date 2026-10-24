@@ -25,6 +25,16 @@ def model(operator=None, *, trip="X1", departure="08:00"):
     }
 
 
+def frequency_model(operator=None, *, end="09:00"):
+    row = model(operator)
+    row["timetables"] = []
+    row["frequencys"] = [{
+        "service_day": dict(WEEKDAYS), "start_time": "08:00", "end_time": end,
+        "min_headway_mins": 10, "max_headway_mins": 10,
+    }]
+    return row
+
+
 class RegionalGridTests(unittest.TestCase):
     def test_timetables_do_not_double_count_duplicate_source_records(self):
         trips = grid.service_departures([model("OP1"), model("OP1")])
@@ -54,6 +64,26 @@ class RegionalGridTests(unittest.TestCase):
             "min_headway_mins": 5, "max_headway_mins": 5,
         }]
         self.assertEqual(grid.service_departures([row])["weekday"][8], 1)
+
+    def test_fixed_departures_do_not_override_other_operator_frequency(self):
+        trips = grid.service_departures([model("OP1"), frequency_model("OP2")])
+        self.assertEqual(trips["weekday"][8], 7)
+        self.assertEqual(sum(trips["weekday"]), 7)
+        self.assertEqual(sum(trips["saturday"]), 0)
+
+    def test_fixed_departures_override_same_identity_frequency_across_models(self):
+        for operator in ("OP1", None):
+            with self.subTest(operator=operator):
+                trips = grid.service_departures([model(operator), frequency_model(operator, end="10:00")])
+                self.assertEqual(trips["weekday"][8], 1)
+                self.assertEqual(trips["weekday"][9], 6)
+
+    def test_mixed_operator_models_do_not_double_count_duplicate_sources(self):
+        fixed = model("OP1")
+        frequency = frequency_model("OP2")
+        trips = grid.service_departures([fixed, frequency, fixed, frequency])
+        self.assertEqual(trips["weekday"][8], 7)
+        self.assertEqual(sum(trips["weekday"]), 7)
 
     def test_grid_deduplicates_stops_and_services_and_retains_unknown(self):
         region = box(121.4, 25.0, 121.42, 25.02)
