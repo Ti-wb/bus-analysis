@@ -44,6 +44,13 @@ export function loadGrid(cell: number): Promise<Grid> {
   return grids.get(cell)!;
 }
 
+// Regional TDX service is separate from Taipei-only route-editor supply.
+const regionalGrids = new Map<number, Promise<Grid>>();
+export function loadRegionalGrid(cell: number): Promise<Grid> {
+  if (!regionalGrids.has(cell)) regionalGrids.set(cell, loadJSON<Grid>(`regional_bus_grid_${cell}.json`));
+  return regionalGrids.get(cell)!;
+}
+
 const coverages = new Map<number, Promise<Coverage>>();
 export function loadCoverage(cell: number): Promise<Coverage> {
   if (!coverages.has(cell)) coverages.set(cell, loadJSON<Coverage>(`coverage_${cell}.json`));
