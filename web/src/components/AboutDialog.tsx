@@ -31,7 +31,7 @@ export default function AboutDialog({ open, grid, coverage, need, supplemental, 
       <button className="close" aria-label="關閉" onClick={onClose}>×</button>
       <h2>資料與方法</h2>
       <h3>跨市資料快照</h3>
-      <p>新增的新北／跳蛙公車、里人口年齡、道路速率與公車推估旅時各自保留來源與期間；班次、覆蓋與需求落差模型仍以臺北市為範圍。網站沒有自動輪詢即時資料。</p>
+      <p>新北／跳蛙公車、里人口年齡、道路速率與推估旅時各自保留來源與期間。探索頁班次網格使用北北基官方 TDX 發布班表；站點覆蓋、需求落差及路線方案仍使用原臺北市資料模型。網站沒有自動輪詢即時資料。</p>
       {supplemental.supplemental_manifest?.records.map((record) => <details className="about-snapshot" key={record.id}>
         <summary>{record.title} · {record.feature_count.toLocaleString()} 筆</summary>
         <p>{snapshotPeriodText(record)}。{record.period !== null && <>來源更新時間：{record.source_updated_at ?? '未提供'}。</>}</p>
@@ -40,10 +40,10 @@ export default function AboutDialog({ open, grid, coverage, need, supplemental, 
       </details>) ?? <p>來源目錄載入中…</p>}
       {!grid || !m ? <p>載入中…</p> : (
         <>
-          <p>本頁呈現臺北市公車路網、捷運路網、重要地點，以及以約 {grid.cell_m} m 方格彙整的公車計畫班次。重點是看出「哪裡、什麼時段有多少班公車經過」，不是實際載客量。</p>
+          <p>本頁呈現{m.scope_city_codes ? '北北基' : '臺北市'}公車路網、捷運路網、重要地點，以及以約 {grid.cell_m} m 方格彙整的公車計畫班次。重點是看出「哪裡、什麼時段有多少班公車經過」，不是實際載客量。</p>
           <h3>來源</h3>
           <ul>
-            <li>公車路線、站牌、班表：{m.source}，來源時間 {m.source_data_time}</li>
+            <li>公車路線、站牌、班表：{m.source}，來源時間 {m.source_data_time ?? '未提供（各 TDX 端點時間不同）'}</li>
             <li>行政區界：內政部國土測繪中心（map-data/admin）</li>
             <li>捷運路線與車站、主要道路、重要地點：© OpenStreetMap contributors（Geofabrik 快照，map-data/osm、map-data/traffic-focus）</li>
             <li>社會住宅：臺北市都市發展局社宅 API（map-data/traffic-focus）</li>
