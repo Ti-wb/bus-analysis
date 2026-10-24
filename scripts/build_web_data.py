@@ -247,6 +247,38 @@ def main():
         stations.append({"type": "Feature", "properties": {"name": props["name"]}, "geometry": rounded(geometry)})
     write("mrt_stations.geojson", collection(stations, {**osm_meta, "selection": "OSM railway_station within about 80 m of a selected metro line; deduplicated by name"}))
 
+    # Important places: OSM demand candidates and official social-housing projects.
+    places = []
+    osm_places = read(MAP / "traffic-focus/osm/candidates.geojson")
+    for feature in osm_places["features"]:
+        p = feature["properties"]
+        places.append({
+            "type": "Feature",
+            "properties": {"id": p["candidate_id"], "name": p["name"], "category": p["category"], "district": p["district_name"], "source": "OSM"},
+            "geometry": rounded(shape(feature["geometry"])),
+        })
+    housing = read(MAP / "traffic-focus/housing/candidates.geojson")
+    for feature in housing["features"]:
+        p = feature["properties"]
+        places.append({
+            "type": "Feature",
+            "properties": {
+                "id": p["candidate_id"],
+                "name": p["name"],
+                "category": p["category"],
+                "district": p["district_name"],
+                "source": "臺北市都市發展局社宅 API",
+                "planned_households": p["planned_households"],
+                "progress": p["project_progress"],
+            },
+            "geometry": rounded(shape(feature["geometry"])),
+        })
+    write("places.geojson", collection(places, {
+        "source": ["map-data/traffic-focus/osm/candidates.geojson", "map-data/traffic-focus/housing/candidates.geojson"],
+        "osm_source_period": osm_places["metadata"]["source_period"],
+        "limitations": "設施候選位置，不是出入口，也不是已驗證的人流排名；OSM 同一設施可能有多個標記，兩個來源未去重。",
+    }))
+
     # Bus network and planned departures.
     routes = read(FEEDS / "routes.json")["records"]
     route_names = {r["route_id"]: r["route_names_zh"][0] for r in routes}

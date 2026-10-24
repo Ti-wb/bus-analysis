@@ -26,8 +26,24 @@ const LAYER_GROUPS = {
   routes: ['bus-routes'],
   stops: ['bus-stops'],
   mrt: ['mrt-lines-casing', 'mrt-lines', 'mrt-stations'],
+  places: ['places'],
 };
-const HOVER_LAYERS = ['bus-stops', 'mrt-stations', 'bus-routes', 'mrt-lines', 'grid-fill', 'grid-hatch'];
+// Important-place categories from map-data/traffic-focus. Named landuse areas are unverified
+// candidates, so they start hidden.
+const PLACE_CATEGORIES = [
+  { key: 'education', label: '學校', color: '#d9822b', members: ['education'], on: true },
+  { key: 'hospital', label: '醫院', color: '#d64545', members: ['hospital'], on: true },
+  { key: 'shopping', label: '商場市場', color: '#c2549d', members: ['shopping'], on: true },
+  { key: 'social_housing', label: '社會住宅', color: '#8c5a2b', members: ['social_housing', 'ancillary_facility'], on: true },
+  { key: 'government', label: '市政司法', color: '#4b5563', members: ['government'], on: true },
+  { key: 'transport', label: '轉運設施', color: '#3d5a80', members: ['transport'], on: false },
+  { key: 'culture_sports', label: '文教運動', color: '#7b61c9', members: ['culture_sports'], on: false },
+  { key: 'recreation', label: '公園遊憩', color: '#4c9a52', members: ['recreation'], on: false },
+  { key: 'residential', label: '住宅區候選', color: '#9a8f80', members: ['residential'], on: false },
+  { key: 'employment', label: '商業產業候選', color: '#8d6e63', members: ['employment'], on: false },
+];
+const PLACE_BY_CATEGORY = Object.fromEntries(PLACE_CATEGORIES.flatMap((c) => c.members.map((m) => [m, c])));
+const HOVER_LAYERS = ['places', 'bus-stops', 'mrt-stations', 'bus-routes', 'mrt-lines', 'grid-fill', 'grid-hatch'];
 
 const state = readHash();
 const grids = {};
@@ -68,7 +84,7 @@ map.on('load', async () => {
   map.resize();
   let data;
   try {
-    const names = ['roads', 'districts', 'taipei_boundary', 'bus_routes', 'bus_stops', 'mrt_lines', 'mrt_stations', 'district_labels'];
+    const names = ['roads', 'districts', 'taipei_boundary', 'bus_routes', 'bus_stops', 'mrt_lines', 'mrt_stations', 'district_labels', 'places'];
     const [docs] = await Promise.all([Promise.all(names.map((n) => loadJSON(`${n}.geojson`))), loadGrid(state.cell)]);
     data = Object.fromEntries(names.map((n, i) => [n, docs[i]]));
   } catch (error) {
@@ -198,6 +214,33 @@ function addNetworkLayers(data) {
       'circle-stroke-width': 1.4,
     },
   });
+
+  map.addSource('places', { type: 'geojson', data: data.places });
+  map.addLayer({
+    id: 'places',
+    type: 'circle',
+    source: 'places',
+    paint: {
+      'circle-color': ['match', ['get', 'category'], ...Object.entries(PLACE_BY_CATEGORY).flatMap(([m, c]) => [m, c.color]), '#888888'],
+      // Social housing scales with planned households; other places only with zoom.
+      'circle-radius': ['interpolate', ['linear'], ['zoom'],
+        10, ['case', ['has', 'planned_households'], ['interpolate', ['linear'], ['coalesce', ['get', 'planned_households'], 0], 0, 2.5, 1500, 6], 2.5],
+        15, ['case', ['has', 'planned_households'], ['interpolate', ['linear'], ['coalesce', ['get', 'planned_households'], 0], 0, 6, 1500, 14], 6]],
+      'circle-stroke-color': '#ffffff',
+      'circle-stroke-width': ['interpolate', ['linear'], ['zoom'], 10, 0.8, 15, 1.6],
+    },
+  });
+}
+
+function placeFilter() {
+  const members = PLACE_CATEGORIES.filter((c) => state.places.has(c.key)).flatMap((c) => c.members);
+  return ['in', ['get', 'category'], ['literal', members]];
+}
+
+function renderPlaceChips() {
+  const box = $('#place-chips');
+  box.hidden = !state.layers.has('places');
+  box.innerHTML = PLACE_CATEGORIES.map((c) => `<button class="place-chip${state.places.has(c.key) ? ' is-on' : ''}" data-place="${c.key}" style="--c:${c.color}"><i></i>${c.label}</button>`).join('');
 }
 
 function addHatchPattern() {
@@ -261,6 +304,8 @@ function render() {
   for (const [group, layers] of Object.entries(LAYER_GROUPS)) {
     for (const id of layers) map.setLayoutProperty(id, 'visibility', state.layers.has(group) ? 'visible' : 'none');
   }
+  map.setFilter('places', placeFilter());
+  renderPlaceChips();
   document.querySelectorAll('[data-layer]').forEach((el) => { el.checked = state.layers.has(el.dataset.layer); });
   document.querySelectorAll('[data-day]').forEach((el) => el.classList.toggle('is-active', el.dataset.day === state.day));
   document.querySelectorAll('[data-cell]').forEach((el) => el.classList.toggle('is-active', Number(el.dataset.cell) === state.cell));
@@ -290,6 +335,14 @@ function bindControls() {
     else state.layers.delete(el.dataset.layer);
     render();
   }));
+  $('#place-chips').addEventListener('click', (e) => {
+    const chip = e.target.closest('[data-place]');
+    if (!chip) return;
+    const key = chip.dataset.place;
+    if (state.places.has(key)) state.places.delete(key);
+    else state.places.add(key);
+    render();
+  });
   document.querySelectorAll('[data-day]').forEach((el) => el.addEventListener('click', () => {
     state.day = el.dataset.day;
     render();
@@ -364,6 +417,8 @@ function tooltipHtml(feature) {
       return `<b>${p.name}</b><br>軌道車站`;
     case 'mrt-lines':
       return `<b>${p.name}</b>`;
+    case 'places':
+      return placeHtml(p);
     case 'bus-routes':
       return `<b>${p.name}</b><br>平日計畫發車 ${p.weekday_departures ?? '無班表'} 班 · 點選查看`;
     default: {
@@ -381,6 +436,13 @@ function tooltipHtml(feature) {
       return lines.join('<br>');
     }
   }
+}
+
+function placeHtml(p) {
+  const lines = [`<b>${p.name ?? '（未命名）'}</b>`, `${PLACE_BY_CATEGORY[p.category]?.label ?? p.category} · ${p.district ?? ''}`];
+  if (p.planned_households !== undefined) lines.push(`規劃 ${p.planned_households ?? '—'} 戶 · ${p.progress ?? ''}`);
+  lines.push(`<span class="warn">候選位置，非出入口、不代表人流</span>`);
+  return lines.join('<br>');
 }
 
 function format(value) {
@@ -414,6 +476,13 @@ function buildSearchIndex(data) {
   searchIndex = [
     ...data.district_labels.features.map((f) => ({ name: `${f.properties.name}區`, kind: '行政區', at: point(f), zoom: 13 })),
     ...data.mrt_stations.features.map((f) => ({ name: f.properties.name, kind: '軌道車站', at: point(f), zoom: 15.5 })),
+    ...data.places.features.filter((f) => f.properties.name).map((f) => ({
+      name: f.properties.name,
+      kind: PLACE_BY_CATEGORY[f.properties.category]?.label ?? '地點',
+      place: PLACE_BY_CATEGORY[f.properties.category]?.key,
+      at: point(f),
+      zoom: 16,
+    })),
     ...data.bus_stops.features.map((f) => ({ name: f.properties.name, kind: `站牌 · ${f.properties.route_count} 線`, at: point(f), zoom: 16.5 })),
   ];
   const input = $('#search');
@@ -422,6 +491,10 @@ function buildSearchIndex(data) {
   const choose = (item) => {
     if (!item) return;
     if (item.kind.startsWith('站牌')) state.layers.add('stops');
+    if (item.place) {
+      state.layers.add('places');
+      state.places.add(item.place);
+    }
     render();
     map.flyTo({ center: item.at, zoom: item.zoom });
     input.value = item.name;
@@ -497,7 +570,10 @@ function readHash() {
     day: DAY_LABELS[params.get('day')] ? params.get('day') : 'weekday',
     hour: Number.isInteger(hour) && params.has('h') && hour >= 0 && hour <= ALL_DAY ? hour : 8,
     cell: CELL_SIZES.includes(Number(params.get('cell'))) ? Number(params.get('cell')) : 500,
-    layers: new Set(params.has('layers') ? params.get('layers').split(',').filter((l) => LAYER_GROUPS[l]) : ['grid', 'routes', 'mrt']),
+    layers: new Set(params.has('layers') ? params.get('layers').split(',').filter((l) => LAYER_GROUPS[l]) : ['grid', 'routes', 'mrt', 'places']),
+    places: new Set(params.has('places')
+      ? params.get('places').split(',').filter((k) => PLACE_CATEGORIES.some((c) => c.key === k))
+      : PLACE_CATEGORIES.filter((c) => c.on).map((c) => c.key)),
     center: center.length === 2 && center.every(Number.isFinite) ? center : [121.545, 25.06],
     zoom: Number(params.get('z')) || 11.6,
   };
@@ -510,6 +586,7 @@ function writeHash() {
     h: state.hour,
     cell: state.cell,
     layers: [...state.layers].join(','),
+    places: [...state.places].join(','),
     z: map.getZoom().toFixed(2),
     c: `${c.lng.toFixed(4)},${c.lat.toFixed(4)}`,
   });

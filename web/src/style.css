@@ -93,6 +93,13 @@ h1, h2, h3, p { margin: 0; }
 .explainer.is-collapsed p { display: none; }
 .explainer .icon-btn { border: 0; font-size: 16px; }
 
+.swatch-place { width: 10px; height: 10px; border-radius: 50%; margin: 0 4px; background: conic-gradient(#d9822b 0 25%, #d64545 0 50%, #c2549d 0 75%, #8c5a2b 0); }
+.place-chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 4px 0 2px 26px; }
+.place-chips[hidden] { display: none; }
+.place-chip { display: inline-flex; align-items: center; gap: 5px; border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 3px 9px; font-size: 12px; color: var(--muted); }
+.place-chip i { width: 8px; height: 8px; border-radius: 50%; background: var(--c); opacity: 0.35; }
+.place-chip.is-on { border-color: var(--c); color: var(--ink); }
+.place-chip.is-on i { opacity: 1; }
 .segmented-2 { grid-template-columns: repeat(2, 1fr); }
 .loading { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 4; padding: 10px 16px; background: var(--card); border-radius: 10px; box-shadow: var(--shadow); font-size: 14px; color: var(--muted); }
 .loading[hidden] { display: none; }

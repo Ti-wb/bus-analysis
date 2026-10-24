@@ -24,6 +24,7 @@ npm --prefix web run build
 | 行政區界、主要道路 | `map-data/admin`、`map-data/osm` | 裁到臺北市周邊範圍並簡化線形；道路以白線疊在網格上 |
 | 公車路線、站牌 | `data/taipei_feeds` 的 `route_shapes`、`stop_locations`、`route_stop_sequences` | 線形簡化；站牌附路線清單與平日計畫發車數 |
 | 捷運路網、車站 | `map-data/osm` 的 `railways`、`transport` | 只取具名的捷運與輕軌線，排除機廠、測試軌；車站取路線約 80 m 內的軌道車站 |
+| 重要地點 | `map-data/traffic-focus` 的 OSM 設施候選與臺北市社宅 | 依類別上色、可逐類開關；住宅區、商業產業等具名土地使用候選預設隱藏；社宅點大小依規劃戶數。位置是候選標記，不是出入口，也不代表人流 |
 | 公車班次網格 | `fixed_schedules`、`headway_schedules` 加上站序 | 見下節 |
 
 ## 班次網格
