@@ -4,20 +4,20 @@
   "metadata": {
     "reviewer_agent": "/root",
     "review_script_author_agent": "/root/crosswalk",
-    "reviewed_at": "2026-10-24T12:40:16+08:00",
+    "reviewed_at": "2026-10-24T12:45:56+08:00",
     "independent_review_status": "pass_with_limitations",
     "producer_module_imported": false,
     "method": "Independent raw JSON parsing and explicit official-schema field mapping; every retained model and station/service/time row compared without calling producer normalize.",
     "review_script": "scripts/review_tdx_bus_travel_time.py",
     "official_specification": "raw_data/tdx_bus_travel_time/specifications/travel_time.json",
     "review_population": {
-      "successful_endpoint_responses": 205,
-      "models": 662,
-      "station_time_rows": 534700,
+      "successful_endpoint_responses": 225,
+      "models": 710,
+      "station_time_rows": 575460,
       "source_unavailable_responses": 1,
-      "missing_run_time_rows": 13945,
+      "missing_run_time_rows": 15006,
       "taipei_route_reference_rows": 416,
-      "taipei_route_uids_with_retained_travel_time": 202
+      "taipei_route_uids_with_retained_travel_time": 222
     },
     "terms_url_checked": "https://tdx.transportdata.tw/term",
     "terms_scope": "all retained observations, catalog, coverage, delivery, manifest and usage document",
@@ -26,30 +26,30 @@
       "delivery_endpoint_count_including_reuse": 421,
       "new_business_requests_including_route_reference": 20,
       "latest_batch_attempted_source_ids": [
-        "Taipei_%E7%B4%853%E5%8D%80",
-        "Taipei_250",
-        "Taipei_683",
-        "Taipei_%E5%8D%97%E8%BB%9F%E9%80%9A%E5%8B%A4%E5%B0%88%E8%BB%8A%E5%8C%97%E6%8A%95%E7%B7%9A",
-        "Taipei_%E5%B0%8F9%E5%8D%80",
-        "Taipei_%E7%B4%8555%E5%8D%80",
-        "Taipei_907%E9%80%9A%E5%8B%A4",
-        "Taipei_617",
-        "Taipei_%E5%B8%82%E6%B0%91%E5%B0%8F%E5%B7%B45",
-        "Taipei_222",
-        "Taipei_%E5%B0%8F8",
-        "Taipei_%E5%B0%8F25",
-        "Taipei_68",
-        "Taipei_282",
-        "Taipei_%E8%97%8D7",
-        "Taipei_304%E9%87%8D%E6%85%B6",
-        "Taipei_%E6%9D%B1%E7%92%B0%E5%B9%B9%E7%B7%9A",
-        "Taipei_%E9%80%9A%E5%8B%A413",
-        "Taipei_265%E7%B6%93%E4%B8%AD%E5%A4%AE%E8%B7%AF",
-        "Taipei_907"
+        "Taipei_%E6%A3%9512",
+        "Taipei_685",
+        "Taipei_%E7%B4%857",
+        "Taipei_556",
+        "Taipei_675",
+        "Taipei_%E6%A3%9519",
+        "Taipei_%E9%80%9A%E5%8B%A47",
+        "Taipei_%E9%80%9A%E5%8B%A412",
+        "Taipei_%E6%B0%91%E6%AC%8A%E5%B9%B9%E7%B7%9A",
+        "Taipei_663",
+        "Taipei_235",
+        "Taipei_%E7%B4%8531",
+        "Taipei_672",
+        "Taipei_0%E6%9D%B1",
+        "Taipei_0%E5%8D%97",
+        "Taipei_33",
+        "Taipei_227%E5%8D%80",
+        "Taipei_208%E7%9B%B4",
+        "Taipei_%E7%B6%A017",
+        "Taipei_260%E5%8D%80%E9%A0%90"
       ],
-      "cumulative_retained_travel_response_count": 205,
+      "cumulative_retained_travel_response_count": 225,
       "reused_responses": 1,
-      "not_requested_scopes": 213,
+      "not_requested_scopes": 193,
       "not_requested_scopes_are_failures": false,
       "stage_status": "partial_bounded_acquisition",
       "stop_reason_matches_manifest": true
@@ -57,12 +57,12 @@
     "taipei_endpoint_acquisition": {
       "reference_route_count": 416,
       "unique_endpoint_count": 416,
-      "attempted_endpoint_count": 203,
-      "successful_endpoint_count": 202,
+      "attempted_endpoint_count": 223,
+      "successful_endpoint_count": 222,
       "source_unavailable_endpoint_count": 0,
       "technical_failure_endpoint_count": 1,
-      "not_requested_endpoint_count": 213,
-      "reference_route_uids_retained_count": 202,
+      "not_requested_endpoint_count": 193,
+      "reference_route_uids_retained_count": 222,
       "all_reference_endpoints_attempted": false
     },
     "limitations": [
@@ -48717,6 +48717,4014 @@
               "23:00"
             ]
           ]
+        }
+      ],
+      "source_fields_periods_ids_direction_service_tags_and_intervals_preserved": true,
+      "missing_values_retained_as_null": true
+    },
+    {
+      "source_id": "Taipei_%E6%A3%9512",
+      "status": "pass_with_limitations",
+      "source": {
+        "source_id": "Taipei_%E6%A3%9512",
+        "kind": "travel_time",
+        "city": "Taipei",
+        "route_name": "棕12",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+        "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/%E6%A3%9512?%24format=JSON",
+        "status": "downloaded",
+        "raw_file": "raw_data/tdx_bus_travel_time/responses/Taipei_%E6%A3%9512.json.gz",
+        "downloaded_at": "2026-10-24T12:40:27+08:00",
+        "source_updated_at": null,
+        "bytes": 318095,
+        "http_status": 200,
+        "content_type": "application/json; charset=utf-8",
+        "usage_headers": {
+          "x-ratelimit-limit-minute": "5",
+          "x-ratelimit-remaining-minute": "4"
+        },
+        "storage_encoding": "gzip",
+        "stored_bytes": 13905
+      },
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_%E6%A3%9512.json.gz",
+      "source_model_count": 2,
+      "source_station_time_row_count": 2585,
+      "raw_fields_compared_pair_rows": 2585,
+      "missing_run_time_count": 75,
+      "missing_run_time_nonfirst_sequence_count": 0,
+      "missing_from_stop_id_count": 75,
+      "missing_to_stop_id_count": 0,
+      "known_run_time_sum_seconds_audit_only": 197896.0,
+      "duplicate_grain_count": 0,
+      "effective_periods": [
+        [
+          "2026-10-01",
+          "2026-10-31"
+        ]
+      ],
+      "direction_model_counts": {
+        "0": 1,
+        "1": 1
+      },
+      "models": [
+        {
+          "route_uid": "TPE10751",
+          "sub_route_uid": "TPE10751",
+          "direction": 0,
+          "station_time_rows": 1369,
+          "service_tag_row_counts": {
+            "0": 629,
+            "1": 740
+          },
+          "observed_time_intervals": [
+            [
+              "0:00",
+              "1:00"
+            ],
+            [
+              "5:00",
+              "6:00"
+            ],
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ],
+            [
+              "20:00",
+              "21:00"
+            ],
+            [
+              "21:00",
+              "22:00"
+            ],
+            [
+              "22:00",
+              "23:00"
+            ],
+            [
+              "23:00",
+              "24:00"
+            ]
+          ]
+        },
+        {
+          "route_uid": "TPE10751",
+          "sub_route_uid": "TPE10751",
+          "direction": 1,
+          "station_time_rows": 1216,
+          "service_tag_row_counts": {
+            "0": 608,
+            "1": 608
+          },
+          "observed_time_intervals": [
+            [
+              "0:00",
+              "1:00"
+            ],
+            [
+              "1:00",
+              "2:00"
+            ],
+            [
+              "5:00",
+              "6:00"
+            ],
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ],
+            [
+              "20:00",
+              "21:00"
+            ],
+            [
+              "21:00",
+              "22:00"
+            ]
+          ]
+        }
+      ],
+      "source_fields_periods_ids_direction_service_tags_and_intervals_preserved": true,
+      "missing_values_retained_as_null": true
+    },
+    {
+      "source_id": "Taipei_685",
+      "status": "pass_with_limitations",
+      "source": {
+        "source_id": "Taipei_685",
+        "kind": "travel_time",
+        "city": "Taipei",
+        "route_name": "685",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+        "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/685?%24format=JSON",
+        "status": "downloaded",
+        "raw_file": "raw_data/tdx_bus_travel_time/responses/Taipei_685.json.gz",
+        "downloaded_at": "2026-10-24T12:40:42+08:00",
+        "source_updated_at": null,
+        "bytes": 843112,
+        "http_status": 200,
+        "content_type": "application/json; charset=utf-8",
+        "usage_headers": {
+          "x-ratelimit-remaining-minute": "3",
+          "x-ratelimit-limit-minute": "5"
+        },
+        "storage_encoding": "gzip",
+        "stored_bytes": 36821
+      },
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_685.json.gz",
+      "source_model_count": 4,
+      "source_station_time_row_count": 6828,
+      "raw_fields_compared_pair_rows": 6828,
+      "missing_run_time_count": 150,
+      "missing_run_time_nonfirst_sequence_count": 0,
+      "missing_from_stop_id_count": 150,
+      "missing_to_stop_id_count": 0,
+      "known_run_time_sum_seconds_audit_only": 603590.0,
+      "duplicate_grain_count": 0,
+      "effective_periods": [
+        [
+          "2026-10-01",
+          "2026-10-31"
+        ]
+      ],
+      "direction_model_counts": {
+        "0": 2,
+        "1": 2
+      },
+      "models": [
+        {
+          "route_uid": "TPE10811",
+          "sub_route_uid": "TPE10811",
+          "direction": 0,
+          "station_time_rows": 1672,
+          "service_tag_row_counts": {
+            "0": 836,
+            "1": 836
+          },
+          "observed_time_intervals": [
+            [
+              "5:00",
+              "6:00"
+            ],
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ],
+            [
+              "20:00",
+              "21:00"
+            ],
+            [
+              "21:00",
+              "22:00"
+            ],
+            [
+              "22:00",
+              "23:00"
+            ],
+            [
+              "23:00",
+              "24:00"
+            ]
+          ]
+        },
+        {
+          "route_uid": "TPE10811",
+          "sub_route_uid": "TPE10811",
+          "direction": 1,
+          "station_time_rows": 1880,
+          "service_tag_row_counts": {
+            "0": 940,
+            "1": 940
+          },
+          "observed_time_intervals": [
+            [
+              "0:00",
+              "1:00"
+            ],
+            [
+              "5:00",
+              "6:00"
+            ],
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ],
+            [
+              "20:00",
+              "21:00"
+            ],
+            [
+              "21:00",
+              "22:00"
+            ],
+            [
+              "22:00",
+              "23:00"
+            ],
+            [
+              "23:00",
+              "24:00"
+            ]
+          ]
+        },
+        {
+          "route_uid": "TPE10811",
+          "sub_route_uid": "TPE159203",
+          "direction": 0,
+          "station_time_rows": 1584,
+          "service_tag_row_counts": {
+            "0": 792,
+            "1": 792
+          },
+          "observed_time_intervals": [
+            [
+              "5:00",
+              "6:00"
+            ],
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ],
+            [
+              "20:00",
+              "21:00"
+            ],
+            [
+              "21:00",
+              "22:00"
+            ],
+            [
+              "22:00",
+              "23:00"
+            ]
+          ]
+        },
+        {
+          "route_uid": "TPE10811",
+          "sub_route_uid": "TPE159203",
+          "direction": 1,
+          "station_time_rows": 1692,
+          "service_tag_row_counts": {
+            "0": 846,
+            "1": 846
+          },
+          "observed_time_intervals": [
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ],
+            [
+              "20:00",
+              "21:00"
+            ],
+            [
+              "21:00",
+              "22:00"
+            ],
+            [
+              "22:00",
+              "23:00"
+            ],
+            [
+              "23:00",
+              "24:00"
+            ]
+          ]
+        }
+      ],
+      "source_fields_periods_ids_direction_service_tags_and_intervals_preserved": true,
+      "missing_values_retained_as_null": true
+    },
+    {
+      "source_id": "Taipei_%E7%B4%857",
+      "status": "pass_with_limitations",
+      "source": {
+        "source_id": "Taipei_%E7%B4%857",
+        "kind": "travel_time",
+        "city": "Taipei",
+        "route_name": "紅7",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+        "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/%E7%B4%857?%24format=JSON",
+        "status": "downloaded",
+        "raw_file": "raw_data/tdx_bus_travel_time/responses/Taipei_%E7%B4%857.json.gz",
+        "downloaded_at": "2026-10-24T12:40:58+08:00",
+        "source_updated_at": null,
+        "bytes": 135400,
+        "http_status": 200,
+        "content_type": "application/json; charset=utf-8",
+        "usage_headers": {
+          "x-ratelimit-remaining-minute": "2",
+          "x-ratelimit-limit-minute": "5"
+        },
+        "storage_encoding": "gzip",
+        "stored_bytes": 6192
+      },
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_%E7%B4%857.json.gz",
+      "source_model_count": 2,
+      "source_station_time_row_count": 1098,
+      "raw_fields_compared_pair_rows": 1098,
+      "missing_run_time_count": 50,
+      "missing_run_time_nonfirst_sequence_count": 0,
+      "missing_from_stop_id_count": 50,
+      "missing_to_stop_id_count": 0,
+      "known_run_time_sum_seconds_audit_only": 95526.0,
+      "duplicate_grain_count": 0,
+      "effective_periods": [
+        [
+          "2026-10-01",
+          "2026-10-31"
+        ]
+      ],
+      "direction_model_counts": {
+        "0": 1,
+        "1": 1
+      },
+      "models": [
+        {
+          "route_uid": "TPE11201",
+          "sub_route_uid": "TPE11201",
+          "direction": 0,
+          "station_time_rows": 552,
+          "service_tag_row_counts": {
+            "0": 230,
+            "1": 322
+          },
+          "observed_time_intervals": [
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ]
+          ]
+        },
+        {
+          "route_uid": "TPE11201",
+          "sub_route_uid": "TPE11201",
+          "direction": 1,
+          "station_time_rows": 546,
+          "service_tag_row_counts": {
+            "0": 231,
+            "1": 315
+          },
+          "observed_time_intervals": [
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ],
+            [
+              "20:00",
+              "21:00"
+            ]
+          ]
+        }
+      ],
+      "source_fields_periods_ids_direction_service_tags_and_intervals_preserved": true,
+      "missing_values_retained_as_null": true
+    },
+    {
+      "source_id": "Taipei_556",
+      "status": "pass_with_limitations",
+      "source": {
+        "source_id": "Taipei_556",
+        "kind": "travel_time",
+        "city": "Taipei",
+        "route_name": "556",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+        "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/556?%24format=JSON",
+        "status": "downloaded",
+        "raw_file": "raw_data/tdx_bus_travel_time/responses/Taipei_556.json.gz",
+        "downloaded_at": "2026-10-24T12:41:13+08:00",
+        "source_updated_at": null,
+        "bytes": 205319,
+        "http_status": 200,
+        "content_type": "application/json; charset=utf-8",
+        "usage_headers": {
+          "x-ratelimit-remaining-minute": "4",
+          "x-ratelimit-limit-minute": "5"
+        },
+        "storage_encoding": "gzip",
+        "stored_bytes": 8867
+      },
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_556.json.gz",
+      "source_model_count": 2,
+      "source_station_time_row_count": 1637,
+      "raw_fields_compared_pair_rows": 1637,
+      "missing_run_time_count": 29,
+      "missing_run_time_nonfirst_sequence_count": 0,
+      "missing_from_stop_id_count": 29,
+      "missing_to_stop_id_count": 0,
+      "known_run_time_sum_seconds_audit_only": 155605.0,
+      "duplicate_grain_count": 0,
+      "effective_periods": [
+        [
+          "2026-10-01",
+          "2026-10-31"
+        ]
+      ],
+      "direction_model_counts": {
+        "0": 1,
+        "1": 1
+      },
+      "models": [
+        {
+          "route_uid": "TPE15172",
+          "sub_route_uid": "TPE151720",
+          "direction": 0,
+          "station_time_rows": 825,
+          "service_tag_row_counts": {
+            "1": 825
+          },
+          "observed_time_intervals": [
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ],
+            [
+              "20:00",
+              "21:00"
+            ]
+          ]
+        },
+        {
+          "route_uid": "TPE15172",
+          "sub_route_uid": "TPE151720",
+          "direction": 1,
+          "station_time_rows": 812,
+          "service_tag_row_counts": {
+            "1": 812
+          },
+          "observed_time_intervals": [
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ],
+            [
+              "20:00",
+              "21:00"
+            ]
+          ]
+        }
+      ],
+      "source_fields_periods_ids_direction_service_tags_and_intervals_preserved": true,
+      "missing_values_retained_as_null": true
+    },
+    {
+      "source_id": "Taipei_675",
+      "status": "pass_with_limitations",
+      "source": {
+        "source_id": "Taipei_675",
+        "kind": "travel_time",
+        "city": "Taipei",
+        "route_name": "675",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+        "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/675?%24format=JSON",
+        "status": "downloaded",
+        "raw_file": "raw_data/tdx_bus_travel_time/responses/Taipei_675.json.gz",
+        "downloaded_at": "2026-10-24T12:41:28+08:00",
+        "source_updated_at": null,
+        "bytes": 141758,
+        "http_status": 200,
+        "content_type": "application/json; charset=utf-8",
+        "usage_headers": {
+          "x-ratelimit-limit-minute": "5",
+          "x-ratelimit-remaining-minute": "3"
+        },
+        "storage_encoding": "gzip",
+        "stored_bytes": 6580
+      },
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_675.json.gz",
+      "source_model_count": 2,
+      "source_station_time_row_count": 1140,
+      "raw_fields_compared_pair_rows": 1140,
+      "missing_run_time_count": 30,
+      "missing_run_time_nonfirst_sequence_count": 0,
+      "missing_from_stop_id_count": 30,
+      "missing_to_stop_id_count": 0,
+      "known_run_time_sum_seconds_audit_only": 140570.0,
+      "duplicate_grain_count": 0,
+      "effective_periods": [
+        [
+          "2026-10-01",
+          "2026-10-31"
+        ]
+      ],
+      "direction_model_counts": {
+        "0": 1,
+        "1": 1
+      },
+      "models": [
+        {
+          "route_uid": "TPE15512",
+          "sub_route_uid": "TPE155120",
+          "direction": 0,
+          "station_time_rows": 585,
+          "service_tag_row_counts": {
+            "1": 585
+          },
+          "observed_time_intervals": [
+            [
+              "5:00",
+              "6:00"
+            ],
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ]
+          ]
+        },
+        {
+          "route_uid": "TPE15512",
+          "sub_route_uid": "TPE155120",
+          "direction": 1,
+          "station_time_rows": 555,
+          "service_tag_row_counts": {
+            "1": 555
+          },
+          "observed_time_intervals": [
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ],
+            [
+              "20:00",
+              "21:00"
+            ],
+            [
+              "21:00",
+              "22:00"
+            ]
+          ]
+        }
+      ],
+      "source_fields_periods_ids_direction_service_tags_and_intervals_preserved": true,
+      "missing_values_retained_as_null": true
+    },
+    {
+      "source_id": "Taipei_%E6%A3%9519",
+      "status": "pass_with_limitations",
+      "source": {
+        "source_id": "Taipei_%E6%A3%9519",
+        "kind": "travel_time",
+        "city": "Taipei",
+        "route_name": "棕19",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+        "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/%E6%A3%9519?%24format=JSON",
+        "status": "downloaded",
+        "raw_file": "raw_data/tdx_bus_travel_time/responses/Taipei_%E6%A3%9519.json.gz",
+        "downloaded_at": "2026-10-24T12:41:44+08:00",
+        "source_updated_at": null,
+        "bytes": 119727,
+        "http_status": 200,
+        "content_type": "application/json; charset=utf-8",
+        "usage_headers": {
+          "x-ratelimit-remaining-minute": "2",
+          "x-ratelimit-limit-minute": "5"
+        },
+        "storage_encoding": "gzip",
+        "stored_bytes": 5723
+      },
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_%E6%A3%9519.json.gz",
+      "source_model_count": 2,
+      "source_station_time_row_count": 972,
+      "raw_fields_compared_pair_rows": 972,
+      "missing_run_time_count": 54,
+      "missing_run_time_nonfirst_sequence_count": 0,
+      "missing_from_stop_id_count": 54,
+      "missing_to_stop_id_count": 0,
+      "known_run_time_sum_seconds_audit_only": 88696.0,
+      "duplicate_grain_count": 0,
+      "effective_periods": [
+        [
+          "2026-10-01",
+          "2026-10-31"
+        ]
+      ],
+      "direction_model_counts": {
+        "0": 1,
+        "1": 1
+      },
+      "models": [
+        {
+          "route_uid": "TPE16153",
+          "sub_route_uid": "TPE155904",
+          "direction": 0,
+          "station_time_rows": 486,
+          "service_tag_row_counts": {
+            "0": 234,
+            "1": 252
+          },
+          "observed_time_intervals": [
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ]
+          ]
+        },
+        {
+          "route_uid": "TPE16153",
+          "sub_route_uid": "TPE155904",
+          "direction": 1,
+          "station_time_rows": 486,
+          "service_tag_row_counts": {
+            "0": 234,
+            "1": 252
+          },
+          "observed_time_intervals": [
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ]
+          ]
+        }
+      ],
+      "source_fields_periods_ids_direction_service_tags_and_intervals_preserved": true,
+      "missing_values_retained_as_null": true
+    },
+    {
+      "source_id": "Taipei_%E9%80%9A%E5%8B%A47",
+      "status": "pass_with_limitations",
+      "source": {
+        "source_id": "Taipei_%E9%80%9A%E5%8B%A47",
+        "kind": "travel_time",
+        "city": "Taipei",
+        "route_name": "通勤7",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+        "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/%E9%80%9A%E5%8B%A47?%24format=JSON",
+        "status": "downloaded",
+        "raw_file": "raw_data/tdx_bus_travel_time/responses/Taipei_%E9%80%9A%E5%8B%A47.json.gz",
+        "downloaded_at": "2026-10-24T12:41:59+08:00",
+        "source_updated_at": null,
+        "bytes": 6997,
+        "http_status": 200,
+        "content_type": "application/json; charset=utf-8",
+        "usage_headers": {
+          "x-ratelimit-remaining-minute": "1",
+          "x-ratelimit-limit-minute": "5"
+        },
+        "storage_encoding": "gzip",
+        "stored_bytes": 794
+      },
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_%E9%80%9A%E5%8B%A47.json.gz",
+      "source_model_count": 4,
+      "source_station_time_row_count": 34,
+      "raw_fields_compared_pair_rows": 34,
+      "missing_run_time_count": 8,
+      "missing_run_time_nonfirst_sequence_count": 0,
+      "missing_from_stop_id_count": 8,
+      "missing_to_stop_id_count": 0,
+      "known_run_time_sum_seconds_audit_only": 16008.0,
+      "duplicate_grain_count": 0,
+      "effective_periods": [
+        [
+          "2026-10-01",
+          "2026-10-31"
+        ]
+      ],
+      "direction_model_counts": {
+        "0": 2,
+        "1": 2
+      },
+      "models": [
+        {
+          "route_uid": "TPE17967",
+          "sub_route_uid": "TPE159542",
+          "direction": 0,
+          "station_time_rows": 8,
+          "service_tag_row_counts": {
+            "1": 8
+          },
+          "observed_time_intervals": [
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ]
+          ]
+        },
+        {
+          "route_uid": "TPE17967",
+          "sub_route_uid": "TPE159543",
+          "direction": 1,
+          "station_time_rows": 10,
+          "service_tag_row_counts": {
+            "1": 10
+          },
+          "observed_time_intervals": [
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ]
+          ]
+        },
+        {
+          "route_uid": "TPE17967",
+          "sub_route_uid": "TPE159630",
+          "direction": 0,
+          "station_time_rows": 6,
+          "service_tag_row_counts": {
+            "1": 6
+          },
+          "observed_time_intervals": [
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ]
+          ]
+        },
+        {
+          "route_uid": "TPE17967",
+          "sub_route_uid": "TPE159630",
+          "direction": 1,
+          "station_time_rows": 10,
+          "service_tag_row_counts": {
+            "1": 10
+          },
+          "observed_time_intervals": [
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ]
+          ]
+        }
+      ],
+      "source_fields_periods_ids_direction_service_tags_and_intervals_preserved": true,
+      "missing_values_retained_as_null": true
+    },
+    {
+      "source_id": "Taipei_%E9%80%9A%E5%8B%A412",
+      "status": "pass_with_limitations",
+      "source": {
+        "source_id": "Taipei_%E9%80%9A%E5%8B%A412",
+        "kind": "travel_time",
+        "city": "Taipei",
+        "route_name": "通勤12",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+        "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/%E9%80%9A%E5%8B%A412?%24format=JSON",
+        "status": "downloaded",
+        "raw_file": "raw_data/tdx_bus_travel_time/responses/Taipei_%E9%80%9A%E5%8B%A412.json.gz",
+        "downloaded_at": "2026-10-24T12:42:14+08:00",
+        "source_updated_at": null,
+        "bytes": 6627,
+        "http_status": 200,
+        "content_type": "application/json; charset=utf-8",
+        "usage_headers": {
+          "x-ratelimit-limit-minute": "5",
+          "x-ratelimit-remaining-minute": "4"
+        },
+        "storage_encoding": "gzip",
+        "stored_bytes": 847
+      },
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_%E9%80%9A%E5%8B%A412.json.gz",
+      "source_model_count": 1,
+      "source_station_time_row_count": 48,
+      "raw_fields_compared_pair_rows": 48,
+      "missing_run_time_count": 2,
+      "missing_run_time_nonfirst_sequence_count": 0,
+      "missing_from_stop_id_count": 2,
+      "missing_to_stop_id_count": 0,
+      "known_run_time_sum_seconds_audit_only": 5978.0,
+      "duplicate_grain_count": 0,
+      "effective_periods": [
+        [
+          "2026-10-01",
+          "2026-10-31"
+        ]
+      ],
+      "direction_model_counts": {
+        "0": 1
+      },
+      "models": [
+        {
+          "route_uid": "TPE18199",
+          "sub_route_uid": "TPE160073",
+          "direction": 0,
+          "station_time_rows": 48,
+          "service_tag_row_counts": {
+            "1": 48
+          },
+          "observed_time_intervals": [
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ]
+          ]
+        }
+      ],
+      "source_fields_periods_ids_direction_service_tags_and_intervals_preserved": true,
+      "missing_values_retained_as_null": true
+    },
+    {
+      "source_id": "Taipei_%E6%B0%91%E6%AC%8A%E5%B9%B9%E7%B7%9A",
+      "status": "pass_with_limitations",
+      "source": {
+        "source_id": "Taipei_%E6%B0%91%E6%AC%8A%E5%B9%B9%E7%B7%9A",
+        "kind": "travel_time",
+        "city": "Taipei",
+        "route_name": "民權幹線",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+        "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/%E6%B0%91%E6%AC%8A%E5%B9%B9%E7%B7%9A?%24format=JSON",
+        "status": "downloaded",
+        "raw_file": "raw_data/tdx_bus_travel_time/responses/Taipei_%E6%B0%91%E6%AC%8A%E5%B9%B9%E7%B7%9A.json.gz",
+        "downloaded_at": "2026-10-24T12:42:30+08:00",
+        "source_updated_at": null,
+        "bytes": 370340,
+        "http_status": 200,
+        "content_type": "application/json; charset=utf-8",
+        "usage_headers": {
+          "x-ratelimit-remaining-minute": "3",
+          "x-ratelimit-limit-minute": "5"
+        },
+        "storage_encoding": "gzip",
+        "stored_bytes": 16575
+      },
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_%E6%B0%91%E6%AC%8A%E5%B9%B9%E7%B7%9A.json.gz",
+      "source_model_count": 4,
+      "source_station_time_row_count": 2996,
+      "raw_fields_compared_pair_rows": 2996,
+      "missing_run_time_count": 82,
+      "missing_run_time_nonfirst_sequence_count": 0,
+      "missing_from_stop_id_count": 82,
+      "missing_to_stop_id_count": 0,
+      "known_run_time_sum_seconds_audit_only": 256970.0,
+      "duplicate_grain_count": 0,
+      "effective_periods": [
+        [
+          "2026-10-01",
+          "2026-10-31"
+        ]
+      ],
+      "direction_model_counts": {
+        "0": 2,
+        "1": 2
+      },
+      "models": [
+        {
+          "route_uid": "TPE10231",
+          "sub_route_uid": "TPE10231",
+          "direction": 0,
+          "station_time_rows": 1400,
+          "service_tag_row_counts": {
+            "0": 700,
+            "1": 700
+          },
+          "observed_time_intervals": [
+            [
+              "0:00",
+              "1:00"
+            ],
+            [
+              "5:00",
+              "6:00"
+            ],
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ],
+            [
+              "20:00",
+              "21:00"
+            ],
+            [
+              "21:00",
+              "22:00"
+            ],
+            [
+              "22:00",
+              "23:00"
+            ],
+            [
+              "23:00",
+              "24:00"
+            ]
+          ]
+        },
+        {
+          "route_uid": "TPE10231",
+          "sub_route_uid": "TPE10231",
+          "direction": 1,
+          "station_time_rows": 1596,
+          "service_tag_row_counts": {
+            "0": 798,
+            "1": 798
+          },
+          "observed_time_intervals": [
+            [
+              "0:00",
+              "1:00"
+            ],
+            [
+              "1:00",
+              "2:00"
+            ],
+            [
+              "5:00",
+              "6:00"
+            ],
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ],
+            [
+              "20:00",
+              "21:00"
+            ],
+            [
+              "21:00",
+              "22:00"
+            ],
+            [
+              "22:00",
+              "23:00"
+            ],
+            [
+              "23:00",
+              "24:00"
+            ]
+          ]
+        },
+        {
+          "route_uid": "TPE10231",
+          "sub_route_uid": "TPE162593",
+          "direction": 0,
+          "station_time_rows": 0,
+          "service_tag_row_counts": {},
+          "observed_time_intervals": []
+        },
+        {
+          "route_uid": "TPE10231",
+          "sub_route_uid": "TPE162594",
+          "direction": 1,
+          "station_time_rows": 0,
+          "service_tag_row_counts": {},
+          "observed_time_intervals": []
+        }
+      ],
+      "source_fields_periods_ids_direction_service_tags_and_intervals_preserved": true,
+      "missing_values_retained_as_null": true
+    },
+    {
+      "source_id": "Taipei_663",
+      "status": "pass_with_limitations",
+      "source": {
+        "source_id": "Taipei_663",
+        "kind": "travel_time",
+        "city": "Taipei",
+        "route_name": "663",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+        "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/663?%24format=JSON",
+        "status": "downloaded",
+        "raw_file": "raw_data/tdx_bus_travel_time/responses/Taipei_663.json.gz",
+        "downloaded_at": "2026-10-24T12:42:45+08:00",
+        "source_updated_at": null,
+        "bytes": 178597,
+        "http_status": 200,
+        "content_type": "application/json; charset=utf-8",
+        "usage_headers": {
+          "x-ratelimit-remaining-minute": "2",
+          "x-ratelimit-limit-minute": "5"
+        },
+        "storage_encoding": "gzip",
+        "stored_bytes": 7608
+      },
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_663.json.gz",
+      "source_model_count": 2,
+      "source_station_time_row_count": 1438,
+      "raw_fields_compared_pair_rows": 1438,
+      "missing_run_time_count": 25,
+      "missing_run_time_nonfirst_sequence_count": 0,
+      "missing_from_stop_id_count": 25,
+      "missing_to_stop_id_count": 0,
+      "known_run_time_sum_seconds_audit_only": 131081.0,
+      "duplicate_grain_count": 0,
+      "effective_periods": [
+        [
+          "2026-10-01",
+          "2026-10-31"
+        ]
+      ],
+      "direction_model_counts": {
+        "0": 1,
+        "1": 1
+      },
+      "models": [
+        {
+          "route_uid": "TPE10282",
+          "sub_route_uid": "TPE102820",
+          "direction": 0,
+          "station_time_rows": 684,
+          "service_tag_row_counts": {
+            "1": 684
+          },
+          "observed_time_intervals": [
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ]
+          ]
+        },
+        {
+          "route_uid": "TPE10282",
+          "sub_route_uid": "TPE102820",
+          "direction": 1,
+          "station_time_rows": 754,
+          "service_tag_row_counts": {
+            "1": 754
+          },
+          "observed_time_intervals": [
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ]
+          ]
+        }
+      ],
+      "source_fields_periods_ids_direction_service_tags_and_intervals_preserved": true,
+      "missing_values_retained_as_null": true
+    },
+    {
+      "source_id": "Taipei_235",
+      "status": "pass_with_limitations",
+      "source": {
+        "source_id": "Taipei_235",
+        "kind": "travel_time",
+        "city": "Taipei",
+        "route_name": "235",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+        "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/235?%24format=JSON",
+        "status": "downloaded",
+        "raw_file": "raw_data/tdx_bus_travel_time/responses/Taipei_235.json.gz",
+        "downloaded_at": "2026-10-24T12:43:00+08:00",
+        "source_updated_at": null,
+        "bytes": 636672,
+        "http_status": 200,
+        "content_type": "application/json; charset=utf-8",
+        "usage_headers": {
+          "x-ratelimit-limit-minute": "5",
+          "x-ratelimit-remaining-minute": "4"
+        },
+        "storage_encoding": "gzip",
+        "stored_bytes": 26452
+      },
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_235.json.gz",
+      "source_model_count": 2,
+      "source_station_time_row_count": 5158,
+      "raw_fields_compared_pair_rows": 5158,
+      "missing_run_time_count": 80,
+      "missing_run_time_nonfirst_sequence_count": 0,
+      "missing_from_stop_id_count": 80,
+      "missing_to_stop_id_count": 0,
+      "known_run_time_sum_seconds_audit_only": 425018.0,
+      "duplicate_grain_count": 0,
+      "effective_periods": [
+        [
+          "2026-10-01",
+          "2026-10-31"
+        ]
+      ],
+      "direction_model_counts": {
+        "0": 1,
+        "1": 1
+      },
+      "models": [
+        {
+          "route_uid": "TPE10283",
+          "sub_route_uid": "TPE10283",
+          "direction": 0,
+          "station_time_rows": 2470,
+          "service_tag_row_counts": {
+            "0": 1235,
+            "1": 1235
+          },
+          "observed_time_intervals": [
+            [
+              "5:00",
+              "6:00"
+            ],
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ],
+            [
+              "20:00",
+              "21:00"
+            ],
+            [
+              "21:00",
+              "22:00"
+            ],
+            [
+              "22:00",
+              "23:00"
+            ],
+            [
+              "23:00",
+              "24:00"
+            ]
+          ]
+        },
+        {
+          "route_uid": "TPE10283",
+          "sub_route_uid": "TPE10283",
+          "direction": 1,
+          "station_time_rows": 2688,
+          "service_tag_row_counts": {
+            "0": 1344,
+            "1": 1344
+          },
+          "observed_time_intervals": [
+            [
+              "0:00",
+              "1:00"
+            ],
+            [
+              "1:00",
+              "2:00"
+            ],
+            [
+              "5:00",
+              "6:00"
+            ],
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ],
+            [
+              "20:00",
+              "21:00"
+            ],
+            [
+              "21:00",
+              "22:00"
+            ],
+            [
+              "22:00",
+              "23:00"
+            ],
+            [
+              "23:00",
+              "24:00"
+            ]
+          ]
+        }
+      ],
+      "source_fields_periods_ids_direction_service_tags_and_intervals_preserved": true,
+      "missing_values_retained_as_null": true
+    },
+    {
+      "source_id": "Taipei_%E7%B4%8531",
+      "status": "pass_with_limitations",
+      "source": {
+        "source_id": "Taipei_%E7%B4%8531",
+        "kind": "travel_time",
+        "city": "Taipei",
+        "route_name": "紅31",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+        "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/%E7%B4%8531?%24format=JSON",
+        "status": "downloaded",
+        "raw_file": "raw_data/tdx_bus_travel_time/responses/Taipei_%E7%B4%8531.json.gz",
+        "downloaded_at": "2026-10-24T12:43:16+08:00",
+        "source_updated_at": null,
+        "bytes": 356747,
+        "http_status": 200,
+        "content_type": "application/json; charset=utf-8",
+        "usage_headers": {
+          "x-ratelimit-remaining-minute": "3",
+          "x-ratelimit-limit-minute": "5"
+        },
+        "storage_encoding": "gzip",
+        "stored_bytes": 15640
+      },
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_%E7%B4%8531.json.gz",
+      "source_model_count": 2,
+      "source_station_time_row_count": 2888,
+      "raw_fields_compared_pair_rows": 2888,
+      "missing_run_time_count": 76,
+      "missing_run_time_nonfirst_sequence_count": 0,
+      "missing_from_stop_id_count": 76,
+      "missing_to_stop_id_count": 0,
+      "known_run_time_sum_seconds_audit_only": 221546.0,
+      "duplicate_grain_count": 0,
+      "effective_periods": [
+        [
+          "2026-10-01",
+          "2026-10-31"
+        ]
+      ],
+      "direction_model_counts": {
+        "0": 1,
+        "1": 1
+      },
+      "models": [
+        {
+          "route_uid": "TPE10431",
+          "sub_route_uid": "TPE10431",
+          "direction": 0,
+          "station_time_rows": 1368,
+          "service_tag_row_counts": {
+            "0": 684,
+            "1": 684
+          },
+          "observed_time_intervals": [
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ],
+            [
+              "20:00",
+              "21:00"
+            ],
+            [
+              "21:00",
+              "22:00"
+            ],
+            [
+              "22:00",
+              "23:00"
+            ],
+            [
+              "23:00",
+              "24:00"
+            ]
+          ]
+        },
+        {
+          "route_uid": "TPE10431",
+          "sub_route_uid": "TPE10431",
+          "direction": 1,
+          "station_time_rows": 1520,
+          "service_tag_row_counts": {
+            "0": 760,
+            "1": 760
+          },
+          "observed_time_intervals": [
+            [
+              "0:00",
+              "1:00"
+            ],
+            [
+              "5:00",
+              "6:00"
+            ],
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ],
+            [
+              "20:00",
+              "21:00"
+            ],
+            [
+              "21:00",
+              "22:00"
+            ],
+            [
+              "22:00",
+              "23:00"
+            ],
+            [
+              "23:00",
+              "24:00"
+            ]
+          ]
+        }
+      ],
+      "source_fields_periods_ids_direction_service_tags_and_intervals_preserved": true,
+      "missing_values_retained_as_null": true
+    },
+    {
+      "source_id": "Taipei_672",
+      "status": "pass_with_limitations",
+      "source": {
+        "source_id": "Taipei_672",
+        "kind": "travel_time",
+        "city": "Taipei",
+        "route_name": "672",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+        "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/672?%24format=JSON",
+        "status": "downloaded",
+        "raw_file": "raw_data/tdx_bus_travel_time/responses/Taipei_672.json.gz",
+        "downloaded_at": "2026-10-24T12:43:31+08:00",
+        "source_updated_at": null,
+        "bytes": 358643,
+        "http_status": 200,
+        "content_type": "application/json; charset=utf-8",
+        "usage_headers": {
+          "x-ratelimit-remaining-minute": "2",
+          "x-ratelimit-limit-minute": "5"
+        },
+        "storage_encoding": "gzip",
+        "stored_bytes": 15766
+      },
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_672.json.gz",
+      "source_model_count": 2,
+      "source_station_time_row_count": 2913,
+      "raw_fields_compared_pair_rows": 2913,
+      "missing_run_time_count": 81,
+      "missing_run_time_nonfirst_sequence_count": 0,
+      "missing_from_stop_id_count": 81,
+      "missing_to_stop_id_count": 0,
+      "known_run_time_sum_seconds_audit_only": 265329.0,
+      "duplicate_grain_count": 0,
+      "effective_periods": [
+        [
+          "2026-10-01",
+          "2026-10-31"
+        ]
+      ],
+      "direction_model_counts": {
+        "0": 1,
+        "1": 1
+      },
+      "models": [
+        {
+          "route_uid": "TPE10785",
+          "sub_route_uid": "TPE107850",
+          "direction": 0,
+          "station_time_rows": 1560,
+          "service_tag_row_counts": {
+            "0": 780,
+            "1": 780
+          },
+          "observed_time_intervals": [
+            [
+              "0:00",
+              "1:00"
+            ],
+            [
+              "5:00",
+              "6:00"
+            ],
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ],
+            [
+              "20:00",
+              "21:00"
+            ],
+            [
+              "21:00",
+              "22:00"
+            ],
+            [
+              "22:00",
+              "23:00"
+            ],
+            [
+              "23:00",
+              "24:00"
+            ]
+          ]
+        },
+        {
+          "route_uid": "TPE10785",
+          "sub_route_uid": "TPE107850",
+          "direction": 1,
+          "station_time_rows": 1353,
+          "service_tag_row_counts": {
+            "0": 660,
+            "1": 693
+          },
+          "observed_time_intervals": [
+            [
+              "0:00",
+              "1:00"
+            ],
+            [
+              "1:00",
+              "2:00"
+            ],
+            [
+              "5:00",
+              "6:00"
+            ],
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ],
+            [
+              "20:00",
+              "21:00"
+            ],
+            [
+              "21:00",
+              "22:00"
+            ],
+            [
+              "22:00",
+              "23:00"
+            ],
+            [
+              "23:00",
+              "24:00"
+            ]
+          ]
+        }
+      ],
+      "source_fields_periods_ids_direction_service_tags_and_intervals_preserved": true,
+      "missing_values_retained_as_null": true
+    },
+    {
+      "source_id": "Taipei_0%E6%9D%B1",
+      "status": "pass_with_limitations",
+      "source": {
+        "source_id": "Taipei_0%E6%9D%B1",
+        "kind": "travel_time",
+        "city": "Taipei",
+        "route_name": "0東",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+        "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/0%E6%9D%B1?%24format=JSON",
+        "status": "downloaded",
+        "raw_file": "raw_data/tdx_bus_travel_time/responses/Taipei_0%E6%9D%B1.json.gz",
+        "downloaded_at": "2026-10-24T12:43:47+08:00",
+        "source_updated_at": null,
+        "bytes": 599563,
+        "http_status": 200,
+        "content_type": "application/json; charset=utf-8",
+        "usage_headers": {
+          "x-ratelimit-remaining-minute": "1",
+          "x-ratelimit-limit-minute": "5"
+        },
+        "storage_encoding": "gzip",
+        "stored_bytes": 26866
+      },
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_0%E6%9D%B1.json.gz",
+      "source_model_count": 4,
+      "source_station_time_row_count": 4836,
+      "raw_fields_compared_pair_rows": 4836,
+      "missing_run_time_count": 104,
+      "missing_run_time_nonfirst_sequence_count": 0,
+      "missing_from_stop_id_count": 104,
+      "missing_to_stop_id_count": 0,
+      "known_run_time_sum_seconds_audit_only": 465552.0,
+      "duplicate_grain_count": 0,
+      "effective_periods": [
+        [
+          "2026-10-01",
+          "2026-10-31"
+        ]
+      ],
+      "direction_model_counts": {
+        "0": 2,
+        "1": 2
+      },
+      "models": [
+        {
+          "route_uid": "TPE10841",
+          "sub_route_uid": "TPE108410",
+          "direction": 0,
+          "station_time_rows": 1632,
+          "service_tag_row_counts": {
+            "0": 816,
+            "1": 816
+          },
+          "observed_time_intervals": [
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ],
+            [
+              "20:00",
+              "21:00"
+            ],
+            [
+              "21:00",
+              "22:00"
+            ],
+            [
+              "22:00",
+              "23:00"
+            ]
+          ]
+        },
+        {
+          "route_uid": "TPE10841",
+          "sub_route_uid": "TPE108410",
+          "direction": 1,
+          "station_time_rows": 1575,
+          "service_tag_row_counts": {
+            "0": 765,
+            "1": 810
+          },
+          "observed_time_intervals": [
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ],
+            [
+              "20:00",
+              "21:00"
+            ],
+            [
+              "21:00",
+              "22:00"
+            ],
+            [
+              "22:00",
+              "23:00"
+            ],
+            [
+              "23:00",
+              "24:00"
+            ]
+          ]
+        },
+        {
+          "route_uid": "TPE10841",
+          "sub_route_uid": "TPE159514",
+          "direction": 0,
+          "station_time_rows": 864,
+          "service_tag_row_counts": {
+            "0": 432,
+            "1": 432
+          },
+          "observed_time_intervals": [
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ]
+          ]
+        },
+        {
+          "route_uid": "TPE10841",
+          "sub_route_uid": "TPE159514",
+          "direction": 1,
+          "station_time_rows": 765,
+          "service_tag_row_counts": {
+            "0": 450,
+            "1": 315
+          },
+          "observed_time_intervals": [
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ]
+          ]
+        }
+      ],
+      "source_fields_periods_ids_direction_service_tags_and_intervals_preserved": true,
+      "missing_values_retained_as_null": true
+    },
+    {
+      "source_id": "Taipei_0%E5%8D%97",
+      "status": "pass_with_limitations",
+      "source": {
+        "source_id": "Taipei_0%E5%8D%97",
+        "kind": "travel_time",
+        "city": "Taipei",
+        "route_name": "0南",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+        "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/0%E5%8D%97?%24format=JSON",
+        "status": "downloaded",
+        "raw_file": "raw_data/tdx_bus_travel_time/responses/Taipei_0%E5%8D%97.json.gz",
+        "downloaded_at": "2026-10-24T12:44:02+08:00",
+        "source_updated_at": null,
+        "bytes": 233739,
+        "http_status": 200,
+        "content_type": "application/json; charset=utf-8",
+        "usage_headers": {
+          "x-ratelimit-limit-minute": "5",
+          "x-ratelimit-remaining-minute": "4"
+        },
+        "storage_encoding": "gzip",
+        "stored_bytes": 10750
+      },
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_0%E5%8D%97.json.gz",
+      "source_model_count": 2,
+      "source_station_time_row_count": 1899,
+      "raw_fields_compared_pair_rows": 1899,
+      "missing_run_time_count": 73,
+      "missing_run_time_nonfirst_sequence_count": 0,
+      "missing_from_stop_id_count": 73,
+      "missing_to_stop_id_count": 0,
+      "known_run_time_sum_seconds_audit_only": 141538.0,
+      "duplicate_grain_count": 0,
+      "effective_periods": [
+        [
+          "2026-10-01",
+          "2026-10-31"
+        ]
+      ],
+      "direction_model_counts": {
+        "0": 1,
+        "1": 1
+      },
+      "models": [
+        {
+          "route_uid": "TPE11811",
+          "sub_route_uid": "TPE118110",
+          "direction": 0,
+          "station_time_rows": 999,
+          "service_tag_row_counts": {
+            "0": 486,
+            "1": 513
+          },
+          "observed_time_intervals": [
+            [
+              "5:00",
+              "6:00"
+            ],
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ],
+            [
+              "20:00",
+              "21:00"
+            ],
+            [
+              "21:00",
+              "22:00"
+            ],
+            [
+              "22:00",
+              "23:00"
+            ],
+            [
+              "23:00",
+              "24:00"
+            ]
+          ]
+        },
+        {
+          "route_uid": "TPE11811",
+          "sub_route_uid": "TPE118110",
+          "direction": 1,
+          "station_time_rows": 900,
+          "service_tag_row_counts": {
+            "0": 450,
+            "1": 450
+          },
+          "observed_time_intervals": [
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ],
+            [
+              "20:00",
+              "21:00"
+            ],
+            [
+              "21:00",
+              "22:00"
+            ],
+            [
+              "22:00",
+              "23:00"
+            ],
+            [
+              "23:00",
+              "24:00"
+            ]
+          ]
+        }
+      ],
+      "source_fields_periods_ids_direction_service_tags_and_intervals_preserved": true,
+      "missing_values_retained_as_null": true
+    },
+    {
+      "source_id": "Taipei_33",
+      "status": "pass_with_limitations",
+      "source": {
+        "source_id": "Taipei_33",
+        "kind": "travel_time",
+        "city": "Taipei",
+        "route_name": "33",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+        "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/33?%24format=JSON",
+        "status": "downloaded",
+        "raw_file": "raw_data/tdx_bus_travel_time/responses/Taipei_33.json.gz",
+        "downloaded_at": "2026-10-24T12:44:17+08:00",
+        "source_updated_at": null,
+        "bytes": 378646,
+        "http_status": 200,
+        "content_type": "application/json; charset=utf-8",
+        "usage_headers": {
+          "x-ratelimit-remaining-minute": "3",
+          "x-ratelimit-limit-minute": "5"
+        },
+        "storage_encoding": "gzip",
+        "stored_bytes": 17702
+      },
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_33.json.gz",
+      "source_model_count": 4,
+      "source_station_time_row_count": 3056,
+      "raw_fields_compared_pair_rows": 3056,
+      "missing_run_time_count": 89,
+      "missing_run_time_nonfirst_sequence_count": 0,
+      "missing_from_stop_id_count": 89,
+      "missing_to_stop_id_count": 0,
+      "known_run_time_sum_seconds_audit_only": 292400.0,
+      "duplicate_grain_count": 0,
+      "effective_periods": [
+        [
+          "2026-10-01",
+          "2026-10-31"
+        ]
+      ],
+      "direction_model_counts": {
+        "0": 2,
+        "1": 2
+      },
+      "models": [
+        {
+          "route_uid": "TPE11821",
+          "sub_route_uid": "TPE118210",
+          "direction": 0,
+          "station_time_rows": 1184,
+          "service_tag_row_counts": {
+            "0": 576,
+            "1": 608
+          },
+          "observed_time_intervals": [
+            [
+              "5:00",
+              "6:00"
+            ],
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ],
+            [
+              "20:00",
+              "21:00"
+            ],
+            [
+              "21:00",
+              "22:00"
+            ],
+            [
+              "22:00",
+              "23:00"
+            ],
+            [
+              "23:00",
+              "24:00"
+            ]
+          ]
+        },
+        {
+          "route_uid": "TPE11821",
+          "sub_route_uid": "TPE118210",
+          "direction": 1,
+          "station_time_rows": 1224,
+          "service_tag_row_counts": {
+            "0": 612,
+            "1": 612
+          },
+          "observed_time_intervals": [
+            [
+              "6:00",
+              "7:00"
+            ],
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ],
+            [
+              "20:00",
+              "21:00"
+            ],
+            [
+              "21:00",
+              "22:00"
+            ],
+            [
+              "22:00",
+              "23:00"
+            ],
+            [
+              "23:00",
+              "24:00"
+            ]
+          ]
+        },
+        {
+          "route_uid": "TPE11821",
+          "sub_route_uid": "TPE162167",
+          "direction": 0,
+          "station_time_rows": 320,
+          "service_tag_row_counts": {
+            "1": 320
+          },
+          "observed_time_intervals": [
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ]
+          ]
+        },
+        {
+          "route_uid": "TPE11821",
+          "sub_route_uid": "TPE162167",
+          "direction": 1,
+          "station_time_rows": 328,
+          "service_tag_row_counts": {
+            "1": 328
+          },
+          "observed_time_intervals": [
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ]
+          ]
+        }
+      ],
+      "source_fields_periods_ids_direction_service_tags_and_intervals_preserved": true,
+      "missing_values_retained_as_null": true
+    },
+    {
+      "source_id": "Taipei_227%E5%8D%80",
+      "status": "pass_with_limitations",
+      "source": {
+        "source_id": "Taipei_227%E5%8D%80",
+        "kind": "travel_time",
+        "city": "Taipei",
+        "route_name": "227區",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+        "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/227%E5%8D%80?%24format=JSON",
+        "status": "downloaded",
+        "raw_file": "raw_data/tdx_bus_travel_time/responses/Taipei_227%E5%8D%80.json.gz",
+        "downloaded_at": "2026-10-24T12:44:32+08:00",
+        "source_updated_at": null,
+        "bytes": 77070,
+        "http_status": 200,
+        "content_type": "application/json; charset=utf-8",
+        "usage_headers": {
+          "x-ratelimit-limit-minute": "5",
+          "x-ratelimit-remaining-minute": "2"
+        },
+        "storage_encoding": "gzip",
+        "stored_bytes": 3962
+      },
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_227%E5%8D%80.json.gz",
+      "source_model_count": 2,
+      "source_station_time_row_count": 615,
+      "raw_fields_compared_pair_rows": 615,
+      "missing_run_time_count": 25,
+      "missing_run_time_nonfirst_sequence_count": 0,
+      "missing_from_stop_id_count": 25,
+      "missing_to_stop_id_count": 0,
+      "known_run_time_sum_seconds_audit_only": 62765.0,
+      "duplicate_grain_count": 0,
+      "effective_periods": [
+        [
+          "2026-10-01",
+          "2026-10-31"
+        ]
+      ],
+      "direction_model_counts": {
+        "0": 1,
+        "1": 1
+      },
+      "models": [
+        {
+          "route_uid": "TPE15522",
+          "sub_route_uid": "TPE15522",
+          "direction": 0,
+          "station_time_rows": 264,
+          "service_tag_row_counts": {
+            "1": 264
+          },
+          "observed_time_intervals": [
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ]
+          ]
+        },
+        {
+          "route_uid": "TPE15522",
+          "sub_route_uid": "TPE15522",
+          "direction": 1,
+          "station_time_rows": 351,
+          "service_tag_row_counts": {
+            "1": 351
+          },
+          "observed_time_intervals": [
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ]
+          ]
+        }
+      ],
+      "source_fields_periods_ids_direction_service_tags_and_intervals_preserved": true,
+      "missing_values_retained_as_null": true
+    },
+    {
+      "source_id": "Taipei_208%E7%9B%B4",
+      "status": "pass_with_limitations",
+      "source": {
+        "source_id": "Taipei_208%E7%9B%B4",
+        "kind": "travel_time",
+        "city": "Taipei",
+        "route_name": "208直",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+        "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/208%E7%9B%B4?%24format=JSON",
+        "status": "downloaded",
+        "raw_file": "raw_data/tdx_bus_travel_time/responses/Taipei_208%E7%9B%B4.json.gz",
+        "downloaded_at": "2026-10-24T12:44:48+08:00",
+        "source_updated_at": null,
+        "bytes": 18328,
+        "http_status": 200,
+        "content_type": "application/json; charset=utf-8",
+        "usage_headers": {
+          "x-ratelimit-limit-minute": "5",
+          "x-ratelimit-remaining-minute": "1"
+        },
+        "storage_encoding": "gzip",
+        "stored_bytes": 1478
+      },
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_208%E7%9B%B4.json.gz",
+      "source_model_count": 1,
+      "source_station_time_row_count": 144,
+      "raw_fields_compared_pair_rows": 144,
+      "missing_run_time_count": 3,
+      "missing_run_time_nonfirst_sequence_count": 0,
+      "missing_from_stop_id_count": 3,
+      "missing_to_stop_id_count": 0,
+      "known_run_time_sum_seconds_audit_only": 12363.0,
+      "duplicate_grain_count": 0,
+      "effective_periods": [
+        [
+          "2026-10-01",
+          "2026-10-31"
+        ]
+      ],
+      "direction_model_counts": {
+        "0": 1
+      },
+      "models": [
+        {
+          "route_uid": "TPE16157",
+          "sub_route_uid": "TPE155919",
+          "direction": 0,
+          "station_time_rows": 144,
+          "service_tag_row_counts": {
+            "1": 144
+          },
+          "observed_time_intervals": [
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ]
+          ]
+        }
+      ],
+      "source_fields_periods_ids_direction_service_tags_and_intervals_preserved": true,
+      "missing_values_retained_as_null": true
+    },
+    {
+      "source_id": "Taipei_%E7%B6%A017",
+      "status": "pass_with_limitations",
+      "source": {
+        "source_id": "Taipei_%E7%B6%A017",
+        "kind": "travel_time",
+        "city": "Taipei",
+        "route_name": "綠17",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+        "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/%E7%B6%A017?%24format=JSON",
+        "status": "downloaded",
+        "raw_file": "raw_data/tdx_bus_travel_time/responses/Taipei_%E7%B6%A017.json.gz",
+        "downloaded_at": "2026-10-24T12:45:03+08:00",
+        "source_updated_at": null,
+        "bytes": 60235,
+        "http_status": 200,
+        "content_type": "application/json; charset=utf-8",
+        "usage_headers": {
+          "x-ratelimit-limit-minute": "5",
+          "x-ratelimit-remaining-minute": "4"
+        },
+        "storage_encoding": "gzip",
+        "stored_bytes": 2968
+      },
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_%E7%B6%A017.json.gz",
+      "source_model_count": 2,
+      "source_station_time_row_count": 475,
+      "raw_fields_compared_pair_rows": 475,
+      "missing_run_time_count": 25,
+      "missing_run_time_nonfirst_sequence_count": 0,
+      "missing_from_stop_id_count": 25,
+      "missing_to_stop_id_count": 0,
+      "known_run_time_sum_seconds_audit_only": 48751.0,
+      "duplicate_grain_count": 0,
+      "effective_periods": [
+        [
+          "2026-10-01",
+          "2026-10-31"
+        ]
+      ],
+      "direction_model_counts": {
+        "0": 1,
+        "1": 1
+      },
+      "models": [
+        {
+          "route_uid": "TPE17556",
+          "sub_route_uid": "TPE158726",
+          "direction": 0,
+          "station_time_rows": 247,
+          "service_tag_row_counts": {
+            "1": 247
+          },
+          "observed_time_intervals": [
+            [
+              "7:00",
+              "8:00"
+            ],
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ]
+          ]
+        },
+        {
+          "route_uid": "TPE17556",
+          "sub_route_uid": "TPE158726",
+          "direction": 1,
+          "station_time_rows": 228,
+          "service_tag_row_counts": {
+            "1": 228
+          },
+          "observed_time_intervals": [
+            [
+              "8:00",
+              "9:00"
+            ],
+            [
+              "9:00",
+              "10:00"
+            ],
+            [
+              "10:00",
+              "11:00"
+            ],
+            [
+              "11:00",
+              "12:00"
+            ],
+            [
+              "12:00",
+              "13:00"
+            ],
+            [
+              "13:00",
+              "14:00"
+            ],
+            [
+              "14:00",
+              "15:00"
+            ],
+            [
+              "15:00",
+              "16:00"
+            ],
+            [
+              "16:00",
+              "17:00"
+            ],
+            [
+              "17:00",
+              "18:00"
+            ],
+            [
+              "18:00",
+              "19:00"
+            ],
+            [
+              "19:00",
+              "20:00"
+            ]
+          ]
+        }
+      ],
+      "source_fields_periods_ids_direction_service_tags_and_intervals_preserved": true,
+      "missing_values_retained_as_null": true
+    },
+    {
+      "source_id": "Taipei_260%E5%8D%80%E9%A0%90",
+      "status": "pass_with_limitations",
+      "source": {
+        "source_id": "Taipei_260%E5%8D%80%E9%A0%90",
+        "kind": "travel_time",
+        "city": "Taipei",
+        "route_name": "260區預",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/premium/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+        "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/260%E5%8D%80%E9%A0%90?%24format=JSON",
+        "status": "downloaded",
+        "raw_file": "raw_data/tdx_bus_travel_time/responses/Taipei_260%E5%8D%80%E9%A0%90.json.gz",
+        "downloaded_at": "2026-10-24T12:45:18+08:00",
+        "source_updated_at": null,
+        "bytes": 1473,
+        "http_status": 200,
+        "content_type": "application/json; charset=utf-8",
+        "usage_headers": {
+          "x-ratelimit-limit-minute": "5",
+          "x-ratelimit-remaining-minute": "3"
+        },
+        "storage_encoding": "gzip",
+        "stored_bytes": 411
+      },
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_260%E5%8D%80%E9%A0%90.json.gz",
+      "source_model_count": 2,
+      "source_station_time_row_count": 0,
+      "raw_fields_compared_pair_rows": 0,
+      "missing_run_time_count": 0,
+      "missing_run_time_nonfirst_sequence_count": 0,
+      "missing_from_stop_id_count": 0,
+      "missing_to_stop_id_count": 0,
+      "known_run_time_sum_seconds_audit_only": 0.0,
+      "duplicate_grain_count": 0,
+      "effective_periods": [
+        [
+          "2026-10-01",
+          "2026-10-31"
+        ]
+      ],
+      "direction_model_counts": {
+        "0": 1,
+        "1": 1
+      },
+      "models": [
+        {
+          "route_uid": "TPE19178",
+          "sub_route_uid": "TPE161498",
+          "direction": 0,
+          "station_time_rows": 0,
+          "service_tag_row_counts": {},
+          "observed_time_intervals": []
+        },
+        {
+          "route_uid": "TPE19178",
+          "sub_route_uid": "TPE161498",
+          "direction": 1,
+          "station_time_rows": 0,
+          "service_tag_row_counts": {},
+          "observed_time_intervals": []
         }
       ],
       "source_fields_periods_ids_direction_service_tags_and_intervals_preserved": true,
