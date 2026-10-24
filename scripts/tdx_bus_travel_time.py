@@ -428,7 +428,13 @@ def fetch_requests(store, requests, args):
             continue
         if requests_used >= args.max_requests:
             break
-        limit = min(int(args.max_response_mb * 1024**2), int(args.max_total_mb * 1024**2) - total)
+        remaining = int(args.max_total_mb * 1024**2) - total
+        # Leave the next endpoint untouched when this batch cannot admit its
+        # full response budget. Resuming must not turn a batch limit into a
+        # failed source receipt that later invocations would skip.
+        if requests_used and remaining < int(args.max_response_mb * 1024**2):
+            break
+        limit = min(int(args.max_response_mb * 1024**2), remaining)
         if limit <= 0:
             break
         delay = max(args.min_request_interval - (time.monotonic() - last_at), allowed_at - time.time())

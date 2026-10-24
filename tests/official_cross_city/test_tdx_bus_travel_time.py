@@ -218,6 +218,23 @@ class TravelTimeTests(unittest.TestCase):
         self.assertNotIn('synthetic-private', store.path.read_text())
         self.assertFalse((store.raw / 'responses' / (self.request['source_id'] + '.part')).exists())
 
+    def test_remaining_batch_budget_leaves_next_endpoint_unrequested(self):
+        store = bus.Store(self.root)
+        payload = json.dumps([model()]).encode()
+        response = io.BytesIO(payload)
+        response.status = 200
+        response.headers = {'Content-Type': 'application/json', 'Content-Length': str(len(payload))}
+        next_request = bus.travel_request(spec(), 'Taipei', '下一條')
+        args = SimpleNamespace(max_requests=2, max_response_mb=len(payload) / 1024**2,
+                               max_total_mb=(len(payload) + 17) / 1024**2,
+                               min_request_interval=0, refresh=False)
+        with patch.object(bus, 'token', return_value='synthetic'), patch.object(bus, 'urlopen', return_value=response) as transport, redirect_stdout(io.StringIO()):
+            stats = bus.fetch_requests(store, [self.request, next_request], args)
+        self.assertEqual(stats, {'requests_used': 1, 'response_bytes': len(payload)})
+        self.assertEqual(transport.call_count, 1)
+        self.assertEqual([r['source_id'] for r in store.manifest['records']], [self.request['source_id']])
+        self.assertTrue(store.needs_request(next_request['source_id'], False, False))
+
     def test_resumed_batch_records_only_new_http_attempt_not_cached_receipt(self):
         store = bus.Store(self.root)
         cached = bus.travel_request(spec(), 'Taipei', '先前已取得')
