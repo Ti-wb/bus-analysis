@@ -11,23 +11,23 @@
     "record_count": 9,
     "local_program_checks": {
       "runtime": "3.12.11",
-      "official_cross_city_tests_passed": 294,
+      "official_cross_city_tests_passed": 325,
       "base_tests_passed": 13,
       "compileall": "passed",
       "cli_help_commands_passed": 18,
       "live_data_review": "separate_full_raw_reviews_not_unit_tests",
-      "total_unit_tests_passed": 307,
-      "integrated_main_commit": "a77233966426da304f60da49adabc59751dafdbd",
+      "total_unit_tests_passed": 338,
+      "integrated_main_commit": "fd60e8e66cabd5ff6ffd2918d5a034d02d026417",
       "merged_map_catalog_read_only_build": "passed_27_datasets_31_files",
       "ci_evidence": "GitHub Actions current-head checks; exact SHA and run links in PR description",
       "stdlib_ci_mode": {
-        "discovered": 294,
-        "passed": 277,
+        "discovered": 325,
+        "passed": 308,
         "skipped_gis_cases": 17,
         "status": "passed_without_gis_dependencies"
       },
-      "integration_merge_commit": "e3b1977623623ab563cc081d60f70e7ac0f88547",
-      "frontend_map_data_build": "passed_16_generated_files",
+      "integration_merge_commit": "8c5a758fbe2af902dcbfac047de6b0d06b1183ed",
+      "frontend_map_data_build": "passed_17_generated_files",
       "frontend_typecheck_and_build": "passed_tsc_and_vite",
       "frontend_dependency_audit": {
         "status": "one_critical_advisory_in_inherited_main_dependency",
@@ -36,6 +36,16 @@
         "advisory_url": "https://github.com/advisories/GHSA-jrc7-96c5-q579",
         "patched_version": "6.4.1",
         "scope": "Existing origin/main dependency retained during the requested sync; no major-version migration performed."
+      },
+      "review_comment_repairs": {
+        "attached_comments_checked": 19,
+        "valid_issues_fixed": 16,
+        "previously_fixed_and_reverified": 3,
+        "new_regression_test_methods": 31,
+        "independent_peer_review_status": "passed",
+        "catalog_regression_tests_passed": 23,
+        "catalog_read_only_rebuild": "unchanged_485_datasets_including_418_travel_observations_411_gzip",
+        "catalog_independent_audit": "passed_485_datasets_zero_errors"
       }
     }
   },
