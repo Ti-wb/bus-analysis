@@ -20,6 +20,23 @@ export function StationIcon({ type }: { type: StationType }) {
   );
 }
 
+const AGE_LABELS: Record<string, string> = { '0-14': '0–14 歲', '15-24': '15–24 歲', '25-64': '25–64 歲', '65_plus': '65 歲以上' };
+
+/** Age groups as share and head count; groups follow the catchment file's own order. */
+function AgeGroups({ groups, counts, total }: { groups: string[]; counts: number[]; total: number }) {
+  return (
+    <ul className="station-age-grid">
+      {groups.map((group, k) => (
+        <li key={group}>
+          <span>{AGE_LABELS[group] ?? group}</span>
+          <b>{total ? Math.round((counts[k] / total) * 100) : 0}%</b>
+          <small>{counts[k].toLocaleString('zh-TW')} 人</small>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 interface Props {
   station: StationSelection;
   mapRef: RefObject<MapRef | null>;
@@ -93,7 +110,8 @@ export default function StationInfo({ station, mapRef, data, placeKeys, onClose 
     [data, station, placeKeys],
   );
   const value = catchments?.records[station.type]?.[station.id]?.[catchments.radii.indexOf(STATION_RADIUS)];
-  const [people, households, share] = value ?? [null, null, 0];
+  const [people, households, share, ages] = value ?? [null, null, 0, null];
+  const ageGroups = catchments?.age_groups;
   const loading = !catchments && !failed;
   const facilities = expanded ? surroundings.facilities : surroundings.facilities.slice(0, 3);
   const period = catchments?.metadata.population_period.end;
@@ -119,7 +137,9 @@ export default function StationInfo({ station, mapRef, data, placeKeys, onClose 
                 {share < 1 && <p className="station-warning">僅 {Math.round(share * 100)}% 範圍有臺北市資料，其餘未計。</p>}
               </>}
         <h3 className="station-age-title">年齡分布</h3>
-        <div className="station-empty station-age-empty"><p>暫無可用的年齡分布</p><small>現有來源未提供年齡資料</small></div>
+        {loading || failed ? null
+          : people !== null && ages && ageGroups ? <AgeGroups groups={ageGroups} counts={ages} total={people} />
+            : <div className="station-empty station-age-empty"><p>暫無可用的年齡分布</p><small>{people === null ? '此範圍沒有人口資料' : '範圍內有統計區缺年齡資料'}</small></div>}
       </section>
 
       <section className="station-facilities">
@@ -139,7 +159,7 @@ export default function StationInfo({ station, mapRef, data, placeKeys, onClose 
         {station.type !== 'mrt' && surroundings.mrt.nearest && <p>最近捷運：{surroundings.mrt.nearest.name} · 約 {surroundings.mrt.nearest.metres} m</p>}
         {surroundings.youbike.count > 0 && <p>範圍內 YouBike 停車格：{surroundings.youbike.docks?.toLocaleString('zh-TW') ?? '資料不完整'}；無即時可借車數。</p>}
         <p className="muted">同類站點統計含本站（公車站位除外）。{station.type === 'bus' && '公車計畫班次不代表本站到站時刻。'}</p>
-        <p className="muted">人口依統計區面積分攤，相鄰範圍不可加總。{catchments && <>人口 {period}、邊界 {catchments.metadata.boundary_vintage} 年。</>}設施依地點篩選，為未去重的候選位置，非出入口。</p>
+        <p className="muted">人口與年齡依統計區面積分攤，相鄰範圍不可加總；比例四捨五入，合計可能不是 100%。{catchments && <>人口 {period}、邊界 {catchments.metadata.boundary_vintage} 年。</>}設施依地點篩選，為未去重的候選位置，非出入口。</p>
       </details>
 
       <footer className="station-note">戶籍人口估算，非搭乘量 · 設施距離採直線估算</footer>
