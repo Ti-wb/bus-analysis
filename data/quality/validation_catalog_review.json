@@ -3,22 +3,22 @@
   "dataset_id": "validation_catalog_independent_review",
   "metadata": {
     "reviewer_agent": "/root/crosswalk",
-    "review_started_at": "2026-10-24T12:48:59.324552+08:00",
-    "reviewed_at": "2026-10-24T12:49:03.742374+08:00",
+    "review_started_at": "2026-10-24T12:51:58.839070+08:00",
+    "reviewed_at": "2026-10-24T12:52:03.090689+08:00",
     "status": "pass_with_documented_source_limitations",
     "producer_imported": false,
     "method": "Independent file inventory and JSON/gzip/GeoJSON parsing, exact metadata projection, row/meta source-review signals, dataset-specific review matching with exact aggregate exceptions, available generation/source-ID/download-time/full-receipt snapshot guards and omission audit. Catalog producer not imported.",
     "catalog_path": "data/official_cross_city/validation_catalog.json",
-    "indexed_dataset_count": 292,
-    "reviewed_dataset_count": 292,
-    "catalog_record_count_claim": 292,
+    "indexed_dataset_count": 312,
+    "reviewed_dataset_count": 312,
+    "catalog_record_count_claim": 312,
     "missing_delivered_paths": [],
     "unexpected_indexed_paths": [],
     "global_errors": [],
     "file_error_count": 0,
     "requires_source_review_dataset_count": 24,
     "kind_counts": {
-      "normalized_records": 271,
+      "normalized_records": 291,
       "official_published_data": 1,
       "geographic_features": 4,
       "acquisition_coverage": 2,
@@ -33,16 +33,16 @@
     },
     "storage_counts": {
       "plain_json": 53,
-      "gzip": 239
+      "gzip": 259
     },
     "travel_snapshot": {
-      "request_count": 227,
-      "successful_response_count": 225,
+      "request_count": 247,
+      "successful_response_count": 245,
       "source_unavailable_count": 1,
       "technical_failure_count": 1,
-      "travel_time_row_count": 575460,
-      "missing_run_time_count": 15006,
-      "taipei_route_uids_retained": 222
+      "travel_time_row_count": 618816,
+      "missing_run_time_count": 16149,
+      "taipei_route_uids_retained": 242
     },
     "scope": "The delivered additive transport/evidence families listed by the independent inventory; excludes manifests, API/field/retrieval references and the index itself.",
     "exclusions": [
@@ -880,6 +880,28 @@
       "errors": []
     },
     {
+      "output_path": "data/tdx_bus_travel_time/observations/Taipei_%E5%85%A7%E7%A7%91%E9%80%9A%E5%8B%A4%E5%B0%88%E8%BB%8A3.json.gz",
+      "dataset_id": "tdx_bus_s2s_Taipei_%E5%85%A7%E7%A7%91%E9%80%9A%E5%8B%A4%E5%B0%88%E8%BB%8A3",
+      "record_count": 2,
+      "storage": "gzip",
+      "format": "JSON envelope",
+      "status": "pass",
+      "independent_review_report": "data/quality/tdx_bus_travel_time_review.json",
+      "independent_review_status": "pass_with_limitations",
+      "review_status_basis": "dataset_record",
+      "snapshot_identity_evidence_fields": [
+        "source",
+        "source_id"
+      ],
+      "requires_source_review": false,
+      "flagged_source_record_count": 0,
+      "review_signal_examples": [],
+      "nested_travel_time_row_count": 688,
+      "bounded_unknown_source_status_counts": {},
+      "reviewed_generated_at": null,
+      "errors": []
+    },
+    {
       "output_path": "data/tdx_bus_travel_time/observations/Taipei_%E5%85%A7%E7%A7%91%E9%80%9A%E5%8B%A4%E5%B0%88%E8%BB%8A5.json.gz",
       "dataset_id": "tdx_bus_s2s_Taipei_%E5%85%A7%E7%A7%91%E9%80%9A%E5%8B%A4%E5%B0%88%E8%BB%8A5",
       "record_count": 2,
@@ -1117,6 +1139,28 @@
       "flagged_source_record_count": 0,
       "review_signal_examples": [],
       "nested_travel_time_row_count": 2882,
+      "bounded_unknown_source_status_counts": {},
+      "reviewed_generated_at": null,
+      "errors": []
+    },
+    {
+      "output_path": "data/tdx_bus_travel_time/observations/Taipei_%E5%B0%8F11.json.gz",
+      "dataset_id": "tdx_bus_s2s_Taipei_%E5%B0%8F11",
+      "record_count": 6,
+      "storage": "gzip",
+      "format": "JSON envelope",
+      "status": "pass",
+      "independent_review_report": "data/quality/tdx_bus_travel_time_review.json",
+      "independent_review_status": "pass_with_limitations",
+      "review_status_basis": "dataset_record",
+      "snapshot_identity_evidence_fields": [
+        "source",
+        "source_id"
+      ],
+      "requires_source_review": false,
+      "flagged_source_record_count": 0,
+      "review_signal_examples": [],
+      "nested_travel_time_row_count": 3143,
       "bounded_unknown_source_status_counts": {},
       "reviewed_generated_at": null,
       "errors": []
@@ -1914,6 +1958,50 @@
       "errors": []
     },
     {
+      "output_path": "data/tdx_bus_travel_time/observations/Taipei_%E6%A3%953.json.gz",
+      "dataset_id": "tdx_bus_s2s_Taipei_%E6%A3%953",
+      "record_count": 2,
+      "storage": "gzip",
+      "format": "JSON envelope",
+      "status": "pass",
+      "independent_review_report": "data/quality/tdx_bus_travel_time_review.json",
+      "independent_review_status": "pass_with_limitations",
+      "review_status_basis": "dataset_record",
+      "snapshot_identity_evidence_fields": [
+        "source",
+        "source_id"
+      ],
+      "requires_source_review": false,
+      "flagged_source_record_count": 0,
+      "review_signal_examples": [],
+      "nested_travel_time_row_count": 1740,
+      "bounded_unknown_source_status_counts": {},
+      "reviewed_generated_at": null,
+      "errors": []
+    },
+    {
+      "output_path": "data/tdx_bus_travel_time/observations/Taipei_%E6%A3%955.json.gz",
+      "dataset_id": "tdx_bus_s2s_Taipei_%E6%A3%955",
+      "record_count": 4,
+      "storage": "gzip",
+      "format": "JSON envelope",
+      "status": "pass",
+      "independent_review_report": "data/quality/tdx_bus_travel_time_review.json",
+      "independent_review_status": "pass_with_limitations",
+      "review_status_basis": "dataset_record",
+      "snapshot_identity_evidence_fields": [
+        "source",
+        "source_id"
+      ],
+      "requires_source_review": false,
+      "flagged_source_record_count": 0,
+      "review_signal_examples": [],
+      "nested_travel_time_row_count": 3384,
+      "bounded_unknown_source_status_counts": {},
+      "reviewed_generated_at": null,
+      "errors": []
+    },
+    {
       "output_path": "data/tdx_bus_travel_time/observations/Taipei_%E6%B0%91%E6%AC%8A%E5%B9%B9%E7%B7%9A.json.gz",
       "dataset_id": "tdx_bus_s2s_Taipei_%E6%B0%91%E6%AC%8A%E5%B9%B9%E7%B7%9A",
       "record_count": 4,
@@ -2464,6 +2552,28 @@
       "errors": []
     },
     {
+      "output_path": "data/tdx_bus_travel_time/observations/Taipei_%E8%97%8D27.json.gz",
+      "dataset_id": "tdx_bus_s2s_Taipei_%E8%97%8D27",
+      "record_count": 4,
+      "storage": "gzip",
+      "format": "JSON envelope",
+      "status": "pass",
+      "independent_review_report": "data/quality/tdx_bus_travel_time_review.json",
+      "independent_review_status": "pass_with_limitations",
+      "review_status_basis": "dataset_record",
+      "snapshot_identity_evidence_fields": [
+        "source",
+        "source_id"
+      ],
+      "requires_source_review": false,
+      "flagged_source_record_count": 0,
+      "review_signal_examples": [],
+      "nested_travel_time_row_count": 3118,
+      "bounded_unknown_source_status_counts": {},
+      "reviewed_generated_at": null,
+      "errors": []
+    },
+    {
       "output_path": "data/tdx_bus_travel_time/observations/Taipei_%E8%97%8D29.json.gz",
       "dataset_id": "tdx_bus_s2s_Taipei_%E8%97%8D29",
       "record_count": 2,
@@ -2679,6 +2789,28 @@
       "flagged_source_record_count": 0,
       "review_signal_examples": [],
       "nested_travel_time_row_count": 18,
+      "bounded_unknown_source_status_counts": {},
+      "reviewed_generated_at": null,
+      "errors": []
+    },
+    {
+      "output_path": "data/tdx_bus_travel_time/observations/Taipei_%E9%80%9A%E5%8B%A427.json.gz",
+      "dataset_id": "tdx_bus_s2s_Taipei_%E9%80%9A%E5%8B%A427",
+      "record_count": 2,
+      "storage": "gzip",
+      "format": "JSON envelope",
+      "status": "pass",
+      "independent_review_report": "data/quality/tdx_bus_travel_time_review.json",
+      "independent_review_status": "pass_with_limitations",
+      "review_status_basis": "dataset_record",
+      "snapshot_identity_evidence_fields": [
+        "source",
+        "source_id"
+      ],
+      "requires_source_review": false,
+      "flagged_source_record_count": 0,
+      "review_signal_examples": [],
+      "nested_travel_time_row_count": 184,
       "bounded_unknown_source_status_counts": {},
       "reviewed_generated_at": null,
       "errors": []
@@ -2992,6 +3124,28 @@
       "errors": []
     },
     {
+      "output_path": "data/tdx_bus_travel_time/observations/Taipei_206.json.gz",
+      "dataset_id": "tdx_bus_s2s_Taipei_206",
+      "record_count": 2,
+      "storage": "gzip",
+      "format": "JSON envelope",
+      "status": "pass",
+      "independent_review_report": "data/quality/tdx_bus_travel_time_review.json",
+      "independent_review_status": "pass_with_limitations",
+      "review_status_basis": "dataset_record",
+      "snapshot_identity_evidence_fields": [
+        "source",
+        "source_id"
+      ],
+      "requires_source_review": false,
+      "flagged_source_record_count": 0,
+      "review_signal_examples": [],
+      "nested_travel_time_row_count": 2922,
+      "bounded_unknown_source_status_counts": {},
+      "reviewed_generated_at": null,
+      "errors": []
+    },
+    {
       "output_path": "data/tdx_bus_travel_time/observations/Taipei_207.json.gz",
       "dataset_id": "tdx_bus_s2s_Taipei_207",
       "record_count": 7,
@@ -3119,6 +3273,28 @@
       "flagged_source_record_count": 0,
       "review_signal_examples": [],
       "nested_travel_time_row_count": 2952,
+      "bounded_unknown_source_status_counts": {},
+      "reviewed_generated_at": null,
+      "errors": []
+    },
+    {
+      "output_path": "data/tdx_bus_travel_time/observations/Taipei_218%E7%9B%B4.json.gz",
+      "dataset_id": "tdx_bus_s2s_Taipei_218%E7%9B%B4",
+      "record_count": 2,
+      "storage": "gzip",
+      "format": "JSON envelope",
+      "status": "pass",
+      "independent_review_report": "data/quality/tdx_bus_travel_time_review.json",
+      "independent_review_status": "pass_with_limitations",
+      "review_status_basis": "dataset_record",
+      "snapshot_identity_evidence_fields": [
+        "source",
+        "source_id"
+      ],
+      "requires_source_review": false,
+      "flagged_source_record_count": 0,
+      "review_signal_examples": [],
+      "nested_travel_time_row_count": 203,
       "bounded_unknown_source_status_counts": {},
       "reviewed_generated_at": null,
       "errors": []
@@ -3586,6 +3762,28 @@
       "errors": []
     },
     {
+      "output_path": "data/tdx_bus_travel_time/observations/Taipei_256.json.gz",
+      "dataset_id": "tdx_bus_s2s_Taipei_256",
+      "record_count": 2,
+      "storage": "gzip",
+      "format": "JSON envelope",
+      "status": "pass",
+      "independent_review_report": "data/quality/tdx_bus_travel_time_review.json",
+      "independent_review_status": "pass_with_limitations",
+      "review_status_basis": "dataset_record",
+      "snapshot_identity_evidence_fields": [
+        "source",
+        "source_id"
+      ],
+      "requires_source_review": false,
+      "flagged_source_record_count": 0,
+      "review_signal_examples": [],
+      "nested_travel_time_row_count": 1360,
+      "bounded_unknown_source_status_counts": {},
+      "reviewed_generated_at": null,
+      "errors": []
+    },
+    {
       "output_path": "data/tdx_bus_travel_time/observations/Taipei_257.json.gz",
       "dataset_id": "tdx_bus_s2s_Taipei_257",
       "record_count": 4,
@@ -3630,6 +3828,28 @@
       "errors": []
     },
     {
+      "output_path": "data/tdx_bus_travel_time/observations/Taipei_260.json.gz",
+      "dataset_id": "tdx_bus_s2s_Taipei_260",
+      "record_count": 2,
+      "storage": "gzip",
+      "format": "JSON envelope",
+      "status": "pass",
+      "independent_review_report": "data/quality/tdx_bus_travel_time_review.json",
+      "independent_review_status": "pass_with_limitations",
+      "review_status_basis": "dataset_record",
+      "snapshot_identity_evidence_fields": [
+        "source",
+        "source_id"
+      ],
+      "requires_source_review": false,
+      "flagged_source_record_count": 0,
+      "review_signal_examples": [],
+      "nested_travel_time_row_count": 3816,
+      "bounded_unknown_source_status_counts": {},
+      "reviewed_generated_at": null,
+      "errors": []
+    },
+    {
       "output_path": "data/tdx_bus_travel_time/observations/Taipei_261%E9%A0%90.json.gz",
       "dataset_id": "tdx_bus_s2s_Taipei_261%E9%A0%90",
       "record_count": 2,
@@ -3669,6 +3889,28 @@
       "flagged_source_record_count": 0,
       "review_signal_examples": [],
       "nested_travel_time_row_count": 5632,
+      "bounded_unknown_source_status_counts": {},
+      "reviewed_generated_at": null,
+      "errors": []
+    },
+    {
+      "output_path": "data/tdx_bus_travel_time/observations/Taipei_262.json.gz",
+      "dataset_id": "tdx_bus_s2s_Taipei_262",
+      "record_count": 2,
+      "storage": "gzip",
+      "format": "JSON envelope",
+      "status": "pass",
+      "independent_review_report": "data/quality/tdx_bus_travel_time_review.json",
+      "independent_review_status": "pass_with_limitations",
+      "review_status_basis": "dataset_record",
+      "snapshot_identity_evidence_fields": [
+        "source",
+        "source_id"
+      ],
+      "requires_source_review": false,
+      "flagged_source_record_count": 0,
+      "review_signal_examples": [],
+      "nested_travel_time_row_count": 5893,
       "bounded_unknown_source_status_counts": {},
       "reviewed_generated_at": null,
       "errors": []
@@ -3828,6 +4070,28 @@
       "errors": []
     },
     {
+      "output_path": "data/tdx_bus_travel_time/observations/Taipei_274.json.gz",
+      "dataset_id": "tdx_bus_s2s_Taipei_274",
+      "record_count": 2,
+      "storage": "gzip",
+      "format": "JSON envelope",
+      "status": "pass",
+      "independent_review_report": "data/quality/tdx_bus_travel_time_review.json",
+      "independent_review_status": "pass_with_limitations",
+      "review_status_basis": "dataset_record",
+      "snapshot_identity_evidence_fields": [
+        "source",
+        "source_id"
+      ],
+      "requires_source_review": false,
+      "flagged_source_record_count": 0,
+      "review_signal_examples": [],
+      "nested_travel_time_row_count": 2060,
+      "bounded_unknown_source_status_counts": {},
+      "reviewed_generated_at": null,
+      "errors": []
+    },
+    {
       "output_path": "data/tdx_bus_travel_time/observations/Taipei_276.json.gz",
       "dataset_id": "tdx_bus_s2s_Taipei_276",
       "record_count": 2,
@@ -3911,6 +4175,50 @@
       "flagged_source_record_count": 0,
       "review_signal_examples": [],
       "nested_travel_time_row_count": 2494,
+      "bounded_unknown_source_status_counts": {},
+      "reviewed_generated_at": null,
+      "errors": []
+    },
+    {
+      "output_path": "data/tdx_bus_travel_time/observations/Taipei_280%E7%9B%B4.json.gz",
+      "dataset_id": "tdx_bus_s2s_Taipei_280%E7%9B%B4",
+      "record_count": 2,
+      "storage": "gzip",
+      "format": "JSON envelope",
+      "status": "pass",
+      "independent_review_report": "data/quality/tdx_bus_travel_time_review.json",
+      "independent_review_status": "pass_with_limitations",
+      "review_status_basis": "dataset_record",
+      "snapshot_identity_evidence_fields": [
+        "source",
+        "source_id"
+      ],
+      "requires_source_review": false,
+      "flagged_source_record_count": 0,
+      "review_signal_examples": [],
+      "nested_travel_time_row_count": 792,
+      "bounded_unknown_source_status_counts": {},
+      "reviewed_generated_at": null,
+      "errors": []
+    },
+    {
+      "output_path": "data/tdx_bus_travel_time/observations/Taipei_280.json.gz",
+      "dataset_id": "tdx_bus_s2s_Taipei_280",
+      "record_count": 4,
+      "storage": "gzip",
+      "format": "JSON envelope",
+      "status": "pass",
+      "independent_review_report": "data/quality/tdx_bus_travel_time_review.json",
+      "independent_review_status": "pass_with_limitations",
+      "review_status_basis": "dataset_record",
+      "snapshot_identity_evidence_fields": [
+        "source",
+        "source_id"
+      ],
+      "requires_source_review": false,
+      "flagged_source_record_count": 0,
+      "review_signal_examples": [],
+      "nested_travel_time_row_count": 2765,
       "bounded_unknown_source_status_counts": {},
       "reviewed_generated_at": null,
       "errors": []
@@ -4021,6 +4329,28 @@
       "flagged_source_record_count": 0,
       "review_signal_examples": [],
       "nested_travel_time_row_count": 1700,
+      "bounded_unknown_source_status_counts": {},
+      "reviewed_generated_at": null,
+      "errors": []
+    },
+    {
+      "output_path": "data/tdx_bus_travel_time/observations/Taipei_297%E9%A0%90.json.gz",
+      "dataset_id": "tdx_bus_s2s_Taipei_297%E9%A0%90",
+      "record_count": 2,
+      "storage": "gzip",
+      "format": "JSON envelope",
+      "status": "pass",
+      "independent_review_report": "data/quality/tdx_bus_travel_time_review.json",
+      "independent_review_status": "pass_with_limitations",
+      "review_status_basis": "dataset_record",
+      "snapshot_identity_evidence_fields": [
+        "source",
+        "source_id"
+      ],
+      "requires_source_review": false,
+      "flagged_source_record_count": 0,
+      "review_signal_examples": [],
+      "nested_travel_time_row_count": 0,
       "bounded_unknown_source_status_counts": {},
       "reviewed_generated_at": null,
       "errors": []
@@ -4378,6 +4708,28 @@
       "errors": []
     },
     {
+      "output_path": "data/tdx_bus_travel_time/observations/Taipei_38%E5%8D%80.json.gz",
+      "dataset_id": "tdx_bus_s2s_Taipei_38%E5%8D%80",
+      "record_count": 2,
+      "storage": "gzip",
+      "format": "JSON envelope",
+      "status": "pass",
+      "independent_review_report": "data/quality/tdx_bus_travel_time_review.json",
+      "independent_review_status": "pass_with_limitations",
+      "review_status_basis": "dataset_record",
+      "snapshot_identity_evidence_fields": [
+        "source",
+        "source_id"
+      ],
+      "requires_source_review": false,
+      "flagged_source_record_count": 0,
+      "review_signal_examples": [],
+      "nested_travel_time_row_count": 672,
+      "bounded_unknown_source_status_counts": {},
+      "reviewed_generated_at": null,
+      "errors": []
+    },
+    {
       "output_path": "data/tdx_bus_travel_time/observations/Taipei_39.json.gz",
       "dataset_id": "tdx_bus_s2s_Taipei_39",
       "record_count": 2,
@@ -4532,6 +4884,28 @@
       "errors": []
     },
     {
+      "output_path": "data/tdx_bus_travel_time/observations/Taipei_53.json.gz",
+      "dataset_id": "tdx_bus_s2s_Taipei_53",
+      "record_count": 2,
+      "storage": "gzip",
+      "format": "JSON envelope",
+      "status": "pass",
+      "independent_review_report": "data/quality/tdx_bus_travel_time_review.json",
+      "independent_review_status": "pass_with_limitations",
+      "review_status_basis": "dataset_record",
+      "snapshot_identity_evidence_fields": [
+        "source",
+        "source_id"
+      ],
+      "requires_source_review": false,
+      "flagged_source_record_count": 0,
+      "review_signal_examples": [],
+      "nested_travel_time_row_count": 891,
+      "bounded_unknown_source_status_counts": {},
+      "reviewed_generated_at": null,
+      "errors": []
+    },
+    {
       "output_path": "data/tdx_bus_travel_time/observations/Taipei_536%E5%8D%80.json.gz",
       "dataset_id": "tdx_bus_s2s_Taipei_536%E5%8D%80",
       "record_count": 2,
@@ -4549,6 +4923,28 @@
       "flagged_source_record_count": 0,
       "review_signal_examples": [],
       "nested_travel_time_row_count": 2700,
+      "bounded_unknown_source_status_counts": {},
+      "reviewed_generated_at": null,
+      "errors": []
+    },
+    {
+      "output_path": "data/tdx_bus_travel_time/observations/Taipei_536.json.gz",
+      "dataset_id": "tdx_bus_s2s_Taipei_536",
+      "record_count": 2,
+      "storage": "gzip",
+      "format": "JSON envelope",
+      "status": "pass",
+      "independent_review_report": "data/quality/tdx_bus_travel_time_review.json",
+      "independent_review_status": "pass_with_limitations",
+      "review_status_basis": "dataset_record",
+      "snapshot_identity_evidence_fields": [
+        "source",
+        "source_id"
+      ],
+      "requires_source_review": false,
+      "flagged_source_record_count": 0,
+      "review_signal_examples": [],
+      "nested_travel_time_row_count": 2021,
       "bounded_unknown_source_status_counts": {},
       "reviewed_generated_at": null,
       "errors": []
@@ -4615,6 +5011,28 @@
       "flagged_source_record_count": 0,
       "review_signal_examples": [],
       "nested_travel_time_row_count": 358,
+      "bounded_unknown_source_status_counts": {},
+      "reviewed_generated_at": null,
+      "errors": []
+    },
+    {
+      "output_path": "data/tdx_bus_travel_time/observations/Taipei_602.json.gz",
+      "dataset_id": "tdx_bus_s2s_Taipei_602",
+      "record_count": 4,
+      "storage": "gzip",
+      "format": "JSON envelope",
+      "status": "pass",
+      "independent_review_report": "data/quality/tdx_bus_travel_time_review.json",
+      "independent_review_status": "pass_with_limitations",
+      "review_status_basis": "dataset_record",
+      "snapshot_identity_evidence_fields": [
+        "source",
+        "source_id"
+      ],
+      "requires_source_review": false,
+      "flagged_source_record_count": 0,
+      "review_signal_examples": [],
+      "nested_travel_time_row_count": 4644,
       "bounded_unknown_source_status_counts": {},
       "reviewed_generated_at": null,
       "errors": []
@@ -4747,6 +5165,28 @@
       "flagged_source_record_count": 0,
       "review_signal_examples": [],
       "nested_travel_time_row_count": 2614,
+      "bounded_unknown_source_status_counts": {},
+      "reviewed_generated_at": null,
+      "errors": []
+    },
+    {
+      "output_path": "data/tdx_bus_travel_time/observations/Taipei_641.json.gz",
+      "dataset_id": "tdx_bus_s2s_Taipei_641",
+      "record_count": 2,
+      "storage": "gzip",
+      "format": "JSON envelope",
+      "status": "pass",
+      "independent_review_report": "data/quality/tdx_bus_travel_time_review.json",
+      "independent_review_status": "pass_with_limitations",
+      "review_status_basis": "dataset_record",
+      "snapshot_identity_evidence_fields": [
+        "source",
+        "source_id"
+      ],
+      "requires_source_review": false,
+      "flagged_source_record_count": 0,
+      "review_signal_examples": [],
+      "nested_travel_time_row_count": 3060,
       "bounded_unknown_source_status_counts": {},
       "reviewed_generated_at": null,
       "errors": []
@@ -5458,7 +5898,7 @@
     {
       "output_path": "data/tdx_bus_travel_time/coverage.json",
       "dataset_id": "tdx_bus_travel_time_coverage",
-      "record_count": 227,
+      "record_count": 247,
       "storage": "plain_json",
       "format": "JSON envelope",
       "status": "pass",
@@ -5490,7 +5930,7 @@
       "review_signal_examples": [],
       "nested_travel_time_row_count": null,
       "bounded_unknown_source_status_counts": {
-        "acquisition_status:not_requested_in_this_bounded_stage": 193
+        "acquisition_status:not_requested_in_this_bounded_stage": 173
       },
       "reviewed_generated_at": null,
       "errors": []
