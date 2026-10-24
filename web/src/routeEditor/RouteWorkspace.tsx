@@ -4,6 +4,7 @@ import type { FeatureCollection, Polygon } from 'geojson';
 import MapView from '../map/MapView';
 import Search from '../components/Search';
 import type { AppState, Grid, MapData, StationSelection, ViewState } from '../types';
+import type { Filters } from '../improvements/types';
 import { draftChanges, frequency, gridFeatures, routePath, routesWithChanges } from './engine';
 import { loadScenario, saveScenario } from './storage';
 import Dialog from './Dialog';
@@ -13,7 +14,8 @@ import type { EditorMapProps } from './RouteLayers';
 import './routeEditor.css';
 
 export interface RouteWorkspaceHandle { leave: (done: () => void) => void; preferences: () => void; indicators: () => void }
-interface Props { map: MapData; grid: Grid; gridData: FeatureCollection<Polygon, { k: number }>; state: AppState; initialView: ViewState }
+export interface RouteTarget { variant: string; day: Filters['day']; period: Filters['period'] }
+interface Props { map: MapData; grid: Grid; gridData: FeatureCollection<Polygon, { k: number }>; state: AppState; initialView: ViewState; target?: RouteTarget | null }
 
 const RouteWorkspace = forwardRef<RouteWorkspaceHandle, Props>(function RouteWorkspace(props, ref) {
   const [data, setData] = useState<ScenarioData | null>(null);
@@ -37,15 +39,15 @@ const RouteWorkspace = forwardRef<RouteWorkspaceHandle, Props>(function RouteWor
 });
 export default RouteWorkspace;
 
-const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData }>(function Workspace({ data, map, grid, gridData, state, initialView }, ref) {
+const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData }>(function Workspace({ data, map, grid, gridData, state, initialView, target }, ref) {
   const mapRef = useRef<MapRef>(null);
   const [saved] = useState(() => loadScenario(data));
   const [history, setHistory] = useState<AppliedAction[]>(saved.history);
   const [changes, setChanges] = useState<Changes>(saved.changes);
   const [message, setMessage] = useState(saved.message);
-  const [band, setBand] = useState<Band>(history.at(-1)?.band ?? 'am');
+  const [band, setBand] = useState<Band>(() => target ? target.day === 'weekday' && target.period !== 'all' ? target.period : `${target.day}_${target.period}` as Band : history.at(-1)?.band ?? 'am');
   const [query, setQuery] = useState('');
-  const [selectedId, setSelectedId] = useState(() => data.records.routes.find((r) => r.name === '仁愛幹線' && r.direction === '1')?.id ?? data.records.routes[0].id);
+  const [selectedId, setSelectedId] = useState(() => target?.variant ?? data.records.routes.find((r) => r.name === '仁愛幹線' && r.direction === '1')?.id ?? data.records.routes[0].id);
   const [draft, setDraft] = useState<Draft | null>(null);
   const [step, setStep] = useState<'overview' | 'edit' | 'preview' | 'review'>('overview');
   const [interaction, setInteraction] = useState<'stops' | 'path'>('stops');
@@ -134,6 +136,13 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
     setStep(kind === 'delete' ? 'preview' : 'edit');
     if (route.stop_ids.length) fitRoute(route);
   };
+  const openedTarget = useRef(false);
+  useEffect(() => {
+    if (!target || openedTarget.current) return;
+    openedTarget.current = true;
+    if (selected?.id === target.variant) begin('edit');
+    else setMessage('這條路線已在本機方案中刪除，請先復原刪除動作。');
+  });
   const changeRoute = (next: Route) => {
     if (!draft) return;
     setDraft({ ...draft, route: next });

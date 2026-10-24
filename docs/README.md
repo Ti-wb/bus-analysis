@@ -8,6 +8,7 @@
 | --- | --- |
 | [產品主線與 User Story](product-stories.md) | 故事 ID、完成條件、Penpot 04／04-01／07 設計對照 |
 | [前端地圖](web-map.md) | 啟動、建置、部署、圖層、站點資訊與資料限制 |
+| [改善優先清單](improvement-list.md) | 四類清單、篩選排序、CSV、地圖／路線編輯銜接與 Mock 邊界 |
 | [路線方案工具](route-editor.md) | 新增／編輯／刪除、影響比較、本機保存及驗證 |
 | [品牌指南](../branding/BCS-Brand-Guidelines.pdf) | Bus coming soon 識別與介面規範 |
 

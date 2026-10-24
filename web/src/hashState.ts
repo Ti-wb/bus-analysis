@@ -76,5 +76,8 @@ export function writeHash(state: AppState, view: ViewState): void {
   if (state.villageMetric === 'elderly_share') params.set('village', 'elderly_share');
   params.set('z', view.zoom.toFixed(2));
   params.set('c', `${view.center[0].toFixed(4)},${view.center[1].toFixed(4)}`);
+  // Page 07 owns its filters; map movement/time updates must retain that shareable view.
+  const current = new URLSearchParams(window.location.hash.slice(1));
+  for (const key of ['page', 'improvement']) if (current.has(key)) params.set(key, current.get(key)!);
   window.history.replaceState(null, '', `#${params}`);
 }
