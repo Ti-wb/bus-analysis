@@ -1,6 +1,7 @@
 import type { ExpressionSpecification } from 'maplibre-gl';
 import type { LayerProps } from 'react-map-gl/maplibre';
 import { COLORS, ELDERLY_COLORS, NO_SCHEDULE, NO_STOP, PLACE_BY_CATEGORY, VILLAGE_COLORS } from '../config';
+import type { BusFocusState } from '../focus/model';
 
 /** Style layers only; react-map-gl's LayerProps also admits custom WebGL layers. */
 export type StyleLayer = Exclude<LayerProps, { type: 'custom' }>;
@@ -120,13 +121,11 @@ export const busRoutesLayer: StyleLayer = {
   },
 };
 
-/** Highlights one clicked route, or every route serving a clicked stop (matched by route name). */
-export function busRouteHighlightLayer(highlight: { routeId: string } | { names: string[] } | null): StyleLayer {
-  const filter: ExpressionSpecification = !highlight
+/** Ordinary route/station popups use source IDs, including in the route editor. */
+export function busRouteHighlightLayer(routeIds: readonly string[] | null): StyleLayer {
+  const filter: ExpressionSpecification = routeIds === null
     ? ['boolean', false]
-    : 'routeId' in highlight
-      ? ['==', ['get', 'route_id'], highlight.routeId]
-      : ['in', ['get', 'name'], ['literal', highlight.names]];
+    : ['in', ['get', 'route_id'], ['literal', routeIds]];
   return {
     id: 'bus-route-highlight',
     type: 'line',
@@ -135,6 +134,48 @@ export function busRouteHighlightLayer(highlight: { routeId: string } | { names:
     paint: { 'line-color': '#1f8a80', 'line-width': 4 },
   };
 }
+
+/** Focus colours and visibility share the exact same route IDs as the sidebar. */
+export function busFocusRouteLayers(focus: BusFocusState): StyleLayer[] {
+  const routes = focus.routes.filter((route) => route.visible && route.has_geometry);
+  const filter: ExpressionSpecification = ['in', ['get', 'route_id'], ['literal', routes.map((route) => route.route_id)]];
+  const emphasis = focus.hovered_route_id ?? focus.selected_route_id;
+  const color: ExpressionSpecification | string = routes.length
+    ? ['match', ['get', 'route_id'], ...routes.flatMap((route) => [route.route_id, route.color]), '#98a6ad'] as unknown as ExpressionSpecification
+    : '#98a6ad';
+  const layout = { 'line-join': 'round', 'line-cap': 'round' } as const;
+  return [
+    {
+      id: 'bus-focus-routes-casing', type: 'line', filter, layout,
+      paint: { 'line-color': '#ffffff', 'line-opacity': .8, 'line-width': ['interpolate', ['linear'], ['zoom'], 10, 3.3, 15, 5.5] },
+    },
+    {
+      id: 'bus-focus-routes', type: 'line', filter, layout,
+      paint: {
+        'line-color': color,
+        'line-opacity': emphasis ? ['case', ['==', ['get', 'route_id'], emphasis], .95, .6] : .85,
+        'line-width': ['interpolate', ['linear'], ['zoom'], 10, 1.6, 15, 3],
+      },
+    },
+    {
+      id: 'bus-focus-route-emphasis', type: 'line', layout,
+      filter: ['all', filter, ['==', ['get', 'route_id'], emphasis ?? '']],
+      paint: { 'line-color': color, 'line-opacity': .95, 'line-width': ['interpolate', ['linear'], ['zoom'], 10, 3, 15, 5] },
+    },
+  ];
+}
+
+export const focusBusStopsLayer: StyleLayer = {
+  id: 'focus-bus-stops',
+  type: 'symbol',
+  layout: {
+    'icon-image': ['case', ['get', 'focus_served'], 'focus-stop-solid', 'focus-stop-hollow'],
+    'icon-size': ['interpolate', ['linear'], ['zoom'], 10, .65, 15, 1],
+    'icon-allow-overlap': true,
+    'icon-ignore-placement': true,
+  },
+  paint: { 'icon-opacity': .95 },
+};
 
 export const mrtCasingLayer: StyleLayer = {
   id: 'mrt-lines-casing',

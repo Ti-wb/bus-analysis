@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "dataset_id": "independent_web_station_focus_review",
+  "metadata": {
+    "reviewer_agent": "/root/focus_qa",
+    "independent_of_producer": true,
+    "reviewed_at": "2026-10-24T15:14:47+08:00",
+    "scope": "公車站位 Focus 路線 ID、名稱對照、唯一主線數與缺線形保留。",
+    "method": "直接從來源站序逐筆建立 stop_location_id 對 route_id 集合，再逐站比對輸出；未呼叫產製程式函式。名稱以 routes 的 route_id 查詢，另核舊名稱清單的獨立排序。",
+    "sources": [
+      {
+        "path": "data/taipei_feeds/routes.json",
+        "page_url": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579",
+        "download_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetRoute.gz",
+        "source_data_time": "2026-10-21T23:03:04+08:00",
+        "source_period": null,
+        "grain": "one main route ID"
+      },
+      {
+        "path": "data/taipei_feeds/route_stop_sequences.json",
+        "page_url": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579",
+        "download_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetPathDetail.gz",
+        "source_data_time": "2026-10-21T22:03:04+08:00",
+        "source_period": null,
+        "grain": "one subroute stop occurrence (PathDetail ID)"
+      },
+      {
+        "path": "data/taipei_feeds/stop_locations.geojson",
+        "page_url": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579",
+        "download_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetStopLocation.gz",
+        "source_data_time": "2026-10-21T22:03:04+08:00",
+        "source_period": null,
+        "grain": "geographic stop location ID"
+      },
+      {
+        "path": "data/taipei_feeds/route_shapes.geojson",
+        "page_url": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579",
+        "download_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetBusShape.gz",
+        "source_data_time": null,
+        "source_period": null,
+        "grain": "route/subroute × direction × UniRouteId geometry"
+      }
+    ],
+    "blocking_findings": [],
+    "limitations": [
+      "路線線形仍採來源快照；不存在的線形不能因站位有路線 ID 而補造。"
+    ]
+  },
+  "records": [
+    {
+      "file": "web/public/data/bus_stops.geojson",
+      "status": "pass",
+      "record_count": 5376,
+      "source_sequence_count": 43447,
+      "route_membership_count": 28359,
+      "checks": {
+        "station_ids_match_source": true,
+        "unique_string_route_ids_match_exact_source_membership": true,
+        "route_count_matches_unique_route_ids": true,
+        "route_names_by_id_matches_source": true,
+        "legacy_route_names_preserve_independent_sort": true,
+        "routes_without_geometry_preserved": true
+      },
+      "source_main_route_count": 416,
+      "source_main_routes_with_geometry": 406,
+      "source_main_routes_without_geometry": 10,
+      "retained_route_ids_without_geometry": [
+        "18348",
+        "18508",
+        "19159",
+        "19178",
+        "19438",
+        "19458",
+        "19528",
+        "19678",
+        "19698",
+        "19719"
+      ],
+      "fixtures": [
+        {
+          "station_id": "1411",
+          "station_name": "臺北車站(承德)",
+          "route_count": 5,
+          "route_ids": [
+            "10262",
+            "10847",
+            "15322",
+            "15553",
+            "16504"
+          ],
+          "route_ids_without_web_geometry": []
+        },
+        {
+          "station_id": "1000082",
+          "station_name": "臺北車站(忠孝)",
+          "route_count": 39,
+          "route_ids": [
+            "10181",
+            "10415",
+            "10416",
+            "10481",
+            "10482",
+            "10735",
+            "10823",
+            "10824",
+            "10832",
+            "10851",
+            "10911",
+            "10912",
+            "10942",
+            "10961",
+            "10962",
+            "11156",
+            "11157",
+            "11171",
+            "11812",
+            "11831",
+            "11851",
+            "15111",
+            "15185",
+            "15353",
+            "15373",
+            "15381",
+            "15514",
+            "15518",
+            "16111",
+            "16112",
+            "16121",
+            "16131",
+            "16132",
+            "17800",
+            "17801",
+            "19108",
+            "19178",
+            "19528",
+            "19688"
+          ],
+          "route_ids_without_web_geometry": [
+            "19178",
+            "19528"
+          ]
+        },
+        {
+          "station_id": "1387",
+          "station_name": "稻江護校",
+          "route_count": 8,
+          "route_ids": [
+            "10277",
+            "10811",
+            "11813",
+            "11815",
+            "15657",
+            "18348",
+            "19798",
+            "810"
+          ],
+          "route_ids_without_web_geometry": [
+            "18348"
+          ]
+        }
+      ]
+    }
+  ]
+}

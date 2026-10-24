@@ -22,11 +22,14 @@ import { circle } from '../catchment';
 import StationInfo, { StationIcon } from '../components/StationInfo';
 import { BASE_STYLE, HOVER_LAYERS, LAYER_GROUPS, PLACE_CATEGORIES } from '../config';
 import { distancesAt, type CoverageImage } from '../coverage';
+import type { BusFocusState } from '../focus/model';
 import type { NeedCellProps, NeedResult } from '../need';
 import { travelCollection } from '../regional';
 import { STATION_LAYERS, STATION_RADIUS, stationFromFeature } from '../stations';
 import { CoverageTooltip, FeatureTooltip, NeedTooltip, RoutePopup, type PopupFeature } from './FeatureInfo';
 import * as L from './layers';
+import { focusLocalBounds, focusRouteBounds, focusStops } from './focusGeometry';
+import { buildFocusCoverage, focusCoverageGridLines, focusCoverageImage, focusDistanceAt } from './focusCoverage';
 import { ROUTE_STOP_PICKER, RouteLayers, RouteStopPicker, ScenarioGrid, type EditorMapProps } from '../routeEditor/RouteLayers';
 import type { AppState, Coverage, Grid, LayerGroup, MapData, NeedGrid, StationSelection, ViewState } from '../types';
 
@@ -46,6 +49,8 @@ interface Props {
   onVillage?: (id: string | null, fly?: boolean) => void;
   onCloseVillage?: () => void;
   editor?: EditorMapProps;
+  focus?: BusFocusState | null;
+  onFocusRoute?: (routeId: string) => void;
   mapRef: RefObject<MapRef | null>;
   initialView: ViewState;
   data: MapData;
@@ -65,11 +70,20 @@ interface Props {
 
 // Distance between the cursor and the tooltip, in pixels.
 const TOOLTIP_GAP = 12;
+const FOCUS_ORIGINAL_LAYERS: Record<string, string> = {
+  'focus-bus-stops': 'bus-stops',
+  'focus-mrt-stations': 'mrt-stations',
+  'focus-youbike': 'youbike',
+  'focus-places': 'places',
+  'bus-focus-route-emphasis': 'bus-routes',
+  'bus-focus-routes': 'bus-routes',
+};
 
 interface Hover {
   feature?: MapGeoJSONFeature;
   /** Nearest-station distances when no feature is under the cursor in coverage mode. */
   distances?: NonNullable<ReturnType<typeof distancesAt>>;
+  focusDistance?: number;
   x: number;
   y: number;
 }
@@ -103,9 +117,22 @@ function addHatchPattern(map: MaplibreMap) {
   ctx.lineWidth = 1.5;
   ctx.beginPath(); ctx.moveTo(0, size); ctx.lineTo(size, 0); ctx.stroke();
   if (!map.hasImage('scenario-hatch')) map.addImage('scenario-hatch', ctx.getImageData(0, 0, size, size));
+
+  // Square stops distinguish the local catchment from stops on the visible routes.
+  for (const solid of [false, true]) {
+    const icon = document.createElement('canvas');
+    icon.width = icon.height = 20;
+    const iconContext = icon.getContext('2d')!;
+    iconContext.fillStyle = solid ? '#5f8299' : '#ffffff';
+    iconContext.strokeStyle = solid ? '#ffffff' : '#315f79';
+    iconContext.lineWidth = 3;
+    iconContext.fillRect(3, 3, 14, 14);
+    iconContext.strokeRect(3, 3, 14, 14);
+    if (!map.hasImage(`focus-stop-${solid ? 'solid' : 'hollow'}`)) map.addImage(`focus-stop-${solid ? 'solid' : 'hollow'}`, iconContext.getImageData(0, 0, 20, 20), { pixelRatio: 2 });
+  }
 }
 
-export default function MapView({ villageAges = null, villageData = null, selectedVillage = null, onVillage, onCloseVillage, editor, mapRef, initialView, data, grid, gridData, coverage, coverageImage, coverageLines, need, state, station, onStation, onCloseStation, onReady, onMoveEnd }: Props) {
+export default function MapView({ villageAges = null, villageData = null, selectedVillage = null, onVillage, onCloseVillage, editor, focus, onFocusRoute, mapRef, initialView, data, grid, gridData, coverage, coverageImage, coverageLines, need, state, station, onStation, onCloseStation, onReady, onMoveEnd }: Props) {
   // First label layer of the base style: our layers go below it so road names stay on top.
   const [labelLayer, setLabelLayer] = useState<string | null>(null);
   const [styleLoaded, setStyleLoaded] = useState(false);
@@ -134,6 +161,57 @@ export default function MapView({ villageAges = null, villageData = null, select
   const [popup, setPopup] = useState<PopupFeature | null>(null);
   const [showDistrictLabels, setShowDistrictLabels] = useState(true);
   const catchmentShape = useMemo(() => (station ? circle(station.at, STATION_RADIUS) : null), [station]);
+  const activeFocus = !editor && station?.type === 'bus' && !station.properties.source_scope ? focus ?? null : null;
+  const visibleRouteIds = useMemo(() => activeFocus?.routes.filter((route) => route.visible).map((route) => route.route_id) ?? [], [activeFocus?.routes]);
+  const nearbyAndRouteStops = useMemo(() => activeFocus && station?.type === 'bus' ? focusStops(data, station, visibleRouteIds) : null, [activeFocus !== null, data, station, visibleRouteIds]);
+  const focusedCoverage = useMemo(() => activeFocus && station?.type === 'bus' ? buildFocusCoverage(data, station, visibleRouteIds, state.coverageCell) : null, [activeFocus !== null, data, station, visibleRouteIds, state.coverageCell]);
+  const focusedCoverageImage = useMemo(() => focusedCoverage ? focusCoverageImage(focusedCoverage) : null, [focusedCoverage]);
+  const focusedCoverageLines = useMemo(() => focusedCoverage && state.gridLines ? focusCoverageGridLines(focusedCoverage) : null, [focusedCoverage, state.gridLines]);
+  const cameraRequest = useRef<string | null>(null);
+  const cameraStation = useRef<StationSelection | null>(null);
+
+  // Camera actions belong to Focus; user layer preferences are never rewritten.
+  useEffect(() => {
+    const map = mapRef.current?.getMap();
+    if (!map || !styleLoaded) return;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!activeFocus || station?.type !== 'bus') {
+      cameraRequest.current = null;
+      cameraStation.current = null;
+      return;
+    }
+    const request = `${station.id}:${activeFocus.camera.scope}:${activeFocus.camera.revision}`;
+    const enteringStation = cameraStation.current !== station;
+    if (cameraRequest.current === request && !enteringStation) return;
+    cameraStation.current = station;
+    cameraRequest.current = request;
+    const ids = activeFocus.selected_route_id
+      ? visibleRouteIds.filter((id) => id === activeFocus.selected_route_id)
+      : visibleRouteIds;
+    const routeBounds = activeFocus.camera.scope === 'routes' ? focusRouteBounds(data, ids, station.at) : null;
+    // All routes hidden: retain the user's current view; a station without shapes starts locally.
+    if (activeFocus.camera.scope === 'routes' && !routeBounds && !enteringStation) return;
+    const bounds = routeBounds ?? focusLocalBounds(station.at);
+    const container = map.getContainer();
+    const frame = container.getBoundingClientRect();
+    const stage = container.parentElement;
+    const sidebar = stage?.querySelector<HTMLElement>('.focus-sidebar')?.getBoundingClientRect();
+    const card = stage?.querySelector<HTMLElement>('.station-card.is-focus')?.getBoundingClientRect();
+    const mobile = frame.width <= 760;
+    const padding = mobile
+      ? { top: card ? Math.min(card.bottom - frame.top + 20, frame.height * .3) : 90, right: 30, bottom: sidebar ? Math.min(frame.bottom - sidebar.top + 20, frame.height * .5) : 80, left: 30 }
+      : { top: 86, right: card ? card.width + 40 : 40, bottom: 50, left: sidebar ? sidebar.width + 40 : 40 };
+    // Narrow or short viewports must always leave a positive area for fitBounds.
+    const verticalScale = Math.min(1, Math.max(0, frame.height - 120) / (padding.top + padding.bottom));
+    const horizontalScale = Math.min(1, Math.max(0, frame.width - 160) / (padding.left + padding.right));
+    map.fitBounds(bounds, {
+      padding: { top: padding.top * verticalScale, bottom: padding.bottom * verticalScale, left: padding.left * horizontalScale, right: padding.right * horizontalScale },
+      maxZoom: routeBounds ? 15.5 : 16,
+      bearing: 0,
+      pitch: 0,
+      duration: reducedMotion ? 0 : 550,
+    });
+  }, [activeFocus, data, styleLoaded, mapRef, station, visibleRouteIds]);
   const travelData = useMemo(() => travelCollection(data.bus_travel_times, state), [data.bus_travel_times, state.day, state.hour]);
   const useLocalBase = useCallback(() => {
     const map = mapRef.current;
@@ -172,19 +250,19 @@ export default function MapView({ villageAges = null, villageData = null, select
     const canvas = map.getCanvas();
     canvas.setAttribute('aria-label', pickingStops
       ? '選擇公車站；方向鍵移動，Enter 加入畫面中央最近的可選公車站'
-      : state.mode === 'village_age' && !editor
+      : state.mode === 'village_age' && !editor && !activeFocus
       ? '互動地圖；方向鍵移動，Enter 查詢畫面中央的村里年齡，Escape 關閉資訊'
       : '互動地圖；方向鍵移動，Enter 開啟畫面中央最近的可見站點，Escape 關閉資訊');
     const openStation = (event: KeyboardEvent) => {
       if (event.key !== 'Enter') return;
-      if (!editor && state.mode === 'village_age' && map.getLayer('village-age-fill')) {
+      if (!editor && !activeFocus && state.mode === 'village_age' && map.getLayer('village-age-fill')) {
         const centre: [number, number] = [canvas.clientWidth / 2, canvas.clientHeight / 2];
         const village = map.queryRenderedFeatures(centre, { layers: ['village-age-fill'] })[0];
         if (village) { event.preventDefault(); onStation(null); onVillage?.(String(village.properties.boundary_id), false); setHover(null); }
         return;
       }
       const layers = pickingStops ? (map.getLayer(ROUTE_STOP_PICKER) ? [ROUTE_STOP_PICKER] : [])
-        : STATION_LAYERS.filter((id) => map.getLayer(id) && state.layers.has(LAYER_GROUP_OF[id]));
+        : [...(activeFocus ? ['focus-bus-stops', 'focus-mrt-stations', 'focus-youbike'] : []), ...STATION_LAYERS.filter((id) => state.layers.has(LAYER_GROUP_OF[id]))].filter((id) => map.getLayer(id));
       if (!layers.length) return;
       const centre = { x: canvas.clientWidth / 2, y: canvas.clientHeight / 2 };
       const stations = map.queryRenderedFeatures(undefined, { layers });
@@ -197,14 +275,15 @@ export default function MapView({ villageAges = null, villageData = null, select
         event.preventDefault(); setHover(null); setPopup(null);
         editor.onStop(String(stations[0].properties.id)); return;
       }
-      const next = stations[0] && stationFromFeature(stations[0], data);
+      const feature = stations[0];
+      const next = feature && stationFromFeature({ ...feature, geometry: feature.geometry, layer: { ...feature.layer, id: FOCUS_ORIGINAL_LAYERS[feature.layer.id] ?? feature.layer.id } } as MapGeoJSONFeature, data);
       if (next) { event.preventDefault(); setHover(null); setPopup(null);
         onStation(next, canvas);
       }
     };
     canvas.addEventListener('keydown', openStation);
     return () => canvas.removeEventListener('keydown', openStation);
-  }, [data, editor, styleLoaded, mapRef, onStation, onVillage, pickingStops, state.layers, state.mode]);
+  }, [activeFocus !== null, data, editor, styleLoaded, mapRef, onStation, onVillage, pickingStops, state.layers, state.mode]);
 
   const handleLoad = useCallback((event: MapEvent) => {
     const map = event.target;
@@ -244,9 +323,12 @@ export default function MapView({ villageAges = null, villageData = null, select
   }, [mapRef, styleLoaded, state.labels]);
 
   // The frequency grid belongs to frequency mode; coverage mode draws its own raster instead.
-  const ageView = !editor && state.mode === 'village_age';
+  const ageView = !editor && !activeFocus && state.mode === 'village_age';
   const villageView = !ageView && state.layers.has('villages');
-  const shown = (group: LayerGroup) => state.layers.has(group) && !(ageView && group === 'villages') && (group !== 'grid' || (!editor && state.mode === 'frequency' && !villageView));
+  const shown = (group: LayerGroup) => state.layers.has(group)
+    && !(ageView && group === 'villages')
+    && !(activeFocus && ['grid', 'villages', 'traffic', 'bus_times'].includes(group))
+    && (group !== 'grid' || (!editor && state.mode === 'frequency' && !villageView));
   const visible = (id: string) => (shown(LAYER_GROUP_OF[id]) ? 'visible' : 'none');
   const withVisibility = (layer: L.StyleLayer, beforeId?: string): LayerProps => ({
     ...layer,
@@ -255,6 +337,10 @@ export default function MapView({ villageAges = null, villageData = null, select
     ...(editor && layer.id === 'bus-routes' ? { paint: { ...layer.paint, 'line-color': '#8aa2af', 'line-opacity': .025, 'line-width': .75 } } : {}),
     ...(editor && (layer.id === 'mrt-lines' || layer.id === 'mrt-lines-casing') ? { paint: { ...layer.paint, 'line-opacity': .2 } } : {}),
     ...(editor && layer.id === 'places' ? { paint: { ...layer.paint, 'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, 2, 15, 4], 'circle-opacity': .65, 'circle-stroke-width': 1 } } : {}),
+    ...(activeFocus && ['bus-routes', 'regional-bus-routes'].includes(layer.id!) ? { paint: { ...layer.paint, 'line-color': '#b7c1c6', 'line-opacity': .2, 'line-width': .8 } } : {}),
+    ...(activeFocus && layer.id === 'mrt-lines' ? { paint: { ...layer.paint, 'line-color': '#b7c1c6', 'line-opacity': .3, 'line-width': 1.4 } } : {}),
+    ...(activeFocus && layer.id === 'mrt-lines-casing' ? { paint: { ...layer.paint, 'line-opacity': .3 } } : {}),
+    ...(activeFocus && ['bus-stops', 'regional-bus-stops', 'mrt-stations', 'youbike', 'places'].includes(layer.id!) ? { paint: { ...layer.paint, 'circle-opacity': .2, 'circle-stroke-opacity': .2 } } : {}),
   } as LayerProps);
 
   const placeMembers = useMemo(
@@ -276,9 +362,9 @@ export default function MapView({ villageAges = null, villageData = null, select
       };
       return stops.reduce<MapGeoJSONFeature | undefined>((best, f) => !best || distance(f) < distance(best) ? f : best, undefined);
     }
-    const layers = HOVER_LAYERS.filter((id) => map.getLayer(id) && shown(LAYER_GROUP_OF[id]));
+    const layers = [...(activeFocus ? Object.keys(FOCUS_ORIGINAL_LAYERS) : []), ...HOVER_LAYERS.filter((id) => (!activeFocus || !['bus-routes', 'regional-bus-routes'].includes(id)) && shown(LAYER_GROUP_OF[id]))].filter((id) => map.getLayer(id));
     // In need mode the grid cell outranks route lines, but point markers still win.
-    if (state.mode === 'need' && !villageView && map.getLayer('need-fill')) {
+    if (!activeFocus && state.mode === 'need' && !villageView && map.getLayer('need-fill')) {
       const firstLine = layers.findIndex((id) => id === 'bus-routes' || id === 'mrt-lines' || id === 'regional-bus-routes');
       layers.splice(firstLine < 0 ? layers.length : firstLine, 0, 'need-fill');
     }
@@ -287,11 +373,14 @@ export default function MapView({ villageAges = null, villageData = null, select
       const firstNonPoint = layers.findIndex((id) => id !== 'places' && !STATION_LAYERS.includes(id));
       layers.splice(firstNonPoint < 0 ? layers.length : firstNonPoint, 0, 'village-age-fill');
     }
-    const features = map.queryRenderedFeatures([[x - 4, y - 4], [x + 4, y + 4]], { layers });
+    const features = map.queryRenderedFeatures([[x - 4, y - 4], [x + 4, y + 4]], { layers }).map((feature) => {
+      const original = FOCUS_ORIGINAL_LAYERS[feature.layer.id];
+      return original ? { ...feature, geometry: feature.geometry, layer: { ...feature.layer, id: original } } as MapGeoJSONFeature : feature;
+    });
     // Station points win; retain the analysis mode's priority for all other features.
     const stationFeature = features.find((f) => STATION_LAYERS.includes(f.layer.id));
     if (stationFeature) return stationFeature;
-    const priority = (f: MapGeoJSONFeature) => layers.indexOf(f.layer.id);
+    const priority = (f: MapGeoJSONFeature) => layers.findIndex((id) => (FOCUS_ORIGINAL_LAYERS[id] ?? id) === f.layer.id);
     return features.reduce<MapGeoJSONFeature | undefined>((best, f) => (!best || priority(f) < priority(best) ? f : best), undefined);
   };
 
@@ -303,7 +392,11 @@ export default function MapView({ villageAges = null, villageData = null, select
     canvas.style.cursor = clickable ? 'pointer' : '';
     const { x, y } = e.point;
     if (feature) setHover({ feature, x, y });
-    else if (state.mode === 'coverage' && !villageView && coverage) {
+    else if (focusedCoverage) {
+      const focusDistance = focusDistanceAt(focusedCoverage, e.lngLat.lng, e.lngLat.lat);
+      setHover(focusDistance === null ? null : { focusDistance, x, y });
+    }
+    else if (!activeFocus && state.mode === 'coverage' && !villageView && coverage) {
       const distances = distancesAt(coverage, e.lngLat.lng, e.lngLat.lat);
       setHover(distances ? { distances, x, y } : null);
     } else setHover(null);
@@ -326,6 +419,7 @@ export default function MapView({ villageAges = null, villageData = null, select
       setHover(null);
     } else if (feature && POPUP_LAYERS.includes(id!)) {
       if (editor && id === 'bus-routes') { editor.onRoute(String(feature.properties.route_id)); setHover(null); return; }
+      if (activeFocus && id === 'bus-routes') { onFocusRoute?.(String(feature.properties.route_id)); setHover(null); return; }
       onStation(null);
       onVillage?.(null, false);
       setPopup({ feature, lngLat: [e.lngLat.lng, e.lngLat.lat] });
@@ -333,13 +427,13 @@ export default function MapView({ villageAges = null, villageData = null, select
     } else {
       setPopup(null);
       onVillage?.(null, false);
-      if (station) onCloseStation();
+      if (station && !activeFocus) onCloseStation();
     }
   };
 
-  const highlightedRoutes = popup?.feature.layer.id === 'bus-routes'
-    ? { routeId: popup.feature.properties.route_id as string }
-    : station?.type === 'bus' && station.properties.source_scope !== 'NewTaipei' ? { names: station.properties.routes } : null;
+  const highlightedRoutes = activeFocus ? null
+    : popup?.feature.layer.id === 'bus-routes' ? [String(popup.feature.properties.route_id)]
+      : station?.type === 'bus' && !station.properties.source_scope ? station.properties.route_ids ?? [] : null;
   const below = labelLayer ?? undefined;
   const mapView = fallbackView ?? initialView;
 
@@ -386,25 +480,35 @@ export default function MapView({ villageAges = null, villageData = null, select
             {editor && <ScenarioGrid editor={editor} beforeId={below} />}
             {!editor && villageData && (
               <Source id="village-age" type="geojson" data={villageData}>
-                <Layer {...L.villageAgeFillLayer} beforeId={below} layout={{ visibility: state.mode === 'village_age' ? 'visible' : 'none' }} />
-                <Layer {...L.villageAgeOutlineLayer} beforeId={below} filter={['==', ['get', 'boundary_id'], selectedVillage ?? '']} layout={{ visibility: state.mode === 'village_age' ? 'visible' : 'none' }} />
+                <Layer {...L.villageAgeFillLayer} beforeId={below} layout={{ visibility: ageView ? 'visible' : 'none' }} />
+                <Layer {...L.villageAgeOutlineLayer} beforeId={below} filter={['==', ['get', 'boundary_id'], selectedVillage ?? '']} layout={{ visibility: ageView ? 'visible' : 'none' }} />
               </Source>
             )}
             {need && (
               <Source id="need" type="geojson" data={need.data}>
-                <Layer {...L.needFillLayer} beforeId={below} layout={{ visibility: state.mode === 'need' && !villageView ? 'visible' : 'none' }} />
-                <Layer {...L.needPartialLayer} beforeId={below} layout={{ visibility: state.mode === 'need' && !villageView ? 'visible' : 'none' }} />
-                <Layer {...L.needRobustLayer} beforeId={below} layout={{ visibility: state.mode === 'need' && !villageView ? 'visible' : 'none' }} />
+                <Layer {...L.needFillLayer} beforeId={below} layout={{ visibility: !activeFocus && state.mode === 'need' && !villageView ? 'visible' : 'none' }} />
+                <Layer {...L.needPartialLayer} beforeId={below} layout={{ visibility: !activeFocus && state.mode === 'need' && !villageView ? 'visible' : 'none' }} />
+                <Layer {...L.needRobustLayer} beforeId={below} layout={{ visibility: !activeFocus && state.mode === 'need' && !villageView ? 'visible' : 'none' }} />
               </Source>
             )}
             {coverageImage && (
               <Source id="coverage" type="image" url={coverageImage.url} coordinates={coverageImage.coordinates}>
-                <Layer {...L.coverageLayer} beforeId={below} layout={{ visibility: state.mode === 'coverage' && !villageView ? 'visible' : 'none' }} />
+                <Layer {...L.coverageLayer} beforeId={below} layout={{ visibility: !activeFocus && state.mode === 'coverage' && !villageView ? 'visible' : 'none' }} />
               </Source>
             )}
             {coverageLines && coverage && (
               <Source id="coverage-grid" type="geojson" data={coverageLines}>
-                <Layer {...L.coverageGridLayer(coverage.cell_m)} beforeId={below} layout={{ visibility: state.mode === 'coverage' && !villageView && state.gridLines ? 'visible' : 'none' }} />
+                <Layer {...L.coverageGridLayer(coverage.cell_m)} beforeId={below} layout={{ visibility: !activeFocus && state.mode === 'coverage' && !villageView && state.gridLines ? 'visible' : 'none' }} />
+              </Source>
+            )}
+            {focusedCoverageImage && (
+              <Source id="focus-coverage" type="image" url={focusedCoverageImage.url} coordinates={focusedCoverageImage.coordinates}>
+                <Layer {...L.coverageLayer} id="focus-coverage" beforeId={below} />
+              </Source>
+            )}
+            {focusedCoverageLines && focusedCoverage && (
+              <Source id="focus-coverage-grid" type="geojson" data={focusedCoverageLines}>
+                <Layer {...L.coverageGridLayer(focusedCoverage.cell_m)} id="focus-coverage-grid" beforeId={below} />
               </Source>
             )}
             <Source id="roads" type="geojson" data={data.roads}>
@@ -418,13 +522,14 @@ export default function MapView({ villageAges = null, villageData = null, select
             </Source>
             {catchmentShape && (
               <Source id="catchment" type="geojson" data={catchmentShape}>
-                <Layer {...L.catchmentFillLayer} beforeId={below} />
-                <Layer {...L.catchmentLineLayer} beforeId={below} />
+                <Layer {...{ ...L.catchmentFillLayer, ...(activeFocus ? { paint: { 'fill-color': '#4b8793', 'fill-opacity': 0 } } : {}) } as LayerProps} beforeId={below} />
+                <Layer {...{ ...L.catchmentLineLayer, ...(activeFocus ? { paint: { 'line-color': '#4b8793', 'line-opacity': .7, 'line-width': 1.5, 'line-dasharray': [3, 2] } } : {}) } as LayerProps} beforeId={below} />
               </Source>
             )}
             <Source id="bus-routes" type="geojson" data={data.bus_routes}>
               <Layer {...withVisibility(L.busRoutesLayer, below)} />
               <Layer {...L.busRouteHighlightLayer(highlightedRoutes)} beforeId={below} />
+              {activeFocus && L.busFocusRouteLayers(activeFocus).map((layer) => <Layer key={layer.id} {...layer} beforeId={below} />)}
             </Source>
             {data.regional_bus_routes && <Source id="regional-bus-routes" type="geojson" data={data.regional_bus_routes}>
               <Layer {...withVisibility(L.regionalRoutesLayer(state.leapfrogOnly), below)} />
@@ -454,6 +559,20 @@ export default function MapView({ villageAges = null, villageData = null, select
             <Source id="mrt-stations" type="geojson" data={data.mrt_stations}>
               <Layer {...withVisibility(L.mrtStationsLayer)} />
             </Source>
+            {nearbyAndRouteStops && <>
+              <Source id="focus-bus-stops" type="geojson" data={nearbyAndRouteStops.bus}>
+                <Layer {...L.focusBusStopsLayer} />
+              </Source>
+              <Source id="focus-mrt-stations" type="geojson" data={nearbyAndRouteStops.mrt}>
+                <Layer {...L.mrtStationsLayer} id="focus-mrt-stations" minzoom={0} />
+              </Source>
+              <Source id="focus-youbike" type="geojson" data={nearbyAndRouteStops.youbike}>
+                <Layer {...L.youbikeLayer} id="focus-youbike" minzoom={0} />
+              </Source>
+              <Source id="focus-places" type="geojson" data={nearbyAndRouteStops.places}>
+                <Layer {...L.placesLayer(placeMembers)} id="focus-places" />
+              </Source>
+            </>}
             {pickingStops && editor && <RouteStopPicker editor={editor}
               hoveredId={hover?.feature?.layer.id === ROUTE_STOP_PICKER ? String(hover.feature.properties.id) : null} />}
             {editor && <RouteLayers editor={editor} beforeId={below} />}
@@ -467,7 +586,10 @@ export default function MapView({ villageAges = null, villageData = null, select
         ))}
 
         {station && <Marker longitude={station.at[0]} latitude={station.at[1]} anchor="center">
-          <div className={`station-pin station-${station.type}`} aria-hidden="true"><StationIcon type={station.type} /></div>
+          {activeFocus ? <div className="station-focus-marker">
+            <div className="station-pin station-bus" aria-hidden="true"><StationIcon type="bus" /></div>
+            <span className="station-focus-name">{station.properties.name}</span>
+          </div> : <div className={`station-pin station-${station.type}`} aria-hidden="true"><StationIcon type={station.type} /></div>}
         </Marker>}
         {popup && !station && (
           <Popup longitude={popup.lngLat[0]} latitude={popup.lngLat[1]} offset={8} onClose={() => setPopup(null)} closeOnClick={false}>
@@ -476,7 +598,7 @@ export default function MapView({ villageAges = null, villageData = null, select
         )}
       </Map>
 
-      {!editor && state.mode === 'village_age' && selectedVillageProps && villageAges && currentAgeGroup && <VillageDialog properties={selectedVillageProps} metadata={villageAges.metadata} group={currentAgeGroup} onClose={closeVillage} />}
+      {ageView && selectedVillageProps && villageAges && currentAgeGroup && <VillageDialog properties={selectedVillageProps} metadata={villageAges.metadata} group={currentAgeGroup} onClose={closeVillage} />}
 
       {mapNotice && <div className="map-notice" role="status">
         <span>{mapNotice}</span>
@@ -484,7 +606,7 @@ export default function MapView({ villageAges = null, villageData = null, select
         <button className="notice-close" aria-label="關閉底圖提示" onClick={() => setMapNotice(null)}>×</button>
       </div>}
 
-      {station && <StationInfo station={station} mapRef={mapRef} data={data} placeKeys={state.places} onClose={onCloseStation} />}
+      {station && <StationInfo station={station} mode={activeFocus ? 'focus' : 'popup'} mapRef={mapRef} data={data} placeKeys={state.places} onClose={onCloseStation} />}
 
       {hover && (
         <div ref={tooltipRef} className="tooltip" style={{ left: hover.x, top: hover.y }}>
@@ -497,6 +619,8 @@ export default function MapView({ villageAges = null, villageData = null, select
             ? <NeedTooltip i={Number(hover.feature.properties.i)} grid={need.grid} result={need.result} state={state} />
             : hover.feature
             ? <FeatureTooltip feature={hover.feature} grid={grid} state={state} />
+            : hover.focusDistance !== undefined
+            ? <><b>沿線公車站 350 m 覆蓋</b><br />距已開啟路線停靠站或本站約 {Math.round(hover.focusDistance)} m（格心直線距離）</>
             : hover.distances && <CoverageTooltip distances={hover.distances} state={state} />}
         </div>
       )}
