@@ -16,6 +16,7 @@ uv run python -m scripts.official_cross_city.service_coverage
 uv run python -m scripts.official_cross_city.service_coverage --fetch
 uv run python -m scripts.official_cross_city.service_coverage --fetch --scope NewTaipei --kind StopOfRoute
 uv run python -m scripts.official_cross_city.service_coverage --fetch --scope Taipei --kind StopOfRoute
+uv run python -m scripts.official_cross_city.service_coverage --fetch --scope Taipei --scope NewTaipei --kind Schedule
 uv run python -m scripts.official_cross_city.service_coverage --offline
 ```
 

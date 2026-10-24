@@ -4,9 +4,9 @@
   "metadata": {
     "reviewer_agent": "/root/main_integration",
     "independent_of_producer": true,
-    "reviewed_at": "2026-10-24T11:41:20+08:00",
+    "reviewed_at": "2026-10-24T12:03:14+08:00",
     "status": "pass_with_source_limitations",
-    "record_count": 6,
+    "record_count": 8,
     "script": "scripts/review_service_coverage.py",
     "review_scope": null,
     "method": "Stdlib-only independent official-spec, HTTPS receipt, byte size, contiguous paging, exhausted tail, full nested field/type/value, complete operator model identity, count, UID, source timestamp and calendar checks; no producer helper imports.",
@@ -275,6 +275,47 @@
       }
     },
     {
+      "path": "data/official_cross_city/service_coverage/NewTaipei_Schedule.json.gz",
+      "scope": "NewTaipei",
+      "service": "Schedule",
+      "record_count": 100,
+      "status": "pass_with_source_limitations",
+      "source_periods": [
+        "2026-10-24T09:56:05+08:00"
+      ],
+      "source_downloaded_at": [
+        "2026-10-24T12:01:54+08:00"
+      ],
+      "reviewed_source_ids": [
+        "NewTaipei_Schedule_skip_0_top_100"
+      ],
+      "checks": {
+        "failure_count": 0,
+        "failures": []
+      },
+      "diagnostics": {
+        "record_count": 100,
+        "page_count": 1,
+        "route_uid_count": 78,
+        "nested_stop_count": 0,
+        "timetable_count": 6290,
+        "frequency_count": 1142,
+        "service_day_object_count": 7432,
+        "special_day_object_count": 0,
+        "raw_page_counts": [
+          100
+        ],
+        "exhausted_tail_observed": false,
+        "duplicate_paging_keys": [],
+        "reference_route_uid_count": 635,
+        "route_subroute_direction_groups_with_multiple_operator_models": 0,
+        "orderby_prefix_groups_crossing_page_boundaries": [],
+        "orderby_prefix_boundary_reviews": [],
+        "missing_stops_models": null,
+        "without_calendar_models": 0
+      }
+    },
+    {
       "path": "data/official_cross_city/service_coverage/NewTaipei_StopOfRoute.json.gz",
       "scope": "NewTaipei",
       "service": "StopOfRoute",
@@ -319,6 +360,65 @@
         "orderby_prefix_boundary_reviews": [],
         "missing_stops_models": 0,
         "without_calendar_models": null
+      }
+    },
+    {
+      "path": "data/official_cross_city/service_coverage/Taipei_Schedule.json.gz",
+      "scope": "Taipei",
+      "service": "Schedule",
+      "record_count": 600,
+      "status": "pass_with_source_limitations",
+      "source_periods": [
+        "2026-10-24T09:36:32+08:00"
+      ],
+      "source_downloaded_at": [
+        "2026-10-24T12:00:06+08:00",
+        "2026-10-24T12:00:22+08:00",
+        "2026-10-24T12:00:37+08:00",
+        "2026-10-24T12:00:53+08:00",
+        "2026-10-24T12:01:08+08:00",
+        "2026-10-24T12:01:23+08:00",
+        "2026-10-24T12:01:38+08:00"
+      ],
+      "reviewed_source_ids": [
+        "Taipei_Schedule_skip_0_top_100",
+        "Taipei_Schedule_skip_100_top_100",
+        "Taipei_Schedule_skip_200_top_100",
+        "Taipei_Schedule_skip_300_top_100",
+        "Taipei_Schedule_skip_400_top_100",
+        "Taipei_Schedule_skip_500_top_100",
+        "Taipei_Schedule_skip_600_top_100"
+      ],
+      "checks": {
+        "failure_count": 0,
+        "failures": []
+      },
+      "diagnostics": {
+        "record_count": 600,
+        "page_count": 7,
+        "route_uid_count": 405,
+        "nested_stop_count": 0,
+        "timetable_count": 35437,
+        "frequency_count": 3280,
+        "service_day_object_count": 38716,
+        "special_day_object_count": 1,
+        "raw_page_counts": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          0
+        ],
+        "exhausted_tail_observed": true,
+        "duplicate_paging_keys": [],
+        "reference_route_uid_count": 416,
+        "route_subroute_direction_groups_with_multiple_operator_models": 0,
+        "orderby_prefix_groups_crossing_page_boundaries": [],
+        "orderby_prefix_boundary_reviews": [],
+        "missing_stops_models": null,
+        "without_calendar_models": 0
       }
     },
     {
