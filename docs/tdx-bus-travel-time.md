@@ -33,6 +33,8 @@ uv run scripts/tdx_bus_travel_time.py --fetch --all-taipei --compress --min-requ
 
 單一取用者可指定15秒間隔；每分鐘剩餘額度為0或來源提供 `Retry-After` 時延後下一次請求，跨批次也沿用時間限制。失敗範圍不在每批自動重查，需明確 `--retry-failed`。完整收到但未通過解析的回應另留原文診斷，不覆寫有效版本。`--compress` 的新原始檔與整理檔使用 `.gz`；manifest 的 `bytes` 是HTTP內容量，`stored_bytes` 是磁碟壓縮大小。既有JSON可與gzip混合離線重建。
 
+整批剩餘容量不足一份完整回應預算時會先停止，下一個端點保持未請求，下一批可接續。
+
 官方若明示「目前沒有…公車路線資料」，另標 `availability_status=published_no_data_message` 並保留 `upstream_response_message` 與原文；coverage分開統計來源無資料與技術失敗。這只表示該推估端點沒有對應資料，不代表路線停駛。
 
 `taipei_endpoint_acquisition` 分開統計參考路線 UID 與不重複的路線名稱端點，列出成功、官方無資料、技術失敗及未請求數。`all_reference_endpoints_attempted` 只表示全部參考端點都曾嘗試；即使為 `true`，仍須查閱模型涵蓋及缺值，不能解讀為所有路線、站間與時段都有旅行時間。
