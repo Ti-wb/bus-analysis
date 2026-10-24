@@ -25,7 +25,7 @@ import { travelCollection } from '../regional';
 import { STATION_LAYERS, STATION_RADIUS, stationFromFeature } from '../stations';
 import { CoverageTooltip, FeatureTooltip, NeedTooltip, RoutePopup, type PopupFeature } from './FeatureInfo';
 import * as L from './layers';
-import { RouteLayers, ScenarioGrid, type EditorMapProps } from '../routeEditor/RouteLayers';
+import { ROUTE_STOP_PICKER, RouteLayers, RouteStopPicker, ScenarioGrid, type EditorMapProps } from '../routeEditor/RouteLayers';
 import type { AppState, Coverage, Grid, LayerGroup, MapData, NeedGrid, StationSelection, ViewState } from '../types';
 
 const LABEL_NAME: ExpressionSpecification = ['coalesce', ['get', 'name:zh-Hant'], ['get', 'name:nonlatin'], ['get', 'name']];
@@ -108,6 +108,8 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
   const baseLabels = useRef<string[]>([]);
   const [hover, setHover] = useState<Hover | null>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
+  const pickingStops = editor?.interaction === 'stops';
+  useEffect(() => { setHover(null); }, [editor?.interaction]);
 
   // Keep the tooltip inside the map: place it below-right of the cursor, flipping to the
   // other side when it would cross the right or bottom edge.
@@ -152,10 +154,13 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
     if (!styleLoaded) return;
     const map = mapRef.current!;
     const canvas = map.getCanvas();
-    canvas.setAttribute('aria-label', '互動地圖；方向鍵移動，Enter 開啟畫面中央最近的可見站點，Escape 關閉資訊');
+    canvas.setAttribute('aria-label', pickingStops
+      ? '選擇公車站；方向鍵移動，Enter 加入畫面中央最近的可選公車站'
+      : '互動地圖；方向鍵移動，Enter 開啟畫面中央最近的可見站點，Escape 關閉資訊');
     const openStation = (event: KeyboardEvent) => {
       if (event.key !== 'Enter') return;
-      const layers = STATION_LAYERS.filter((id) => map.getLayer(id) && state.layers.has(LAYER_GROUP_OF[id]));
+      const layers = pickingStops ? (map.getLayer(ROUTE_STOP_PICKER) ? [ROUTE_STOP_PICKER] : [])
+        : STATION_LAYERS.filter((id) => map.getLayer(id) && state.layers.has(LAYER_GROUP_OF[id]));
       if (!layers.length) return;
       const centre = { x: canvas.clientWidth / 2, y: canvas.clientHeight / 2 };
       const stations = map.queryRenderedFeatures(undefined, { layers });
@@ -164,15 +169,18 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
         return Math.hypot(point.x - centre.x, point.y - centre.y);
       };
       stations.sort((a, b) => distance(a) - distance(b));
+      if (pickingStops && editor && stations[0]) {
+        event.preventDefault(); setHover(null); setPopup(null);
+        editor.onStop(String(stations[0].properties.id)); return;
+      }
       const next = stations[0] && stationFromFeature(stations[0], data);
       if (next) { event.preventDefault(); setHover(null); setPopup(null);
-        if (editor?.interaction === 'stops' && next.type === 'bus' && editor.data.records.stops[next.id]) editor.onStop(next.id);
-        else onStation(next, canvas);
+        onStation(next, canvas);
       }
     };
     canvas.addEventListener('keydown', openStation);
     return () => canvas.removeEventListener('keydown', openStation);
-  }, [data, editor, styleLoaded, mapRef, onStation, state.layers]);
+  }, [data, editor, styleLoaded, mapRef, onStation, pickingStops, state.layers]);
 
   const handleLoad = useCallback((event: MapEvent) => {
     const map = event.target;
@@ -218,7 +226,7 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
   const withVisibility = (layer: L.StyleLayer, beforeId?: string): LayerProps => ({
     ...layer,
     beforeId,
-    layout: { ...(layer.layout ?? {}), visibility: visible(layer.id!) },
+    layout: { ...(layer.layout ?? {}), visibility: pickingStops && layer.id === 'bus-stops' ? 'none' : visible(layer.id!) },
     ...(editor && layer.id === 'bus-routes' ? { paint: { ...layer.paint, 'line-color': '#8aa2af', 'line-opacity': .025, 'line-width': .75 } } : {}),
     ...(editor && (layer.id === 'mrt-lines' || layer.id === 'mrt-lines-casing') ? { paint: { ...layer.paint, 'line-opacity': .2 } } : {}),
     ...(editor && layer.id === 'places' ? { paint: { ...layer.paint, 'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, 2, 15, 4], 'circle-opacity': .65, 'circle-stroke-width': 1 } } : {}),
@@ -231,13 +239,24 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
 
   const featureAt = (e: MapLayerMouseEvent): MapGeoJSONFeature | undefined => {
     const map = mapRef.current!.getMap();
+    const { x, y } = e.point;
+    if (pickingStops) {
+      if (!map.getLayer(ROUTE_STOP_PICKER)) return;
+      // Nearby MRT / YouBike points must not intercept stop selection. Pick the
+      // closest bus stop when several enlarged targets overlap.
+      const stops = map.queryRenderedFeatures([[x - 8, y - 8], [x + 8, y + 8]], { layers: [ROUTE_STOP_PICKER] });
+      const distance = (f: MapGeoJSONFeature) => {
+        const point = map.project((f.geometry as Point).coordinates as [number, number]);
+        return Math.hypot(point.x - x, point.y - y);
+      };
+      return stops.reduce<MapGeoJSONFeature | undefined>((best, f) => !best || distance(f) < distance(best) ? f : best, undefined);
+    }
     const layers = HOVER_LAYERS.filter((id) => map.getLayer(id) && shown(LAYER_GROUP_OF[id]));
     // In need mode the grid cell outranks route lines, but point markers still win.
     if (state.mode === 'need' && !villageView && map.getLayer('need-fill')) {
       const firstLine = layers.findIndex((id) => id === 'bus-routes' || id === 'mrt-lines' || id === 'regional-bus-routes');
       layers.splice(firstLine < 0 ? layers.length : firstLine, 0, 'need-fill');
     }
-    const { x, y } = e.point;
     const features = map.queryRenderedFeatures([[x - 4, y - 4], [x + 4, y + 4]], { layers });
     // Station points win; retain the analysis mode's priority for all other features.
     const stationFeature = features.find((f) => STATION_LAYERS.includes(f.layer.id));
@@ -261,10 +280,10 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
   const handleClick = (e: MapLayerMouseEvent) => {
     const feature = featureAt(e);
     const id = feature?.layer.id;
+    if (feature && id === ROUTE_STOP_PICKER && pickingStops && editor) {
+      editor.onStop(String(feature.properties.id)); setHover(null); setPopup(null); return;
+    }
     if (feature && STATION_LAYERS.includes(id!)) {
-      if (editor?.interaction === 'stops' && id === 'bus-stops') {
-        editor.onStop(String(feature.properties.id)); setHover(null); return;
-      }
       onStation(stationFromFeature(feature, data), mapRef.current!.getCanvas());
       setPopup(null);
       setHover(null);
@@ -390,6 +409,8 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
             <Source id="places" type="geojson" data={data.places}>
               <Layer {...withVisibility(L.placesLayer(placeMembers))} />
             </Source>
+            {pickingStops && editor && <RouteStopPicker editor={editor}
+              hoveredId={hover?.feature?.layer.id === ROUTE_STOP_PICKER ? String(hover.feature.properties.id) : null} />}
             {editor && <RouteLayers editor={editor} beforeId={below} />}
           </>
         )}
@@ -420,7 +441,10 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
 
       {hover && (
         <div ref={tooltipRef} className="tooltip" style={{ left: hover.x, top: hover.y }}>
-          {hover.feature?.layer.id === 'need-fill' && need
+          {hover.feature?.layer.id === ROUTE_STOP_PICKER && pickingStops && editor
+            ? <><b>{hover.feature.properties.name}</b><br />公車站位 #{hover.feature.properties.id}
+              <strong className="route-stop-pick-action">＋ 點擊加入第 {editor.insertIndex + 1} 站</strong></>
+            : hover.feature?.layer.id === 'need-fill' && need
             ? <NeedTooltip i={Number(hover.feature.properties.i)} grid={need.grid} result={need.result} state={state} />
             : hover.feature
             ? <FeatureTooltip feature={hover.feature} grid={grid} state={state} />
