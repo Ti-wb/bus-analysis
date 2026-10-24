@@ -4,7 +4,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from scripts.review_tdx_bus_travel_time import audit_delivery_accounting, read, read_source
+from scripts.review_tdx_bus_travel_time import audit_delivery_accounting, audit_unavailable_source, read, read_source
 
 
 def request(source_id, kind="travel_time"):
@@ -29,6 +29,25 @@ def delivered(query, source=None):
 
 
 class LatestBatchReviewTest(unittest.TestCase):
+    def test_source_unavailability_requires_explicit_retained_message(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            message = "目前沒有該縣市的[南港幹線]公車路線資料"
+            path = root / "response.json"
+            path.write_text(json.dumps({"message": message}), encoding="utf-8")
+            source = {"raw_file": path.name, "http_status": 200, "bytes": path.stat().st_size,
+                      "status": "failed", "complete_unparsed_response_retained": True,
+                      "upstream_response_message": message}
+            covered = {"availability_status": "published_no_data_message", "upstream_response_message": message}
+            self.assertEqual(audit_unavailable_source(root, source, covered), message)
+            covered["upstream_response_message"] = "different message"
+            with self.assertRaisesRegex(ValueError, "classification/message"):
+                audit_unavailable_source(root, source, covered)
+            path.write_text(json.dumps({"message": "upstream temporarily unavailable"}), encoding="utf-8")
+            source["bytes"] = path.stat().st_size
+            with self.assertRaisesRegex(ValueError, "explicitly publish"):
+                audit_unavailable_source(root, source, covered)
+
     def fixture(self, *, complete=False, zero_requests=False, failed=False):
         old_reference = request("2026-10-22", "route_reference")
         reference = request("2026-10-23", "route_reference")

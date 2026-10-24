@@ -50,6 +50,21 @@ def read_source(root, receipt):
     return json.loads(body)
 
 
+def audit_unavailable_source(root, receipt, covered):
+    check(receipt["status"] == "failed" and receipt["http_status"] == 200
+          and receipt.get("complete_unparsed_response_retained") is True,
+          "Source unavailability requires a complete retained HTTP 200 response")
+    raw = read_source(root, receipt)
+    message = raw.get("message") if isinstance(raw, dict) else None
+    check(isinstance(message, str) and message.startswith("目前沒有")
+          and message.endswith("公車路線資料"),
+          "Raw response does not explicitly publish missing route data")
+    check(receipt.get("upstream_response_message") == covered.get("upstream_response_message") == message
+          and covered.get("availability_status") == "published_no_data_message",
+          "Source unavailability classification/message differs from raw response")
+    return message
+
+
 def check(condition, message):
     if not condition:
         raise ValueError(message)
@@ -157,6 +172,12 @@ def audit(root):
         for key in ["status", "city", "route_name", "download_url", "downloaded_at", "http_status"]:
             check(covered.get(key) == receipt.get(key), "Coverage receipt field mismatch: " + key)
         if receipt["status"] != "downloaded":
+            if receipt.get("availability_status") == "published_no_data_message":
+                message = audit_unavailable_source(root, receipt, covered)
+                review.append({"source_id": receipt["source_id"], "status": "passed_source_unavailability_boundary",
+                               "provider_status": receipt["status"], "upstream_response_message": message,
+                               "available_travel_models": None, "implies_service_withdrawal": False})
+                continue
             review.append({"source_id": receipt["source_id"], "status": "not_run_no_successful_source", "provider_status": receipt["status"]})
             continue
         raw = read_source(root, receipt)
@@ -249,6 +270,8 @@ def audit(root):
     for key, expected in {"request_count": len(travel_sources), "successful_response_count": success,
                           "nonempty_response_count": sum(r.get("source_model_count", 0) > 0 for r in review),
                           "failed_scope_count": sum(s["status"] == "failed" for s in travel_sources),
+                          "source_unavailable_count": sum(r["status"] == "passed_source_unavailability_boundary" for r in review),
+                          "technical_failure_count": sum(s["status"] == "failed" and s.get("availability_status") != "published_no_data_message" for s in travel_sources),
                           "travel_time_row_count": total_rows, "missing_run_time_count": total_missing,
                           "route_reference_count": len(reference_rows),
                           "taipei_route_uids_retained": sum(bool(r["retained_files"]) for r in catalog["records"])}.items():
@@ -264,6 +287,7 @@ def audit(root):
         "method": "Independent raw JSON parsing and explicit official-schema field mapping; every retained model and station/service/time row compared without calling producer normalize.",
         "review_script": "scripts/review_tdx_bus_travel_time.py", "official_specification": "raw_data/tdx_bus_travel_time/specifications/travel_time.json",
         "review_population": {"successful_endpoint_responses": success, "models": total_groups, "station_time_rows": total_rows,
+                              "source_unavailable_responses": cmeta["source_unavailable_count"],
                               "missing_run_time_rows": total_missing, "taipei_route_reference_rows": len(reference_rows),
                               "taipei_route_uids_with_retained_travel_time": cmeta["taipei_route_uids_retained"]},
         "terms_url_checked": TERMS_URL, "terms_scope": "all retained observations, catalog, coverage, delivery, manifest and usage document",

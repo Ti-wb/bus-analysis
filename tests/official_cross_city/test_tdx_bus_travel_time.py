@@ -320,6 +320,24 @@ class TravelTimeTests(unittest.TestCase):
         self.assertTrue(failure['complete_unparsed_response_retained'])
         self.assertEqual(gzip.decompress((self.root / failure['raw_file']).read_bytes()), payload)
 
+    def test_published_no_data_message_is_source_unavailable_not_technical_failure(self):
+        store = bus.Store(self.root)
+        message = '目前沒有該縣市的[測試線]公車路線資料'
+        payload = json.dumps({'message': message}, ensure_ascii=False).encode()
+        response = io.BytesIO(payload); response.status = 200
+        response.headers = {'Content-Length': str(len(payload)), 'Content-Type': 'application/json'}
+        args = SimpleNamespace(max_requests=1, max_response_mb=8, max_total_mb=20, min_request_interval=13, refresh=False, compress=True)
+        with patch.object(bus, 'token', return_value='synthetic-token'), patch.object(bus, 'urlopen', return_value=response), redirect_stdout(io.StringIO()):
+            bus.fetch_requests(store, [self.request], args)
+        source = bus.Store(self.root).manifest['records'][0]
+        self.assertEqual(source['status'], 'failed')
+        self.assertEqual(source['availability_status'], 'published_no_data_message')
+        self.assertEqual(source['upstream_response_message'], message)
+        self.assertTrue(source['complete_unparsed_response_retained'])
+        self.assertEqual(gzip.decompress((self.root / source['raw_file']).read_bytes()), payload)
+        self.assertFalse(store.needs_request(self.request['source_id']))
+        self.assertIsNone(bus.published_no_data_message({'message': '服務暫時錯誤'}))
+
 
 if __name__ == '__main__':
     unittest.main()

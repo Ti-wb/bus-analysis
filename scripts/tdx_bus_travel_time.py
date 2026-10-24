@@ -120,6 +120,14 @@ def validate_spec(spec):
             raise ValueError('Historical support changed; review the catalog before rebuilding')
 
 
+def published_no_data_message(body):
+    """Recognize the explicit no-route-data response observed from this API."""
+    message = body.get('message') if isinstance(body, dict) else None
+    if isinstance(message, str) and message.startswith('目前沒有') and message.endswith('公車路線資料'):
+        return message
+    return None
+
+
 def normalize_travel(body, request, provenance):
     if not isinstance(body, list) or not all(isinstance(x, dict) for x in body):
         raise ValueError('Expected the documented array of travel-time models')
@@ -270,7 +278,9 @@ class Store:
         for source in self.manifest['records']:
             if source.get('kind') != 'travel_time':
                 continue
-            record = {k: source.get(k) for k in ['source_id', 'city', 'route_name', 'download_url', 'status', 'http_status', 'failure_reason', 'downloaded_at', 'last_failed_attempt']}
+            record = {k: source.get(k) for k in ['source_id', 'city', 'route_name', 'download_url', 'status', 'http_status', 'failure_reason', 'downloaded_at', 'last_failed_attempt', 'availability_status', 'upstream_response_message']}
+            if source['status'] == 'failed':
+                record['availability_status'] = source.get('availability_status', 'technical_failure')
             if source.get('status') == 'downloaded':
                 dataset = normalize_travel(self.raw_body(source), {k: source[k] for k in ['source_id', 'kind', 'city', 'route_name', 'source_page', 'download_url']}, source)
                 filename = 'data/tdx_bus_travel_time/observations/' + source['source_id'] + '.json'
@@ -282,6 +292,7 @@ class Store:
                 m = dataset['metadata']
                 record.update({k: m[k] for k in ['record_count', 'travel_time_row_count', 'missing_run_time_count', 'statistical_period', 'scope_status']})
                 record['output_file'] = filename
+                record['availability_status'] = 'models_returned' if m['record_count'] else 'published_empty_array'
                 for group in dataset['records']:
                     if group.get('route_uid'):
                         retained.setdefault(group['route_uid'], []).append(filename)
@@ -302,6 +313,7 @@ class Store:
                             'endpoint_acquisition_status': endpoint['status'] if endpoint else 'not_requested',
                             'endpoint_response_empty': endpoint.get('record_count') == 0 if endpoint and endpoint['status'] == 'downloaded' else None,
                             'endpoint_http_status': endpoint.get('http_status') if endpoint else None,
+                            'endpoint_availability_status': endpoint.get('availability_status') if endpoint else None,
                             'historical_retrieval_status': 'no_historical_date_or_version_parameter_in_official_spec'})
         start = as_of.replace(year=as_of.year - 3) if not (as_of.month == 2 and as_of.day == 29) else as_of.replace(year=as_of.year - 3, day=28)
         write(self.out / 'route_catalog.json', envelope('tdx_bus_travel_time_route_catalog', {
@@ -322,6 +334,8 @@ class Store:
             'request_count': len(coverage), 'successful_response_count': sum(r['status'] == 'downloaded' for r in coverage),
             'nonempty_response_count': sum(r.get('record_count', 0) > 0 for r in coverage),
             'failed_scope_count': sum(r['status'] == 'failed' for r in coverage),
+            'source_unavailable_count': sum(r.get('availability_status') == 'published_no_data_message' for r in coverage),
+            'technical_failure_count': sum(r['status'] == 'failed' and r.get('availability_status') != 'published_no_data_message' for r in coverage),
             'travel_time_row_count': sum(r.get('travel_time_row_count', 0) for r in coverage),
             'missing_run_time_count': sum(r.get('missing_run_time_count', 0) for r in coverage),
             'independent_review_status': 'pending',
@@ -394,6 +408,9 @@ def fetch_requests(store, requests, args):
         path = store.raw / 'responses' / (request['source_id'] + ('.json.gz' if compress else '.json'))
         path.parent.mkdir(parents=True, exist_ok=True)
         part = path.with_suffix('.part')
+        body = None
+        content_type = None
+        usage = {}
         try:
             req = Request(request['download_url'], headers={'Authorization': 'Bearer ' + auth, 'Accept-Encoding': 'identity'})
             last_at = time.monotonic()
@@ -459,7 +476,15 @@ def fetch_requests(store, requests, args):
                 raise RuntimeError('TDX denied/limited the request; no retries or account changes performed') from None
         except (ValueError, UnicodeError) as exc:
             reason = str(exc) if str(exc) in {'response_exceeds_local_size_limit', 'response_length_mismatch'} else 'unusable_response_format_or_contract'
-            failure = {**request, 'status': 'failed', 'checked_at': now(), 'failure_reason': reason, 'partial_file_retained': False}
+            failure = {**request, 'status': 'failed', 'checked_at': now(), 'failure_reason': reason,
+                       'partial_file_retained': False, 'usage_headers': usage}
+            message = published_no_data_message(body)
+            if message is not None:
+                failure.update({'failure_reason': 'source_published_no_data_message',
+                                'availability_status': 'published_no_data_message',
+                                'upstream_response_message': message})
+            else:
+                failure['availability_status'] = 'technical_failure'
             if reason == 'unusable_response_format_or_contract' and part.exists():
                 # A fully received but unusable business response is evidence.
                 # Keep it separately so a failed refresh cannot replace a
@@ -473,7 +498,7 @@ def fetch_requests(store, requests, args):
                                 'http_status': 200, 'content_type': locals().get('content_type'),
                                 'raw_parse_error': str(exc), 'complete_unparsed_response_retained': True})
             store.upsert(failure)
-            print(request['source_id'] + ': ' + reason, flush=True)
+            print(request['source_id'] + ': ' + failure['failure_reason'], flush=True)
         finally:
             part.unlink(missing_ok=True)
     return {'requests_used': requests_used, 'response_bytes': total}

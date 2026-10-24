@@ -32,3 +32,5 @@ uv run scripts/tdx_bus_travel_time.py --fetch --all-taipei --compress --min-requ
 預設上限為20次業務請求、單回應8MB、整批20MB及間隔26秒；已成功的來源預設跳過，`--refresh` 才重新取得。另取一份未計入業務請求數的公開官方規格。401／403／429會立即停止，不重試或調整帳戶。規格列示10次請求／1點、1MB／10點，程式不查核剩餘點數、不購買額度。使用專案 `.env` 或環境的 `TDX_CLIENT_ID`、`TDX_CLIENT_SECRET`，不寫入輸出。
 
 單一取用者可指定15秒間隔；每分鐘剩餘額度為0或來源提供 `Retry-After` 時延後下一次請求，跨批次也沿用時間限制。失敗範圍不在每批自動重查，需明確 `--retry-failed`。完整收到但未通過解析的回應另留原文診斷，不覆寫有效版本。`--compress` 的新原始檔與整理檔使用 `.gz`；manifest 的 `bytes` 是HTTP內容量，`stored_bytes` 是磁碟壓縮大小。既有JSON可與gzip混合離線重建。
+
+官方若明示「目前沒有…公車路線資料」，另標 `availability_status=published_no_data_message` 並保留 `upstream_response_message` 與原文；coverage分開統計來源無資料與技術失敗。這只表示該推估端點沒有對應資料，不代表路線停駛。
