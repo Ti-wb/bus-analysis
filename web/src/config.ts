@@ -92,10 +92,10 @@ export const STATION_TYPES: { key: StationType; label: string; walkLabel: string
   { key: 'mrt', label: '捷運', walkLabel: '捷運站・步行到站', markers: 'mrt' },
   { key: 'youbike', label: 'YouBike', walkLabel: 'YouBike 站・步行到站', markers: 'youbike' },
 ];
-// Radius ranges stay within the 2.5 km cap of the coverage data.
+// Radius ranges stay within the 3 km cap of the coverage data.
 export const COVERAGE_LAYERS: Record<CoverageLayer, { label: string; min: number; max: number; step: number; radius: number; rgb: [number, number, number] }> = {
   walk: { label: '步行到站', min: 100, max: 1000, step: 50, radius: 350, rgb: [232, 132, 66] },
-  ride: { label: 'YouBike 騎乘', min: 500, max: 2500, step: 100, radius: 1000, rgb: [47, 158, 143] },
+  ride: { label: 'YouBike 騎乘', min: 500, max: 3000, step: 100, radius: 1000, rgb: [47, 158, 143] },
 };
 export const COVERAGE_CELLS: { cell: CoverageCell; label: string }[] = [
   { cell: 50, label: '細緻' },
