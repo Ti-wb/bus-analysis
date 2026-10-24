@@ -23,6 +23,15 @@ def source_periods(doc):
     return sorted({period for period in periods if period})
 
 
+def review_matches_source(doc, review):
+    periods = source_periods(doc)
+    if periods:
+        return review.get("source_periods", []) == periods
+    # A download receipt identifies this snapshot, never its source update date.
+    acquired_at = doc["metadata"].get("source", {}).get("downloaded_at")
+    return bool(acquired_at) and review.get("source_downloaded_at") == acquired_at
+
+
 def build():
     reviews = {}
     for path in sorted((MAP / "quality").glob("*_review.json")):
@@ -32,11 +41,16 @@ def build():
                 reviews[file] = {"status": record.get("status", "pending"),
                                  "record_count": record.get("record_count"),
                                  "source_periods": record.get("source_periods", []),
+                                 "source_downloaded_at": record.get("source_downloaded_at"),
                                  "report": str(path.relative_to(MAP))}
     admin = read(MAP / "admin/manifest.json")
     osm = read(MAP / "osm/manifest.json")
     records = []
-    for group, manifest in (("admin", admin), ("osm", osm)):
+    groups = [("admin", admin), ("osm", osm)]
+    for group in ("traffic-focus/osm", "traffic-focus/housing"):
+        if (MAP / group / "manifest.json").exists():
+            groups.append((group, read(MAP / group / "manifest.json")))
+    for group, manifest in groups:
         for entry in manifest["records"]:
             outputs = entry.get("outputs", [{"path": entry.get("path")}])
             files = []
@@ -55,8 +69,9 @@ def build():
                 file_periods = source_periods(doc)
                 periods.update(file_periods)
                 review = reviews.get(output["path"], {"status": "pending"})
-                if review.get("report") and (not file_periods or review["source_periods"] != file_periods):
-                    review = {**review, "status": "pending_source_version"}
+                if review.get("report"):
+                    if not review_matches_source(doc, review):
+                        review = {**review, "status": "pending_source_version"}
                 if review.get("record_count") is not None and review["record_count"] != len(rows):
                     review = {**review, "status": "pending_changed_count"}
                 files.append({"path": str(path.relative_to(MAP)), "encoding": output.get("encoding", "utf-8"),
@@ -75,14 +90,18 @@ def build():
                             "manifest": f"{group}/manifest.json", "independent_review_status": status})
     bounds = osm["metadata"]["bbox"]
     return {"schema_version": 1, "dataset_id": "taipei_new_taipei_map_layers", "metadata": {
-        "title": "雙北 GIS 底圖與行政界", "coordinate_reference_system": "EPSG:4326",
+        "title": "雙北 GIS 底圖、行政界與臺北市交通需求候選設施", "coordinate_reference_system": "EPSG:4326",
         "coordinate_order": ["longitude", "latitude"], "path_base": "map-data/",
         "record_count": len(records), "bbox": bounds,
         "fit_bounds": [[bounds[0], bounds[1]], [bounds[2], bounds[3]]],
         "admin_city_codes": ["63000", "65000"],
         "total_layer_file_bytes": sum(f["bytes"] for r in records for f in r["files"]),
         "attributions": [admin["metadata"]["license"], {"name": "ODbL-1.0", "url": osm["metadata"]["license_url"],
-                          "attribution": osm["metadata"]["attribution"]}],
+                          "attribution": osm["metadata"]["attribution"]}]
+                        + [{"name": m["metadata"]["source"]["license"],
+                            "url": m["metadata"]["source"]["license_url"],
+                            "attribution": m["metadata"]["source"]["attribution"]}
+                           for g, m in groups if g == "traffic-focus/housing"],
         "notes": ["files與manifest路徑皆相對map-data/；同圖層的所有files合起來才是完整圖層。",
                   "OSM採gzip壓縮GeoJSON，可使用load-geojson.mjs或先解壓；依畫面需要載入圖層。",
                   "各圖層可能描述同一設施，不可把所有圖層筆數相加當成不重複設施數。",

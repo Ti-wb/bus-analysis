@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "dataset_id": "taipei_traffic_osm_manifest",
+  "metadata": {
+    "title": "臺北市 OSM 交通需求候選設施標記",
+    "generated_at": "2026-10-24T09:57:28+08:00",
+    "source": {
+      "source_page": "https://download.geofabrik.de/asia/taiwan.html",
+      "download_url": "https://download.geofabrik.de/asia/taiwan-261020-free.gpkg.zip",
+      "downloaded_at": "2026-10-22T00:16:54+08:00",
+      "http_last_modified": "Wed, 21 Oct 2026 02:40:04 GMT",
+      "download_bytes": 270502525,
+      "source_updated_at": "2026-10-20T20:23:47Z",
+      "archive_path": "map-data/raw/osm/taiwan-261020-free.gpkg.zip",
+      "format_description": "https://download.geofabrik.de/osm-data-in-gis-formats-free.pdf",
+      "license": "ODbL-1.0",
+      "license_url": "https://opendatacommons.org/licenses/odbl/1-0/",
+      "attribution": "© OpenStreetMap contributors; processed by Geofabrik"
+    },
+    "source_period": "2026-10-20T20:23:47Z",
+    "input_files": [
+      "map-data/osm/pois.geojson.gz",
+      "map-data/osm/poi_areas.geojson.gz",
+      "map-data/osm/transport.geojson.gz",
+      "map-data/osm/transport_areas.geojson.gz",
+      "map-data/osm/landuse.geojson.gz"
+    ],
+    "boundary_sources": [
+      {
+        "path": "map-data/admin/cities.geojson",
+        "source_period": "2025-03-18",
+        "sources": [
+          {
+            "page_url": "https://data.gov.tw/dataset/7442",
+            "url": "https://www.tgos.tw/tgos/VirtualDir/Product/1cd4f4c9-6b01-4cf9-bf6c-23a73aa17d24/直轄市、縣(市)界線1140318.zip",
+            "raw_file": "map-data/raw/admin/cities.zip",
+            "downloaded_at": "2026-10-22T00:16:17+08:00",
+            "provider": "內政部國土測繪中心",
+            "title": "直轄市、縣市界線(TWD97經緯度)",
+            "source_period": "2025-03-18",
+            "version_evidence": "COUNTY_MOI_1140318.shp",
+            "catalog_updated_at": "2025-12-16 01:26",
+            "original_crs": "GEOGCS[\"GCS_TWD97[2020]\",DATUM[\"D_TWD_1997\",SPHEROID[\"GRS_1980\",6378137.0,298.257222101]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]]",
+            "original_crs_name": "GCS_TWD97[2020]",
+            "original_crs_wkt": "GEOGCS[\"GCS_TWD97[2020]\",DATUM[\"D_TWD_1997\",SPHEROID[\"GRS_1980\",6378137.0,298.257222101]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]]",
+            "encoding": "UTF-8",
+            "license": {
+              "name": "政府資料開放授權條款－第1版",
+              "url": "https://data.gov.tw/license",
+              "attribution": "內政部國土測繪中心；政府資料開放平臺"
+            }
+          }
+        ]
+      },
+      {
+        "path": "map-data/admin/districts.geojson",
+        "source_period": "2025-03-18",
+        "sources": [
+          {
+            "page_url": "https://data.gov.tw/dataset/7441",
+            "url": "https://www.tgos.tw/tgos/VirtualDir/Product/3fe61d4a-ca23-4f45-8aca-4a536f40f290/鄉(鎮、市、區)界線1140318.zip",
+            "raw_file": "map-data/raw/admin/districts.zip",
+            "downloaded_at": "2026-10-22T00:16:29+08:00",
+            "provider": "內政部國土測繪中心",
+            "title": "鄉鎮市區界線(TWD97經緯度)",
+            "source_period": "2025-03-18",
+            "version_evidence": "TOWN_MOI_1140318.shp",
+            "catalog_updated_at": "2025-12-24 13:40",
+            "original_crs": "GEOGCS[\"GCS_TWD97[2020]\",DATUM[\"D_TWD_1997\",SPHEROID[\"GRS_1980\",6378137.0,298.257222101]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]]",
+            "original_crs_name": "GCS_TWD97[2020]",
+            "original_crs_wkt": "GEOGCS[\"GCS_TWD97[2020]\",DATUM[\"D_TWD_1997\",SPHEROID[\"GRS_1980\",6378137.0,298.257222101]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]]",
+            "encoding": "UTF-8",
+            "license": {
+              "name": "政府資料開放授權條款－第1版",
+              "url": "https://data.gov.tw/license",
+              "attribution": "內政部國土測繪中心；政府資料開放平臺"
+            }
+          }
+        ]
+      }
+    ],
+    "coordinate_reference_system": "EPSG:4326",
+    "coordinate_order": [
+      "longitude",
+      "latitude"
+    ],
+    "scope": {
+      "city_code": "63000",
+      "city_name": "臺北市"
+    },
+    "grain": "one selected OSM source feature; not one unique facility",
+    "units": {
+      "footprint_area_m2": "m2",
+      "student_count": "persons",
+      "bed_count": "beds",
+      "household_count": "households",
+      "daily_visitors": "persons/day",
+      "daily_trips": "trips/day"
+    },
+    "area_crs": "EPSG:3826",
+    "park_min_area_m2": 10000,
+    "counts_by_category": {
+      "culture_sports": 430,
+      "education": 359,
+      "employment": 268,
+      "government": 42,
+      "hospital": 47,
+      "recreation": 178,
+      "residential": 809,
+      "shopping": 189,
+      "transport": 102
+    },
+    "excluded_counts": {},
+    "limitations": [
+      "這是潛在交通需求設施清單，沒有實測人流或交通量，不可據此認定高流量或排列運量。",
+      "每列為來源圖徵；同一設施可能有點、面、多棟或多校區。標記與範圍是同一批資料的兩種呈現，不可加總。",
+      "same_name_group 僅提示同類別同名圖徵，未自動合併；不同名稱的重複與同名分館仍需核對。",
+      "具名住宅區只是候選，未驗證戶數或大型社區資格；未具名住宅區和個別住宅建物未納入。",
+      "住宅與商業工業 landuse 包含一般地名、倉庫、機房等，不是已核實的社區名冊或就業集聚區；traffic_evidence=landuse_only。",
+      "公園僅保留具名且臺北市內面積達設定門檻者；門檻是研究篩選設定，不是官方分級。",
+      "面內代表點不是出入口，區別依代表點判定；跨市面僅保留臺北市內部分。",
+      "OSM 有漏標、分類或停業資訊落差；Geofabrik 選集沒有完整 OSM tags，需官方名冊補齊。",
+      "ID 只在本快照內有效，osm_id 未含 node/way/relation 類型，不能直接關聯其他資料。"
+    ],
+    "csv_path": "map-data/traffic-focus/osm/candidates.csv",
+    "csv_missing_value": "empty cell",
+    "update_command": "uv run scripts/build_traffic_focus_osm.py"
+  },
+  "records": [
+    {
+      "dataset_id": "taipei_traffic_osm_candidates",
+      "path": "map-data/traffic-focus/osm/candidates.geojson",
+      "record_count": 2424,
+      "bytes": 2407443
+    },
+    {
+      "dataset_id": "taipei_traffic_osm_areas",
+      "path": "map-data/traffic-focus/osm/areas.geojson",
+      "record_count": 2039,
+      "bytes": 2905610
+    }
+  ]
+}

@@ -1,0 +1,171 @@
+{
+  "schema_version": 1,
+  "dataset_id": "taipei_traffic_focus_independent_review",
+  "metadata": {
+    "reviewer_agent": "/root/review_traffic_focus",
+    "independent_of_producer": true,
+    "reviewed_at": "2026-10-24T10:00:44+08:00",
+    "status": "pass_with_source_limitations",
+    "record_count": 4,
+    "method": "Independent source selection, field reconciliation, Shapely geometry/city/district checks, projected area, RFC 7946 rings, CSV and manifest parity; no producer helper imports.",
+    "script": "scripts/review_traffic_focus.py",
+    "polygon_boundary_tolerance_degrees": 1e-10,
+    "diagnostics": {
+      "osm_source_files_checked": 5,
+      "osm_category_counts": {
+        "culture_sports": 430,
+        "education": 359,
+        "employment": 268,
+        "government": 42,
+        "hospital": 47,
+        "recreation": 178,
+        "residential": 809,
+        "shopping": 189,
+        "transport": 102
+      },
+      "osm_missing_name_count": 31,
+      "osm_same_name_groups": 43,
+      "osm_same_name_affected_features": 118,
+      "housing_source_rows": 86,
+      "housing_mapped": 78,
+      "housing_unmapped": 6,
+      "housing_excluded": 2,
+      "housing_mapped_kind_counts": {
+        "project": 75,
+        "ancillary_facility": 3
+      },
+      "housing_progress_counts": {
+        "已完工": 56,
+        "施工中及待開工": 11,
+        "規劃中": 11
+      },
+      "housing_threshold_count": 22,
+      "housing_completed_threshold_count": 17,
+      "housing_mapped_planned_households_sum_for_reconciliation_only": 18511,
+      "housing_district_conflicts": [
+        {
+          "candidate_id": "taipei_housing:43",
+          "name": "中山站聯開宅",
+          "source_district_name": "大同區",
+          "district_name": "中山區"
+        }
+      ],
+      "housing_shared_source_coordinates": [
+        {
+          "coordinates": [
+            121.5256,
+            25.03078
+          ],
+          "names": [
+            "金華社會住宅(特五基地)",
+            "金華行政大樓(特四基地)"
+          ]
+        },
+        {
+          "coordinates": [
+            121.5902,
+            25.06082
+          ],
+          "names": [
+            "石壁潭社會住宅1區",
+            "石壁潭社會住宅2區"
+          ]
+        }
+      ]
+    },
+    "housing_source_page_evidence": {
+      "checked_on": "2026-10-24",
+      "evidence_location": "Official dataset page HTML and embedded Nuxt JSON",
+      "license_name": "依政府資料開放授權條款-第1版",
+      "license_id": "4550e68f-6812-4a15-a2e2-f954eee779c5",
+      "source_field_descriptions": {
+        "houseHolds": "規劃戶數",
+        "persons": "居住人口"
+      },
+      "note": "Catalogue page timestamps and daily refresh frequency do not establish the API row update date."
+    },
+    "source_pages_checked": [
+      "https://data.taipei/dataset/detail?id=659c3565-df41-4f80-915f-95e83071bdcd",
+      "https://hms.udd.gov.taipei/api/BigData/project",
+      "https://www.rfc-editor.org/rfc/rfc7946"
+    ]
+  },
+  "records": [
+    {
+      "path": "map-data/traffic-focus/osm/candidates.geojson",
+      "record_count": 2424,
+      "status": "pass_with_source_limitations",
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ],
+      "source_downloaded_at": "2026-10-22T00:16:54+08:00",
+      "reviewed_generated_at": "2026-10-24T09:57:28+08:00",
+      "checks": {
+        "failures": [],
+        "failure_count": 0,
+        "source_and_geometry_reconciled": true
+      },
+      "limitations": [
+        "OSM 每筆是來源圖徵；點、面、多棟、同名或跨分類重複尚未實體合併，圖層筆數不是不重複設施數。",
+        "住宅土地使用包括金瑞里、中八仙、下八仙等地名；809 筆不等於社區數，更不等於大型社區數。",
+        "商業與工業土地使用包括變電所、抽水站、機房及倉庫；268 筆不等於高人流或就業集聚設施。"
+      ]
+    },
+    {
+      "path": "map-data/traffic-focus/osm/areas.geojson",
+      "record_count": 2039,
+      "status": "pass_with_source_limitations",
+      "source_periods": [
+        "2026-10-20T20:23:47Z"
+      ],
+      "source_downloaded_at": "2026-10-22T00:16:54+08:00",
+      "reviewed_generated_at": "2026-10-24T09:57:28+08:00",
+      "checks": {
+        "failures": [],
+        "failure_count": 0,
+        "source_and_geometry_reconciled": true
+      },
+      "limitations": [
+        "OSM 每筆是來源圖徵；點、面、多棟、同名或跨分類重複尚未實體合併，圖層筆數不是不重複設施數。",
+        "住宅土地使用包括金瑞里、中八仙、下八仙等地名；809 筆不等於社區數，更不等於大型社區數。",
+        "商業與工業土地使用包括變電所、抽水站、機房及倉庫；268 筆不等於高人流或就業集聚設施。"
+      ]
+    },
+    {
+      "path": "map-data/traffic-focus/housing/candidates.geojson",
+      "record_count": 78,
+      "status": "pass_with_source_limitations",
+      "source_periods": [],
+      "source_downloaded_at": "2026-10-24T09:55:24+08:00",
+      "reviewed_generated_at": "2026-10-24T09:59:03+08:00",
+      "checks": {
+        "failures": [],
+        "failure_count": 0,
+        "source_and_geometry_reconciled": true
+      },
+      "limitations": [
+        "社宅規劃戶數、來源人口欄與工程進度均不證明實際入住或旅次；未定位與合計列不作地點。",
+        "來源未提供社宅更新日期；使用下載收據識別受審快照，沒有把下載時間當資料更新時間。",
+        "圖形與市界驗證不代表逐一核對實際入口、營運情況、完整設施名冊或實測交通量。"
+      ]
+    },
+    {
+      "path": "map-data/traffic-focus/housing/unmapped.json",
+      "record_count": 6,
+      "status": "pass_with_source_limitations",
+      "source_periods": [],
+      "source_downloaded_at": "2026-10-24T09:55:24+08:00",
+      "reviewed_generated_at": "2026-10-24T09:59:03+08:00",
+      "checks": {
+        "failures": [],
+        "failure_count": 0,
+        "source_and_geometry_reconciled": true
+      },
+      "limitations": [
+        "社宅規劃戶數、來源人口欄與工程進度均不證明實際入住或旅次；未定位與合計列不作地點。",
+        "來源未提供社宅更新日期；使用下載收據識別受審快照，沒有把下載時間當資料更新時間。",
+        "圖形與市界驗證不代表逐一核對實際入口、營運情況、完整設施名冊或實測交通量。"
+      ]
+    }
+  ]
+}

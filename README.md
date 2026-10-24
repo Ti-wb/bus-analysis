@@ -24,6 +24,8 @@ Agent 協作、格式與提交規則見 [AGENTS.md](AGENTS.md)。
 
 新增的現行公車、近三年人口與營運統計、捷運一年分時進出量、設施及 TDX 資料，見[整合資料目錄](data/catalog.json)與[整理及更新說明](docs/data-collection.md)。大型資料僅保留必要彙總或來源連結；各來源均另附獨立巡檢結果。
 
+臺北市學校、醫院、住宅區等[交通需求候選清單](docs/traffic-focus.md)提供 CSV、GIS 標記與範圍，另含官方社宅規劃戶數及工程狀態；設施位置不代表實測高流量。
+
 ## 更新
 
 安裝、執行與自動更新方式見 [資料更新說明](docs/data-updates.md)。專案用 uv 管理 Python 與依賴，不熟悉的話請先看 [uv 快速上手](docs/uv.md)。
