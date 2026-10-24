@@ -14,6 +14,8 @@ GROUPS = {
     "background": "臺北市客運統計與運具使用調查",
     "tdx": "TDX 歷史與加值服務",
     "youbike": "臺北市 YouBike 2.0 站點",
+    "calendar": "政府行政機關辦公日曆",
+    "analysis": "運輸需求供需落差（研究草案）",
 }
 
 
