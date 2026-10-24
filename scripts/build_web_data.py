@@ -26,12 +26,12 @@ OUT = ROOT / "web/public/data"
 # Taipei City plus a margin of the surrounding New Taipei area.
 VIEW_BBOX = (121.40, 24.93, 121.70, 25.23)
 CELL_SIZES = (100, 150, 250, 500)
-# Station-coverage grids: distances in 10 m steps up to 2.5 km.
+# Station-coverage grids: distances in 10 m steps up to 3 km.
 # The web map lets readers pick the coverage cell size; each size is measured from its own cell centres.
 COVERAGE_CELL_SIZES = (50, 100, 200)
 COVERAGE_UNIT_M = 10
-COVERAGE_CAP = 250
-COVERAGE_OUTSIDE = 255
+COVERAGE_CAP = 300
+COVERAGE_OUTSIDE = 999
 # Walking catchment radii; station information always uses the 350 m entry.
 CATCHMENT_RADII = (200, 350, 500)
 POPULATION = ROOT / "data/population"
@@ -216,7 +216,7 @@ def build_coverage(city, station_types, cell_m):
         (index, _), distance = tree.query_nearest(centres, return_distance=True, all_matches=False)
         nearest = np.empty(len(centres))
         nearest[index] = distance
-        values = np.full(rows * cols, COVERAGE_OUTSIDE, dtype=np.uint8)
+        values = np.full(rows * cols, COVERAGE_OUTSIDE, dtype=np.uint16)
         values[inside] = np.minimum(np.rint(nearest / COVERAGE_UNIT_M), COVERAGE_CAP)
         fields[name] = values.tolist()
     return {

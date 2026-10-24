@@ -9,14 +9,14 @@ export interface CoverageImage {
   coordinates: [[number, number], [number, number], [number, number], [number, number]];
 }
 
-const decoded = new WeakMap<Coverage, Record<StationType, Uint8Array>>();
-function fields(coverage: Coverage): Record<StationType, Uint8Array> {
+const decoded = new WeakMap<Coverage, Record<StationType, Uint16Array>>();
+function fields(coverage: Coverage): Record<StationType, Uint16Array> {
   let f = decoded.get(coverage);
   if (!f) {
     f = {
-      bus: Uint8Array.from(coverage.fields.bus),
-      mrt: Uint8Array.from(coverage.fields.mrt),
-      youbike: Uint8Array.from(coverage.fields.youbike),
+      bus: Uint16Array.from(coverage.fields.bus),
+      mrt: Uint16Array.from(coverage.fields.mrt),
+      youbike: Uint16Array.from(coverage.fields.youbike),
     };
     decoded.set(coverage, f);
   }
@@ -24,9 +24,10 @@ function fields(coverage: Coverage): Record<StationType, Uint8Array> {
 }
 
 /** Distance band 0–4 within the radius, or -1 when the cell is beyond it. */
-function band(units: number, unitM: number, radius: number): number {
-  const metres = units * unitM;
-  return metres > radius ? -1 : Math.min(COVERAGE_BANDS - 1, Math.floor((metres / radius) * COVERAGE_BANDS));
+function band(units: number, coverage: Coverage, radius: number): number {
+  const metres = units * coverage.unit_m;
+  // A capped value only says "at least cap", so it never falls inside a radius.
+  return metres > radius || units >= coverage.cap ? -1 : Math.min(COVERAGE_BANDS - 1, Math.floor((metres / radius) * COVERAGE_BANDS));
 }
 
 /** Paints one pixel per cell, walking reach composited over riding reach. */
@@ -50,14 +51,14 @@ export function coverageImage(coverage: Coverage, state: Pick<CoverageState, 'co
     let ra = 0;
     let wa = 0;
     if (ride) {
-      const b = band(f.youbike[i], coverage.unit_m, state.rideRadius);
+      const b = band(f.youbike[i], coverage, state.rideRadius);
       if (b >= 0) ra = COVERAGE_ALPHA[b];
     }
     if (walk) {
       // Each type has its own radius; the cell takes the strongest band among them.
       let best = -1;
       for (const { field, radius } of walkTypes) {
-        const b = band(field[i], coverage.unit_m, radius);
+        const b = band(field[i], coverage, radius);
         if (b >= 0 && (best < 0 || b < best)) best = b;
       }
       if (best >= 0) wa = COVERAGE_ALPHA[best];
