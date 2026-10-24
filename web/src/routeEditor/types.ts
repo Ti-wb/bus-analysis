@@ -1,7 +1,7 @@
 import type { DayType } from '../types';
 
 export type Coordinate = [number, number];
-export type Band = 'am' | 'midday' | 'pm' | 'evening' | 'saturday' | 'sunday';
+export type Band = 'am' | 'midday' | 'pm' | 'evening' | 'saturday' | 'sunday' | 'weekday_all' | `${'saturday' | 'sunday'}_${'all' | 'am' | 'midday' | 'pm' | 'evening'}`;
 export const BANDS: { id: Band; label: string; day: DayType; start: number; end: number }[] = [
   { id: 'am', label: '平日 07–09', day: 'weekday', start: 7, end: 9 },
   { id: 'midday', label: '平日 09–17', day: 'weekday', start: 9, end: 17 },
@@ -9,6 +9,14 @@ export const BANDS: { id: Band; label: string; day: DayType; start: number; end:
   { id: 'evening', label: '平日 19–23', day: 'weekday', start: 19, end: 23 },
   { id: 'saturday', label: '週六 07–23', day: 'saturday', start: 7, end: 23 },
   { id: 'sunday', label: '週日 07–23', day: 'sunday', start: 7, end: 23 },
+  { id: 'weekday_all', label: '平日 全日', day: 'weekday', start: 0, end: 24 },
+  ...(['saturday', 'sunday'] as const).flatMap((day) => ([
+    { period: 'all', label: '全日', start: 0, end: 24 },
+    { period: 'am', label: '07–09', start: 7, end: 9 },
+    { period: 'midday', label: '09–17', start: 9, end: 17 },
+    { period: 'pm', label: '17–19', start: 17, end: 19 },
+    { period: 'evening', label: '19–23', start: 19, end: 23 },
+  ] as const).map((p) => ({ id: `${day}_${p.period}` as Band, label: `${day === 'saturday' ? '週六' : '週日'} ${p.label}`, day, start: p.start, end: p.end }))),
 ];
 
 export interface Route {

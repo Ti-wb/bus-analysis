@@ -137,14 +137,18 @@ export interface CoverageState {
   gridLines: boolean;
 }
 
-/** [population, households, data_share] per radius; see scripts/build_web_data.py build_catchments. */
-export type CatchmentValue = [number | null, number | null, number];
+/**
+ * [population, households, data_share, age_groups] per radius; see scripts/build_web_data.py build_catchments.
+ * age_groups follows StationCatchments.age_groups and adds up to population; null when unknown.
+ */
+export type CatchmentValue = [number | null, number | null, number, (number[] | null)?];
 
 export interface StationCatchments {
   radii: number[];
   fields: string[];
+  age_groups?: string[];
   records: Record<StationType, Record<string, CatchmentValue[]>>;
-  metadata: { built_at: string; population_period: { start: string; end: string }; boundary_vintage: number; value: string; data_share: string; limitations: string[] };
+  metadata: { built_at: string; population_period: { start: string; end: string }; age_period?: { start: string; end: string }; boundary_vintage: number; value: string; data_share: string; limitations: string[] };
 }
 
 export type NeedBand = 'weekday_am' | 'weekday_midday' | 'weekday_pm' | 'weekday_evening' | 'saturday' | 'sunday';

@@ -13,6 +13,9 @@ import MapView from './map/MapView';
 import FocusSidebar from './focus/FocusSidebar';
 import { buildFocusRoutes, initialFocus, overviewFocus, selectFocusRoute, showAllFocusRoutes, toggleFocusRoute, type BusFocusState } from './focus/model';
 import RouteWorkspace, { type RouteWorkspaceHandle } from './routeEditor/RouteWorkspace';
+import ImprovementList, { type ImprovementHandle } from './improvements/ImprovementList';
+import { PERIODS, type Filters } from './improvements/types';
+import type { RouteTarget } from './routeEditor/RouteWorkspace';
 import { computeNeed, needCollection, quadrantOf } from './need';
 import type { AppState, Coverage, Grid, MapData, NeedGrid, StationSelection, ViewState } from './types';
 
@@ -37,7 +40,13 @@ export default function App() {
   const [prefsOpen, setPrefsOpen] = useState(false);
   const [station, setStation] = useState<StationSelection | null>(null);
   const [busFocus, setBusFocus] = useState<BusFocusState | null>(null);
-  const [routeTool, setRouteTool] = useState(false);
+  const [page, setPage] = useState<'explore' | 'routes' | 'improvements'>(() => {
+    const value = new URLSearchParams(window.location.hash.slice(1)).get('page');
+    return value === 'improvements' || value === 'routes' ? value : 'explore';
+  });
+  const routeTool = page === 'routes';
+  const [routeTarget, setRouteTarget] = useState<RouteTarget | null>(null);
+  const improvementRef = useRef<ImprovementHandle>(null);
   const editorRef = useRef<RouteWorkspaceHandle>(null);
   const stationOrigin = useRef<HTMLElement | null>(null);
   const focusFrame = useRef<number | null>(null);
@@ -118,6 +127,14 @@ export default function App() {
   }, [state.mode, needGrid]);
 
   useEffect(() => writeHash(state, viewRef.current), [state]);
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.hash.slice(1));
+    params.set('page', page); window.history.replaceState(null, '', `#${params}`);
+  }, [page]);
+  const improvementTime = useCallback((filters: Filters) => {
+    const hour = filters.period === 'all' ? 24 : PERIODS[filters.period].start;
+    setState((s) => s.day === filters.day && s.hour === hour ? s : { ...s, day: filters.day, hour });
+  }, []);
 
   useEffect(() => {
     if (!playing) return undefined;
@@ -177,31 +194,38 @@ export default function App() {
   };
 
   const loading = !error && !(data && gridData && mapReady);
-  const openRouteTool = () => {
-    if (focusReturnView.current) {
-      const previous = focusReturnView.current;
-      focusReturnView.current = null;
-      mapRef.current?.stop();
-      viewRef.current = { center: previous.center, zoom: previous.zoom };
-      writeHash(state, viewRef.current);
-    }
-    setRouteTool(true);
-    setStation(null);
-    setBusFocus(null);
-    setPlaying(false);
-    setAboutOpen(false);
+  const navigate = (next: typeof page) => {
+    const move = () => {
+      if (focusReturnView.current) {
+        const previous = focusReturnView.current;
+        focusReturnView.current = null;
+        const map = mapRef.current?.getMap();
+        map?.stop();
+        // Restore before another workspace unmounts the exploration map.
+        map?.jumpTo({ ...previous, padding: { top: 0, bottom: 0, left: 0, right: 0 } });
+        viewRef.current = { center: previous.center, zoom: previous.zoom };
+        writeHash(state, viewRef.current);
+      }
+      if (next !== page) setMapReady(false);
+      setPage(next); setStation(null); setBusFocus(null); setPlaying(false); setAboutOpen(false);
+    };
+    if (routeTool && next !== 'routes' && editorRef.current) editorRef.current.leave(move); else move();
   };
 
   return (
     <>
       <Topbar mode={state.mode} onAbout={() => setAboutOpen(true)} aboutActive={aboutOpen}
-        stationFocus={isBusFocus && !routeTool}
-        routeTool={routeTool} onRoutes={openRouteTool}
-        onExplore={() => { setAboutOpen(false); if (routeTool) editorRef.current?.leave(() => { setRouteTool(false); setMapReady(false); }); }}
+        stationFocus={isBusFocus && page === 'explore'}
+        routeTool={routeTool} improvements={page === 'improvements'} onImprovements={() => navigate('improvements')}
+        onExport={() => improvementRef.current?.exportCsv()}
+        onRoutes={() => { setRouteTarget(null); navigate('routes'); }}
+        onExplore={() => navigate('explore')}
         onIndicators={() => editorRef.current?.indicators()}
-        onPreferences={() => routeTool ? editorRef.current?.preferences() : setPrefsOpen(true)} onShare={share} />
-      <main className={`stage${isBusFocus && !routeTool ? ' is-bus-focus' : ''}`}>
-        {routeTool && data && grid && gridData ? <RouteWorkspace ref={editorRef} map={data} grid={grid} gridData={gridData} state={state} initialView={viewRef.current} /> : <>
+        onPreferences={() => routeTool ? editorRef.current?.preferences() : page === 'improvements' ? improvementRef.current?.preferences() : setPrefsOpen(true)} onShare={share} />
+      <main className={`stage${isBusFocus && page === 'explore' ? ' is-bus-focus' : ''}`}>
+        {page === 'improvements' ? <ImprovementList ref={improvementRef} map={data} onTime={improvementTime} onEdit={(variant, filters) => {
+          setRouteTarget({ variant, day: filters.day, period: filters.period }); navigate('routes');
+        }} /> : routeTool && data && grid && gridData ? <RouteWorkspace ref={editorRef} target={routeTarget} map={data} grid={grid} gridData={gridData} state={state} initialView={viewRef.current} /> : <>
         {data && grid && gridData && (
           <MapView
             mapRef={mapRef}

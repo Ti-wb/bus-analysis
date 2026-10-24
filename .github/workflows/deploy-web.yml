@@ -9,6 +9,8 @@ on:
       - 'web/**'
       - 'scripts/build_web_data.py'
       - 'scripts/build_route_scenario.py'
+      - 'scripts/build_improvements.py'
+      - 'data/urban/public_toilets.geojson'
       - 'data/taipei_feeds/**'
       - 'map-data/admin/**'
       - 'map-data/osm/**'
@@ -23,6 +25,8 @@ on:
       - 'web/**'
       - 'scripts/build_web_data.py'
       - 'scripts/build_route_scenario.py'
+      - 'scripts/build_improvements.py'
+      - 'data/urban/public_toilets.geojson'
       - 'data/taipei_feeds/**'
       - 'map-data/admin/**'
       - 'map-data/osm/**'
@@ -65,6 +69,8 @@ jobs:
       - run: npm ci --prefix web
       - name: Verify route scenario calculations
         run: npm run test:routes --prefix web
+      - name: Verify improvement rankings and exports
+        run: npm run test:improvements --prefix web
       - name: Type-check and build
         run: npm run build --prefix web
       - if: github.event_name != 'pull_request'
