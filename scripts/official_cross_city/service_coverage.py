@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 from datetime import datetime
 import gzip
+from http.client import IncompleteRead
 import json
 from pathlib import Path
 import time
@@ -58,6 +59,13 @@ def validate_rows(rows, kind):
             raise ValueError('Stops missing from stop-sequence response')
         if kind == 'Schedule' and any(row.get(key) is not None and not isinstance(row[key], list) for key in ['Timetables', 'Frequencys']):
             raise ValueError('Unexpected timetable/frequency type')
+
+
+def validate_installable(rows, kind):
+    """Reject raw nonfinite values and normalization failures before caching."""
+    validate_rows(rows, kind)
+    json.dumps(rows, ensure_ascii=False, allow_nan=False).encode('utf-8')
+    json.dumps([normalize(row) for row in rows], ensure_ascii=False, allow_nan=False).encode('utf-8')
 
 
 class Store:
@@ -173,9 +181,10 @@ def fetch(store, args):
     if other.exists():
         past += json.loads(other.read_text())['records']
     for row in past:
-        stamp = row.get('downloaded_at') or row.get('checked_at')
-        if stamp and (row.get('service') or row.get('kind') in {'travel_time', 'route_reference'}):
-            allowed_at = max(allowed_at, next_request_time(row.get('usage_headers'), datetime.fromisoformat(stamp).timestamp(), args.min_request_interval))
+        for attempt in (row, row.get('last_failed_attempt', {})):
+            stamp = attempt.get('downloaded_at') or attempt.get('checked_at')
+            if stamp and (attempt.get('service') or attempt.get('kind') in {'travel_time', 'route_reference'}):
+                allowed_at = max(allowed_at, next_request_time(attempt.get('usage_headers'), datetime.fromisoformat(stamp).timestamp(), args.min_request_interval))
     batch = {'started_at': now(), 'attempted_source_ids': [], 'successful_source_ids': [], 'new_business_request_count': 0}
     store.manifest['metadata']['last_batch'] = batch
     settings = store.manifest['metadata'].setdefault('active_page_sizes', {})
@@ -183,67 +192,82 @@ def fetch(store, args):
         for kind in args.kind:
             settings[scope + '_' + kind] = args.stops_page_size if kind == 'StopOfRoute' else args.schedule_page_size
     store.save()
-    for scope in args.scope:
-        for kind in args.kind:
-            skip = 0; top = args.stops_page_size if kind == 'StopOfRoute' else args.schedule_page_size
-            while True:
-                req = request(scope, kind, skip, top)
-                old = store.receipt(req['source_id'])
-                if old and old['status'] == 'downloaded':
-                    if len(store.rows(old)) < top: break
-                    skip += top; continue
-                if used >= args.max_requests or total >= args.max_total_mb * 1024**2:
-                    batch['status'] = 'bounded_limit_reached'; store.save(); return
-                # Do not start a response we might have to truncate merely
-                # because this batch has less than one full response budget
-                # left. A later invocation resumes the untouched page.
-                if used and int(args.max_total_mb * 1024**2) - total < int(args.max_response_mb * 1024**2):
-                    batch['status'] = 'bounded_limit_reached'; store.save(); return
-                delay = allowed_at - time.time()
-                while delay > 0:
-                    step = min(delay, 60); time.sleep(step); delay -= step
-                limit = min(int(args.max_response_mb * 1024**2), int(args.max_total_mb * 1024**2) - total)
-                raw_path = store.raw / 'responses' / (req['source_id'] + '.json.gz'); raw_path.parent.mkdir(parents=True, exist_ok=True)
-                try:
-                    batch['attempted_source_ids'].append(req['source_id']); batch['new_business_request_count'] += 1; used += 1; store.save()
-                    with urlopen(Request(req['download_url'], headers={'Authorization': 'Bearer ' + auth, 'Accept-Encoding': 'identity'}), timeout=120) as response:
-                        if response.status != 200:
-                            raise ValueError('unexpected_http_status')
-                        declared = response.headers.get('Content-Length')
-                        if declared and int(declared) > limit: raise ValueError('response_exceeds_local_size_limit')
-                        body = response.read(limit + 1); total += len(body)
-                        if not body or len(body) > limit: raise ValueError('empty_or_oversized_response')
-                        if declared and len(body) != int(declared): raise ValueError('response_length_mismatch')
-                        rows = json.loads(body); validate_rows(rows, kind)
-                        usage = {k.lower(): v for k, v in response.headers.items() if k.lower().startswith(('x-ratelimit', 'x-rate-limit', 'x-quota', 'x-point')) or k.lower() == 'retry-after'}
-                        allowed_at = next_request_time(usage, time.time(), args.min_request_interval)
+    try:
+        for scope in args.scope:
+            for kind in args.kind:
+                skip = 0; top = args.stops_page_size if kind == 'StopOfRoute' else args.schedule_page_size
+                while True:
+                    req = request(scope, kind, skip, top)
+                    old = store.receipt(req['source_id'])
+                    if old and old['status'] == 'downloaded':
+                        if len(store.rows(old)) < top: break
+                        skip += top; continue
+                    if used >= args.max_requests or total >= args.max_total_mb * 1024**2:
+                        batch['status'] = 'bounded_limit_reached'; return
+                    # Resume before starting a response which would exceed
+                    # the remaining whole-response byte budget.
+                    if used and int(args.max_total_mb * 1024**2) - total < int(args.max_response_mb * 1024**2):
+                        batch['status'] = 'bounded_limit_reached'; return
+                    delay = allowed_at - time.time()
+                    while delay > 0:
+                        step = min(delay, 60); time.sleep(step); delay -= step
+                    limit = min(int(args.max_response_mb * 1024**2), int(args.max_total_mb * 1024**2) - total)
+                    raw_path = store.raw / 'responses' / (req['source_id'] + '.json.gz'); raw_path.parent.mkdir(parents=True, exist_ok=True)
+                    usage = {}; http_status = None; in_transport = True
+                    try:
+                        batch['attempted_source_ids'].append(req['source_id']); batch['new_business_request_count'] += 1; used += 1; store.save()
+                        with urlopen(Request(req['download_url'], headers={'Authorization': 'Bearer ' + auth, 'Accept-Encoding': 'identity'}), timeout=120) as response:
+                            http_status = response.status
+                            usage = {k.lower(): v for k, v in response.headers.items() if k.lower().startswith(('x-ratelimit', 'x-rate-limit', 'x-quota', 'x-point')) or k.lower() == 'retry-after'}
+                            allowed_at = max(allowed_at, next_request_time(usage, time.time(), args.min_request_interval))
+                            if http_status != 200:
+                                raise ValueError('unexpected_http_status')
+                            declared = response.headers.get('Content-Length')
+                            if declared and int(declared) > limit: raise ValueError('response_exceeds_local_size_limit')
+                            body = response.read(limit + 1); total += len(body)
+                            if not body or len(body) > limit: raise ValueError('empty_or_oversized_response')
+                            if declared and len(body) != int(declared): raise ValueError('response_length_mismatch')
+                            content_type = response.headers.get('Content-Type')
+                        in_transport = False
+                        rows = json.loads(body); validate_installable(rows, kind)
                         compressed = gzip.compress(body, mtime=0)
                         source = {**req, 'status': 'downloaded', 'downloaded_at': now(), 'source_updated_at': None,
-                                  'http_status': response.status, 'usage_headers': usage, 'content_type': response.headers.get('Content-Type'),
+                                  'http_status': http_status, 'usage_headers': usage, 'content_type': content_type,
                                   'raw_file': str(raw_path.relative_to(store.root)), 'storage_encoding': 'gzip', 'bytes': len(body), 'stored_bytes': len(compressed), 'record_count': len(rows)}
-                    part = raw_path.with_suffix('.part')
-                    try:
-                        part.write_bytes(compressed); part.replace(raw_path)
-                    finally:
-                        part.unlink(missing_ok=True)
-                    batch['successful_source_ids'].append(req['source_id']); store.upsert(source)
-                    print(req['source_id'] + ': ' + str(len(rows)) + ' models', flush=True)
-                    if len(rows) < top: break
-                    skip += top
-                except HTTPError as exc:
-                    usage = {k.lower(): v for k, v in (exc.headers or {}).items() if k.lower().startswith(('x-ratelimit', 'x-rate-limit', 'x-quota', 'x-point')) or k.lower() == 'retry-after'}
-                    store.upsert({**req, 'status': 'failed', 'checked_at': now(), 'http_status': exc.code, 'usage_headers': usage, 'failure_reason': 'provider_http_error'})
-                    print(req['source_id'] + ': HTTP ' + str(exc.code), flush=True)
-                    if exc.code in {401, 403, 429}: raise RuntimeError('Provider denied or rate limited request; stopped without retry') from None
-                    allowed_at = time.time() + args.min_request_interval; break
-                except (ValueError, UnicodeError) as exc:
-                    reason = str(exc) if str(exc) in {'response_exceeds_local_size_limit', 'empty_or_oversized_response', 'response_length_mismatch'} else 'response_contract_mismatch'
-                    store.upsert({**req, 'status': 'failed', 'checked_at': now(), 'failure_reason': reason})
-                    print(req['source_id'] + ': ' + reason, flush=True)
-                    allowed_at = time.time() + args.min_request_interval; break
-    has_failed_page = any(store.receipt(source_id)['status'] != 'downloaded' for source_id in batch['attempted_source_ids'])
-    batch['status'] = 'partial_source_or_local_gaps' if has_failed_page else 'requested_endpoint_pages_exhausted'
-    batch['finished_at'] = now(); store.save()
+                        part = raw_path.with_suffix('.part')
+                        try:
+                            part.write_bytes(compressed); part.replace(raw_path)
+                        finally:
+                            part.unlink(missing_ok=True)
+                        store.upsert(source); batch['successful_source_ids'].append(req['source_id'])
+                        print(req['source_id'] + ': ' + str(len(rows)) + ' models', flush=True)
+                        if len(rows) < top: break
+                        skip += top
+                    except HTTPError as exc:
+                        usage = {k.lower(): v for k, v in (exc.headers or {}).items() if k.lower().startswith(('x-ratelimit', 'x-rate-limit', 'x-quota', 'x-point')) or k.lower() == 'retry-after'}
+                        store.upsert({**req, 'status': 'failed', 'checked_at': now(), 'http_status': exc.code, 'usage_headers': usage, 'failure_reason': 'provider_http_error'})
+                        allowed_at = max(allowed_at, next_request_time(usage, time.time(), args.min_request_interval))
+                        print(req['source_id'] + ': HTTP ' + str(exc.code), flush=True)
+                        if exc.code in {401, 403, 429}:
+                            batch['status'] = 'stopped_provider_denial'
+                            raise RuntimeError('Provider denied or rate limited request; stopped without retry') from None
+                        break
+                    except (ValueError, UnicodeError) as exc:
+                        reason = str(exc) if str(exc) in {'response_exceeds_local_size_limit', 'empty_or_oversized_response', 'response_length_mismatch'} else 'response_contract_mismatch'
+                        store.upsert({**req, 'status': 'failed', 'checked_at': now(), 'http_status': http_status, 'usage_headers': usage, 'failure_reason': reason})
+                        print(req['source_id'] + ': ' + reason, flush=True)
+                        allowed_at = max(allowed_at, time.time() + args.min_request_interval); break
+                    except (OSError, IncompleteRead) as exc:
+                        reason = 'transport_failure' if in_transport else 'local_storage_failure'
+                        store.upsert({**req, 'status': 'failed', 'checked_at': now(), 'http_status': http_status, 'usage_headers': usage,
+                                      'failure_reason': reason, 'error_type': type(exc).__name__})
+                        batch['status'] = 'stopped_' + reason
+                        raise RuntimeError('Service acquisition stopped after ' + reason + '; failed receipt retained') from None
+    finally:
+        if 'status' not in batch:
+            has_failed_page = any(not store.receipt(source_id) or store.receipt(source_id)['status'] != 'downloaded' for source_id in batch['attempted_source_ids'])
+            batch['status'] = 'partial_source_or_local_gaps' if has_failed_page else 'requested_endpoint_pages_exhausted'
+        batch['finished_at'] = now(); store.save()
 
 
 def main(argv=None):

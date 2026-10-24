@@ -1,14 +1,52 @@
 """Synthetic service pagination/calendar fixtures, no external requests."""
 from contextlib import redirect_stdout
+from datetime import datetime, timezone
 import gzip
+from http.client import IncompleteRead
 import io
 import json
 from pathlib import Path
 import tempfile
+from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
+from urllib.error import HTTPError, URLError
 
 from scripts.official_cross_city import service_coverage as service
+
+
+class Response:
+    status = 200
+
+    def __init__(self, body, headers=None, error=None):
+        self.body = body
+        self.headers = headers or {'Content-Length': str(len(body)), 'Content-Type': 'application/json'}
+        self.error = error
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args):
+        return False
+
+    def read(self, limit):
+        if self.error:
+            raise self.error
+        return self.body[:limit]
+
+
+class Clock:
+    def __init__(self):
+        self.value = datetime(2026, 10, 24, tzinfo=timezone.utc).timestamp()
+
+    def time(self):
+        return self.value
+
+    def sleep(self, duration):
+        self.value += duration
+
+    def now(self):
+        return datetime.fromtimestamp(self.value, timezone.utc).isoformat(timespec='seconds')
 
 
 class ServiceCoverageTests(unittest.TestCase):
@@ -33,6 +71,134 @@ class ServiceCoverageTests(unittest.TestCase):
                                 'StopTimes': [{'StopID': '0002', 'ArrivalTime': '24:10'}]}],
                 'Frequencys': [{'StartTime': '08:00', 'EndTime': '10:00', 'MinHeadwayMins': 0, 'MaxHeadwayMins': None,
                                'ServiceDay': {'Sunday': 1, 'Monday': 0}}]}
+
+    def args(self, **changes):
+        values = {'scope': ['Keelung'], 'kind': ['Schedule'], 'stops_page_size': 2, 'schedule_page_size': 2,
+                  'max_requests': 4, 'max_response_mb': 1, 'max_total_mb': 4, 'min_request_interval': 15}
+        return SimpleNamespace(**(values | changes))
+
+    def specification(self):
+        paths = {}
+        for scope in service.SCOPES:
+            for kind in service.KINDS:
+                path = service.request(scope, kind, 0, 1)['path']
+                if scope != 'InterCity':
+                    path = path.replace(scope, '{City}')
+                parameters = [{'name': value} for value in ('$top', '$skip', '$orderby', '$format')]
+                if scope != 'InterCity':
+                    parameters.append({'name': 'City', 'schema': {'enum': list(service.SCOPES)}})
+                paths[path] = {'get': {'parameters': parameters}}
+        return json.dumps({'servers': [{'url': service.HOST + '/api/basic'}], 'paths': paths}).encode()
+
+    def run_fetch(self, responses, args=None, clock=None, main=False, store=None):
+        clock = clock or Clock()
+        store = store or self.store
+        calls, pending = [], iter(responses)
+
+        def open_response(req, **kwargs):
+            if req.full_url == service.SPEC_URL:
+                return Response(self.specification())
+            calls.append((req.full_url, clock.time()))
+            response = next(pending)
+            if isinstance(response, BaseException):
+                raise response
+            return response
+
+        with patch.object(service, 'urlopen', side_effect=open_response), patch.object(service, 'token', return_value='fake-token'), \
+                patch.object(service.time, 'time', side_effect=clock.time), patch.object(service.time, 'sleep', side_effect=clock.sleep), \
+                patch.object(service, 'now', side_effect=clock.now), redirect_stdout(io.StringIO()):
+            if main:
+                service.main(['--root', str(store.root), '--fetch', '--scope', 'Keelung', '--kind', 'Schedule', '--schedule-page-size', '2'])
+            else:
+                service.fetch(store, args or self.args())
+        return calls
+
+    def test_nonterminal_http_backoff_delays_the_next_scope(self):
+        for headers, minimum in [({'Retry-After': '120'}, 120), ({'X-RateLimit-Remaining-Minute': '0'}, 60)]:
+            with self.subTest(headers=headers), tempfile.TemporaryDirectory() as temporary:
+                store = service.Store(Path(temporary))
+                error = HTTPError('https://official.example', 503, 'unavailable', headers, io.BytesIO())
+                calls = self.run_fetch([error, Response(b'[]')], self.args(scope=['Keelung', 'InterCity']), store=store)
+                self.assertGreaterEqual(calls[1][1] - calls[0][1], minimum)
+                self.assertIn('finished_at', store.manifest['metadata']['last_batch'])
+
+    def test_http_backoff_survives_budget_stop_and_resume(self):
+        clock = Clock()
+        failure = HTTPError('https://official.example', 503, 'unavailable', {'Retry-After': '120'}, io.BytesIO())
+        first = self.run_fetch([failure], self.args(scope=['Keelung', 'InterCity'], max_requests=1), clock)
+        self.assertIn('finished_at', self.store.manifest['metadata']['last_batch'])
+        clock.sleep(15)
+        resumed = service.Store(self.root)
+        later = self.run_fetch([Response(b'[]')], self.args(scope=['InterCity']), clock, store=resumed)
+        self.assertGreaterEqual(later[0][1] - first[0][1], 120)
+
+    def test_invalid_normalization_or_nonfinite_json_never_installs_a_successful_page(self):
+        for label in ('nan', 'nan_id', 'collision', 'surrogate'):
+            with self.subTest(label=label), tempfile.TemporaryDirectory() as temporary:
+                store = service.Store(Path(temporary))
+                row = self.model()
+                if label == 'nan_id':
+                    row['Timetables'][0]['StopTimes'][0]['StopID'] = float('nan')
+                elif label == 'surrogate':
+                    row['Name'] = '\ud800'
+                else:
+                    row['UnknownValue' if label == 'nan' else 'route_id'] = float('nan') if label == 'nan' else 'collision'
+                req = service.request('Keelung', 'Schedule', 0, 2)
+                raw = store.raw / 'responses' / (req['source_id'] + '.json.gz')
+                raw.parent.mkdir(parents=True)
+                previous = gzip.compress(json.dumps([self.model('KEE999')]).encode(), mtime=0)
+                raw.write_bytes(previous)
+                self.run_fetch([Response(json.dumps([row]).encode())], store=store)
+                self.assertEqual(store.receipt(req['source_id'])['status'], 'failed')
+                self.assertEqual(raw.read_bytes(), previous)
+                self.assertEqual(store.manifest['metadata']['last_batch']['successful_source_ids'], [])
+                self.assertFalse(list(raw.parent.glob('*.part')))
+                self.run_fetch([Response(json.dumps([self.model()]).encode())], store=store)
+                self.assertEqual(store.receipt(req['source_id'])['status'], 'downloaded')
+                self.assertEqual(store.rebuild()[0]['record_count'], 1)
+
+    def test_main_rebuilds_failed_first_page_after_transport_errors(self):
+        for label, error in [('timeout', TimeoutError()), ('connection', URLError('offline')), ('short_read', IncompleteRead(b'[', 100))]:
+            with self.subTest(label=label), tempfile.TemporaryDirectory() as temporary:
+                store = service.Store(Path(temporary))
+                clock = Clock()
+                started = clock.time()
+                response = Response(b'', headers={'X-RateLimit-Remaining-Minute': '0'}, error=error) if label == 'short_read' else error
+                with self.assertRaises(RuntimeError):
+                    self.run_fetch([response], clock=clock, main=True, store=store)
+                saved = service.Store(store.root)
+                req = service.request('Keelung', 'Schedule', 0, 2)
+                self.assertEqual(saved.receipt(req['source_id'])['status'], 'failed')
+                batch = saved.manifest['metadata']['last_batch']
+                self.assertEqual(batch['new_business_request_count'], 1)
+                self.assertEqual(batch['successful_source_ids'], [])
+                self.assertIn('finished_at', batch)
+                coverage = json.loads((saved.out / 'coverage.json').read_bytes())['records'][0]
+                self.assertEqual(coverage['scope_status'], 'partial_contiguous_pages')
+                self.assertEqual(coverage['next_pages_or_source_gaps'][0]['status'], 'failed')
+                if label == 'short_read':
+                    clock.sleep(15)
+                    retry = self.run_fetch([Response(b'[]')], clock=clock, store=saved)
+                    self.assertGreaterEqual(retry[0][1] - started, 60)
+
+    def test_main_rebuilds_invalid_first_page_without_installing_poisoned_raw(self):
+        row = {**self.model(), 'route_id': 'collision'}
+        self.run_fetch([Response(json.dumps([row]).encode())], main=True)
+        saved = service.Store(self.root)
+        req = service.request('Keelung', 'Schedule', 0, 2)
+        self.assertEqual(saved.receipt(req['source_id'])['status'], 'failed')
+        self.assertFalse((saved.raw / 'responses' / (req['source_id'] + '.json.gz')).exists())
+        coverage = json.loads((saved.out / 'coverage.json').read_bytes())['records'][0]
+        self.assertEqual(coverage['record_count'], 0)
+        self.assertFalse(coverage['empty_endpoint_response'])
+
+    def test_terminal_provider_error_still_finalizes_attempted_batch(self):
+        failure = HTTPError('https://official.example', 429, 'limited', {'Retry-After': '90'}, io.BytesIO())
+        with self.assertRaises(RuntimeError):
+            self.run_fetch([failure], main=True)
+        saved = service.Store(self.root)
+        self.assertIn('finished_at', saved.manifest['metadata']['last_batch'])
+        self.assertEqual(saved.manifest['metadata']['last_batch']['successful_source_ids'], [])
 
     def test_exact_page_requires_tail_before_claiming_complete(self):
         self.page([self.model(), self.model('KEE002')])
