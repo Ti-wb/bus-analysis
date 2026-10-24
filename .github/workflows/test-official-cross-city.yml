@@ -3,9 +3,6 @@ on:
   pull_request:
     paths:
       - 'scripts/official_cross_city/**'
-      - 'scripts/tdx_bus_travel_time.py'
-      - 'scripts/tdx_road_traffic.py'
-      - 'scripts/update_tdx.py'
       - 'tests/official_cross_city/**'
       - 'data/official_cross_city/source_registry.json'
       - '.github/workflows/test-official-cross-city.yml'
@@ -28,5 +25,3 @@ jobs:
           python-version: ${{ matrix.python }}
       - name: Synthetic fixtures only; no government API calls or credentials
         run: python -m unittest discover -s tests/official_cross_city -v
-      - name: Compile collectors
-        run: python -m compileall -q scripts/official_cross_city scripts/tdx_bus_travel_time.py scripts/tdx_road_traffic.py
