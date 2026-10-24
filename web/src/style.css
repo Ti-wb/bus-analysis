@@ -135,3 +135,18 @@ dialog.about .close { position: absolute; right: 16px; top: 12px; border: 0; bac
   .status-chip { display: none; }
   .explainer { left: 20px; right: 20px; }
 }
+
+/* Station coverage controls (Penpot page 04). */
+.coverage-card { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; }
+.coverage-card.is-on { border-color: var(--c); background: var(--c-soft); }
+.coverage-head { display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer; }
+.coverage-head i { width: 9px; height: 9px; border-radius: 50%; background: var(--c); }
+.coverage-head input { margin-left: auto; width: 16px; height: 16px; accent-color: var(--c); }
+.coverage-card > .muted { font-size: 12px; margin: 4px 0 10px; }
+.coverage-card .segmented button { padding: 5px 0; font-size: 12px; }
+.station-chips { padding: 8px 0 0; }
+.coverage-legend { margin-bottom: 10px; }
+.coverage-legend p { font-size: 12px; margin-bottom: 6px; }
+.legend-scale-5 { grid-template-columns: repeat(5, 1fr); }
+.legend-scale-5 span { margin-bottom: 0; }
+.legend-ends { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-top: 4px; }

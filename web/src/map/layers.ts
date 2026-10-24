@@ -47,6 +47,13 @@ export const gridHatchLayer: StyleLayer = {
   paint: { 'fill-pattern': 'hatch' },
 };
 
+// One pixel per 50 m cell; nearest resampling keeps the cells square when zoomed in.
+export const coverageLayer: StyleLayer = {
+  id: 'coverage',
+  type: 'raster',
+  paint: { 'raster-resampling': 'nearest', 'raster-fade-duration': 0, 'raster-opacity': 0.85 },
+};
+
 export const busRoutesLayer: StyleLayer = {
   id: 'bus-routes',
   type: 'line',

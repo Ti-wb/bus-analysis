@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
-import type { Grid } from '../types';
+import type { Coverage, Grid } from '../types';
 
-export default function AboutDialog({ open, grid, onClose }: { open: boolean; grid: Grid | null; onClose: () => void }) {
+export default function AboutDialog({ open, grid, coverage, onClose }: { open: boolean; grid: Grid | null; coverage: Coverage | null; onClose: () => void }) {
   const ref = useRef<HTMLDialogElement>(null);
   useEffect(() => {
     const dialog = ref.current;
@@ -41,6 +41,12 @@ export default function AboutDialog({ open, grid, onClose }: { open: boolean; gr
             無站牌 {m.status_counts.no_stop} 格、資料缺漏 {m.status_counts.no_schedule} 格。
             有班表的附線 {m.scheduled_subroutes} 條／有站序的附線 {m.sequence_subroutes} 條。
           </p>
+          <h3>站點覆蓋怎麼算</h3>
+          <ul>
+            <li>約 50 m 方格，只保留格心在臺北市內的格子；每格記錄格心到最近公車站位、捷運車站、YouBike 站的直線距離（TWD97 平面公尺）。</li>
+            <li>步行到站取所選站種的最近距離，YouBike 騎乘只看 YouBike 站；半徑內依距離分 5 段，越近越深。</li>
+            {coverage?.metadata.limitations.map((x) => <li key={x}>{x}</li>)}
+          </ul>
           <p className="muted">資料建置：{m.built_at}</p>
         </>
       )}

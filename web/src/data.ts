@@ -1,6 +1,6 @@
 import type { Feature, FeatureCollection, Polygon } from 'geojson';
 import { ALL_DAY, DAY_COLUMN, NO_SCHEDULE, NO_STOP, SCALES } from './config';
-import type { AppState, Grid, GridCell, MapData } from './types';
+import type { AppState, Coverage, Grid, GridCell, MapData } from './types';
 
 const DATA = `${import.meta.env.BASE_URL}data/`;
 
@@ -21,6 +21,12 @@ const grids = new Map<number, Promise<Grid>>();
 export function loadGrid(cell: number): Promise<Grid> {
   if (!grids.has(cell)) grids.set(cell, loadJSON<Grid>(`bus_grid_${cell}.json`));
   return grids.get(cell)!;
+}
+
+let coverage: Promise<Coverage> | null = null;
+export function loadCoverage(): Promise<Coverage> {
+  coverage ??= loadJSON<Coverage>('coverage_50.json');
+  return coverage;
 }
 
 export function scaleFor(state: Pick<AppState, 'cell' | 'hour'>) {
