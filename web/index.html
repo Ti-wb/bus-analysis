@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>覆蓋臺北｜公車與捷運路網</title>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="./">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M12 3 3 8l9 5 9-5-9-5Zm-9 9 9 5 9-5M3 16l9 5 9-5" /></svg>
+        </span>
+        <span>覆蓋臺北</span>
+      </a>
+      <nav class="tabs">
+        <button class="tab is-active" data-view="map">探索地圖</button>
+        <button class="tab" data-view="about">資料與方法</button>
+      </nav>
+      <div class="topbar-right">
+        <span class="chip chip-teal">公車班次網格</span>
+        <span class="chip chip-amber">計畫班表，非實際運量</span>
+        <button class="btn-outline" id="share">分享視圖</button>
+      </div>
+    </header>
+
+    <main class="stage">
+      <div id="map" aria-label="臺北公車與捷運地圖"></div>
+
+      <aside class="panel">
+        <section class="card intro">
+          <h1>城市裡的連結，<br />一眼看見。</h1>
+          <p class="muted">公車與捷運路網，以及公車每小時班次</p>
+
+          <h2>顯示圖層</h2>
+          <label class="layer-toggle">
+            <input type="checkbox" data-layer="grid" checked />
+            <span class="swatch swatch-grid"></span>公車班次網格<small id="cell-size">500 m</small>
+          </label>
+          <label class="layer-toggle">
+            <input type="checkbox" data-layer="routes" checked />
+            <span class="swatch swatch-bus"></span>公車路線
+          </label>
+          <label class="layer-toggle">
+            <input type="checkbox" data-layer="stops" />
+            <span class="swatch swatch-stop"></span>公車站牌<small>放大後顯示</small>
+          </label>
+          <label class="layer-toggle">
+            <input type="checkbox" data-layer="mrt" checked />
+            <span class="swatch swatch-mrt"></span>捷運路網
+          </label>
+
+          <h2>網格大小</h2>
+          <div class="segmented segmented-2" role="radiogroup" aria-label="網格大小">
+            <button data-cell="250">250 m</button>
+            <button data-cell="500" class="is-active">500 m</button>
+          </div>
+
+          <h2>時段</h2>
+          <div class="segmented" role="radiogroup" aria-label="日型">
+            <button data-day="weekday" class="is-active">平日</button>
+            <button data-day="saturday">週六</button>
+            <button data-day="sunday">週日</button>
+          </div>
+          <div class="hour-row">
+            <button class="icon-btn" id="play" title="播放 24 小時" aria-label="播放">▶</button>
+            <input type="range" id="hour" min="0" max="24" step="1" value="8" aria-label="小時" />
+          </div>
+          <div class="hour-label"><span id="hour-text">08:00–09:00</span><span class="muted">拉到最右為全日</span></div>
+        </section>
+
+        <section class="card legend">
+          <h3 id="legend-title">每小時計畫發車數</h3>
+          <div class="legend-scale" id="legend-scale"></div>
+          <p class="legend-note"><span class="hatch"></span>斜紋＝格內附線都沒有班表（資料缺漏，非 0）</p>
+          <p class="legend-note"><span class="nostop"></span>淡色＝格內沒有公車站牌</p>
+        </section>
+      </aside>
+
+      <div class="search">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" /><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" /></svg>
+        <input id="search" type="search" placeholder="搜尋行政區、捷運站或公車站牌" autocomplete="off" />
+        <ul id="search-results" hidden></ul>
+      </div>
+      <div class="status-chip" id="status-chip">平日 · 08:00–09:00</div>
+
+      <section class="card explainer" id="explainer">
+        <div class="explainer-head">
+          <h3>班次網格怎麼看？</h3>
+          <button class="icon-btn" id="explainer-toggle" aria-label="收合說明">ⓘ</button>
+        </div>
+        <p>每格約 250 或 500 m，數值為格內公車站牌所屬附線在該小時的計畫發車數加總（同一附線只計一次、不分方向）。以起站發車時刻歸入小時，未計行駛時間；不代表實際載客或步行可達性。</p>
+      </section>
+
+      <div class="tooltip" id="tooltip" hidden></div>
+      <div class="loading" id="loading">載入地圖資料中…</div>
+    </main>
+
+    <dialog id="about">
+      <form method="dialog"><button class="close" aria-label="關閉">×</button></form>
+      <h2>資料與方法</h2>
+      <div id="about-body">載入中…</div>
+    </dialog>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
