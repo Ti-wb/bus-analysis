@@ -11,26 +11,26 @@
     },
     "scope": "bounded selected Taipei, NewTaipei, Keelung and InterCity requests; not a regional census",
     "route_reference_count": 416,
-    "taipei_route_uids_retained": 302,
+    "taipei_route_uids_retained": 322,
     "taipei_endpoint_acquisition": {
       "reference_route_count": 416,
       "unique_endpoint_count": 416,
-      "attempted_endpoint_count": 303,
-      "successful_endpoint_count": 302,
+      "attempted_endpoint_count": 323,
+      "successful_endpoint_count": 322,
       "source_unavailable_endpoint_count": 0,
       "technical_failure_endpoint_count": 1,
-      "not_requested_endpoint_count": 113,
-      "reference_route_uids_retained_count": 302,
+      "not_requested_endpoint_count": 93,
+      "reference_route_uids_retained_count": 322,
       "all_reference_endpoints_attempted": false
     },
-    "request_count": 307,
-    "successful_response_count": 305,
-    "nonempty_response_count": 305,
+    "request_count": 327,
+    "successful_response_count": 325,
+    "nonempty_response_count": 325,
     "failed_scope_count": 2,
     "source_unavailable_count": 1,
     "technical_failure_count": 1,
-    "travel_time_row_count": 743192,
-    "missing_run_time_count": 19807,
+    "travel_time_row_count": 785627,
+    "missing_run_time_count": 21046,
     "independent_review_status": "pending",
     "independent_review_report": "data/quality/tdx_bus_travel_time_review.json"
   },
@@ -8295,6 +8295,546 @@
       },
       "scope_status": "complete_unpaginated_requested_endpoint_response",
       "output_file": "data/tdx_bus_travel_time/observations/Taipei_557.json.gz"
+    },
+    {
+      "source_id": "Taipei_950",
+      "city": "Taipei",
+      "route_name": "950",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/950?%24format=JSON",
+      "status": "downloaded",
+      "http_status": 200,
+      "failure_reason": null,
+      "downloaded_at": "2026-10-24T13:08:54+08:00",
+      "last_failed_attempt": null,
+      "availability_status": "models_returned",
+      "upstream_response_message": null,
+      "record_count": 4,
+      "travel_time_row_count": 1220,
+      "missing_run_time_count": 33,
+      "statistical_period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_950.json.gz"
+    },
+    {
+      "source_id": "Taipei_%E8%8A%B1%E5%AD%A3%E5%B0%88%E8%BB%8A124",
+      "city": "Taipei",
+      "route_name": "花季專車124",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/%E8%8A%B1%E5%AD%A3%E5%B0%88%E8%BB%8A124?%24format=JSON",
+      "status": "downloaded",
+      "http_status": 200,
+      "failure_reason": null,
+      "downloaded_at": "2026-10-24T13:09:09+08:00",
+      "last_failed_attempt": null,
+      "availability_status": "models_returned",
+      "upstream_response_message": null,
+      "record_count": 2,
+      "travel_time_row_count": 414,
+      "missing_run_time_count": 36,
+      "statistical_period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_%E8%8A%B1%E5%AD%A3%E5%B0%88%E8%BB%8A124.json.gz"
+    },
+    {
+      "source_id": "Taipei_%E7%B4%855",
+      "city": "Taipei",
+      "route_name": "紅5",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/%E7%B4%855?%24format=JSON",
+      "status": "downloaded",
+      "http_status": 200,
+      "failure_reason": null,
+      "downloaded_at": "2026-10-24T13:09:24+08:00",
+      "last_failed_attempt": null,
+      "availability_status": "models_returned",
+      "upstream_response_message": null,
+      "record_count": 6,
+      "travel_time_row_count": 1354,
+      "missing_run_time_count": 37,
+      "statistical_period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_%E7%B4%855.json.gz"
+    },
+    {
+      "source_id": "Taipei_630",
+      "city": "Taipei",
+      "route_name": "630",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/630?%24format=JSON",
+      "status": "downloaded",
+      "http_status": 200,
+      "failure_reason": null,
+      "downloaded_at": "2026-10-24T13:09:40+08:00",
+      "last_failed_attempt": null,
+      "availability_status": "models_returned",
+      "upstream_response_message": null,
+      "record_count": 4,
+      "travel_time_row_count": 9606,
+      "missing_run_time_count": 151,
+      "statistical_period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_630.json.gz"
+    },
+    {
+      "source_id": "Taipei_32",
+      "city": "Taipei",
+      "route_name": "32",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/32?%24format=JSON",
+      "status": "downloaded",
+      "http_status": 200,
+      "failure_reason": null,
+      "downloaded_at": "2026-10-24T13:09:55+08:00",
+      "last_failed_attempt": null,
+      "availability_status": "models_returned",
+      "upstream_response_message": null,
+      "record_count": 2,
+      "travel_time_row_count": 1755,
+      "missing_run_time_count": 73,
+      "statistical_period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_32.json.gz"
+    },
+    {
+      "source_id": "Taipei_529",
+      "city": "Taipei",
+      "route_name": "529",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/529?%24format=JSON",
+      "status": "downloaded",
+      "http_status": 200,
+      "failure_reason": null,
+      "downloaded_at": "2026-10-24T13:10:10+08:00",
+      "last_failed_attempt": null,
+      "availability_status": "models_returned",
+      "upstream_response_message": null,
+      "record_count": 2,
+      "travel_time_row_count": 510,
+      "missing_run_time_count": 30,
+      "statistical_period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_529.json.gz"
+    },
+    {
+      "source_id": "Taipei_%E9%87%8D%E6%85%B6%E5%B9%B9%E7%B7%9A",
+      "city": "Taipei",
+      "route_name": "重慶幹線",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/%E9%87%8D%E6%85%B6%E5%B9%B9%E7%B7%9A?%24format=JSON",
+      "status": "downloaded",
+      "http_status": 200,
+      "failure_reason": null,
+      "downloaded_at": "2026-10-24T13:10:26+08:00",
+      "last_failed_attempt": null,
+      "availability_status": "models_returned",
+      "upstream_response_message": null,
+      "record_count": 4,
+      "travel_time_row_count": 4680,
+      "missing_run_time_count": 80,
+      "statistical_period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_%E9%87%8D%E6%85%B6%E5%B9%B9%E7%B7%9A.json.gz"
+    },
+    {
+      "source_id": "Taipei_530",
+      "city": "Taipei",
+      "route_name": "530",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/530?%24format=JSON",
+      "status": "downloaded",
+      "http_status": 200,
+      "failure_reason": null,
+      "downloaded_at": "2026-10-24T13:10:41+08:00",
+      "last_failed_attempt": null,
+      "availability_status": "models_returned",
+      "upstream_response_message": null,
+      "record_count": 3,
+      "travel_time_row_count": 2447,
+      "missing_run_time_count": 73,
+      "statistical_period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_530.json.gz"
+    },
+    {
+      "source_id": "Taipei_605%E5%89%AF",
+      "city": "Taipei",
+      "route_name": "605副",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/605%E5%89%AF?%24format=JSON",
+      "status": "downloaded",
+      "http_status": 200,
+      "failure_reason": null,
+      "downloaded_at": "2026-10-24T13:10:57+08:00",
+      "last_failed_attempt": null,
+      "availability_status": "models_returned",
+      "upstream_response_message": null,
+      "record_count": 2,
+      "travel_time_row_count": 711,
+      "missing_run_time_count": 25,
+      "statistical_period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_605%E5%89%AF.json.gz"
+    },
+    {
+      "source_id": "Taipei_605%E6%96%B0%E5%8F%B0%E4%BA%94",
+      "city": "Taipei",
+      "route_name": "605新台五",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/605%E6%96%B0%E5%8F%B0%E4%BA%94?%24format=JSON",
+      "status": "downloaded",
+      "http_status": 200,
+      "failure_reason": null,
+      "downloaded_at": "2026-10-24T13:11:12+08:00",
+      "last_failed_attempt": null,
+      "availability_status": "models_returned",
+      "upstream_response_message": null,
+      "record_count": 2,
+      "travel_time_row_count": 1152,
+      "missing_run_time_count": 24,
+      "statistical_period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_605%E6%96%B0%E5%8F%B0%E4%BA%94.json.gz"
+    },
+    {
+      "source_id": "Taipei_214%E7%9B%B4",
+      "city": "Taipei",
+      "route_name": "214直",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/214%E7%9B%B4?%24format=JSON",
+      "status": "downloaded",
+      "http_status": 200,
+      "failure_reason": null,
+      "downloaded_at": "2026-10-24T13:11:27+08:00",
+      "last_failed_attempt": null,
+      "availability_status": "models_returned",
+      "upstream_response_message": null,
+      "record_count": 4,
+      "travel_time_row_count": 2480,
+      "missing_run_time_count": 62,
+      "statistical_period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_214%E7%9B%B4.json.gz"
+    },
+    {
+      "source_id": "Taipei_%E5%B8%82%E6%B0%91%E5%B0%8F%E5%B7%B48",
+      "city": "Taipei",
+      "route_name": "市民小巴8",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/%E5%B8%82%E6%B0%91%E5%B0%8F%E5%B7%B48?%24format=JSON",
+      "status": "downloaded",
+      "http_status": 200,
+      "failure_reason": null,
+      "downloaded_at": "2026-10-24T13:11:43+08:00",
+      "last_failed_attempt": null,
+      "availability_status": "models_returned",
+      "upstream_response_message": null,
+      "record_count": 4,
+      "travel_time_row_count": 1921,
+      "missing_run_time_count": 100,
+      "statistical_period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_%E5%B8%82%E6%B0%91%E5%B0%8F%E5%B7%B48.json.gz"
+    },
+    {
+      "source_id": "Taipei_310",
+      "city": "Taipei",
+      "route_name": "310",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/310?%24format=JSON",
+      "status": "downloaded",
+      "http_status": 200,
+      "failure_reason": null,
+      "downloaded_at": "2026-10-24T13:11:58+08:00",
+      "last_failed_attempt": null,
+      "availability_status": "models_returned",
+      "upstream_response_message": null,
+      "record_count": 4,
+      "travel_time_row_count": 3040,
+      "missing_run_time_count": 78,
+      "statistical_period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_310.json.gz"
+    },
+    {
+      "source_id": "Taipei_604",
+      "city": "Taipei",
+      "route_name": "604",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/604?%24format=JSON",
+      "status": "downloaded",
+      "http_status": 200,
+      "failure_reason": null,
+      "downloaded_at": "2026-10-24T13:12:14+08:00",
+      "last_failed_attempt": null,
+      "availability_status": "models_returned",
+      "upstream_response_message": null,
+      "record_count": 2,
+      "travel_time_row_count": 2667,
+      "missing_run_time_count": 73,
+      "statistical_period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_604.json.gz"
+    },
+    {
+      "source_id": "Taipei_%E7%B4%8557",
+      "city": "Taipei",
+      "route_name": "紅57",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/%E7%B4%8557?%24format=JSON",
+      "status": "downloaded",
+      "http_status": 200,
+      "failure_reason": null,
+      "downloaded_at": "2026-10-24T13:12:29+08:00",
+      "last_failed_attempt": null,
+      "availability_status": "models_returned",
+      "upstream_response_message": null,
+      "record_count": 2,
+      "travel_time_row_count": 640,
+      "missing_run_time_count": 32,
+      "statistical_period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_%E7%B4%8557.json.gz"
+    },
+    {
+      "source_id": "Taipei_%E5%85%92%E6%A8%821%E8%99%9F%E7%B7%9A",
+      "city": "Taipei",
+      "route_name": "兒樂1號線",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/%E5%85%92%E6%A8%821%E8%99%9F%E7%B7%9A?%24format=JSON",
+      "status": "downloaded",
+      "http_status": 200,
+      "failure_reason": null,
+      "downloaded_at": "2026-10-24T13:12:44+08:00",
+      "last_failed_attempt": null,
+      "availability_status": "models_returned",
+      "upstream_response_message": null,
+      "record_count": 1,
+      "travel_time_row_count": 150,
+      "missing_run_time_count": 25,
+      "statistical_period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_%E5%85%92%E6%A8%821%E8%99%9F%E7%B7%9A.json.gz"
+    },
+    {
+      "source_id": "Taipei_%E5%85%92%E6%A8%822%E8%99%9F%E7%B7%9A",
+      "city": "Taipei",
+      "route_name": "兒樂2號線",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/%E5%85%92%E6%A8%822%E8%99%9F%E7%B7%9A?%24format=JSON",
+      "status": "downloaded",
+      "http_status": 200,
+      "failure_reason": null,
+      "downloaded_at": "2026-10-24T13:13:00+08:00",
+      "last_failed_attempt": null,
+      "availability_status": "models_returned",
+      "upstream_response_message": null,
+      "record_count": 1,
+      "travel_time_row_count": 286,
+      "missing_run_time_count": 26,
+      "statistical_period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_%E5%85%92%E6%A8%822%E8%99%9F%E7%B7%9A.json.gz"
+    },
+    {
+      "source_id": "Taipei_1",
+      "city": "Taipei",
+      "route_name": "1",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/1?%24format=JSON",
+      "status": "downloaded",
+      "http_status": 200,
+      "failure_reason": null,
+      "downloaded_at": "2026-10-24T13:13:15+08:00",
+      "last_failed_attempt": null,
+      "availability_status": "models_returned",
+      "upstream_response_message": null,
+      "record_count": 4,
+      "travel_time_row_count": 4833,
+      "missing_run_time_count": 140,
+      "statistical_period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_1.json.gz"
+    },
+    {
+      "source_id": "Taipei_286",
+      "city": "Taipei",
+      "route_name": "286",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/286?%24format=JSON",
+      "status": "downloaded",
+      "http_status": 200,
+      "failure_reason": null,
+      "downloaded_at": "2026-10-24T13:13:30+08:00",
+      "last_failed_attempt": null,
+      "availability_status": "models_returned",
+      "upstream_response_message": null,
+      "record_count": 2,
+      "travel_time_row_count": 1609,
+      "missing_run_time_count": 67,
+      "statistical_period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_286.json.gz"
+    },
+    {
+      "source_id": "Taipei_%E5%B0%8F22",
+      "city": "Taipei",
+      "route_name": "小22",
+      "download_url": "https://tdx.transportdata.tw/api/premium/V3/Map/Estimation/Bus/S2STravelTime/City/Taipei/RouteName/%E5%B0%8F22?%24format=JSON",
+      "status": "downloaded",
+      "http_status": 200,
+      "failure_reason": null,
+      "downloaded_at": "2026-10-24T13:13:46+08:00",
+      "last_failed_attempt": null,
+      "availability_status": "models_returned",
+      "upstream_response_message": null,
+      "record_count": 2,
+      "travel_time_row_count": 960,
+      "missing_run_time_count": 74,
+      "statistical_period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "output_file": "data/tdx_bus_travel_time/observations/Taipei_%E5%B0%8F22.json.gz"
     }
   ]
 }
