@@ -1,12 +1,14 @@
 import { useState } from 'react';
+import type { AnalysisMode } from '../types';
 
 interface Props {
+  mode: AnalysisMode;
   aboutActive: boolean;
   onAbout: () => void;
   onShare: () => Promise<boolean>;
 }
 
-export default function Topbar({ aboutActive, onAbout, onShare }: Props) {
+export default function Topbar({ mode, aboutActive, onAbout, onShare }: Props) {
   const [shareText, setShareText] = useState('分享視圖');
   const share = async () => {
     setShareText((await onShare()) ? '已複製連結' : '請複製網址列');
@@ -28,8 +30,8 @@ export default function Topbar({ aboutActive, onAbout, onShare }: Props) {
         <button className={`tab${aboutActive ? ' is-active' : ''}`} onClick={onAbout}>資料與方法</button>
       </nav>
       <div className="topbar-right">
-        <span className="chip chip-teal">公車班次網格</span>
-        <span className="chip chip-amber">計畫班表，非實際運量</span>
+        <span className="chip chip-teal">{mode === 'frequency' ? '公車班次網格' : '雙層站點覆蓋'}</span>
+        <span className="chip chip-amber">{mode === 'frequency' ? '計畫班表，非實際運量' : '直線半徑，非實際路網'}</span>
         <button className="btn-outline" onClick={share}>{shareText}</button>
       </div>
     </header>

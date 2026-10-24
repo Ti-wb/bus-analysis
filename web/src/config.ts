@@ -1,4 +1,4 @@
-import type { CellSize, DayType, LayerGroup } from './types';
+import type { CellSize, CoverageLayer, DayType, LayerGroup, StationType } from './types';
 
 export const ALL_DAY = 24;
 export const DAY_LABELS: Record<DayType, string> = { weekday: '平日', saturday: '週六', sunday: '週日' };
@@ -68,3 +68,17 @@ export const PLACE_BY_CATEGORY: Record<string, PlaceCategory> = Object.fromEntri
 // frequency grid and network lines so road and place names stay readable.
 export const BASE_STYLE = 'https://tiles.openfreemap.org/styles/positron';
 export const DEFAULT_VIEW = { center: [121.545, 25.06] as [number, number], zoom: 11.6 };
+
+// Station coverage (Penpot page 04): walking reach to any station, riding reach from YouBike.
+export const STATION_TYPES: { key: StationType; label: string }[] = [
+  { key: 'bus', label: '公車' },
+  { key: 'mrt', label: '捷運' },
+  { key: 'youbike', label: 'YouBike' },
+];
+export const COVERAGE_LAYERS: Record<CoverageLayer, { label: string; note: string; radii: number[]; radius: number; rgb: [number, number, number] }> = {
+  walk: { label: '步行到站', note: '由每個站點向外擴散', radii: [200, 350, 500], radius: 350, rgb: [232, 132, 66] },
+  ride: { label: 'YouBike 騎乘', note: '從 YouBike 站向城市延伸', radii: [500, 1000, 1500], radius: 1000, rgb: [47, 158, 143] },
+};
+/** Opacity of the five distance bands, from the station outwards. */
+export const COVERAGE_ALPHA = [0.6, 0.48, 0.37, 0.27, 0.18];
+export const COVERAGE_BANDS = COVERAGE_ALPHA.length;

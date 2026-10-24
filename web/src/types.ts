@@ -84,10 +84,36 @@ export interface ViewState {
   zoom: number;
 }
 
-export interface AppState {
+export interface AppState extends CoverageState {
   day: DayType;
   hour: number;
   cell: CellSize;
   layers: Set<LayerGroup>;
   places: Set<string>;
+}
+
+export type AnalysisMode = 'frequency' | 'coverage';
+export type CoverageLayer = 'walk' | 'ride';
+export type StationType = 'bus' | 'mrt' | 'youbike';
+
+/** Distance to the nearest station per 50 m cell; see scripts/build_web_data.py build_coverage. */
+export interface Coverage {
+  west: number;
+  north: number;
+  step: [number, number];
+  size: [number, number];
+  cell_m: number;
+  unit_m: number;
+  cap: number;
+  outside: number;
+  fields: Record<StationType, number[]>;
+  metadata: { built_at: string; cell: string; value: string; sources: Record<StationType, string>; limitations: string[] };
+}
+
+export interface CoverageState {
+  mode: AnalysisMode;
+  coverage: Set<CoverageLayer>;
+  walkTypes: Set<StationType>;
+  walkRadius: number;
+  rideRadius: number;
 }

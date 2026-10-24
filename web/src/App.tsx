@@ -5,17 +5,22 @@ import Panel from './components/Panel';
 import Search, { type SearchItem } from './components/Search';
 import Topbar from './components/Topbar';
 import { DAY_LABELS } from './config';
-import { gridCollection, hourText, loadGrid, loadMapData } from './data';
+import { coverageImage } from './coverage';
+import { gridCollection, hourText, loadCoverage, loadGrid, loadMapData } from './data';
 import { readHash, writeHash } from './hashState';
 import MapView from './map/MapView';
-import type { AppState, Grid, MapData, ViewState } from './types';
+import type { AppState, Coverage, Grid, MapData, ViewState } from './types';
 
 const initial = readHash();
 
 export default function App() {
   const mapRef = useRef<MapRef>(null);
   const viewRef = useRef<ViewState>({ center: initial.center, zoom: initial.zoom });
-  const [state, setState] = useState<AppState>({ day: initial.day, hour: initial.hour, cell: initial.cell, layers: initial.layers, places: initial.places });
+  const [state, setState] = useState<AppState>(() => {
+    const { center: _center, zoom: _zoom, ...rest } = initial;
+    return rest;
+  });
+  const [coverage, setCoverage] = useState<Coverage | null>(null);
   const [data, setData] = useState<MapData | null>(null);
   const [grid, setGrid] = useState<Grid | null>(null);
   const [mapReady, setMapReady] = useState(false);
@@ -36,6 +41,11 @@ export default function App() {
     return () => { current = false; };
   }, [state.cell]);
 
+  // Coverage data is only fetched once the coverage mode is first opened.
+  useEffect(() => {
+    if (state.mode === 'coverage' && !coverage) loadCoverage().then(setCoverage, setError);
+  }, [state.mode, coverage]);
+
   useEffect(() => writeHash(state, viewRef.current), [state]);
 
   useEffect(() => {
@@ -49,7 +59,14 @@ export default function App() {
     [grid, state],
   );
 
-  const handleMoveEnd = useCallback((view: ViewState) => {
+  const { coverage: coverageLayers, walkTypes, walkRadius, rideRadius } = state;
+  const coverageRaster = useMemo(
+    () => (coverage ? coverageImage(coverage, { mode: 'coverage', coverage: coverageLayers, walkTypes, walkRadius, rideRadius }) : null),
+    [coverage, coverageLayers, walkTypes, walkRadius, rideRadius],
+  );
+  const frequency = state.mode === 'frequency';
+
+  const handleMoveEnd =useCallback((view: ViewState) => {
     viewRef.current = view;
     writeHash(state, view);
   }, [state]);
@@ -77,7 +94,7 @@ export default function App() {
 
   return (
     <>
-      <Topbar onAbout={() => setAboutOpen(true)} aboutActive={aboutOpen} onShare={share} />
+      <Topbar mode={state.mode} onAbout={() => setAboutOpen(true)} aboutActive={aboutOpen} onShare={share} />
       <main className="stage">
         {data && grid && gridData && (
           <MapView
@@ -86,6 +103,8 @@ export default function App() {
             data={data}
             grid={grid}
             gridData={gridData}
+            coverage={coverage}
+            coverageImage={coverageRaster}
             state={state}
             onReady={() => setMapReady(true)}
             onMoveEnd={handleMoveEnd}
@@ -93,13 +112,17 @@ export default function App() {
         )}
         <Panel state={state} playing={playing} onChange={update} onTogglePlay={() => setPlaying((p) => !p)} />
         {data && <Search data={data} onChoose={handleSearch} />}
-        <div className="status-chip">{DAY_LABELS[state.day]} · {hourText(state.hour)}</div>
+        <div className="status-chip">
+          {frequency ? `${DAY_LABELS[state.day]} · ${hourText(state.hour)}` : '站點覆蓋 · 直線距離，不分時段'}
+        </div>
         <section className={`card explainer${explainerOpen ? '' : ' is-collapsed'}`}>
           <div className="explainer-head">
-            <h3>班次網格怎麼看？</h3>
+            <h3>{frequency ? '班次網格怎麼看？' : '從站心出發，看見步行與騎乘的不同尺度。'}</h3>
             <button className="icon-btn" aria-label={explainerOpen ? '收合說明' : '展開說明'} onClick={() => setExplainerOpen((o) => !o)}>ⓘ</button>
           </div>
-          <p>每格約 250 或 500 m，數值為格內公車站牌所屬附線在該小時的計畫發車數加總（同一附線只計一次、不分方向）。以起站發車時刻歸入小時，未計行駛時間；不代表實際載客或步行可達性。</p>
+          {frequency
+            ? <p>每格約 250 或 500 m，數值為格內公車站牌所屬附線在該小時的計畫發車數加總（同一附線只計一次、不分方向）。以起站發車時刻歸入小時，未計行駛時間；不代表實際載客或步行可達性。</p>
+            : <p>每格約 50 m，依格心到最近站點的直線距離上色：橙色是走到公車、捷運或 YouBike 站，青綠是從 YouBike 站騎出去。兩層都只是半徑示意，未計入路網、河川阻隔、班次多寡與即時可借車輛。</p>}
         </section>
         {loading && <div className="loading">載入地圖資料中…</div>}
         {error && (
@@ -109,7 +132,7 @@ export default function App() {
           </div>
         )}
       </main>
-      <AboutDialog open={aboutOpen} grid={grid} onClose={() => setAboutOpen(false)} />
+      <AboutDialog open={aboutOpen} grid={grid} coverage={coverage} onClose={() => setAboutOpen(false)} />
     </>
   );
 }

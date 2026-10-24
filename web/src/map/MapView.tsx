@@ -14,9 +14,10 @@ import Map, {
   type MapRef,
 } from 'react-map-gl/maplibre';
 import { BASE_STYLE, HOVER_LAYERS, LAYER_GROUPS, PLACE_CATEGORIES } from '../config';
-import { FeaturePopup, FeatureTooltip, type PopupFeature } from './FeatureInfo';
+import { distancesAt, type CoverageImage } from '../coverage';
+import { CoverageTooltip, FeaturePopup, FeatureTooltip, type PopupFeature } from './FeatureInfo';
 import * as L from './layers';
-import type { AppState, Grid, LayerGroup, MapData, ViewState } from '../types';
+import type { AppState, Coverage, Grid, LayerGroup, MapData, ViewState } from '../types';
 
 const LABEL_NAME = ['coalesce', ['get', 'name:zh-Hant'], ['get', 'name:nonlatin'], ['get', 'name']];
 const LAYER_GROUP_OF: Record<string, LayerGroup> = Object.fromEntries(
@@ -29,13 +30,17 @@ interface Props {
   data: MapData;
   grid: Grid;
   gridData: FeatureCollection<Polygon, { k: number }>;
+  coverage: Coverage | null;
+  coverageImage: CoverageImage | null;
   state: AppState;
   onReady: () => void;
   onMoveEnd: (view: ViewState) => void;
 }
 
 interface Hover {
-  feature: MapGeoJSONFeature;
+  feature?: MapGeoJSONFeature;
+  /** Nearest-station distances when no feature is under the cursor in coverage mode. */
+  distances?: NonNullable<ReturnType<typeof distancesAt>>;
   x: number;
   y: number;
 }
@@ -56,7 +61,7 @@ function addHatchPattern(map: MaplibreMap) {
   map.addImage('hatch', ctx.getImageData(0, 0, size, size));
 }
 
-export default function MapView({ mapRef, initialView, data, grid, gridData, state, onReady, onMoveEnd }: Props) {
+export default function MapView({ mapRef, initialView, data, grid, gridData, coverage, coverageImage, state, onReady, onMoveEnd }: Props) {
   // First label layer of the base style: our layers go below it so road names stay on top.
   const [labelLayer, setLabelLayer] = useState<string | null>(null);
   const [hover, setHover] = useState<Hover | null>(null);
@@ -78,7 +83,9 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, sta
     onReady();
   }, [mapRef, onReady]);
 
-  const visible = (id: string) => (state.layers.has(LAYER_GROUP_OF[id]) ? 'visible' : 'none');
+  // The frequency grid belongs to frequency mode; coverage mode draws its own raster instead.
+  const shown = (group: LayerGroup) => state.layers.has(group) && (group !== 'grid' || state.mode === 'frequency');
+  const visible = (id: string) => (shown(LAYER_GROUP_OF[id]) ? 'visible' : 'none');
   const withVisibility = (layer: L.StyleLayer, beforeId?: string): LayerProps => ({
     ...layer,
     beforeId,
@@ -92,7 +99,7 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, sta
 
   const featureAt = (e: MapLayerMouseEvent): MapGeoJSONFeature | undefined => {
     const map = mapRef.current!.getMap();
-    const layers = HOVER_LAYERS.filter((id) => map.getLayer(id) && state.layers.has(LAYER_GROUP_OF[id]));
+    const layers = HOVER_LAYERS.filter((id) => map.getLayer(id) && shown(LAYER_GROUP_OF[id]));
     const { x, y } = e.point;
     return map.queryRenderedFeatures([[x - 4, y - 4], [x + 4, y + 4]], { layers })[0];
   };
@@ -101,7 +108,12 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, sta
     const feature = featureAt(e);
     const canvas = mapRef.current!.getCanvas();
     canvas.style.cursor = feature && !feature.layer.id.startsWith('grid') ? 'pointer' : '';
-    setHover(feature ? { feature, x: e.point.x, y: e.point.y } : null);
+    const { x, y } = e.point;
+    if (feature) setHover({ feature, x, y });
+    else if (state.mode === 'coverage' && coverage) {
+      const distances = distancesAt(coverage, e.lngLat.lng, e.lngLat.lat);
+      setHover(distances ? { distances, x, y } : null);
+    } else setHover(null);
   };
 
   const handleClick = (e: MapLayerMouseEvent) => {
@@ -150,6 +162,11 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, sta
               <Layer {...withVisibility(L.gridFillLayer, below)} />
               <Layer {...withVisibility(L.gridHatchLayer, below)} />
             </Source>
+            {coverageImage && (
+              <Source id="coverage" type="image" url={coverageImage.url} coordinates={coverageImage.coordinates}>
+                <Layer {...L.coverageLayer} beforeId={below} layout={{ visibility: state.mode === 'coverage' ? 'visible' : 'none' }} />
+              </Source>
+            )}
             <Source id="roads" type="geojson" data={data.roads}>
               <Layer {...L.roadsLayer} beforeId={below} />
             </Source>
@@ -197,7 +214,9 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, sta
 
       {hover && (
         <div className="tooltip" style={{ left: hover.x, top: hover.y }}>
-          <FeatureTooltip feature={hover.feature} grid={grid} state={state} />
+          {hover.feature
+            ? <FeatureTooltip feature={hover.feature} grid={grid} state={state} />
+            : hover.distances && <CoverageTooltip distances={hover.distances} state={state} />}
         </div>
       )}
     </>
