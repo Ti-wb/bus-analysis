@@ -93,6 +93,33 @@ def audit_catalog_endpoint(row, endpoints):
         check(endpoint["download_url"] == row["download_url"], "Reference route acquisition URL differs")
 
 
+def audit_taipei_endpoint_totals(catalog, coverage, delivery):
+    endpoints = {}
+    for route in catalog["records"]:
+        value = (route["endpoint_acquisition_status"], route["endpoint_availability_status"])
+        check(value[0] in {"not_requested", "downloaded", "failed"}, "Unknown reference endpoint acquisition state")
+        previous = endpoints.setdefault(route["download_url"], value)
+        check(previous == value, "Shared reference URL has conflicting acquisition states")
+    counts = Counter(state[0] for state in endpoints.values())
+    source_unavailable = sum(state == ("failed", "published_no_data_message") for state in endpoints.values())
+    expected = {"reference_route_count": len(catalog["records"]), "unique_endpoint_count": len(endpoints),
+                "attempted_endpoint_count": len(endpoints) - counts["not_requested"],
+                "successful_endpoint_count": counts["downloaded"], "source_unavailable_endpoint_count": source_unavailable,
+                "technical_failure_endpoint_count": counts["failed"] - source_unavailable,
+                "not_requested_endpoint_count": counts["not_requested"],
+                "reference_route_uids_retained_count": sum(bool(r["retained_files"]) for r in catalog["records"]),
+                "all_reference_endpoints_attempted": bool(endpoints) and counts["not_requested"] == 0}
+    for document in [catalog, coverage, delivery]:
+        actual = document["metadata"].get("taipei_endpoint_acquisition")
+        check(isinstance(actual, dict) and actual.keys() == expected.keys()
+              and all(type(actual[k]) is type(v) and actual[k] == v for k, v in expected.items()),
+              "Reference endpoint progress totals differ from catalog states")
+    citywide = ("all_taipei_reference_endpoints_attempted_response_coverage_explicit"
+                if expected["all_reference_endpoints_attempted"] else "partial_route_selection_not_citywide_travel_time_coverage")
+    check(delivery["metadata"]["citywide_status"] == citywide, "Citywide attempt claim differs from reference endpoint population")
+    return expected
+
+
 def audit_delivery_accounting(manifest, delivery):
     """Check the latest HTTP batch separately from cumulative retained responses."""
     batch = manifest["metadata"]["last_batch"]
@@ -297,6 +324,7 @@ def audit(root):
     check(delivery_meta.get("license", {}).get("url") == TERMS_URL, "Delivery lacks TDX terms URL")
     check(TERMS_URL in (root / "docs/tdx-bus-travel-time.md").read_text(encoding="utf-8"), "Usage document lacks TDX terms URL")
     delivery_accounting = audit_delivery_accounting(manifest, delivery)
+    endpoint_totals = audit_taipei_endpoint_totals(catalog, coverage, delivery)
     return {"schema_version": 1, "dataset_id": "independent_tdx_bus_travel_time_review", "metadata": {
         "reviewer_agent": "/root/crosswalk", "reviewed_at": datetime.now(ZoneInfo("Asia/Taipei")).isoformat(timespec="seconds"),
         "independent_review_status": "pass_with_limitations", "producer_module_imported": False,
@@ -308,6 +336,7 @@ def audit(root):
                               "taipei_route_uids_with_retained_travel_time": cmeta["taipei_route_uids_retained"]},
         "terms_url_checked": TERMS_URL, "terms_scope": "all retained observations, catalog, coverage, delivery, manifest and usage document",
         "delivery_accounting": delivery_accounting,
+        "taipei_endpoint_acquisition": endpoint_totals,
         "limitations": ["只巡檢已成功保存的回應；有限選線不代表臺北、雙北或北北基公路客運完整服務涵蓋。",
                         "官方端點是使用近三個月來源資料推估的當期模型，無歷史日期／版本參數；不是近三年觀測或當日實際耗時。",
                         "原始來源時間沒有UTC offset者保持原字串，不推定為臺北時區。",

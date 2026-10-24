@@ -89,6 +89,37 @@ class TravelTimeTests(unittest.TestCase):
         self.assertEqual(result['metadata']['scope_status'], 'empty_requested_endpoint_response')
         self.assertEqual(result['metadata']['citywide_coverage'], 'bounded_selected_route_requests_only')
 
+    def test_citywide_endpoint_progress_keeps_unknown_and_source_unavailable_distinct(self):
+        def route(url, status, availability=None, retained=False):
+            return {'download_url': url, 'endpoint_acquisition_status': status,
+                    'endpoint_availability_status': availability,
+                    'retained_files': ['synthetic.json'] if retained else []}
+        catalog = [route('same-name', 'downloaded', 'models_returned', True),
+                   route('same-name', 'downloaded', 'models_returned', True),
+                   route('pending', 'not_requested'),
+                   route('unavailable', 'failed', 'published_no_data_message'),
+                   route('technical', 'failed', 'technical_failure'),
+                   route('empty', 'downloaded', 'published_empty_array')]
+        progress = bus.taipei_endpoint_acquisition(catalog)
+        self.assertEqual(progress, {
+            'reference_route_count': 6, 'unique_endpoint_count': 5,
+            'attempted_endpoint_count': 4, 'successful_endpoint_count': 2,
+            'source_unavailable_endpoint_count': 1, 'technical_failure_endpoint_count': 1,
+            'not_requested_endpoint_count': 1, 'reference_route_uids_retained_count': 2,
+            'all_reference_endpoints_attempted': False})
+        # All requests attempted does not imply all models or runtimes exist.
+        complete_attempts = bus.taipei_endpoint_acquisition([r for r in catalog if r['download_url'] != 'pending'])
+        self.assertTrue(complete_attempts['all_reference_endpoints_attempted'])
+        self.assertEqual(complete_attempts['source_unavailable_endpoint_count'], 1)
+        self.assertEqual(complete_attempts['reference_route_uids_retained_count'], 2)
+
+    def test_endpoint_progress_rejects_inconsistent_shared_endpoint_states(self):
+        catalog = [{'download_url': 'same', 'endpoint_acquisition_status': status,
+                    'endpoint_availability_status': None, 'retained_files': []}
+                   for status in ['not_requested', 'downloaded']]
+        with self.assertRaises(ValueError):
+            bus.taipei_endpoint_acquisition(catalog)
+
     def test_intercity_endpoint_and_safe_route_encoding(self):
         request = bus.travel_request(spec(), 'InterCity', '1815/甲')
         self.assertIn('/InterCity/RouteName/1815%2F%E7%94%B2?', request['download_url'])

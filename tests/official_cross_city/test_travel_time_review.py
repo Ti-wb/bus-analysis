@@ -4,7 +4,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from scripts.review_tdx_bus_travel_time import audit_catalog_endpoint, audit_delivery_accounting, audit_unavailable_source, read, read_source
+from scripts.review_tdx_bus_travel_time import audit_catalog_endpoint, audit_delivery_accounting, audit_taipei_endpoint_totals, audit_unavailable_source, read, read_source
 
 
 def request(source_id, kind="travel_time"):
@@ -29,6 +29,26 @@ def delivered(query, source=None):
 
 
 class LatestBatchReviewTest(unittest.TestCase):
+    def test_all_attempts_cannot_be_claimed_from_retained_route_count(self):
+        rows = [{"download_url": "same", "endpoint_acquisition_status": "downloaded",
+                 "endpoint_availability_status": "models_returned", "retained_files": ["observations.json"]},
+                {"download_url": "same", "endpoint_acquisition_status": "downloaded",
+                 "endpoint_availability_status": "models_returned", "retained_files": ["observations.json"]},
+                {"download_url": "missing", "endpoint_acquisition_status": "not_requested",
+                 "endpoint_availability_status": None, "retained_files": ["other-route-response.json"]}]
+        progress = {"reference_route_count": 3, "unique_endpoint_count": 2, "attempted_endpoint_count": 1,
+                    "successful_endpoint_count": 1, "source_unavailable_endpoint_count": 0,
+                    "technical_failure_endpoint_count": 0, "not_requested_endpoint_count": 1,
+                    "reference_route_uids_retained_count": 3, "all_reference_endpoints_attempted": False}
+        catalog = {"metadata": {"taipei_endpoint_acquisition": progress}, "records": rows}
+        coverage = {"metadata": {"taipei_endpoint_acquisition": progress}}
+        delivery = {"metadata": {"taipei_endpoint_acquisition": progress,
+                                "citywide_status": "partial_route_selection_not_citywide_travel_time_coverage"}}
+        self.assertEqual(audit_taipei_endpoint_totals(catalog, coverage, delivery), progress)
+        delivery["metadata"]["citywide_status"] = "all_taipei_reference_endpoints_attempted_response_coverage_explicit"
+        with self.assertRaisesRegex(ValueError, "Citywide attempt"):
+            audit_taipei_endpoint_totals(catalog, coverage, delivery)
+
     def test_route_catalog_preserves_unrequested_and_source_unavailability(self):
         row = {"route_name": "南港幹線", "download_url": "https://tdx.transportdata.tw/example",
                "endpoint_acquisition_status": "not_requested", "endpoint_response_empty": None,

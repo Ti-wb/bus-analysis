@@ -89,6 +89,32 @@ def scope_id(city, route_name):
     return city + '_' + quote(route_name, safe='')
 
 
+def taipei_endpoint_acquisition(catalog):
+    """Count route-name endpoints separately from their reference route UIDs."""
+    endpoints = {}
+    for route in catalog:
+        state = (route['endpoint_acquisition_status'], route['endpoint_availability_status'])
+        url = route['download_url']
+        if url in endpoints and endpoints[url] != state:
+            raise ValueError('One route-name endpoint has inconsistent acquisition states')
+        if state[0] not in {'not_requested', 'downloaded', 'failed'}:
+            raise ValueError('Unknown route-name endpoint acquisition state')
+        endpoints[url] = state
+    pending = sum(status == 'not_requested' for status, _ in endpoints.values())
+    return {
+        'reference_route_count': len(catalog), 'unique_endpoint_count': len(endpoints),
+        'attempted_endpoint_count': len(endpoints) - pending,
+        'successful_endpoint_count': sum(status == 'downloaded' for status, _ in endpoints.values()),
+        'source_unavailable_endpoint_count': sum(status == 'failed' and availability == 'published_no_data_message'
+                                                 for status, availability in endpoints.values()),
+        'technical_failure_endpoint_count': sum(status == 'failed' and availability != 'published_no_data_message'
+                                                for status, availability in endpoints.values()),
+        'not_requested_endpoint_count': pending,
+        'reference_route_uids_retained_count': sum(bool(route['retained_files']) for route in catalog),
+        'all_reference_endpoints_attempted': bool(endpoints) and pending == 0,
+    }
+
+
 def travel_request(spec, city, name):
     path = INTERCITY_PATH if city == 'InterCity' else CITY_PATH
     operation = spec['paths'][path]['get']
@@ -315,12 +341,14 @@ class Store:
                             'endpoint_http_status': endpoint.get('http_status') if endpoint else None,
                             'endpoint_availability_status': endpoint.get('availability_status') if endpoint else None,
                             'historical_retrieval_status': 'no_historical_date_or_version_parameter_in_official_spec'})
+        taipei_acquisition = taipei_endpoint_acquisition(catalog)
         start = as_of.replace(year=as_of.year - 3) if not (as_of.month == 2 and as_of.day == 29) else as_of.replace(year=as_of.year - 3, day=28)
         write(self.out / 'route_catalog.json', envelope('tdx_bus_travel_time_route_catalog', {
             'source_page': SPEC_PAGE, 'sources': [route_source], 'source_updated_at': None,
             'license': TERMS,
             'statistical_period': route_period, 'grain': 'one Taipei TDX route in the dated full route reference',
             'route_reference_count': len(catalog), 'requested_historical_window': {'start': start.isoformat(), 'end': (as_of - timedelta(days=1)).isoformat()},
+            'taipei_endpoint_acquisition': taipei_acquisition,
             'historical_window_status': 'not_available_from_this_current_estimation_endpoint',
             'limitations': ['此為完整的日期版本路線取用目錄；不代表全部路線都有站間旅行時間。',
                            '近三年歷史推估版本未由現行官方API提供日期參數；不將當期估計複製為歷史。',
@@ -331,6 +359,7 @@ class Store:
             'license': TERMS,
             'scope': 'bounded selected Taipei, NewTaipei, Keelung and InterCity requests; not a regional census',
             'route_reference_count': len(catalog), 'taipei_route_uids_retained': sum(bool(r['retained_files']) for r in catalog),
+            'taipei_endpoint_acquisition': taipei_acquisition,
             'request_count': len(coverage), 'successful_response_count': sum(r['status'] == 'downloaded' for r in coverage),
             'nonempty_response_count': sum(r.get('record_count', 0) > 0 for r in coverage),
             'failed_scope_count': sum(r['status'] == 'failed' for r in coverage),
@@ -361,7 +390,10 @@ class Store:
             'license': TERMS, 'source_updated_at': None, 'statistical_period': None,
             'grain': 'one planned or reused route/reference endpoint scope',
             'stage_status': 'partial_bounded_acquisition' if pending else 'completed_bounded_acquisition',
-            'citywide_status': 'partial_route_selection_not_citywide_travel_time_coverage',
+            'citywide_status': ('all_taipei_reference_endpoints_attempted_response_coverage_explicit'
+                                if taipei_acquisition['all_reference_endpoints_attempted']
+                                else 'partial_route_selection_not_citywide_travel_time_coverage'),
+            'taipei_endpoint_acquisition': taipei_acquisition,
             'acquisition_stop_reason': batch.get('stop_reason'),
             'new_business_request_count': batch.get('new_business_request_count'),
             'reused_response_count': sum(r['reused_existing_response'] for r in delivery_rows),
