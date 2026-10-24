@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "dataset_id": "taipei_tdx_direct_identity_summary",
+  "metadata": {
+    "generated_at": "2026-10-24T11:42:36+08:00",
+    "source_updated_at": null,
+    "sources": [
+      {
+        "page_url": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579",
+        "requested_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetRoute.gz",
+        "effective_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetRoute.gz",
+        "downloaded_at": "2026-10-24T11:38:07+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": "Sat, 24 Oct 2026 03:03:08 GMT",
+        "content_type": "application/octet-stream",
+        "bytes": 77388,
+        "raw_file": "raw_data/official_cross_city/taipei_id_evidence/GetRoute.gz",
+        "source_id": "GetRoute",
+        "source_updated_at": "2026-10-24T11:03:04+08:00",
+        "source_record_count": 800,
+        "source_crs": "EPSG:4326"
+      },
+      {
+        "page_url": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579",
+        "requested_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetStop.gz",
+        "effective_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetStop.gz",
+        "downloaded_at": "2026-10-24T11:38:08+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": "Sat, 24 Oct 2026 03:03:10 GMT",
+        "content_type": "application/octet-stream",
+        "bytes": 1373689,
+        "raw_file": "raw_data/official_cross_city/taipei_id_evidence/GetStop.gz",
+        "source_id": "GetStop",
+        "source_updated_at": "2026-10-24T11:03:04+08:00",
+        "source_record_count": 28826,
+        "source_crs": "EPSG:4326"
+      },
+      {
+        "page_url": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579",
+        "requested_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetPathDetail.gz",
+        "effective_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetPathDetail.gz",
+        "downloaded_at": "2026-10-24T11:38:08+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": "Sat, 24 Oct 2026 03:03:08 GMT",
+        "content_type": "application/octet-stream",
+        "bytes": 330776,
+        "raw_file": "raw_data/official_cross_city/taipei_id_evidence/GetPathDetail.gz",
+        "source_id": "GetPathDetail",
+        "source_updated_at": "2026-10-24T11:03:04+08:00",
+        "source_record_count": 43447,
+        "source_crs": "EPSG:4326"
+      },
+      {
+        "page_url": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579",
+        "requested_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetStopLocation.gz",
+        "effective_url": "https://tcgbusfs.blob.core.windows.net/blobbus/GetStopLocation.gz",
+        "downloaded_at": "2026-10-24T11:38:09+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": "Sat, 24 Oct 2026 03:03:11 GMT",
+        "content_type": "application/octet-stream",
+        "bytes": 179863,
+        "raw_file": "raw_data/official_cross_city/taipei_id_evidence/GetStopLocation.gz",
+        "source_id": "GetStopLocation",
+        "source_updated_at": "2026-10-24T11:03:04+08:00",
+        "source_record_count": 5376,
+        "source_crs": "EPSG:4326"
+      }
+    ],
+    "tdx_source_dataset": "data/official_cross_city/service_coverage/Taipei_StopOfRoute.json.gz",
+    "tdx_sources": [
+      {
+        "source_id": "Taipei_StopOfRoute_skip_0_top_500",
+        "scope": "Taipei",
+        "service": "StopOfRoute",
+        "path": "/v2/Bus/StopOfRoute/City/Taipei",
+        "skip": 0,
+        "top": 500,
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/basic/2998e851-81d0-40f5-b26d-77e2f5ac4118",
+        "download_url": "https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/City/Taipei?%24format=JSON&%24top=500&%24skip=0&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+        "status": "downloaded",
+        "downloaded_at": "2026-10-24T11:38:01+08:00",
+        "source_updated_at": null,
+        "http_status": 200,
+        "usage_headers": {
+          "x-ratelimit-remaining-minute": "4",
+          "x-ratelimit-limit-minute": "5"
+        },
+        "content_type": "application/json; charset=utf-8",
+        "raw_file": "raw_data/official_cross_city/service_coverage/responses/Taipei_StopOfRoute_skip_0_top_500.json.gz",
+        "storage_encoding": "gzip",
+        "bytes": 5551985,
+        "stored_bytes": 546616,
+        "record_count": 500
+      },
+      {
+        "source_id": "Taipei_StopOfRoute_skip_500_top_500",
+        "scope": "Taipei",
+        "service": "StopOfRoute",
+        "path": "/v2/Bus/StopOfRoute/City/Taipei",
+        "skip": 500,
+        "top": 500,
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/basic/2998e851-81d0-40f5-b26d-77e2f5ac4118",
+        "download_url": "https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/City/Taipei?%24format=JSON&%24top=500&%24skip=500&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+        "status": "downloaded",
+        "downloaded_at": "2026-10-24T11:38:16+08:00",
+        "source_updated_at": null,
+        "http_status": 200,
+        "usage_headers": {
+          "x-ratelimit-limit-minute": "5",
+          "x-ratelimit-remaining-minute": "3"
+        },
+        "content_type": "application/json; charset=utf-8",
+        "raw_file": "raw_data/official_cross_city/service_coverage/responses/Taipei_StopOfRoute_skip_500_top_500.json.gz",
+        "storage_encoding": "gzip",
+        "bytes": 5401018,
+        "stored_bytes": 545381,
+        "record_count": 500
+      },
+      {
+        "source_id": "Taipei_StopOfRoute_skip_1000_top_500",
+        "scope": "Taipei",
+        "service": "StopOfRoute",
+        "path": "/v2/Bus/StopOfRoute/City/Taipei",
+        "skip": 1000,
+        "top": 500,
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/basic/2998e851-81d0-40f5-b26d-77e2f5ac4118",
+        "download_url": "https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/City/Taipei?%24format=JSON&%24top=500&%24skip=1000&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+        "status": "downloaded",
+        "downloaded_at": "2026-10-24T11:38:31+08:00",
+        "source_updated_at": null,
+        "http_status": 200,
+        "usage_headers": {
+          "x-ratelimit-limit-minute": "5",
+          "x-ratelimit-remaining-minute": "2"
+        },
+        "content_type": "application/json; charset=utf-8",
+        "raw_file": "raw_data/official_cross_city/service_coverage/responses/Taipei_StopOfRoute_skip_1000_top_500.json.gz",
+        "storage_encoding": "gzip",
+        "bytes": 1856674,
+        "stored_bytes": 221766,
+        "record_count": 241
+      }
+    ],
+    "tdx_update_times": [
+      "2026-10-24T09:36:32+08:00"
+    ],
+    "crs": "EPSG:4326",
+    "field_units": {
+      "coordinates": "longitude/latitude degrees",
+      "source_coordinate_separation_m": "metres; haversine radius 6371008.8 m, diagnostic only",
+      "*_sequence": "original source ordinal"
+    },
+    "identifier_evidence": {
+      "direct_specification": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579",
+      "direct_version": "6.3",
+      "tdx_specification": "https://tdx.transportdata.tw/api-service/swagger/basic/2998e851-81d0-40f5-b26d-77e2f5ac4118",
+      "rule": "TDX ID is source internal code; UID is authority prefix plus ID. Route/subroute/operator, stop route/direction and station IDs corroborate identity."
+    },
+    "independent_review_status": "pending",
+    "source_terms": {
+      "direct": "https://data.taipei/rule",
+      "tdx": "https://tdx.transportdata.tw/term"
+    },
+    "limitations": [
+      "兩來源快照時間獨立保留；差異不直接推論停駛或搬站。",
+      "站序保留兩來源原值，不重編或假設固定偏移。",
+      "StationUID未由此端點發布，保持null；StationID與直接feed站位ID單獨核對。",
+      "只有來源明示虛擬站不停靠的點可在序列比較中另列省略；其他差異維持待查。"
+    ],
+    "record_count": 1
+  },
+  "records": [
+    {
+      "tdx_models": 1241,
+      "tdx_route_uid_count": 416,
+      "memberships": 43235,
+      "membership_status_counts": {
+        "verified_explicit_source_identity": 43235
+      },
+      "sequence_status_counts": {
+        "verified_full_stop_id_sequence": 1241
+      },
+      "source_review_flag_counts": {
+        "source_coordinate_difference": 1335
+      },
+      "direct_stops_without_tdx_membership": 3
+    }
+  ]
+}

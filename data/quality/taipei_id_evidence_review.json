@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "dataset_id": "taipei_id_evidence_independent_review",
+  "metadata": {
+    "reviewer_agent": "/root/main_integration",
+    "independent_of_producer": true,
+    "reviewed_at": "2026-10-24T11:44:22+08:00",
+    "record_count": 4,
+    "status": "pass_with_source_limitations",
+    "script": "scripts/review_taipei_id_evidence.py",
+    "method": "Stdlib-only independent parsing of four original blobbus feeds, their HTTP receipts and all three TDX Taipei StopOfRoute pages; complete identity, operator, direction, station, ordered arrays, null boarding, both coordinates and haversine diagnostics; no producer imports.",
+    "diagnostics": {
+      "tdx_models": 1241,
+      "tdx_route_uid_count": 416,
+      "memberships": 43235,
+      "membership_status_counts": {
+        "verified_explicit_source_identity": 43235
+      },
+      "sequence_status_counts": {
+        "verified_full_stop_id_sequence": 1241
+      },
+      "source_review_flag_counts": {
+        "source_coordinate_difference": 1335
+      },
+      "direct_stops_without_tdx_membership": 3,
+      "direct_source_counts": {
+        "GetRoute": 800,
+        "GetStop": 28826,
+        "GetPathDetail": 43447,
+        "GetStopLocation": 5376
+      },
+      "direct_source_update_times": {
+        "GetRoute": "2026/10/24 11:03:04",
+        "GetStop": "2026/10/24 11:03:04",
+        "GetPathDetail": "2026/10/24 11:03:04",
+        "GetStopLocation": "2026/10/24 11:03:04"
+      },
+      "tdx_source_update_times": [
+        "2026-10-24T09:36:32+08:00"
+      ],
+      "maximum_coordinate_separation_m": 105.25670224344283,
+      "published_separation_precision_m": 0.001,
+      "coordinate_difference_count_over_1_m": 1096,
+      "unlisted_direct_stop_ids": [
+        "184110",
+        "186832",
+        "211167"
+      ]
+    },
+    "limitations": [
+      "1335個會員座標差異包含來源精度或位置差異，保留兩端原值；距離只是差異診斷，不表示移站或可互換位置。",
+      "3個未列站保留operational_cause:null；未列完整TDX及PathDetail不等於停駛。",
+      "原序數只核對完整順序，沒有套固定1位偏移或重編。",
+      "StationUID未由StopOfRoute發布，保持null；所有ID結論限所列快照。"
+    ]
+  },
+  "records": [
+    {
+      "path": "data/official_cross_city/taipei_id_evidence/memberships.json.gz",
+      "record_count": 43235,
+      "status": "pass_with_source_limitations",
+      "reviewed_generated_at": "2026-10-24T11:42:36+08:00",
+      "checks": {
+        "failure_count": 0,
+        "failures": []
+      }
+    },
+    {
+      "path": "data/official_cross_city/taipei_id_evidence/sequences.json.gz",
+      "record_count": 1241,
+      "status": "pass_with_source_limitations",
+      "reviewed_generated_at": "2026-10-24T11:42:36+08:00",
+      "checks": {
+        "failure_count": 0,
+        "failures": []
+      }
+    },
+    {
+      "path": "data/official_cross_city/taipei_id_evidence/unlisted_direct_stops.json",
+      "record_count": 3,
+      "status": "pass_with_source_limitations",
+      "reviewed_generated_at": "2026-10-24T11:42:36+08:00",
+      "checks": {
+        "failure_count": 0,
+        "failures": []
+      }
+    },
+    {
+      "path": "data/official_cross_city/taipei_id_evidence/summary.json",
+      "record_count": 1,
+      "status": "pass_with_source_limitations",
+      "reviewed_generated_at": "2026-10-24T11:42:36+08:00",
+      "checks": {
+        "failure_count": 0,
+        "failures": []
+      }
+    }
+  ]
+}
