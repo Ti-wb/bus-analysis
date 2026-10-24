@@ -7,7 +7,7 @@ import Search, { type SearchItem } from './components/Search';
 import Topbar from './components/Topbar';
 import { DAY_LABELS, NEED_BANDS, type Quadrant } from './config';
 import { coverageGridLines, coverageImage } from './coverage';
-import { EMPTY_SUPPLEMENTAL, gridCollection, hourText, loadCoverage, loadGrid, loadMapData, loadNeed, loadSupplementalLayer, SUPPLEMENTAL_FILES, type SupplementalKey } from './data';
+import { EMPTY_SUPPLEMENTAL, gridCollection, hourText, loadCoverage, loadGrid, loadRegionalGrid, loadMapData, loadNeed, loadSupplementalLayer, SUPPLEMENTAL_FILES, type SupplementalKey } from './data';
 import { readHash, writeHash } from './hashState';
 import MapView from './map/MapView';
 import RouteWorkspace, { type RouteWorkspaceHandle } from './routeEditor/RouteWorkspace';
@@ -38,6 +38,7 @@ export default function App() {
   const [dataAttempt, setDataAttempt] = useState(0);
   const data = useMemo(() => baseData ? { ...baseData, ...supplemental } : null, [baseData, supplemental]);
   const [grid, setGrid] = useState<Grid | null>(null);
+  const [regionalGrid, setRegionalGrid] = useState<Grid | null>(null);
   const [mapReady, setMapReady] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [analysisError, setAnalysisError] = useState<Error | null>(null);
@@ -118,6 +119,18 @@ export default function App() {
     return () => { current = false; };
   }, [state.cell]);
 
+  // TDX cross-city service belongs only to frequency exploration. Route editor and
+  // supply/demand analysis must retain their current Taipei-specific inputs.
+  useEffect(() => {
+    if (state.mode !== 'frequency' || routeTool) return undefined;
+    let current = true;
+    loadRegionalGrid(state.cell).then(
+      (value) => { if (current) { setRegionalGrid(value); setAnalysisError(null); } },
+      (reason: Error) => { if (current) setAnalysisError(reason); },
+    );
+    return () => { current = false; };
+  }, [state.mode, state.cell, routeTool]);
+
   // Coverage data is only fetched once the coverage mode is first opened, one file per cell size.
   useEffect(() => {
     if (state.mode !== 'coverage') return undefined;
@@ -146,9 +159,11 @@ export default function App() {
     return () => clearInterval(timer);
   }, [playing]);
 
+  const regionalReady = regionalGrid?.cell_m === state.cell;
+  const shownGrid = state.mode === 'frequency' && !routeTool && regionalReady ? regionalGrid : grid;
   const gridData = useMemo(
-    () => (grid && grid.cell_m === state.cell ? gridCollection(grid, state) : null),
-    [grid, state],
+    () => (shownGrid && shownGrid.cell_m === state.cell ? gridCollection(shownGrid, state) : null),
+    [shownGrid, state],
   );
 
   const { coverage: coverageLayers, walkTypes, walkRadii, rideRadius } = state;
@@ -197,7 +212,7 @@ export default function App() {
     }
   };
 
-  const loading = !error && !analysisError && !(data && gridData && mapReady);
+  const loading = !error && !analysisError && (!(data && gridData && mapReady) || (frequency && !routeTool && !regionalReady));
   const navigate = (next: typeof page) => {
     const move = () => {
       if (next !== page) setMapReady(false);
@@ -224,7 +239,7 @@ export default function App() {
             mapRef={mapRef}
             initialView={viewRef.current}
             data={data}
-            grid={grid}
+            grid={shownGrid ?? grid}
             gridData={gridData}
             coverage={coverage}
             coverageImage={coverageRaster}
@@ -242,7 +257,7 @@ export default function App() {
         {data && <Search data={data} onChoose={handleSearch} />}
         <div className="status-chip">
           {state.layers.has('villages') ? `里${state.villageMetric === 'population' ? '人口' : '高齡占比'}${populationPeriod ? ` · ${populationPeriod}` : ''}`
-            : frequency ? `${DAY_LABELS[state.day]} · ${hourText(state.hour)}`
+            : frequency ? `${regionalReady ? '北北基' : '臺北市（跨市網格尚未載入）'} · ${DAY_LABELS[state.day]} · ${hourText(state.hour)}`
             : needMode ? `需求落差 · ${NEED_BANDS.find((b) => b.key === state.band)!.label}`
             : '站點覆蓋 · 直線距離，不分時段'}
         </div>
@@ -254,7 +269,7 @@ export default function App() {
           {state.layers.has('villages') ? <p>每個色塊是一個完整里，呈現{populationPeriod ? ` ${populationPeriod} ` : ''}戶籍人口或 65 歲以上人口占比；灰色表示缺值或代碼與名稱未核對。點選查看三個年齡組的人數。整里統計不是站點 350 m 人口估算；關閉此圖層即可恢復原分析填色。</p> : needMode
             ? <p>每格約 250 m。需求由居住人口、重要地點（依時段加權）與附近捷運進出量的排名加權而成；供給由附近公車班次與捷運距離算出。兩者都是同一時段內的排名，橘色偏「需求高、供給低」，藍色偏「供給多於需求」。這是研究草案，權重是假設值，不是實際搭乘量。</p>
             : frequency
-            ? <p>每格約 100、150、250 或 500 m，數值為格內公車站牌所屬附線在該小時的計畫發車數加總（同一附線只計一次、不分方向）。以起站發車時刻歸入小時，未計行駛時間；不代表實際載客或步行可達性。</p>
+            ? <p>北北基共用 100、150、250 或 500 m 計畫班次網格，依 TDX 官方路線、附線、方向與班表彙整；100／150 m 僅顯示距站位約 750 m 內的分析區域。缺班表保留未知，不補為零。依起站發車時刻歸入小時，未計沿途行駛時間；不代表實際載客或步行可達性。</p>
             : <p>每格約 {state.coverageCell} m，依格心到最近站點的直線距離上色：橙色是走到公車、捷運或 YouBike 站，青綠是從 YouBike 站騎出去。兩層都只是半徑示意，未計入路網、河川阻隔、班次多寡與即時可借車輛。</p>}
         </section>
         {loading && <div className="loading">載入地圖資料中…</div>}
@@ -269,7 +284,7 @@ export default function App() {
         </>}
       </main>
       {prefsOpen && <Preferences state={state} data={data} supplementalPending={supplementalPending} onRetrySupplemental={retrySupplemental} onApply={(patch) => { update(patch); setPrefsOpen(false); }} onClose={() => setPrefsOpen(false)} />}
-      <AboutDialog open={aboutOpen} grid={grid} coverage={coverage} need={needGrid} supplemental={supplemental} onClose={() => setAboutOpen(false)} />
+      <AboutDialog open={aboutOpen} grid={shownGrid ?? grid} coverage={coverage} need={needGrid} supplemental={supplemental} onClose={() => setAboutOpen(false)} />
     </>
   );
 }
