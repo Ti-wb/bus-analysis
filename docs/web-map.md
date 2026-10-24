@@ -71,6 +71,10 @@ npm --prefix web run build
 
 探索頁現在讀取 `regional_bus_grid_{100,150,250,500}.json`，由 `scripts/build_regional_bus_grid.py` 對已保存且取得至尾頁的 TDX 臺北、新北、基隆、公路客運 StopOfRoute／Schedule 計算。依 RouteUID、SubRouteUID、方向去重，同一站位／附線不可因跨機關發布而重算；不同業者的班表只在官方明示時合併，缺少業者 ID 者暫計一次並標示不確定。未解析的班表是 null，不能當作零班。這些網格反映**計畫起站發車**，不代表實際經過該站或實際運量。
 
+固定班表與班距的優先順序分別在每個業者內判斷，再加總各業者：例如甲業者 08:00 固定一班，乙業者 08:00–09:00 每 10 分鐘一班，08 時合計為 7 班。同一業者同一小時有固定班表時，才不再加入該業者的班距估算。
+
+資料產生後執行 `uv run scripts/review_regional_bus_grid.py`，由獨立巡檢程式從保存的官方來源重算班次與網格，核對來源、欄位、期間、筆數及加總；結果保存在 [`data/quality/regional_bus_grid_review.json`](../data/quality/regional_bus_grid_review.json)。更新來源或計算規則後須重新產生並巡檢；CI 在巡檢通過後才繼續建置，並保留當次報告 30 天。回歸測試使用 `uv run python -m unittest discover -s tests -p 'test_regional_bus_grid*.py' -v`。
+
 250／500 m 網格涵蓋北北基行政範圍（新北含山區）；為避免 100 m 網格造成地圖過載，100／150 m 僅納入公車站位約 350 m 周圍的網格，其餘區域是「不在細尺度顯示範圍」，不能解釋為零班。行政界版本及各發布端點時間可能不同。原 `bus_grid_*.json` **保留給臺北市路線方案工具**，需求落差仍依 `transport_need_250.json` 的臺北市模型。原圖色階尚未對全北北基重新校準，不適合直接以顏色做跨城市量化比較。
 
 舊臺北市路線工具仍採下列地方 feed 計算方式：

@@ -12,7 +12,8 @@ on:
       - 'scripts/review_regional_bus_grid.py'
       - 'scripts/build_web_supplemental.py'
       - 'data/official_cross_city/**'
-      - 'tests/test_regional_bus_grid.py'
+      - 'data/quality/regional_bus_grid_review.json'
+      - 'tests/test_regional_bus_grid*.py'
       - 'scripts/build_route_scenario.py'
       - 'scripts/build_improvements.py'
       - 'data/urban/public_toilets.geojson'
@@ -33,7 +34,8 @@ on:
       - 'scripts/review_regional_bus_grid.py'
       - 'scripts/build_web_supplemental.py'
       - 'data/official_cross_city/**'
-      - 'tests/test_regional_bus_grid.py'
+      - 'data/quality/regional_bus_grid_review.json'
+      - 'tests/test_regional_bus_grid*.py'
       - 'scripts/build_route_scenario.py'
       - 'scripts/build_improvements.py'
       - 'data/urban/public_toilets.geojson'
@@ -70,11 +72,22 @@ jobs:
       # Python version comes from .python-version; dependencies from uv.lock.
       - run: uv sync --locked --no-default-groups
       - name: Validate regional published-service calculations
-        run: uv run python -m unittest discover -s tests -p 'test_regional_bus_grid.py' -v
+        run: uv run python -m unittest discover -s tests -p 'test_regional_bus_grid*.py' -v
       - name: Generate map layers into web/public/data/
         run: uv run scripts/build_web_data.py
       - name: Audit north-region grid deliveries
-        run: uv run python scripts/review_regional_bus_grid.py
+        id: regional-audit
+        run: |
+          rm -f data/quality/regional_bus_grid_review.json
+          uv run python scripts/review_regional_bus_grid.py
+      - name: Retain independent regional-grid review
+        if: ${{ !cancelled() && steps.regional-audit.outcome != 'skipped' }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: regional-bus-grid-review-${{ github.run_id }}
+          path: data/quality/regional_bus_grid_review.json
+          if-no-files-found: error
+          retention-days: 30
       - uses: actions/setup-node@v7
         with:
           node-version: 24
