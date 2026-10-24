@@ -19,10 +19,12 @@ import { circle } from '../catchment';
 import StationInfo, { StationIcon } from '../components/StationInfo';
 import { BASE_STYLE, HOVER_LAYERS, LAYER_GROUPS, PLACE_CATEGORIES } from '../config';
 import { distancesAt, type CoverageImage } from '../coverage';
+import type { BusFocusState } from '../focus/model';
 import type { NeedCellProps, NeedResult } from '../need';
 import { STATION_LAYERS, STATION_RADIUS, stationFromFeature } from '../stations';
 import { CoverageTooltip, FeatureTooltip, NeedTooltip, RoutePopup, type PopupFeature } from './FeatureInfo';
 import * as L from './layers';
+import { focusLocalBounds, focusRouteBounds, focusStops } from './focusGeometry';
 import { RouteLayers, ScenarioGrid, type EditorMapProps } from '../routeEditor/RouteLayers';
 import type { AppState, Coverage, Grid, LayerGroup, MapData, NeedGrid, StationSelection, ViewState } from '../types';
 
@@ -33,6 +35,8 @@ const LAYER_GROUP_OF: Record<string, LayerGroup> = Object.fromEntries(
 
 interface Props {
   editor?: EditorMapProps;
+  focus?: BusFocusState | null;
+  onFocusRoute?: (routeId: string) => void;
   mapRef: RefObject<MapRef | null>;
   initialView: ViewState;
   data: MapData;
@@ -52,6 +56,14 @@ interface Props {
 
 // Distance between the cursor and the tooltip, in pixels.
 const TOOLTIP_GAP = 12;
+const FOCUS_ORIGINAL_LAYERS: Record<string, string> = {
+  'focus-bus-stops': 'bus-stops',
+  'focus-mrt-stations': 'mrt-stations',
+  'focus-youbike': 'youbike',
+  'focus-places': 'places',
+  'bus-focus-route-emphasis': 'bus-routes',
+  'bus-focus-routes': 'bus-routes',
+};
 
 interface Hover {
   feature?: MapGeoJSONFeature;
@@ -90,9 +102,22 @@ function addHatchPattern(map: MaplibreMap) {
   ctx.lineWidth = 1.5;
   ctx.beginPath(); ctx.moveTo(0, size); ctx.lineTo(size, 0); ctx.stroke();
   map.addImage('scenario-hatch', ctx.getImageData(0, 0, size, size));
+
+  // Square stops distinguish the local catchment from stops on the visible routes.
+  for (const solid of [false, true]) {
+    const icon = document.createElement('canvas');
+    icon.width = icon.height = 20;
+    const iconContext = icon.getContext('2d')!;
+    iconContext.fillStyle = solid ? '#5f8299' : '#ffffff';
+    iconContext.strokeStyle = solid ? '#ffffff' : '#315f79';
+    iconContext.lineWidth = 3;
+    iconContext.fillRect(3, 3, 14, 14);
+    iconContext.strokeRect(3, 3, 14, 14);
+    map.addImage(`focus-stop-${solid ? 'solid' : 'hollow'}`, iconContext.getImageData(0, 0, 20, 20), { pixelRatio: 2 });
+  }
 }
 
-export default function MapView({ editor, mapRef, initialView, data, grid, gridData, coverage, coverageImage, coverageLines, need, state, station, onStation, onCloseStation, onReady, onMoveEnd }: Props) {
+export default function MapView({ editor, focus, onFocusRoute, mapRef, initialView, data, grid, gridData, coverage, coverageImage, coverageLines, need, state, station, onStation, onCloseStation, onReady, onMoveEnd }: Props) {
   // First label layer of the base style: our layers go below it so road names stay on top.
   const [labelLayer, setLabelLayer] = useState<string | null>(null);
   const baseLabels = useRef<string[]>([]);
@@ -114,6 +139,54 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
   const [popup, setPopup] = useState<PopupFeature | null>(null);
   const [showDistrictLabels, setShowDistrictLabels] = useState(true);
   const catchmentShape = useMemo(() => (station ? circle(station.at, STATION_RADIUS) : null), [station]);
+  const activeFocus = !editor && station?.type === 'bus' ? focus ?? null : null;
+  const visibleRouteIds = useMemo(() => activeFocus?.routes.filter((route) => route.visible).map((route) => route.route_id) ?? [], [activeFocus?.routes]);
+  const nearbyAndRouteStops = useMemo(() => activeFocus && station?.type === 'bus' ? focusStops(data, station, visibleRouteIds) : null, [activeFocus !== null, data, station, visibleRouteIds]);
+  const cameraRequest = useRef<string | null>(null);
+  const cameraStation = useRef<StationSelection | null>(null);
+
+  // Camera actions belong to Focus; user layer preferences are never rewritten.
+  useEffect(() => {
+    const map = mapRef.current?.getMap();
+    if (!map || labelLayer === null) return;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!activeFocus || station?.type !== 'bus') {
+      cameraRequest.current = null;
+      cameraStation.current = null;
+      return;
+    }
+    const request = `${station.id}:${activeFocus.camera.scope}:${activeFocus.camera.revision}`;
+    const enteringStation = cameraStation.current !== station;
+    if (cameraRequest.current === request && !enteringStation) return;
+    cameraStation.current = station;
+    cameraRequest.current = request;
+    const ids = activeFocus.selected_route_id
+      ? visibleRouteIds.filter((id) => id === activeFocus.selected_route_id)
+      : visibleRouteIds;
+    const routeBounds = activeFocus.camera.scope === 'routes' ? focusRouteBounds(data, ids, station.at) : null;
+    // All routes hidden: retain the user's current view; a station without shapes starts locally.
+    if (activeFocus.camera.scope === 'routes' && !routeBounds && !enteringStation) return;
+    const bounds = routeBounds ?? focusLocalBounds(station.at);
+    const container = map.getContainer();
+    const frame = container.getBoundingClientRect();
+    const stage = container.parentElement;
+    const sidebar = stage?.querySelector<HTMLElement>('.focus-sidebar')?.getBoundingClientRect();
+    const card = stage?.querySelector<HTMLElement>('.station-card.is-focus')?.getBoundingClientRect();
+    const mobile = frame.width <= 760;
+    const padding = mobile
+      ? { top: card ? Math.min(card.bottom - frame.top + 20, frame.height * .3) : 90, right: 30, bottom: sidebar ? Math.min(frame.bottom - sidebar.top + 20, frame.height * .5) : 80, left: 30 }
+      : { top: 86, right: card ? card.width + 40 : 40, bottom: 50, left: sidebar ? sidebar.width + 40 : 40 };
+    // Narrow or short viewports must always leave a positive area for fitBounds.
+    const verticalScale = Math.min(1, Math.max(0, frame.height - 120) / (padding.top + padding.bottom));
+    const horizontalScale = Math.min(1, Math.max(0, frame.width - 160) / (padding.left + padding.right));
+    map.fitBounds(bounds, {
+      padding: { top: padding.top * verticalScale, bottom: padding.bottom * verticalScale, left: padding.left * horizontalScale, right: padding.right * horizontalScale },
+      maxZoom: routeBounds ? 15.5 : 16,
+      bearing: 0,
+      pitch: 0,
+      duration: reducedMotion ? 0 : 550,
+    });
+  }, [activeFocus, data, labelLayer, mapRef, station, visibleRouteIds]);
 
   // Search and map clicks share one selected station; a route popup must not linger.
   useEffect(() => { if (station) setPopup(null); }, [station]);
@@ -125,7 +198,7 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
     canvas.setAttribute('aria-label', '互動地圖；方向鍵移動，Enter 開啟畫面中央最近的可見站點，Escape 關閉資訊');
     const openStation = (event: KeyboardEvent) => {
       if (event.key !== 'Enter') return;
-      const layers = STATION_LAYERS.filter((id) => map.getLayer(id) && state.layers.has(LAYER_GROUP_OF[id]));
+      const layers = [...(activeFocus ? ['focus-bus-stops', 'focus-mrt-stations', 'focus-youbike'] : []), ...STATION_LAYERS.filter((id) => state.layers.has(LAYER_GROUP_OF[id]))].filter((id) => map.getLayer(id));
       if (!layers.length) return;
       const centre = { x: canvas.clientWidth / 2, y: canvas.clientHeight / 2 };
       const stations = map.queryRenderedFeatures(undefined, { layers });
@@ -134,7 +207,8 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
         return Math.hypot(point.x - centre.x, point.y - centre.y);
       };
       stations.sort((a, b) => distance(a) - distance(b));
-      const next = stations[0] && stationFromFeature(stations[0], data);
+      const feature = stations[0];
+      const next = feature && stationFromFeature({ ...feature, geometry: feature.geometry, layer: { ...feature.layer, id: FOCUS_ORIGINAL_LAYERS[feature.layer.id] ?? feature.layer.id } } as MapGeoJSONFeature, data);
       if (next) { event.preventDefault(); setHover(null); setPopup(null);
         if (editor?.interaction === 'stops' && next.type === 'bus') editor.onStop(next.id);
         else onStation(next, canvas);
@@ -142,7 +216,7 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
     };
     canvas.addEventListener('keydown', openStation);
     return () => canvas.removeEventListener('keydown', openStation);
-  }, [data, editor, labelLayer, mapRef, onStation, state.layers]);
+  }, [activeFocus !== null, data, editor, labelLayer, mapRef, onStation, state.layers]);
 
   const handleLoad = useCallback(() => {
     const map = mapRef.current!.getMap();
@@ -173,7 +247,7 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
   }, [mapRef, labelLayer, state.labels]);
 
   // The frequency grid belongs to frequency mode; coverage mode draws its own raster instead.
-  const shown = (group: LayerGroup) => state.layers.has(group) && (group !== 'grid' || (!editor && state.mode === 'frequency'));
+  const shown = (group: LayerGroup) => state.layers.has(group) && (group !== 'grid' || (!editor && !activeFocus && state.mode === 'frequency'));
   const visible = (id: string) => (shown(LAYER_GROUP_OF[id]) ? 'visible' : 'none');
   const withVisibility = (layer: L.StyleLayer, beforeId?: string): LayerProps => ({
     ...layer,
@@ -182,6 +256,10 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
     ...(editor && layer.id === 'bus-routes' ? { paint: { ...layer.paint, 'line-color': '#8aa2af', 'line-opacity': .025, 'line-width': .75 } } : {}),
     ...(editor && (layer.id === 'mrt-lines' || layer.id === 'mrt-lines-casing') ? { paint: { ...layer.paint, 'line-opacity': .2 } } : {}),
     ...(editor && layer.id === 'places' ? { paint: { ...layer.paint, 'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, 2, 15, 4], 'circle-opacity': .65, 'circle-stroke-width': 1 } } : {}),
+    ...(activeFocus && layer.id === 'bus-routes' ? { paint: { ...layer.paint, 'line-color': '#b7c1c6', 'line-opacity': .2, 'line-width': .8 } } : {}),
+    ...(activeFocus && layer.id === 'mrt-lines' ? { paint: { ...layer.paint, 'line-color': '#b7c1c6', 'line-opacity': .3, 'line-width': 1.4 } } : {}),
+    ...(activeFocus && layer.id === 'mrt-lines-casing' ? { paint: { ...layer.paint, 'line-opacity': .3 } } : {}),
+    ...(activeFocus && ['bus-stops', 'mrt-stations', 'youbike', 'places'].includes(layer.id!) ? { paint: { ...layer.paint, 'circle-opacity': .2, 'circle-stroke-opacity': .2 } } : {}),
   } as LayerProps);
 
   const placeMembers = useMemo(
@@ -191,18 +269,21 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
 
   const featureAt = (e: MapLayerMouseEvent): MapGeoJSONFeature | undefined => {
     const map = mapRef.current!.getMap();
-    const layers = HOVER_LAYERS.filter((id) => map.getLayer(id) && shown(LAYER_GROUP_OF[id]));
+    const layers = [...(activeFocus ? Object.keys(FOCUS_ORIGINAL_LAYERS) : []), ...HOVER_LAYERS.filter((id) => (!activeFocus || id !== 'bus-routes') && shown(LAYER_GROUP_OF[id]))].filter((id) => map.getLayer(id));
     // In need mode the grid cell outranks route lines, but point markers still win.
     if (state.mode === 'need' && map.getLayer('need-fill')) {
       const firstLine = layers.findIndex((id) => id === 'bus-routes' || id === 'mrt-lines');
       layers.splice(firstLine < 0 ? layers.length : firstLine, 0, 'need-fill');
     }
     const { x, y } = e.point;
-    const features = map.queryRenderedFeatures([[x - 4, y - 4], [x + 4, y + 4]], { layers });
+    const features = map.queryRenderedFeatures([[x - 4, y - 4], [x + 4, y + 4]], { layers }).map((feature) => {
+      const original = FOCUS_ORIGINAL_LAYERS[feature.layer.id];
+      return original ? { ...feature, geometry: feature.geometry, layer: { ...feature.layer, id: original } } as MapGeoJSONFeature : feature;
+    });
     // Station points win; retain the analysis mode's priority for all other features.
     const stationFeature = features.find((f) => STATION_LAYERS.includes(f.layer.id));
     if (stationFeature) return stationFeature;
-    const priority = (f: MapGeoJSONFeature) => layers.indexOf(f.layer.id);
+    const priority = (f: MapGeoJSONFeature) => layers.findIndex((id) => (FOCUS_ORIGINAL_LAYERS[id] ?? id) === f.layer.id);
     return features.reduce<MapGeoJSONFeature | undefined>((best, f) => (!best || priority(f) < priority(best) ? f : best), undefined);
   };
 
@@ -212,7 +293,7 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
     canvas.style.cursor = feature && !/^(grid|need)/.test(feature.layer.id) ? 'pointer' : '';
     const { x, y } = e.point;
     if (feature) setHover({ feature, x, y });
-    else if (state.mode === 'coverage' && coverage) {
+    else if (!activeFocus && state.mode === 'coverage' && coverage) {
       const distances = distancesAt(coverage, e.lngLat.lng, e.lngLat.lat);
       setHover(distances ? { distances, x, y } : null);
     } else setHover(null);
@@ -230,18 +311,19 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
       setHover(null);
     } else if (feature && id === 'bus-routes') {
       if (editor) { editor.onRoute(String(feature.properties.route_id)); setHover(null); return; }
+      if (activeFocus) { onFocusRoute?.(String(feature.properties.route_id)); setHover(null); return; }
       onStation(null);
       setPopup({ feature, lngLat: [e.lngLat.lng, e.lngLat.lat] });
       setHover(null);
     } else {
       setPopup(null);
-      if (station) onCloseStation();
+      if (station && !activeFocus) onCloseStation();
     }
   };
 
-  const highlightedRoutes = popup?.feature.layer.id === 'bus-routes'
-    ? { routeId: popup.feature.properties.route_id as string }
-    : station?.type === 'bus' ? { names: station.properties.routes } : null;
+  const highlightedRoutes = activeFocus ? null
+    : popup?.feature.layer.id === 'bus-routes' ? [String(popup.feature.properties.route_id)]
+      : station?.type === 'bus' ? station.properties.route_ids ?? [] : null;
   const below = labelLayer ?? undefined;
 
   return (
@@ -281,19 +363,19 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
             {editor && <ScenarioGrid editor={editor} beforeId={below} />}
             {need && (
               <Source id="need" type="geojson" data={need.data}>
-                <Layer {...L.needFillLayer} beforeId={below} layout={{ visibility: state.mode === 'need' ? 'visible' : 'none' }} />
-                <Layer {...L.needPartialLayer} beforeId={below} layout={{ visibility: state.mode === 'need' ? 'visible' : 'none' }} />
-                <Layer {...L.needRobustLayer} beforeId={below} layout={{ visibility: state.mode === 'need' ? 'visible' : 'none' }} />
+                <Layer {...L.needFillLayer} beforeId={below} layout={{ visibility: !activeFocus && state.mode === 'need' ? 'visible' : 'none' }} />
+                <Layer {...L.needPartialLayer} beforeId={below} layout={{ visibility: !activeFocus && state.mode === 'need' ? 'visible' : 'none' }} />
+                <Layer {...L.needRobustLayer} beforeId={below} layout={{ visibility: !activeFocus && state.mode === 'need' ? 'visible' : 'none' }} />
               </Source>
             )}
             {coverageImage && (
               <Source id="coverage" type="image" url={coverageImage.url} coordinates={coverageImage.coordinates}>
-                <Layer {...L.coverageLayer} beforeId={below} layout={{ visibility: state.mode === 'coverage' ? 'visible' : 'none' }} />
+                <Layer {...L.coverageLayer} beforeId={below} layout={{ visibility: !activeFocus && state.mode === 'coverage' ? 'visible' : 'none' }} />
               </Source>
             )}
             {coverageLines && coverage && (
               <Source id="coverage-grid" type="geojson" data={coverageLines}>
-                <Layer {...L.coverageGridLayer(coverage.cell_m)} beforeId={below} layout={{ visibility: state.mode === 'coverage' && state.gridLines ? 'visible' : 'none' }} />
+                <Layer {...L.coverageGridLayer(coverage.cell_m)} beforeId={below} layout={{ visibility: !activeFocus && state.mode === 'coverage' && state.gridLines ? 'visible' : 'none' }} />
               </Source>
             )}
             <Source id="roads" type="geojson" data={data.roads}>
@@ -307,13 +389,14 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
             </Source>
             {catchmentShape && (
               <Source id="catchment" type="geojson" data={catchmentShape}>
-                <Layer {...L.catchmentFillLayer} beforeId={below} />
-                <Layer {...L.catchmentLineLayer} beforeId={below} />
+                <Layer {...{ ...L.catchmentFillLayer, ...(activeFocus ? { paint: { 'fill-color': '#4b8793', 'fill-opacity': .1 } } : {}) } as LayerProps} beforeId={below} />
+                <Layer {...{ ...L.catchmentLineLayer, ...(activeFocus ? { paint: { 'line-color': '#4b8793', 'line-opacity': .7, 'line-width': 1.5, 'line-dasharray': [3, 2] } } : {}) } as LayerProps} beforeId={below} />
               </Source>
             )}
             <Source id="bus-routes" type="geojson" data={data.bus_routes}>
               <Layer {...withVisibility(L.busRoutesLayer, below)} />
               <Layer {...L.busRouteHighlightLayer(highlightedRoutes)} beforeId={below} />
+              {activeFocus && L.busFocusRouteLayers(activeFocus).map((layer) => <Layer key={layer.id} {...layer} beforeId={below} />)}
             </Source>
             <Source id="mrt-lines" type="geojson" data={data.mrt_lines}>
               <Layer {...withVisibility(L.mrtCasingLayer, below)} />
@@ -331,6 +414,20 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
             <Source id="places" type="geojson" data={data.places}>
               <Layer {...withVisibility(L.placesLayer(placeMembers))} />
             </Source>
+            {nearbyAndRouteStops && <>
+              <Source id="focus-bus-stops" type="geojson" data={nearbyAndRouteStops.bus}>
+                <Layer {...L.focusBusStopsLayer} />
+              </Source>
+              <Source id="focus-mrt-stations" type="geojson" data={nearbyAndRouteStops.mrt}>
+                <Layer {...L.mrtStationsLayer} id="focus-mrt-stations" minzoom={0} />
+              </Source>
+              <Source id="focus-youbike" type="geojson" data={nearbyAndRouteStops.youbike}>
+                <Layer {...L.youbikeLayer} id="focus-youbike" minzoom={0} />
+              </Source>
+              <Source id="focus-places" type="geojson" data={nearbyAndRouteStops.places}>
+                <Layer {...L.placesLayer(placeMembers)} id="focus-places" />
+              </Source>
+            </>}
             {editor && <RouteLayers editor={editor} beforeId={below} />}
           </>
         )}
@@ -342,7 +439,10 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
         ))}
 
         {station && <Marker longitude={station.at[0]} latitude={station.at[1]} anchor="center">
-          <div className={`station-pin station-${station.type}`} aria-hidden="true"><StationIcon type={station.type} /></div>
+          {activeFocus ? <div className="station-focus-marker">
+            <div className="station-pin station-bus" aria-hidden="true"><StationIcon type="bus" /></div>
+            <span className="station-focus-name">{station.properties.name}</span>
+          </div> : <div className={`station-pin station-${station.type}`} aria-hidden="true"><StationIcon type={station.type} /></div>}
         </Marker>}
         {popup && !station && (
           <Popup longitude={popup.lngLat[0]} latitude={popup.lngLat[1]} offset={8} onClose={() => setPopup(null)} closeOnClick={false}>
@@ -351,7 +451,7 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
         )}
       </Map>
 
-      {station && <StationInfo station={station} mapRef={mapRef} data={data} placeKeys={state.places} onClose={onCloseStation} />}
+      {station && <StationInfo station={station} mode={activeFocus ? 'focus' : 'popup'} mapRef={mapRef} data={data} placeKeys={state.places} onClose={onCloseStation} />}
 
       {hover && (
         <div ref={tooltipRef} className="tooltip" style={{ left: hover.x, top: hover.y }}>

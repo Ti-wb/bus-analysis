@@ -10,6 +10,8 @@ import { coverageGridLines, coverageImage } from './coverage';
 import { gridCollection, hourText, loadCoverage, loadGrid, loadMapData, loadNeed } from './data';
 import { readHash, writeHash } from './hashState';
 import MapView from './map/MapView';
+import FocusSidebar from './focus/FocusSidebar';
+import { buildFocusRoutes, initialFocus, overviewFocus, selectFocusRoute, showAllFocusRoutes, toggleFocusRoute, type BusFocusState } from './focus/model';
 import RouteWorkspace, { type RouteWorkspaceHandle } from './routeEditor/RouteWorkspace';
 import { computeNeed, needCollection, quadrantOf } from './need';
 import type { AppState, Coverage, Grid, MapData, NeedGrid, StationSelection, ViewState } from './types';
@@ -34,20 +36,52 @@ export default function App() {
   const [explainerOpen, setExplainerOpen] = useState(true);
   const [prefsOpen, setPrefsOpen] = useState(false);
   const [station, setStation] = useState<StationSelection | null>(null);
+  const [busFocus, setBusFocus] = useState<BusFocusState | null>(null);
   const [routeTool, setRouteTool] = useState(false);
   const editorRef = useRef<RouteWorkspaceHandle>(null);
   const stationOrigin = useRef<HTMLElement | null>(null);
   const focusFrame = useRef<number | null>(null);
+  const focusReturnView = useRef<(ViewState & { bearing: number; pitch: number }) | null>(null);
 
   const selectStation = useCallback((next: StationSelection | null, origin?: HTMLElement) => {
     // A new selection supersedes any focus restoration from the previous card.
     if (focusFrame.current !== null) cancelAnimationFrame(focusFrame.current);
     focusFrame.current = null;
     if (next) stationOrigin.current = origin ?? document.activeElement as HTMLElement;
+    const map = mapRef.current?.getMap();
+    if (next?.type === 'bus' && data) {
+      if (!focusReturnView.current) {
+        map?.stop();
+        const center = map?.getCenter();
+        focusReturnView.current = {
+          center: center ? [center.lng, center.lat] : viewRef.current.center,
+          zoom: map?.getZoom() ?? viewRef.current.zoom,
+          bearing: map?.getBearing() ?? 0,
+          pitch: map?.getPitch() ?? 0,
+        };
+      }
+    } else if (focusReturnView.current) {
+      // Choosing another kind of station or search result is a new navigation.
+      focusReturnView.current = null;
+      map?.stop();
+      map?.setPadding({ top: 0, bottom: 0, left: 0, right: 0 });
+    }
     setStation(next);
-  }, []);
+    setBusFocus(next?.type === 'bus' && data ? initialFocus(buildFocusRoutes(data, next)) : null);
+    if (next?.type === 'bus') setPlaying(false);
+  }, [data]);
   const closeStation = useCallback(() => {
+    const previous = focusReturnView.current;
+    focusReturnView.current = null;
+    if (previous) {
+      const map = mapRef.current?.getMap();
+      map?.stop();
+      viewRef.current = { center: previous.center, zoom: previous.zoom };
+      map?.easeTo({ ...previous, padding: { top: 0, bottom: 0, left: 0, right: 0 },
+        duration: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 400 });
+    }
     setStation(null);
+    setBusFocus(null);
     const origin = stationOrigin.current;
     if (focusFrame.current !== null) cancelAnimationFrame(focusFrame.current);
     focusFrame.current = requestAnimationFrame(() => {
@@ -56,6 +90,8 @@ export default function App() {
       else mapRef.current?.getCanvas().focus({ preventScroll: true });
     });
   }, []);
+  const selectRoute = useCallback((routeId: string) => setBusFocus((focus) => focus && selectFocusRoute(focus, routeId)), []);
+  const isBusFocus = station?.type === 'bus' && busFocus !== null;
 
   const update = useCallback((patch: Partial<AppState>) => setState((s) => ({ ...s, ...patch })), []);
 
@@ -120,13 +156,14 @@ export default function App() {
   }, [state]);
 
   const handleSearch = (item: SearchItem) => {
-    if (item.layer) {
+    if (item.layer && item.station?.type !== 'bus') {
       const layers = new Set(state.layers).add(item.layer);
       const places = item.place ? new Set(state.places).add(item.place) : state.places;
       update({ layers, places });
     }
     selectStation(item.station ?? null);
-    mapRef.current?.flyTo({ center: item.at, zoom: item.zoom });
+    // Bus Focus fits the complete service network and owns restoring the previous view.
+    if (item.station?.type !== 'bus') mapRef.current?.flyTo({ center: item.at, zoom: item.zoom });
   };
 
   const share = async (): Promise<boolean> => {
@@ -140,15 +177,30 @@ export default function App() {
   };
 
   const loading = !error && !(data && gridData && mapReady);
+  const openRouteTool = () => {
+    if (focusReturnView.current) {
+      const previous = focusReturnView.current;
+      focusReturnView.current = null;
+      mapRef.current?.stop();
+      viewRef.current = { center: previous.center, zoom: previous.zoom };
+      writeHash(state, viewRef.current);
+    }
+    setRouteTool(true);
+    setStation(null);
+    setBusFocus(null);
+    setPlaying(false);
+    setAboutOpen(false);
+  };
 
   return (
     <>
       <Topbar mode={state.mode} onAbout={() => setAboutOpen(true)} aboutActive={aboutOpen}
-        routeTool={routeTool} onRoutes={() => { setRouteTool(true); setStation(null); setPlaying(false); setAboutOpen(false); }}
+        stationFocus={isBusFocus && !routeTool}
+        routeTool={routeTool} onRoutes={openRouteTool}
         onExplore={() => { setAboutOpen(false); if (routeTool) editorRef.current?.leave(() => { setRouteTool(false); setMapReady(false); }); }}
         onIndicators={() => editorRef.current?.indicators()}
         onPreferences={() => routeTool ? editorRef.current?.preferences() : setPrefsOpen(true)} onShare={share} />
-      <main className="stage">
+      <main className={`stage${isBusFocus && !routeTool ? ' is-bus-focus' : ''}`}>
         {routeTool && data && grid && gridData ? <RouteWorkspace ref={editorRef} map={data} grid={grid} gridData={gridData} state={state} initialView={viewRef.current} /> : <>
         {data && grid && gridData && (
           <MapView
@@ -163,15 +215,24 @@ export default function App() {
             need={need}
             state={state}
             station={station}
+            focus={busFocus}
+            onFocusRoute={selectRoute}
             onStation={selectStation}
             onCloseStation={closeStation}
             onReady={() => setMapReady(true)}
             onMoveEnd={handleMoveEnd}
           />
         )}
-        <Panel state={state} playing={playing} needCounts={need?.counts ?? null} onChange={update} onTogglePlay={() => setPlaying((p) => !p)} onPreferences={() => setPrefsOpen(true)} />
+        {isBusFocus && data && station?.type === 'bus' ? <FocusSidebar station={station} data={data} focus={busFocus}
+          onClose={closeStation}
+          onOverview={(scope) => setBusFocus((focus) => focus && overviewFocus(focus, scope))}
+          onSelectRoute={selectRoute}
+          onToggleRoute={(routeId) => setBusFocus((focus) => focus && toggleFocusRoute(focus, routeId))}
+          onHoverRoute={(routeId) => setBusFocus((focus) => focus && ({ ...focus, hovered_route_id: routeId }))}
+          onShowAll={() => setBusFocus((focus) => focus && showAllFocusRoutes(focus))} />
+          : <Panel state={state} playing={playing} needCounts={need?.counts ?? null} onChange={update} onTogglePlay={() => setPlaying((p) => !p)} onPreferences={() => setPrefsOpen(true)} />}
         {data && <Search data={data} onChoose={handleSearch} />}
-        <div className="status-chip">
+        {!isBusFocus && <><div className="status-chip">
           {frequency ? `${DAY_LABELS[state.day]} · ${hourText(state.hour)}`
             : needMode ? `需求落差 · ${NEED_BANDS.find((b) => b.key === state.band)!.label}`
             : '站點覆蓋 · 直線距離，不分時段'}
@@ -186,7 +247,7 @@ export default function App() {
             : frequency
             ? <p>每格約 100、150、250 或 500 m，數值為格內公車站牌所屬附線在該小時的計畫發車數加總（同一附線只計一次、不分方向）。以起站發車時刻歸入小時，未計行駛時間；不代表實際載客或步行可達性。</p>
             : <p>每格約 {state.coverageCell} m，依格心到最近站點的直線距離上色：橙色是走到公車、捷運或 YouBike 站，青綠是從 YouBike 站騎出去。兩層都只是半徑示意，未計入路網、河川阻隔、班次多寡與即時可借車輛。</p>}
-        </section>
+        </section></>}
         {loading && <div className="loading">載入地圖資料中…</div>}
         {error && (
           <div className="card data-error">
