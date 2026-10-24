@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "dataset_id": "pr_1_validation_status",
+  "metadata": {
+    "pr_url": "https://github.com/Ti-wb/bus-analysis/pull/1",
+    "checked_date": "2026-10-24",
+    "overall_status": "incomplete_source_and_scope_requirements",
+    "all_original_validation_items_passed": false,
+    "source_updated_at": null,
+    "scope": "逐項記錄實作與證據，未完成原驗收不勾選。",
+    "record_count": 9,
+    "local_program_checks": {
+      "runtime": "3.12.11",
+      "official_cross_city_tests_passed": 138,
+      "base_tests_passed": 7,
+      "compileall": "passed",
+      "cli_help_commands_passed": 9,
+      "live_data_review": "separate_reports_not_unit_tests"
+    }
+  },
+  "records": [
+    {
+      "validation_id": "official_source_snapshots",
+      "status": "passed_for_delivered_scope",
+      "evidence": [
+        "data/quality/id_crosswalk_review.json",
+        "data/quality/regional_validation_review.json",
+        "data/quality/tdx_bus_travel_time_review.json",
+        "data/quality/tdx_road_traffic_review.json"
+      ],
+      "scope": "來源、欄位、期間、筆數及必要加總已由非整理者獨立核對；各資料來源限制保留。"
+    },
+    {
+      "validation_id": "population_and_village_boundaries",
+      "status": "partial_requires_source_review",
+      "evidence": [
+        "data/official_cross_city/population_boundary_crosswalk.json",
+        "data/quality/regional_validation_review.json"
+      ],
+      "completed": "2026-09人口1652里全數找到2026-08-17官方里碼；1646名稱相符，6名稱差異與25未編定區塊逐筆保留。",
+      "remaining": [
+        "6筆造字／異體字名稱的正式對照釐清。",
+        "人口月份與里界版本不同；未取得證明兩版本期間幾何完全等價的異動依據。"
+      ]
+    },
+    {
+      "validation_id": "leapfrog_and_cross_source_ids",
+      "status": "partial_explicit_relations_verified",
+      "evidence": [
+        "data/quality/id_crosswalk_review.json"
+      ],
+      "completed": "1084路線分支×業者對照、70官方跳蛙主線及95附線、1041筆TDX主線橋接。",
+      "remaining": [
+        "65筆跳蛙CSV沒有明示route ID，不能靠名稱猜配。",
+        "10條TDX主線缺有效NId，維持未知。",
+        "站牌／站位的TDX與直接feed ID未完成跨來源對照。"
+      ]
+    },
+    {
+      "validation_id": "unlinked_ntpc_stops",
+      "status": "unresolved_source_membership_missing",
+      "evidence": [
+        "data/official_cross_city/ntpc_unlinked_stops_crosswalk.json",
+        "data/quality/id_crosswalk_review.json"
+      ],
+      "completed": "33314站牌與官方GetStop全欄一致；PathDetail43582列涵蓋33200站牌，114缺列均已列出。",
+      "remaining": [
+        "114站牌沒有明示附線站序；39暫時裁撤、1施工文字僅為來源標籤線索，74無此類標籤。",
+        "需官方明示PathDetail更新或可核實的站牌服務狀態來源，不補造關聯。"
+      ]
+    },
+    {
+      "validation_id": "keelung_village_geometry",
+      "status": "passed_for_official_vintage",
+      "evidence": [
+        "map-data/admin/keelung_villages.geojson",
+        "map-data/quality/keelung_review.json"
+      ],
+      "completed": "165圖徵（157有對應人口、8未編定）逐一核對官方SHP幾何與EPSG:3824→4326轉換。"
+    },
+    {
+      "validation_id": "keelung_and_intercity_operational_coverage",
+      "status": "not_validated_insufficient_inputs",
+      "evidence": [
+        "data/quality/regional_validation_review.json",
+        "data/quality/remaining_validation_review.json"
+      ],
+      "completed": "2026-10-23新北635、基隆116、全國公路客運485路線主檔依官方Count全量驗證。",
+      "remaining": [
+        "完整營運涵蓋需要可核實站序、上下客限制、班表／服務日曆與實際營運事件。",
+        "全國公路客運未以名稱裁切北北基，485不是北北基路線數。"
+      ]
+    },
+    {
+      "validation_id": "bus_segment_travel_times",
+      "status": "partial_bounded_route_selection",
+      "evidence": [
+        "data/tdx_bus_travel_time/delivery.json",
+        "data/quality/tdx_bus_travel_time_review.json"
+      ],
+      "completed": "7查詢範圍、41模型、43322時段站間列；855首站缺值保留null，臺北416線目錄有4個RouteUID的實際旅時。",
+      "remaining": [
+        "13個代表查詢尚未請求；全臺北可用--all-taipei分批續抓，未宣稱全市覆蓋。",
+        "現行官方站間推估端點無Date/Version參數，不能回填三年歷史版本。"
+      ]
+    },
+    {
+      "validation_id": "taipei_road_traffic_and_section_history_v2",
+      "status": "passed_with_source_period_exceptions",
+      "evidence": [
+        "data/tdx_road_traffic/delivery.json",
+        "data/quality/tdx_road_traffic_review.json"
+      ],
+      "completed": "現況Section818/VD604/速率818/流量611；2026-10-23 Section歷史全量818，動態歷史各30及3份官方Meta。",
+      "remaining": [
+        "兩份動態歷史樣本實際觀測日為臺北2026-10-22，均標requires_source_review，不視為請求日內完整觀測。",
+        "VD速率／流量單位或積分期間未由所附官方規格定義；歷史動態全量不納入Git。"
+      ]
+    },
+    {
+      "validation_id": "legal_walking_transfers",
+      "status": "not_validated_insufficient_inputs",
+      "evidence": [
+        "data/quality/remaining_validation_review.json"
+      ],
+      "completed": "已逐檔檢視143394個OSM道路线形與官方捷運出入口欄位。",
+      "remaining": [
+        "現有圖層缺行人通行權、access/conditional、障礙物、過街與節點拓樸。",
+        "需可驗證步行圖網、出口至正確乘車側站牌的連接與具體端到端路徑驗收；不以直線距離造轉乘邊。"
+      ]
+    }
+  ]
+}

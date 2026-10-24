@@ -17,9 +17,9 @@
 更新用法：
 
 ```sh
-python3 scripts/tdx_road_traffic.py --plan
-python3 scripts/tdx_road_traffic.py --fetch --use-cached-catalog
-python3 scripts/tdx_road_traffic.py --offline
+uv run scripts/tdx_road_traffic.py --plan
+uv run scripts/tdx_road_traffic.py --fetch --use-cached-catalog
+uv run scripts/tdx_road_traffic.py --offline
 ```
 
 預設歷史日期採四項服務目錄共同的最新完整日；可加 `--date YYYY-MM-DD`。金鑰只從專案 `.env` 或環境的 TDX_CLIENT_ID／TDX_CLIENT_SECRET 讀取，不輸出、不保存。預設最多 10 次資料請求、每次 8 MB、總計 32 MB、間隔 26 秒；不購買額度。公開目錄更新不需金鑰；`--use-cached-catalog --plan` 可預覽而不連網，`--offline` 僅重建自己的已保存來源。可重複加 `--request-id` 只執行計畫中的指定來源。HTTP 401／403／429 立即停止，保留可取得的非敏感限額標頭；不可藉重試增加額度。失敗更新保留上一版成功資料及 `last_failed_attempt`。官方 API 的預設 top 是 30，完整歷史取用需先查 Meta，再明確設定 top。

@@ -86,14 +86,26 @@ class DownloadTests(unittest.TestCase):
         registry = Path(__file__).resolve().parents[2] / "data/official_cross_city/source_registry.json"
         obj = json.loads(registry.read_text())
         self.assertEqual(len(obj["records"]), obj["metadata"]["record_count"])
-        self.assertEqual(obj["metadata"]["snapshot_status"], "no_live_observations_committed")
+        self.assertEqual(obj["metadata"]["kind"], "source_registry_not_transport_observations")
+        self.assertEqual(obj["metadata"]["snapshot_status"], "additive_normalized_snapshots_with_independent_reports")
         implemented = [r for r in obj["records"] if r["collector_status"] == "implemented_previously_live_checked_snapshot_not_committed"]
-        self.assertEqual(len(implemented), 5)
+        self.assertEqual({r["dataset_id"] for r in implemented},
+                         {"ntpc_routes", "ntpc_stops", "ntpc_leapfrog", "metro_corridor_od"})
         self.assertTrue(all(r["last_live_validation_date"] == "2026-10-23" for r in implemented))
         self.assertTrue(all("not a current availability check" in r["validation_scope"] for r in implemented))
-        self.assertEqual(obj["metadata"]["independent_review_status"], "pending")
+        self.assertEqual(obj["metadata"]["independent_review_status"], "see_dataset_reports")
         self.assertTrue(all(r["downloaded_at"] is None for r in implemented))
         self.assertTrue(all(not r["snapshot_committed"] for r in implemented))
+        # A current snapshot claim must point at actual normalized rows and a
+        # separate reviewer report; it cannot be satisfied by this registry.
+        population_entry = next(r for r in obj["records"] if r["dataset_id"] == "regional_village_population")
+        root = registry.parents[2]
+        self.assertTrue(population_entry["snapshot_committed"])
+        self.assertIsNotNone(population_entry["downloaded_at"])
+        output = json.loads((root / population_entry["output_file"]).read_text(encoding="utf-8"))
+        self.assertTrue(output["records"])
+        self.assertEqual(output["dataset_id"], "regional_village_population")
+        self.assertTrue((root / population_entry["quality_report"]).is_file())
 
 
 if __name__ == "__main__":

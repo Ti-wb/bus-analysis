@@ -1,0 +1,1055 @@
+{
+  "schema_version": 1,
+  "dataset_id": "additional_transport_validation_catalog",
+  "metadata": {
+    "kind": "dataset_index_not_observations",
+    "record_count": 28,
+    "source_updated_at": null,
+    "validation_status": "data/quality/pr_validation.json",
+    "update_command": "uv run scripts/build_validation_catalog.py",
+    "limitations": [
+      "各來源粒度不同，筆數不可跨資料相加當成同一統計量。",
+      "巡檢通過僅適用所列快照與範圍，未完成的 ID／地理／營運驗收另列。"
+    ]
+  },
+  "records": [
+    {
+      "dataset_id": "ntpc_feed_id_crosswalk",
+      "path": "data/official_cross_city/ntpc_feed_id_crosswalk.json",
+      "record_count": 1084,
+      "kind": "normalized_records",
+      "grain": "one explicit source identifier relation or one unresolved source record",
+      "source_updated_at": null,
+      "period": null,
+      "scope_status": null,
+      "units": {
+        "*_id": "source namespace identifier",
+        "sequence_no": "source sequence"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/id_crosswalk_review.json"
+      },
+      "limitations": [
+        "只代表所列版本的官方明示識別碼關聯；不推論跨版本或全北北基營運覆蓋。",
+        "路線、附線、站牌、實體站位與 NId 分別保留命名空間，不互相替代。",
+        "名稱僅保留為人工查核線索，不用來產生已核實 ID。",
+        "來源資料時間與下載時間分開；未知關聯不補成沒有服務。"
+      ]
+    },
+    {
+      "dataset_id": "ntpc_leapfrog_crosswalk",
+      "path": "data/official_cross_city/ntpc_leapfrog_crosswalk.json",
+      "record_count": 70,
+      "kind": "normalized_records",
+      "grain": "one explicit source identifier relation or one unresolved source record",
+      "source_updated_at": null,
+      "period": null,
+      "scope_status": null,
+      "units": {
+        "*_id": "source namespace identifier",
+        "sequence_no": "source sequence"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/id_crosswalk_review.json"
+      },
+      "limitations": [
+        "只代表所列版本的官方明示識別碼關聯；不推論跨版本或全北北基營運覆蓋。",
+        "路線、附線、站牌、實體站位與 NId 分別保留命名空間，不互相替代。",
+        "名稱僅保留為人工查核線索，不用來產生已核實 ID。",
+        "來源資料時間與下載時間分開；未知關聯不補成沒有服務。"
+      ]
+    },
+    {
+      "dataset_id": "ntpc_leapfrog_list_crosswalk",
+      "path": "data/official_cross_city/ntpc_leapfrog_list_crosswalk.json",
+      "record_count": 65,
+      "kind": "normalized_records",
+      "grain": "one explicit source identifier relation or one unresolved source record",
+      "source_updated_at": null,
+      "period": null,
+      "scope_status": null,
+      "units": {
+        "*_id": "source namespace identifier",
+        "sequence_no": "source sequence"
+      },
+      "requires_source_review": true,
+      "data_acceptance_status": "requires_source_review",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/id_crosswalk_review.json"
+      },
+      "limitations": [
+        "只代表所列版本的官方明示識別碼關聯；不推論跨版本或全北北基營運覆蓋。",
+        "路線、附線、站牌、實體站位與 NId 分別保留命名空間，不互相替代。",
+        "名稱僅保留為人工查核線索，不用來產生已核實 ID。",
+        "來源資料時間與下載時間分開；未知關聯不補成沒有服務。"
+      ]
+    },
+    {
+      "dataset_id": "ntpc_unlinked_stops_crosswalk",
+      "path": "data/official_cross_city/ntpc_unlinked_stops_crosswalk.json",
+      "record_count": 114,
+      "kind": "normalized_records",
+      "grain": "one explicit source identifier relation or one unresolved source record",
+      "source_updated_at": null,
+      "period": null,
+      "scope_status": null,
+      "units": {
+        "*_id": "source namespace identifier",
+        "sequence_no": "source sequence"
+      },
+      "requires_source_review": true,
+      "data_acceptance_status": "requires_source_review",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/id_crosswalk_review.json"
+      },
+      "limitations": [
+        "只代表所列版本的官方明示識別碼關聯；不推論跨版本或全北北基營運覆蓋。",
+        "路線、附線、站牌、實體站位與 NId 分別保留命名空間，不互相替代。",
+        "名稱僅保留為人工查核線索，不用來產生已核實 ID。",
+        "來源資料時間與下載時間分開；未知關聯不補成沒有服務。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_route_crosswalk",
+      "path": "data/official_cross_city/tdx_route_crosswalk.json",
+      "record_count": 1051,
+      "kind": "normalized_records",
+      "grain": "one explicit source identifier relation or one unresolved source record",
+      "source_updated_at": null,
+      "period": null,
+      "scope_status": null,
+      "units": {
+        "*_id": "source namespace identifier",
+        "sequence_no": "source sequence"
+      },
+      "requires_source_review": true,
+      "data_acceptance_status": "requires_source_review",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/id_crosswalk_review.json"
+      },
+      "limitations": [
+        "只代表所列版本的官方明示識別碼關聯；不推論跨版本或全北北基營運覆蓋。",
+        "路線、附線、站牌、實體站位與 NId 分別保留命名空間，不互相替代。",
+        "名稱僅保留為人工查核線索，不用來產生已核實 ID。",
+        "來源資料時間與下載時間分開；未知關聯不補成沒有服務。"
+      ]
+    },
+    {
+      "dataset_id": "regional_village_population",
+      "path": "data/official_cross_city/population_2026-09.json",
+      "record_count": 1652,
+      "kind": "official_published_data",
+      "grain": "統計年月×來源區域代碼×村里",
+      "source_updated_at": null,
+      "period": "2026-09",
+      "scope_status": null,
+      "units": {
+        "population*": "人",
+        "households": "戶"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "passed_with_explicit_limitations",
+        "report": "data/quality/regional_validation_review.json"
+      },
+      "limitations": [
+        "戶籍人口是居住人口參考，不是日間活動人口、公車上下車或通勤 OD。",
+        "不將來源行政代碼補零或截短去配另一版里界；boundary_join_status 未驗證。",
+        "僅保留北北基各里總數與年齡組彙總；單歲原始值可由官方原檔重建。",
+        "年齡組包含缺值時保留 null，不以零補齊。"
+      ]
+    },
+    {
+      "dataset_id": "regional_population_boundary_crosswalk",
+      "path": "data/official_cross_city/population_boundary_crosswalk.json",
+      "record_count": 1652,
+      "kind": "normalized_records",
+      "grain": "one population village code; unmatched boundary areas separately accounted",
+      "source_updated_at": null,
+      "period": "2026-09",
+      "scope_status": null,
+      "units": null,
+      "requires_source_review": true,
+      "data_acceptance_status": "requires_source_review",
+      "independent_review": {
+        "status": "passed_with_explicit_limitations",
+        "report": "data/quality/regional_validation_review.json"
+      },
+      "limitations": [
+        "逐筆核對官方區域代碼、縣市與區名；異體字及造字差異保留兩端原文，不自動校正。",
+        "里界版本與人口月份不同；完整版本對照不等於證明人口月份當時幾何完全相同。",
+        "未編定村里區塊沒有對應人口列，不視為零人口，也不將人口移配到其他里。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_regional_routes_intercity",
+      "path": "data/official_cross_city/regional_routes/InterCity.json",
+      "record_count": 485,
+      "kind": "normalized_records",
+      "grain": "one published TDX RouteUID; subroutes/operators remain nested",
+      "source_updated_at": null,
+      "period": {
+        "requested_date": "2026-10-23",
+        "version_start": "2026-10-15T00:00:00+08:00",
+        "version_end": "2026-10-23T23:59:59+08:00"
+      },
+      "scope_status": "complete_requested_route_master_by_response_count",
+      "units": null,
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "passed_with_explicit_limitations",
+        "report": "data/quality/regional_validation_review.json"
+      },
+      "limitations": [
+        "完整指定日期路線主檔不等於完整班表、站序或實際營運覆蓋。",
+        "保留全國公路客運主檔，不以名稱猜測北北基地理範圍。",
+        "來源版本可能跨日；要求日期不是來源逐筆更新日期。",
+        "未提供行人通行權或合法步行轉乘證明。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_regional_routes_keelung",
+      "path": "data/official_cross_city/regional_routes/Keelung.json",
+      "record_count": 116,
+      "kind": "normalized_records",
+      "grain": "one published TDX RouteUID; subroutes/operators remain nested",
+      "source_updated_at": null,
+      "period": {
+        "requested_date": "2026-10-23",
+        "version_start": "2026-04-07T00:00:00+08:00",
+        "version_end": "2026-10-23T23:59:59+08:00"
+      },
+      "scope_status": "complete_requested_route_master_by_response_count",
+      "units": null,
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "passed_with_explicit_limitations",
+        "report": "data/quality/regional_validation_review.json"
+      },
+      "limitations": [
+        "完整指定日期路線主檔不等於完整班表、站序或實際營運覆蓋。",
+        "保留全國公路客運主檔，不以名稱猜測北北基地理範圍。",
+        "來源版本可能跨日；要求日期不是來源逐筆更新日期。",
+        "未提供行人通行權或合法步行轉乘證明。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_regional_routes_newtaipei",
+      "path": "data/official_cross_city/regional_routes/NewTaipei.json",
+      "record_count": 635,
+      "kind": "normalized_records",
+      "grain": "one published TDX RouteUID; subroutes/operators remain nested",
+      "source_updated_at": null,
+      "period": {
+        "requested_date": "2026-10-23",
+        "version_start": "2026-10-19T00:00:00+08:00",
+        "version_end": "2026-10-23T23:59:59+08:00"
+      },
+      "scope_status": "complete_requested_route_master_by_response_count",
+      "units": null,
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "passed_with_explicit_limitations",
+        "report": "data/quality/regional_validation_review.json"
+      },
+      "limitations": [
+        "完整指定日期路線主檔不等於完整班表、站序或實際營運覆蓋。",
+        "保留全國公路客運主檔，不以名稱猜測北北基地理範圍。",
+        "來源版本可能跨日；要求日期不是來源逐筆更新日期。",
+        "未提供行人通行權或合法步行轉乘證明。"
+      ]
+    },
+    {
+      "dataset_id": "keelung_official_villages",
+      "path": "map-data/admin/keelung_villages.geojson",
+      "record_count": 165,
+      "kind": "geographic_features",
+      "grain": "one official village or unassigned area polygon",
+      "source_updated_at": null,
+      "period": "2026-08-17",
+      "scope_status": null,
+      "units": null,
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "passed_with_explicit_limitations",
+        "report": "map-data/quality/keelung_review.json"
+      },
+      "limitations": [
+        "逐筆核對官方區域代碼、縣市與區名；異體字及造字差異保留兩端原文，不自動校正。",
+        "里界版本與人口月份不同；完整版本對照不等於證明人口月份當時幾何完全相同。",
+        "未編定村里區塊沒有對應人口列，不視為零人口，也不將人口移配到其他里。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_bus_s2s_InterCity_1815",
+      "path": "data/tdx_bus_travel_time/observations/InterCity_1815.json",
+      "record_count": 15,
+      "kind": "normalized_records",
+      "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
+      "source_updated_at": "2026-10-24T02:49:27",
+      "period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "units": {
+        "run_time": "seconds",
+        "update_interval": "months",
+        "start_time": "source local civil clock HH:mm",
+        "end_time": "source local civil clock HH:mm; 24:00 retained"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_bus_travel_time_review.json"
+      },
+      "limitations": [
+        "歷史推估，不是當日實際旅行時間；有效期與各子路線說明原樣保留。",
+        "官方端點無歷史日期/版本參數；不能回填近三年每月版本。",
+        "完整只指該次未分頁端點回應，不代表全市、所有時段或每一站間均有值。",
+        "RouteName查詢如回傳其他名稱/子路線，全部保留，不用名稱推斷跨市範圍。",
+        "缺少起站ID或RunTime的首站/其他來源列保留null，不推算成0秒。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_bus_s2s_Keelung_101",
+      "path": "data/tdx_bus_travel_time/observations/Keelung_101.json",
+      "record_count": 2,
+      "kind": "normalized_records",
+      "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
+      "source_updated_at": "2026-10-24T02:49:01",
+      "period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "units": {
+        "run_time": "seconds",
+        "update_interval": "months",
+        "start_time": "source local civil clock HH:mm",
+        "end_time": "source local civil clock HH:mm; 24:00 retained"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_bus_travel_time_review.json"
+      },
+      "limitations": [
+        "歷史推估，不是當日實際旅行時間；有效期與各子路線說明原樣保留。",
+        "官方端點無歷史日期/版本參數；不能回填近三年每月版本。",
+        "完整只指該次未分頁端點回應，不代表全市、所有時段或每一站間均有值。",
+        "RouteName查詢如回傳其他名稱/子路線，全部保留，不用名稱推斷跨市範圍。",
+        "缺少起站ID或RunTime的首站/其他來源列保留null，不推算成0秒。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_bus_s2s_NewTaipei_918",
+      "path": "data/tdx_bus_travel_time/observations/NewTaipei_918.json",
+      "record_count": 12,
+      "kind": "normalized_records",
+      "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
+      "source_updated_at": "2026-10-24T02:48:35",
+      "period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "units": {
+        "run_time": "seconds",
+        "update_interval": "months",
+        "start_time": "source local civil clock HH:mm",
+        "end_time": "source local civil clock HH:mm; 24:00 retained"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_bus_travel_time_review.json"
+      },
+      "limitations": [
+        "歷史推估，不是當日實際旅行時間；有效期與各子路線說明原樣保留。",
+        "官方端點無歷史日期/版本參數；不能回填近三年每月版本。",
+        "完整只指該次未分頁端點回應，不代表全市、所有時段或每一站間均有值。",
+        "RouteName查詢如回傳其他名稱/子路線，全部保留，不用名稱推斷跨市範圍。",
+        "缺少起站ID或RunTime的首站/其他來源列保留null，不推算成0秒。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_bus_s2s_Taipei_%E5%8D%97%E4%BA%AC%E5%B9%B9%E7%B7%9A",
+      "path": "data/tdx_bus_travel_time/observations/Taipei_%E5%8D%97%E4%BA%AC%E5%B9%B9%E7%B7%9A.json",
+      "record_count": 4,
+      "kind": "normalized_records",
+      "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
+      "source_updated_at": "2026-10-24T02:50:45",
+      "period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "units": {
+        "run_time": "seconds",
+        "update_interval": "months",
+        "start_time": "source local civil clock HH:mm",
+        "end_time": "source local civil clock HH:mm; 24:00 retained"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_bus_travel_time_review.json"
+      },
+      "limitations": [
+        "歷史推估，不是當日實際旅行時間；有效期與各子路線說明原樣保留。",
+        "官方端點無歷史日期/版本參數；不能回填近三年每月版本。",
+        "完整只指該次未分頁端點回應，不代表全市、所有時段或每一站間均有值。",
+        "RouteName查詢如回傳其他名稱/子路線，全部保留，不用名稱推斷跨市範圍。",
+        "缺少起站ID或RunTime的首站/其他來源列保留null，不推算成0秒。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_bus_s2s_Taipei_306",
+      "path": "data/tdx_bus_travel_time/observations/Taipei_306.json",
+      "record_count": 4,
+      "kind": "normalized_records",
+      "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
+      "source_updated_at": "2026-10-24T02:49:53",
+      "period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "units": {
+        "run_time": "seconds",
+        "update_interval": "months",
+        "start_time": "source local civil clock HH:mm",
+        "end_time": "source local civil clock HH:mm; 24:00 retained"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_bus_travel_time_review.json"
+      },
+      "limitations": [
+        "歷史推估，不是當日實際旅行時間；有效期與各子路線說明原樣保留。",
+        "官方端點無歷史日期/版本參數；不能回填近三年每月版本。",
+        "完整只指該次未分頁端點回應，不代表全市、所有時段或每一站間均有值。",
+        "RouteName查詢如回傳其他名稱/子路線，全部保留，不用名稱推斷跨市範圍。",
+        "缺少起站ID或RunTime的首站/其他來源列保留null，不推算成0秒。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_bus_s2s_Taipei_307%E8%A5%BF%E8%97%8F%E4%B8%89%E6%B0%91",
+      "path": "data/tdx_bus_travel_time/observations/Taipei_307%E8%A5%BF%E8%97%8F%E4%B8%89%E6%B0%91.json",
+      "record_count": 2,
+      "kind": "normalized_records",
+      "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
+      "source_updated_at": "2026-10-24T02:50:19",
+      "period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "units": {
+        "run_time": "seconds",
+        "update_interval": "months",
+        "start_time": "source local civil clock HH:mm",
+        "end_time": "source local civil clock HH:mm; 24:00 retained"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_bus_travel_time_review.json"
+      },
+      "limitations": [
+        "歷史推估，不是當日實際旅行時間；有效期與各子路線說明原樣保留。",
+        "官方端點無歷史日期/版本參數；不能回填近三年每月版本。",
+        "完整只指該次未分頁端點回應，不代表全市、所有時段或每一站間均有值。",
+        "RouteName查詢如回傳其他名稱/子路線，全部保留，不用名稱推斷跨市範圍。",
+        "缺少起站ID或RunTime的首站/其他來源列保留null，不推算成0秒。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_bus_s2s_Taipei_307",
+      "path": "data/tdx_bus_travel_time/observations/Taipei_307.json",
+      "record_count": 2,
+      "kind": "normalized_records",
+      "grain": "one route/subroute/direction model with nested stop-sequence/service-tag/time-interval rows",
+      "source_updated_at": "2026-10-21T15:47:11",
+      "period": {
+        "effective_dates": [
+          "2026-10-01"
+        ],
+        "expire_dates": [
+          "2026-10-31"
+        ],
+        "historical_input_period": "近3個月；精確起訖未由來源給定"
+      },
+      "scope_status": "complete_unpaginated_requested_endpoint_response",
+      "units": {
+        "run_time": "seconds",
+        "update_interval": "months",
+        "start_time": "source local civil clock HH:mm",
+        "end_time": "source local civil clock HH:mm; 24:00 retained"
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_bus_travel_time_review.json"
+      },
+      "limitations": [
+        "歷史推估，不是當日實際旅行時間；有效期與各子路線說明原樣保留。",
+        "官方端點無歷史日期/版本參數；不能回填近三年每月版本。",
+        "完整只指該次未分頁端點回應，不代表全市、所有時段或每一站間均有值。",
+        "RouteName查詢如回傳其他名稱/子路線，全部保留，不用名稱推斷跨市範圍。",
+        "缺少起站ID或RunTime的首站/其他來源列保留null，不推算成0秒。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_road_traffic_current_section",
+      "path": "data/tdx_road_traffic/observations/current_section.json",
+      "record_count": 818,
+      "kind": "road_definition",
+      "grain": "one static road definition in source snapshot/date",
+      "source_updated_at": "2026-10-24T02:40:46+08:00",
+      "period": {
+        "requested_date": null,
+        "source_info_dates": [],
+        "data_collect_time_start": null,
+        "data_collect_time_end": null,
+        "data_collect_taipei_dates": [],
+        "period_validation_status": "no_observed_date_mismatch",
+        "source_info_date_mismatch_count": null,
+        "data_collect_requested_taipei_day_mismatch_count": null,
+        "data_collect_out_of_requested_date_ids": [],
+        "invalid_or_offset_missing_collect_time_count": 0
+      },
+      "scope_status": "complete_requested_endpoint_by_response_count",
+      "units": {
+        "travel_speed": "km/h",
+        "travel_time": "seconds",
+        "speed": null,
+        "volume": null,
+        "occupancy": null
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_road_traffic_review.json"
+      },
+      "limitations": [
+        "Section 為路段定義；不得當作歷史速率或流量。",
+        "-99 等異常偵測值與設備狀態原值保留；缺值不補零。",
+        "VD 流量維持 link／lane／vehicle type 粒度，未跨車道、車種或時間加總。",
+        "外部來源 ID 不直接關聯；同一 TDX 服務也須按 AuthorityCode 及版本／日期核對。",
+        "歷史樣本只是來源前 N 筆，不代表整日或三年的分布。",
+        "歷史版與基礎版 OpenAPI 對 SrcUpdateTime/UpdateTime 描述相反，保留原欄位；DataCollectTime 才是動態觀測時間。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_road_traffic_current_section_live",
+      "path": "data/tdx_road_traffic/observations/current_section_live.json",
+      "record_count": 818,
+      "kind": "section_speed_observation",
+      "grain": "one source section and DataCollectTime",
+      "source_updated_at": "2026-10-24T10:51:52+08:00",
+      "period": {
+        "requested_date": null,
+        "source_info_dates": [],
+        "data_collect_time_start": "2026-10-24T10:50:00+08:00",
+        "data_collect_time_end": "2026-10-24T10:50:00+08:00",
+        "data_collect_taipei_dates": [
+          "2026-10-24"
+        ],
+        "period_validation_status": "no_observed_date_mismatch",
+        "source_info_date_mismatch_count": null,
+        "data_collect_requested_taipei_day_mismatch_count": null,
+        "data_collect_out_of_requested_date_ids": [],
+        "invalid_or_offset_missing_collect_time_count": 0
+      },
+      "scope_status": "complete_requested_endpoint_by_response_count",
+      "units": {
+        "travel_speed": "km/h",
+        "travel_time": "seconds",
+        "speed": null,
+        "volume": null,
+        "occupancy": null
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_road_traffic_review.json"
+      },
+      "limitations": [
+        "Section 為路段定義；不得當作歷史速率或流量。",
+        "-99 等異常偵測值與設備狀態原值保留；缺值不補零。",
+        "VD 流量維持 link／lane／vehicle type 粒度，未跨車道、車種或時間加總。",
+        "外部來源 ID 不直接關聯；同一 TDX 服務也須按 AuthorityCode 及版本／日期核對。",
+        "歷史樣本只是來源前 N 筆，不代表整日或三年的分布。",
+        "歷史版與基礎版 OpenAPI 對 SrcUpdateTime/UpdateTime 描述相反，保留原欄位；DataCollectTime 才是動態觀測時間。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_road_traffic_current_vd",
+      "path": "data/tdx_road_traffic/observations/current_vd.json",
+      "record_count": 604,
+      "kind": "detector_definition",
+      "grain": "one detector definition",
+      "source_updated_at": "2026-10-24T02:50:46+08:00",
+      "period": {
+        "requested_date": null,
+        "source_info_dates": [],
+        "data_collect_time_start": null,
+        "data_collect_time_end": null,
+        "data_collect_taipei_dates": [],
+        "period_validation_status": "no_observed_date_mismatch",
+        "source_info_date_mismatch_count": null,
+        "data_collect_requested_taipei_day_mismatch_count": null,
+        "data_collect_out_of_requested_date_ids": [],
+        "invalid_or_offset_missing_collect_time_count": 0
+      },
+      "scope_status": "complete_requested_endpoint_by_response_count",
+      "units": {
+        "travel_speed": "km/h",
+        "travel_time": "seconds",
+        "speed": null,
+        "volume": null,
+        "occupancy": null
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_road_traffic_review.json"
+      },
+      "limitations": [
+        "Section 為路段定義；不得當作歷史速率或流量。",
+        "-99 等異常偵測值與設備狀態原值保留；缺值不補零。",
+        "VD 流量維持 link／lane／vehicle type 粒度，未跨車道、車種或時間加總。",
+        "外部來源 ID 不直接關聯；同一 TDX 服務也須按 AuthorityCode 及版本／日期核對。",
+        "歷史樣本只是來源前 N 筆，不代表整日或三年的分布。",
+        "歷史版與基礎版 OpenAPI 對 SrcUpdateTime/UpdateTime 描述相反，保留原欄位；DataCollectTime 才是動態觀測時間。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_road_traffic_current_vd_live",
+      "path": "data/tdx_road_traffic/observations/current_vd_live.json",
+      "record_count": 611,
+      "kind": "detector_flow_observation",
+      "grain": "one detector and DataCollectTime; nested link/lane/vehicle type values",
+      "source_updated_at": "2026-10-24T10:51:59+08:00",
+      "period": {
+        "requested_date": null,
+        "source_info_dates": [],
+        "data_collect_time_start": "2026-10-24T10:49:00+08:00",
+        "data_collect_time_end": "2026-10-24T10:49:00+08:00",
+        "data_collect_taipei_dates": [
+          "2026-10-24"
+        ],
+        "period_validation_status": "no_observed_date_mismatch",
+        "source_info_date_mismatch_count": null,
+        "data_collect_requested_taipei_day_mismatch_count": null,
+        "data_collect_out_of_requested_date_ids": [],
+        "invalid_or_offset_missing_collect_time_count": 0
+      },
+      "scope_status": "complete_requested_endpoint_by_response_count",
+      "units": {
+        "travel_speed": "km/h",
+        "travel_time": "seconds",
+        "speed": null,
+        "volume": null,
+        "occupancy": null
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_road_traffic_review.json"
+      },
+      "limitations": [
+        "Section 為路段定義；不得當作歷史速率或流量。",
+        "-99 等異常偵測值與設備狀態原值保留；缺值不補零。",
+        "VD 流量維持 link／lane／vehicle type 粒度，未跨車道、車種或時間加總。",
+        "外部來源 ID 不直接關聯；同一 TDX 服務也須按 AuthorityCode 及版本／日期核對。",
+        "歷史樣本只是來源前 N 筆，不代表整日或三年的分布。",
+        "歷史版與基礎版 OpenAPI 對 SrcUpdateTime/UpdateTime 描述相反，保留原欄位；DataCollectTime 才是動態觀測時間。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_road_traffic_historical_2026-10-23_section",
+      "path": "data/tdx_road_traffic/observations/historical_2026-10-23_section.json",
+      "record_count": 818,
+      "kind": "road_definition",
+      "grain": "one static road definition in source snapshot/date",
+      "source_updated_at": "2026-10-23T18:08:50+00:00",
+      "period": {
+        "requested_date": "2026-10-23",
+        "source_info_dates": [
+          "2026-10-23"
+        ],
+        "data_collect_time_start": null,
+        "data_collect_time_end": null,
+        "data_collect_taipei_dates": [],
+        "period_validation_status": "no_observed_date_mismatch",
+        "source_info_date_mismatch_count": 0,
+        "data_collect_requested_taipei_day_mismatch_count": 0,
+        "data_collect_out_of_requested_date_ids": [],
+        "invalid_or_offset_missing_collect_time_count": 0
+      },
+      "scope_status": "complete_requested_date_by_meta_count",
+      "units": {
+        "travel_speed": "km/h",
+        "travel_time": "seconds",
+        "speed": null,
+        "volume": null,
+        "occupancy": null
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_road_traffic_review.json"
+      },
+      "limitations": [
+        "Section 為路段定義；不得當作歷史速率或流量。",
+        "-99 等異常偵測值與設備狀態原值保留；缺值不補零。",
+        "VD 流量維持 link／lane／vehicle type 粒度，未跨車道、車種或時間加總。",
+        "外部來源 ID 不直接關聯；同一 TDX 服務也須按 AuthorityCode 及版本／日期核對。",
+        "歷史樣本只是來源前 N 筆，不代表整日或三年的分布。",
+        "歷史版與基礎版 OpenAPI 對 SrcUpdateTime/UpdateTime 描述相反，保留原欄位；DataCollectTime 才是動態觀測時間。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_road_traffic_historical_2026-10-23_section_live_sample",
+      "path": "data/tdx_road_traffic/observations/historical_2026-10-23_section_live_sample.json",
+      "record_count": 30,
+      "kind": "section_speed_observation",
+      "grain": "one source section and DataCollectTime",
+      "source_updated_at": "2026-10-23T20:31:29+00:00",
+      "period": {
+        "requested_date": "2026-10-23",
+        "source_info_dates": [
+          "2026-10-23"
+        ],
+        "data_collect_time_start": "2026-10-22T15:59:00+00:00",
+        "data_collect_time_end": "2026-10-22T15:59:00+00:00",
+        "data_collect_taipei_dates": [
+          "2026-10-22"
+        ],
+        "period_validation_status": "contains_observations_outside_requested_taipei_date",
+        "source_info_date_mismatch_count": 0,
+        "data_collect_requested_taipei_day_mismatch_count": 30,
+        "data_collect_out_of_requested_date_ids": [
+          "L_2000101011000A",
+          "L_2000401004010A",
+          "L_2000401107000A",
+          "L_2000500000000A",
+          "L_2000500100200A",
+          "L_2000601102000A",
+          "L_2000801110000A",
+          "L_2000900100600A",
+          "L_6000090400010A",
+          "L_6000300400040A",
+          "L_6000670000010A",
+          "L_6000840400000A",
+          "L_6000950200000A",
+          "L_6001500600010A",
+          "L_6001910200000A",
+          "L_6003340600020A",
+          "L_6003360600000A",
+          "L_6004670000040A",
+          "L_6005120600030A",
+          "L_6005250200020A",
+          "L_6005250600020A",
+          "L_6005380200010A",
+          "L_6005380200020A",
+          "L_6005390200020A",
+          "L_6005390600000A",
+          "L_6006270100010A",
+          "L_6007210000040A",
+          "L_6007310200020A",
+          "L_6007310600000A",
+          "L_6007760100030A"
+        ],
+        "invalid_or_offset_missing_collect_time_count": 0
+      },
+      "scope_status": "sample_only",
+      "units": {
+        "travel_speed": "km/h",
+        "travel_time": "seconds",
+        "speed": null,
+        "volume": null,
+        "occupancy": null
+      },
+      "requires_source_review": true,
+      "data_acceptance_status": "requires_source_review",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_road_traffic_review.json"
+      },
+      "limitations": [
+        "Section 為路段定義；不得當作歷史速率或流量。",
+        "-99 等異常偵測值與設備狀態原值保留；缺值不補零。",
+        "VD 流量維持 link／lane／vehicle type 粒度，未跨車道、車種或時間加總。",
+        "外部來源 ID 不直接關聯；同一 TDX 服務也須按 AuthorityCode 及版本／日期核對。",
+        "歷史樣本只是來源前 N 筆，不代表整日或三年的分布。",
+        "歷史版與基礎版 OpenAPI 對 SrcUpdateTime/UpdateTime 描述相反，保留原欄位；DataCollectTime 才是動態觀測時間。",
+        "來源回應含不同於請求日期的資料代表日期／觀測日；保留原時間，須檢視實際統計期間，不可全數視為所請求臺北民用日內觀測。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_road_traffic_historical_2026-10-23_vd_live_sample",
+      "path": "data/tdx_road_traffic/observations/historical_2026-10-23_vd_live_sample.json",
+      "record_count": 30,
+      "kind": "detector_flow_observation",
+      "grain": "one detector and DataCollectTime; nested link/lane/vehicle type values",
+      "source_updated_at": "2026-10-23T16:05:41+00:00",
+      "period": {
+        "requested_date": "2026-10-23",
+        "source_info_dates": [
+          "2026-10-22"
+        ],
+        "data_collect_time_start": "2026-10-22T15:58:00+00:00",
+        "data_collect_time_end": "2026-10-22T15:58:00+00:00",
+        "data_collect_taipei_dates": [
+          "2026-10-22"
+        ],
+        "period_validation_status": "contains_observations_outside_requested_taipei_date",
+        "source_info_date_mismatch_count": 30,
+        "data_collect_requested_taipei_day_mismatch_count": 30,
+        "data_collect_out_of_requested_date_ids": [
+          "V03A0G0",
+          "V1001B0",
+          "V1010A1",
+          "V1021A0",
+          "V1050A0",
+          "V1IUI20",
+          "V1SNV00",
+          "V4250B0",
+          "V5050A0",
+          "V5080A0",
+          "V5AAF61",
+          "V6180A2",
+          "VCPKT40",
+          "VGLKW40",
+          "VHJS620",
+          "VHLM800",
+          "VHMKV20",
+          "VIME560",
+          "VIVS602",
+          "VJHKR21",
+          "VJHM701",
+          "VJMHU00",
+          "VJTFX00",
+          "VKII640",
+          "VM9QH20",
+          "VN0C0E1",
+          "VN7ST40",
+          "VQDLJ20",
+          "VQGFY00",
+          "VRHT600"
+        ],
+        "invalid_or_offset_missing_collect_time_count": 0
+      },
+      "scope_status": "sample_only",
+      "units": {
+        "travel_speed": "km/h",
+        "travel_time": "seconds",
+        "speed": null,
+        "volume": null,
+        "occupancy": null
+      },
+      "requires_source_review": true,
+      "data_acceptance_status": "requires_source_review",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_road_traffic_review.json"
+      },
+      "limitations": [
+        "Section 為路段定義；不得當作歷史速率或流量。",
+        "-99 等異常偵測值與設備狀態原值保留；缺值不補零。",
+        "VD 流量維持 link／lane／vehicle type 粒度，未跨車道、車種或時間加總。",
+        "外部來源 ID 不直接關聯；同一 TDX 服務也須按 AuthorityCode 及版本／日期核對。",
+        "歷史樣本只是來源前 N 筆，不代表整日或三年的分布。",
+        "歷史版與基礎版 OpenAPI 對 SrcUpdateTime/UpdateTime 描述相反，保留原欄位；DataCollectTime 才是動態觀測時間。",
+        "來源回應含不同於請求日期的資料代表日期／觀測日；保留原時間，須檢視實際統計期間，不可全數視為所請求臺北民用日內觀測。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_road_traffic_historical_2026-10-23_section_live_meta",
+      "path": "data/tdx_road_traffic/availability/historical_2026-10-23_section_live_meta.json",
+      "record_count": 1,
+      "kind": "availability_statistics",
+      "grain": "one requested service/date statistics response",
+      "source_updated_at": null,
+      "period": {
+        "requested_date": "2026-10-23",
+        "source_info_dates": [],
+        "data_collect_time_start": null,
+        "data_collect_time_end": null,
+        "data_collect_taipei_dates": [],
+        "period_validation_status": "no_observed_date_mismatch",
+        "source_info_date_mismatch_count": 0,
+        "data_collect_requested_taipei_day_mismatch_count": 0,
+        "data_collect_out_of_requested_date_ids": [],
+        "invalid_or_offset_missing_collect_time_count": 0
+      },
+      "scope_status": "availability_statistics_only",
+      "units": {
+        "travel_speed": "km/h",
+        "travel_time": "seconds",
+        "speed": null,
+        "volume": null,
+        "occupancy": null
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_road_traffic_review.json"
+      },
+      "limitations": [
+        "Section 為路段定義；不得當作歷史速率或流量。",
+        "-99 等異常偵測值與設備狀態原值保留；缺值不補零。",
+        "VD 流量維持 link／lane／vehicle type 粒度，未跨車道、車種或時間加總。",
+        "外部來源 ID 不直接關聯；同一 TDX 服務也須按 AuthorityCode 及版本／日期核對。",
+        "歷史樣本只是來源前 N 筆，不代表整日或三年的分布。",
+        "歷史版與基礎版 OpenAPI 對 SrcUpdateTime/UpdateTime 描述相反，保留原欄位；DataCollectTime 才是動態觀測時間。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_road_traffic_historical_2026-10-23_section_meta",
+      "path": "data/tdx_road_traffic/availability/historical_2026-10-23_section_meta.json",
+      "record_count": 1,
+      "kind": "availability_statistics",
+      "grain": "one requested service/date statistics response",
+      "source_updated_at": null,
+      "period": {
+        "requested_date": "2026-10-23",
+        "source_info_dates": [],
+        "data_collect_time_start": null,
+        "data_collect_time_end": null,
+        "data_collect_taipei_dates": [],
+        "period_validation_status": "no_observed_date_mismatch",
+        "source_info_date_mismatch_count": 0,
+        "data_collect_requested_taipei_day_mismatch_count": 0,
+        "data_collect_out_of_requested_date_ids": [],
+        "invalid_or_offset_missing_collect_time_count": 0
+      },
+      "scope_status": "availability_statistics_only",
+      "units": {
+        "travel_speed": "km/h",
+        "travel_time": "seconds",
+        "speed": null,
+        "volume": null,
+        "occupancy": null
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_road_traffic_review.json"
+      },
+      "limitations": [
+        "Section 為路段定義；不得當作歷史速率或流量。",
+        "-99 等異常偵測值與設備狀態原值保留；缺值不補零。",
+        "VD 流量維持 link／lane／vehicle type 粒度，未跨車道、車種或時間加總。",
+        "外部來源 ID 不直接關聯；同一 TDX 服務也須按 AuthorityCode 及版本／日期核對。",
+        "歷史樣本只是來源前 N 筆，不代表整日或三年的分布。",
+        "歷史版與基礎版 OpenAPI 對 SrcUpdateTime/UpdateTime 描述相反，保留原欄位；DataCollectTime 才是動態觀測時間。"
+      ]
+    },
+    {
+      "dataset_id": "tdx_road_traffic_historical_2026-10-23_vd_live_meta",
+      "path": "data/tdx_road_traffic/availability/historical_2026-10-23_vd_live_meta.json",
+      "record_count": 1,
+      "kind": "availability_statistics",
+      "grain": "one requested service/date statistics response",
+      "source_updated_at": null,
+      "period": {
+        "requested_date": "2026-10-23",
+        "source_info_dates": [],
+        "data_collect_time_start": null,
+        "data_collect_time_end": null,
+        "data_collect_taipei_dates": [],
+        "period_validation_status": "no_observed_date_mismatch",
+        "source_info_date_mismatch_count": 0,
+        "data_collect_requested_taipei_day_mismatch_count": 0,
+        "data_collect_out_of_requested_date_ids": [],
+        "invalid_or_offset_missing_collect_time_count": 0
+      },
+      "scope_status": "availability_statistics_only",
+      "units": {
+        "travel_speed": "km/h",
+        "travel_time": "seconds",
+        "speed": null,
+        "volume": null,
+        "occupancy": null
+      },
+      "requires_source_review": false,
+      "data_acceptance_status": "within_documented_scope_only",
+      "independent_review": {
+        "status": "pass_with_limitations",
+        "report": "data/quality/tdx_road_traffic_review.json"
+      },
+      "limitations": [
+        "Section 為路段定義；不得當作歷史速率或流量。",
+        "-99 等異常偵測值與設備狀態原值保留；缺值不補零。",
+        "VD 流量維持 link／lane／vehicle type 粒度，未跨車道、車種或時間加總。",
+        "外部來源 ID 不直接關聯；同一 TDX 服務也須按 AuthorityCode 及版本／日期核對。",
+        "歷史樣本只是來源前 N 筆，不代表整日或三年的分布。",
+        "歷史版與基礎版 OpenAPI 對 SrcUpdateTime/UpdateTime 描述相反，保留原欄位；DataCollectTime 才是動態觀測時間。"
+      ]
+    }
+  ]
+}

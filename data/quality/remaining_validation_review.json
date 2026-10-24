@@ -1,0 +1,493 @@
+{
+  "schema_version": 1,
+  "dataset_id": "remaining_pr_validation_independent_review",
+  "metadata": {
+    "reviewed_at": "2026-10-24T10:55:34+08:00",
+    "reviewer": "independent_agent_travel_time",
+    "source_updated_at": null,
+    "overall_status": "unresolved_validation_items",
+    "business_api_requests_performed": 0,
+    "scope": "針對已保存OSM道路三分檔、128428出入口快照及官方現行欄位說明、三份已取得Route主檔的證據充分性查核。未調查全球所有可能資料來源。",
+    "method": "實際逐檔讀取geometry/屬性鍵及逐附線欄位presence；沿用先前獨立raw全欄比對結果；另讀官方128428頁面核實欄位。",
+    "limitations": [
+      "缺少足夠輸入的驗證保持未完成；不將unknown視為通過。",
+      "這份報告不判定具體道路是否合法可步行，亦不聲稱基隆/公路客運無營運服務。"
+    ]
+  },
+  "records": [
+    {
+      "validation_item_id": "legal_walking_transfer",
+      "validation_status": "not_validated_insufficient_inputs",
+      "may_mark_pr_validation_complete": false,
+      "required_inputs": [
+        {
+          "input": "可驗證行人通行權與限制",
+          "needed_fields": [
+            "foot/access與conditional限制或等價官方通行證據",
+            "公共/私人通道界線",
+            "障礙物/閘門及開放狀態",
+            "過街設施與可通行方向",
+            "人行道或獨立步道連接"
+          ]
+        },
+        {
+          "input": "已驗證可步行拓樸",
+          "needed_fields": [
+            "路網節點/邊與相鄰關係",
+            "橋梁/地下道/樓層之連通而非只用交叉座標",
+            "出入口及正確乘車側站牌至圖網的連接",
+            "市界外仍保持可用之完整路徑"
+          ]
+        },
+        {
+          "input": "出入口與公車站牌對應及時間情境",
+          "needed_fields": [
+            "經來源或人工核實的捷運站/出入口與公車站牌ID對應",
+            "啟閉時間/臨時封閉",
+            "步行時間成本與必要的無障礙連續路徑條件",
+            "具體起訖案例路徑及合法性驗證結果"
+          ]
+        }
+      ],
+      "available_fields": {
+        "osm_roads": [
+          "bridge",
+          "class_code",
+          "feature_class",
+          "layer",
+          "maxspeed_kmh",
+          "name",
+          "oneway",
+          "osm_id",
+          "ref",
+          "source_fid",
+          "tunnel"
+        ],
+        "osm_road_geometry": [
+          "LineString",
+          "MultiLineString"
+        ],
+        "metro_exit_128428": [
+          "項次",
+          "出入口名稱",
+          "出入口編號",
+          "經度",
+          "緯度",
+          "是否為無障礙用"
+        ]
+      },
+      "missing_fields": [
+        {
+          "scope": "本次保存的roads三分檔",
+          "fields": [
+            "foot",
+            "access",
+            "access:conditional",
+            "foot:conditional",
+            "sidewalk",
+            "crossing",
+            "barrier",
+            "opening_hours",
+            "from_node_id",
+            "to_node_id",
+            "validated_pedestrian_edge_connectivity"
+          ],
+          "interpretation": "這些欄位未保存於本次圖層，不表示完整OSM或其他官方來源也沒有。"
+        },
+        {
+          "scope": "128428快照/官方欄位",
+          "fields": [
+            "官方捷運車站UID",
+            "公車站牌UID對照",
+            "步行路徑/路網相鄰關係",
+            "入口開放時間",
+            "入口連至公共人行通道之權限",
+            "完整無障礙路徑"
+          ],
+          "interpretation": "是否為無障礙用只描述出入口屬性；不能證明整條轉乘路徑可用。"
+        },
+        {
+          "scope": "已驗證結果",
+          "fields": [
+            "可用步行圖網",
+            "已核實snap/連接邊",
+            "具體端到端路徑合法性檢查"
+          ],
+          "interpretation": "線形可以作候選建圖，尚未通過可通行/樓層/過街/端點連接驗證。"
+        }
+      ],
+      "evidence": {
+        "road_files": [
+          {
+            "file": "map-data/osm/roads-002.geojson.gz",
+            "feature_count": 50528,
+            "available_fields": [
+              "bridge",
+              "class_code",
+              "feature_class",
+              "layer",
+              "maxspeed_kmh",
+              "name",
+              "oneway",
+              "osm_id",
+              "ref",
+              "source_fid",
+              "tunnel"
+            ],
+            "geometry_types": {
+              "MultiLineString": 93,
+              "LineString": 50435
+            },
+            "source_period": "2026-10-20T20:23:47Z",
+            "scope": "臺北市與新北市官方市界聯集",
+            "source_page": "https://download.geofabrik.de/asia/taiwan.html"
+          },
+          {
+            "file": "map-data/osm/roads-003.geojson.gz",
+            "feature_count": 44473,
+            "available_fields": [
+              "bridge",
+              "class_code",
+              "feature_class",
+              "layer",
+              "maxspeed_kmh",
+              "name",
+              "oneway",
+              "osm_id",
+              "ref",
+              "source_fid",
+              "tunnel"
+            ],
+            "geometry_types": {
+              "LineString": 44436,
+              "MultiLineString": 37
+            },
+            "source_period": "2026-10-20T20:23:47Z",
+            "scope": "臺北市與新北市官方市界聯集",
+            "source_page": "https://download.geofabrik.de/asia/taiwan.html"
+          },
+          {
+            "file": "map-data/osm/roads.geojson.gz",
+            "feature_count": 48393,
+            "available_fields": [
+              "bridge",
+              "class_code",
+              "feature_class",
+              "layer",
+              "maxspeed_kmh",
+              "name",
+              "oneway",
+              "osm_id",
+              "ref",
+              "source_fid",
+              "tunnel"
+            ],
+            "geometry_types": {
+              "LineString": 48340,
+              "MultiLineString": 53
+            },
+            "source_period": "2026-10-20T20:23:47Z",
+            "scope": "臺北市與新北市官方市界聯集",
+            "source_page": "https://download.geofabrik.de/asia/taiwan.html"
+          }
+        ],
+        "road_total_feature_count": 143394,
+        "road_feature_class_counts": {
+          "path": 10169,
+          "steps": 8252,
+          "service": 44648,
+          "footway": 38900,
+          "residential": 14925,
+          "tertiary": 5103,
+          "track_grade2": 174,
+          "unclassified": 4785,
+          "track": 2752,
+          "cycleway": 2511,
+          "secondary_link": 361,
+          "primary": 2121,
+          "secondary": 3810,
+          "motorway": 535,
+          "motorway_link": 658,
+          "busway": 74,
+          "trunk_link": 735,
+          "pedestrian": 1142,
+          "primary_link": 177,
+          "living_street": 233,
+          "track_grade1": 365,
+          "track_grade3": 33,
+          "track_grade4": 36,
+          "unknown": 10,
+          "track_grade5": 57,
+          "tertiary_link": 258,
+          "trunk": 570
+        },
+        "metro_exit_source": {
+          "page_url": "https://data.gov.tw/dataset/128428",
+          "download_url": "https://data.taipei/api/dataset/cfa4778c-62c1-497b-b704-756231de348b/resource/307a7f61-e302-4108-a817-877ccbfca7c1/download",
+          "raw_file": "raw_data/research/mrt_exits.csv",
+          "encoding": "cp950",
+          "downloaded_at": "2026-10-21T23:14:20+08:00",
+          "source_data_time": null
+        },
+        "metro_exit_snapshot_record_count": 390,
+        "official_128428_page": {
+          "url": "https://data.gov.tw/dataset/128428",
+          "checked_at": "2026-10-24",
+          "declared_fields": [
+            "項次",
+            "出入口名稱",
+            "出入口編號",
+            "經度",
+            "緯度",
+            "是否為無障礙用"
+          ],
+          "catalog_metadata_updated_at": "2026-10-13 20:00",
+          "catalog_metadata_time_is_not_data_content_time": true
+        }
+      },
+      "conclusion": "現有資料足以顯示路線線形與捷運出入口位置、建立候選鄰近關係；不足以證明合法步行轉乘。oneway與maxspeed不能直接當作行人通行權；道路圖層裁切範圍僅雙北，亦未證明基隆步行路網完整。此PR Validation仍為未驗證，不能打勾。"
+    },
+    {
+      "validation_item_id": "keelung_and_intercity_operational_coverage",
+      "validation_status": "route_master_complete_operational_coverage_not_validated",
+      "may_mark_pr_validation_complete": false,
+      "required_inputs": [
+        {
+          "input": "指定範圍及日期之營運路線/分支清冊",
+          "needed_fields": [
+            "官方RouteUID/SubRouteUID/Direction及有效期",
+            "明確涵蓋母體/缺口"
+          ]
+        },
+        {
+          "input": "逐分支完整停靠站序與地理範圍",
+          "needed_fields": [
+            "StopUID/StopID",
+            "StopSequence",
+            "站牌座標及上落客限制",
+            "同名不同線、迴圈與跨市線識別",
+            "官方線形或站序完整性確認"
+          ]
+        },
+        {
+          "input": "服務時段及實際營運覆蓋",
+          "needed_fields": [
+            "服務日曆",
+            "逐班發車時刻或可驗證頻率時段",
+            "停駛/改道/假日例外",
+            "驗收日期的實際行駛事件或可核實營運證據",
+            "跨端點/跨來源ID與版本有效性檢查"
+          ]
+        }
+      ],
+      "available_fields": {
+        "route_masters": [
+          {
+            "scope": "NewTaipei",
+            "file": "data/official_cross_city/regional_routes/NewTaipei.json",
+            "record_count": 635,
+            "source_count": 635,
+            "count_verification": "passed_against_raw_response_by_independent_review",
+            "requested_date": "2026-10-23",
+            "version_start": "2026-10-19T00:00:00+08:00",
+            "version_end": "2026-10-23T23:59:59+08:00",
+            "available_route_fields": [
+              "authority_id",
+              "bus_route_type",
+              "city",
+              "city_code",
+              "departure_stop_name_en",
+              "departure_stop_name_zh",
+              "destination_stop_name_en",
+              "destination_stop_name_zh",
+              "fare_buffer_zone_description_en",
+              "fare_buffer_zone_description_zh",
+              "has_sub_routes",
+              "operators",
+              "provider_id",
+              "route_id",
+              "route_map_image_url",
+              "route_name",
+              "route_uid",
+              "sub_routes",
+              "ticket_price_description_en",
+              "ticket_price_description_zh"
+            ],
+            "nested_subroute_count": 1383,
+            "subroute_field_presence_counts": {
+              "sub_route_uid": 1383,
+              "sub_route_id": 1383,
+              "operator_i_ds": 1383,
+              "sub_route_name": 1383,
+              "direction": 1383,
+              "first_bus_time": 1335,
+              "last_bus_time": 1335,
+              "holiday_first_bus_time": 1009,
+              "holiday_last_bus_time": 1009
+            },
+            "source": {
+              "source_page": "https://tdx.transportdata.tw/data-service/historical",
+              "specification_url": "https://tdx.transportdata.tw/webapi/File/Swagger/V3/39472fde-f790-42b9-9c8b-88282118e6b1",
+              "download_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/Route/Date/2026-10-23/City/NewTaipei?%24format=JSON&%24top=100000",
+              "raw_file": "raw_data/official_cross_city/regional_coverage/NewTaipei_2026-10-23.json",
+              "downloaded_at": "2026-10-24T10:47:01+08:00",
+              "source_updated_at": null,
+              "http_status": 200,
+              "bytes": 770203
+            },
+            "independent_review": "data/quality/regional_validation_review.json"
+          },
+          {
+            "scope": "Keelung",
+            "file": "data/official_cross_city/regional_routes/Keelung.json",
+            "record_count": 116,
+            "source_count": 116,
+            "count_verification": "passed_against_raw_response_by_independent_review",
+            "requested_date": "2026-10-23",
+            "version_start": "2026-04-07T00:00:00+08:00",
+            "version_end": "2026-10-23T23:59:59+08:00",
+            "available_route_fields": [
+              "authority_id",
+              "bus_route_type",
+              "city",
+              "city_code",
+              "departure_stop_name_en",
+              "departure_stop_name_zh",
+              "destination_stop_name_en",
+              "destination_stop_name_zh",
+              "has_sub_routes",
+              "operators",
+              "provider_id",
+              "route_id",
+              "route_map_image_url",
+              "route_name",
+              "route_uid",
+              "sub_routes"
+            ],
+            "nested_subroute_count": 168,
+            "subroute_field_presence_counts": {
+              "sub_route_uid": 168,
+              "sub_route_id": 168,
+              "operator_i_ds": 168,
+              "sub_route_name": 168,
+              "headsign": 168,
+              "headsign_en": 168,
+              "direction": 168,
+              "departure_stop_name_zh": 168,
+              "departure_stop_name_en": 168,
+              "destination_stop_name_zh": 168,
+              "destination_stop_name_en": 168
+            },
+            "source": {
+              "source_page": "https://tdx.transportdata.tw/data-service/historical",
+              "specification_url": "https://tdx.transportdata.tw/webapi/File/Swagger/V3/39472fde-f790-42b9-9c8b-88282118e6b1",
+              "download_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/Route/Date/2026-10-23/City/Keelung?%24format=JSON&%24top=100000",
+              "raw_file": "raw_data/official_cross_city/regional_coverage/Keelung_2026-10-23.json",
+              "downloaded_at": "2026-10-24T10:47:15+08:00",
+              "source_updated_at": null,
+              "http_status": 200,
+              "bytes": 136908
+            },
+            "independent_review": "data/quality/regional_validation_review.json"
+          },
+          {
+            "scope": "InterCity",
+            "file": "data/official_cross_city/regional_routes/InterCity.json",
+            "record_count": 485,
+            "source_count": 485,
+            "count_verification": "passed_against_raw_response_by_independent_review",
+            "requested_date": "2026-10-23",
+            "version_start": "2026-10-15T00:00:00+08:00",
+            "version_end": "2026-10-23T23:59:59+08:00",
+            "available_route_fields": [
+              "authority_id",
+              "bus_route_type",
+              "departure_stop_name_en",
+              "departure_stop_name_zh",
+              "destination_stop_name_en",
+              "destination_stop_name_zh",
+              "has_sub_routes",
+              "operators",
+              "provider_id",
+              "route_id",
+              "route_map_image_url",
+              "route_name",
+              "route_uid",
+              "sub_routes"
+            ],
+            "nested_subroute_count": 1771,
+            "subroute_field_presence_counts": {
+              "sub_route_uid": 1771,
+              "sub_route_id": 1771,
+              "operator_i_ds": 1771,
+              "sub_route_name": 1771,
+              "headsign": 1771,
+              "headsign_en": 1771,
+              "direction": 1771,
+              "departure_stop_name_zh": 1771,
+              "departure_stop_name_en": 1771,
+              "destination_stop_name_zh": 1771,
+              "destination_stop_name_en": 1771
+            },
+            "source": {
+              "source_page": "https://tdx.transportdata.tw/data-service/historical",
+              "specification_url": "https://tdx.transportdata.tw/webapi/File/Swagger/V3/39472fde-f790-42b9-9c8b-88282118e6b1",
+              "download_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/Route/Date/2026-10-23/InterCity?%24format=JSON&%24top=100000",
+              "raw_file": "raw_data/official_cross_city/regional_coverage/InterCity_2026-10-23.json",
+              "downloaded_at": "2026-10-24T10:47:28+08:00",
+              "source_updated_at": null,
+              "http_status": 200,
+              "bytes": 1009061
+            },
+            "independent_review": "data/quality/regional_validation_review.json"
+          }
+        ],
+        "verified_claim": "2026-10-23指定Route端點之主檔完整性，Count為新北635、基隆116、全國公路客運485；附線與業者均保留。"
+      },
+      "missing_fields": [
+        {
+          "scope": "三份Route主檔",
+          "fields": [
+            "逐站StopUID/StopID與StopSequence",
+            "站牌座標",
+            "逐站上下客限制",
+            "完整班表/服務日曆",
+            "指定日期實際行駛事件"
+          ],
+          "interpretation": "Route主檔不含這些驗收輸入；不代表TDX其他端點或其他來源不存在。"
+        },
+        {
+          "scope": "基隆116線/168附線模型",
+          "fields": [
+            "首末班時間",
+            "逐班發車時刻",
+            "平假日服務時段"
+          ],
+          "interpretation": "所檢視基隆Route附線欄位皆無這些時間欄位；Direction值只按來源保留，不能推論缺少的返程。"
+        },
+        {
+          "scope": "全國公路客運485線/1771附線模型",
+          "fields": [
+            "北北基實際行經/停靠的可核實判定",
+            "完整停靠站序/線形",
+            "服務時段/班表/實際營運事件"
+          ],
+          "interpretation": "全國主檔沒有依名稱裁切，因而不能把485線解讀為北北基路線數或區內完整營運覆蓋。"
+        },
+        {
+          "scope": "新北635線/1383附線模型",
+          "fields": [
+            "完整逐班班表及日曆"
+          ],
+          "interpretation": "1335附線有首末班時間，1009有假日首末班欄位；即使有首末班也不等於完整班表或實際行駛。"
+        }
+      ],
+      "evidence": {
+        "independent_full_raw_comparison_report": "data/quality/regional_validation_review.json",
+        "route_master_schema_evidence": "raw_data/tdx/specifications/historical.json",
+        "official_specification_url": "https://tdx.transportdata.tw/webapi/File/Swagger/V3/39472fde-f790-42b9-9c8b-88282118e6b1"
+      },
+      "conclusion": "可將指定日期Route主檔全量Count與逐欄保留的驗證標為完成；基隆/公路客運完整營運涵蓋仍未驗證。現有主檔缺少站序、時段及營運事件等輸入，不能以路線數、起訖名稱或版本區間推論全面服務，也不能以欄位缺漏判定沒有服務。"
+    }
+  ]
+}

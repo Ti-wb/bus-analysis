@@ -24,6 +24,10 @@ Agent 協作、格式與提交規則見 [AGENTS.md](AGENTS.md)。
 
 新增的現行公車、近三年人口與營運統計、捷運一年分時進出量、設施及 TDX 資料，見[整合資料目錄](data/catalog.json)與[整理及更新說明](docs/data-collection.md)。大型資料僅保留必要彙總或來源連結；各來源均另附獨立巡檢結果。
 
+跨市 ID、北北基人口里界版本、基隆及公路客運主檔、TDX 站間旅時與道路速率／流量，見
+[補充資料目錄](data/official_cross_city/validation_catalog.json)及[跨市資料用法](docs/official-cross-city.md)。
+完整性與尚待來源釐清的項目見 [Validation 狀態](data/quality/pr_validation.json)。
+
 ## 更新
 
 安裝、執行與自動更新方式見 [資料更新說明](docs/data-updates.md)。專案用 uv 管理 Python 與依賴，不熟悉的話請先看 [uv 快速上手](docs/uv.md)。
