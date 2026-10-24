@@ -8,6 +8,13 @@ on:
     paths:
       - 'web/**'
       - 'scripts/build_web_data.py'
+      - 'scripts/build_age_catchments.py'
+      - 'map-data/population/**'
+      - 'tests/test_age_catchments.py'
+      - 'tests/test_web_age_stations.py'
+      - 'tests/official_cross_city/test_national_villages.py'
+      - 'tests/official_cross_city/test_village_age_geography_review.py'
+      - 'scripts/review_village_age_geography.py'
       - 'scripts/build_route_scenario.py'
       - 'scripts/build_improvements.py'
       - 'data/urban/public_toilets.geojson'
@@ -24,6 +31,13 @@ on:
     paths:
       - 'web/**'
       - 'scripts/build_web_data.py'
+      - 'scripts/build_age_catchments.py'
+      - 'map-data/population/**'
+      - 'tests/test_age_catchments.py'
+      - 'tests/test_web_age_stations.py'
+      - 'tests/official_cross_city/test_national_villages.py'
+      - 'tests/official_cross_city/test_village_age_geography_review.py'
+      - 'scripts/review_village_age_geography.py'
       - 'scripts/build_route_scenario.py'
       - 'scripts/build_improvements.py'
       - 'data/urban/public_toilets.geojson'
@@ -59,6 +73,12 @@ jobs:
           enable-cache: true
       # Python version comes from .python-version; dependencies from uv.lock.
       - run: uv sync --locked --no-default-groups
+      - name: Verify village joins and age allocation with GIS dependencies
+        run: |
+          uv run python -m unittest discover -s tests/official_cross_city -p 'test_national_villages.py' -v
+          uv run python -m unittest discover -s tests/official_cross_city -p 'test_village_age_geography_review.py' -v
+          uv run python -m unittest discover -s tests -p 'test_age_catchments.py' -v
+          uv run python -m unittest discover -s tests -p 'test_web_age_stations.py' -v
       - name: Generate map layers into web/public/data/
         run: uv run scripts/build_web_data.py
       - uses: actions/setup-node@v7
@@ -69,6 +89,8 @@ jobs:
       - run: npm ci --prefix web
       - name: Verify route scenario calculations
         run: npm run test:routes --prefix web
+      - name: Verify population age presentation
+        run: npm run test:age --prefix web
       - name: Verify improvement rankings and exports
         run: npm run test:improvements --prefix web
       - name: Type-check and build

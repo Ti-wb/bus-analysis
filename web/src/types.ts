@@ -194,6 +194,8 @@ export interface ViewState {
 }
 
 export interface AppState extends CoverageState, NeedState {
+  ageGroup: string;
+  ageSet: 'three_stage' | 'planning';
   day: DayType;
   hour: number;
   cell: CellSize;
@@ -205,7 +207,7 @@ export interface AppState extends CoverageState, NeedState {
   villageMetric: 'population' | 'elderly_share';
 }
 
-export type AnalysisMode = 'frequency' | 'coverage' | 'need';
+export type AnalysisMode = 'frequency' | 'coverage' | 'need' | 'village_age';
 export type CoverageLayer = 'walk' | 'ride';
 export type StationType = 'bus' | 'mrt' | 'youbike';
 export type CoverageCell = 50 | 100 | 200;

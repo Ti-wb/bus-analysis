@@ -8,12 +8,17 @@
 | `admin/admin_index.json` | 官方代碼、父層代碼、名稱、bbox 與面內標籤位置；共 1,555 列。 |
 | `osm/` | Geofabrik OSM 2026-10-20 快照；道路及步行路徑、軌道、水系、綠地、建物、地名、交通與公共設施等 19 圖層。 |
 | `traffic-focus/` | 臺北市交通需求候選設施、具名住宅／產業區及官方社宅工程；[清單、資料來源與用法](../docs/traffic-focus.md)。 |
+| `population/moi_village_age_2026-09.geojson.gz` | 北北基 1,677 個官方完整里界與 2026-09 逐歲人口、8 個分組及明確核對狀態；主里界 2026-08-17，未宣稱同月幾何。 |
 | `quality/` | 不同於整理者的 Agent 所作獨立巡檢。 |
 
 跨市驗收另提供 `admin/keelung_villages.geojson`：2026-08-17 官方版本，157 個有對應人口的里及
 8 個未編定村里區塊，合計 165 個圖徵。來源與 CRS 轉換記錄於檔案 metadata，
 獨立巡檢見 [`quality/keelung_review.json`](quality/keelung_review.json)；人口版本對照用法見
 [跨市資料說明](../docs/official-cross-city.md)。此補充層不改動原雙北圖層範圍。
+
+村里年齡另以戶政司 11509 全國獨立清冊核對全部 7,781 個人口村里。NLSC ZIP 主層 7,986 筆加上日期不明的 `Village_Sanhe` 附層 1 筆，合計 7,987 個圖形；206 個未編定區塊無對應人口，維持 null。17 村名稱差異未核實，Sanhe 與六個主層村里重疊，這 24 村合計 45,064 人排除分攤、保留來源數值。全國核對表存於 `data/population/`；提交的年齡 GeoJSON 僅涵蓋北北基，沒有把遠島裁掉後宣稱全國完整。
+
+年齡 GeoJSON 使用 EPSG:4326，保留所有原始座標；`web/public/data/village_age.geojson` 才是顯示簡化副本。`scripts/build_age_catchments.py` 以完整里界轉 EPSG:3826 計算北北基站圈，未核對與缺值均不補零，人口不代表搭乘需求。抓取、離線重建、欄位及年齡分攤規則見[村里年齡與站圈](../docs/moi-village-age-geography.md)，全量圖形／歲別獨立巡檢見 [`quality/village_age_geography_review.json`](quality/village_age_geography_review.json)。
 
 OSM 只保留與雙北官方市界相交的圖徵，線與面裁切至市界。行政界未簡化；OSM 線形未簡化，座標取 7 位小數，造成無效幾何時保留完整精度。原始下載及中間檔僅使用 `raw/` 作為暫存，排除 Git；來源連結、實際版本與清理方式記錄於各 `manifest.json`。
 

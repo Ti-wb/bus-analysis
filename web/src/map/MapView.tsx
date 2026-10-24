@@ -16,6 +16,8 @@ import Map, {
   type MapLayerMouseEvent,
   type MapRef,
 } from 'react-map-gl/maplibre';
+import { groupFor, type VillageAges, type VillageAgeMap } from '../age';
+import { VillageDialog, VillageFacts } from '../components/VillageAge';
 import { circle } from '../catchment';
 import StationInfo, { StationIcon } from '../components/StationInfo';
 import { BASE_STYLE, HOVER_LAYERS, LAYER_GROUPS, PLACE_CATEGORIES } from '../config';
@@ -41,6 +43,11 @@ const LAYER_GROUP_OF: Record<string, LayerGroup> = Object.fromEntries(
 const POPUP_LAYERS = ['bus-routes', 'regional-bus-routes', 'traffic-sections', 'bus-travel-times', 'villages-fill'];
 
 interface Props {
+  villageAges?: VillageAges | null;
+  villageData?: VillageAgeMap | null;
+  selectedVillage?: string | null;
+  onVillage?: (id: string | null, fly?: boolean) => void;
+  onCloseVillage?: () => void;
   editor?: EditorMapProps;
   focus?: BusFocusState | null;
   onFocusRoute?: (routeId: string) => void;
@@ -125,7 +132,7 @@ function addHatchPattern(map: MaplibreMap) {
   }
 }
 
-export default function MapView({ editor, focus, onFocusRoute, mapRef, initialView, data, grid, gridData, coverage, coverageImage, coverageLines, need, state, station, onStation, onCloseStation, onReady, onMoveEnd }: Props) {
+export default function MapView({ villageAges = null, villageData = null, selectedVillage = null, onVillage, onCloseVillage, editor, focus, onFocusRoute, mapRef, initialView, data, grid, gridData, coverage, coverageImage, coverageLines, need, state, station, onStation, onCloseStation, onReady, onMoveEnd }: Props) {
   // First label layer of the base style: our layers go below it so road names stay on top.
   const [labelLayer, setLabelLayer] = useState<string | null>(null);
   const [styleLoaded, setStyleLoaded] = useState(false);
@@ -224,10 +231,18 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
     return () => clearTimeout(timer);
   }, [styleLoaded, localBase, useLocalBase]);
 
+  const villageIndex = useMemo(() => new globalThis.Map(villageAges?.features.map((feature) => [feature.properties.boundary_id, feature.properties]) ?? []), [villageAges]);
+  const currentAgeGroup = villageAges && groupFor(villageAges.metadata, state.ageGroup, state.ageSet);
+  const selectedVillageProps = selectedVillage ? villageIndex.get(selectedVillage) : undefined;
+  const closeVillage = useCallback(() => {
+    if (onCloseVillage) onCloseVillage();
+    else mapRef.current?.getCanvas().focus({ preventScroll: true });
+  }, [mapRef, onCloseVillage]);
+
   // Search and map clicks share one selected station; a route popup must not linger.
-  useEffect(() => { if (station) setPopup(null); }, [station]);
+  useEffect(() => { if (station || selectedVillage) { setPopup(null); setHover(null); } }, [station, selectedVillage]);
   // MapLibre event features are snapshots: discard values when their time or filter changes.
-  useEffect(() => { setPopup(null); setHover(null); }, [state.day, state.hour, state.villageMetric, state.leapfrogOnly, state.layers]);
+  useEffect(() => { setPopup(null); setHover(null); }, [state.day, state.hour, state.villageMetric, state.leapfrogOnly, state.layers, state.mode, state.ageGroup, state.ageSet]);
 
   useEffect(() => {
     if (!styleLoaded) return;
@@ -235,9 +250,17 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
     const canvas = map.getCanvas();
     canvas.setAttribute('aria-label', pickingStops
       ? '選擇公車站；方向鍵移動，Enter 加入畫面中央最近的可選公車站'
+      : state.mode === 'village_age' && !editor && !activeFocus
+      ? '互動地圖；方向鍵移動，Enter 查詢畫面中央的村里年齡，Escape 關閉資訊'
       : '互動地圖；方向鍵移動，Enter 開啟畫面中央最近的可見站點，Escape 關閉資訊');
     const openStation = (event: KeyboardEvent) => {
       if (event.key !== 'Enter') return;
+      if (!editor && !activeFocus && state.mode === 'village_age' && map.getLayer('village-age-fill')) {
+        const centre: [number, number] = [canvas.clientWidth / 2, canvas.clientHeight / 2];
+        const village = map.queryRenderedFeatures(centre, { layers: ['village-age-fill'] })[0];
+        if (village) { event.preventDefault(); onStation(null); onVillage?.(String(village.properties.boundary_id), false); setHover(null); }
+        return;
+      }
       const layers = pickingStops ? (map.getLayer(ROUTE_STOP_PICKER) ? [ROUTE_STOP_PICKER] : [])
         : [...(activeFocus ? ['focus-bus-stops', 'focus-mrt-stations', 'focus-youbike'] : []), ...STATION_LAYERS.filter((id) => state.layers.has(LAYER_GROUP_OF[id]))].filter((id) => map.getLayer(id));
       if (!layers.length) return;
@@ -260,7 +283,7 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
     };
     canvas.addEventListener('keydown', openStation);
     return () => canvas.removeEventListener('keydown', openStation);
-  }, [activeFocus !== null, data, editor, styleLoaded, mapRef, onStation, pickingStops, state.layers]);
+  }, [activeFocus !== null, data, editor, styleLoaded, mapRef, onStation, onVillage, pickingStops, state.layers, state.mode]);
 
   const handleLoad = useCallback((event: MapEvent) => {
     const map = event.target;
@@ -300,8 +323,10 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
   }, [mapRef, styleLoaded, state.labels]);
 
   // The frequency grid belongs to frequency mode; coverage mode draws its own raster instead.
-  const villageView = state.layers.has('villages');
+  const ageView = !editor && !activeFocus && state.mode === 'village_age';
+  const villageView = !ageView && state.layers.has('villages');
   const shown = (group: LayerGroup) => state.layers.has(group)
+    && !(ageView && group === 'villages')
     && !(activeFocus && ['grid', 'villages', 'traffic', 'bus_times'].includes(group))
     && (group !== 'grid' || (!editor && state.mode === 'frequency' && !villageView));
   const visible = (id: string) => (shown(LAYER_GROUP_OF[id]) ? 'visible' : 'none');
@@ -343,6 +368,11 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
       const firstLine = layers.findIndex((id) => id === 'bus-routes' || id === 'mrt-lines' || id === 'regional-bus-routes');
       layers.splice(firstLine < 0 ? layers.length : firstLine, 0, 'need-fill');
     }
+    if (ageView && map.getLayer('village-age-fill')) {
+      // Analysis polygons outrank supplemental lines; station points remain selectable.
+      const firstNonPoint = layers.findIndex((id) => id !== 'places' && !STATION_LAYERS.includes(id));
+      layers.splice(firstNonPoint < 0 ? layers.length : firstNonPoint, 0, 'village-age-fill');
+    }
     const features = map.queryRenderedFeatures([[x - 4, y - 4], [x + 4, y + 4]], { layers }).map((feature) => {
       const original = FOCUS_ORIGINAL_LAYERS[feature.layer.id];
       return original ? { ...feature, geometry: feature.geometry, layer: { ...feature.layer, id: original } } as MapGeoJSONFeature : feature;
@@ -358,7 +388,7 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
     const feature = featureAt(e);
     const canvas = mapRef.current!.getCanvas();
     const clickable = feature && (STATION_LAYERS.includes(feature.layer.id)
-      || POPUP_LAYERS.includes(feature.layer.id) || feature.layer.id === ROUTE_STOP_PICKER);
+      || POPUP_LAYERS.includes(feature.layer.id) || feature.layer.id === 'village-age-fill' || feature.layer.id === ROUTE_STOP_PICKER);
     canvas.style.cursor = clickable ? 'pointer' : '';
     const { x, y } = e.point;
     if (feature) setHover({ feature, x, y });
@@ -382,14 +412,21 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
       onStation(stationFromFeature(feature, data), mapRef.current!.getCanvas());
       setPopup(null);
       setHover(null);
+    } else if (feature && id === 'village-age-fill') {
+      onStation(null);
+      onVillage?.(String(feature.properties.boundary_id), false);
+      setPopup(null);
+      setHover(null);
     } else if (feature && POPUP_LAYERS.includes(id!)) {
       if (editor && id === 'bus-routes') { editor.onRoute(String(feature.properties.route_id)); setHover(null); return; }
       if (activeFocus && id === 'bus-routes') { onFocusRoute?.(String(feature.properties.route_id)); setHover(null); return; }
       onStation(null);
+      onVillage?.(null, false);
       setPopup({ feature, lngLat: [e.lngLat.lng, e.lngLat.lat] });
       setHover(null);
     } else {
       setPopup(null);
+      onVillage?.(null, false);
       if (station && !activeFocus) onCloseStation();
     }
   };
@@ -441,6 +478,12 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
               <Layer {...withVisibility(L.gridHatchLayer, below)} />
             </Source>
             {editor && <ScenarioGrid editor={editor} beforeId={below} />}
+            {!editor && villageData && (
+              <Source id="village-age" type="geojson" data={villageData}>
+                <Layer {...L.villageAgeFillLayer} beforeId={below} layout={{ visibility: ageView ? 'visible' : 'none' }} />
+                <Layer {...L.villageAgeOutlineLayer} beforeId={below} filter={['==', ['get', 'boundary_id'], selectedVillage ?? '']} layout={{ visibility: ageView ? 'visible' : 'none' }} />
+              </Source>
+            )}
             {need && (
               <Source id="need" type="geojson" data={need.data}>
                 <Layer {...L.needFillLayer} beforeId={below} layout={{ visibility: !activeFocus && state.mode === 'need' && !villageView ? 'visible' : 'none' }} />
@@ -555,6 +598,8 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
         )}
       </Map>
 
+      {ageView && selectedVillageProps && villageAges && currentAgeGroup && <VillageDialog properties={selectedVillageProps} metadata={villageAges.metadata} group={currentAgeGroup} onClose={closeVillage} />}
+
       {mapNotice && <div className="map-notice" role="status">
         <span>{mapNotice}</span>
         {!localBase && <button onClick={useLocalBase}>使用本地簡圖</button>}
@@ -568,6 +613,8 @@ export default function MapView({ editor, focus, onFocusRoute, mapRef, initialVi
           {hover.feature?.layer.id === ROUTE_STOP_PICKER && pickingStops && editor
             ? <><b>{hover.feature.properties.name}</b><br />公車站位 #{hover.feature.properties.id}
               <strong className="route-stop-pick-action">＋ 點擊加入第 {editor.insertIndex + 1} 站</strong></>
+            : hover.feature?.layer.id === 'village-age-fill' && villageAges && currentAgeGroup && villageIndex.get(String(hover.feature.properties.boundary_id))
+            ? <VillageFacts properties={villageIndex.get(String(hover.feature.properties.boundary_id))!} metadata={villageAges.metadata} group={currentAgeGroup} compact />
             : hover.feature?.layer.id === 'need-fill' && need
             ? <NeedTooltip i={Number(hover.feature.properties.i)} grid={need.grid} result={need.result} state={state} />
             : hover.feature

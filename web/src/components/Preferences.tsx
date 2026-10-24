@@ -24,6 +24,7 @@ export const MODES: { key: AnalysisMode; label: string; note: string }[] = [
   { key: 'coverage', label: '站點覆蓋', note: '步行到站與 YouBike 騎乘的直線範圍' },
   { key: 'frequency', label: '班次網格', note: '每格公車計畫發車數，可依小時播放' },
   { key: 'need', label: '需求落差', note: '同時段需求與供給排名的比較' },
+  { key: 'village_age', label: '村里年齡', note: '北北基村里戶籍年齡比例；人口背景不代表乘車需求' },
 ];
 
 const NEED_VIEWS: { key: NeedView; label: string }[] = [
@@ -205,7 +206,7 @@ export default function Preferences({ state, data, supplementalPending, onRetryS
               分析圖層
               <button className="link-btn" onClick={() => { setDraft(defaults(draft.mode)); setResets((n) => n + 1); }}>重設預設</button>
             </h3>
-            <Choice label="分析圖層" options={MODES} value={draft.mode} onChange={(m) => set({ mode: m })} />
+            <Choice label="分析圖層" columns={2} options={MODES} value={draft.mode} onChange={(m) => set({ mode: m })} />
             <p className="prefs-note">{MODES.find((m) => m.key === draft.mode)!.note}</p>
           </section>
 
@@ -248,6 +249,8 @@ export default function Preferences({ state, data, supplementalPending, onRetryS
               </section>
             </>
           )}
+
+          {draft.mode === 'village_age' && <section><h3>村里年齡</h3><p className="prefs-note">套用後，可在左側選擇三段或細分年齡層。灰色代表未匹配、缺值或無可計算的比例；點選村里查看資料期別與版本限制。地圖顯示北北基，全國核對結果另列於資料文件。</p></section>}
 
           {draft.mode === 'frequency' && (
             <section>
@@ -297,7 +300,8 @@ export default function Preferences({ state, data, supplementalPending, onRetryS
                 <Switch label="網格線" color={NEUTRAL} checked={draft.gridLines} onChange={() => set({ gridLines: !draft.gridLines })} />
               </>
             )}
-            {draft.mode === 'frequency' && (
+
+          {draft.mode === 'frequency' && (
               <Switch label="公車班次網格" color={COLORS[4]} checked={draft.layers.has('grid')} onChange={() => toggleLayer('grid')} />
             )}
             <Switch label="臺北公車路線" color="var(--bus)" checked={draft.layers.has('routes')} onChange={() => toggleLayer('routes')} />

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build the collection index from source deliveries and independent reviews."""
 
+import gzip
 import json
 from pathlib import Path
 
@@ -11,6 +12,8 @@ GROUPS = {
     "metro": "捷運各站分時進出量與出口公車資訊",
     "population": "臺北市人口、年齡與統計區界",
     "population_age": "臺北市最小統計區五歲年齡組人口",
+    "moi_village_age": "全國村里逐歲戶籍人口",
+    "national_village_age": "全國村里清冊、里界對照與北北基年齡圖層",
     "urban": "臺北市專用道、停車、通行限制與公廁",
     "background": "臺北市客運統計與運具使用調查",
     "tdx": "TDX 歷史與加值服務",
@@ -21,7 +24,8 @@ GROUPS = {
 
 
 def read(path):
-    with path.open(encoding="utf-8") as f:
+    opener = gzip.open if path.suffix == ".gz" else open
+    with opener(path, "rt", encoding="utf-8") as f:
         return json.load(f)
 
 
@@ -36,6 +40,7 @@ def review_index():
                     "status": record.get("review_status", record.get("status", "pending")),
                     "report": path.relative_to(ROOT).as_posix(),
                     "record_count": record.get("record_count"),
+                    **{key: record[key] for key in ("reviewed_generated_at", "source", "sources", "population_source") if key in record},
                 }
     return result
 
@@ -68,6 +73,17 @@ def build():
                 if (review and review.get("record_count") is not None
                         and output["record_count"] != review["record_count"]):
                     output["independent_review"] = {**review, "status": "pending_changed_record_count"}
+                if review:
+                    meta = content.get("metadata", {})
+                    population_source = meta.get("population_source")
+                    population_snapshot_changed = (
+                        ("population_source" in meta or "population_source" in review)
+                        and (not isinstance(population_source, dict) or not population_source
+                             or population_source != review.get("population_source")))
+                    if (("reviewed_generated_at" in review and review["reviewed_generated_at"] != meta.get("generated_at"))
+                            or any(key in review and review[key] != meta.get(key) for key in ("source", "sources"))
+                            or population_snapshot_changed):
+                        output["independent_review"] = {**review, "status": "pending_changed_snapshot"}
                 outputs.append(output)
             if not outputs:
                 review_status = "not_applicable_no_observations_delivered"

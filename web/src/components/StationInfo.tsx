@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type RefObject } from 'react';
 import type { MapRef } from 'react-map-gl/maplibre';
+import StationAge from './StationAge';
 import { nearby } from '../catchment';
 import { loadCatchments } from '../data';
 import { countText, percentText, villageAt } from '../regional';
@@ -126,6 +127,7 @@ export default function StationInfo({ mode = 'popup', station, mapRef, data, pla
   const loading = !regionalBus && !catchments && !failed;
   const facilities = expanded ? surroundings.facilities : surroundings.facilities.slice(0, 3);
   const period = catchments?.metadata.population_period.end;
+  const agePeriod = catchments?.metadata.age_period?.end ?? period;
   const village = useMemo(() => villageAt(data.villages, station.at), [data.villages, station.at]);
   const villageAgeGroups = village ? [
     { label: '0–14 歲', value: village.population_age_0_14, color: '#337cda' },
@@ -147,23 +149,24 @@ export default function StationInfo({ mode = 'popup', station, mapRef, data, pla
 
       <div id="station-focus-details" className="station-focus-details">
       <section className="station-population" aria-busy={loading} aria-live="polite">
-        <div className="station-section-head"><h3>周邊 {STATION_RADIUS} m 居住人口</h3><span className="station-badge">臺北戶籍估算</span></div>
+        <div className="station-section-head"><h3>周邊 {STATION_RADIUS} m 統計區人口</h3><span className="station-badge">臺北戶籍估算</span></div>
         {loading ? <p className="station-empty-title">人口資料載入中…</p>
-          : regionalBus ? <p className="station-empty">新北站位尚無 {STATION_RADIUS} m 人口估算，可參考下方整里統計。</p>
+          : regionalBus ? <p className="station-empty">此來源未提供新北站位的 {STATION_RADIUS} m 統計區人口估算；下方另列整里統計與村里年齡分攤。</p>
           : failed ? <div className="station-empty"><b>人口資料載入失敗</b><p>設施資訊仍可查閱。</p><button className="station-text-button" onClick={() => { setFailed(false); setAttempt((a) => a + 1); }}>重新載入</button></div>
             : people === null ? <div className="station-empty"><b>尚無人口資料</b><p>此範圍尚無可用的臺北市戶籍人口資料。</p></div>
               : <><p className="station-population-value">{people.toLocaleString('zh-TW')}<span>人</span></p>
                 <p className="station-meta">約 {households?.toLocaleString('zh-TW') ?? '—'} 戶 · {period} 戶籍人口</p>
                 {share < 1 && <p className="station-warning">僅 {Math.round(share * 100)}% 範圍有臺北市資料，其餘未計。</p>}
               </>}
-        <h3 className="station-age-title">周邊 {STATION_RADIUS} m 年齡分布（估算）</h3>
-        {regionalBus ? <div className="station-empty station-age-empty"><p>尚無此站的 {STATION_RADIUS} m 年齡估算</p><small>下方整里年齡另依里界統計，不代替此範圍估算。</small></div>
+        <h3 className="station-age-title">統計區年齡分布（{regionalBus ? '此站不適用' : agePeriod ?? '期間未知'}）</h3>
+        {regionalBus ? <div className="station-empty station-age-empty"><p>此來源尚無新北站位的 {STATION_RADIUS} m 統計區年齡估算</p><small>下方整里統計與村里年齡分攤各自保留來源，不混用統計區資料。</small></div>
           : loading || failed ? null
             : people !== null && ages && catchmentAgeGroups ? <>
               <p className="station-meta">{catchments?.metadata.age_period?.end ?? '統計期未提供'} · 臺北統計區面積分攤</p>
-              <AgeGroups groups={catchmentAgeGroups} counts={ages} total={people} />
+              <AgeGroups groups={catchmentAgeGroups} counts={ages} total={people} /><p className="station-meta">比例以本卡已涵蓋的統計區人口為分母；未涵蓋範圍另計。</p>
             </>
               : <div className="station-empty station-age-empty"><p>暫無可用的年齡分布</p><small>{people === null ? '此範圍沒有人口資料' : '範圍內有統計區缺年齡資料'}</small></div>}
+        <p className="station-warning">{regionalBus ? '上方統計區來源未涵蓋此新北站位；下方村里資料各自保留來源與月份，不混算。' : '此卡使用最小統計區人口；與下方村里年齡資料來源、月份不同，總數不可直接比較或相加。'}</p>
       </section>
 
       <section className="station-village">
@@ -180,6 +183,8 @@ export default function StationInfo({ mode = 'popup', station, mapRef, data, pla
           <p className="station-warning">整里原始戶籍統計，非本站 {STATION_RADIUS} m 人口或年齡估算。</p>
         </> : <p className="station-empty">{data.villages ? '此點未落在已整理的里界內。' : '里人口圖層尚未載入；可在圖層面板檢查或重試。'}</p>}
       </section>
+
+      <StationAge station={station} />
 
       <section className="station-facilities">
         <div className="station-section-head"><h3>附近重要設施</h3><span>{STATION_RADIUS} m 內</span></div>
@@ -198,10 +203,10 @@ export default function StationInfo({ mode = 'popup', station, mapRef, data, pla
         {station.type !== 'mrt' && surroundings.mrt.nearest && <p>最近捷運：{surroundings.mrt.nearest.name} · 約 {surroundings.mrt.nearest.metres} m</p>}
         {surroundings.youbike.count > 0 && <p>範圍內 YouBike 停車格：{surroundings.youbike.docks?.toLocaleString('zh-TW') ?? '資料不完整'}；無即時可借車數。</p>}
         <p className="muted">同類站點統計含本站（公車站位除外）。{station.type === 'bus' && '公車計畫班次不代表本站到站時刻。'}</p>
-        <p className="muted">{!regionalBus && <>350 m 人口與年齡依統計區面積分攤，相鄰範圍不可加總；比例四捨五入，合計可能不是 100%。{catchments && <>人口 {period}、邊界 {catchments.metadata.boundary_vintage} 年。</>}</>}設施依地點篩選，為未去重的候選位置，非出入口。</p>
+        <p className="muted">{!regionalBus && <>上方 350 m 統計區人口與其年齡分布依統計區面積分攤，相鄰範圍不可加總；比例四捨五入，合計可能不是 100%。{catchments && <>人口 {period}、邊界 {catchments.metadata.boundary_vintage} 年。</>}</>}設施依地點篩選，為未去重的候選位置，非出入口。</p>
       </details>
 
-      <footer className="station-note">戶籍人口資料，非搭乘量 · 設施距離採直線估算</footer>
+      <footer className="station-note">戶籍人口估算，非搭乘量 · 整里原始統計另列 · 設施距離採直線估算</footer>
       </div>
     </section>
   );

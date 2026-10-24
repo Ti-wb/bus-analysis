@@ -364,3 +364,40 @@ dialog.about .close { position: absolute; right: 16px; top: 12px; border: 0; bac
   .explainer p { display: none; }
   .station-card { border-radius: 16px; }
 }
+
+/* Village age is a background layer; estimate and coverage labels remain visible on small screens. */
+.age-entry { margin-top: 12px; padding: 6px 0; }
+.age-controls { margin-top: 8px; padding-top: 12px; border-top: 1px solid var(--line); }
+.age-controls h2 { font-size: 14px; }
+.age-scope { margin: 4px 0 10px; font-size: 11px; color: #587477; }
+.age-label { display: grid; gap: 4px; margin: 9px 0; font-size: 12px; color: #385969; }
+.age-label select { min-width: 0; width: 100%; min-height: 38px; padding: 7px 8px; border: 1px solid #bdcdd4; border-radius: 7px; color: #193641; background: #fff; font: inherit; }
+.age-label select:focus-visible, .village-dialog button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.age-source-line, .age-help { font-size: 11px; line-height: 1.6; }
+.age-warning { color: #875515; font-size: 11px; line-height: 1.6; margin-top: 6px; }
+.age-legend-labels { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; font-size: 9px; margin-top: 5px; color: var(--muted); text-align: center; }
+.age-legend .legend-note i { display: inline-block; width: 16px; height: 12px; margin-right: 6px; border-radius: 3px; flex-shrink: 0; }
+.village-dialog { position: absolute; right: 16px; top: 76px; z-index: 5; width: 340px; max-width: calc(100% - 24px); max-height: calc(100% - 100px); overflow-y: auto; padding: 18px; font-size: 12px; line-height: 1.7; }
+.village-dialog header { position: relative; margin-bottom: 12px; padding-right: 32px; }
+.village-dialog h2 { font-size: 18px; }
+.village-dialog p { margin-top: 5px; overflow-wrap: anywhere; }
+.village-dialog a { color: #1d559f; text-underline-offset: 3px; }
+.age-details { margin: 10px 0; }
+.age-details summary { cursor: pointer; }
+.age-details ul { margin: 5px 0 0; padding-left: 18px; }
+.station-age { margin-top: 12px; padding-top: 2px; border-top: 1px solid #dfe8ec; }
+.station-age-total { margin-top: 6px; font-size: 18px; font-weight: 700; }
+.station-age-table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 11px; font-variant-numeric: tabular-nums; }
+.station-age-table th, .station-age-table td { padding: 6px 3px; text-align: right; border-bottom: 1px solid #e5ecef; }
+.station-age-table th:first-child { text-align: left; font-weight: 400; }
+.station-age-table thead th { font-size: 10px; font-weight: 400; color: #58747b; }
+.station-age-table small { display: block; color: #58747b; }
+.station-age-coverage { margin: 8px 0 0; display: grid; gap: 3px; font-size: 11px; }
+.station-age-coverage div { display: flex; justify-content: space-between; }
+.station-age-coverage dd { margin: 0; }
+.station-age .station-more ul { padding-left: 16px; margin: 6px 0; font-size: 11px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+@media (max-width: 600px) {
+  .village-dialog { right: 12px; top: 68px; max-height: calc(100% - 92px); }
+  .age-controls .age-help { font-size: 10px; }
+}

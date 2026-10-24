@@ -7,6 +7,7 @@ const CHIPS: Record<AnalysisMode, [string, string]> = {
   frequency: ['公車班次網格', '計畫班表，非實際運量'],
   coverage: ['雙層站點覆蓋', '直線半徑，非實際路網'],
   need: ['需求落差', '研究草案，權重為假設'],
+  village_age: ['村里年齡', '戶籍背景，非乘車需求'],
 };
 
 interface Props {

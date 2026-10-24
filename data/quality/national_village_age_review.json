@@ -1,0 +1,499 @@
+{
+  "schema_version": 1,
+  "dataset_id": "independent_national_village_age_geography_review",
+  "metadata": {
+    "reviewer_agent": "/root/national_reference",
+    "producer_imported": false,
+    "reviewed_at": "2026-10-24T16:00:00+08:00",
+    "period": "2026-09",
+    "status": "pass_with_limitations",
+    "method": "Independent raw TXT/DBF/SHP/PRJ/XML parsing, complete identity sets and literal fields, all northern coordinates and 101 source age cells; supplemental intersections independently projected to local UTM.",
+    "limitations": [
+      "人口2026-09與主里界版本分開記錄；未核實同月幾何。無日期附層及其主層交疊村里均排除分攤。",
+      "本次另保留17筆未審名稱差異與206個未編定區塊，不補零人口。",
+      "本報告驗證清冊、里界與年齡串接快照；站圈數值另以抽站重算查核，人口不代表真實乘車需求。"
+    ]
+  },
+  "records": [
+    {
+      "file": "data/population/ris_village_registry_2026-09.json.gz",
+      "output_path": "data/population/ris_village_registry_2026-09.json.gz",
+      "review_status": "pass_with_limitations",
+      "record_count": 7781,
+      "reviewed_generated_at": "2026-10-24T15:05:21+08:00",
+      "population_source": {
+        "page_url": "https://data.gov.tw/dataset/77132",
+        "requested_url": "https://opdadm.moi.gov.tw/api/v1/no-auth/resource/api/dataset/2C7688CB-B505-4D00-B11C-66C4D31B024F/resource/4B0C00ED-C271-4A3E-A547-3C00EE6BF3E4/download",
+        "effective_url": "https://opdadm.moi.gov.tw/api/v1/no-auth/resource/api/dataset/2C7688CB-B505-4D00-B11C-66C4D31B024F/resource/4B0C00ED-C271-4A3E-A547-3C00EE6BF3E4/download",
+        "downloaded_at": "2026-10-24T14:45:13+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/csv;charset=UTF-8",
+        "bytes": 4410232,
+        "raw_file": "raw_data/moi_village_age/moi_village_age_2026-09.csv"
+      },
+      "sources": [
+        {
+          "page_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+          "requested_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+          "effective_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+          "downloaded_at": "2026-10-24T15:05:18+08:00",
+          "source_data_time": null,
+          "http_status": 200,
+          "http_last_modified": "Fri, 04 Sep 2026 13:00:41 GMT",
+          "content_type": "text/html; charset=UTF-8",
+          "bytes": 24525,
+          "raw_file": "raw_data/national_village_age/ris_catalog.html"
+        },
+        {
+          "page_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+          "requested_url": "https://www.ris.gov.tw/documents/data/5/1/11509VillageUTF8.txt",
+          "effective_url": "https://www.ris.gov.tw/documents/data/5/1/11509VillageUTF8.txt",
+          "downloaded_at": "2026-10-24T15:05:18+08:00",
+          "source_data_time": null,
+          "http_status": 200,
+          "http_last_modified": "Fri, 04 Sep 2026 13:00:41 GMT",
+          "content_type": "text/plain; charset=UTF-8",
+          "bytes": 241310,
+          "raw_file": "raw_data/national_village_age/11509VillageUTF8.txt"
+        },
+        {
+          "page_url": "https://data.gov.tw/dataset/7438",
+          "requested_url": "https://data.gov.tw/dataset/7438",
+          "effective_url": "https://data.gov.tw/dataset/7438",
+          "downloaded_at": "2026-10-24T15:05:20+08:00",
+          "source_data_time": null,
+          "http_status": 200,
+          "http_last_modified": null,
+          "content_type": "text/html;charset=utf-8",
+          "bytes": 520693,
+          "raw_file": "raw_data/national_village_age/boundary_catalog.html"
+        },
+        {
+          "page_url": "https://data.gov.tw/dataset/7438",
+          "requested_url": "https://www.tgos.tw/tgos/VirtualDir/Product/a04697c8-64db-450a-a105-3eb471c45abd/%E6%9D%91(%E9%87%8C)%E7%95%8C(TWD97%E7%B6%93%E7%B7%AF%E5%BA%A6).zip",
+          "effective_url": "https://www.tgos.tw/tgos/VirtualDir/Product/a04697c8-64db-450a-a105-3eb471c45abd/%E6%9D%91(%E9%87%8C)%E7%95%8C(TWD97%E7%B6%93%E7%B7%AF%E5%BA%A6).zip",
+          "downloaded_at": "2026-10-24T15:05:21+08:00",
+          "source_data_time": null,
+          "http_status": 200,
+          "http_last_modified": "Tue, 25 Aug 2026 05:59:39 GMT",
+          "content_type": "application/x-zip-compressed",
+          "bytes": 21618481,
+          "raw_file": "map-data/raw/national_village_age/villages.zip"
+        }
+      ],
+      "checks": {
+        "raw_roster_count": 7781,
+        "raw_boundary_count": 7987,
+        "population_village_count": 7781,
+        "raw_layers": [
+          {
+            "layer": "VILLAGE_NLSC_1150817",
+            "feature_count": 7986,
+            "source_crs": "EPSG:3824",
+            "boundary_vintage": "2026-08-17",
+            "same_archive_distribution": true,
+            "vintage_evidence": "dated SHP filename"
+          },
+          {
+            "layer": "Village_Sanhe",
+            "feature_count": 1,
+            "source_crs": "EPSG:3824",
+            "boundary_vintage": null,
+            "same_archive_distribution": true,
+            "vintage_evidence": "unknown; ZIP member timestamps are not geometry dates"
+          }
+        ],
+        "boundary_only_unassigned_count": 206,
+        "name_variant_count": 23,
+        "explicit_alias_count": 6,
+        "unreviewed_name_variant_codes": [
+          "10007010030",
+          "10007140010",
+          "10008040005",
+          "10009130003",
+          "10009170018",
+          "10009180016",
+          "10009180021",
+          "10009200021",
+          "10013170001",
+          "10016010031",
+          "10020020018",
+          "66000220004",
+          "67000140004",
+          "67000180018",
+          "67000300008",
+          "67000350003",
+          "67000350024"
+        ],
+        "supplemental_overlap_pairs": [
+          {
+            "supplement_area_id": "10013280006",
+            "main_area_id": "10013130022",
+            "independent_overlap_area_m2": 327963.36
+          },
+          {
+            "supplement_area_id": "10013280006",
+            "main_area_id": "10013130021",
+            "independent_overlap_area_m2": 1597982.54
+          },
+          {
+            "supplement_area_id": "10013280006",
+            "main_area_id": "10013130023",
+            "independent_overlap_area_m2": 3010.52
+          },
+          {
+            "supplement_area_id": "10013280006",
+            "main_area_id": "10013100007",
+            "independent_overlap_area_m2": 842481.9
+          },
+          {
+            "supplement_area_id": "10013280006",
+            "main_area_id": "10013060016",
+            "independent_overlap_area_m2": 1247849.63
+          },
+          {
+            "supplement_area_id": "10013280006",
+            "main_area_id": "10013060012",
+            "independent_overlap_area_m2": 1318120.19
+          }
+        ],
+        "excluded_conflicting_codes": [
+          "10013060012",
+          "10013060016",
+          "10013100007",
+          "10013130021",
+          "10013130022",
+          "10013130023",
+          "10013280006"
+        ],
+        "northern_full_geometry_count": 1677,
+        "maximum_geometry_distance_degrees": 0.0,
+        "geometry_difference_codes": [],
+        "failure_count": 0,
+        "failures": []
+      }
+    },
+    {
+      "file": "data/population/national_village_crosswalk_2026-09.json.gz",
+      "output_path": "data/population/national_village_crosswalk_2026-09.json.gz",
+      "review_status": "pass_with_limitations",
+      "record_count": 7987,
+      "reviewed_generated_at": "2026-10-24T15:05:21+08:00",
+      "population_source": {
+        "page_url": "https://data.gov.tw/dataset/77132",
+        "requested_url": "https://opdadm.moi.gov.tw/api/v1/no-auth/resource/api/dataset/2C7688CB-B505-4D00-B11C-66C4D31B024F/resource/4B0C00ED-C271-4A3E-A547-3C00EE6BF3E4/download",
+        "effective_url": "https://opdadm.moi.gov.tw/api/v1/no-auth/resource/api/dataset/2C7688CB-B505-4D00-B11C-66C4D31B024F/resource/4B0C00ED-C271-4A3E-A547-3C00EE6BF3E4/download",
+        "downloaded_at": "2026-10-24T14:45:13+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/csv;charset=UTF-8",
+        "bytes": 4410232,
+        "raw_file": "raw_data/moi_village_age/moi_village_age_2026-09.csv"
+      },
+      "sources": [
+        {
+          "page_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+          "requested_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+          "effective_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+          "downloaded_at": "2026-10-24T15:05:18+08:00",
+          "source_data_time": null,
+          "http_status": 200,
+          "http_last_modified": "Fri, 04 Sep 2026 13:00:41 GMT",
+          "content_type": "text/html; charset=UTF-8",
+          "bytes": 24525,
+          "raw_file": "raw_data/national_village_age/ris_catalog.html"
+        },
+        {
+          "page_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+          "requested_url": "https://www.ris.gov.tw/documents/data/5/1/11509VillageUTF8.txt",
+          "effective_url": "https://www.ris.gov.tw/documents/data/5/1/11509VillageUTF8.txt",
+          "downloaded_at": "2026-10-24T15:05:18+08:00",
+          "source_data_time": null,
+          "http_status": 200,
+          "http_last_modified": "Fri, 04 Sep 2026 13:00:41 GMT",
+          "content_type": "text/plain; charset=UTF-8",
+          "bytes": 241310,
+          "raw_file": "raw_data/national_village_age/11509VillageUTF8.txt"
+        },
+        {
+          "page_url": "https://data.gov.tw/dataset/7438",
+          "requested_url": "https://data.gov.tw/dataset/7438",
+          "effective_url": "https://data.gov.tw/dataset/7438",
+          "downloaded_at": "2026-10-24T15:05:20+08:00",
+          "source_data_time": null,
+          "http_status": 200,
+          "http_last_modified": null,
+          "content_type": "text/html;charset=utf-8",
+          "bytes": 520693,
+          "raw_file": "raw_data/national_village_age/boundary_catalog.html"
+        },
+        {
+          "page_url": "https://data.gov.tw/dataset/7438",
+          "requested_url": "https://www.tgos.tw/tgos/VirtualDir/Product/a04697c8-64db-450a-a105-3eb471c45abd/%E6%9D%91(%E9%87%8C)%E7%95%8C(TWD97%E7%B6%93%E7%B7%AF%E5%BA%A6).zip",
+          "effective_url": "https://www.tgos.tw/tgos/VirtualDir/Product/a04697c8-64db-450a-a105-3eb471c45abd/%E6%9D%91(%E9%87%8C)%E7%95%8C(TWD97%E7%B6%93%E7%B7%AF%E5%BA%A6).zip",
+          "downloaded_at": "2026-10-24T15:05:21+08:00",
+          "source_data_time": null,
+          "http_status": 200,
+          "http_last_modified": "Tue, 25 Aug 2026 05:59:39 GMT",
+          "content_type": "application/x-zip-compressed",
+          "bytes": 21618481,
+          "raw_file": "map-data/raw/national_village_age/villages.zip"
+        }
+      ],
+      "checks": {
+        "raw_roster_count": 7781,
+        "raw_boundary_count": 7987,
+        "population_village_count": 7781,
+        "raw_layers": [
+          {
+            "layer": "VILLAGE_NLSC_1150817",
+            "feature_count": 7986,
+            "source_crs": "EPSG:3824",
+            "boundary_vintage": "2026-08-17",
+            "same_archive_distribution": true,
+            "vintage_evidence": "dated SHP filename"
+          },
+          {
+            "layer": "Village_Sanhe",
+            "feature_count": 1,
+            "source_crs": "EPSG:3824",
+            "boundary_vintage": null,
+            "same_archive_distribution": true,
+            "vintage_evidence": "unknown; ZIP member timestamps are not geometry dates"
+          }
+        ],
+        "boundary_only_unassigned_count": 206,
+        "name_variant_count": 23,
+        "explicit_alias_count": 6,
+        "unreviewed_name_variant_codes": [
+          "10007010030",
+          "10007140010",
+          "10008040005",
+          "10009130003",
+          "10009170018",
+          "10009180016",
+          "10009180021",
+          "10009200021",
+          "10013170001",
+          "10016010031",
+          "10020020018",
+          "66000220004",
+          "67000140004",
+          "67000180018",
+          "67000300008",
+          "67000350003",
+          "67000350024"
+        ],
+        "supplemental_overlap_pairs": [
+          {
+            "supplement_area_id": "10013280006",
+            "main_area_id": "10013130022",
+            "independent_overlap_area_m2": 327963.36
+          },
+          {
+            "supplement_area_id": "10013280006",
+            "main_area_id": "10013130021",
+            "independent_overlap_area_m2": 1597982.54
+          },
+          {
+            "supplement_area_id": "10013280006",
+            "main_area_id": "10013130023",
+            "independent_overlap_area_m2": 3010.52
+          },
+          {
+            "supplement_area_id": "10013280006",
+            "main_area_id": "10013100007",
+            "independent_overlap_area_m2": 842481.9
+          },
+          {
+            "supplement_area_id": "10013280006",
+            "main_area_id": "10013060016",
+            "independent_overlap_area_m2": 1247849.63
+          },
+          {
+            "supplement_area_id": "10013280006",
+            "main_area_id": "10013060012",
+            "independent_overlap_area_m2": 1318120.19
+          }
+        ],
+        "excluded_conflicting_codes": [
+          "10013060012",
+          "10013060016",
+          "10013100007",
+          "10013130021",
+          "10013130022",
+          "10013130023",
+          "10013280006"
+        ],
+        "northern_full_geometry_count": 1677,
+        "maximum_geometry_distance_degrees": 0.0,
+        "geometry_difference_codes": [],
+        "failure_count": 0,
+        "failures": []
+      }
+    },
+    {
+      "file": "map-data/population/moi_village_age_2026-09.geojson.gz",
+      "output_path": "map-data/population/moi_village_age_2026-09.geojson.gz",
+      "review_status": "pass_with_limitations",
+      "record_count": 1677,
+      "reviewed_generated_at": "2026-10-24T15:05:21+08:00",
+      "population_source": {
+        "page_url": "https://data.gov.tw/dataset/77132",
+        "requested_url": "https://opdadm.moi.gov.tw/api/v1/no-auth/resource/api/dataset/2C7688CB-B505-4D00-B11C-66C4D31B024F/resource/4B0C00ED-C271-4A3E-A547-3C00EE6BF3E4/download",
+        "effective_url": "https://opdadm.moi.gov.tw/api/v1/no-auth/resource/api/dataset/2C7688CB-B505-4D00-B11C-66C4D31B024F/resource/4B0C00ED-C271-4A3E-A547-3C00EE6BF3E4/download",
+        "downloaded_at": "2026-10-24T14:45:13+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/csv;charset=UTF-8",
+        "bytes": 4410232,
+        "raw_file": "raw_data/moi_village_age/moi_village_age_2026-09.csv"
+      },
+      "sources": [
+        {
+          "page_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+          "requested_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+          "effective_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+          "downloaded_at": "2026-10-24T15:05:18+08:00",
+          "source_data_time": null,
+          "http_status": 200,
+          "http_last_modified": "Fri, 04 Sep 2026 13:00:41 GMT",
+          "content_type": "text/html; charset=UTF-8",
+          "bytes": 24525,
+          "raw_file": "raw_data/national_village_age/ris_catalog.html"
+        },
+        {
+          "page_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+          "requested_url": "https://www.ris.gov.tw/documents/data/5/1/11509VillageUTF8.txt",
+          "effective_url": "https://www.ris.gov.tw/documents/data/5/1/11509VillageUTF8.txt",
+          "downloaded_at": "2026-10-24T15:05:18+08:00",
+          "source_data_time": null,
+          "http_status": 200,
+          "http_last_modified": "Fri, 04 Sep 2026 13:00:41 GMT",
+          "content_type": "text/plain; charset=UTF-8",
+          "bytes": 241310,
+          "raw_file": "raw_data/national_village_age/11509VillageUTF8.txt"
+        },
+        {
+          "page_url": "https://data.gov.tw/dataset/7438",
+          "requested_url": "https://data.gov.tw/dataset/7438",
+          "effective_url": "https://data.gov.tw/dataset/7438",
+          "downloaded_at": "2026-10-24T15:05:20+08:00",
+          "source_data_time": null,
+          "http_status": 200,
+          "http_last_modified": null,
+          "content_type": "text/html;charset=utf-8",
+          "bytes": 520693,
+          "raw_file": "raw_data/national_village_age/boundary_catalog.html"
+        },
+        {
+          "page_url": "https://data.gov.tw/dataset/7438",
+          "requested_url": "https://www.tgos.tw/tgos/VirtualDir/Product/a04697c8-64db-450a-a105-3eb471c45abd/%E6%9D%91(%E9%87%8C)%E7%95%8C(TWD97%E7%B6%93%E7%B7%AF%E5%BA%A6).zip",
+          "effective_url": "https://www.tgos.tw/tgos/VirtualDir/Product/a04697c8-64db-450a-a105-3eb471c45abd/%E6%9D%91(%E9%87%8C)%E7%95%8C(TWD97%E7%B6%93%E7%B7%AF%E5%BA%A6).zip",
+          "downloaded_at": "2026-10-24T15:05:21+08:00",
+          "source_data_time": null,
+          "http_status": 200,
+          "http_last_modified": "Tue, 25 Aug 2026 05:59:39 GMT",
+          "content_type": "application/x-zip-compressed",
+          "bytes": 21618481,
+          "raw_file": "map-data/raw/national_village_age/villages.zip"
+        }
+      ],
+      "checks": {
+        "raw_roster_count": 7781,
+        "raw_boundary_count": 7987,
+        "population_village_count": 7781,
+        "raw_layers": [
+          {
+            "layer": "VILLAGE_NLSC_1150817",
+            "feature_count": 7986,
+            "source_crs": "EPSG:3824",
+            "boundary_vintage": "2026-08-17",
+            "same_archive_distribution": true,
+            "vintage_evidence": "dated SHP filename"
+          },
+          {
+            "layer": "Village_Sanhe",
+            "feature_count": 1,
+            "source_crs": "EPSG:3824",
+            "boundary_vintage": null,
+            "same_archive_distribution": true,
+            "vintage_evidence": "unknown; ZIP member timestamps are not geometry dates"
+          }
+        ],
+        "boundary_only_unassigned_count": 206,
+        "name_variant_count": 23,
+        "explicit_alias_count": 6,
+        "unreviewed_name_variant_codes": [
+          "10007010030",
+          "10007140010",
+          "10008040005",
+          "10009130003",
+          "10009170018",
+          "10009180016",
+          "10009180021",
+          "10009200021",
+          "10013170001",
+          "10016010031",
+          "10020020018",
+          "66000220004",
+          "67000140004",
+          "67000180018",
+          "67000300008",
+          "67000350003",
+          "67000350024"
+        ],
+        "supplemental_overlap_pairs": [
+          {
+            "supplement_area_id": "10013280006",
+            "main_area_id": "10013130022",
+            "independent_overlap_area_m2": 327963.36
+          },
+          {
+            "supplement_area_id": "10013280006",
+            "main_area_id": "10013130021",
+            "independent_overlap_area_m2": 1597982.54
+          },
+          {
+            "supplement_area_id": "10013280006",
+            "main_area_id": "10013130023",
+            "independent_overlap_area_m2": 3010.52
+          },
+          {
+            "supplement_area_id": "10013280006",
+            "main_area_id": "10013100007",
+            "independent_overlap_area_m2": 842481.9
+          },
+          {
+            "supplement_area_id": "10013280006",
+            "main_area_id": "10013060016",
+            "independent_overlap_area_m2": 1247849.63
+          },
+          {
+            "supplement_area_id": "10013280006",
+            "main_area_id": "10013060012",
+            "independent_overlap_area_m2": 1318120.19
+          }
+        ],
+        "excluded_conflicting_codes": [
+          "10013060012",
+          "10013060016",
+          "10013100007",
+          "10013130021",
+          "10013130022",
+          "10013130023",
+          "10013280006"
+        ],
+        "northern_full_geometry_count": 1677,
+        "maximum_geometry_distance_degrees": 0.0,
+        "geometry_difference_codes": [],
+        "failure_count": 0,
+        "failures": []
+      }
+    }
+  ]
+}

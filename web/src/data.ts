@@ -1,4 +1,6 @@
 import type { Feature, FeatureCollection, Polygon } from 'geojson';
+import { retryableLoader } from './age';
+import { createStationAgeLoader, loadCompressedJSON, parseVillageAges } from './ageLoader';
 import { ALL_DAY, DAY_COLUMN, NO_SCHEDULE, NO_STOP, SCALES } from './config';
 import type { AppState, CoreMapData, Coverage, Grid, GridCell, NeedGrid, StationCatchments, SupplementalData } from './types';
 
@@ -64,6 +66,9 @@ export function loadCatchments(): Promise<StationCatchments> {
   });
   return catchments;
 }
+
+export const loadVillageAges = retryableLoader(() => loadCompressedJSON(DATA + 'village_age.geojson', parseVillageAges));
+export const loadStationAges = createStationAgeLoader(DATA);
 
 export function scaleFor(state: Pick<AppState, 'cell' | 'hour'>) {
   return SCALES[state.cell][state.hour === ALL_DAY ? 'daily' : 'hourly'];

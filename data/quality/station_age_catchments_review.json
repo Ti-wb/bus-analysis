@@ -1,0 +1,1311 @@
+{
+  "schema_version": 1,
+  "dataset_id": "independent_station_age_catchments_review",
+  "metadata": {
+    "reviewer_agent": "/root/national_reference",
+    "producer_imported": false,
+    "reviewed_at": "2026-10-24T16:06:39+08:00",
+    "status": "pass_with_limitations",
+    "method": "All displayed local+regional bus ID unions and source collision checks, MRT/YouBike IDs and radius/status records; independent FNV-1a UTF-8 routing and full 32-part union/value/metadata/gzip equivalence; independently projected full geometry, vectorized overlap pairs, manually constructed 256-vertex circles, scalar density arithmetic, and union areas for four stations including one regional original ID across all three radii.",
+    "limitations": [
+      "12個站圈數值為分層抽樣重算（包含新增跨市站）；未逐一重算所有站圈，完整ID/半徑/狀態及拓樸集合另作全量核對。",
+      "均勻面積人口估算不等於實際乘客；相鄰站圈、兩套年齡分組不可加總。"
+    ]
+  },
+  "records": [
+    {
+      "file": "web/public/data/station_age_catchments.json",
+      "output_path": "web/public/data/station_age_catchments.json",
+      "record_count": 40348,
+      "review_status": "pass_with_limitations",
+      "reviewed_generated_at": "2026-10-24T15:05:21+08:00",
+      "population_source": {
+        "page_url": "https://data.gov.tw/dataset/77132",
+        "requested_url": "https://opdadm.moi.gov.tw/api/v1/no-auth/resource/api/dataset/2C7688CB-B505-4D00-B11C-66C4D31B024F/resource/4B0C00ED-C271-4A3E-A547-3C00EE6BF3E4/download",
+        "effective_url": "https://opdadm.moi.gov.tw/api/v1/no-auth/resource/api/dataset/2C7688CB-B505-4D00-B11C-66C4D31B024F/resource/4B0C00ED-C271-4A3E-A547-3C00EE6BF3E4/download",
+        "downloaded_at": "2026-10-24T14:45:13+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/csv;charset=UTF-8",
+        "bytes": 4410232,
+        "raw_file": "raw_data/moi_village_age/moi_village_age_2026-09.csv"
+      },
+      "reviewed_built_at": "2026-10-24T08:03:40+00:00",
+      "sources": [
+        {
+          "page_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+          "requested_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+          "effective_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+          "downloaded_at": "2026-10-24T15:05:18+08:00",
+          "source_data_time": null,
+          "http_status": 200,
+          "http_last_modified": "Fri, 04 Sep 2026 13:00:41 GMT",
+          "content_type": "text/html; charset=UTF-8",
+          "bytes": 24525,
+          "raw_file": "raw_data/national_village_age/ris_catalog.html"
+        },
+        {
+          "page_url": "https://www.ris.gov.tw/documents/html/5/1/167.html",
+          "requested_url": "https://www.ris.gov.tw/documents/data/5/1/11509VillageUTF8.txt",
+          "effective_url": "https://www.ris.gov.tw/documents/data/5/1/11509VillageUTF8.txt",
+          "downloaded_at": "2026-10-24T15:05:18+08:00",
+          "source_data_time": null,
+          "http_status": 200,
+          "http_last_modified": "Fri, 04 Sep 2026 13:00:41 GMT",
+          "content_type": "text/plain; charset=UTF-8",
+          "bytes": 241310,
+          "raw_file": "raw_data/national_village_age/11509VillageUTF8.txt"
+        },
+        {
+          "page_url": "https://data.gov.tw/dataset/7438",
+          "requested_url": "https://data.gov.tw/dataset/7438",
+          "effective_url": "https://data.gov.tw/dataset/7438",
+          "downloaded_at": "2026-10-24T15:05:20+08:00",
+          "source_data_time": null,
+          "http_status": 200,
+          "http_last_modified": null,
+          "content_type": "text/html;charset=utf-8",
+          "bytes": 520693,
+          "raw_file": "raw_data/national_village_age/boundary_catalog.html"
+        },
+        {
+          "page_url": "https://data.gov.tw/dataset/7438",
+          "requested_url": "https://www.tgos.tw/tgos/VirtualDir/Product/a04697c8-64db-450a-a105-3eb471c45abd/%E6%9D%91(%E9%87%8C)%E7%95%8C(TWD97%E7%B6%93%E7%B7%AF%E5%BA%A6).zip",
+          "effective_url": "https://www.tgos.tw/tgos/VirtualDir/Product/a04697c8-64db-450a-a105-3eb471c45abd/%E6%9D%91(%E9%87%8C)%E7%95%8C(TWD97%E7%B6%93%E7%B7%AF%E5%BA%A6).zip",
+          "downloaded_at": "2026-10-24T15:05:21+08:00",
+          "source_data_time": null,
+          "http_status": 200,
+          "http_last_modified": "Tue, 25 Aug 2026 05:59:39 GMT",
+          "content_type": "application/x-zip-compressed",
+          "bytes": 21618481,
+          "raw_file": "map-data/raw/national_village_age/villages.zip"
+        }
+      ],
+      "checks": {
+        "station_namespace_counts": {
+          "bus": 38372,
+          "mrt": 154,
+          "youbike": 1822
+        },
+        "station_source_counts": {
+          "bus_stops": 5376,
+          "regional_bus_stops": 32996,
+          "mrt": 154,
+          "youbike": 1822
+        },
+        "unsupported_station_ids_by_namespace": {
+          "bus": [],
+          "mrt": [],
+          "youbike": []
+        },
+        "bus_id_collision_check_passed": true,
+        "station_radius_status_counts": {
+          "complete": 112402,
+          "partial": 7962,
+          "no_boundary": 680
+        },
+        "independent_overlap_pair_count": 0,
+        "sample_station_count": 4,
+        "sample_radius_count": 12,
+        "station_layer_metadata": {
+          "bus_stops.geojson": {
+            "source": "data/taipei_feeds（臺北市公共運輸處 blob）",
+            "source_data_time": "2026-10-21T22:03:04+08:00",
+            "weekday_departures": "代表平日（週三）各附線計畫發車數加總；固定班表優先，否則以班距區間估算",
+            "route_membership": "route_ids 依 route_stop_sequences 的 stop_location_id／route_id 精確連接；route_names_by_id 依 routes 的 route_id 取名稱，缺名稱為 null；routes 是獨立排序的名稱清單，不與 route_ids 按位置對應"
+          },
+          "regional_bus_stops.geojson": {
+            "crs": "EPSG:4326",
+            "coordinate_order": "[longitude, latitude]",
+            "sources": [
+              {
+                "path": "data/official_cross_city/service_coverage/NewTaipei_StopOfRoute.json.gz",
+                "dataset_id": "regional_bus_NewTaipei_StopOfRoute",
+                "source_updated_at": "2026-10-24T09:56:05+08:00",
+                "period": null,
+                "sources": [
+                  {
+                    "source_page": "https://tdx.transportdata.tw/api-service/swagger/basic/2998e851-81d0-40f5-b26d-77e2f5ac4118",
+                    "download_url": "https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/City/NewTaipei?%24format=JSON&%24top=500&%24skip=0&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+                    "raw_file": "raw_data/official_cross_city/service_coverage/responses/NewTaipei_StopOfRoute_skip_0_top_500.json.gz",
+                    "source_updated_at": null,
+                    "downloaded_at": "2026-10-24T11:26:21+08:00"
+                  },
+                  {
+                    "source_page": "https://tdx.transportdata.tw/api-service/swagger/basic/2998e851-81d0-40f5-b26d-77e2f5ac4118",
+                    "download_url": "https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/City/NewTaipei?%24format=JSON&%24top=500&%24skip=500&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+                    "raw_file": "raw_data/official_cross_city/service_coverage/responses/NewTaipei_StopOfRoute_skip_500_top_500.json.gz",
+                    "source_updated_at": null,
+                    "downloaded_at": "2026-10-24T11:26:36+08:00"
+                  },
+                  {
+                    "source_page": "https://tdx.transportdata.tw/api-service/swagger/basic/2998e851-81d0-40f5-b26d-77e2f5ac4118",
+                    "download_url": "https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/City/NewTaipei?%24format=JSON&%24top=500&%24skip=1000&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+                    "raw_file": "raw_data/official_cross_city/service_coverage/responses/NewTaipei_StopOfRoute_skip_1000_top_500.json.gz",
+                    "source_updated_at": null,
+                    "downloaded_at": "2026-10-24T11:26:51+08:00"
+                  }
+                ]
+              },
+              {
+                "path": "data/official_cross_city/id_evidence/ntpc_tdx_stop_sequences.json.gz",
+                "dataset_id": "ntpc_tdx_complete_stop_sequence_evidence",
+                "source_updated_at": null,
+                "period": null,
+                "sources": [
+                  {
+                    "source_page": "https://tdx.transportdata.tw/api-service/swagger/basic/2998e851-81d0-40f5-b26d-77e2f5ac4118",
+                    "download_url": "https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/City/NewTaipei?%24format=JSON&%24top=500&%24skip=0&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+                    "raw_file": "raw_data/official_cross_city/service_coverage/responses/NewTaipei_StopOfRoute_skip_0_top_500.json.gz",
+                    "source_updated_at": null,
+                    "downloaded_at": "2026-10-24T11:26:21+08:00"
+                  },
+                  {
+                    "source_page": "https://tdx.transportdata.tw/api-service/swagger/basic/2998e851-81d0-40f5-b26d-77e2f5ac4118",
+                    "download_url": "https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/City/NewTaipei?%24format=JSON&%24top=500&%24skip=500&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+                    "raw_file": "raw_data/official_cross_city/service_coverage/responses/NewTaipei_StopOfRoute_skip_500_top_500.json.gz",
+                    "source_updated_at": null,
+                    "downloaded_at": "2026-10-24T11:26:36+08:00"
+                  },
+                  {
+                    "source_page": "https://tdx.transportdata.tw/api-service/swagger/basic/2998e851-81d0-40f5-b26d-77e2f5ac4118",
+                    "download_url": "https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/City/NewTaipei?%24format=JSON&%24top=500&%24skip=1000&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+                    "raw_file": "raw_data/official_cross_city/service_coverage/responses/NewTaipei_StopOfRoute_skip_1000_top_500.json.gz",
+                    "source_updated_at": null,
+                    "downloaded_at": "2026-10-24T11:26:51+08:00"
+                  },
+                  {
+                    "page_url": "https://data.taipei/dataset/detail?id=2a8f5f42-942c-4974-8366-b44e90ad9701",
+                    "requested_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetRoute.gz",
+                    "raw_file": "raw_data/official_cross_city/crosswalk/ntpc_route_feed.gz",
+                    "source_data_time": null,
+                    "downloaded_at": "2026-10-24T10:45:29+08:00"
+                  },
+                  {
+                    "page_url": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=C668AE404DCD2EFE",
+                    "requested_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetStop.gz",
+                    "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_GetStop.gz",
+                    "source_data_time": null,
+                    "downloaded_at": "2026-10-24T11:15:18+08:00"
+                  },
+                  {
+                    "page_url": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=C668AE404DCD2EFE",
+                    "requested_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetPathDetail.gz",
+                    "raw_file": "raw_data/official_cross_city/id_evidence/ntpc_GetPathDetail.gz",
+                    "source_data_time": null,
+                    "downloaded_at": "2026-10-24T11:15:18+08:00"
+                  }
+                ]
+              },
+              {
+                "path": "data/official_cross_city/ntpc_leapfrog_crosswalk.json",
+                "dataset_id": "ntpc_leapfrog_crosswalk",
+                "source_updated_at": null,
+                "period": null,
+                "sources": [
+                  {
+                    "page_url": "https://data.gov.tw/dataset/123112",
+                    "requested_url": "https://data.ntpc.gov.tw/api/datasets/0ee4e6bf-cee6-4ec8-8fe1-71f544015127/csv/file",
+                    "raw_file": "raw_data/official_cross_city/crosswalk/ntpc_routes.csv",
+                    "source_data_time": null,
+                    "downloaded_at": "2026-10-24T10:45:11+08:00"
+                  },
+                  {
+                    "page_url": "https://data.gov.tw/dataset/123091",
+                    "requested_url": "https://data.ntpc.gov.tw/api/datasets/34b402a8-53d9-483d-9406-24a682c2d6dc/csv/file",
+                    "raw_file": "raw_data/official_cross_city/crosswalk/ntpc_stops.csv",
+                    "source_data_time": null,
+                    "downloaded_at": "2026-10-24T10:45:12+08:00"
+                  },
+                  {
+                    "page_url": "https://data.gov.tw/dataset/174364",
+                    "requested_url": "https://data.ntpc.gov.tw/api/datasets/f5e9a430-f337-476f-801e-dc167a112aa2/csv/file",
+                    "raw_file": "raw_data/official_cross_city/crosswalk/ntpc_leapfrog.csv",
+                    "source_data_time": null,
+                    "downloaded_at": "2026-10-24T10:45:12+08:00"
+                  },
+                  {
+                    "page_url": "https://data.taipei/dataset/detail?id=2a8f5f42-942c-4974-8366-b44e90ad9701",
+                    "requested_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetRoute.gz",
+                    "raw_file": "raw_data/official_cross_city/crosswalk/ntpc_route_feed.gz",
+                    "source_data_time": null,
+                    "downloaded_at": "2026-10-24T10:45:29+08:00"
+                  },
+                  {
+                    "page_url": "https://data.taipei/dataset/detail?id=2a8f5f42-942c-4974-8366-b44e90ad9701",
+                    "requested_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetStop.gz",
+                    "raw_file": "raw_data/official_cross_city/crosswalk/ntpc_stop_feed.gz",
+                    "source_data_time": null,
+                    "downloaded_at": "2026-10-24T10:46:39+08:00"
+                  },
+                  {
+                    "page_url": "https://data.taipei/dataset/detail?id=2a8f5f42-942c-4974-8366-b44e90ad9701",
+                    "requested_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetPathDetail.gz",
+                    "raw_file": "raw_data/official_cross_city/crosswalk/ntpc_pathdetail.gz",
+                    "source_data_time": null,
+                    "downloaded_at": "2026-10-24T10:45:13+08:00"
+                  },
+                  {
+                    "page_url": "https://ebus.gov.taipei/EBus2/RouteList2?ct=ntpc",
+                    "requested_url": "https://ebus.gov.taipei/EBus2/RouteList2?ct=ntpc",
+                    "raw_file": "raw_data/official_cross_city/crosswalk/ebus_ntpc_routes.html",
+                    "source_data_time": null,
+                    "downloaded_at": "2026-10-24T10:47:03+08:00"
+                  }
+                ]
+              }
+            ],
+            "source_updated_at": "2026-10-24T09:56:05+08:00",
+            "period": null,
+            "data_kind": "retained_published_station_sequence_snapshot",
+            "license": {
+              "name": "TDX 服務條款",
+              "url": "https://tdx.transportdata.tw/term"
+            },
+            "identity_policy": "Exact route UID + subroute UID + direction and literal station sequence verified by retained ntpc_tdx_stop_sequences evidence; leapfrog category uses explicit IDs only.",
+            "missing_coordinate_memberships": 0,
+            "limitations": [
+              "依官方已核對站序連接的示意線，不是道路線形、實際車輛位置或當日營運證明。",
+              "只增加新北官方發布模型；跳蛙依已核實的官方類別 ID，不依路線名稱猜測。",
+              "站點保留新北 stop_uid 命名空間及座標變體，不以名稱或鄰近位置合併臺北站點。",
+              "不將新北站點加入既有臺北市班次、覆蓋或需求模型；新北 weekday_departures 為 null。"
+            ],
+            "built_at": "2026-10-24T08:03:40+00:00",
+            "independent_review_report": "data/quality/web_supplemental_review.json"
+          },
+          "mrt_stations.geojson": {
+            "source": "https://download.geofabrik.de/asia/taiwan.html",
+            "source_updated_at": "2026-10-20T20:23:47Z",
+            "attribution": "© OpenStreetMap contributors; processed by Geofabrik",
+            "license": "ODbL-1.0",
+            "selection": "OSM railway_station within about 80 m of a selected metro line; deduplicated by name"
+          },
+          "youbike_stations.geojson": {
+            "source": "data/youbike/stations.geojson（臺北市政府交通局 YouBike 2.0）",
+            "source_data_time": "2026-10-24T11:58:03+08:00",
+            "limitations": "只有站點與總停車格數，沒有即時可借車數，也不代表使用量；只含臺北市站點。"
+          }
+        },
+        "canonical_plain_bytes": 122072912,
+        "canonical_gzip_bytes": 7523406,
+        "station_shards": {
+          "algorithm": "fnv1a32-utf8-mod32",
+          "shard_count": 32,
+          "canonical_station_count": 40348,
+          "unique_shard_station_count": 40348,
+          "station_counts_by_shard": {
+            "part-00.json": 1249,
+            "part-01.json": 1287,
+            "part-02.json": 1271,
+            "part-03.json": 1269,
+            "part-04.json": 1254,
+            "part-05.json": 1254,
+            "part-06.json": 1253,
+            "part-07.json": 1226,
+            "part-08.json": 1264,
+            "part-09.json": 1231,
+            "part-10.json": 1277,
+            "part-11.json": 1279,
+            "part-12.json": 1239,
+            "part-13.json": 1257,
+            "part-14.json": 1281,
+            "part-15.json": 1273,
+            "part-16.json": 1275,
+            "part-17.json": 1286,
+            "part-18.json": 1256,
+            "part-19.json": 1237,
+            "part-20.json": 1230,
+            "part-21.json": 1259,
+            "part-22.json": 1267,
+            "part-23.json": 1247,
+            "part-24.json": 1264,
+            "part-25.json": 1266,
+            "part-26.json": 1263,
+            "part-27.json": 1274,
+            "part-28.json": 1274,
+            "part-29.json": 1284,
+            "part-30.json": 1256,
+            "part-31.json": 1246
+          },
+          "failure_count": 0,
+          "failures": [],
+          "gzip_plain_comparisons": 32,
+          "file_sizes": [
+            {
+              "file": "part-00.json",
+              "plain_bytes": 3786719,
+              "gzip_bytes": 253068
+            },
+            {
+              "file": "part-01.json",
+              "plain_bytes": 3904801,
+              "gzip_bytes": 264049
+            },
+            {
+              "file": "part-02.json",
+              "plain_bytes": 3853817,
+              "gzip_bytes": 257894
+            },
+            {
+              "file": "part-03.json",
+              "plain_bytes": 3848314,
+              "gzip_bytes": 258295
+            },
+            {
+              "file": "part-04.json",
+              "plain_bytes": 3805215,
+              "gzip_bytes": 257778
+            },
+            {
+              "file": "part-05.json",
+              "plain_bytes": 3803070,
+              "gzip_bytes": 256127
+            },
+            {
+              "file": "part-06.json",
+              "plain_bytes": 3801204,
+              "gzip_bytes": 255644
+            },
+            {
+              "file": "part-07.json",
+              "plain_bytes": 3718422,
+              "gzip_bytes": 249971
+            },
+            {
+              "file": "part-08.json",
+              "plain_bytes": 3834170,
+              "gzip_bytes": 257273
+            },
+            {
+              "file": "part-09.json",
+              "plain_bytes": 3732420,
+              "gzip_bytes": 251267
+            },
+            {
+              "file": "part-10.json",
+              "plain_bytes": 3874398,
+              "gzip_bytes": 260026
+            },
+            {
+              "file": "part-11.json",
+              "plain_bytes": 3879937,
+              "gzip_bytes": 261974
+            },
+            {
+              "file": "part-12.json",
+              "plain_bytes": 3756199,
+              "gzip_bytes": 250176
+            },
+            {
+              "file": "part-13.json",
+              "plain_bytes": 3812815,
+              "gzip_bytes": 256560
+            },
+            {
+              "file": "part-14.json",
+              "plain_bytes": 3887594,
+              "gzip_bytes": 262892
+            },
+            {
+              "file": "part-15.json",
+              "plain_bytes": 3862596,
+              "gzip_bytes": 261664
+            },
+            {
+              "file": "part-16.json",
+              "plain_bytes": 3865236,
+              "gzip_bytes": 257783
+            },
+            {
+              "file": "part-17.json",
+              "plain_bytes": 3902493,
+              "gzip_bytes": 263331
+            },
+            {
+              "file": "part-18.json",
+              "plain_bytes": 3809807,
+              "gzip_bytes": 256106
+            },
+            {
+              "file": "part-19.json",
+              "plain_bytes": 3751279,
+              "gzip_bytes": 252282
+            },
+            {
+              "file": "part-20.json",
+              "plain_bytes": 3729499,
+              "gzip_bytes": 248543
+            },
+            {
+              "file": "part-21.json",
+              "plain_bytes": 3817459,
+              "gzip_bytes": 254593
+            },
+            {
+              "file": "part-22.json",
+              "plain_bytes": 3842787,
+              "gzip_bytes": 257761
+            },
+            {
+              "file": "part-23.json",
+              "plain_bytes": 3784472,
+              "gzip_bytes": 256751
+            },
+            {
+              "file": "part-24.json",
+              "plain_bytes": 3834125,
+              "gzip_bytes": 257956
+            },
+            {
+              "file": "part-25.json",
+              "plain_bytes": 3840890,
+              "gzip_bytes": 259293
+            },
+            {
+              "file": "part-26.json",
+              "plain_bytes": 3831168,
+              "gzip_bytes": 254846
+            },
+            {
+              "file": "part-27.json",
+              "plain_bytes": 3866846,
+              "gzip_bytes": 261071
+            },
+            {
+              "file": "part-28.json",
+              "plain_bytes": 3863240,
+              "gzip_bytes": 261351
+            },
+            {
+              "file": "part-29.json",
+              "plain_bytes": 3896673,
+              "gzip_bytes": 262696
+            },
+            {
+              "file": "part-30.json",
+              "plain_bytes": 3808958,
+              "gzip_bytes": 255896
+            },
+            {
+              "file": "part-31.json",
+              "plain_bytes": 3778814,
+              "gzip_bytes": 252774
+            }
+          ],
+          "total_plain_bytes": 122385437,
+          "total_gzip_bytes": 8227691
+        },
+        "display_village_count": 1677,
+        "failure_count": 0,
+        "failures": []
+      },
+      "samples": [
+        {
+          "category": "complete",
+          "namespace": "youbike",
+          "station_source": "youbike",
+          "station_id": "500101001",
+          "displayed_coordinate_wgs84": [
+            121.5436,
+            25.02605
+          ],
+          "radius_m": 200,
+          "expected": {
+            "population_estimate": 6266.42,
+            "population_known_estimate": 6266.42,
+            "boundary_share": 1.0,
+            "data_share": 1.0,
+            "population_data_share": 1.0,
+            "outside_boundary_share": 0.0,
+            "village_count": 6,
+            "unmatched_village_count": 0,
+            "geometry_conflict_village_count": 0,
+            "missing_population_village_count": 0,
+            "unknown_village_count": 0,
+            "age_group_estimates": {
+              "age_0_14": 822.17,
+              "age_15_64": 3684.44,
+              "age_65_plus": 1759.81,
+              "age_0_5": 228.85,
+              "age_6_17": 729.96,
+              "age_18_64": 3547.8,
+              "age_65_74": 983.77,
+              "age_75_plus": 776.03
+            },
+            "age_group_known_estimates": {
+              "age_0_14": 822.17,
+              "age_15_64": 3684.44,
+              "age_65_plus": 1759.81,
+              "age_0_5": 228.85,
+              "age_6_17": 729.96,
+              "age_18_64": 3547.8,
+              "age_65_74": 983.77,
+              "age_75_plus": 776.03
+            },
+            "age_group_data_shares": {
+              "age_0_14": 1.0,
+              "age_15_64": 1.0,
+              "age_65_plus": 1.0,
+              "age_0_5": 1.0,
+              "age_6_17": 1.0,
+              "age_18_64": 1.0,
+              "age_65_74": 1.0,
+              "age_75_plus": 1.0
+            },
+            "age_group_unknown_village_counts": {
+              "age_0_14": 0,
+              "age_15_64": 0,
+              "age_65_plus": 0,
+              "age_0_5": 0,
+              "age_6_17": 0,
+              "age_18_64": 0,
+              "age_65_74": 0,
+              "age_75_plus": 0
+            },
+            "status": "complete"
+          },
+          "status": "passed",
+          "mismatched_fields": []
+        },
+        {
+          "category": "complete",
+          "namespace": "youbike",
+          "station_source": "youbike",
+          "station_id": "500101001",
+          "displayed_coordinate_wgs84": [
+            121.5436,
+            25.02605
+          ],
+          "radius_m": 350,
+          "expected": {
+            "population_estimate": 18073.06,
+            "population_known_estimate": 18073.06,
+            "boundary_share": 1.0,
+            "data_share": 1.0,
+            "population_data_share": 1.0,
+            "outside_boundary_share": 0.0,
+            "village_count": 9,
+            "unmatched_village_count": 0,
+            "geometry_conflict_village_count": 0,
+            "missing_population_village_count": 0,
+            "unknown_village_count": 0,
+            "age_group_estimates": {
+              "age_0_14": 2451.51,
+              "age_15_64": 10623.37,
+              "age_65_plus": 4998.18,
+              "age_0_5": 679.0,
+              "age_6_17": 2177.33,
+              "age_18_64": 10218.54,
+              "age_65_74": 2789.55,
+              "age_75_plus": 2208.63
+            },
+            "age_group_known_estimates": {
+              "age_0_14": 2451.51,
+              "age_15_64": 10623.37,
+              "age_65_plus": 4998.18,
+              "age_0_5": 679.0,
+              "age_6_17": 2177.33,
+              "age_18_64": 10218.54,
+              "age_65_74": 2789.55,
+              "age_75_plus": 2208.63
+            },
+            "age_group_data_shares": {
+              "age_0_14": 1.0,
+              "age_15_64": 1.0,
+              "age_65_plus": 1.0,
+              "age_0_5": 1.0,
+              "age_6_17": 1.0,
+              "age_18_64": 1.0,
+              "age_65_74": 1.0,
+              "age_75_plus": 1.0
+            },
+            "age_group_unknown_village_counts": {
+              "age_0_14": 0,
+              "age_15_64": 0,
+              "age_65_plus": 0,
+              "age_0_5": 0,
+              "age_6_17": 0,
+              "age_18_64": 0,
+              "age_65_74": 0,
+              "age_75_plus": 0
+            },
+            "status": "complete"
+          },
+          "status": "passed",
+          "mismatched_fields": []
+        },
+        {
+          "category": "complete",
+          "namespace": "youbike",
+          "station_source": "youbike",
+          "station_id": "500101001",
+          "displayed_coordinate_wgs84": [
+            121.5436,
+            25.02605
+          ],
+          "radius_m": 500,
+          "expected": {
+            "population_estimate": 32394.04,
+            "population_known_estimate": 32394.04,
+            "boundary_share": 1.0,
+            "data_share": 1.0,
+            "population_data_share": 1.0,
+            "outside_boundary_share": 0.0,
+            "village_count": 12,
+            "unmatched_village_count": 0,
+            "geometry_conflict_village_count": 0,
+            "missing_population_village_count": 0,
+            "unknown_village_count": 0,
+            "age_group_estimates": {
+              "age_0_14": 4624.16,
+              "age_15_64": 19125.59,
+              "age_65_plus": 8644.29,
+              "age_0_5": 1246.7,
+              "age_6_17": 4168.37,
+              "age_18_64": 18334.69,
+              "age_65_74": 4713.44,
+              "age_75_plus": 3930.84
+            },
+            "age_group_known_estimates": {
+              "age_0_14": 4624.16,
+              "age_15_64": 19125.59,
+              "age_65_plus": 8644.29,
+              "age_0_5": 1246.7,
+              "age_6_17": 4168.37,
+              "age_18_64": 18334.69,
+              "age_65_74": 4713.44,
+              "age_75_plus": 3930.84
+            },
+            "age_group_data_shares": {
+              "age_0_14": 1.0,
+              "age_15_64": 1.0,
+              "age_65_plus": 1.0,
+              "age_0_5": 1.0,
+              "age_6_17": 1.0,
+              "age_18_64": 1.0,
+              "age_65_74": 1.0,
+              "age_75_plus": 1.0
+            },
+            "age_group_unknown_village_counts": {
+              "age_0_14": 0,
+              "age_15_64": 0,
+              "age_65_plus": 0,
+              "age_0_5": 0,
+              "age_6_17": 0,
+              "age_18_64": 0,
+              "age_65_74": 0,
+              "age_75_plus": 0
+            },
+            "status": "complete"
+          },
+          "status": "passed",
+          "mismatched_fields": []
+        },
+        {
+          "category": "partial_with_unmatched_boundary",
+          "namespace": "bus",
+          "station_source": "bus_stops",
+          "station_id": "1755",
+          "displayed_coordinate_wgs84": [
+            121.50246,
+            25.04234
+          ],
+          "radius_m": 200,
+          "expected": {
+            "population_estimate": 3180.21,
+            "population_known_estimate": 3180.21,
+            "boundary_share": 1.0,
+            "data_share": 1.0,
+            "population_data_share": 1.0,
+            "outside_boundary_share": 0.0,
+            "village_count": 3,
+            "unmatched_village_count": 0,
+            "geometry_conflict_village_count": 0,
+            "missing_population_village_count": 0,
+            "unknown_village_count": 0,
+            "age_group_estimates": {
+              "age_0_14": 246.51,
+              "age_15_64": 2057.88,
+              "age_65_plus": 875.82,
+              "age_0_5": 82.33,
+              "age_6_17": 230.2,
+              "age_18_64": 1991.86,
+              "age_65_74": 524.53,
+              "age_75_plus": 351.29
+            },
+            "age_group_known_estimates": {
+              "age_0_14": 246.51,
+              "age_15_64": 2057.88,
+              "age_65_plus": 875.82,
+              "age_0_5": 82.33,
+              "age_6_17": 230.2,
+              "age_18_64": 1991.86,
+              "age_65_74": 524.53,
+              "age_75_plus": 351.29
+            },
+            "age_group_data_shares": {
+              "age_0_14": 1.0,
+              "age_15_64": 1.0,
+              "age_65_plus": 1.0,
+              "age_0_5": 1.0,
+              "age_6_17": 1.0,
+              "age_18_64": 1.0,
+              "age_65_74": 1.0,
+              "age_75_plus": 1.0
+            },
+            "age_group_unknown_village_counts": {
+              "age_0_14": 0,
+              "age_15_64": 0,
+              "age_65_plus": 0,
+              "age_0_5": 0,
+              "age_6_17": 0,
+              "age_18_64": 0,
+              "age_65_74": 0,
+              "age_75_plus": 0
+            },
+            "status": "complete"
+          },
+          "status": "passed",
+          "mismatched_fields": []
+        },
+        {
+          "category": "partial_with_unmatched_boundary",
+          "namespace": "bus",
+          "station_source": "bus_stops",
+          "station_id": "1755",
+          "displayed_coordinate_wgs84": [
+            121.50246,
+            25.04234
+          ],
+          "radius_m": 350,
+          "expected": {
+            "population_estimate": 10171.35,
+            "population_known_estimate": 10171.35,
+            "boundary_share": 1.0,
+            "data_share": 1.0,
+            "population_data_share": 1.0,
+            "outside_boundary_share": 0.0,
+            "village_count": 7,
+            "unmatched_village_count": 0,
+            "geometry_conflict_village_count": 0,
+            "missing_population_village_count": 0,
+            "unknown_village_count": 0,
+            "age_group_estimates": {
+              "age_0_14": 788.85,
+              "age_15_64": 6540.12,
+              "age_65_plus": 2842.38,
+              "age_0_5": 265.99,
+              "age_6_17": 729.74,
+              "age_18_64": 6333.24,
+              "age_65_74": 1704.5,
+              "age_75_plus": 1137.88
+            },
+            "age_group_known_estimates": {
+              "age_0_14": 788.85,
+              "age_15_64": 6540.12,
+              "age_65_plus": 2842.38,
+              "age_0_5": 265.99,
+              "age_6_17": 729.74,
+              "age_18_64": 6333.24,
+              "age_65_74": 1704.5,
+              "age_75_plus": 1137.88
+            },
+            "age_group_data_shares": {
+              "age_0_14": 1.0,
+              "age_15_64": 1.0,
+              "age_65_plus": 1.0,
+              "age_0_5": 1.0,
+              "age_6_17": 1.0,
+              "age_18_64": 1.0,
+              "age_65_74": 1.0,
+              "age_75_plus": 1.0
+            },
+            "age_group_unknown_village_counts": {
+              "age_0_14": 0,
+              "age_15_64": 0,
+              "age_65_plus": 0,
+              "age_0_5": 0,
+              "age_6_17": 0,
+              "age_18_64": 0,
+              "age_65_74": 0,
+              "age_75_plus": 0
+            },
+            "status": "complete"
+          },
+          "status": "passed",
+          "mismatched_fields": []
+        },
+        {
+          "category": "partial_with_unmatched_boundary",
+          "namespace": "bus",
+          "station_source": "bus_stops",
+          "station_id": "1755",
+          "displayed_coordinate_wgs84": [
+            121.50246,
+            25.04234
+          ],
+          "radius_m": 500,
+          "expected": {
+            "population_estimate": null,
+            "population_known_estimate": 20059.39,
+            "boundary_share": 1.0,
+            "data_share": 0.947078,
+            "population_data_share": 0.947078,
+            "outside_boundary_share": 0.0,
+            "village_count": 10,
+            "unmatched_village_count": 1,
+            "geometry_conflict_village_count": 0,
+            "missing_population_village_count": 0,
+            "unknown_village_count": 1,
+            "age_group_estimates": {
+              "age_0_14": null,
+              "age_15_64": null,
+              "age_65_plus": null,
+              "age_0_5": null,
+              "age_6_17": null,
+              "age_18_64": null,
+              "age_65_74": null,
+              "age_75_plus": null
+            },
+            "age_group_known_estimates": {
+              "age_0_14": 1556.5,
+              "age_15_64": 12841.48,
+              "age_65_plus": 5661.42,
+              "age_0_5": 531.12,
+              "age_6_17": 1422.18,
+              "age_18_64": 12444.67,
+              "age_65_74": 3398.43,
+              "age_75_plus": 2262.99
+            },
+            "age_group_data_shares": {
+              "age_0_14": 0.947078,
+              "age_15_64": 0.947078,
+              "age_65_plus": 0.947078,
+              "age_0_5": 0.947078,
+              "age_6_17": 0.947078,
+              "age_18_64": 0.947078,
+              "age_65_74": 0.947078,
+              "age_75_plus": 0.947078
+            },
+            "age_group_unknown_village_counts": {
+              "age_0_14": 1,
+              "age_15_64": 1,
+              "age_65_plus": 1,
+              "age_0_5": 1,
+              "age_6_17": 1,
+              "age_18_64": 1,
+              "age_65_74": 1,
+              "age_75_plus": 1
+            },
+            "status": "partial"
+          },
+          "status": "passed",
+          "mismatched_fields": []
+        },
+        {
+          "category": "outside_boundary_edge",
+          "namespace": "mrt",
+          "station_source": "mrt",
+          "station_id": "3812564425",
+          "displayed_coordinate_wgs84": [
+            121.4119,
+            25.02208
+          ],
+          "radius_m": 200,
+          "expected": {
+            "population_estimate": null,
+            "population_known_estimate": 3562.91,
+            "boundary_share": 0.991374,
+            "data_share": 0.991374,
+            "population_data_share": 0.991374,
+            "outside_boundary_share": 0.008626,
+            "village_count": 3,
+            "unmatched_village_count": 0,
+            "geometry_conflict_village_count": 0,
+            "missing_population_village_count": 0,
+            "unknown_village_count": 0,
+            "age_group_estimates": {
+              "age_0_14": null,
+              "age_15_64": null,
+              "age_65_plus": null,
+              "age_0_5": null,
+              "age_6_17": null,
+              "age_18_64": null,
+              "age_65_74": null,
+              "age_75_plus": null
+            },
+            "age_group_known_estimates": {
+              "age_0_14": 486.07,
+              "age_15_64": 2570.35,
+              "age_65_plus": 506.49,
+              "age_0_5": 117.87,
+              "age_6_17": 468.43,
+              "age_18_64": 2470.12,
+              "age_65_74": 362.23,
+              "age_75_plus": 144.26
+            },
+            "age_group_data_shares": {
+              "age_0_14": 0.991374,
+              "age_15_64": 0.991374,
+              "age_65_plus": 0.991374,
+              "age_0_5": 0.991374,
+              "age_6_17": 0.991374,
+              "age_18_64": 0.991374,
+              "age_65_74": 0.991374,
+              "age_75_plus": 0.991374
+            },
+            "age_group_unknown_village_counts": {
+              "age_0_14": 0,
+              "age_15_64": 0,
+              "age_65_plus": 0,
+              "age_0_5": 0,
+              "age_6_17": 0,
+              "age_18_64": 0,
+              "age_65_74": 0,
+              "age_75_plus": 0
+            },
+            "status": "partial"
+          },
+          "status": "passed",
+          "mismatched_fields": []
+        },
+        {
+          "category": "outside_boundary_edge",
+          "namespace": "mrt",
+          "station_source": "mrt",
+          "station_id": "3812564425",
+          "displayed_coordinate_wgs84": [
+            121.4119,
+            25.02208
+          ],
+          "radius_m": 350,
+          "expected": {
+            "population_estimate": null,
+            "population_known_estimate": 8932.33,
+            "boundary_share": 0.908462,
+            "data_share": 0.908462,
+            "population_data_share": 0.908462,
+            "outside_boundary_share": 0.091538,
+            "village_count": 4,
+            "unmatched_village_count": 0,
+            "geometry_conflict_village_count": 0,
+            "missing_population_village_count": 0,
+            "unknown_village_count": 0,
+            "age_group_estimates": {
+              "age_0_14": null,
+              "age_15_64": null,
+              "age_65_plus": null,
+              "age_0_5": null,
+              "age_6_17": null,
+              "age_18_64": null,
+              "age_65_74": null,
+              "age_75_plus": null
+            },
+            "age_group_known_estimates": {
+              "age_0_14": 1279.43,
+              "age_15_64": 6407.02,
+              "age_65_plus": 1245.88,
+              "age_0_5": 313.58,
+              "age_6_17": 1229.76,
+              "age_18_64": 6143.11,
+              "age_65_74": 891.18,
+              "age_75_plus": 354.7
+            },
+            "age_group_data_shares": {
+              "age_0_14": 0.908462,
+              "age_15_64": 0.908462,
+              "age_65_plus": 0.908462,
+              "age_0_5": 0.908462,
+              "age_6_17": 0.908462,
+              "age_18_64": 0.908462,
+              "age_65_74": 0.908462,
+              "age_75_plus": 0.908462
+            },
+            "age_group_unknown_village_counts": {
+              "age_0_14": 0,
+              "age_15_64": 0,
+              "age_65_plus": 0,
+              "age_0_5": 0,
+              "age_6_17": 0,
+              "age_18_64": 0,
+              "age_65_74": 0,
+              "age_75_plus": 0
+            },
+            "status": "partial"
+          },
+          "status": "passed",
+          "mismatched_fields": []
+        },
+        {
+          "category": "outside_boundary_edge",
+          "namespace": "mrt",
+          "station_source": "mrt",
+          "station_id": "3812564425",
+          "displayed_coordinate_wgs84": [
+            121.4119,
+            25.02208
+          ],
+          "radius_m": 500,
+          "expected": {
+            "population_estimate": null,
+            "population_known_estimate": 15061.1,
+            "boundary_share": 0.853797,
+            "data_share": 0.853797,
+            "population_data_share": 0.853797,
+            "outside_boundary_share": 0.146203,
+            "village_count": 5,
+            "unmatched_village_count": 0,
+            "geometry_conflict_village_count": 0,
+            "missing_population_village_count": 0,
+            "unknown_village_count": 0,
+            "age_group_estimates": {
+              "age_0_14": null,
+              "age_15_64": null,
+              "age_65_plus": null,
+              "age_0_5": null,
+              "age_6_17": null,
+              "age_18_64": null,
+              "age_65_74": null,
+              "age_75_plus": null
+            },
+            "age_group_known_estimates": {
+              "age_0_14": 2218.03,
+              "age_15_64": 10743.73,
+              "age_65_plus": 2099.33,
+              "age_0_5": 550.17,
+              "age_6_17": 2125.91,
+              "age_18_64": 10285.68,
+              "age_65_74": 1498.23,
+              "age_75_plus": 601.1
+            },
+            "age_group_data_shares": {
+              "age_0_14": 0.853797,
+              "age_15_64": 0.853797,
+              "age_65_plus": 0.853797,
+              "age_0_5": 0.853797,
+              "age_6_17": 0.853797,
+              "age_18_64": 0.853797,
+              "age_65_74": 0.853797,
+              "age_75_plus": 0.853797
+            },
+            "age_group_unknown_village_counts": {
+              "age_0_14": 0,
+              "age_15_64": 0,
+              "age_65_plus": 0,
+              "age_0_5": 0,
+              "age_6_17": 0,
+              "age_18_64": 0,
+              "age_65_74": 0,
+              "age_75_plus": 0
+            },
+            "status": "partial"
+          },
+          "status": "passed",
+          "mismatched_fields": []
+        },
+        {
+          "category": "regional_original_station",
+          "namespace": "bus",
+          "station_source": "regional_bus_stops",
+          "station_id": "NWT20146",
+          "displayed_coordinate_wgs84": [
+            121.4909948,
+            24.98982846
+          ],
+          "radius_m": 200,
+          "expected": {
+            "population_estimate": 1075.46,
+            "population_known_estimate": 1075.46,
+            "boundary_share": 1.0,
+            "data_share": 1.0,
+            "population_data_share": 1.0,
+            "outside_boundary_share": 0.0,
+            "village_count": 4,
+            "unmatched_village_count": 0,
+            "geometry_conflict_village_count": 0,
+            "missing_population_village_count": 0,
+            "unknown_village_count": 0,
+            "age_group_estimates": {
+              "age_0_14": 117.17,
+              "age_15_64": 734.39,
+              "age_65_plus": 223.9,
+              "age_0_5": 28.66,
+              "age_6_17": 118.73,
+              "age_18_64": 704.16,
+              "age_65_74": 150.43,
+              "age_75_plus": 73.47
+            },
+            "age_group_known_estimates": {
+              "age_0_14": 117.17,
+              "age_15_64": 734.39,
+              "age_65_plus": 223.9,
+              "age_0_5": 28.66,
+              "age_6_17": 118.73,
+              "age_18_64": 704.16,
+              "age_65_74": 150.43,
+              "age_75_plus": 73.47
+            },
+            "age_group_data_shares": {
+              "age_0_14": 1.0,
+              "age_15_64": 1.0,
+              "age_65_plus": 1.0,
+              "age_0_5": 1.0,
+              "age_6_17": 1.0,
+              "age_18_64": 1.0,
+              "age_65_74": 1.0,
+              "age_75_plus": 1.0
+            },
+            "age_group_unknown_village_counts": {
+              "age_0_14": 0,
+              "age_15_64": 0,
+              "age_65_plus": 0,
+              "age_0_5": 0,
+              "age_6_17": 0,
+              "age_18_64": 0,
+              "age_65_74": 0,
+              "age_75_plus": 0
+            },
+            "status": "complete"
+          },
+          "status": "passed",
+          "mismatched_fields": []
+        },
+        {
+          "category": "regional_original_station",
+          "namespace": "bus",
+          "station_source": "regional_bus_stops",
+          "station_id": "NWT20146",
+          "displayed_coordinate_wgs84": [
+            121.4909948,
+            24.98982846
+          ],
+          "radius_m": 350,
+          "expected": {
+            "population_estimate": 3515.0,
+            "population_known_estimate": 3515.0,
+            "boundary_share": 1.0,
+            "data_share": 1.0,
+            "population_data_share": 1.0,
+            "outside_boundary_share": 0.0,
+            "village_count": 4,
+            "unmatched_village_count": 0,
+            "geometry_conflict_village_count": 0,
+            "missing_population_village_count": 0,
+            "unknown_village_count": 0,
+            "age_group_estimates": {
+              "age_0_14": 380.24,
+              "age_15_64": 2397.54,
+              "age_65_plus": 737.22,
+              "age_0_5": 93.37,
+              "age_6_17": 383.54,
+              "age_18_64": 2300.88,
+              "age_65_74": 496.99,
+              "age_75_plus": 240.22
+            },
+            "age_group_known_estimates": {
+              "age_0_14": 380.24,
+              "age_15_64": 2397.54,
+              "age_65_plus": 737.22,
+              "age_0_5": 93.37,
+              "age_6_17": 383.54,
+              "age_18_64": 2300.88,
+              "age_65_74": 496.99,
+              "age_75_plus": 240.22
+            },
+            "age_group_data_shares": {
+              "age_0_14": 1.0,
+              "age_15_64": 1.0,
+              "age_65_plus": 1.0,
+              "age_0_5": 1.0,
+              "age_6_17": 1.0,
+              "age_18_64": 1.0,
+              "age_65_74": 1.0,
+              "age_75_plus": 1.0
+            },
+            "age_group_unknown_village_counts": {
+              "age_0_14": 0,
+              "age_15_64": 0,
+              "age_65_plus": 0,
+              "age_0_5": 0,
+              "age_6_17": 0,
+              "age_18_64": 0,
+              "age_65_74": 0,
+              "age_75_plus": 0
+            },
+            "status": "complete"
+          },
+          "status": "passed",
+          "mismatched_fields": []
+        },
+        {
+          "category": "regional_original_station",
+          "namespace": "bus",
+          "station_source": "regional_bus_stops",
+          "station_id": "NWT20146",
+          "displayed_coordinate_wgs84": [
+            121.4909948,
+            24.98982846
+          ],
+          "radius_m": 500,
+          "expected": {
+            "population_estimate": 8739.81,
+            "population_known_estimate": 8739.81,
+            "boundary_share": 1.0,
+            "data_share": 1.0,
+            "population_data_share": 1.0,
+            "outside_boundary_share": 0.0,
+            "village_count": 9,
+            "unmatched_village_count": 0,
+            "geometry_conflict_village_count": 0,
+            "missing_population_village_count": 0,
+            "unknown_village_count": 0,
+            "age_group_estimates": {
+              "age_0_14": 928.07,
+              "age_15_64": 5970.76,
+              "age_65_plus": 1840.98,
+              "age_0_5": 235.31,
+              "age_6_17": 932.41,
+              "age_18_64": 5731.11,
+              "age_65_74": 1237.59,
+              "age_75_plus": 603.39
+            },
+            "age_group_known_estimates": {
+              "age_0_14": 928.07,
+              "age_15_64": 5970.76,
+              "age_65_plus": 1840.98,
+              "age_0_5": 235.31,
+              "age_6_17": 932.41,
+              "age_18_64": 5731.11,
+              "age_65_74": 1237.59,
+              "age_75_plus": 603.39
+            },
+            "age_group_data_shares": {
+              "age_0_14": 1.0,
+              "age_15_64": 1.0,
+              "age_65_plus": 1.0,
+              "age_0_5": 1.0,
+              "age_6_17": 1.0,
+              "age_18_64": 1.0,
+              "age_65_74": 1.0,
+              "age_75_plus": 1.0
+            },
+            "age_group_unknown_village_counts": {
+              "age_0_14": 0,
+              "age_15_64": 0,
+              "age_65_plus": 0,
+              "age_0_5": 0,
+              "age_6_17": 0,
+              "age_18_64": 0,
+              "age_65_74": 0,
+              "age_75_plus": 0
+            },
+            "status": "complete"
+          },
+          "status": "passed",
+          "mismatched_fields": []
+        }
+      ]
+    }
+  ]
+}

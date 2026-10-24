@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "dataset_id": "independent_moi_village_age_review",
+  "metadata": {
+    "reviewer_agent": "/root/interface_audit",
+    "independent_of_producer": true,
+    "reviewed_at": "2026-10-24T15:45:48+08:00",
+    "reviewed_generated_at": "2026-10-24T14:45:13+08:00",
+    "reviewed_source": {
+      "page_url": "https://data.gov.tw/dataset/77132",
+      "requested_url": "https://opdadm.moi.gov.tw/api/v1/no-auth/resource/api/dataset/2C7688CB-B505-4D00-B11C-66C4D31B024F/resource/4B0C00ED-C271-4A3E-A547-3C00EE6BF3E4/download",
+      "effective_url": "https://opdadm.moi.gov.tw/api/v1/no-auth/resource/api/dataset/2C7688CB-B505-4D00-B11C-66C4D31B024F/resource/4B0C00ED-C271-4A3E-A547-3C00EE6BF3E4/download",
+      "downloaded_at": "2026-10-24T14:45:13+08:00",
+      "source_data_time": null,
+      "http_status": 200,
+      "http_last_modified": null,
+      "content_type": "text/csv;charset=UTF-8",
+      "bytes": 4410232,
+      "raw_file": "raw_data/moi_village_age/moi_village_age_2026-09.csv"
+    },
+    "period": "2026-09",
+    "status": "pass_with_limitations",
+    "record_count": 1,
+    "script": "scripts/review_moi_village_age.py",
+    "method": "Independent stdlib CSV/gzip field, type, Unicode, age, sex, month, null and source receipt reconciliation; no collector imports.",
+    "limitations": [
+      "戶籍年齡人口是居住人口參考，不是實際乘客、白天活動人口、通勤 OD 或公車搭乘需求。",
+      "只加總 sex=total；不可再加上 male/female，100_plus 是開放上限，不是精確 100 歲。",
+      "本人口月檔維持 boundary_join_status=not_verified；清冊／特定版本里界的另行核對見 national_village_age_review.json，不推定最小統計區或公車站點 ID 關聯。",
+      "站點人口仍為既有統計區面積分攤估算；本資料未接入站點年齡估算或需求權重，前端維持此範圍的年齡缺資料狀態。",
+      "此報告僅驗證所列本地官方 CSV 與輸出快照，不表示政府來源之後未修訂。"
+    ]
+  },
+  "records": [
+    {
+      "file": "data/population/moi_village_age_2026-09.json.gz",
+      "output_path": "data/population/moi_village_age_2026-09.json.gz",
+      "reviewed_generated_at": "2026-10-24T14:45:13+08:00",
+      "source": {
+        "page_url": "https://data.gov.tw/dataset/77132",
+        "requested_url": "https://opdadm.moi.gov.tw/api/v1/no-auth/resource/api/dataset/2C7688CB-B505-4D00-B11C-66C4D31B024F/resource/4B0C00ED-C271-4A3E-A547-3C00EE6BF3E4/download",
+        "effective_url": "https://opdadm.moi.gov.tw/api/v1/no-auth/resource/api/dataset/2C7688CB-B505-4D00-B11C-66C4D31B024F/resource/4B0C00ED-C271-4A3E-A547-3C00EE6BF3E4/download",
+        "downloaded_at": "2026-10-24T14:45:13+08:00",
+        "source_data_time": null,
+        "http_status": 200,
+        "http_last_modified": null,
+        "content_type": "text/csv;charset=UTF-8",
+        "bytes": 4410232,
+        "raw_file": "raw_data/moi_village_age/moi_village_age_2026-09.csv"
+      },
+      "record_count": 23343,
+      "review_status": "pass_with_limitations",
+      "checks": {
+        "source_column_count": 210,
+        "source_village_count": 7781,
+        "expected_sex_record_count": 23343,
+        "source_output_cell_difference_count": 0,
+        "all_source_villages_have_exactly_three_sexes": true,
+        "all_101_age_bins_and_source_fields_match": true,
+        "source_county_village_counts": {
+          "09007": 22,
+          "09020": 37,
+          "10002": 237,
+          "10004": 193,
+          "10005": 277,
+          "10007": 591,
+          "10008": 263,
+          "10009": 392,
+          "10010": 358,
+          "10013": 443,
+          "10014": 139,
+          "10015": 178,
+          "10016": 96,
+          "10017": 157,
+          "10018": 122,
+          "10020": 84,
+          "63000": 456,
+          "64000": 893,
+          "65000": 1039,
+          "66000": 625,
+          "67000": 650,
+          "68000": 529
+        },
+        "source_county_population_totals": {
+          "09007": 13660,
+          "09020": 137490,
+          "10002": 447883,
+          "10004": 598229,
+          "10005": 529012,
+          "10007": 1200447,
+          "10008": 465984,
+          "10009": 645881,
+          "10010": 468974,
+          "10013": 777252,
+          "10014": 207454,
+          "10015": 310550,
+          "10016": 106725,
+          "10017": 357575,
+          "10018": 455731,
+          "10020": 261429,
+          "63000": 2418872,
+          "64000": 2705240,
+          "65000": 4034572,
+          "66000": 2866367,
+          "67000": 1845313,
+          "68000": 2358611
+        },
+        "population_total_counting_only_total_sex": 23213251,
+        "source_missing_numeric_cells": 0,
+        "source_reconciliation": {
+          "sex_population": {
+            "verified": 7781,
+            "inconclusive": 0
+          },
+          "age_population": {
+            "verified": 23343,
+            "inconclusive": 0
+          }
+        },
+        "aggregation_sex": "total_only",
+        "boundary_join_status": "not_verified",
+        "frontend": {
+          "file": "web/src/components/StationInfo.tsx",
+          "registered_population_estimate_label": true,
+          "not_ridership_label": true,
+          "age_empty_state_is_station_scope": true,
+          "no_false_source_age_absence": true
+        },
+        "failure_count": 0,
+        "failures": []
+      },
+      "limitations": [
+        "戶籍年齡人口是居住人口參考，不是實際乘客、白天活動人口、通勤 OD 或公車搭乘需求。",
+        "只加總 sex=total；不可再加上 male/female，100_plus 是開放上限，不是精確 100 歲。",
+        "本人口月檔維持 boundary_join_status=not_verified；清冊／特定版本里界的另行核對見 national_village_age_review.json，不推定最小統計區或公車站點 ID 關聯。",
+        "站點人口仍為既有統計區面積分攤估算；本資料未接入站點年齡估算或需求權重，前端維持此範圍的年齡缺資料狀態。",
+        "此報告僅驗證所列本地官方 CSV 與輸出快照，不表示政府來源之後未修訂。"
+      ]
+    }
+  ]
+}

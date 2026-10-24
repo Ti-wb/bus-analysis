@@ -312,3 +312,13 @@ export function placesLayer(members: string[]): StyleLayer {
     },
   };
 }
+
+
+export const villageAgeFillLayer: StyleLayer = {
+  id: 'village-age-fill', type: 'fill',
+  paint: { 'fill-color': ['get', 'color'], 'fill-opacity': 0.76, 'fill-outline-color': 'rgba(255,255,255,0.8)' },
+};
+export const villageAgeOutlineLayer: Extract<StyleLayer, { type: 'line' }> = {
+  id: 'village-age-selected', type: 'line',
+  paint: { 'line-color': '#032c68', 'line-width': 3 },
+};
