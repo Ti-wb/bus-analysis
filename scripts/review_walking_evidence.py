@@ -144,7 +144,7 @@ def check_facilities(sources, delivered):
         feature, p = actual[key], actual[key]["properties"]
         require(shape(feature["geometry"]).equals_exact(geom, 1e-12), "Facility raw geometry: " + key)
         require(p["source_name"] == row["kname"] and p["source_width"] == row.get("width") and p["source_slope"] == row.get("slope")
-                and p["facility_type"] == row["kind"] and p["source_record_sequence"] == str(index)
+                and p["facility_type"] == row["kind"] and type(p["source_record_sequence"]) is int and p["source_record_sequence"] == index
                 and p["source_updated_at"] is None and p["geometry_valid"] == (geom.is_valid and not geom.is_empty), "Facility fields: " + key)
         usable = geom.is_valid and not geom.is_empty and row["kind"] in {"11", "12", "13"}
         require(p["usable_for_connector"] == usable, "Invalid facility cannot create connector")

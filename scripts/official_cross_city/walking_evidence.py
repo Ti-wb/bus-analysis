@@ -167,7 +167,7 @@ def facilities(sources):
             diagnostics[f"{name}_selected"] += 1
             if not valid:
                 diagnostics[f"{name}_invalid_selected"] += 1
-            props = {"facility_record_id": sid, "source_record_sequence": str(index),
+            props = {"facility_record_id": sid, "source_record_sequence": index,
                      "facility_type": kind, "source_name": row["kname"],
                      "source_width": row.get("width"), "source_slope": row.get("slope"),
                      "source_updated_at": None, "geometry_valid": valid,
