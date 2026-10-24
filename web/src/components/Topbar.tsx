@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import type { AnalysisMode } from '../types';
 
+const CHIPS: Record<AnalysisMode, [string, string]> = {
+  frequency: ['公車班次網格', '計畫班表，非實際運量'],
+  coverage: ['雙層站點覆蓋', '直線半徑，非實際路網'],
+  need: ['需求落差', '研究草案，權重為假設'],
+};
+
 interface Props {
   mode: AnalysisMode;
   aboutActive: boolean;
@@ -30,8 +36,8 @@ export default function Topbar({ mode, aboutActive, onAbout, onShare }: Props) {
         <button className={`tab${aboutActive ? ' is-active' : ''}`} onClick={onAbout}>資料與方法</button>
       </nav>
       <div className="topbar-right">
-        <span className="chip chip-teal">{mode === 'frequency' ? '公車班次網格' : '雙層站點覆蓋'}</span>
-        <span className="chip chip-amber">{mode === 'frequency' ? '計畫班表，非實際運量' : '直線半徑，非實際路網'}</span>
+        <span className="chip chip-teal">{CHIPS[mode][0]}</span>
+        <span className="chip chip-amber">{CHIPS[mode][1]}</span>
         <button className="btn-outline" onClick={share}>{shareText}</button>
       </div>
     </header>
