@@ -35,6 +35,7 @@ const LOCAL_STYLE: StyleSpecification = {
 const LAYER_GROUP_OF: Record<string, LayerGroup> = Object.fromEntries(
   Object.entries(LAYER_GROUPS).flatMap(([group, ids]) => ids.map((id) => [id, group as LayerGroup])),
 );
+const POPUP_LAYERS = ['bus-routes', 'regional-bus-routes', 'traffic-sections', 'bus-travel-times', 'villages-fill'];
 
 interface Props {
   editor?: EditorMapProps;
@@ -268,7 +269,9 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
   const handleMouseMove = (e: MapLayerMouseEvent) => {
     const feature = featureAt(e);
     const canvas = mapRef.current!.getCanvas();
-    canvas.style.cursor = feature && !/^(grid|need)/.test(feature.layer.id) ? 'pointer' : '';
+    const clickable = feature && (STATION_LAYERS.includes(feature.layer.id)
+      || POPUP_LAYERS.includes(feature.layer.id) || feature.layer.id === ROUTE_STOP_PICKER);
+    canvas.style.cursor = clickable ? 'pointer' : '';
     const { x, y } = e.point;
     if (feature) setHover({ feature, x, y });
     else if (state.mode === 'coverage' && !villageView && coverage) {
@@ -287,7 +290,7 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
       onStation(stationFromFeature(feature, data), mapRef.current!.getCanvas());
       setPopup(null);
       setHover(null);
-    } else if (feature && ['bus-routes', 'regional-bus-routes', 'traffic-sections', 'bus-travel-times', 'villages-fill'].includes(id!)) {
+    } else if (feature && POPUP_LAYERS.includes(id!)) {
       if (editor && id === 'bus-routes') { editor.onRoute(String(feature.properties.route_id)); setHover(null); return; }
       onStation(null);
       setPopup({ feature, lngLat: [e.lngLat.lng, e.lngLat.lat] });
@@ -321,7 +324,7 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
         onLoad={handleLoad}
         onError={() => setMapNotice(localBase ? '部分資料圖層無法繪製，請重新載入頁面或檢查資料快照。' : '網路底圖部分內容載入失敗；可切換本地簡圖繼續查看資料。')}
         onMouseMove={handleMouseMove}
-        onMouseOut={() => setHover(null)}
+        onMouseOut={() => { setHover(null); const canvas = mapRef.current?.getCanvas(); if (canvas) canvas.style.cursor = ''; }}
         onClick={handleClick}
         onZoom={(e) => {
           const zoom = e.viewState.zoom;
@@ -394,20 +397,20 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
               <Layer {...withVisibility(L.mrtCasingLayer, below)} />
               <Layer {...withVisibility(L.mrtLinesLayer, below)} />
             </Source>
-            <Source id="mrt-stations" type="geojson" data={data.mrt_stations}>
-              <Layer {...withVisibility(L.mrtStationsLayer)} />
+            <Source id="places" type="geojson" data={data.places}>
+              <Layer {...withVisibility(L.placesLayer(placeMembers))} />
             </Source>
-            <Source id="bus-stops" type="geojson" data={data.bus_stops}>
-              <Layer {...withVisibility(L.busStopsLayer)} />
+            <Source id="youbike" type="geojson" data={data.youbike_stations}>
+              <Layer {...withVisibility(L.youbikeLayer)} />
             </Source>
             {data.regional_bus_stops && <Source id="regional-bus-stops" type="geojson" data={data.regional_bus_stops}>
               <Layer {...withVisibility(L.regionalStopsLayer(state.leapfrogOnly))} />
             </Source>}
-            <Source id="youbike" type="geojson" data={data.youbike_stations}>
-              <Layer {...withVisibility(L.youbikeLayer)} />
+            <Source id="bus-stops" type="geojson" data={data.bus_stops}>
+              <Layer {...withVisibility(L.busStopsLayer)} />
             </Source>
-            <Source id="places" type="geojson" data={data.places}>
-              <Layer {...withVisibility(L.placesLayer(placeMembers))} />
+            <Source id="mrt-stations" type="geojson" data={data.mrt_stations}>
+              <Layer {...withVisibility(L.mrtStationsLayer)} />
             </Source>
             {pickingStops && editor && <RouteStopPicker editor={editor}
               hoveredId={hover?.feature?.layer.id === ROUTE_STOP_PICKER ? String(hover.feature.properties.id) : null} />}

@@ -155,22 +155,22 @@ export const mrtStationsLayer: StyleLayer = {
   type: 'circle',
   minzoom: 11,
   paint: {
-    'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, 2.5, 15, 6],
+    'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, 4.5, 15, 7],
     'circle-color': '#ffffff',
-    'circle-stroke-color': '#3d3f4a',
-    'circle-stroke-width': 1.5,
+    'circle-stroke-color': '#032c68',
+    'circle-stroke-width': 2,
   },
 };
 
 export const busStopsLayer: StyleLayer = {
   id: 'bus-stops',
   type: 'circle',
-  minzoom: 13.5,
+  minzoom: 11,
   paint: {
-    'circle-radius': ['interpolate', ['linear'], ['zoom'], 13.5, 2, 17, ['interpolate', ['linear'], ['get', 'route_count'], 1, 4, 30, 9]],
+    'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, 1.6, 14, 4, 17, ['interpolate', ['linear'], ['get', 'route_count'], 1, 5, 30, 8]],
     'circle-color': '#ffffff',
-    'circle-stroke-color': '#4f6f8f',
-    'circle-stroke-width': 1.4,
+    'circle-stroke-color': '#1d559f',
+    'circle-stroke-width': ['interpolate', ['linear'], ['zoom'], 11, 1, 14, 1.8, 17, 2],
   },
 };
 
@@ -190,13 +190,11 @@ export function regionalRoutesLayer(leapfrogOnly: boolean): StyleLayer {
 
 export function regionalStopsLayer(leapfrogOnly: boolean): StyleLayer {
   return {
-    id: 'regional-bus-stops', type: 'circle', minzoom: 12,
+    id: 'regional-bus-stops', type: 'circle', minzoom: busStopsLayer.minzoom,
     filter: leapfrogOnly ? ['==', ['get', 'is_leapfrog'], true] : ['boolean', true],
     paint: {
-      'circle-radius': ['interpolate', ['linear'], ['zoom'], 12, 1.5, 17, 5],
-      'circle-color': '#ffffff',
+      ...busStopsLayer.paint,
       'circle-stroke-color': ['case', ['==', ['get', 'is_leapfrog'], true], '#a64a85', '#1d559f'],
-      'circle-stroke-width': 1.3,
     },
   };
 }
@@ -252,7 +250,7 @@ export const youbikeLayer: StyleLayer = {
 };
 
 const placeColor =['match', ['get', 'category'], ...Object.entries(PLACE_BY_CATEGORY).flatMap(([m, c]) => [m, c.color]), '#888888'] as unknown as ExpressionSpecification;
-// Social housing scales with planned households; other places only with zoom.
+// Keep facilities secondary to transit stops, including the largest housing sites.
 const housingRadius = (min: number, max: number): ExpressionSpecification => (
   ['interpolate', ['linear'], ['coalesce', ['get', 'planned_households'], 0], 0, min, 1500, max]
 );
@@ -265,10 +263,11 @@ export function placesLayer(members: string[]): StyleLayer {
     paint: {
       'circle-color': placeColor,
       'circle-radius': ['interpolate', ['linear'], ['zoom'],
-        10, ['case', ['has', 'planned_households'], housingRadius(2.5, 6), 2.5],
-        15, ['case', ['has', 'planned_households'], housingRadius(6, 14), 6]],
+        10, ['case', ['has', 'planned_households'], housingRadius(1.5, 2.5), 1.5],
+        15, ['case', ['has', 'planned_households'], housingRadius(3, 4), 3]],
+      'circle-opacity': .8,
       'circle-stroke-color': '#ffffff',
-      'circle-stroke-width': ['interpolate', ['linear'], ['zoom'], 10, 0.8, 15, 1.6],
+      'circle-stroke-width': ['interpolate', ['linear'], ['zoom'], 10, 0.6, 15, 1],
     },
   };
 }

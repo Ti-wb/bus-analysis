@@ -48,7 +48,7 @@ export const LAYER_GROUPS: Record<LayerGroup, string[]> = {
   traffic: ['traffic-sections'],
   bus_times: ['bus-travel-times'],
 };
-// Station markers start on, as in the Penpot preferences defaults; bus stops and YouBike appear when zoomed in.
+// Station markers start on; bus / MRT are visible in the default view, YouBike appears when zoomed in.
 export const DEFAULT_LAYERS: LayerGroup[] = ['grid', 'routes', 'stops', 'regional_routes', 'regional_stops', 'mrt', 'places', 'youbike'];
 export const HOVER_LAYERS = ['places', 'youbike', 'bus-stops', 'regional-bus-stops', 'mrt-stations', 'bus-travel-times', 'traffic-sections', 'regional-bus-routes', 'bus-routes', 'mrt-lines', 'villages-fill', 'grid-fill', 'grid-hatch'];
 

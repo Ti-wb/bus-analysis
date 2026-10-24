@@ -88,7 +88,7 @@ function ExtraLegend({ state, data }: Pick<Props, 'state' | 'data'>) {
   return <section className="card legend extra-legend">
     <h3>跨市圖層圖例與快照</h3>
     {state.layers.has('regional_routes') && <><p className="legend-note"><span className="swatch swatch-regional" />新北路線 <span className="swatch swatch-frog" />跳蛙路線</p><p className="layer-scope-note">依站序連線的示意路網，不是實際道路軌跡。</p></>}
-    {state.layers.has('regional_stops') && <p className="legend-note"><span className="swatch swatch-regional-stop" />新北站位在縮放 12 級以上顯示</p>}
+    {state.layers.has('regional_stops') && <p className="legend-note"><span className="swatch swatch-regional-stop" />新北站位在縮放 11 級以上顯示</p>}
     {village && <>
       <h4>{state.villageMetric === 'population' ? '每里戶籍人口（人）' : '每里 65 歲以上人口占比'}</h4>
       <div className="legend-scale legend-scale-5">{(state.villageMetric === 'population' ? VILLAGE_COLORS : ELDERLY_COLORS).map((color, index) => <div key={color}><span style={{ background: color }} />{(state.villageMetric === 'population' ? ['<2千', '2–4千', '4–8千', '8千–1.2萬', '≥1.2萬'] : ['<15%', '15–20%', '20–25%', '25–30%', '≥30%'])[index]}</div>)}</div>
