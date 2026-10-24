@@ -148,6 +148,17 @@ def subroute_departures():
     return result
 
 
+def stop_route_properties(route_ids, route_names):
+    """Keep exact service IDs even without a shape; display-name order is independent."""
+    ids = sorted(set(route_ids))
+    return {
+        "route_count": len(ids),
+        "route_ids": ids,
+        "route_names_by_id": {route_id: route_names.get(route_id) for route_id in ids},
+        "routes": sorted(route_names.get(route_id, route_id) for route_id in ids),
+    }
+
+
 def build_grid(city, stops, stop_subroutes, departures, scheduled, cell_m):
     geod = Geod(ellps="GRS80")
     lon_step = cell_m / geod.inv(121.5, GRID_LAT0, 121.51, GRID_LAT0)[2] * 0.01
@@ -448,8 +459,7 @@ def main():
             "properties": {
                 "id": stop_id,
                 "name": props["name"],
-                "route_count": len(stop_routes[stop_id]),
-                "routes": sorted(route_names.get(r, r) for r in stop_routes[stop_id]),
+                **stop_route_properties(stop_routes[stop_id], route_names),
                 "weekday_departures": round(sum(weekday_total[s] for s in known)) if known else None,
             },
             "geometry": {"type": "Point", "coordinates": [round(lon, 5), round(lat, 5)]},
@@ -459,7 +469,10 @@ def main():
         "source_data_time": sequences["metadata"]["source_data_time"],
         "weekday_departures": "代表平日（週三）各附線計畫發車數加總；固定班表優先，否則以班距區間估算",
     }
-    write("bus_stops.geojson", collection(stop_features, bus_meta))
+    write("bus_stops.geojson", collection(stop_features, {
+        **bus_meta,
+        "route_membership": "route_ids 依 route_stop_sequences 的 stop_location_id／route_id 精確連接；route_names_by_id 依 routes 的 route_id 取名稱，缺名稱為 null；routes 是獨立排序的名稱清單，不與 route_ids 按位置對應",
+    }))
 
     # Use the exact displayed points, with separate source ID namespaces. Never join
     # a metro or bike station to a nearby bus stop to borrow its population estimate.

@@ -32,6 +32,9 @@ export interface BusStopProps {
   id: string;
   name: string;
   route_count: number;
+  /** Exact main-route IDs; the legacy display-name array has an independent order. */
+  route_ids: string[];
+  route_names_by_id: Record<string, string | null>;
   routes: string[];
   weekday_departures: number | null;
   source_scope?: string;

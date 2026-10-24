@@ -39,6 +39,7 @@ function AgeGroups({ groups, counts, total }: { groups: string[]; counts: number
 }
 
 interface Props {
+  mode?: 'popup' | 'focus';
   station: StationSelection;
   mapRef: RefObject<MapRef | null>;
   data: MapData;
@@ -46,15 +47,16 @@ interface Props {
   onClose: () => void;
 }
 
-/** One anchored card for all station types. Reposition the card, never the map. */
-export default function StationInfo({ station, mapRef, data, placeKeys, onClose }: Props) {
+/** The Focus card docks beside the overview; ordinary station cards follow their marker. */
+export default function StationInfo({ mode = 'popup', station, mapRef, data, placeKeys, onClose }: Props) {
   const cardRef = useRef<HTMLElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const [catchments, setCatchments] = useState<StationCatchments | null>(null);
   const [failed, setFailed] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const [expanded, setExpanded] = useState(false);
-  const regionalBus = station.type === 'bus' && station.properties.source_scope === 'NewTaipei';
+  const [mobileExpanded, setMobileExpanded] = useState(false);
+  const regionalBus = station.type === 'bus' && Boolean(station.properties.source_scope);
 
   useEffect(() => {
     if (regionalBus) return undefined;
@@ -68,7 +70,8 @@ export default function StationInfo({ station, mapRef, data, placeKeys, onClose 
   useEffect(() => {
     closeRef.current?.focus({ preventScroll: true });
     setExpanded(false);
-  }, [station.type, station.id]);
+    setMobileExpanded(false);
+  }, [station.type, station.id, regionalBus]);
 
   useEffect(() => {
     const escape = (event: KeyboardEvent) => {
@@ -86,6 +89,11 @@ export default function StationInfo({ station, mapRef, data, placeKeys, onClose 
     const card = cardRef.current;
     const map = mapRef.current;
     if (!card || !map) return;
+    if (mode === 'focus') {
+      card.style.left = '';
+      card.style.top = '';
+      return;
+    }
     const container = map.getContainer();
     const position = () => {
       const { x, y } = map.project(station.at);
@@ -106,7 +114,7 @@ export default function StationInfo({ station, mapRef, data, placeKeys, onClose 
     observer.observe(container);
     map.on('move', position);
     return () => { observer.disconnect(); map.off('move', position); };
-  }, [mapRef, station]);
+  }, [mapRef, station, mode]);
 
   const surroundings = useMemo(
     () => nearby(data, station.at, STATION_RADIUS, station.type === 'bus' ? station.id : null, placeKeys),
@@ -126,7 +134,7 @@ export default function StationInfo({ station, mapRef, data, placeKeys, onClose 
   ] : [];
 
   return (
-    <section ref={cardRef} className={`station-card station-${station.type}`} role="dialog" aria-modal="false" aria-labelledby="station-title" aria-describedby="station-scope">
+    <section ref={cardRef} className={`station-card station-${station.type}${mode === 'focus' ? ` is-focus${mobileExpanded ? '' : ' is-compact'}` : ''}`} role="dialog" aria-modal="false" aria-labelledby="station-title" aria-describedby="station-scope">
       <header className="station-header">
         <div className="station-kind"><span className="station-icon"><StationIcon type={station.type} /></span>{STATION_LABELS[station.type]}</div>
         <button ref={closeRef} className="station-close" onClick={onClose} aria-label="關閉站點資訊">
@@ -134,8 +142,10 @@ export default function StationInfo({ station, mapRef, data, placeKeys, onClose 
         </button>
         <h2 id="station-title">{station.properties.name ?? '未命名站點'}</h2>
         <p id="station-scope">{regionalBus ? '新北公車站位 · ' : ''}周邊 {STATION_RADIUS} m 設施與所在里人口</p>
+        {mode === 'focus' && <button className="station-details-toggle" aria-expanded={mobileExpanded} aria-controls="station-focus-details" onClick={() => setMobileExpanded((value) => !value)}>{mobileExpanded ? '收合周邊資訊' : '查看人口與設施'}<span aria-hidden="true">{mobileExpanded ? '⌃' : '⌄'}</span></button>}
       </header>
 
+      <div id="station-focus-details" className="station-focus-details">
       <section className="station-population" aria-busy={loading} aria-live="polite">
         <div className="station-section-head"><h3>周邊 {STATION_RADIUS} m 居住人口</h3><span className="station-badge">臺北戶籍估算</span></div>
         {loading ? <p className="station-empty-title">人口資料載入中…</p>
@@ -192,6 +202,7 @@ export default function StationInfo({ station, mapRef, data, placeKeys, onClose 
       </details>
 
       <footer className="station-note">戶籍人口資料，非搭乘量 · 設施距離採直線估算</footer>
+      </div>
     </section>
   );
 }
