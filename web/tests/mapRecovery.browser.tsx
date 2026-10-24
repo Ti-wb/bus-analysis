@@ -112,10 +112,11 @@ function Fixture() {
 function AppFixture() {
   const [report, setReport] = useState('整合模式：直接操作下方的正式 App');
   const saved = useRef<string | null>(null);
+  const savedStatus = useRef<HTMLElement | null>(null);
   const form = () => JSON.stringify([...document.querySelectorAll<HTMLInputElement>('.route-workspace input')].map((input) => [input.placeholder, input.value]));
   return <>
     <App />
-    <aside style={{ position: 'fixed', bottom: 0, left: 0, zIndex: 100, background: 'white', padding: 8, border: '2px solid #234', display: 'flex', gap: 8 }}>
+    <aside style={{ position: 'fixed', bottom: 0, left: 0, zIndex: 100, background: 'white', padding: 8, border: '2px solid #234', display: 'flex', flexWrap: 'wrap', maxWidth: '100%', gap: 8 }}>
       <button onClick={() => { blocked.style = blocked.webgl = false; setReport('已解除測試限制'); }}>解除測試限制</button>
       <button onClick={() => { saved.current = form(); setReport('已保存草稿輸入值'); }}>保存草稿輸入值</button>
       <button onClick={() => setReport(`${saved.current !== null && saved.current === form() ? 'PASS' : 'FAIL'}: 草稿輸入值保留`)}>檢查草稿保留</button>
@@ -125,6 +126,19 @@ function AppFixture() {
         if (extension) extension.loseContext(); else setReport('SKIP: WEBGL_lose_context 不可用');
       }}>模擬 WebGL 中斷</button>
       <button onClick={() => setReport(`${!document.querySelector('.loading') && !!document.querySelector('.map-notice[role="alert"]') ? 'PASS' : 'FAIL'}: App 失敗停止 loading`)}>檢查 App 失敗終態</button>
+      <button onClick={() => {
+        savedStatus.current = document.querySelector<HTMLElement>('.improvement-page > [role="status"]');
+        setReport(savedStatus.current ? '已保存清單狀態區，可搜尋到最後一筆再輸入不存在的關鍵字' : 'FAIL: 清單狀態區尚未掛載');
+      }}>保存清單狀態區</button>
+      <button onClick={() => {
+        const region = document.querySelector<HTMLElement>('.improvement-page > [role="status"]');
+        const results = document.querySelector('.im-results');
+        const emptyTitle = results?.querySelector('.im-empty:not([role]) h2')?.textContent ?? '';
+        const ok = region && region === savedStatus.current && results?.getAttribute('aria-busy') === 'false'
+          && region.getAttribute('aria-live') === 'polite' && region.getAttribute('aria-atomic') === 'true'
+          && region.textContent === emptyTitle;
+        setReport(`${ok ? 'PASS' : 'FAIL'}: 同一清單狀態區與完成後空結果訊息一致`);
+      }}>檢查清單狀態區</button>
       <output>{report}</output>
     </aside>
   </>;

@@ -144,6 +144,7 @@ const ImprovementList = forwardRef<ImprovementHandle, Props>(function Improvemen
       <label className="im-slider">每班次<input aria-label="每班次載客門檻" type="range" min="1" max="30" value={filters.passengers} onChange={(e) => update({ passengers: +e.target.value })} /><b>{filters.passengers} 人</b></label>
       <input className="im-search" type="search" aria-label="搜尋改善清單" placeholder={filters.kind === 'routes' ? '⌕ 搜尋路線名稱或編號' : '⌕ 搜尋站位、區塊或地點'} value={filters.query} onChange={(e) => update({ query: e.target.value })} />
     </div>
+    <div className="sr-only" role="status" aria-live="polite" aria-atomic="true">{data && !error && !busy && !rows.length ? empty.title : ''}</div>
     <div className="im-results" aria-busy={busy}>
       {busy && <div className="im-computing" role="status">正在重算分數與排序…</div>}
       {!data ? <div className="im-empty" role={error ? 'alert' : 'status'}><h2>{error || '正在載入改善清單…'}</h2><p>準備路線、站位、班表與空間重疊指標</p>{error && <button className="im-primary" onClick={() => setRetry((n) => n + 1)}>重新載入</button>}</div>
