@@ -236,6 +236,8 @@ dialog.about .close { position: absolute; right: 16px; top: 12px; border: 0; bac
 .pref-number input { width: 100%; border: 0; outline: 0; font: inherit; font-size: 13px; font-weight: 700; color: #2d4b57; background: none; -moz-appearance: textfield; }
 .pref-number input::-webkit-outer-spin-button, .pref-number input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 .pref-number span { font-size: 12px; color: #7a8b92; }
+.pref-number:has(input[aria-invalid="true"]) { border-color: #c2481d; }
+.pref-error { margin: 6px 0 0; font-size: 12px; color: #c2481d; text-align: right; }
 .pref-radius input[type="range"] { width: 100%; height: 13px; margin: 8px 0 0; -webkit-appearance: none; appearance: none; background: transparent; }
 .pref-radius input[type="range"]::-webkit-slider-runnable-track { height: 3px; border-radius: 1px; background: linear-gradient(90deg, var(--c) var(--fill), #e5ecec var(--fill)); }
 .pref-radius input[type="range"]::-moz-range-track { height: 3px; border-radius: 1px; background: linear-gradient(90deg, var(--c) var(--fill), #e5ecec var(--fill)); }
@@ -257,6 +259,8 @@ dialog.about .close { position: absolute; right: 16px; top: 12px; border: 0; bac
 .prefs-foot button { height: 40px; border-radius: 8px; font-size: 13px; }
 .prefs-cancel { border: 1px solid #d9e3e6; background: #fff; color: #2e4b57; }
 .prefs-apply { border: 1px solid var(--bcs-navy); background: var(--bcs-navy); color: #fff; font-weight: 700; }
+.prefs-apply:disabled { border-color: #c5d0d8; background: #c5d0d8; cursor: not-allowed; }
+.prefs-foot-note { grid-column: 1 / -1; margin: 0; font-size: 12px; color: #c2481d; }
 
 /* Penpot page 04: one 350 m station card, independent of the coverage settings. */
 .station-bus { --station-color: #267bd4; --station-soft: #edf4fd; }
