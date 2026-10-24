@@ -1,9 +1,9 @@
 import type { FeatureCollection, MultiLineString, Point, Polygon } from 'geojson';
-import type { ExpressionSpecification, MapGeoJSONFeature, Map as MaplibreMap, StyleSpecification } from 'maplibre-gl';
+import type { ExpressionSpecification, MapGeoJSONFeature, Map as MaplibreMap, PaddingOptions, StyleSpecification } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 // MapLibre 6 resolves its worker next to its own module, which the bundle does not copy; ship it as an asset.
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url';
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type RefObject } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useReducer, useRef, useState, type RefObject } from 'react';
 import Map, {
   AttributionControl,
   Layer,
@@ -30,6 +30,7 @@ import { CoverageTooltip, FeatureTooltip, NeedTooltip, RoutePopup, type PopupFea
 import * as L from './layers';
 import { focusLocalBounds, focusRouteBounds, focusStops } from './focusGeometry';
 import { buildFocusCoverage, focusCoverageGridLines, focusCoverageImage, focusDistanceAt } from './focusCoverage';
+import { INITIAL_MAP_LOAD, MAP_LOAD_TIMEOUT, mapLoadReducer, type Basemap, type MapStatus } from './loadState';
 import { ROUTE_STOP_PICKER, RouteLayers, RouteStopPicker, ScenarioGrid, type EditorMapProps } from '../routeEditor/RouteLayers';
 import type { AppState, Coverage, Grid, LayerGroup, MapData, NeedGrid, StationSelection, ViewState } from '../types';
 
@@ -65,6 +66,7 @@ interface Props {
   onStation: (station: StationSelection | null, origin?: HTMLElement) => void;
   onCloseStation: () => void;
   onReady: () => void;
+  onStatusChange?: (status: MapStatus) => void;
   onMoveEnd: (view: ViewState) => void;
 }
 
@@ -132,14 +134,16 @@ function addHatchPattern(map: MaplibreMap) {
   }
 }
 
-export default function MapView({ villageAges = null, villageData = null, selectedVillage = null, onVillage, onCloseVillage, editor, focus, onFocusRoute, mapRef, initialView, data, grid, gridData, coverage, coverageImage, coverageLines, need, state, station, onStation, onCloseStation, onReady, onMoveEnd }: Props) {
+export default function MapView({ villageAges = null, villageData = null, selectedVillage = null, onVillage, onCloseVillage, editor, focus, onFocusRoute, mapRef, initialView, data, grid, gridData, coverage, coverageImage, coverageLines, need, state, station, onStation, onCloseStation, onReady, onStatusChange, onMoveEnd }: Props) {
   // First label layer of the base style: our layers go below it so road names stay on top.
   const [labelLayer, setLabelLayer] = useState<string | null>(null);
-  const [styleLoaded, setStyleLoaded] = useState(false);
-  const [localBase, setLocalBase] = useState(false);
-  const [fallbackView, setFallbackView] = useState<ViewState | null>(null);
+  const [mapLoad, dispatchMapLoad] = useReducer(mapLoadReducer, INITIAL_MAP_LOAD);
+  const styleLoaded = mapLoad.status === 'ready';
+  const localBase = mapLoad.base === 'local';
+  const [fallbackView, setFallbackView] = useState<(ViewState & { bearing: number; pitch: number; padding: PaddingOptions }) | null>(null);
   const notifiedReady = useRef(false);
-  const [mapNotice, setMapNotice] = useState<string | null>(null);
+  const [noticeOpen, setNoticeOpen] = useState(true);
+  useEffect(() => { setNoticeOpen(true); }, [mapLoad.attempt, mapLoad.issue]);
   const baseLabels = useRef<string[]>([]);
   const [hover, setHover] = useState<Hover | null>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
@@ -213,23 +217,41 @@ export default function MapView({ villageAges = null, villageData = null, select
     });
   }, [activeFocus, data, styleLoaded, mapRef, station, visibleRouteIds]);
   const travelData = useMemo(() => travelCollection(data.bus_travel_times, state), [data.bus_travel_times, state.day, state.hour]);
-  const useLocalBase = useCallback(() => {
+  const retainCamera = useCallback(() => {
     const map = mapRef.current;
     if (map) {
       const center = map.getCenter();
-      setFallbackView({ center: [center.lng, center.lat], zoom: map.getZoom() });
+      setFallbackView({ center: [center.lng, center.lat], zoom: map.getZoom(), bearing: map.getBearing(), pitch: map.getPitch(), padding: map.getPadding() });
     }
-    setStyleLoaded(false);
-    setLabelLayer(null);
-    setLocalBase(true);
-    setMapNotice('已使用本地簡圖；道路、行政界與資料圖層可繼續操作，沒有線上底圖路名。');
   }, [mapRef]);
+  const retryMap = useCallback((base: Basemap) => {
+    retainCamera();
+    setLabelLayer(null);
+    baseLabels.current = [];
+    dispatchMapLoad({ type: 'retry', base });
+  }, [retainCamera]);
 
   useEffect(() => {
-    if (styleLoaded || localBase) return;
-    const timer = setTimeout(useLocalBase, 12_000);
+    if (mapLoad.status !== 'loading') return;
+    const timer = setTimeout(() => {
+      retainCamera();
+      setLabelLayer(null);
+      baseLabels.current = [];
+      dispatchMapLoad({ type: 'timeout', attempt: mapLoad.attempt });
+    }, MAP_LOAD_TIMEOUT);
     return () => clearTimeout(timer);
-  }, [styleLoaded, localBase, useLocalBase]);
+  }, [mapLoad.status, mapLoad.attempt, retainCamera]);
+  useEffect(() => { onStatusChange?.(mapLoad.status); }, [mapLoad.status, onStatusChange]);
+  useEffect(() => {
+    const map = mapRef.current?.getMap();
+    if (!map || !styleLoaded) return;
+    const lost = () => {
+      retainCamera();
+      dispatchMapLoad({ type: 'context-lost', attempt: mapLoad.attempt });
+    };
+    map.on('webglcontextlost', lost);
+    return () => { map.off('webglcontextlost', lost); };
+  }, [mapRef, styleLoaded, mapLoad.attempt, retainCamera]);
 
   const villageIndex = useMemo(() => new globalThis.Map(villageAges?.features.map((feature) => [feature.properties.boundary_id, feature.properties]) ?? []), [villageAges]);
   const currentAgeGroup = villageAges && groupFor(villageAges.metadata, state.ageGroup, state.ageSet);
@@ -303,8 +325,8 @@ export default function MapView({ villageAges = null, villageData = null, select
     }
     baseLabels.current = labels.map((l) => l.id);
     setLabelLayer(labels[0]?.id ?? null);
-    setStyleLoaded(true);
-  }, []);
+    dispatchMapLoad({ type: 'loaded', attempt: mapLoad.attempt });
+  }, [mapLoad.attempt]);
 
   useEffect(() => {
     // Replacing the basemap must not repeat the route workspace's initial fit.
@@ -436,15 +458,25 @@ export default function MapView({ villageAges = null, villageData = null, select
       : station?.type === 'bus' && !station.properties.source_scope ? station.properties.route_ids ?? [] : null;
   const below = labelLayer ?? undefined;
   const mapView = fallbackView ?? initialView;
+  const mapNotice = mapLoad.status === 'failed'
+    ? mapLoad.issue === 'context' ? '地圖繪圖連線已中斷。請重試地圖；目前選取與路線草稿仍保留。'
+      : '地圖無法完成載入。請重試地圖；目前選取與路線草稿仍保留。'
+    : mapLoad.issue === 'resource'
+      ? localBase ? '部分資料圖層載入失敗；已載入內容仍可操作，請重試地圖。'
+        : '部分底圖或資料圖層載入失敗；已載入內容仍可操作。可重試地圖或使用本地簡圖。'
+      : localBase ? styleLoaded
+        ? '已使用本地簡圖；道路、行政界與資料圖層可繼續操作，沒有線上底圖路名。'
+        : '正在載入本地簡圖…'
+      : null;
 
   return (
     <>
       <Map
-        key={localBase ? 'local-map' : 'online-map'}
+        key={mapLoad.attempt}
         ref={mapRef}
         mapStyle={localBase ? LOCAL_STYLE : BASE_STYLE}
         workerUrl={workerUrl}
-        initialViewState={{ longitude: mapView.center[0], latitude: mapView.center[1], zoom: mapView.zoom }}
+        initialViewState={{ ...mapView, longitude: mapView.center[0], latitude: mapView.center[1], zoom: mapView.zoom }}
         localIdeographFontFamily="'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif"
         minZoom={8}
         maxZoom={17}
@@ -452,7 +484,7 @@ export default function MapView({ villageAges = null, villageData = null, select
         attributionControl={false}
         style={{ position: 'absolute', inset: 0 }}
         onLoad={handleLoad}
-        onError={() => setMapNotice(localBase ? '部分資料圖層無法繪製，請重新載入頁面或檢查資料快照。' : '網路底圖部分內容載入失敗；可切換本地簡圖繼續查看資料。')}
+        onError={(event) => dispatchMapLoad({ type: event.target ? 'resource-error' : 'initialization-error', attempt: mapLoad.attempt })}
         onMouseMove={handleMouseMove}
         onMouseOut={() => { setHover(null); const canvas = mapRef.current?.getCanvas(); if (canvas) canvas.style.cursor = ''; }}
         onClick={handleClick}
@@ -600,13 +632,17 @@ export default function MapView({ villageAges = null, villageData = null, select
 
       {ageView && selectedVillageProps && villageAges && currentAgeGroup && <VillageDialog properties={selectedVillageProps} metadata={villageAges.metadata} group={currentAgeGroup} onClose={closeVillage} />}
 
-      {mapNotice && <div className="map-notice" role="status">
+      {mapNotice && (noticeOpen || mapLoad.status !== 'ready') && <div className="map-notice" role={mapLoad.status === 'failed' ? 'alert' : 'status'}>
         <span>{mapNotice}</span>
-        {!localBase && <button onClick={useLocalBase}>使用本地簡圖</button>}
-        <button className="notice-close" aria-label="關閉底圖提示" onClick={() => setMapNotice(null)}>×</button>
+        {mapLoad.status !== 'loading' && <button onClick={() => retryMap(mapLoad.base)}>重試地圖</button>}
+        {!localBase && <button onClick={() => retryMap('local')}>使用本地簡圖</button>}
+        {localBase && <button onClick={() => retryMap('online')}>重試線上底圖</button>}
+        {mapLoad.status === 'ready' && <button className="notice-close" aria-label="關閉底圖提示" onClick={() => localBase ? setNoticeOpen(false) : dispatchMapLoad({ type: 'dismiss', attempt: mapLoad.attempt })}>×</button>}
       </div>}
+      {localBase && !noticeOpen && styleLoaded && <button className="map-base-options" onClick={() => setNoticeOpen(true)}>本地簡圖・底圖選項</button>}
+      {editor && mapLoad.status === 'loading' && <div className="loading" role="status">載入地圖中…</div>}
 
-      {station && <StationInfo station={station} mode={activeFocus ? 'focus' : 'popup'} mapRef={mapRef} data={data} placeKeys={state.places} onClose={onCloseStation} />}
+      {station && <StationInfo station={station} mode={activeFocus ? 'focus' : 'popup'} mapRef={mapRef} mapReady={styleLoaded} data={data} placeKeys={state.places} onClose={onCloseStation} />}
 
       {hover && (
         <div ref={tooltipRef} className="tooltip" style={{ left: hover.x, top: hover.y }}>

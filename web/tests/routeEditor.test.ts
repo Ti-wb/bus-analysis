@@ -3,6 +3,7 @@ import test from 'node:test';
 import { assess, draftChanges, duration, frequency, network, routesWithChanges } from '../src/routeEditor/engine';
 import { buildExistingServices } from '../src/routeEditor/existingServices';
 import { loadScenario, saveScenario } from '../src/routeEditor/storage';
+import { searchRouteGroups } from '../src/routeEditor/search';
 import type { MapData } from '../src/types';
 import type { AppliedAction, Route, ScenarioData } from '../src/routeEditor/types';
 
@@ -128,4 +129,31 @@ test('local persistence validates source version, stop IDs and histories; undo s
   assert.deepEqual(loadScenario(data).history, []);
   saveScenario(data, changes, [action]); data.metadata.source_data_time = 'new';
   assert.deepEqual(loadScenario(data).changes, {});
+});
+
+test('route search prefers names while retaining and explaining source ID and branch matches', () => {
+  const blue = { ...route('blue:0', '10292', ['s1', 's2'], 4), name: '藍10', branch_name: '藍10' };
+  const branch = { ...route('branch:0', '88', ['s1', 's2'], 4), name: '88', branch_name: '經292巷' };
+  const partial = { ...route('partial:0', '99', ['s1', 's2'], 4), name: '292副線' };
+  const exact = { ...route('exact:0', '77', ['s1', 's2'], 4), name: '292' };
+  const groups = [[blue], [branch], [partial], [exact]];
+  const found = searchRouteGroups(groups, ' 292 ');
+  assert.deepEqual(found.map((m) => m.routes[0].id), ['exact:0', 'partial:0', 'branch:0', 'blue:0']);
+  assert.equal(found[2].reason, '符合附線名稱：經292巷');
+  assert.equal(found[3].reason, '符合來源 ID：10292');
+  assert.equal(blue.route_id, '10292');
+  assert.deepEqual(groups.map((g) => g[0].id), ['blue:0', 'branch:0', 'partial:0', 'exact:0']);
+});
+
+test('empty search and reset restore every route without mutating network inputs', () => {
+  const { data, map, a, b } = fixture();
+  const groups = [[a], [b]];
+  const baseline = assess(data, map, {}, 'am');
+  const selectedId = b.id;
+  assert.deepEqual(searchRouteGroups(groups, ' a ').map((m) => m.routes[0].id), [a.id]);
+  assert.equal(searchRouteGroups(groups, '不存在的路線').length, 0);
+  assert.deepEqual(searchRouteGroups(groups, '').map((m) => m.routes), groups);
+  assert.deepEqual(searchRouteGroups(groups, '  ').map((m) => m.reason), [null, null]);
+  assert.equal(data.records.routes.find((r) => r.id === selectedId), b);
+  assert.deepEqual(assess(data, map, {}, 'am'), baseline);
 });

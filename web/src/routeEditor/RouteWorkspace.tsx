@@ -8,6 +8,7 @@ import type { Filters } from '../improvements/types';
 import { draftChanges, frequency, gridFeatures, routePath, routesWithChanges } from './engine';
 import { buildExistingServices } from './existingServices';
 import { loadScenario, saveScenario } from './storage';
+import { searchRouteGroups } from './search';
 import Dialog from './Dialog';
 import ExistingServicesPanel from './ExistingServicesPanel';
 import Impact, { Duration, PopulationSummary, rate } from './Impact';
@@ -204,7 +205,7 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
     for (const r of routes) grouped.set(r.route_id, [...(grouped.get(r.route_id) ?? []), r]);
     return [...grouped.values()].sort((a, b) => Number(b[0].route_id.startsWith('custom:')) - Number(a[0].route_id.startsWith('custom:')) || a[0].name.localeCompare(b[0].name, 'zh-Hant', { numeric: true }));
   }, [routes]);
-  const matches = groups.filter((g) => g.some((r) => `${r.name} ${r.route_id} ${r.branch_name}`.toLowerCase().includes(query.trim().toLowerCase())));
+  const matches = useMemo(() => searchRouteGroups(groups, query), [groups, query]);
   const stopMatches = useMemo(() => stopQuery.trim() ? Object.entries(data.records.stops).filter(([id, s]) => `${s.name} ${id}`.includes(stopQuery.trim())).slice(0, 20) : [], [data, stopQuery]);
   const activeRoute = activeDraft?.route ?? selected;
   const editor: EditorMapProps = { data, grid: raster, route: activeRoute, original: activeDraft?.original ?? null, deleting: activeDraft?.kind === 'delete', showStopNumbers: step !== 'overview',
@@ -233,11 +234,12 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
       <aside className="card route-sidebar">
         <div className="route-sidebar-head"><p className="route-eyebrow">規劃方案 / 臺北市</p><h1 tabIndex={-1}>路線編輯</h1>
           <p className="muted">調整站點與班次，<br />先看影響，再保留方案。</p><button className="route-primary" onClick={() => begin('add')}>＋ 新增路線</button></div>
-        <label className="route-search-label">現況路線<input type="search" placeholder="搜尋路線名稱或編號" value={query} onChange={(e) => setQuery(e.target.value)} /></label>
-        <div className="route-section-title"><b>本次評估路線</b><small>{matches.length} 條</small></div>
+        <label className="route-search-label">現況路線<input type="search" placeholder="搜尋路線名稱、附線或來源 ID" value={query} onChange={(e) => setQuery(e.target.value)} /></label>
+        <div className="route-section-title"><b>{query.trim() ? '搜尋結果' : '路線清單'}</b><small>{matches.length}／{groups.length} 條</small>{query && <button className="link-btn" onClick={() => setQuery('')}>清除搜尋</button>}</div>
+        <p className="route-note">人口試算使用工具內全體路網與目前方案，範圍限臺北市；搜尋或選取路線不改變評估範圍。搜尋以名稱優先，也比對附線名稱與來源 ID。</p>
         <div className="route-list" aria-label="現況路線清單">
-          {matches.map((g) => <button key={g[0].route_id} className={`route-list-item${selected?.route_id === g[0].route_id ? ' is-selected' : ''}`} onClick={() => select(g.find((r) => r.id === selectedId) ?? g[0])}>
-            <span><b>{g[0].name}</b><small>{g.some((r) => changes[r.id]) ? '方案已調整' : `${g.length} 個附線方向`}</small></span><em>{rate(frequency(g.find((r) => r.id === selectedId) ?? g[0], band))}<small> 班/h</small></em>
+          {matches.map(({ routes: g, reason }) => <button key={g[0].route_id} className={`route-list-item${selected?.route_id === g[0].route_id ? ' is-selected' : ''}`} onClick={() => select(g.find((r) => r.id === selectedId) ?? g[0])}>
+            <span><b>{g[0].name}</b><small>{g.some((r) => changes[r.id]) ? '方案已調整' : `${g.length} 個附線方向`}</small>{reason && <small>{reason}</small>}</span><em>{rate(frequency(g.find((r) => r.id === selectedId) ?? g[0], band))}<small> 班/h</small></em>
           </button>)}
           {!matches.length && <p className="route-note">找不到路線，請換個名稱或編號。</p>}
         </div>
