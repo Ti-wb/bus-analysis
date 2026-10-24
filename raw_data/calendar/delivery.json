@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "prepared_at": "2026-10-24T13:44:07+08:00",
+  "datasets": [
+    {
+      "dataset_id": "tw_government_office_calendar",
+      "status": "normalized",
+      "output_files": [
+        "data/calendar/office_calendar.json"
+      ],
+      "record_count": 730,
+      "period": {
+        "start": "2025-01-01",
+        "end": "2026-12-31"
+      },
+      "limitations": [
+        "這是行政機關辦公日曆，不含颱風、天災等臨時停班停課，也不代表學校行事曆或各業別的上班日。",
+        "is_holiday 依來源「是否放假」：2 為放假、0 為上班；週末補班日 is_holiday 為 false。",
+        "note 為來源備註原文；空白為 null。"
+      ],
+      "bytes": 156439
+    }
+  ]
+}

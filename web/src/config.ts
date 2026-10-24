@@ -1,4 +1,4 @@
-import type { CellSize, CoverageLayer, DayType, LayerGroup, StationType } from './types';
+import type { CellSize, CoverageLayer, DayType, LayerGroup, NeedBand, NeedWeights, StationType } from './types';
 
 export const ALL_DAY = 24;
 export const DAY_LABELS: Record<DayType, string> = { weekday: '平日', saturday: '週六', sunday: '週日' };
@@ -90,3 +90,31 @@ export const COVERAGE_LAYERS: Record<CoverageLayer, { label: string; note: strin
 /** Opacity of the five distance bands, from the station outwards. */
 export const COVERAGE_ALPHA = [0.6, 0.48, 0.37, 0.27, 0.18];
 export const COVERAGE_BANDS = COVERAGE_ALPHA.length;
+
+// Transport-need gap (docs/12): demand vs supply ranks on the 250 m grid.
+export const NEED_BANDS: { key: NeedBand; label: string; short: string }[] = [
+  { key: 'weekday_am', label: '平日早峰 07–09', short: '早峰' },
+  { key: 'weekday_midday', label: '平日離峰 10–16', short: '離峰' },
+  { key: 'weekday_pm', label: '平日晚峰 17–19', short: '晚峰' },
+  { key: 'weekday_evening', label: '平日晚間 20–23', short: '晚間' },
+  { key: 'saturday', label: '週六 10–16', short: '週六' },
+  { key: 'sunday', label: '週日 10–16', short: '週日' },
+];
+export const NEED_WEIGHT_LABELS = ['居住人口', '重要地點', '捷運活動'] as const;
+export const DEFAULT_NEED_WEIGHTS: NeedWeights = [50, 30, 20];
+/** Bivariate colours: NEED_COLORS[demand tercile][supply tercile], low to high. */
+export const NEED_COLORS = [
+  ['#e8e8e8', '#b5d3e6', '#6aa9d1'],
+  ['#e4c3a8', '#adb3b5', '#5d8eb3'],
+  ['#d9875a', '#a5705a', '#52627a'],
+];
+/** Diverging gap colours from oversupplied (−1) to underserved (+1). */
+export const GAP_COLORS = ['#2f6e9e', '#7fb0d3', '#ececec', '#f0a776', '#c2481d'];
+export const GAP_BREAKS = [-0.4, -0.15, 0.15, 0.4];
+export const QUADRANTS = {
+  priority: { label: '優先補強', note: '需求高、供給低' },
+  saturated: { label: '已飽和', note: '需求高、供給高' },
+  oversupplied: { label: '可能過量', note: '需求低、供給高' },
+  low_low: { label: 'DRTS 候選', note: '需求低、供給低' },
+} as const;
+export type Quadrant = keyof typeof QUADRANTS;

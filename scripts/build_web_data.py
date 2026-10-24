@@ -123,12 +123,16 @@ def subroute_departures():
             continue
         minutes = sum(values) / len(values)
         start, end = hour_minutes(record["start_time"]), hour_minutes(record["end_time"])
-        if end <= start:
+        # A window ending before it starts runs past midnight; equal times are a single departure.
+        if end < start:
             end += 24 * 60
         for day, iso in DAY_TYPES.items():
             if record["service_weekday_iso"] != iso:
                 continue
             counts = headway[(record["subroute_id"], day)]
+            if end == start:
+                counts[start // 60 % 24] += 1
+                continue
             for hour in range(start // 60, math.ceil(end / 60)):
                 overlap = min(end, (hour + 1) * 60) - max(start, hour * 60)
                 if overlap > 0:
@@ -475,6 +479,46 @@ def main():
         ],
     }
     write(f"coverage_{COVERAGE_CELL_M}.json", coverage)
+
+    # Transport-need grid (research draft from scripts/build_transport_need.py), as column arrays.
+    need_path = ROOT / "data/analysis/transport_need_250.json"
+    if need_path.exists():
+        need = read(need_path)
+        meta, records = need["metadata"], need["records"]
+        field = {name: i for i, name in enumerate(meta["band_fields"])}
+        column = lambda key: [r[key] for r in records]
+        write("transport_need_250.json", {
+            "cell_m": meta["grid"]["cell_m"],
+            "origin": meta["grid"]["origin"],
+            "step": meta["grid"]["step_deg"],
+            "bands": [{"key": k, "label": v["label"]} for k, v in meta["bands"].items()],
+            "weights": meta["weights"],
+            "cells": {
+                "ix": column("ix"),
+                "iy": column("iy"),
+                "district": column("district_name"),
+                "population": [round(r["population"]) for r in records],
+                "in_scope": [int(r["in_scope"]) for r in records],
+                "partial": [int(r["data_status"] == "partial") for r in records],
+                "r_pop": column("r_population"),
+                "s_metro": column("metro_supply_score"),
+            },
+            "values": {band: {
+                short: [r["bands"][band][field[name]] for r in records]
+                for short, name in (("poi", "place_score"), ("rail", "metro_activity"), ("f", "bus_weighted_departures_per_hour"),
+                                    ("supply", "supply_score"), ("r_poi", "r_places"), ("r_rail", "r_metro"), ("r_supply", "r_supply"),
+                                    ("robust", "robust_top5_share"))
+            } for band in meta["bands"]},
+            "metadata": {
+                "source": "data/analysis/transport_need_250.json",
+                "built_at": meta["built_at"],
+                "scope": meta["scope"]["rule"],
+                "population_period": meta["inputs"]["population"]["population_period"],
+                "metro_period": meta["inputs"]["metro"]["source_period"],
+                "robust_rule": meta["formulas"]["robust_top5_share"],
+                "limitations": meta["limitations"],
+            },
+        })
 
     route_features = []
     for feature in read(FEEDS / "route_shapes.geojson")["features"]:

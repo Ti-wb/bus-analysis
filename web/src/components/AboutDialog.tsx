@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
-import type { Coverage, Grid } from '../types';
+import type { Coverage, Grid, NeedGrid } from '../types';
 
-export default function AboutDialog({ open, grid, coverage, onClose }: { open: boolean; grid: Grid | null; coverage: Coverage | null; onClose: () => void }) {
+export default function AboutDialog({ open, grid, coverage, need, onClose }: { open: boolean; grid: Grid | null; coverage: Coverage | null; need: NeedGrid | null; onClose: () => void }) {
   const ref = useRef<HTMLDialogElement>(null);
   useEffect(() => {
     const dialog = ref.current;
@@ -53,6 +53,15 @@ export default function AboutDialog({ open, grid, coverage, onClose }: { open: b
             <li>點公車站牌後，以站位為圓心畫直線 200／350／500 m 的圓，計算圓內戶籍人口、戶數，以及捷運、YouBike、其他站牌與重要地點數量。</li>
             <li>統計區只有部分在圓內時依面積比例分攤，假設區內人口均勻分布；只有臺北市人口，新北市部分不計。</li>
             <li>戶籍人口不是白天活動人口或搭乘量；相鄰站牌範圍重疊，各站人口不可加總。</li>
+          </ul>
+          <h3>需求落差怎麼算（研究草案）</h3>
+          <ul>
+            <li>約 250 m 方格；人口 ≥ 100 人或附近有主要地點的格子才排名，其餘多為山區、河川、公園。</li>
+            <li>需求＝居住人口、重要地點（學校、市場、市政機關、醫院、商場、科技園區、已完工社宅，依時段乘上時間係數並隨距離遞減）、附近捷運進出站人次三項排名的加權和，預設 50／30／20，可在面板調整。</li>
+            <li>供給＝附近公車附線每小時計畫班次（隨距離遞減，再取飽和函數）與最近捷運站距離合成。</li>
+            <li>落差＝需求排名 − 供給排名；以 0.5 分成優先補強、已飽和、可能過量、需求與供給都低四類。深框是權重各自 ±20% 抽樣 1,000 次仍有八成落在優先前 5% 的格子。</li>
+            <li>捷運進出量來自 {need ? `${need.metadata.metro_period.start}～${need.metadata.metro_period.end}` : '最近一年'}，平日依行政機關辦公日曆排除國定假日，並剔除颱風等異常日。方法細節見 repo 的 docs/12_運輸需求權重方法.md。</li>
+            {need?.metadata.limitations.map((x) => <li key={x}>{x}</li>)}
           </ul>
           <p className="muted">資料建置：{m.built_at}</p>
         </>

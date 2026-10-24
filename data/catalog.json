@@ -10,7 +10,7 @@
       "static_data": "採目前官方可取得版本，保留實際版本日期",
       "cross_boundary_services": "保留臺北主管來源的跨市路線與捷運旅次；未以站名猜測行政區裁切"
     },
-    "record_count": 47,
+    "record_count": 49,
     "pending_source_groups": [],
     "preferred_current_bus_data": "data/taipei_feeds/",
     "legacy_stop_map": "data/bus_stops.geojson 是 2021 年舊圖資，現行站牌請用 data/taipei_feeds/stops.geojson",
@@ -1825,6 +1825,75 @@
         "只含臺北市 YouBike 2.0，不含新北市或其他系統的站點。"
       ],
       "source_delivery": "raw_data/youbike/delivery.json"
+    },
+    {
+      "dataset_id": "tw_government_office_calendar",
+      "group": "calendar",
+      "group_title": "政府行政機關辦公日曆",
+      "status": "normalized",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2026-12-31"
+      },
+      "outputs": [
+        {
+          "path": "data/calendar/office_calendar.json",
+          "independent_review": {
+            "status": "pass",
+            "report": "data/quality/calendar_review.json",
+            "record_count": 730
+          },
+          "record_count": 730
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "這是行政機關辦公日曆，不含颱風、天災等臨時停班停課，也不代表學校行事曆或各業別的上班日。",
+        "is_holiday 依來源「是否放假」：2 為放假、0 為上班；週末補班日 is_holiday 為 false。",
+        "note 為來源備註原文；空白為 null。"
+      ],
+      "source_delivery": "raw_data/calendar/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_transport_need_250",
+      "group": "analysis",
+      "group_title": "運輸需求供需落差（研究草案）",
+      "status": "derived_research_draft",
+      "period": {
+        "population": {
+          "start": "2024-12",
+          "end": "2024-12"
+        },
+        "metro": {
+          "start": "2025-10-01",
+          "end": "2026-09-30"
+        },
+        "bus": "現行班表快照"
+      },
+      "outputs": [
+        {
+          "path": "data/analysis/transport_need_250.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/transport_need_review.json",
+            "record_count": 4317
+          },
+          "record_count": 4317
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "研究草案：權重、時間係數、距離衰減參數都是 docs/12 的專家假設，尚未以實測運量校準。",
+        "人口是 2024-12 戶籍人口，以面積比例從最小統計區分到格子（假設區內均勻）；統計區界為 2015 年版。不是日間人口或搭乘量。",
+        "只含臺北市人口與臺北市公共運輸處公車；新北市人口不計，市界附近需求與供給都可能低估。",
+        "公車供給是計畫班次，以起站發車時刻歸入時段，未加行駛時間；partial 格的供給為下限。",
+        "捷運供給只看與車站的距離，未計班距；捷運活動是各站進出站人次，不是 OD，也不分方向。",
+        "地點只有類型與位置，學校、醫院等規模一律 m=1；OSM 同名群組已合併，其他重複可能仍在。",
+        "直線距離，未計路網與河川、高架阻隔。",
+        "排名在同一時段內計算，不同時段的分數不可直接比較；gap 是排名差，不是缺多少班次。",
+        "供給排名是相對值：市區供給分數普遍接近飽和，priority 格可能仍有每小時二十班以上的加權班次，代表「比同時段其他格少」，不是絕對不足。"
+      ],
+      "source_delivery": "raw_data/analysis/delivery.json"
     }
   ]
 }
