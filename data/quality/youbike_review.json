@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "dataset_id": "youbike_independent_review",
+  "metadata": {
+    "reviewer_task": "review_youbike",
+    "producer_task": "youbike",
+    "reviewed_at": "2026-10-24T12:04:00+08:00",
+    "scope": "Taipei YouBike 2.0 station attributes from the 2026-10-24T11:58:03+08:00 feed snapshot; every raw row, field and coordinate rechecked, district recomputed independently.",
+    "validation_script": "raw_data/reviews/review_youbike/review_youbike.py",
+    "resolved_findings": [
+      {
+        "issue": "原始快照及即時來源的可借、可還車數全為 0，mday 全站相同，但 limitations 原本沒有寫明。",
+        "resolution": "整理者在 stations.geojson 與 delivery.json 的 limitations 補上兩點：車數全為 0 疑為來源異常，不可當實際車況；source_updated_at 是來源批次時間，不是各站異動時間。兩檔由同一原始快照離線重產，複查 7 項檢查全數通過，資料內容未變。"
+      }
+    ],
+    "open_findings": [],
+    "live_feed_observation": {
+      "fetched_at": "2026-10-24T12:01:57+08:00",
+      "http_last_modified": "Sat, 24 Oct 2026 04:01:10 GMT",
+      "source_max_mday": "2026-10-24 12:00:02",
+      "row_count": 1822,
+      "station_ids_added": 0,
+      "station_ids_removed": 0,
+      "act_quantity_or_coordinate_changes": 0,
+      "stations_with_nonzero_available_rent_bikes": 0,
+      "stations_with_nonzero_available_return_bikes": 0,
+      "note": "複查快照另存於 raw_data/reviews/review_youbike/，未覆寫 raw_data/youbike/。"
+    }
+  },
+  "records": [
+    {
+      "dataset_id": "taipei_youbike_stations",
+      "output_path": "data/youbike/stations.geojson",
+      "record_count": 1822,
+      "review_status": "pass_with_limitations",
+      "checks": [
+        {
+          "name": "delivery_record_count",
+          "status": "pass",
+          "record_count": 1822,
+          "raw_row_count": 1822
+        },
+        {
+          "name": "source_files_and_provenance",
+          "status": "pass",
+          "sources": [
+            {
+              "raw_file": "raw_data/youbike/youbike_immediate.json",
+              "file_present": true,
+              "bytes_match_manifest": true
+            }
+          ],
+          "source_data_time": "2026-10-24T11:58:03+08:00",
+          "raw_mday_distinct": 1
+        },
+        {
+          "name": "schema_identifiers_null_policy",
+          "status": "pass",
+          "blank_strings": 0,
+          "null_values": 0,
+          "live_count_fields_output": false
+        },
+        {
+          "name": "station_id_unique_and_matches_raw_sno",
+          "status": "pass",
+          "unique_ids": 1822,
+          "missing_from_output": 0,
+          "extra_in_output": 0
+        },
+        {
+          "name": "every_raw_row_and_mapped_field",
+          "status": "pass",
+          "mismatch_count": 0,
+          "raw_act_values": {
+            "1": 1793,
+            "0": 29
+          },
+          "inactive_station_count": 29,
+          "dock_count_total": 51745
+        },
+        {
+          "name": "wgs84_lon_lat_identical_to_raw_and_bounds",
+          "status": "pass",
+          "lon_range": [
+            121.46228,
+            121.62306
+          ],
+          "lat_range": [
+            24.97619,
+            25.14582
+          ]
+        },
+        {
+          "name": "district_point_in_polygon_recomputed",
+          "status": "pass",
+          "mismatch_count": 0,
+          "outside_taipei_count": 0,
+          "source_area_differs_count": 75,
+          "ntu_campus_source_area_count": 65,
+          "ntu_campus_districts": {
+            "大安區": 59,
+            "中正區": 6
+          },
+          "boundary_disagreement_count": 10,
+          "boundary_disagreement_max_distance_m": 32.4
+        }
+      ],
+      "findings": [
+        {
+          "severity": "info",
+          "issue": "source_area 與 district 不同的 75 站：65 站為「臺大公館校區」，其中 6 站在水源校區，落在中正區，其餘 59 站在大安區，都合理。另 10 站離來源區界 0.8 至 32.4 公尺，多在捷運出口、橋下或路口，屬界線上的歸屬差異，不是座標錯誤。",
+          "action": "依行政區分析時使用 district；保留 source_area 作來源營運分區。"
+        }
+      ],
+      "limitations": [
+        "單一即時快照的站點屬性；dock_count 為總停車格，不代表需求或使用量。",
+        "原始快照可借、可還車數全為 0，疑似來源異常，不可當實際車況；輸出檔刻意不含即時車數。",
+        "source_updated_at 取自 mday，本快照全站相同，代表來源批次時間，不是各站實際異動時間。",
+        "is_active=false 為快照當下暫停，不代表撤站。只含臺北市 YouBike 2.0。"
+      ],
+      "source_data_time": "2026-10-24T11:58:03+08:00",
+      "statistical_period": null,
+      "usable_for": "可作臺北市 YouBike 2.0 站點位置、停車格數及行政區落點；不可當借還量或即時車況。"
+    }
+  ]
+}

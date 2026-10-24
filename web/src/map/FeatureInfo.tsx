@@ -55,6 +55,14 @@ export function FeatureTooltip({ feature, grid, state }: { feature: MapGeoJSONFe
       return <><b>{p.name}</b><br />平日計畫發車 {p.weekday_departures ?? '無班表'} 班 · 點選查看</>;
     case 'places':
       return <PlaceInfo p={p as PlaceProps} />;
+    case 'youbike':
+      return (
+        <>
+          <b>{p.name ?? '（未命名）'}</b><br />
+          YouBike 2.0 · {p.district ?? ''} · {p.dock_count ?? '—'} 格
+          {p.is_active === false && <><br /><Warn>資料時間點暫停營運</Warn></>}
+        </>
+      );
     default:
       return <GridTooltip id={Number(feature.id)} grid={grid} state={state} />;
   }

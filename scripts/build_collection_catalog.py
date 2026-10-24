@@ -13,6 +13,7 @@ GROUPS = {
     "urban": "臺北市專用道、停車、通行限制與公廁",
     "background": "臺北市客運統計與運具使用調查",
     "tdx": "TDX 歷史與加值服務",
+    "youbike": "臺北市 YouBike 2.0 站點",
 }
 
 
@@ -30,7 +31,7 @@ def review_index():
             if output:
                 result[output] = {
                     "status": record.get("review_status", record.get("status", "pending")),
-                    "report": str(path.relative_to(ROOT)),
+                    "report": path.relative_to(ROOT).as_posix(),
                     "record_count": record.get("record_count"),
                 }
     return result
@@ -84,7 +85,7 @@ def build():
                 "outputs": outputs,
                 "independent_review_status": review_status,
                 "limitations": entry.get("limitations", []),
-                "source_delivery": str(delivery_path.relative_to(ROOT)),
+                "source_delivery": delivery_path.relative_to(ROOT).as_posix(),
             }
             references = list(dict.fromkeys(
                 entry.get("reference_files", [])
@@ -134,7 +135,7 @@ if __name__ == "__main__":
     result = build()
     path = ROOT / "data/catalog.json"
     temporary = ROOT / "raw_data/collection_catalog.json.part"
-    temporary.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    temporary.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
     temporary.replace(path)
     statuses = {}
     for record in result["records"]:

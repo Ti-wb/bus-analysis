@@ -37,6 +37,7 @@ npm --prefix web run build
 | 公車路線、站牌 | `data/taipei_feeds` 的 `route_shapes`、`stop_locations`、`route_stop_sequences` | 線形簡化；站牌附路線清單與平日計畫發車數 |
 | 捷運路網、車站 | `map-data/osm` 的 `railways`、`transport` | 只取具名的捷運與輕軌線，排除機廠、測試軌；車站取路線約 80 m 內的軌道車站 |
 | 重要地點 | `map-data/traffic-focus` 的 OSM 設施候選與臺北市社宅 | 依類別上色、可逐類開關；住宅區、商業產業等具名土地使用候選預設隱藏；社宅點大小依規劃戶數。位置是候選標記，不是出入口，也不代表人流 |
+| YouBike 站點 | `data/youbike/stations.geojson`（臺北市交通局 YouBike 2.0，見[資料整理](data-collection.md)） | 預設關閉，放大到 12.5 級後顯示；點大小依總停車格數，快照時暫停營運的站點為灰色。只有站點，沒有即時車數 |
 | 公車班次網格 | `fixed_schedules`、`headway_schedules` 加上站序 | 見下節 |
 
 ## 班次網格

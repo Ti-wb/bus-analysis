@@ -173,6 +173,9 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, sta
             <Source id="bus-stops" type="geojson" data={data.bus_stops}>
               <Layer {...withVisibility(L.busStopsLayer)} />
             </Source>
+            <Source id="youbike" type="geojson" data={data.youbike_stations}>
+              <Layer {...withVisibility(L.youbikeLayer)} />
+            </Source>
             <Source id="places" type="geojson" data={data.places}>
               <Layer {...withVisibility(L.placesLayer(placeMembers))} />
             </Source>

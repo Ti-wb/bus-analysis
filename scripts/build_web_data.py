@@ -279,6 +279,18 @@ def main():
         "limitations": "設施候選位置，不是出入口，也不是已驗證的人流排名；OSM 同一設施可能有多個標記，兩個來源未去重。",
     }))
 
+    # YouBike 2.0 stations (official Taipei feed, station attributes only).
+    youbike = read(ROOT / "data/youbike/stations.geojson")
+    write("youbike_stations.geojson", collection([{
+        "type": "Feature",
+        "properties": {k: f["properties"][k] for k in ("station_id", "name", "district", "dock_count", "is_active")},
+        "geometry": rounded(shape(f["geometry"])),
+    } for f in youbike["features"]], {
+        "source": "data/youbike/stations.geojson（臺北市政府交通局 YouBike 2.0）",
+        "source_data_time": youbike["metadata"]["source_data_time"],
+        "limitations": "只有站點與總停車格數，沒有即時可借車數，也不代表使用量；只含臺北市站點。",
+    }))
+
     # Bus network and planned departures.
     routes = read(FEEDS / "routes.json")["records"]
     route_names = {r["route_id"]: r["route_names_zh"][0] for r in routes}

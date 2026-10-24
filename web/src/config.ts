@@ -33,9 +33,10 @@ export const LAYER_GROUPS: Record<LayerGroup, string[]> = {
   stops: ['bus-stops'],
   mrt: ['mrt-lines-casing', 'mrt-lines', 'mrt-stations'],
   places: ['places'],
+  youbike: ['youbike'],
 };
 export const DEFAULT_LAYERS: LayerGroup[] = ['grid', 'routes', 'mrt', 'places'];
-export const HOVER_LAYERS = ['places', 'bus-stops', 'mrt-stations', 'bus-routes', 'mrt-lines', 'grid-fill', 'grid-hatch'];
+export const HOVER_LAYERS = ['places', 'youbike', 'bus-stops', 'mrt-stations', 'bus-routes', 'mrt-lines', 'grid-fill', 'grid-hatch'];
 
 export interface PlaceCategory {
   key: string;

@@ -10,7 +10,7 @@ async function loadJSON<T>(name: string): Promise<T> {
   return response.json() as Promise<T>;
 }
 
-const LAYER_FILES = ['roads', 'districts', 'taipei_boundary', 'bus_routes', 'bus_stops', 'mrt_lines', 'mrt_stations', 'district_labels', 'places'] as const;
+const LAYER_FILES = ['roads', 'districts', 'taipei_boundary', 'bus_routes', 'bus_stops', 'mrt_lines', 'mrt_stations', 'district_labels', 'places', 'youbike_stations'] as const;
 
 export async function loadMapData(): Promise<MapData> {
   const docs = await Promise.all(LAYER_FILES.map((name) => loadJSON<FeatureCollection>(`${name}.geojson`)));
