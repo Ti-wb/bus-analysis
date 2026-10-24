@@ -12,6 +12,7 @@ import Map, {
   Popup,
   Source,
   type LayerProps,
+  type MapEvent,
   type MapLayerMouseEvent,
   type MapRef,
 } from 'react-map-gl/maplibre';
@@ -101,6 +102,8 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
   const [labelLayer, setLabelLayer] = useState<string | null>(null);
   const [styleLoaded, setStyleLoaded] = useState(false);
   const [localBase, setLocalBase] = useState(false);
+  const [fallbackView, setFallbackView] = useState<ViewState | null>(null);
+  const notifiedReady = useRef(false);
   const [mapNotice, setMapNotice] = useState<string | null>(null);
   const baseLabels = useRef<string[]>([]);
   const [hover, setHover] = useState<Hover | null>(null);
@@ -123,11 +126,16 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
   const catchmentShape = useMemo(() => (station ? circle(station.at, STATION_RADIUS) : null), [station]);
   const travelData = useMemo(() => travelCollection(data.bus_travel_times, state), [data.bus_travel_times, state.day, state.hour]);
   const useLocalBase = useCallback(() => {
+    const map = mapRef.current;
+    if (map) {
+      const center = map.getCenter();
+      setFallbackView({ center: [center.lng, center.lat], zoom: map.getZoom() });
+    }
     setStyleLoaded(false);
     setLabelLayer(null);
     setLocalBase(true);
     setMapNotice('已使用本地簡圖；道路、行政界與資料圖層可繼續操作，沒有線上底圖路名。');
-  }, []);
+  }, [mapRef]);
 
   useEffect(() => {
     if (styleLoaded || localBase) return;
@@ -166,8 +174,8 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
     return () => canvas.removeEventListener('keydown', openStation);
   }, [data, editor, styleLoaded, mapRef, onStation, state.layers]);
 
-  const handleLoad = useCallback(() => {
-    const map = mapRef.current!.getMap();
+  const handleLoad = useCallback((event: MapEvent) => {
+    const map = event.target;
     // The container can be measured before the stylesheet applies; re-measure once ready.
     map.resize();
     // On phones the expanded attribution wraps over the bottom cards, so it starts as its ⓘ button.
@@ -185,8 +193,16 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
     baseLabels.current = labels.map((l) => l.id);
     setLabelLayer(labels[0]?.id ?? null);
     setStyleLoaded(true);
-    onReady();
-  }, [mapRef, onReady]);
+  }, []);
+
+  useEffect(() => {
+    // Replacing the basemap must not repeat the route workspace's initial fit.
+    // Notify after the replacement's ref has been attached.
+    if (styleLoaded && !notifiedReady.current) {
+      notifiedReady.current = true;
+      onReady();
+    }
+  }, [styleLoaded, onReady]);
 
   // Base-map place and road names follow the label preference.
   useEffect(() => {
@@ -267,6 +283,7 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
     ? { routeId: popup.feature.properties.route_id as string }
     : station?.type === 'bus' && station.properties.source_scope !== 'NewTaipei' ? { names: station.properties.routes } : null;
   const below = labelLayer ?? undefined;
+  const mapView = fallbackView ?? initialView;
 
   return (
     <>
@@ -275,7 +292,7 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
         ref={mapRef}
         mapStyle={localBase ? LOCAL_STYLE : BASE_STYLE}
         workerUrl={workerUrl}
-        initialViewState={{ longitude: initialView.center[0], latitude: initialView.center[1], zoom: initialView.zoom }}
+        initialViewState={{ longitude: mapView.center[0], latitude: mapView.center[1], zoom: mapView.zoom }}
         localIdeographFontFamily="'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif"
         minZoom={8}
         maxZoom={17}
