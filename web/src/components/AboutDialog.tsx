@@ -17,7 +17,7 @@ function sourceLinks(value: unknown): string[] {
   return [...result];
 }
 
-export default function AboutDialog({ open, grid, coverage, need, ages, supplemental, onClose }: { open: boolean; grid: Grid | null; coverage: Coverage | null; need: NeedGrid | null; ages: VillageAges | null; supplemental: SupplementalData; onClose: () => void }) {
+export default function AboutDialog({ open, grid, coverage, need, ages, supplemental, onClose, onReplay }: { open: boolean; grid: Grid | null; coverage: Coverage | null; need: NeedGrid | null; ages: VillageAges | null; supplemental: SupplementalData; onClose: () => void; onReplay: () => void }) {
   const ref = useRef<HTMLDialogElement>(null);
   useEffect(() => {
     const dialog = ref.current;
@@ -31,6 +31,12 @@ export default function AboutDialog({ open, grid, coverage, need, ages, suppleme
     <dialog ref={ref} className="about" onClose={onClose}>
       <button className="close" aria-label="關閉" onClick={onClose}>×</button>
       <h2>資料與方法</h2>
+      <section className="about-tour" aria-labelledby="about-tour-title">
+        <h3 id="about-tour-title">快速導覽</h3>
+        <p>查閱資料來源、計算假設，或重新認識主要功能。</p>
+        <button className="btn-outline" onClick={onReplay}>重新觀看快速導覽</button>
+        <small>重看導覽會保留目前地圖與設定。</small>
+      </section>
       <h3>跨市資料快照</h3>
       <p>新北／跳蛙公車、里人口年齡、道路速率與推估旅時各自保留來源與期間。探索頁班次網格使用北北基官方 TDX 發布班表；站點覆蓋、需求落差及路線方案仍使用原臺北市資料模型。網站沒有自動輪詢即時資料。</p>
       {supplemental.supplemental_manifest?.records.map((record) => <details className="about-snapshot" key={record.id}>

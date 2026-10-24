@@ -21,13 +21,18 @@ import type { RouteTarget } from './routeEditor/RouteWorkspace';
 import { computeNeed, needCollection, quadrantOf } from './need';
 import { villagePeriod } from './regional';
 import type { AppState, CoreMapData, Coverage, Grid, NeedGrid, StationSelection, SupplementalData, ViewState } from './types';
+import Onboarding from './onboarding/Onboarding';
+import { markOnboardingSeen, shouldShowOnboarding } from './onboarding/state';
 
 const initial = readHash();
+const initialOnboarding = shouldShowOnboarding(window.location.hash);
 const isCoreBusStation = (station: StationSelection | null | undefined): station is Extract<StationSelection, { type: 'bus' }> =>
   station?.type === 'bus' && !station.properties.source_scope;
 
 export default function App() {
   const mapRef = useRef<MapRef>(null);
+  const mainRef = useRef<HTMLElement>(null);
+  const searchRef = useRef<HTMLInputElement>(null);
   const viewRef = useRef<ViewState>({ center: initial.center, zoom: initial.zoom });
   const [state, setState] = useState<AppState>(() => {
     const { center: _center, zoom: _zoom, ...rest } = initial;
@@ -54,6 +59,8 @@ export default function App() {
   const [analysisError, setAnalysisError] = useState<Error | null>(null);
   const [playing, setPlaying] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
+  const [onboarding, setOnboarding] = useState<'first' | 'replay' | null>(initialOnboarding ? 'first' : null);
+  const [firstTask, setFirstTask] = useState(false);
   const [explainerOpen, setExplainerOpen] = useState(true);
   const [prefsOpen, setPrefsOpen] = useState(false);
   const [station, setStation] = useState<StationSelection | null>(null);
@@ -72,6 +79,7 @@ export default function App() {
   const focusReturnView = useRef<(ViewState & { bearing: number; pitch: number }) | null>(null);
 
   const selectStation = useCallback((next: StationSelection | null, origin?: HTMLElement) => {
+    if (next) setFirstTask(false);
     // A new selection supersedes any focus restoration from the previous card.
     if (focusFrame.current !== null) cancelAnimationFrame(focusFrame.current);
     focusFrame.current = null;
@@ -297,8 +305,18 @@ export default function App() {
   };
 
   const loading = !error && !analysisError && mapStatus !== 'failed' && (!(data && gridData) || mapStatus === 'loading' || (frequency && !routeTool && !regionalReady));
+  const finishOnboarding = () => {
+    markOnboardingSeen();
+    setOnboarding(null);
+    if (onboarding === 'first') {
+      setFirstTask(true);
+      // Run after the dialog restores focus; keep the current view unchanged.
+      requestAnimationFrame(() => mainRef.current?.focus({ preventScroll: true }));
+    }
+  };
   const navigate = (next: typeof page) => {
     const move = () => {
+      if (next !== 'explore') setFirstTask(false);
       if (focusReturnView.current) {
         const previous = focusReturnView.current;
         focusReturnView.current = null;
@@ -325,7 +343,7 @@ export default function App() {
         onExplore={() => navigate('explore')}
         onIndicators={() => editorRef.current?.indicators()}
         onPreferences={() => routeTool ? editorRef.current?.preferences() : page === 'improvements' ? improvementRef.current?.preferences() : setPrefsOpen(true)} onShare={share} />
-      <main className={`stage${isBusFocus && page === 'explore' ? ' is-bus-focus' : ''}`}>
+      <main ref={mainRef} tabIndex={-1} aria-label="主要內容" className={`stage${isBusFocus && page === 'explore' ? ' is-bus-focus' : ''}`}>
         {page === 'improvements' ? <ImprovementList ref={improvementRef} map={data} onTime={improvementTime} onEdit={(variant, filters) => {
           setRouteTarget({ variant, day: filters.day, period: filters.period }); navigate('routes');
         }} /> : routeTool && data && grid && gridData ? <RouteWorkspace ref={editorRef} target={routeTarget} map={data} grid={grid} gridData={gridData} state={state} initialView={viewRef.current} /> : <>
@@ -364,7 +382,12 @@ export default function App() {
           onHoverRoute={(routeId) => setBusFocus((focus) => focus && ({ ...focus, hovered_route_id: routeId }))}
           onShowAll={() => setBusFocus((focus) => focus && showAllFocusRoutes(focus))} />
           : <Panel villageAges={villageAges} ageError={ageError} onRetryAges={() => { setAgeError(null); setAgeAttempt((attempt) => attempt + 1); }} selectedVillage={selectedVillage} onVillage={selectVillage} state={state} playing={playing} needCounts={need?.counts ?? null} data={data} supplementalPending={supplementalPending} onRetrySupplemental={retrySupplemental} onChange={update} onTogglePlay={() => setPlaying((p) => !p)} onPreferences={() => setPrefsOpen(true)} />}
-        {data && <Search data={data} onChoose={handleSearch} />}
+        {data && <Search inputRef={searchRef} data={data} onChoose={handleSearch} />}
+        {firstTask && data && !station && <aside className="first-task-hint" aria-labelledby="first-task-title">
+          <button aria-label="關閉站點探索提示" onClick={() => { setFirstTask(false); searchRef.current?.focus({ preventScroll: true }); }}>×</button>
+          <h2 id="first-task-title">從你每天經過的站點開始</h2>
+          <p>搜尋站點，或直接點地圖上的站牌，<br />看看附近有哪些人與重要設施。</p>
+        </aside>}
         {!isBusFocus && <><div className="status-chip">
           {ageMode ? `村里年齡 · ${villageAges?.metadata.population_period ?? '載入中'} · 北北基`
             : state.layers.has('villages') ? `里${state.villageMetric === 'population' ? '人口' : '高齡占比'}${populationPeriod ? ` · ${populationPeriod}` : ''}`
@@ -397,7 +420,8 @@ export default function App() {
         </>}
       </main>
       {prefsOpen && <Preferences state={state} data={data} supplementalPending={supplementalPending} onRetrySupplemental={retrySupplemental} onApply={(patch) => { update(patch); setPrefsOpen(false); }} onClose={() => setPrefsOpen(false)} />}
-      <AboutDialog open={aboutOpen} grid={shownGrid ?? grid} coverage={coverage} need={needGrid} ages={villageAges} supplemental={supplemental} onClose={() => setAboutOpen(false)} />
+      <AboutDialog open={aboutOpen} grid={shownGrid ?? grid} coverage={coverage} need={needGrid} ages={villageAges} supplemental={supplemental} onClose={() => setAboutOpen(false)} onReplay={() => setOnboarding('replay')} />
+      {onboarding && <Onboarding onFinish={finishOnboarding} />}
     </>
   );
 }

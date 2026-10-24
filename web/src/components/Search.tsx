@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type Ref } from 'react';
 import { PLACE_BY_CATEGORY } from '../config';
 import type { MapData, StationSelection } from '../types';
 
@@ -51,7 +51,7 @@ function buildIndex(data: MapData): SearchItem[] {
   ];
 }
 
-export default function Search({ data, onChoose }: { data: MapData; onChoose: (item: SearchItem) => void }) {
+export default function Search({ data, onChoose, inputRef }: { data: MapData; onChoose: (item: SearchItem) => void; inputRef?: Ref<HTMLInputElement> }) {
   const index = useMemo(() => buildIndex(data), [data]);
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
@@ -78,6 +78,7 @@ export default function Search({ data, onChoose }: { data: MapData; onChoose: (i
         <path d="m20 20-3.5-3.5" stroke="currentColor" strokeWidth="2" />
       </svg>
       <input
+        ref={inputRef}
         type="search"
         placeholder="搜尋捷運、公車、YouBike 或地點"
         aria-label="搜尋站點與地點"
