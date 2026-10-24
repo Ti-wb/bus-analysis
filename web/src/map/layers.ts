@@ -72,12 +72,26 @@ export const needRobustLayer: StyleLayer = {
   paint: { 'line-color': '#7a2a0c', 'line-width': ['interpolate', ['linear'], ['zoom'], 11, 1.2, 15, 2.4] },
 };
 
-// One pixel per 50 m cell; nearest resampling keeps the cells square when zoomed in.
+// One pixel per cell; nearest resampling keeps the cells square when zoomed in.
 export const coverageLayer: StyleLayer = {
   id: 'coverage',
   type: 'raster',
   paint: { 'raster-resampling': 'nearest', 'raster-fade-duration': 0, 'raster-opacity': 0.85 },
 };
+
+/** White cell edges over the coverage raster; they fade in once a cell is about 10 px wide. */
+export function coverageGridLayer(cellM: number): StyleLayer {
+  const from = 14 - Math.log2(cellM / 50);
+  return {
+    id: 'coverage-grid',
+    type: 'line',
+    paint: {
+      'line-color': '#ffffff',
+      'line-width': ['interpolate', ['linear'], ['zoom'], from, 0.5, 17, 1.2],
+      'line-opacity': ['interpolate', ['linear'], ['zoom'], from - 1, 0, from, 0.75],
+    },
+  };
+}
 
 // Walking catchment around a clicked bus stop; matches the walk colour of the coverage mode.
 export const catchmentFillLayer: StyleLayer = {

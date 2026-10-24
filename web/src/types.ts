@@ -90,13 +90,16 @@ export interface AppState extends CoverageState, NeedState {
   cell: CellSize;
   layers: Set<LayerGroup>;
   places: Set<string>;
+  /** Base-map place and road names, plus the district labels. */
+  labels: boolean;
 }
 
 export type AnalysisMode = 'frequency' | 'coverage' | 'need';
 export type CoverageLayer = 'walk' | 'ride';
 export type StationType = 'bus' | 'mrt' | 'youbike';
+export type CoverageCell = 50 | 100 | 200;
 
-/** Distance to the nearest station per 50 m cell; see scripts/build_web_data.py build_coverage. */
+/** Distance to the nearest station per cell; see scripts/build_web_data.py build_coverage. */
 export interface Coverage {
   west: number;
   north: number;
@@ -113,9 +116,12 @@ export interface Coverage {
 export interface CoverageState {
   mode: AnalysisMode;
   coverage: Set<CoverageLayer>;
+  /** Station types that count towards walking reach, each with its own radius in metres. */
   walkTypes: Set<StationType>;
-  walkRadius: number;
+  walkRadii: Record<StationType, number>;
   rideRadius: number;
+  coverageCell: CoverageCell;
+  gridLines: boolean;
 }
 
 /** [population, households, data_share] per radius; see scripts/build_web_data.py build_catchments. */

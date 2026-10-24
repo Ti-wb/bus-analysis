@@ -47,9 +47,9 @@ function PlaceInfo({ p }: { p: PlaceProps }) {
 export function CoverageTooltip({ distances, state }: { distances: { metres: Record<StationType, number>; capped: number }; state: AppState }) {
   const { metres, capped } = distances;
   const text = (m: number) => (m >= capped ? `> ${distanceText(capped)}` : distanceText(m));
-  const walk = Math.min(...[...state.walkTypes].map((t) => metres[t]));
+  const walkable = STATION_TYPES.filter((t) => state.walkTypes.has(t.key) && metres[t.key] <= state.walkRadii[t.key]);
   const reach = [
-    state.coverage.has('walk') && state.walkTypes.size > 0 && walk <= state.walkRadius && `步行 ${distanceText(state.walkRadius)} 內`,
+    state.coverage.has('walk') && walkable.length > 0 && `步行到${walkable.map((t) => t.label).join('、')}站範圍內`,
     state.coverage.has('ride') && metres.youbike <= state.rideRadius && `YouBike ${distanceText(state.rideRadius)} 內`,
   ].filter(Boolean).join('、');
   return (

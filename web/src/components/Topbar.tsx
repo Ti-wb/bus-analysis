@@ -11,10 +11,11 @@ interface Props {
   mode: AnalysisMode;
   aboutActive: boolean;
   onAbout: () => void;
+  onPreferences: () => void;
   onShare: () => Promise<boolean>;
 }
 
-export default function Topbar({ mode, aboutActive, onAbout, onShare }: Props) {
+export default function Topbar({ mode, aboutActive, onAbout, onPreferences, onShare }: Props) {
   const [shareText, setShareText] = useState('分享視圖');
   const share = async () => {
     setShareText((await onShare()) ? '已複製連結' : '請複製網址列');
@@ -38,6 +39,12 @@ export default function Topbar({ mode, aboutActive, onAbout, onShare }: Props) {
       <div className="topbar-right">
         <span className="chip chip-teal">{CHIPS[mode][0]}</span>
         <span className="chip chip-amber">{CHIPS[mode][1]}</span>
+        <button className="btn-outline btn-prefs" onClick={onPreferences}>
+          <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+            <path fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" d="M3 2v12M8 2v12M13 2v12M1.5 10h3M6.5 5h3M11.5 9h3" />
+          </svg>
+          偏好
+        </button>
         <button className="btn-outline" onClick={share}>{shareText}</button>
       </div>
     </header>

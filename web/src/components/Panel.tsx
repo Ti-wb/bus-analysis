@@ -11,6 +11,7 @@ interface Props {
   needCounts: Record<Quadrant, number> | null;
   onChange: (patch: Partial<AppState>) => void;
   onTogglePlay: () => void;
+  onPreferences: () => void;
 }
 
 const MODES: { key: AnalysisMode; label: string }[] = [
@@ -33,8 +34,6 @@ const LAYER_TOGGLES: { group: LayerGroup; label: string; swatch: string; note?: 
   { group: 'youbike', label: 'YouBike 站點', swatch: 'swatch-youbike', note: () => '放大後顯示' },
 ];
 
-const RADIUS_KEY = { walk: 'walkRadius', ride: 'rideRadius' } as const;
-
 function toggled<T>(set: Set<T>, value: T): Set<T> {
   const next = new Set(set);
   if (next.has(value)) next.delete(value);
@@ -44,48 +43,34 @@ function toggled<T>(set: Set<T>, value: T): Set<T> {
 
 const rgba = (layer: CoverageLayer, alpha = 1) => `rgba(${COVERAGE_LAYERS[layer].rgb.join(',')},${alpha})`;
 
-function CoverageControls({ state, onChange }: Pick<Props, 'state' | 'onChange'>) {
+/** Walking radius text: one value when every counted type shares it, else the range. */
+function walkText(state: AppState): string {
+  const radii = STATION_TYPES.filter((t) => state.walkTypes.has(t.key)).map((t) => state.walkRadii[t.key]);
+  if (!radii.length) return '未選站點';
+  const [low, high] = [Math.min(...radii), Math.max(...radii)];
+  return low === high ? distanceText(low) : `${low}–${high} m`;
+}
+
+/** Settings now live in the preferences sidebar; this card only summarises them. */
+function CoverageSummary({ state, onPreferences }: { state: AppState; onPreferences: () => void }) {
+  const rows: { layer: CoverageLayer; value: string }[] = [
+    { layer: 'walk', value: walkText(state) },
+    { layer: 'ride', value: distanceText(state.rideRadius) },
+  ];
   return (
-    <>
-      <h2>覆蓋圖層</h2>
-      {(Object.keys(COVERAGE_LAYERS) as CoverageLayer[]).map((layer) => {
-        const spec = COVERAGE_LAYERS[layer];
-        const on = state.coverage.has(layer);
-        const radius = state[RADIUS_KEY[layer]];
-        return (
-          <div key={layer} className={`coverage-card${on ? ' is-on' : ''}`} style={{ '--c': rgba(layer), '--c-soft': rgba(layer, 0.08) } as CSSProperties}>
-            <label className="coverage-head">
-              <i />
-              <b>{spec.label}</b>
-              <input type="checkbox" role="switch" checked={on} onChange={() => onChange({ coverage: toggled(state.coverage, layer) })} />
-            </label>
-            <p className="muted">{layer === 'walk' ? '從公車、捷運、YouBike 站向外擴散' : spec.note}</p>
-            <div className="segmented" role="radiogroup" aria-label={`${spec.label}半徑`}>
-              {spec.radii.map((r) => (
-                <button key={r} role="radio" aria-checked={radius === r} className={radius === r ? 'is-active' : ''} onClick={() => onChange({ [RADIUS_KEY[layer]]: r })}>
-                  {distanceText(r)}
-                </button>
-              ))}
-            </div>
-            {layer === 'walk' && (
-              <div className="place-chips station-chips">
-                {STATION_TYPES.map((t) => (
-                  <button
-                    key={t.key}
-                    className={`place-chip${state.walkTypes.has(t.key) ? ' is-on' : ''}`}
-                    style={{ '--c': rgba('walk') } as CSSProperties}
-                    aria-pressed={state.walkTypes.has(t.key)}
-                    onClick={() => onChange({ walkTypes: toggled(state.walkTypes, t.key) })}
-                  >
-                    <i />{t.label}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        );
-      })}
-    </>
+    <div className="coverage-summary">
+      <h2>目前顯示</h2>
+      {rows.map(({ layer, value }) => (
+        <div key={layer} className={`summary-row${state.coverage.has(layer) ? '' : ' is-off'}`} style={{ '--c': rgba(layer) } as CSSProperties}>
+          <i />{COVERAGE_LAYERS[layer].label}
+          <b>{state.coverage.has(layer) ? value : '關閉'}</b>
+        </div>
+      ))}
+      <div className="summary-foot">
+        <span>{state.coverageCell} m 網格</span>
+        <button className="link-btn" onClick={onPreferences}>到「偏好」調整</button>
+      </div>
+    </div>
   );
 }
 
@@ -96,7 +81,7 @@ function CoverageLegend({ state }: { state: AppState }) {
       <h3>由站心向外，逐格變淡</h3>
       {layers.map((layer) => (
         <div key={layer} className="coverage-legend">
-          <p>{COVERAGE_LAYERS[layer].label} · {distanceText(state[RADIUS_KEY[layer]])}</p>
+          <p>{COVERAGE_LAYERS[layer].label} · {layer === 'walk' ? walkText(state) : distanceText(state.rideRadius)}</p>
           <div className="legend-scale legend-scale-5">
             {COVERAGE_ALPHA.map((a) => <span key={a} style={{ background: rgba(layer, a) }} />)}
           </div>
@@ -104,7 +89,7 @@ function CoverageLegend({ state }: { state: AppState }) {
         </div>
       ))}
       {!layers.length && <p className="muted">兩個覆蓋圖層都已關閉。</p>}
-      <p className="legend-note">每格約 50 m；直線半徑，未計路網與河川阻隔。</p>
+      <p className="legend-note">每格約 {state.coverageCell} m；直線半徑，未計路網與河川阻隔。</p>
     </section>
   );
 }
@@ -188,7 +173,7 @@ function NeedLegend({ state, counts }: { state: AppState; counts: Record<Quadran
   );
 }
 
-export default function Panel({ state, playing, needCounts, onChange, onTogglePlay }: Props) {
+export default function Panel({ state, playing, needCounts, onChange, onTogglePlay, onPreferences }: Props) {
   const { labels } = scaleFor(state);
   const frequency = state.mode === 'frequency';
   return (
@@ -206,7 +191,7 @@ export default function Panel({ state, playing, needCounts, onChange, onTogglePl
           ))}
         </div>
 
-        {state.mode === 'coverage' && <CoverageControls state={state} onChange={onChange} />}
+        {state.mode === 'coverage' && <CoverageSummary state={state} onPreferences={onPreferences} />}
         {state.mode === 'need' && <NeedControls state={state} onChange={onChange} />}
 
         <h2>顯示圖層</h2>
