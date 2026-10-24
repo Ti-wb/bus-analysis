@@ -148,6 +148,11 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
     const map = mapRef.current!.getMap();
     // The container can be measured before the stylesheet applies; re-measure once ready.
     map.resize();
+    // On phones the expanded attribution wraps over the bottom cards, so it starts as its ⓘ button.
+    // MapLibre only expands it once the attribution text arrives, hence waiting for the first idle.
+    if (map.getContainer().clientWidth <= 640) {
+      map.once('idle', () => map.getContainer().querySelector('.maplibregl-compact-show')?.classList.remove('maplibregl-compact-show'));
+    }
     addHatchPattern(map);
     const labels = map.getStyle().layers.filter((l) => l.type === 'symbol');
     for (const layer of labels) {
@@ -264,7 +269,8 @@ export default function MapView({ editor, mapRef, initialView, data, grid, gridD
         onMoveEnd={(e) => onMoveEnd({ center: [e.viewState.longitude, e.viewState.latitude], zoom: e.viewState.zoom })}
       >
         <NavigationControl position="top-right" visualizePitch={false} />
-        <AttributionControl position={editor ? 'bottom-right' : 'top-right'} compact customAttribution="公車：臺北市公共運輸處｜行政界：內政部國土測繪中心" />
+        {/* Same corner in every view; floating cards keep 40 px clear at the bottom for it. */}
+        <AttributionControl position="bottom-right" compact customAttribution="公車：臺北市公共運輸處｜行政界：內政部國土測繪中心" />
 
         {labelLayer !== null && (
           <>
