@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "prepared_at": "2026-10-24T12:03:14+08:00",
+  "datasets": [
+    {
+      "dataset_id": "taipei_youbike_stations",
+      "status": "normalized",
+      "output_files": [
+        "data/youbike/stations.geojson"
+      ],
+      "record_count": 1822,
+      "period": "2026-10-24T11:58:03+08:00",
+      "limitations": [
+        "來源是每分鐘更新的即時資料；本檔只保留站點屬性，可借、可還車數只留在原始快照，不能當成需求或使用量。",
+        "原始快照的可借、可還車數全站皆為 0，疑為來源異常，不可當實際車況。",
+        "source_updated_at 取自來源 mday，全站相同，是來源批次時間，不是各站實際異動時間。",
+        "dock_count 是來源 Quantity（總停車格），不是站點容量評估。",
+        "is_active 為 false 的站點仍保留，代表快照當下暫停營運，不代表已撤站。",
+        "source_area 沿用來源場站區域，含「臺大公館校區」等非行政區；district 由座標落點對應 map-data/admin 行政區另行計算。",
+        "只含臺北市 YouBike 2.0，不含新北市或其他系統的站點。"
+      ],
+      "bytes": 1535561
+    }
+  ]
+}

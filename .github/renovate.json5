@@ -1,0 +1,28 @@
+{
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: ['config:recommended', ':timezone(Asia/Taipei)', 'schedule:weekly'],
+  labels: ['dependencies'],
+  // Wait before proposing a release, so a compromised or yanked version is caught first.
+  minimumReleaseAge: '3 days',
+  // Re-resolve uv.lock and web/package-lock.json monthly to pick up indirect updates.
+  lockFileMaintenance: {
+    enabled: true,
+    schedule: ['* 0-3 1 * *'],
+  },
+  packageRules: [
+    {
+      matchManagers: ['github-actions'],
+      groupName: 'GitHub Actions',
+    },
+    {
+      matchManagers: ['npm'],
+      matchUpdateTypes: ['minor', 'patch'],
+      groupName: 'web dependencies (non-major)',
+    },
+    {
+      matchManagers: ['pep621'],
+      matchUpdateTypes: ['minor', 'patch'],
+      groupName: 'Python dependencies (non-major)',
+    },
+  ],
+}

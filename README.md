@@ -30,9 +30,13 @@ Agent 協作、格式與提交規則見 [AGENTS.md](AGENTS.md)。
 
 臺北市學校、醫院、住宅區等[交通需求候選清單](docs/traffic-focus.md)提供 CSV、GIS 標記與範圍，另含官方社宅規劃戶數及工程狀態；設施位置不代表實測高流量。
 
+## 前端地圖
+
+`web/` 是公車與捷運路網、公車班次網格的單頁地圖，線上版在 <https://bus.tw.pe/>；產生資料與啟動方式見 [前端地圖說明](docs/web-map.md)。
+
 ## 更新
 
-安裝、執行與自動更新方式見 [資料更新說明](docs/data-updates.md)。專案用 uv 管理 Python 與依賴，不熟悉的話請先看 [uv 快速上手](docs/uv.md)。
+安裝、執行與自動更新方式見 [資料更新說明](docs/data-updates.md)。專案用 uv 管理 Python 與依賴，不熟悉的話請先看 [uv 快速上手](docs/uv.md)。Python、前端與 GitHub Actions 的依賴由 Renovate 每週開 PR 更新，設定在 `.github/renovate.json5`。
 
 ## 研究文件（MVP 預研究）
 
