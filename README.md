@@ -28,6 +28,8 @@ Agent 協作、格式與提交規則見 [AGENTS.md](AGENTS.md)。
 [補充資料目錄](data/official_cross_city/validation_catalog.json)及[跨市資料用法](docs/official-cross-city.md)。
 完整性與尚待來源釐清的項目見 [Validation 狀態](data/quality/pr_validation.json)。
 
+臺北市學校、醫院、住宅區等[交通需求候選清單](docs/traffic-focus.md)提供 CSV、GIS 標記與範圍，另含官方社宅規劃戶數及工程狀態；設施位置不代表實測高流量。
+
 ## 更新
 
 安裝、執行與自動更新方式見 [資料更新說明](docs/data-updates.md)。專案用 uv 管理 Python 與依賴，不熟悉的話請先看 [uv 快速上手](docs/uv.md)。
