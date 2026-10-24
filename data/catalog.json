@@ -10,7 +10,7 @@
       "static_data": "採目前官方可取得版本，保留實際版本日期",
       "cross_boundary_services": "保留臺北主管來源的跨市路線與捷運旅次；未以站名猜測行政區裁切"
     },
-    "record_count": 49,
+    "record_count": 50,
     "pending_source_groups": [],
     "preferred_current_bus_data": "data/taipei_feeds/",
     "legacy_stop_map": "data/bus_stops.geojson 是 2021 年舊圖資，現行站牌請用 data/taipei_feeds/stops.geojson",
@@ -784,6 +784,35 @@
         "統計區人口為 2024-12，邊界版本不同；即使 ID 全數相符，仍應在分析結果標示兩者的版本。"
       ],
       "source_delivery": "raw_data/population/delivery.json"
+    },
+    {
+      "dataset_id": "taipei_statistical_population_age5_base",
+      "group": "population_age",
+      "group_title": "臺北市最小統計區五歲年齡組人口",
+      "status": "normalized",
+      "period": {
+        "start": "2024-12",
+        "end": "2024-12"
+      },
+      "outputs": [
+        {
+          "path": "data/population/taipei_statistical_population_age5_base.json",
+          "independent_review": {
+            "status": "pass_with_limitations",
+            "report": "data/quality/population_age_review.json",
+            "record_count": 11490
+          },
+          "record_count": 11490
+        }
+      ],
+      "independent_review_status": "passed",
+      "limitations": [
+        "戶籍人口，不代表白天活動人口或公車搭乘需求。",
+        "來源只提供年齡組總數，沒有性別拆分。",
+        "統計區代碼與行政里代碼不同，不以名稱或碼前綴關聯里別資料。",
+        "邊界檔名標示 2015，人口為 2024-12；兩者版本不同。"
+      ],
+      "source_delivery": "raw_data/population_age/delivery.json"
     },
     {
       "dataset_id": "taipei_bus_lanes",
