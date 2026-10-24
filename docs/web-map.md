@@ -56,7 +56,7 @@ npm --prefix web run build
 
 ## 部署（GitHub Pages）
 
-`.github/workflows/deploy-web.yml` 在 `main` 的前端程式或來源資料變更時，產生地圖資料、型別檢查並建置，再發布到 GitHub Pages；也可在 Actions 頁面手動執行。
+`.github/workflows/deploy-web.yml` 在 `main` 的前端程式或來源資料變更時，產生地圖資料、型別檢查並建置，再發布到 GitHub Pages；也可在 Actions 頁面手動執行。相關 PR 只建置不發布，用來提早發現錯誤。
 
 第一次使用前，repo 管理員須在 **Settings → Pages → Build and deployment** 把 Source 設為 **GitHub Actions**。網址為 `https://ti-wb.github.io/bus-analysis/`。
 
