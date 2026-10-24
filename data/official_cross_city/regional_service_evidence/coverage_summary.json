@@ -1,0 +1,676 @@
+{
+  "schema_version": 1,
+  "dataset_id": "regional_geographic_published_service_summary",
+  "metadata": {
+    "record_count": 12,
+    "source_updated_at": null,
+    "generated_at": "2026-10-24T12:08:15+08:00",
+    "source_inputs": [
+      {
+        "path": "data/official_cross_city/service_coverage/Taipei_StopOfRoute.json.gz",
+        "record_count": 1241,
+        "scope_status": "complete_published_endpoint_by_exhausted_page",
+        "source_updated_at": "2026-10-24T09:36:32+08:00",
+        "source_record_update_times": [
+          "2026-10-24T09:36:32+08:00"
+        ],
+        "source_ids": [
+          "Taipei_StopOfRoute_skip_0_top_500",
+          "Taipei_StopOfRoute_skip_500_top_500",
+          "Taipei_StopOfRoute_skip_1000_top_500"
+        ],
+        "source_pages": [
+          "https://tdx.transportdata.tw/api-service/swagger/basic/2998e851-81d0-40f5-b26d-77e2f5ac4118"
+        ],
+        "download_urls": [
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/City/Taipei?%24format=JSON&%24top=500&%24skip=0&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/City/Taipei?%24format=JSON&%24top=500&%24skip=500&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/City/Taipei?%24format=JSON&%24top=500&%24skip=1000&%24orderby=RouteUID%2CSubRouteUID%2CDirection"
+        ],
+        "raw_files": [
+          "raw_data/official_cross_city/service_coverage/responses/Taipei_StopOfRoute_skip_0_top_500.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/Taipei_StopOfRoute_skip_500_top_500.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/Taipei_StopOfRoute_skip_1000_top_500.json.gz"
+        ],
+        "downloaded_at": [
+          "2026-10-24T11:38:01+08:00",
+          "2026-10-24T11:38:16+08:00",
+          "2026-10-24T11:38:31+08:00"
+        ]
+      },
+      {
+        "path": "data/official_cross_city/service_coverage/Taipei_Schedule.json.gz",
+        "record_count": 600,
+        "scope_status": "complete_published_endpoint_by_exhausted_page",
+        "source_updated_at": "2026-10-24T09:36:32+08:00",
+        "source_record_update_times": [
+          "2026-10-24T09:36:32+08:00"
+        ],
+        "source_ids": [
+          "Taipei_Schedule_skip_0_top_100",
+          "Taipei_Schedule_skip_100_top_100",
+          "Taipei_Schedule_skip_200_top_100",
+          "Taipei_Schedule_skip_300_top_100",
+          "Taipei_Schedule_skip_400_top_100",
+          "Taipei_Schedule_skip_500_top_100",
+          "Taipei_Schedule_skip_600_top_100"
+        ],
+        "source_pages": [
+          "https://tdx.transportdata.tw/api-service/swagger/basic/2998e851-81d0-40f5-b26d-77e2f5ac4118"
+        ],
+        "download_urls": [
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/Taipei?%24format=JSON&%24top=100&%24skip=0&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/Taipei?%24format=JSON&%24top=100&%24skip=100&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/Taipei?%24format=JSON&%24top=100&%24skip=200&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/Taipei?%24format=JSON&%24top=100&%24skip=300&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/Taipei?%24format=JSON&%24top=100&%24skip=400&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/Taipei?%24format=JSON&%24top=100&%24skip=500&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/Taipei?%24format=JSON&%24top=100&%24skip=600&%24orderby=RouteUID%2CSubRouteUID%2CDirection"
+        ],
+        "raw_files": [
+          "raw_data/official_cross_city/service_coverage/responses/Taipei_Schedule_skip_0_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/Taipei_Schedule_skip_100_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/Taipei_Schedule_skip_200_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/Taipei_Schedule_skip_300_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/Taipei_Schedule_skip_400_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/Taipei_Schedule_skip_500_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/Taipei_Schedule_skip_600_top_100.json.gz"
+        ],
+        "downloaded_at": [
+          "2026-10-24T12:00:06+08:00",
+          "2026-10-24T12:00:22+08:00",
+          "2026-10-24T12:00:37+08:00",
+          "2026-10-24T12:00:53+08:00",
+          "2026-10-24T12:01:08+08:00",
+          "2026-10-24T12:01:23+08:00",
+          "2026-10-24T12:01:38+08:00"
+        ]
+      },
+      {
+        "path": "data/official_cross_city/service_coverage/NewTaipei_StopOfRoute.json.gz",
+        "record_count": 1383,
+        "scope_status": "complete_published_endpoint_by_exhausted_page",
+        "source_updated_at": "2026-10-24T09:56:05+08:00",
+        "source_record_update_times": [
+          "2026-10-24T09:56:05+08:00"
+        ],
+        "source_ids": [
+          "NewTaipei_StopOfRoute_skip_0_top_500",
+          "NewTaipei_StopOfRoute_skip_500_top_500",
+          "NewTaipei_StopOfRoute_skip_1000_top_500"
+        ],
+        "source_pages": [
+          "https://tdx.transportdata.tw/api-service/swagger/basic/2998e851-81d0-40f5-b26d-77e2f5ac4118"
+        ],
+        "download_urls": [
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/City/NewTaipei?%24format=JSON&%24top=500&%24skip=0&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/City/NewTaipei?%24format=JSON&%24top=500&%24skip=500&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/City/NewTaipei?%24format=JSON&%24top=500&%24skip=1000&%24orderby=RouteUID%2CSubRouteUID%2CDirection"
+        ],
+        "raw_files": [
+          "raw_data/official_cross_city/service_coverage/responses/NewTaipei_StopOfRoute_skip_0_top_500.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/NewTaipei_StopOfRoute_skip_500_top_500.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/NewTaipei_StopOfRoute_skip_1000_top_500.json.gz"
+        ],
+        "downloaded_at": [
+          "2026-10-24T11:26:21+08:00",
+          "2026-10-24T11:26:36+08:00",
+          "2026-10-24T11:26:51+08:00"
+        ]
+      },
+      {
+        "path": "data/official_cross_city/service_coverage/NewTaipei_Schedule.json.gz",
+        "record_count": 962,
+        "scope_status": "complete_published_endpoint_by_exhausted_page",
+        "source_updated_at": "2026-10-24T09:56:05+08:00",
+        "source_record_update_times": [
+          "2026-10-24T09:56:05+08:00"
+        ],
+        "source_ids": [
+          "NewTaipei_Schedule_skip_0_top_100",
+          "NewTaipei_Schedule_skip_100_top_100",
+          "NewTaipei_Schedule_skip_200_top_100",
+          "NewTaipei_Schedule_skip_300_top_100",
+          "NewTaipei_Schedule_skip_400_top_100",
+          "NewTaipei_Schedule_skip_500_top_100",
+          "NewTaipei_Schedule_skip_600_top_100",
+          "NewTaipei_Schedule_skip_700_top_100",
+          "NewTaipei_Schedule_skip_800_top_100",
+          "NewTaipei_Schedule_skip_900_top_100"
+        ],
+        "source_pages": [
+          "https://tdx.transportdata.tw/api-service/swagger/basic/2998e851-81d0-40f5-b26d-77e2f5ac4118"
+        ],
+        "download_urls": [
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/NewTaipei?%24format=JSON&%24top=100&%24skip=0&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/NewTaipei?%24format=JSON&%24top=100&%24skip=100&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/NewTaipei?%24format=JSON&%24top=100&%24skip=200&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/NewTaipei?%24format=JSON&%24top=100&%24skip=300&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/NewTaipei?%24format=JSON&%24top=100&%24skip=400&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/NewTaipei?%24format=JSON&%24top=100&%24skip=500&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/NewTaipei?%24format=JSON&%24top=100&%24skip=600&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/NewTaipei?%24format=JSON&%24top=100&%24skip=700&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/NewTaipei?%24format=JSON&%24top=100&%24skip=800&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/NewTaipei?%24format=JSON&%24top=100&%24skip=900&%24orderby=RouteUID%2CSubRouteUID%2CDirection"
+        ],
+        "raw_files": [
+          "raw_data/official_cross_city/service_coverage/responses/NewTaipei_Schedule_skip_0_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/NewTaipei_Schedule_skip_100_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/NewTaipei_Schedule_skip_200_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/NewTaipei_Schedule_skip_300_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/NewTaipei_Schedule_skip_400_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/NewTaipei_Schedule_skip_500_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/NewTaipei_Schedule_skip_600_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/NewTaipei_Schedule_skip_700_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/NewTaipei_Schedule_skip_800_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/NewTaipei_Schedule_skip_900_top_100.json.gz"
+        ],
+        "downloaded_at": [
+          "2026-10-24T12:01:54+08:00",
+          "2026-10-24T12:03:40+08:00",
+          "2026-10-24T12:03:55+08:00",
+          "2026-10-24T12:04:11+08:00",
+          "2026-10-24T12:04:26+08:00",
+          "2026-10-24T12:04:41+08:00",
+          "2026-10-24T12:04:56+08:00",
+          "2026-10-24T12:05:12+08:00",
+          "2026-10-24T12:05:27+08:00",
+          "2026-10-24T12:05:43+08:00"
+        ]
+      },
+      {
+        "path": "data/official_cross_city/service_coverage/Keelung_StopOfRoute.json.gz",
+        "record_count": 168,
+        "scope_status": "complete_published_endpoint_by_exhausted_page",
+        "source_updated_at": "2026-10-24T09:57:10+08:00",
+        "source_record_update_times": [
+          "2026-10-24T09:57:10+08:00"
+        ],
+        "source_ids": [
+          "Keelung_StopOfRoute_skip_0_top_500"
+        ],
+        "source_pages": [
+          "https://tdx.transportdata.tw/api-service/swagger/basic/2998e851-81d0-40f5-b26d-77e2f5ac4118"
+        ],
+        "download_urls": [
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/City/Keelung?%24format=JSON&%24top=500&%24skip=0&%24orderby=RouteUID%2CSubRouteUID%2CDirection"
+        ],
+        "raw_files": [
+          "raw_data/official_cross_city/service_coverage/responses/Keelung_StopOfRoute_skip_0_top_500.json.gz"
+        ],
+        "downloaded_at": [
+          "2026-10-24T11:27:14+08:00"
+        ]
+      },
+      {
+        "path": "data/official_cross_city/service_coverage/Keelung_Schedule.json.gz",
+        "record_count": 165,
+        "scope_status": "complete_published_endpoint_by_exhausted_page",
+        "source_updated_at": "2026-10-24T09:57:10+08:00",
+        "source_record_update_times": [
+          "2026-10-24T09:57:10+08:00"
+        ],
+        "source_ids": [
+          "Keelung_Schedule_skip_0_top_100",
+          "Keelung_Schedule_skip_100_top_100"
+        ],
+        "source_pages": [
+          "https://tdx.transportdata.tw/api-service/swagger/basic/2998e851-81d0-40f5-b26d-77e2f5ac4118"
+        ],
+        "download_urls": [
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/Keelung?%24format=JSON&%24top=100&%24skip=0&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/City/Keelung?%24format=JSON&%24top=100&%24skip=100&%24orderby=RouteUID%2CSubRouteUID%2CDirection"
+        ],
+        "raw_files": [
+          "raw_data/official_cross_city/service_coverage/responses/Keelung_Schedule_skip_0_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/Keelung_Schedule_skip_100_top_100.json.gz"
+        ],
+        "downloaded_at": [
+          "2026-10-24T11:27:29+08:00",
+          "2026-10-24T11:27:44+08:00"
+        ]
+      },
+      {
+        "path": "data/official_cross_city/service_coverage/InterCity_StopOfRoute.json.gz",
+        "record_count": 1859,
+        "scope_status": "complete_published_endpoint_by_exhausted_page",
+        "source_updated_at": "2026-10-24T09:57:10+08:00",
+        "source_record_update_times": [
+          "2026-10-24T09:57:10+08:00"
+        ],
+        "source_ids": [
+          "InterCity_StopOfRoute_skip_0_top_500",
+          "InterCity_StopOfRoute_skip_500_top_500",
+          "InterCity_StopOfRoute_skip_1000_top_500",
+          "InterCity_StopOfRoute_skip_1500_top_500"
+        ],
+        "source_pages": [
+          "https://tdx.transportdata.tw/api-service/swagger/basic/2998e851-81d0-40f5-b26d-77e2f5ac4118"
+        ],
+        "download_urls": [
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/InterCity?%24format=JSON&%24top=500&%24skip=0&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/InterCity?%24format=JSON&%24top=500&%24skip=500&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/InterCity?%24format=JSON&%24top=500&%24skip=1000&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/InterCity?%24format=JSON&%24top=500&%24skip=1500&%24orderby=RouteUID%2CSubRouteUID%2CDirection"
+        ],
+        "raw_files": [
+          "raw_data/official_cross_city/service_coverage/responses/InterCity_StopOfRoute_skip_0_top_500.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/InterCity_StopOfRoute_skip_500_top_500.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/InterCity_StopOfRoute_skip_1000_top_500.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/InterCity_StopOfRoute_skip_1500_top_500.json.gz"
+        ],
+        "downloaded_at": [
+          "2026-10-24T11:28:00+08:00",
+          "2026-10-24T11:28:15+08:00",
+          "2026-10-24T11:29:17+08:00",
+          "2026-10-24T11:29:32+08:00"
+        ]
+      },
+      {
+        "path": "data/official_cross_city/service_coverage/InterCity_Schedule.json.gz",
+        "record_count": 1734,
+        "scope_status": "complete_published_endpoint_by_exhausted_page",
+        "source_updated_at": "2026-10-24T09:57:10+08:00",
+        "source_record_update_times": [
+          "2026-10-24T09:57:10+08:00"
+        ],
+        "source_ids": [
+          "InterCity_Schedule_skip_0_top_100",
+          "InterCity_Schedule_skip_100_top_100",
+          "InterCity_Schedule_skip_200_top_100",
+          "InterCity_Schedule_skip_300_top_100",
+          "InterCity_Schedule_skip_400_top_100",
+          "InterCity_Schedule_skip_500_top_100",
+          "InterCity_Schedule_skip_600_top_100",
+          "InterCity_Schedule_skip_700_top_100",
+          "InterCity_Schedule_skip_800_top_100",
+          "InterCity_Schedule_skip_900_top_100",
+          "InterCity_Schedule_skip_1000_top_100",
+          "InterCity_Schedule_skip_1100_top_100",
+          "InterCity_Schedule_skip_1200_top_100",
+          "InterCity_Schedule_skip_1300_top_100",
+          "InterCity_Schedule_skip_1400_top_100",
+          "InterCity_Schedule_skip_1500_top_100",
+          "InterCity_Schedule_skip_1600_top_100",
+          "InterCity_Schedule_skip_1700_top_100"
+        ],
+        "source_pages": [
+          "https://tdx.transportdata.tw/api-service/swagger/basic/2998e851-81d0-40f5-b26d-77e2f5ac4118"
+        ],
+        "download_urls": [
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/InterCity?%24format=JSON&%24top=100&%24skip=0&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/InterCity?%24format=JSON&%24top=100&%24skip=100&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/InterCity?%24format=JSON&%24top=100&%24skip=200&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/InterCity?%24format=JSON&%24top=100&%24skip=300&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/InterCity?%24format=JSON&%24top=100&%24skip=400&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/InterCity?%24format=JSON&%24top=100&%24skip=500&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/InterCity?%24format=JSON&%24top=100&%24skip=600&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/InterCity?%24format=JSON&%24top=100&%24skip=700&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/InterCity?%24format=JSON&%24top=100&%24skip=800&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/InterCity?%24format=JSON&%24top=100&%24skip=900&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/InterCity?%24format=JSON&%24top=100&%24skip=1000&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/InterCity?%24format=JSON&%24top=100&%24skip=1100&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/InterCity?%24format=JSON&%24top=100&%24skip=1200&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/InterCity?%24format=JSON&%24top=100&%24skip=1300&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/InterCity?%24format=JSON&%24top=100&%24skip=1400&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/InterCity?%24format=JSON&%24top=100&%24skip=1500&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/InterCity?%24format=JSON&%24top=100&%24skip=1600&%24orderby=RouteUID%2CSubRouteUID%2CDirection",
+          "https://tdx.transportdata.tw/api/basic/v2/Bus/Schedule/InterCity?%24format=JSON&%24top=100&%24skip=1700&%24orderby=RouteUID%2CSubRouteUID%2CDirection"
+        ],
+        "raw_files": [
+          "raw_data/official_cross_city/service_coverage/responses/InterCity_Schedule_skip_0_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/InterCity_Schedule_skip_100_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/InterCity_Schedule_skip_200_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/InterCity_Schedule_skip_300_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/InterCity_Schedule_skip_400_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/InterCity_Schedule_skip_500_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/InterCity_Schedule_skip_600_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/InterCity_Schedule_skip_700_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/InterCity_Schedule_skip_800_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/InterCity_Schedule_skip_900_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/InterCity_Schedule_skip_1000_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/InterCity_Schedule_skip_1100_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/InterCity_Schedule_skip_1200_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/InterCity_Schedule_skip_1300_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/InterCity_Schedule_skip_1400_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/InterCity_Schedule_skip_1500_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/InterCity_Schedule_skip_1600_top_100.json.gz",
+          "raw_data/official_cross_city/service_coverage/responses/InterCity_Schedule_skip_1700_top_100.json.gz"
+        ],
+        "downloaded_at": [
+          "2026-10-24T11:29:48+08:00",
+          "2026-10-24T11:30:03+08:00",
+          "2026-10-24T11:30:58+08:00",
+          "2026-10-24T11:31:13+08:00",
+          "2026-10-24T11:31:28+08:00",
+          "2026-10-24T11:31:44+08:00",
+          "2026-10-24T11:32:37+08:00",
+          "2026-10-24T11:32:53+08:00",
+          "2026-10-24T11:33:08+08:00",
+          "2026-10-24T11:33:24+08:00",
+          "2026-10-24T11:34:35+08:00",
+          "2026-10-24T11:34:50+08:00",
+          "2026-10-24T11:35:06+08:00",
+          "2026-10-24T11:35:21+08:00",
+          "2026-10-24T11:35:37+08:00",
+          "2026-10-24T11:35:52+08:00",
+          "2026-10-24T11:37:28+08:00",
+          "2026-10-24T11:37:43+08:00"
+        ]
+      }
+    ],
+    "boundary_membership": {
+      "source": {
+        "source_page": "https://data.gov.tw/dataset/7438",
+        "download_url": "https://www.tgos.tw/tgos/VirtualDir/Product/a04697c8-64db-450a-a105-3eb471c45abd/%E6%9D%91(%E9%87%8C)%E7%95%8C(TWD97%E7%B6%93%E7%B7%AF%E5%BA%A6).zip",
+        "effective_url": "https://www.tgos.tw/tgos/VirtualDir/Product/a04697c8-64db-450a-a105-3eb471c45abd/%E6%9D%91(%E9%87%8C)%E7%95%8C(TWD97%E7%B6%93%E7%B7%AF%E5%BA%A6).zip",
+        "downloaded_at": "2026-10-24T11:22:02+08:00",
+        "source_updated_at": null,
+        "http_status": 200,
+        "content_type": "application/x-zip-compressed",
+        "bytes": 21618481,
+        "raw_file": "map-data/raw/boundary_evidence/current_villages.zip"
+      },
+      "source_layer": "VILLAGE_NLSC_1150817",
+      "source_period": "2026-08-17",
+      "source_crs": "EPSG:3824",
+      "target_crs": "EPSG:4326",
+      "source_feature_counts": {
+        "65000": 1056,
+        "10017": 165,
+        "63000": 456
+      },
+      "operation": "axis order change (2D) + TWD97 to WGS 84 (1) (with axis order normalized for visualization)",
+      "operation_accuracy_m": 1.0,
+      "operation_status": "used_operation_recorded",
+      "mask_method": "Exact COUNTYCODE selection; union of all official villages and unassigned areas in each city",
+      "point_membership_predicate": "covers; points on the source boundary are included; multiple covering cities are retained"
+    },
+    "statistical_period": null,
+    "coordinate_reference_system": "EPSG:4326",
+    "coordinate_order": [
+      "longitude",
+      "latitude"
+    ],
+    "units": {
+      "source_position": "longitude/latitude degrees",
+      "*_id": "source identifier string",
+      "source_record_number": "one-based source ordinal"
+    },
+    "tdx_specification": "raw_data/official_cross_city/service_coverage/specifications/bus_v2.json",
+    "identifier_semantics": {
+      "stop_uid": "站牌唯一識別代碼，規則為 {業管機關簡碼} + {StopID}，其中 {業管機關簡碼} 可於Authority API中的AuthorityCode欄位查詢",
+      "stop_id": "地區既用中之站牌代碼(為原資料內碼)",
+      "station_id": "站牌所屬的站位ID",
+      "station_uid": "Not supplied by this model; null, never constructed from StationID"
+    },
+    "join_key": [
+      "source_scope",
+      "route_uid",
+      "subroute_uid",
+      "direction",
+      "operator_id"
+    ],
+    "independent_review_status": "pending",
+    "license": {
+      "name": "TDX資料使用條款",
+      "url": "https://tdx.transportdata.tw/term"
+    },
+    "boundary_license": {
+      "name": "政府資料開放授權條款-第1版",
+      "url": "https://data.gov.tw/license",
+      "attribution": "內政部國土測繪中心"
+    },
+    "limitations": [
+      "以完整發布StopOfRoute的站點核地理會員，保留全國模型；沒有區域內停靠點不表示路線軌跡不經過該區。",
+      "行政遮罩為同一NLSC版本全部里及未編定區塊的聯集，非另版法定市界；座標轉換精度見boundary_membership，不推定人口月份幾何相同。",
+      "站牌UID明示；StationID是站位ID，不補造StationUID，也不連接地方feed或以同名去重。",
+      "not_observed只描述完整發布端點未見對應模型或欄位，不代表停駛；未取得或部分班表為indeterminate。",
+      "Schedule未發布OperatorID的三碼候選另列，不向下套用StopOfRoute業者；無明示五維匹配時為indeterminate_missing_schedule_operator，候選日曆不計入已核業者發布數。",
+      "ServiceDay/SpecialDays只統計來源發布物件並保留原碼與日期，不推定某班實際行駛或將不同業者班表直接相加。",
+      "涵蓋的主管機關、端點與期間僅限support.json所列；不同來源UpdateTime分開保留。"
+    ],
+    "grain": "one retained source authority scope times one covered city; a model can contribute to multiple cities",
+    "source_model_count": 4651,
+    "operator_relation_model_count": 4815,
+    "stop_geography_variant_count": 81947,
+    "stop_geography_status_counts": {
+      "regional_member": 64034,
+      "outside_region": 17913
+    },
+    "source_stop_membership_count": 155189
+  },
+  "records": [
+    {
+      "source_scope": "Taipei",
+      "city_code": "63000",
+      "city_name": "臺北市",
+      "route_uid_count": 416,
+      "subroute_uid_count": 730,
+      "operator_relation_model_count": 1291,
+      "operator_count": 15,
+      "schedule_publication_status_counts": {
+        "indeterminate_missing_schedule_operator": 637,
+        "not_observed_in_complete_published_endpoint": 654
+      },
+      "service_day_publication_status_counts": {
+        "indeterminate_missing_schedule_operator": 637,
+        "not_observed_in_complete_published_endpoint": 654
+      },
+      "special_day_publication_status_counts": {
+        "indeterminate_missing_schedule_operator": 637,
+        "not_observed_in_complete_published_endpoint": 654
+      }
+    },
+    {
+      "source_scope": "Taipei",
+      "city_code": "65000",
+      "city_name": "新北市",
+      "route_uid_count": 147,
+      "subroute_uid_count": 256,
+      "operator_relation_model_count": 421,
+      "operator_count": 15,
+      "schedule_publication_status_counts": {
+        "indeterminate_missing_schedule_operator": 208,
+        "not_observed_in_complete_published_endpoint": 213
+      },
+      "service_day_publication_status_counts": {
+        "indeterminate_missing_schedule_operator": 208,
+        "not_observed_in_complete_published_endpoint": 213
+      },
+      "special_day_publication_status_counts": {
+        "indeterminate_missing_schedule_operator": 208,
+        "not_observed_in_complete_published_endpoint": 213
+      }
+    },
+    {
+      "source_scope": "Taipei",
+      "city_code": "10017",
+      "city_name": "基隆市",
+      "route_uid_count": 0,
+      "subroute_uid_count": 0,
+      "operator_relation_model_count": 0,
+      "operator_count": 0,
+      "schedule_publication_status_counts": {},
+      "service_day_publication_status_counts": {},
+      "special_day_publication_status_counts": {}
+    },
+    {
+      "source_scope": "NewTaipei",
+      "city_code": "63000",
+      "city_name": "臺北市",
+      "route_uid_count": 167,
+      "subroute_uid_count": 245,
+      "operator_relation_model_count": 389,
+      "operator_count": 17,
+      "schedule_publication_status_counts": {
+        "indeterminate_missing_schedule_operator": 217,
+        "not_observed_in_complete_published_endpoint": 172
+      },
+      "service_day_publication_status_counts": {
+        "indeterminate_missing_schedule_operator": 217,
+        "not_observed_in_complete_published_endpoint": 172
+      },
+      "special_day_publication_status_counts": {
+        "indeterminate_missing_schedule_operator": 217,
+        "not_observed_in_complete_published_endpoint": 172
+      }
+    },
+    {
+      "source_scope": "NewTaipei",
+      "city_code": "65000",
+      "city_name": "新北市",
+      "route_uid_count": 635,
+      "subroute_uid_count": 1008,
+      "operator_relation_model_count": 1488,
+      "operator_count": 39,
+      "schedule_publication_status_counts": {
+        "indeterminate_missing_schedule_operator": 1033,
+        "not_observed_in_complete_published_endpoint": 455
+      },
+      "service_day_publication_status_counts": {
+        "indeterminate_missing_schedule_operator": 1033,
+        "not_observed_in_complete_published_endpoint": 455
+      },
+      "special_day_publication_status_counts": {
+        "indeterminate_missing_schedule_operator": 1033,
+        "not_observed_in_complete_published_endpoint": 455
+      }
+    },
+    {
+      "source_scope": "NewTaipei",
+      "city_code": "10017",
+      "city_name": "基隆市",
+      "route_uid_count": 31,
+      "subroute_uid_count": 59,
+      "operator_relation_model_count": 84,
+      "operator_count": 6,
+      "schedule_publication_status_counts": {
+        "indeterminate_missing_schedule_operator": 67,
+        "not_observed_in_complete_published_endpoint": 17
+      },
+      "service_day_publication_status_counts": {
+        "indeterminate_missing_schedule_operator": 67,
+        "not_observed_in_complete_published_endpoint": 17
+      },
+      "special_day_publication_status_counts": {
+        "indeterminate_missing_schedule_operator": 67,
+        "not_observed_in_complete_published_endpoint": 17
+      }
+    },
+    {
+      "source_scope": "Keelung",
+      "city_code": "63000",
+      "city_name": "臺北市",
+      "route_uid_count": 0,
+      "subroute_uid_count": 0,
+      "operator_relation_model_count": 0,
+      "operator_count": 0,
+      "schedule_publication_status_counts": {},
+      "service_day_publication_status_counts": {},
+      "special_day_publication_status_counts": {}
+    },
+    {
+      "source_scope": "Keelung",
+      "city_code": "65000",
+      "city_name": "新北市",
+      "route_uid_count": 9,
+      "subroute_uid_count": 13,
+      "operator_relation_model_count": 13,
+      "operator_count": 1,
+      "schedule_publication_status_counts": {
+        "published": 13
+      },
+      "service_day_publication_status_counts": {
+        "published": 13
+      },
+      "special_day_publication_status_counts": {
+        "not_observed_in_complete_published_endpoint": 13
+      }
+    },
+    {
+      "source_scope": "Keelung",
+      "city_code": "10017",
+      "city_name": "基隆市",
+      "route_uid_count": 116,
+      "subroute_uid_count": 168,
+      "operator_relation_model_count": 168,
+      "operator_count": 1,
+      "schedule_publication_status_counts": {
+        "published": 165,
+        "not_observed_in_complete_published_endpoint": 3
+      },
+      "service_day_publication_status_counts": {
+        "published": 165,
+        "not_observed_in_complete_published_endpoint": 3
+      },
+      "special_day_publication_status_counts": {
+        "published": 29,
+        "not_observed_in_complete_published_endpoint": 139
+      }
+    },
+    {
+      "source_scope": "InterCity",
+      "city_code": "63000",
+      "city_name": "臺北市",
+      "route_uid_count": 101,
+      "subroute_uid_count": 508,
+      "operator_relation_model_count": 542,
+      "operator_count": 23,
+      "schedule_publication_status_counts": {
+        "published": 460,
+        "not_observed_in_complete_published_endpoint": 82
+      },
+      "service_day_publication_status_counts": {
+        "published": 460,
+        "not_observed_in_complete_published_endpoint": 82
+      },
+      "special_day_publication_status_counts": {
+        "published": 363,
+        "not_observed_in_complete_published_endpoint": 179
+      }
+    },
+    {
+      "source_scope": "InterCity",
+      "city_code": "65000",
+      "city_name": "新北市",
+      "route_uid_count": 73,
+      "subroute_uid_count": 344,
+      "operator_relation_model_count": 360,
+      "operator_count": 18,
+      "schedule_publication_status_counts": {
+        "published": 294,
+        "not_observed_in_complete_published_endpoint": 66
+      },
+      "service_day_publication_status_counts": {
+        "published": 294,
+        "not_observed_in_complete_published_endpoint": 66
+      },
+      "special_day_publication_status_counts": {
+        "published": 215,
+        "not_observed_in_complete_published_endpoint": 145
+      }
+    },
+    {
+      "source_scope": "InterCity",
+      "city_code": "10017",
+      "city_name": "基隆市",
+      "route_uid_count": 26,
+      "subroute_uid_count": 113,
+      "operator_relation_model_count": 121,
+      "operator_count": 8,
+      "schedule_publication_status_counts": {
+        "published": 113,
+        "not_observed_in_complete_published_endpoint": 8
+      },
+      "service_day_publication_status_counts": {
+        "published": 113,
+        "not_observed_in_complete_published_endpoint": 8
+      },
+      "special_day_publication_status_counts": {
+        "published": 104,
+        "not_observed_in_complete_published_endpoint": 17
+      }
+    }
+  ]
+}

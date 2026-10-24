@@ -10,6 +10,11 @@
 | `traffic-focus/` | 臺北市交通需求候選設施、具名住宅／產業區及官方社宅工程；[清單、資料來源與用法](../docs/traffic-focus.md)。 |
 | `quality/` | 不同於整理者的 Agent 所作獨立巡檢。 |
 
+跨市驗收另提供 `admin/keelung_villages.geojson`：2026-08-17 官方版本，157 個有對應人口的里及
+8 個未編定村里區塊，合計 165 個圖徵。來源與 CRS 轉換記錄於檔案 metadata，
+獨立巡檢見 [`quality/keelung_review.json`](quality/keelung_review.json)；人口版本對照用法見
+[跨市資料說明](../docs/official-cross-city.md)。此補充層不改動原雙北圖層範圍。
+
 OSM 只保留與雙北官方市界相交的圖徵，線與面裁切至市界。行政界未簡化；OSM 線形未簡化，座標取 7 位小數，造成無效幾何時保留完整精度。原始下載及中間檔僅使用 `raw/` 作為暫存，排除 Git；來源連結、實際版本與清理方式記錄於各 `manifest.json`。
 
 OSM 使用無損壓縮的 `.geojson.gz`；大型圖層切成多個檔案，**同圖層所有分片合起來才是完整資料**。可先解壓後交給 GIS 軟體，或用附帶的瀏覽器工具讀取：

@@ -1,0 +1,234 @@
+{
+  "schema_version": 1,
+  "dataset_id": "pr_1_validation_status",
+  "metadata": {
+    "pr_url": "https://github.com/Ti-wb/bus-analysis/pull/1",
+    "checked_date": "2026-10-24",
+    "overall_status": "incomplete_source_and_scope_requirements",
+    "all_original_validation_items_passed": false,
+    "source_updated_at": null,
+    "scope": "已交付快照逐項列證據；來源無資料、跨版幾何、實際營運與合法步行未核實時不視為通過。",
+    "record_count": 9,
+    "local_program_checks": {
+      "runtime": "3.12.11",
+      "official_cross_city_tests_passed": 325,
+      "base_tests_passed": 13,
+      "compileall": "passed",
+      "cli_help_commands_passed": 18,
+      "live_data_review": "separate_full_raw_reviews_not_unit_tests",
+      "total_unit_tests_passed": 338,
+      "integrated_main_commit": "fd60e8e66cabd5ff6ffd2918d5a034d02d026417",
+      "merged_map_catalog_read_only_build": "passed_27_datasets_31_files",
+      "ci_evidence": "GitHub Actions current-head checks; exact SHA and run links in PR description",
+      "stdlib_ci_mode": {
+        "discovered": 325,
+        "passed": 308,
+        "skipped_gis_cases": 17,
+        "status": "passed_without_gis_dependencies"
+      },
+      "integration_merge_commit": "8c5a758fbe2af902dcbfac047de6b0d06b1183ed",
+      "frontend_map_data_build": "passed_17_generated_files",
+      "frontend_typecheck_and_build": "passed_tsc_and_vite",
+      "frontend_dependency_audit": {
+        "status": "one_critical_advisory_in_inherited_main_dependency",
+        "package": "maplibre-gl",
+        "installed_version": "5.24.0",
+        "advisory_url": "https://github.com/advisories/GHSA-jrc7-96c5-q579",
+        "patched_version": "6.4.1",
+        "scope": "Existing origin/main dependency retained during the requested sync; no major-version migration performed."
+      },
+      "review_comment_repairs": {
+        "attached_comments_checked": 19,
+        "valid_issues_fixed": 16,
+        "previously_fixed_and_reverified": 3,
+        "new_regression_test_methods": 31,
+        "independent_peer_review_status": "passed",
+        "catalog_regression_tests_passed": 23,
+        "catalog_read_only_rebuild": "unchanged_485_datasets_including_418_travel_observations_411_gzip",
+        "catalog_independent_audit": "passed_485_datasets_zero_errors"
+      }
+    }
+  },
+  "records": [
+    {
+      "validation_id": "official_source_snapshots",
+      "status": "passed_for_delivered_scope",
+      "evidence": [
+        "data/quality/id_crosswalk_review.json",
+        "data/quality/regional_validation_review.json",
+        "data/quality/tdx_bus_travel_time_review.json",
+        "data/quality/tdx_road_traffic_review.json",
+        "data/quality/boundary_evidence_review.json",
+        "data/quality/id_evidence_review.json",
+        "data/quality/taipei_id_evidence_review.json",
+        "data/quality/service_coverage_review.json",
+        "data/quality/regional_service_evidence_review.json",
+        "map-data/quality/walking_evidence_review.json",
+        "map-data/quality/walking_further_evidence_review.json",
+        "data/quality/travel_time_coverage_review.json"
+      ],
+      "scope": "非整理者逐筆核對已交付來源、欄位、期間、筆數與必要加總；巡檢通過不取消來源缺口。"
+    },
+    {
+      "validation_id": "population_and_village_boundaries",
+      "status": "partial_period_geometry_unverified",
+      "evidence": [
+        "data/official_cross_city/population_boundary_crosswalk.json",
+        "data/quality/regional_validation_review.json",
+        "data/quality/boundary_evidence_review.json"
+      ],
+      "completed": "2026-09人口1652里全數找到官方里碼；6筆造字／異體字已有官方維護報告逐碼證明。北北基RIS六月至九月代碼、上層與名稱穩定；10月重新下載的現行發布圖資仍與8月17日版本相同。",
+      "remaining": [
+        "未取得獨立九月幾何快照或完整法定異動紀錄，不能證明人口月份與里界版本之間幾何完全等價。"
+      ],
+      "subchecks": {
+        "official_code_name_aliases": "passed_6_exact_code_pairs",
+        "current_published_geometry_recheck": "passed_for_2026_08_17_vintage",
+        "same_month_geometry_equivalence": "not_verified"
+      }
+    },
+    {
+      "validation_id": "leapfrog_and_cross_source_ids",
+      "status": "partial_explicit_id_and_order_verified",
+      "evidence": [
+        "data/quality/id_crosswalk_review.json",
+        "data/quality/id_evidence_review.json",
+        "data/quality/taipei_id_evidence_review.json"
+      ],
+      "completed": "跳蛙65列中62列共用欄位完全相符，3列衝突不連接；10條缺NId主線另以官方票價XML核實行政route/subroute/operator關係，NId仍null。完整新北43270站牌會員及1383站序已核對（194組只差來源明示虛擬站）；臺北43235會員及1241完整有序陣列全符。",
+      "remaining": [
+        "3筆跳蛙清單時刻／端點衝突未消除；CSV沒有route ID，不把欄位等價提升為明示ID。",
+        "10筆NId缺值仍未知；不能用核實的行政ID補造網站NId。",
+        "兩來源座標差異均保留：新北2個StopID、臺北1335會員；不能當位置可互換或搬站證據。"
+      ]
+    },
+    {
+      "validation_id": "unlinked_ntpc_stops",
+      "status": "unresolved_source_membership_missing",
+      "evidence": [
+        "data/official_cross_city/ntpc_unlinked_stops_crosswalk.json",
+        "data/quality/id_crosswalk_review.json",
+        "data/quality/id_evidence_review.json"
+      ],
+      "completed": "114站牌經完整TDX及兩份PathDetail均未見附線會員；官方eBus站位頁確認全部UniStopId及主線關係，當日ETA=-4只表示今日未營運。",
+      "remaining": [
+        "114站牌仍沒有來源明示的附線站序；附線與未發布原因保持null。",
+        "暫時裁撤／施工等來源名稱及當日ETA均不足以判定永久停駛。"
+      ]
+    },
+    {
+      "validation_id": "keelung_village_geometry",
+      "status": "passed_for_official_vintage",
+      "evidence": [
+        "map-data/admin/keelung_villages.geojson",
+        "map-data/quality/keelung_review.json"
+      ],
+      "completed": "165圖徵（157有對應人口、8未編定）逐一核對官方SHP幾何與EPSG:3824→4326轉換。"
+    },
+    {
+      "validation_id": "keelung_and_intercity_operational_coverage",
+      "status": "published_service_coverage_audited_actual_operation_unverified",
+      "evidence": [
+        "data/quality/regional_validation_review.json",
+        "data/quality/service_coverage_review.json",
+        "data/quality/regional_service_evidence_review.json",
+        "data/quality/remaining_validation_review.json"
+      ],
+      "completed": "四主管範圍StopOfRoute及Schedule八端點全取至尾頁：4651站序模型、155189原始站牌會員、3461班表模型、95359 ServiceDay與16964 SpecialDays。81947站點版本、4815業者關係逐一核對；1899明示五維發布、1670缺班表業者碼候選、1246完整端點未觀察匹配。",
+      "remaining": [
+        "完整班表端點的主檔RouteUID未見清冊：臺北11、新北0、基隆2、公路客運2，均不推論停駛。",
+        "雙北Schedule未發布OperatorID；1670個三碼候選保留原班表及日曆，不套用站序業者。1246個五維未觀察關係不是1246條停駛路線。",
+        "指定日期實際行駛、停駛與改道事件尚未核實；發布班表不能證明實際營運。",
+        "城市摘要、業者展開模型與日曆物件不可相加當實際路線或班次。"
+      ]
+    },
+    {
+      "validation_id": "bus_segment_travel_times",
+      "status": "all_reference_endpoints_attempted_pair_coverage_limited",
+      "evidence": [
+        "data/tdx_bus_travel_time/route_catalog.json",
+        "data/tdx_bus_travel_time/coverage.json",
+        "data/tdx_bus_travel_time/delivery.json",
+        "data/quality/tdx_bus_travel_time_review.json",
+        "data/official_cross_city/travel_time_coverage/summary.json",
+        "data/quality/travel_time_coverage_review.json"
+      ],
+      "completed": "420查詢範圍、418成功、1額外查詢官方無資料、1技術失敗；1260模型、1004701時段列、26637缺RunTime保持null；臺北416個參考路線／416端點已嘗試416、未請求0，取得415個參考RouteUID模型（含空旅時模型），可用覆蓋另依站對證據。站對補證固定420範圍：1241參考模型、41994相鄰站對×2服務標籤，57961站對×標籤至少有一個數值時段，45170列不相容而待核。 其中400個UID有數值旅時，396個UID有至少一個可用唯一相鄰站對；201個參考模型時段為空，另2個非空模型只有首站缺值。",
+      "remaining": [
+        "全部參考端點已嘗試；模型／站對／服務標籤或時段缺列仍明列，不代表所有路線全站全時段皆有旅時。",
+        "南港幹線是416參考目錄之外的額外查詢；HTTP200無資料原文保留，不指派參考RouteUID或推論停駛。",
+        "當期推估端點沒有歷史Date/Version參數，不能回填三年觀測。",
+        "站對補證不以Sequence偏移配站；週末不是國定假日日曆，部分時段與有效期不代表全日覆蓋。",
+        "20個參考UID尚無已核實相鄰旅時；空模型、數值與站序不相容、技術失敗均在獨立診斷明列，不推定停駛或補零。"
+      ],
+      "coverage_diagnostics": {
+        "reference_route_uid_count": 416,
+        "returned_model_route_uid_count": 415,
+        "source_numeric_runtime_route_uid_count": 400,
+        "usable_unique_adjacent_pair_route_uid_count": 396,
+        "usable_unique_adjacent_pair_service_count": 57961,
+        "empty_reference_model_count": 201,
+        "empty_reference_model_route_uid_count": 80,
+        "empty_all_scope_model_count": 209,
+        "independent_review_report": "data/quality/travel_time_coverage_review.json",
+        "returned_model_route_uids_without_numeric_runtime": [
+          "TPE18348",
+          "TPE18508",
+          "TPE19159",
+          "TPE19178",
+          "TPE19438",
+          "TPE19458",
+          "TPE19528",
+          "TPE19678",
+          "TPE19698",
+          "TPE19719",
+          "TPE19755",
+          "TPE19759",
+          "TPE19776",
+          "TPE19779",
+          "TPE19798"
+        ],
+        "numeric_route_uids_without_usable_adjacent_pair": [
+          "TPE10821",
+          "TPE15693",
+          "TPE17560",
+          "TPE17561"
+        ],
+        "reference_uids_without_returned_models": [
+          "TPE17928"
+        ],
+        "nonempty_all_null_runtime_model_count": 2
+      }
+    },
+    {
+      "validation_id": "taipei_road_traffic_and_section_history_v2",
+      "status": "passed_with_source_period_exceptions",
+      "evidence": [
+        "data/tdx_road_traffic/delivery.json",
+        "data/quality/tdx_road_traffic_review.json"
+      ],
+      "completed": "現況Section818/VD604/速率818/流量611；2026-10-23 Section歷史全量818，動態歷史各30及3份官方Meta。",
+      "remaining": [
+        "兩份動態歷史樣本實際觀測日為臺北2026-10-22，均標requires_source_review，不視為請求日內完整觀測。",
+        "VD速率／流量單位或積分期間未由所附官方規格定義；歷史動態全量不納入Git。"
+      ]
+    },
+    {
+      "validation_id": "legal_walking_transfers",
+      "status": "not_validated_unresolved_crossings_and_connectors",
+      "evidence": [
+        "map-data/quality/walking_evidence_review.json",
+        "map-data/quality/walking_further_evidence_review.json",
+        "data/quality/remaining_validation_review.json",
+        "map-data/quality/walking_additional_evidence_review.json"
+      ],
+      "completed": "士林、關渡、新莊三區已保存原始OSM節點／邊、foot/access/conditional、障礙、方向與樓層；637官方設施圖徵已核對。18端點組合中0條完整合法路徑、1條645.402公尺未驗收候選；五個保守邊旗標及關渡端點另有6筆補證、13個官方來源。 另有新莊6筆當期官方背景補證、8份來源，工程量／獲獎／禁停範圍／目的地指引逐份獨核，仍無新增接受轉乘。",
+      "remaining": [
+        "候選路徑4條邊對應2處實際穿越，仍缺足夠的當期行穿設施／合法通行證據；另一整邊的車道交會已證明在實走片段外。",
+        "關渡出口與70056站位雖有官方位置及地址，尚無可核實的完整站外人行接線。",
+        "18組status均unverified、walking_distance_m均null，0條路徑獲接受；候選距離不能轉為可用轉乘邊或無障礙保證。",
+        "新莊工程與禁停只對應地址或路段背景；1號／3號目的地指引不能直接連接8號向北站位，完整合法接線仍待核。"
+      ]
+    }
+  ]
+}

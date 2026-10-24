@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "dataset_id": "independent_boundary_evidence_review",
+  "metadata": {
+    "reviewed_at": "2026-10-24T11:30:20+08:00",
+    "reviewer": "root",
+    "independent_of_producer": true,
+    "producer_imported": false,
+    "source_updated_at": null,
+    "method": "Independent CSV/SHP raw point-array/ring/attribute comparisons, PDF table extraction and rendered PDF pages 94/96/1 visually inspected in this review",
+    "record_count": 5,
+    "status": "passed_with_temporal_limitations"
+  },
+  "records": [
+    {
+      "dataset": "name_aliases",
+      "status": "passed",
+      "record_count": 6,
+      "official_tables": "NLSC PDF pages 94,96; printed 83,85"
+    },
+    {
+      "dataset": "code_version_checks",
+      "status": "passed",
+      "population_rows": 1652,
+      "national_deletions": 11,
+      "regional_code_name_changes": 0
+    },
+    {
+      "dataset": "boundary_changes",
+      "status": "passed",
+      "record_count": 2,
+      "correction_date": "2026-08-17"
+    },
+    {
+      "dataset": "current_distribution_check",
+      "status": "passed_for_published_vintage",
+      "feature_count": 1677,
+      "exact_points_rings_attributes_equal": true,
+      "same_month_geometry_verified": false
+    },
+    {
+      "dataset": "municipal_source_diagnostics",
+      "status": "passed_as_diagnostics_only",
+      "source_rows": 1032,
+      "diagnostic_count": 6
+    }
+  ],
+  "limitations": [
+    "2026-09 population identities can join the explicit 2026-08-17 published geometry vintage; no separate September geometry or complete daily legal change registry was acquired."
+  ]
+}

@@ -24,6 +24,10 @@ Agent 協作、格式與提交規則見 [AGENTS.md](AGENTS.md)。
 
 新增的現行公車、近三年人口與營運統計、捷運一年分時進出量、設施及 TDX 資料，見[整合資料目錄](data/catalog.json)與[整理及更新說明](docs/data-collection.md)。大型資料僅保留必要彙總或來源連結；各來源均另附獨立巡檢結果。
 
+跨市 ID 與站序、北北基人口里界版本、區域服務日曆、步行轉乘證據、TDX 站間旅時與道路速率／流量，見
+[補充資料目錄](data/official_cross_city/validation_catalog.json)及[跨市資料用法](docs/official-cross-city.md)。
+完整性與尚待來源釐清的項目見 [Validation 狀態](data/quality/pr_validation.json)。
+
 臺北市學校、醫院、住宅區等[交通需求候選清單](docs/traffic-focus.md)提供 CSV、GIS 標記與範圍，另含官方社宅規劃戶數及工程狀態；設施位置不代表實測高流量。
 
 ## 前端地圖

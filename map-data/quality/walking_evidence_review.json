@@ -1,0 +1,258 @@
+{
+  "schema_version": 1,
+  "dataset_id": "walking_evidence_independent_review",
+  "metadata": {
+    "reviewed_at": "2026-10-24T11:52:48.675610+08:00",
+    "status": "pass_with_source_limitations",
+    "reviewer_agent": "/root/crosswalk",
+    "review_method": "Independent raw parsing, projected geometry, edge membership, permission/crossing checks, Dijkstra node distances and candidate length sums; producer not imported",
+    "reviewed_generated_at": {
+      "transfers": "2026-10-24T11:42:39+08:00",
+      "graphs": "2026-10-24T11:42:39+08:00",
+      "source_manifest": "2026-10-24T11:42:39+08:00"
+    },
+    "source_record_counts": {
+      "wheelroute_exits": 940,
+      "wheelroute_sidewalks": 15291,
+      "wheelroute_painted_sidewalks": 3529,
+      "wheelroute_crossings": 1451,
+      "wheelroute_bus_stops": 19847,
+      "osm_shilin": 3776,
+      "osm_guandu": 1910,
+      "osm_xinzhuang": 1885
+    },
+    "facility_review": {
+      "source_counts": {
+        "exits": 940,
+        "sidewalks": 15291,
+        "painted_sidewalks": 3529,
+        "crossings": 1451,
+        "bus_stops": 19847
+      },
+      "selected_counts": {
+        "exits": 22,
+        "sidewalks": 196,
+        "painted_sidewalks": 12,
+        "crossings": 2,
+        "bus_stops": 405
+      },
+      "invalid_coordinates": {
+        "exits": 2
+      },
+      "selected_feature_count": 637
+    },
+    "graph_review": [
+      {
+        "area_id": "shilin",
+        "raw_nodes": 3003,
+        "strict_edges": 1635,
+        "candidate_edges": 1804,
+        "status": "pass_raw_node_and_adjacent_way_edge_review"
+      },
+      {
+        "area_id": "guandu",
+        "raw_nodes": 1553,
+        "strict_edges": 353,
+        "candidate_edges": 480,
+        "status": "pass_raw_node_and_adjacent_way_edge_review"
+      },
+      {
+        "area_id": "xinzhuang",
+        "raw_nodes": 1545,
+        "strict_edges": 556,
+        "candidate_edges": 680,
+        "status": "pass_raw_node_and_adjacent_way_edge_review"
+      }
+    ],
+    "case_count": 18,
+    "accepted_transfer_count": 0,
+    "unverified_case_count": 18,
+    "candidate_review": [
+      {
+        "transfer_id": "shilin:exit:1:stop_location:796",
+        "candidate_distance_m": 645.402,
+        "step_count": 24,
+        "unverified_edge_reasons": {
+          "496469079:22": [
+            "unverified_carriageway_intersection:137324289"
+          ],
+          "496469079:23": [
+            "unverified_carriageway_intersection:137324289"
+          ],
+          "515126265:3": [
+            "unverified_carriageway_intersection:822578019"
+          ],
+          "515126265:4": [
+            "unverified_carriageway_intersection:822578019"
+          ],
+          "777894153:1": [
+            "unverified_carriageway_intersection:362399149",
+            "unverified_carriageway_intersection:362399152"
+          ]
+        },
+        "legal_transfer_verified": false
+      }
+    ],
+    "local_gis_regressions": {
+      "status": "passed",
+      "tests_run": 10,
+      "skipped": 0,
+      "test_file": "tests/official_cross_city/test_walking_evidence.py"
+    },
+    "requires_source_review": true,
+    "limitations": [
+      "18 cases cover only the named exits and same-station-name source stop locations in three bounded areas; no citywide or all-route coverage.",
+      "All 18 cases remain unverified; the candidate path is not a usable or legally accepted transfer edge.",
+      "Official facility datum is inferred from retained official rendering; individual source update times are unknown.",
+      "Official width/slope raw values and negative sentinels are preserved; units/physical accessibility are not independently established by those values.",
+      "OSM tags are static mapped evidence; current signal, construction, closures, unrecorded barriers and on-site legal use are not verified.",
+      "Motorway lines are geometric centerlines; finite acquired OSM data cannot prove every physical road surface or fence has been mapped."
+    ]
+  },
+  "records": [
+    {
+      "transfer_id": "shilin:exit:1:stop_location:10210",
+      "status": "pass_unverified_boundary_preserved",
+      "usable_transfer": false,
+      "reason": "no_official_facility_connector",
+      "boarding_eligible_count": 1,
+      "reviewed_entrance_identity_distance_m": 13.429
+    },
+    {
+      "transfer_id": "shilin:exit:1:stop_location:795",
+      "status": "pass_unverified_boundary_preserved",
+      "usable_transfer": false,
+      "reason": "no_explicit_boarding_permission_in_delivered_route_records",
+      "boarding_eligible_count": 0,
+      "reviewed_entrance_identity_distance_m": 13.429
+    },
+    {
+      "transfer_id": "shilin:exit:1:stop_location:796",
+      "status": "pass_unverified_boundary_preserved",
+      "usable_transfer": false,
+      "reason": "no_official_facility_connector",
+      "boarding_eligible_count": 2,
+      "reviewed_entrance_identity_distance_m": 13.429
+    },
+    {
+      "transfer_id": "shilin:exit:1:stop_location:797",
+      "status": "pass_unverified_boundary_preserved",
+      "usable_transfer": false,
+      "reason": "no_official_facility_connector",
+      "boarding_eligible_count": 1,
+      "reviewed_entrance_identity_distance_m": 13.429
+    },
+    {
+      "transfer_id": "shilin:exit:2:stop_location:10210",
+      "status": "pass_unverified_boundary_preserved",
+      "usable_transfer": false,
+      "reason": "no_official_facility_connector",
+      "boarding_eligible_count": 1,
+      "reviewed_entrance_identity_distance_m": 3.839
+    },
+    {
+      "transfer_id": "shilin:exit:2:stop_location:795",
+      "status": "pass_unverified_boundary_preserved",
+      "usable_transfer": false,
+      "reason": "no_explicit_boarding_permission_in_delivered_route_records",
+      "boarding_eligible_count": 0,
+      "reviewed_entrance_identity_distance_m": 3.839
+    },
+    {
+      "transfer_id": "shilin:exit:2:stop_location:796",
+      "status": "pass_unverified_boundary_preserved",
+      "usable_transfer": false,
+      "reason": "no_official_facility_connector",
+      "boarding_eligible_count": 2,
+      "reviewed_entrance_identity_distance_m": 3.839
+    },
+    {
+      "transfer_id": "shilin:exit:2:stop_location:797",
+      "status": "pass_unverified_boundary_preserved",
+      "usable_transfer": false,
+      "reason": "no_official_facility_connector",
+      "boarding_eligible_count": 1,
+      "reviewed_entrance_identity_distance_m": 3.839
+    },
+    {
+      "transfer_id": "guandu:exit:1:stop_location:70056",
+      "status": "pass_unverified_boundary_preserved",
+      "usable_transfer": false,
+      "reason": "no_official_facility_connector",
+      "boarding_eligible_count": 4,
+      "reviewed_entrance_identity_distance_m": 5.658
+    },
+    {
+      "transfer_id": "guandu:exit:2:stop_location:70056",
+      "status": "pass_unverified_boundary_preserved",
+      "usable_transfer": false,
+      "reason": "no_official_facility_connector",
+      "boarding_eligible_count": 4,
+      "reviewed_entrance_identity_distance_m": 2.923
+    },
+    {
+      "transfer_id": "xinzhuang:exit:1:stop_location:1000433",
+      "status": "pass_unverified_boundary_preserved",
+      "usable_transfer": false,
+      "reason": "no_explicit_boarding_permission_in_delivered_route_records",
+      "boarding_eligible_count": 0,
+      "reviewed_entrance_identity_distance_m": 1.958
+    },
+    {
+      "transfer_id": "xinzhuang:exit:1:stop_location:1000605",
+      "status": "pass_unverified_boundary_preserved",
+      "usable_transfer": false,
+      "reason": "no_explicit_boarding_permission_in_delivered_route_records",
+      "boarding_eligible_count": 0,
+      "reviewed_entrance_identity_distance_m": 1.958
+    },
+    {
+      "transfer_id": "xinzhuang:exit:1:stop_location:1165604194",
+      "status": "pass_unverified_boundary_preserved",
+      "usable_transfer": false,
+      "reason": "no_explicit_boarding_permission_in_delivered_route_records",
+      "boarding_eligible_count": 0,
+      "reviewed_entrance_identity_distance_m": 1.958
+    },
+    {
+      "transfer_id": "xinzhuang:exit:1:stop_location:3567",
+      "status": "pass_unverified_boundary_preserved",
+      "usable_transfer": false,
+      "reason": "no_explicit_boarding_permission_in_delivered_route_records",
+      "boarding_eligible_count": 0,
+      "reviewed_entrance_identity_distance_m": 1.958
+    },
+    {
+      "transfer_id": "xinzhuang:exit:2:stop_location:1000433",
+      "status": "pass_unverified_boundary_preserved",
+      "usable_transfer": false,
+      "reason": "no_explicit_boarding_permission_in_delivered_route_records",
+      "boarding_eligible_count": 0,
+      "reviewed_entrance_identity_distance_m": 7.706
+    },
+    {
+      "transfer_id": "xinzhuang:exit:2:stop_location:1000605",
+      "status": "pass_unverified_boundary_preserved",
+      "usable_transfer": false,
+      "reason": "no_explicit_boarding_permission_in_delivered_route_records",
+      "boarding_eligible_count": 0,
+      "reviewed_entrance_identity_distance_m": 7.706
+    },
+    {
+      "transfer_id": "xinzhuang:exit:2:stop_location:1165604194",
+      "status": "pass_unverified_boundary_preserved",
+      "usable_transfer": false,
+      "reason": "no_explicit_boarding_permission_in_delivered_route_records",
+      "boarding_eligible_count": 0,
+      "reviewed_entrance_identity_distance_m": 7.706
+    },
+    {
+      "transfer_id": "xinzhuang:exit:2:stop_location:3567",
+      "status": "pass_unverified_boundary_preserved",
+      "usable_transfer": false,
+      "reason": "no_explicit_boarding_permission_in_delivered_route_records",
+      "boarding_eligible_count": 0,
+      "reviewed_entrance_identity_distance_m": 7.706
+    }
+  ]
+}

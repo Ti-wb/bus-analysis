@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "dataset_id": "tdx_road_traffic_reference_diagnostics",
+  "metadata": {
+    "grain": "one same-provider current snapshot ID coverage comparison",
+    "source_updated_at": null,
+    "statistical_period": null,
+    "limitations": [
+      "只比對明確 ID 及機關，不以名稱或前綴推定關聯。",
+      "同日不同時間快照的版本一致性未驗證；未產生跨資料表join，亦未用現況版本關聯歷史資料。"
+    ],
+    "license": {
+      "name": "TDX 服務條款",
+      "url": "https://tdx.transportdata.tw/term",
+      "note": "資料取用及再利用依 TDX 服務條款及原資料提供機關授權規定。"
+    },
+    "record_count": 2
+  },
+  "records": [
+    {
+      "observation_file": "data/tdx_road_traffic/observations/current_section_live.json",
+      "definition_file": "data/tdx_road_traffic/observations/current_section.json",
+      "id_field": "section_id",
+      "observation_authority_code": "TPE",
+      "definition_authority_code": "TPE",
+      "authority_matches": true,
+      "observation_unique_id_count": 818,
+      "definition_unique_id_count": 818,
+      "matched_exact_id_count": 818,
+      "observation_only_ids": [],
+      "definition_only_ids": [],
+      "join_status": "coverage_diagnostic_only_not_a_versioned_join",
+      "version_equivalence_verified": false
+    },
+    {
+      "observation_file": "data/tdx_road_traffic/observations/current_vd_live.json",
+      "definition_file": "data/tdx_road_traffic/observations/current_vd.json",
+      "id_field": "vd_id",
+      "observation_authority_code": "TPE",
+      "definition_authority_code": "TPE",
+      "authority_matches": true,
+      "observation_unique_id_count": 611,
+      "definition_unique_id_count": 604,
+      "matched_exact_id_count": 603,
+      "observation_only_ids": [
+        "V4010A0",
+        "V9011A0",
+        "VDTJW00",
+        "VGTHG00",
+        "VI9EM00",
+        "VJCTT60",
+        "VKCUX20",
+        "VLEWX20"
+      ],
+      "definition_only_ids": [
+        "V5062G0"
+      ],
+      "join_status": "coverage_diagnostic_only_not_a_versioned_join",
+      "version_equivalence_verified": false
+    }
+  ]
+}

@@ -1,0 +1,2852 @@
+{
+  "schema_version": 1,
+  "dataset_id": "tdx_road_traffic_field_dictionary",
+  "metadata": {
+    "geographic_scope": "Taipei",
+    "source_updated_at": null,
+    "statistical_period": null,
+    "evidence_type": "official_specification_only",
+    "business_data_downloaded": false,
+    "sources": [
+      {
+        "source_id": "basic_spec",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/basic/7f07d940-91a4-495d-9465-1c9df89d709c",
+        "download_url": "https://tdx.transportdata.tw/webapi/File/Swagger/V3/7f07d940-91a4-495d-9465-1c9df89d709c",
+        "downloaded_at": "2026-10-24T10:46:56+08:00",
+        "source_updated_at": null,
+        "raw_file": "raw_data/tdx_road_traffic/basic_spec.json",
+        "bytes": 417608,
+        "http_status": 200,
+        "evidence_type": "official_openapi"
+      },
+      {
+        "source_id": "historical_spec",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/historical/4b4708cc-ab49-4037-a896-e24544d51609",
+        "download_url": "https://tdx.transportdata.tw/webapi/File/Swagger/V3/4b4708cc-ab49-4037-a896-e24544d51609",
+        "downloaded_at": "2026-10-24T10:46:57+08:00",
+        "source_updated_at": null,
+        "raw_file": "raw_data/tdx_road_traffic/historical_spec.json",
+        "bytes": 370526,
+        "http_status": 200,
+        "evidence_type": "official_openapi"
+      }
+    ],
+    "grain": "one field per official response model",
+    "license": {
+      "name": "TDX 服務條款",
+      "url": "https://tdx.transportdata.tw/term",
+      "note": "資料取用及再利用依 TDX 服務條款及原資料提供機關授權規定。"
+    },
+    "record_count": 312
+  },
+  "records": [
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.Section]",
+      "source_field": "UpdateTime",
+      "normalized_field": "update_time",
+      "source_type": "string",
+      "description": "<details>\n  <summary>本平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)</summary>\n                與來源Inbound XML不同，為中心端處理完後提供資料的更新時間\n              </details>",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.Section]",
+      "source_field": "UpdateInterval",
+      "normalized_field": "update_interval",
+      "source_type": "integer",
+      "description": "<details>\n  <summary>本平台資料更新週期(秒)</summary>\n                與來源Inbound XML不同，為中心端更新資料的週期\n              </details>",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.Section]",
+      "source_field": "SrcUpdateTime",
+      "normalized_field": "src_update_time",
+      "source_type": "string",
+      "description": "<details>\n  <summary>來源端平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)</summary>\n                為來源Inbound XML中的UpdateTime [該欄位由本平台自動產製]\n              </details>",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.Section]",
+      "source_field": "SrcUpdateInterval",
+      "normalized_field": "src_update_interval",
+      "source_type": "integer",
+      "description": "<details>\n  <summary>來源端平台資料更新週期(秒) : [-1:'不定期更新']</summary>\n                為來源Inbound XML中的UpdateInterval [該欄位由本平台自動產製]\n              </details>",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.Section]",
+      "source_field": "AuthorityCode",
+      "normalized_field": "authority_code",
+      "source_type": "string",
+      "description": "業管機關簡碼",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.Section]",
+      "source_field": "LinkVersion",
+      "normalized_field": "link_version",
+      "source_type": "string",
+      "description": "版號",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.Section]",
+      "source_field": "Items",
+      "normalized_field": "items",
+      "source_type": "array",
+      "description": "資料(陣列)",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.Section]",
+      "source_field": "Count",
+      "normalized_field": "count",
+      "source_type": "integer",
+      "description": "<details>\n  <summary>資料總筆數</summary>\n                與來源Inbound XML不同，為提供資料的總筆數  [該欄位由本平台自動產製]\n              </details>",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.Section",
+      "source_field": "SectionID",
+      "normalized_field": "section_id",
+      "source_type": "string",
+      "description": "機關發布路段代碼",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.Section",
+      "source_field": "LinkIDs",
+      "normalized_field": "link_ids",
+      "source_type": "array",
+      "description": "機關基礎路段代碼集合",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.Section",
+      "source_field": "OpenLRs",
+      "normalized_field": "open_l_rs",
+      "source_type": "array",
+      "description": "動態區域描述集合",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.Section",
+      "source_field": "SubAuthorityCode",
+      "normalized_field": "sub_authority_code",
+      "source_type": "string",
+      "description": "業管子機關簡碼",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.Section",
+      "source_field": "SectionName",
+      "normalized_field": "section_name",
+      "source_type": "string",
+      "description": "機關發布路段中文名稱描述",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.Section",
+      "source_field": "RoadID",
+      "normalized_field": "road_id",
+      "source_type": "string",
+      "description": "道路代碼, 請參閱[**[路名碼基本資料](https://traffic-api-documentation.gitbook.io/traffic/xiang-dai-zhao-biao)**]",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.Section",
+      "source_field": "RoadName",
+      "normalized_field": "road_name",
+      "source_type": "string",
+      "description": "道路路名",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.Section",
+      "source_field": "RoadClass",
+      "normalized_field": "road_class",
+      "source_type": "integer",
+      "description": "道路分類 : [0:'國道',1:'快速道路',2:'市區快速道路',3:'省道',4:'縣道',5:'鄉道',6:'市區一般道路',7:'匝道']",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.Section",
+      "source_field": "RoadDirection",
+      "normalized_field": "road_direction",
+      "source_type": "string",
+      "description": "基礎路段所屬道路方向, 請參閱[**[道路方向資料表](https://traffic-api-documentation.gitbook.io/traffic/xiang-dai-zhao-biao)**]",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.Section",
+      "source_field": "RoadSection",
+      "normalized_field": "road_section",
+      "source_type": null,
+      "description": "所在道路路段描述",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.Section",
+      "source_field": "SectionLength",
+      "normalized_field": "section_length",
+      "source_type": "number",
+      "description": "機關發布路段長度, GIS的提供路段長度(KM), 可到小數點3位, 單位:KM",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.Section",
+      "source_field": "SectionMile",
+      "normalized_field": "section_mile",
+      "source_type": null,
+      "description": "機關發布路段所在位置之起迄里程數",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.Section",
+      "source_field": "SectionStart",
+      "normalized_field": "section_start",
+      "source_type": null,
+      "description": "機關發布路段起點座標",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.Section",
+      "source_field": "SectionEnd",
+      "normalized_field": "section_end",
+      "source_type": null,
+      "description": "機關發布路段迄點座標",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.Section",
+      "source_field": "SpeedLimit",
+      "normalized_field": "speed_limit",
+      "source_type": "integer",
+      "description": "機關發布路段最高限速",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.LinkIDItem",
+      "source_field": "LinkID",
+      "normalized_field": "link_id",
+      "source_type": "string",
+      "description": "基礎路段代碼, 請參閱[**[基礎路段代碼表](https://motclink.gitbook.io/link/lu-duan-bian-ma-nei-rong/2code)**]",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.OpenLRItem",
+      "source_field": "OpenLR",
+      "normalized_field": "open_lr",
+      "source_type": "string",
+      "description": "動態區域描述",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.Commons.RoadSection",
+      "source_field": "Start",
+      "normalized_field": "start",
+      "source_type": "string",
+      "description": "路段起點描述",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.Commons.RoadSection",
+      "source_field": "End",
+      "normalized_field": "end",
+      "source_type": "string",
+      "description": "路段迄點描述",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.Commons.SectionMile",
+      "source_field": "StartKM",
+      "normalized_field": "start_km",
+      "source_type": "string",
+      "description": "起點里程數, 里程表示方式：整數公里數+整數公里數下 3 位，如 36K+525",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.Commons.SectionMile",
+      "source_field": "EndKM",
+      "normalized_field": "end_km",
+      "source_type": "string",
+      "description": "迄點里程數, 里程表示方式：整數公里數+整數公里數下 3 位，如 36K+525",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.Commons.Point",
+      "source_field": "PositionLat",
+      "normalized_field": "position_lat",
+      "source_type": "number",
+      "description": "位置緯度(WGS84)",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.Commons.Point",
+      "source_field": "PositionLon",
+      "normalized_field": "position_lon",
+      "source_type": "number",
+      "description": "位置經度(WGS84)",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Shared.Specification.V3.Base.DisplayHealth",
+      "source_field": "ServiceID",
+      "normalized_field": "service_id",
+      "source_type": "string",
+      "description": "API服務代碼",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Shared.Specification.V3.Base.DisplayHealth",
+      "source_field": "ServiceName",
+      "normalized_field": "service_name",
+      "source_type": "string",
+      "description": "API服務中文名稱",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Shared.Specification.V3.Base.DisplayHealth",
+      "source_field": "Inbound",
+      "normalized_field": "inbound",
+      "source_type": null,
+      "description": "本平台資料來源轉入狀態",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Shared.Specification.V3.Base.DisplayHealth",
+      "source_field": "Outbound",
+      "normalized_field": "outbound",
+      "source_type": null,
+      "description": "本平台API狀態",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Shared.Specification.V3.Base.Inbound",
+      "source_field": "CheckTime",
+      "normalized_field": "check_time",
+      "source_type": "string",
+      "description": "檢核時間",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Shared.Specification.V3.Base.Inbound",
+      "source_field": "Status",
+      "normalized_field": "status",
+      "source_type": "integer",
+      "description": "檢核結果狀態 : [0:'失敗',1:'成功',2:'資料清洗中']",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Shared.Specification.V3.Base.Inbound",
+      "source_field": "Reason",
+      "normalized_field": "reason",
+      "source_type": "string",
+      "description": "檢核失敗原因",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Shared.Specification.V3.Base.Outbound",
+      "source_field": "CheckTime",
+      "normalized_field": "check_time",
+      "source_type": "string",
+      "description": "檢核時間",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Shared.Specification.V3.Base.Outbound",
+      "source_field": "Status",
+      "normalized_field": "status",
+      "source_type": "integer",
+      "description": "檢核結果狀態 : [0:'失敗',1:'成功',2:'資料清洗中']",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Shared.Specification.V3.Base.Outbound",
+      "source_field": "Reason",
+      "normalized_field": "reason",
+      "source_type": "string",
+      "description": "檢核失敗原因",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.VD]",
+      "source_field": "UpdateTime",
+      "normalized_field": "update_time",
+      "source_type": "string",
+      "description": "<details>\n  <summary>本平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)</summary>\n                與來源Inbound XML不同，為中心端處理完後提供資料的更新時間\n              </details>",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.VD]",
+      "source_field": "UpdateInterval",
+      "normalized_field": "update_interval",
+      "source_type": "integer",
+      "description": "<details>\n  <summary>本平台資料更新週期(秒)</summary>\n                與來源Inbound XML不同，為中心端更新資料的週期\n              </details>",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.VD]",
+      "source_field": "SrcUpdateTime",
+      "normalized_field": "src_update_time",
+      "source_type": "string",
+      "description": "<details>\n  <summary>來源端平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)</summary>\n                為來源Inbound XML中的UpdateTime [該欄位由本平台自動產製]\n              </details>",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.VD]",
+      "source_field": "SrcUpdateInterval",
+      "normalized_field": "src_update_interval",
+      "source_type": "integer",
+      "description": "<details>\n  <summary>來源端平台資料更新週期(秒) : [-1:'不定期更新']</summary>\n                為來源Inbound XML中的UpdateInterval [該欄位由本平台自動產製]\n              </details>",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.VD]",
+      "source_field": "AuthorityCode",
+      "normalized_field": "authority_code",
+      "source_type": "string",
+      "description": "業管機關簡碼",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.VD]",
+      "source_field": "LinkVersion",
+      "normalized_field": "link_version",
+      "source_type": "string",
+      "description": "版號",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.VD]",
+      "source_field": "Items",
+      "normalized_field": "items",
+      "source_type": "array",
+      "description": "資料(陣列)",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.VD]",
+      "source_field": "Count",
+      "normalized_field": "count",
+      "source_type": "integer",
+      "description": "<details>\n  <summary>資料總筆數</summary>\n                與來源Inbound XML不同，為提供資料的總筆數  [該欄位由本平台自動產製]\n              </details>",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.VD",
+      "source_field": "VDID",
+      "normalized_field": "vd_id",
+      "source_type": "string",
+      "description": "VD設備代碼",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.VD",
+      "source_field": "SubAuthorityCode",
+      "normalized_field": "sub_authority_code",
+      "source_type": "string",
+      "description": "業管子機關簡碼",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.VD",
+      "source_field": "BiDirectional",
+      "normalized_field": "bi_directional",
+      "source_type": "integer",
+      "description": "是否為雙向偵測 : [0:'偵測單向',1:'偵測雙向']",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.VD",
+      "source_field": "DetectionLinks",
+      "normalized_field": "detection_links",
+      "source_type": "array",
+      "description": "路段車流偵測資訊",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.VD",
+      "source_field": "VDType",
+      "normalized_field": "vd_type",
+      "source_type": "integer",
+      "description": "VD 類別 : [1:'線圈式',2:'微波式',3:'影像式',4:'紅外線',5:'超音波',6:'其它']",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.VD",
+      "source_field": "LocationType",
+      "normalized_field": "location_type",
+      "source_type": "integer",
+      "description": "設置地點位置類型 : [1:'路側',2:'道路中央分隔島',3:'快慢分隔島',4:'車道上門架',5:'車道鋪面',6:'其他']",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.VD",
+      "source_field": "DetectionType",
+      "normalized_field": "detection_type",
+      "source_type": "integer",
+      "description": "車流偵側類型 : [1:'高快速公路/市快主線',2:'高快速公路/市快匝道',3:'其它道路路段中',4:'其它道路路口(靠近路口或停止線)']",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.VD",
+      "source_field": "PositionLon",
+      "normalized_field": "position_lon",
+      "source_type": "number",
+      "description": "設備架設位置 X 坐標",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.VD",
+      "source_field": "PositionLat",
+      "normalized_field": "position_lat",
+      "source_type": "number",
+      "description": "設備架設位置 Y 坐標",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.VD",
+      "source_field": "RoadID",
+      "normalized_field": "road_id",
+      "source_type": "string",
+      "description": "道路代碼, 請參閱[**[路名碼基本資料](https://traffic-api-documentation.gitbook.io/traffic/xiang-dai-zhao-biao)**]",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.VD",
+      "source_field": "RoadName",
+      "normalized_field": "road_name",
+      "source_type": "string",
+      "description": "道路名稱",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.VD",
+      "source_field": "RoadClass",
+      "normalized_field": "road_class",
+      "source_type": "integer",
+      "description": "道路分類 : [0:'國道',1:'快速道路',2:'市區快速道路',3:'省道',4:'縣道',5:'鄉道',6:'市區一般道路',7:'匝道']",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.VD",
+      "source_field": "RoadSection",
+      "normalized_field": "road_section",
+      "source_type": null,
+      "description": "所在道路路段描述",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.VD",
+      "source_field": "LocationMile",
+      "normalized_field": "location_mile",
+      "source_type": "string",
+      "description": "所在方向里程數",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.VD",
+      "source_field": "LayoutMapURL",
+      "normalized_field": "layout_map_url",
+      "source_type": "string",
+      "description": "路側設備布設簡圖URL",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.DetectionLink",
+      "source_field": "LinkID",
+      "normalized_field": "link_id",
+      "source_type": "string",
+      "description": "基礎路段代碼, 請參閱[**[基礎路段代碼表](https://motclink.gitbook.io/link/lu-duan-bian-ma-nei-rong/2code)**]",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.DetectionLink",
+      "source_field": "Bearing",
+      "normalized_field": "bearing",
+      "source_type": "string",
+      "description": "基礎路段方位 : [E:'東',N:'北',NE:'東北',NW:'西北',S:'南',SE:'東南',SW:'西南',W:'西']",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.DetectionLink",
+      "source_field": "RoadDirection",
+      "normalized_field": "road_direction",
+      "source_type": "string",
+      "description": "基礎路段所屬道路方向, 請參閱[**[道路方向資料表](https://traffic-api-documentation.gitbook.io/traffic/xiang-dai-zhao-biao)**]",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.DetectionLink",
+      "source_field": "LaneNum",
+      "normalized_field": "lane_num",
+      "source_type": "integer",
+      "description": "設備於該方向基礎路段所能偵側車道數",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.DetectionLink",
+      "source_field": "ActualLaneNum",
+      "normalized_field": "actual_lane_num",
+      "source_type": "integer",
+      "description": "該方向基礎路段的實際車道數",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.LiveTraffic]",
+      "source_field": "UpdateTime",
+      "normalized_field": "update_time",
+      "source_type": "string",
+      "description": "<details>\n  <summary>本平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)</summary>\n                與來源Inbound XML不同，為中心端處理完後提供資料的更新時間\n              </details>",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.LiveTraffic]",
+      "source_field": "UpdateInterval",
+      "normalized_field": "update_interval",
+      "source_type": "integer",
+      "description": "<details>\n  <summary>本平台資料更新週期(秒)</summary>\n                與來源Inbound XML不同，為中心端更新資料的週期\n              </details>",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.LiveTraffic]",
+      "source_field": "SrcUpdateTime",
+      "normalized_field": "src_update_time",
+      "source_type": "string",
+      "description": "<details>\n  <summary>來源端平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)</summary>\n                為來源Inbound XML中的UpdateTime [該欄位由本平台自動產製]\n              </details>",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.LiveTraffic]",
+      "source_field": "SrcUpdateInterval",
+      "normalized_field": "src_update_interval",
+      "source_type": "integer",
+      "description": "<details>\n  <summary>來源端平台資料更新週期(秒) : [-1:'不定期更新']</summary>\n                為來源Inbound XML中的UpdateInterval [該欄位由本平台自動產製]\n              </details>",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.LiveTraffic]",
+      "source_field": "AuthorityCode",
+      "normalized_field": "authority_code",
+      "source_type": "string",
+      "description": "業管機關簡碼",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.LiveTraffic]",
+      "source_field": "LinkVersion",
+      "normalized_field": "link_version",
+      "source_type": "string",
+      "description": "版號",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.LiveTraffic]",
+      "source_field": "Items",
+      "normalized_field": "items",
+      "source_type": "array",
+      "description": "資料(陣列)",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.LiveTraffic]",
+      "source_field": "Count",
+      "normalized_field": "count",
+      "source_type": "integer",
+      "description": "<details>\n  <summary>資料總筆數</summary>\n                與來源Inbound XML不同，為提供資料的總筆數  [該欄位由本平台自動產製]\n              </details>",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.LiveTraffic",
+      "source_field": "SectionID",
+      "normalized_field": "section_id",
+      "source_type": "string",
+      "description": "機關發布路段代碼",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.LiveTraffic",
+      "source_field": "LinkIDs",
+      "normalized_field": "link_ids",
+      "source_type": "array",
+      "description": "機關基礎路段代碼集合",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.LiveTraffic",
+      "source_field": "OpenLRs",
+      "normalized_field": "open_l_rs",
+      "source_type": "array",
+      "description": "動態區域描述集合",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.LiveTraffic",
+      "source_field": "SubAuthorityCode",
+      "normalized_field": "sub_authority_code",
+      "source_type": "string",
+      "description": "<details>\n  <summary>業管子機關簡碼</summary>\n                與Inbound XML不同，透過靜態資料對應設備的SubAuthorityCode取得\n              </details>",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.LiveTraffic",
+      "source_field": "TravelTime",
+      "normalized_field": "travel_time",
+      "source_type": "integer",
+      "description": "路段平均旅行時間, 單位:秒, 若壅塞級別為-1, 則為-1",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.LiveTraffic",
+      "source_field": "TravelSpeed",
+      "normalized_field": "travel_speed",
+      "source_type": "number",
+      "description": "路段平均旅行速度, 單位:KM/Hr, 若壅塞級別為-1, 則為-1",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.LiveTraffic",
+      "source_field": "CongestionLevelID",
+      "normalized_field": "congestion_level_id",
+      "source_type": "string",
+      "description": "壅塞水準組別代碼",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.LiveTraffic",
+      "source_field": "CongestionLevel",
+      "normalized_field": "congestion_level",
+      "source_type": "string",
+      "description": "壅塞級別, -99=資料異常, -1=道路封閉",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.LiveTraffic",
+      "source_field": "DataSources",
+      "normalized_field": "data_sources",
+      "source_type": null,
+      "description": "即時路況資訊來源種類",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.LiveTraffic",
+      "source_field": "DataCollectTime",
+      "normalized_field": "data_collect_time",
+      "source_type": "string",
+      "description": "資料蒐集時間(ISO8601格式:yyyy-MM-ddTHH:mm:ss zzz)",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.DataSources",
+      "source_field": "HasHistorical",
+      "normalized_field": "has_historical",
+      "source_type": "integer",
+      "description": "是否包含歷史資料 : [0:'不包含',1:'包含']",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.DataSources",
+      "source_field": "HasVD",
+      "normalized_field": "has_vd",
+      "source_type": "integer",
+      "description": "是否包含VD資料(車輛偵測器) : [0:'不包含',1:'包含']",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.DataSources",
+      "source_field": "HasAVI",
+      "normalized_field": "has_avi",
+      "source_type": "integer",
+      "description": "是否包含AVI資料(自動車輛辨識) : [0:'不包含',1:'包含']",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.DataSources",
+      "source_field": "HasETAG",
+      "normalized_field": "has_etag",
+      "source_type": "integer",
+      "description": "是否包含ETag資料(eTag電子辨識) : [0:'不包含',1:'包含']",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.DataSources",
+      "source_field": "HasGVP",
+      "normalized_field": "has_gvp",
+      "source_type": "integer",
+      "description": "是否包含GVP資料(GPS Vehicle Probe) : [0:'不包含',1:'包含']",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.DataSources",
+      "source_field": "HasCVP",
+      "normalized_field": "has_cvp",
+      "source_type": "integer",
+      "description": "是否包含CVP資料(Cellular Vehicle Probe) : [0:'不包含',1:'包含']",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.DataSources",
+      "source_field": "HasOthers",
+      "normalized_field": "has_others",
+      "source_type": "integer",
+      "description": "是否包含其他多元路況資料 : [0:'不包含',1:'包含']",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.VDLive]",
+      "source_field": "UpdateTime",
+      "normalized_field": "update_time",
+      "source_type": "string",
+      "description": "<details>\n  <summary>本平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)</summary>\n                與來源Inbound XML不同，為中心端處理完後提供資料的更新時間\n              </details>",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.VDLive]",
+      "source_field": "UpdateInterval",
+      "normalized_field": "update_interval",
+      "source_type": "integer",
+      "description": "<details>\n  <summary>本平台資料更新週期(秒)</summary>\n                與來源Inbound XML不同，為中心端更新資料的週期\n              </details>",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.VDLive]",
+      "source_field": "SrcUpdateTime",
+      "normalized_field": "src_update_time",
+      "source_type": "string",
+      "description": "<details>\n  <summary>來源端平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)</summary>\n                為來源Inbound XML中的UpdateTime [該欄位由本平台自動產製]\n              </details>",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.VDLive]",
+      "source_field": "SrcUpdateInterval",
+      "normalized_field": "src_update_interval",
+      "source_type": "integer",
+      "description": "<details>\n  <summary>來源端平台資料更新週期(秒) : [-1:'不定期更新']</summary>\n                為來源Inbound XML中的UpdateInterval [該欄位由本平台自動產製]\n              </details>",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.VDLive]",
+      "source_field": "AuthorityCode",
+      "normalized_field": "authority_code",
+      "source_type": "string",
+      "description": "業管機關簡碼",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.VDLive]",
+      "source_field": "LinkVersion",
+      "normalized_field": "link_version",
+      "source_type": "string",
+      "description": "版號",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.VDLive]",
+      "source_field": "Items",
+      "normalized_field": "items",
+      "source_type": "array",
+      "description": "資料(陣列)",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.API.Traffic.Model.TrafficWrapper[PTX.Service.DTO.Traffic.Specification.V2.API.VDLive]",
+      "source_field": "Count",
+      "normalized_field": "count",
+      "source_type": "integer",
+      "description": "<details>\n  <summary>資料總筆數</summary>\n                與來源Inbound XML不同，為提供資料的總筆數  [該欄位由本平台自動產製]\n              </details>",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.VDLive",
+      "source_field": "VDID",
+      "normalized_field": "vd_id",
+      "source_type": "string",
+      "description": "VD設備代碼",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.VDLive",
+      "source_field": "SubAuthorityCode",
+      "normalized_field": "sub_authority_code",
+      "source_type": "string",
+      "description": "<details>\n  <summary>業管子機關簡碼</summary>\n                與Inbound XML不同，透過靜態資料對應設備的SubAuthorityCode取得\n              </details>",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.VDLive",
+      "source_field": "LinkFlows",
+      "normalized_field": "link_flows",
+      "source_type": "array",
+      "description": "路段車流偵測資訊",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.VDLive",
+      "source_field": "Status",
+      "normalized_field": "status",
+      "source_type": "integer",
+      "description": "設備狀態 : [0:'正常',1:'通訊異常',2:'停用或施工中',3:'設備故障']",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.API.VDLive",
+      "source_field": "DataCollectTime",
+      "normalized_field": "data_collect_time",
+      "source_type": "string",
+      "description": "資料蒐集時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.Commons.LinkFlow",
+      "source_field": "LinkID",
+      "normalized_field": "link_id",
+      "source_type": "string",
+      "description": "基礎路段代碼, 請參閱[**[基礎路段代碼表](https://motclink.gitbook.io/link/lu-duan-bian-ma-nei-rong/2code)**]",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.Commons.LinkFlow",
+      "source_field": "Lanes",
+      "normalized_field": "lanes",
+      "source_type": "array",
+      "description": "偵側路段車道資訊",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.Commons.Lane",
+      "source_field": "LaneID",
+      "normalized_field": "lane_id",
+      "source_type": "integer",
+      "description": "車道代碼",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.Commons.Lane",
+      "source_field": "LaneType",
+      "normalized_field": "lane_type",
+      "source_type": "integer",
+      "description": "車道種類 : [1:'一般車道',2:'快車道',3:'慢車道',4:'機車道',5:'高承載車道',6:'公車專用道',7:'轉向車道',8:'路肩',9:'輔助車道',10:'調撥車道',11:'其他']",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.Commons.Lane",
+      "source_field": "Speed",
+      "normalized_field": "speed",
+      "source_type": "number",
+      "description": "平均速率偵測值, -99=資料異常",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.Commons.Lane",
+      "source_field": "Occupancy",
+      "normalized_field": "occupancy",
+      "source_type": "number",
+      "description": "佔有率偵測值",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.Commons.Lane",
+      "source_field": "Vehicles",
+      "normalized_field": "vehicles",
+      "source_type": "array",
+      "description": "車道內車輛資訊",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.Commons.Lane",
+      "source_field": "ErrorType",
+      "normalized_field": "error_type",
+      "source_type": "string",
+      "description": "車道內車流偵測資訊異常類型代碼, 請參閱[**[資料品質檢核](https://motc-traffic.gitbook.io/motc-traffic/)**]",
+      "nullable": true
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.Commons.Vehicle",
+      "source_field": "VehicleType",
+      "normalized_field": "vehicle_type",
+      "source_type": "string",
+      "description": "車種代碼, 請參閱[**[車種代碼](https://traffic-api-documentation.gitbook.io/traffic/xiang-dai-zhao-biao)**]",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.Commons.Vehicle",
+      "source_field": "Volume",
+      "normalized_field": "volume",
+      "source_type": "integer",
+      "description": "流量偵測值, -99=資料異常",
+      "nullable": false
+    },
+    {
+      "service_category": "basic",
+      "model": "PTX.Service.DTO.Traffic.Specification.V2.Commons.Vehicle",
+      "source_field": "Speed",
+      "normalized_field": "speed",
+      "source_type": "number",
+      "description": "平均速率偵測值, -99=資料異常",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.Section",
+      "source_field": "SectionID",
+      "normalized_field": "section_id",
+      "source_type": "string",
+      "description": "機關發布路段代碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.Section",
+      "source_field": "AuthorityCode",
+      "normalized_field": "authority_code",
+      "source_type": "string",
+      "description": "業管機關簡碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.Section",
+      "source_field": "SubAuthorityCode",
+      "normalized_field": "sub_authority_code",
+      "source_type": "string",
+      "description": "業管子機關簡碼",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.Section",
+      "source_field": "SectionName",
+      "normalized_field": "section_name",
+      "source_type": "string",
+      "description": "機關發布路段中文名稱描述",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.Section",
+      "source_field": "RoadID",
+      "normalized_field": "road_id",
+      "source_type": "string",
+      "description": "道路代碼, 請參閱[**[路名碼基本資料](https://traffic-api-documentation.gitbook.io/traffic/xiang-dai-zhao-biao)**]",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.Section",
+      "source_field": "RoadName",
+      "normalized_field": "road_name",
+      "source_type": "string",
+      "description": "道路路名",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.Section",
+      "source_field": "RoadClass",
+      "normalized_field": "road_class",
+      "source_type": "integer",
+      "description": "道路分類 : [0:'國道',1:'快速道路',2:'市區快速道路',3:'省道',4:'縣道',5:'鄉道',6:'市區一般道路',7:'匝道']",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.Section",
+      "source_field": "RoadDirection",
+      "normalized_field": "road_direction",
+      "source_type": "string",
+      "description": "基礎路段所屬道路方向, 請參閱[**[道路方向資料表](https://traffic-api-documentation.gitbook.io/traffic/xiang-dai-zhao-biao)**]",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.Section",
+      "source_field": "RoadSection",
+      "normalized_field": "road_section",
+      "source_type": null,
+      "description": "所在道路路段描述",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.Section",
+      "source_field": "SectionLength",
+      "normalized_field": "section_length",
+      "source_type": "number",
+      "description": "機關發布路段長度, GIS的提供路段長度(KM), 可到小數點3位, 單位:KM",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.Section",
+      "source_field": "SectionMile",
+      "normalized_field": "section_mile",
+      "source_type": null,
+      "description": "機關發布路段所在位置之起迄里程數",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.Section",
+      "source_field": "SectionStart",
+      "normalized_field": "section_start",
+      "source_type": null,
+      "description": "機關發布路段起點座標",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.Section",
+      "source_field": "SectionEnd",
+      "normalized_field": "section_end",
+      "source_type": null,
+      "description": "機關發布路段迄點座標",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.Section",
+      "source_field": "SpeedLimit",
+      "normalized_field": "speed_limit",
+      "source_type": "integer",
+      "description": "機關發布路段最高限速",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.Section",
+      "source_field": "SrcUpdateTime",
+      "normalized_field": "src_update_time",
+      "source_type": "string",
+      "description": "本平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)\n<span class=\"emphasis fas fa-pen\" rel=\"與來源Inbound XML不同，為中心端處理完後提供資料的更新時間\"></span>",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.Section",
+      "source_field": "UpdateTime",
+      "normalized_field": "update_time",
+      "source_type": "string",
+      "description": "來源端平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)\n<span class=\"emphasis fas fa-pen\" rel=\"為來源Inbound XML中的UpdateTime [該欄位由本平台自動產製]\"></span>",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.Section",
+      "source_field": "InfoTime",
+      "normalized_field": "info_time",
+      "source_type": "string",
+      "description": "資料代表時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.Section",
+      "source_field": "InfoDate",
+      "normalized_field": "info_date",
+      "source_type": "string",
+      "description": "資料代表日期(格式:yyyy-MM-dd)",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.Commons.RoadSection",
+      "source_field": "Start",
+      "normalized_field": "start",
+      "source_type": "string",
+      "description": "路段起點描述",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.Commons.RoadSection",
+      "source_field": "End",
+      "normalized_field": "end",
+      "source_type": "string",
+      "description": "路段迄點描述",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.Commons.SectionMile",
+      "source_field": "StartKM",
+      "normalized_field": "start_km",
+      "source_type": "string",
+      "description": "起點里程數, 里程表示方式：整數公里數+整數公里數下 3 位，如 36K+525",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.Commons.SectionMile",
+      "source_field": "EndKM",
+      "normalized_field": "end_km",
+      "source_type": "string",
+      "description": "迄點里程數, 里程表示方式：整數公里數+整數公里數下 3 位，如 36K+525",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.Commons.Point",
+      "source_field": "PositionLat",
+      "normalized_field": "position_lat",
+      "source_type": "number",
+      "description": "位置緯度(WGS84)",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.Commons.Point",
+      "source_field": "PositionLon",
+      "normalized_field": "position_lon",
+      "source_type": "number",
+      "description": "位置經度(WGS84)",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.Section",
+      "source_field": "SectionID",
+      "normalized_field": "section_id",
+      "source_type": "string",
+      "description": "機關發布路段代碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.Section",
+      "source_field": "AuthorityCode",
+      "normalized_field": "authority_code",
+      "source_type": "string",
+      "description": "業管機關簡碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.Section",
+      "source_field": "SubAuthorityCode",
+      "normalized_field": "sub_authority_code",
+      "source_type": "string",
+      "description": "業管子機關簡碼",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.Section",
+      "source_field": "SectionName",
+      "normalized_field": "section_name",
+      "source_type": "string",
+      "description": "機關發布路段中文名稱描述",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.Section",
+      "source_field": "RoadID",
+      "normalized_field": "road_id",
+      "source_type": "string",
+      "description": "道路代碼, 請參閱[**[路名碼基本資料](https://traffic-api-documentation.gitbook.io/traffic/xiang-dai-zhao-biao)**]",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.Section",
+      "source_field": "RoadName",
+      "normalized_field": "road_name",
+      "source_type": "string",
+      "description": "道路路名",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.Section",
+      "source_field": "RoadClass",
+      "normalized_field": "road_class",
+      "source_type": "integer",
+      "description": "道路分類 : [0:'國道',1:'快速道路',2:'市區快速道路',3:'省道',4:'縣道',5:'鄉道',6:'市區一般道路',7:'匝道']",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.Section",
+      "source_field": "RoadDirection",
+      "normalized_field": "road_direction",
+      "source_type": "string",
+      "description": "基礎路段所屬道路方向, 請參閱[**[道路方向資料表](https://traffic-api-documentation.gitbook.io/traffic/xiang-dai-zhao-biao)**]",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.Section",
+      "source_field": "RoadSectionStart",
+      "normalized_field": "road_section_start",
+      "source_type": "string",
+      "description": "路段起點描述",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.Section",
+      "source_field": "RoadSectionEnd",
+      "normalized_field": "road_section_end",
+      "source_type": "string",
+      "description": "路段迄點描述",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.Section",
+      "source_field": "SectionLength",
+      "normalized_field": "section_length",
+      "source_type": "number",
+      "description": "機關發布路段長度, GIS的提供路段長度(KM), 可到小數點3位, 單位:KM",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.Section",
+      "source_field": "SectionMileStartKM",
+      "normalized_field": "section_mile_start_km",
+      "source_type": "string",
+      "description": "起點里程數",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.Section",
+      "source_field": "SectionMileEndKM",
+      "normalized_field": "section_mile_end_km",
+      "source_type": "string",
+      "description": "迄點里程數",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.Section",
+      "source_field": "SectionStartPositionLat",
+      "normalized_field": "section_start_position_lat",
+      "source_type": "number",
+      "description": "機關發布路段起點位置座標緯度",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.Section",
+      "source_field": "SectionStartPositionLon",
+      "normalized_field": "section_start_position_lon",
+      "source_type": "number",
+      "description": "機關發布路段起點位置座標經度",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.Section",
+      "source_field": "SectionEndPositionLat",
+      "normalized_field": "section_end_position_lat",
+      "source_type": "number",
+      "description": "機關發布路段迄點位置座標緯度",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.Section",
+      "source_field": "SectionEndPositionLon",
+      "normalized_field": "section_end_position_lon",
+      "source_type": "number",
+      "description": "機關發布路段迄點位置座標經度",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.Section",
+      "source_field": "SpeedLimit",
+      "normalized_field": "speed_limit",
+      "source_type": "integer",
+      "description": "機關發布路段最高限速",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.Section",
+      "source_field": "SrcUpdateTime",
+      "normalized_field": "src_update_time",
+      "source_type": "string",
+      "description": "本平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)\n<span class=\"emphasis fas fa-pen\" rel=\"與來源Inbound XML不同，為中心端處理完後提供資料的更新時間\"></span>",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.Section",
+      "source_field": "UpdateTime",
+      "normalized_field": "update_time",
+      "source_type": "string",
+      "description": "來源端平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)\n<span class=\"emphasis fas fa-pen\" rel=\"為來源Inbound XML中的UpdateTime [該欄位由本平台自動產製]\"></span>",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.Section",
+      "source_field": "InfoTime",
+      "normalized_field": "info_time",
+      "source_type": "string",
+      "description": "資料代表時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.Section",
+      "source_field": "InfoDate",
+      "normalized_field": "info_date",
+      "source_type": "string",
+      "description": "資料代表日期(格式:yyyy-MM-dd)",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Shared.Specification.Base.MetaFilter.Meta",
+      "source_field": "Dates",
+      "normalized_field": "dates",
+      "source_type": "string",
+      "description": null,
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Shared.Specification.Base.MetaFilter.Meta",
+      "source_field": "Count",
+      "normalized_field": "count",
+      "source_type": "integer",
+      "description": null,
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Shared.Specification.Base.MetaFilter.Meta",
+      "source_field": "SizeBytes",
+      "normalized_field": "size_bytes",
+      "source_type": "integer",
+      "description": null,
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VD",
+      "source_field": "VDID",
+      "normalized_field": "vd_id",
+      "source_type": "string",
+      "description": "VD設備代碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VD",
+      "source_field": "AuthorityCode",
+      "normalized_field": "authority_code",
+      "source_type": "string",
+      "description": "業管機關簡碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VD",
+      "source_field": "SubAuthorityCode",
+      "normalized_field": "sub_authority_code",
+      "source_type": "string",
+      "description": "業管子機關簡碼",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VD",
+      "source_field": "BiDirectional",
+      "normalized_field": "bi_directional",
+      "source_type": "integer",
+      "description": "是否為雙向偵測 : [0:'偵測單向',1:'偵測雙向']",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VD",
+      "source_field": "DetectionLinks",
+      "normalized_field": "detection_links",
+      "source_type": "array",
+      "description": "路段車流偵測資訊",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VD",
+      "source_field": "VDType",
+      "normalized_field": "vd_type",
+      "source_type": "integer",
+      "description": "VD 類別 : [1:'線圈式',2:'微波式',3:'影像式',4:'紅外線',5:'超音波',6:'其它']",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VD",
+      "source_field": "LocationType",
+      "normalized_field": "location_type",
+      "source_type": "integer",
+      "description": "設置地點位置類型 : [1:'路側',2:'道路中央分隔島',3:'快慢分隔島',4:'車道上門架',5:'車道鋪面',6:'其他']",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VD",
+      "source_field": "DetectionType",
+      "normalized_field": "detection_type",
+      "source_type": "integer",
+      "description": "車流偵側類型 : [1:'高快速公路/市快主線',2:'高快速公路/市快匝道',3:'其它道路路段中',4:'其它道路路口(靠近路口或停止線)']",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VD",
+      "source_field": "PositionLon",
+      "normalized_field": "position_lon",
+      "source_type": "number",
+      "description": "設備架設位置 X 坐標",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VD",
+      "source_field": "PositionLat",
+      "normalized_field": "position_lat",
+      "source_type": "number",
+      "description": "設備架設位置 Y 坐標",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VD",
+      "source_field": "Geohash",
+      "normalized_field": "geohash",
+      "source_type": "string",
+      "description": "地理識別碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VD",
+      "source_field": "CountyID",
+      "normalized_field": "county_id",
+      "source_type": "string",
+      "description": "縣市代碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VD",
+      "source_field": "CountyName",
+      "normalized_field": "county_name",
+      "source_type": "string",
+      "description": "縣市名稱",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VD",
+      "source_field": "TownID",
+      "normalized_field": "town_id",
+      "source_type": "string",
+      "description": "市區鄉鎮代碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VD",
+      "source_field": "TownName",
+      "normalized_field": "town_name",
+      "source_type": "string",
+      "description": "市區鄉鎮名稱",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VD",
+      "source_field": "RoadID",
+      "normalized_field": "road_id",
+      "source_type": "string",
+      "description": "道路代碼, 請參閱[**[路名碼基本資料](https://traffic-api-documentation.gitbook.io/traffic/xiang-dai-zhao-biao)**]",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VD",
+      "source_field": "RoadName",
+      "normalized_field": "road_name",
+      "source_type": "string",
+      "description": "道路名稱",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VD",
+      "source_field": "RoadClass",
+      "normalized_field": "road_class",
+      "source_type": "integer",
+      "description": "道路分類 : [0:'國道',1:'快速道路',2:'市區快速道路',3:'省道',4:'縣道',5:'鄉道',6:'市區一般道路',7:'匝道']",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VD",
+      "source_field": "RoadSection",
+      "normalized_field": "road_section",
+      "source_type": null,
+      "description": "所在道路路段描述",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VD",
+      "source_field": "LocationMile",
+      "normalized_field": "location_mile",
+      "source_type": "string",
+      "description": "所在方向里程數",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VD",
+      "source_field": "SrcUpdateTime",
+      "normalized_field": "src_update_time",
+      "source_type": "string",
+      "description": "本平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)\n<span class=\"emphasis fas fa-pen\" rel=\"與來源Inbound XML不同，為中心端處理完後提供資料的更新時間\"></span>",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VD",
+      "source_field": "UpdateTime",
+      "normalized_field": "update_time",
+      "source_type": "string",
+      "description": "來源端平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)\n<span class=\"emphasis fas fa-pen\" rel=\"為來源Inbound XML中的UpdateTime [該欄位由本平台自動產製]\"></span>",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VD",
+      "source_field": "InfoTime",
+      "normalized_field": "info_time",
+      "source_type": "string",
+      "description": "資料代表時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VD",
+      "source_field": "InfoDate",
+      "normalized_field": "info_date",
+      "source_type": "string",
+      "description": "資料代表日期(格式:yyyy-MM-dd)",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.DetectionLink",
+      "source_field": "LinkID",
+      "normalized_field": "link_id",
+      "source_type": "string",
+      "description": "基礎路段代碼, 請參閱[**[基礎路段代碼表](https://motclink.gitbook.io/link/lu-duan-bian-ma-nei-rong/2code)**]",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.DetectionLink",
+      "source_field": "Bearing",
+      "normalized_field": "bearing",
+      "source_type": "string",
+      "description": "基礎路段方位 : [E:'東',N:'北',NE:'東北',NW:'西北',S:'南',SE:'東南',SW:'西南',W:'西']",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.DetectionLink",
+      "source_field": "RoadDirection",
+      "normalized_field": "road_direction",
+      "source_type": "string",
+      "description": "基礎路段所屬道路方向, 請參閱[**[道路方向資料表](https://traffic-api-documentation.gitbook.io/traffic/xiang-dai-zhao-biao)**]",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.DetectionLink",
+      "source_field": "LaneNum",
+      "normalized_field": "lane_num",
+      "source_type": "integer",
+      "description": "設備於該方向基礎路段所能偵側車道數",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.DetectionLink",
+      "source_field": "ActualLaneNum",
+      "normalized_field": "actual_lane_num",
+      "source_type": "integer",
+      "description": "該方向基礎路段的實際車道數",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "VDID",
+      "normalized_field": "vd_id",
+      "source_type": "string",
+      "description": "VD設備代碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "AuthorityCode",
+      "normalized_field": "authority_code",
+      "source_type": "string",
+      "description": "業管機關簡碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "SubAuthorityCode",
+      "normalized_field": "sub_authority_code",
+      "source_type": "string",
+      "description": "業管子機關簡碼",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "BiDirectional",
+      "normalized_field": "bi_directional",
+      "source_type": "integer",
+      "description": "是否為雙向偵測 : [0:'偵測單向',1:'偵測雙向']",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "DetectionLinksLinkID",
+      "normalized_field": "detection_links_link_id",
+      "source_type": "string",
+      "description": "基礎路段代碼, 請參閱[**[基礎路段代碼表](https://motclink.gitbook.io/link/lu-duan-bian-ma-nei-rong/2code)**]",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "DetectionLinksBearing",
+      "normalized_field": "detection_links_bearing",
+      "source_type": "string",
+      "description": "基礎路段方位 : [E:'東',N:'北',NE:'東北',NW:'西北',S:'南',SE:'東南',SW:'西南',W:'西']",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "DetectionLinksRoadDirection",
+      "normalized_field": "detection_links_road_direction",
+      "source_type": "string",
+      "description": "基礎路段所屬道路方向, 請參閱[**[道路方向資料表](https://traffic-api-documentation.gitbook.io/traffic/xiang-dai-zhao-biao)**]",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "DetectionLinksLaneNum",
+      "normalized_field": "detection_links_lane_num",
+      "source_type": "integer",
+      "description": "設備於該方向基礎路段所能偵側車道數",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "DetectionLinksActualLaneNum",
+      "normalized_field": "detection_links_actual_lane_num",
+      "source_type": "integer",
+      "description": "該方向基礎路段的實際車道數",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "VDType",
+      "normalized_field": "vd_type",
+      "source_type": "integer",
+      "description": "VD 類別 : [1:'線圈式',2:'微波式',3:'影像式',4:'紅外線',5:'超音波',6:'其它']",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "LocationType",
+      "normalized_field": "location_type",
+      "source_type": "integer",
+      "description": "設置地點位置類型 : [1:'路側',2:'道路中央分隔島',3:'快慢分隔島',4:'車道上門架',5:'車道鋪面',6:'其他']",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "DetectionType",
+      "normalized_field": "detection_type",
+      "source_type": "integer",
+      "description": "車流偵側類型 : [1:'高快速公路/市快主線',2:'高快速公路/市快匝道',3:'其它道路路段中',4:'其它道路路口(靠近路口或停止線)']",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "PositionLon",
+      "normalized_field": "position_lon",
+      "source_type": "number",
+      "description": "設備架設位置 X 坐標",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "PositionLat",
+      "normalized_field": "position_lat",
+      "source_type": "number",
+      "description": "設備架設位置 Y 坐標",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "Geohash",
+      "normalized_field": "geohash",
+      "source_type": "string",
+      "description": "地理識別碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "CountyID",
+      "normalized_field": "county_id",
+      "source_type": "string",
+      "description": "縣市代碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "CountyName",
+      "normalized_field": "county_name",
+      "source_type": "string",
+      "description": "縣市名稱",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "TownID",
+      "normalized_field": "town_id",
+      "source_type": "string",
+      "description": "市區鄉鎮代碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "TownName",
+      "normalized_field": "town_name",
+      "source_type": "string",
+      "description": "市區鄉鎮名稱",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "RoadID",
+      "normalized_field": "road_id",
+      "source_type": "string",
+      "description": "道路代碼, 請參閱[**[路名碼基本資料](https://traffic-api-documentation.gitbook.io/traffic/xiang-dai-zhao-biao)**]",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "RoadName",
+      "normalized_field": "road_name",
+      "source_type": "string",
+      "description": "道路名稱",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "RoadClass",
+      "normalized_field": "road_class",
+      "source_type": "integer",
+      "description": "道路分類 : [0:'國道',1:'快速道路',2:'市區快速道路',3:'省道',4:'縣道',5:'鄉道',6:'市區一般道路',7:'匝道']",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "RoadSectionStart",
+      "normalized_field": "road_section_start",
+      "source_type": "string",
+      "description": "路段起點描述",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "RoadSectionEnd",
+      "normalized_field": "road_section_end",
+      "source_type": "string",
+      "description": "路段迄點描述",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "LocationMile",
+      "normalized_field": "location_mile",
+      "source_type": "string",
+      "description": "所在方向里程數",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "SrcUpdateTime",
+      "normalized_field": "src_update_time",
+      "source_type": "string",
+      "description": "本平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)\n<span class=\"emphasis fas fa-pen\" rel=\"與來源Inbound XML不同，為中心端處理完後提供資料的更新時間\"></span>",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "UpdateTime",
+      "normalized_field": "update_time",
+      "source_type": "string",
+      "description": "來源端平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)\n<span class=\"emphasis fas fa-pen\" rel=\"為來源Inbound XML中的UpdateTime [該欄位由本平台自動產製]\"></span>",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "InfoTime",
+      "normalized_field": "info_time",
+      "source_type": "string",
+      "description": "資料代表時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VD",
+      "source_field": "InfoDate",
+      "normalized_field": "info_date",
+      "source_type": "string",
+      "description": "資料代表日期(格式:yyyy-MM-dd)",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.LiveTraffic",
+      "source_field": "SectionID",
+      "normalized_field": "section_id",
+      "source_type": "string",
+      "description": "機關發布路段代碼",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.LiveTraffic",
+      "source_field": "AuthorityCode",
+      "normalized_field": "authority_code",
+      "source_type": "string",
+      "description": "業管機關簡碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.LiveTraffic",
+      "source_field": "SubAuthorityCode",
+      "normalized_field": "sub_authority_code",
+      "source_type": "string",
+      "description": "業管子機關簡碼\n<span class=\"emphasis fas fa-pen\" rel=\"與Inbound XML不同，透過靜態資料對應設備的SubAuthorityCode取得\"></span>",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.LiveTraffic",
+      "source_field": "LinkIDs",
+      "normalized_field": "link_ids",
+      "source_type": "array",
+      "description": "機關基礎路段代碼集合",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.LiveTraffic",
+      "source_field": "TravelTime",
+      "normalized_field": "travel_time",
+      "source_type": "integer",
+      "description": "路段平均旅行時間, 單位:秒, 若壅塞級別為-1, 則為-1",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.LiveTraffic",
+      "source_field": "TravelSpeed",
+      "normalized_field": "travel_speed",
+      "source_type": "number",
+      "description": "路段平均旅行速度, 單位:KM/Hr, 若壅塞級別為-1, 則為-1",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.LiveTraffic",
+      "source_field": "CongestionLevelID",
+      "normalized_field": "congestion_level_id",
+      "source_type": "string",
+      "description": "壅塞水準組別代碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.LiveTraffic",
+      "source_field": "CongestionLevel",
+      "normalized_field": "congestion_level",
+      "source_type": "string",
+      "description": "壅塞級別, -99=資料異常, -1=道路封閉",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.LiveTraffic",
+      "source_field": "DataSources",
+      "normalized_field": "data_sources",
+      "source_type": null,
+      "description": "即時路況資訊來源種類",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.LiveTraffic",
+      "source_field": "DataCollectTime",
+      "normalized_field": "data_collect_time",
+      "source_type": "string",
+      "description": "資料蒐集時間(ISO8601格式:yyyy-MM-ddTHH:mm:ss zzz)",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.LiveTraffic",
+      "source_field": "SrcUpdateTime",
+      "normalized_field": "src_update_time",
+      "source_type": "string",
+      "description": "本平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)\n<span class=\"emphasis fas fa-pen\" rel=\"與來源Inbound XML不同，為中心端處理完後提供資料的更新時間\"></span>",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.LiveTraffic",
+      "source_field": "UpdateTime",
+      "normalized_field": "update_time",
+      "source_type": "string",
+      "description": "來源端平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)\n<span class=\"emphasis fas fa-pen\" rel=\"為來源Inbound XML中的UpdateTime [該欄位由本平台自動產製]\"></span>",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.LiveTraffic",
+      "source_field": "InfoTime",
+      "normalized_field": "info_time",
+      "source_type": "string",
+      "description": "資料代表時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.LiveTraffic",
+      "source_field": "InfoDate",
+      "normalized_field": "info_date",
+      "source_type": "string",
+      "description": "資料代表日期(格式:yyyy-MM-dd)",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.Commons.LinkIDItem",
+      "source_field": "LinkID",
+      "normalized_field": "link_id",
+      "source_type": "string",
+      "description": "基礎路段代碼, 請參閱[**[基礎路段代碼表](https://motclink.gitbook.io/link/lu-duan-bian-ma-nei-rong/2code)**]",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.DataSources",
+      "source_field": "HasHistorical",
+      "normalized_field": "has_historical",
+      "source_type": "integer",
+      "description": "是否包含歷史資料 : [0:'不包含',1:'包含']",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.DataSources",
+      "source_field": "HasVD",
+      "normalized_field": "has_vd",
+      "source_type": "integer",
+      "description": "是否包含VD資料(車輛偵測器) : [0:'不包含',1:'包含']",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.DataSources",
+      "source_field": "HasAVI",
+      "normalized_field": "has_avi",
+      "source_type": "integer",
+      "description": "是否包含AVI資料(自動車輛辨識) : [0:'不包含',1:'包含']",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.DataSources",
+      "source_field": "HasETAG",
+      "normalized_field": "has_etag",
+      "source_type": "integer",
+      "description": "是否包含ETag資料(eTag電子辨識) : [0:'不包含',1:'包含']",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.DataSources",
+      "source_field": "HasGVP",
+      "normalized_field": "has_gvp",
+      "source_type": "integer",
+      "description": "是否包含GVP資料(GPS Vehicle Probe) : [0:'不包含',1:'包含']",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.DataSources",
+      "source_field": "HasCVP",
+      "normalized_field": "has_cvp",
+      "source_type": "integer",
+      "description": "是否包含CVP資料(Cellular Vehicle Probe) : [0:'不包含',1:'包含']",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.DataSources",
+      "source_field": "HasOthers",
+      "normalized_field": "has_others",
+      "source_type": "integer",
+      "description": "是否包含其他多元路況資料 : [0:'不包含',1:'包含']",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.LiveTraffic",
+      "source_field": "SectionID",
+      "normalized_field": "section_id",
+      "source_type": "string",
+      "description": "機關發布路段代碼",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.LiveTraffic",
+      "source_field": "AuthorityCode",
+      "normalized_field": "authority_code",
+      "source_type": "string",
+      "description": "業管機關簡碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.LiveTraffic",
+      "source_field": "SubAuthorityCode",
+      "normalized_field": "sub_authority_code",
+      "source_type": "string",
+      "description": "業管子機關簡碼\n<span class=\"emphasis fas fa-pen\" rel=\"與Inbound XML不同，透過靜態資料對應設備的SubAuthorityCode取得\"></span>",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.LiveTraffic",
+      "source_field": "LinkIDsLinkIDs",
+      "normalized_field": "link_i_ds_link_i_ds",
+      "source_type": "string",
+      "description": "基礎路段代碼",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.LiveTraffic",
+      "source_field": "TravelTime",
+      "normalized_field": "travel_time",
+      "source_type": "integer",
+      "description": "路段平均旅行時間, 單位:秒, 若壅塞級別為-1, 則為-1",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.LiveTraffic",
+      "source_field": "TravelSpeed",
+      "normalized_field": "travel_speed",
+      "source_type": "number",
+      "description": "路段平均旅行速度, 單位:KM/Hr, 若壅塞級別為-1, 則為-1",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.LiveTraffic",
+      "source_field": "CongestionLevelID",
+      "normalized_field": "congestion_level_id",
+      "source_type": "string",
+      "description": "壅塞水準組別代碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.LiveTraffic",
+      "source_field": "CongestionLevel",
+      "normalized_field": "congestion_level",
+      "source_type": "string",
+      "description": "壅塞級別, -99=資料異常, -1=道路封閉",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.LiveTraffic",
+      "source_field": "DataSourcesHasHistorical",
+      "normalized_field": "data_sources_has_historical",
+      "source_type": "integer",
+      "description": "是否包含歷史資料 : [0:'不包含',1:'包含']",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.LiveTraffic",
+      "source_field": "DataSourcesHasVD",
+      "normalized_field": "data_sources_has_vd",
+      "source_type": "integer",
+      "description": "是否包含VD資料(車輛偵測器) : [0:'不包含',1:'包含']",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.LiveTraffic",
+      "source_field": "DataSourcesHasAVI",
+      "normalized_field": "data_sources_has_avi",
+      "source_type": "integer",
+      "description": "是否包含AVI資料(自動車輛辨識) : [0:'不包含',1:'包含']",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.LiveTraffic",
+      "source_field": "DataSourcesHasETAG",
+      "normalized_field": "data_sources_has_etag",
+      "source_type": "integer",
+      "description": "是否包含ETag資料(eTag電子辨識) : [0:'不包含',1:'包含']",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.LiveTraffic",
+      "source_field": "DataSourcesHasGVP",
+      "normalized_field": "data_sources_has_gvp",
+      "source_type": "integer",
+      "description": "是否包含GVP資料(GPS Vehicle Probe) : [0:'不包含',1:'包含']",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.LiveTraffic",
+      "source_field": "DataSourcesHasCVP",
+      "normalized_field": "data_sources_has_cvp",
+      "source_type": "integer",
+      "description": "是否包含CVP資料(Cellular Vehicle Probe) : [0:'不包含',1:'包含']",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.LiveTraffic",
+      "source_field": "DataSourcesHasOthers",
+      "normalized_field": "data_sources_has_others",
+      "source_type": "integer",
+      "description": "是否包含其他多元路況資料 : [0:'不包含',1:'包含']",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.LiveTraffic",
+      "source_field": "DataCollectTime",
+      "normalized_field": "data_collect_time",
+      "source_type": "string",
+      "description": "資料蒐集時間(ISO8601格式:yyyy-MM-ddTHH:mm:ss zzz)",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.LiveTraffic",
+      "source_field": "SrcUpdateTime",
+      "normalized_field": "src_update_time",
+      "source_type": "string",
+      "description": "本平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)\n<span class=\"emphasis fas fa-pen\" rel=\"與來源Inbound XML不同，為中心端處理完後提供資料的更新時間\"></span>",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.LiveTraffic",
+      "source_field": "UpdateTime",
+      "normalized_field": "update_time",
+      "source_type": "string",
+      "description": "來源端平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)\n<span class=\"emphasis fas fa-pen\" rel=\"為來源Inbound XML中的UpdateTime [該欄位由本平台自動產製]\"></span>",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.LiveTraffic",
+      "source_field": "InfoTime",
+      "normalized_field": "info_time",
+      "source_type": "string",
+      "description": "資料代表時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.LiveTraffic",
+      "source_field": "InfoDate",
+      "normalized_field": "info_date",
+      "source_type": "string",
+      "description": "資料代表日期(格式:yyyy-MM-dd)",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VDLive",
+      "source_field": "VDID",
+      "normalized_field": "vd_id",
+      "source_type": "string",
+      "description": "VD設備代碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VDLive",
+      "source_field": "HostAuthorityCode",
+      "normalized_field": "host_authority_code",
+      "source_type": "string",
+      "description": "實際所屬業管機關簡碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VDLive",
+      "source_field": "AuthorityCode",
+      "normalized_field": "authority_code",
+      "source_type": "string",
+      "description": "業管機關簡碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VDLive",
+      "source_field": "SubAuthorityCode",
+      "normalized_field": "sub_authority_code",
+      "source_type": "string",
+      "description": "業管子機關簡碼\n<span class=\"emphasis fas fa-pen\" rel=\"與Inbound XML不同，透過靜態資料對應設備的SubAuthorityCode取得\"></span>",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VDLive",
+      "source_field": "LinkFlows",
+      "normalized_field": "link_flows",
+      "source_type": "array",
+      "description": "路段車流偵測資訊",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VDLive",
+      "source_field": "Status",
+      "normalized_field": "status",
+      "source_type": "integer",
+      "description": "設備狀態 : [0:'正常',1:'通訊異常',2:'停用或施工中',3:'設備故障']",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VDLive",
+      "source_field": "DataCollectTime",
+      "normalized_field": "data_collect_time",
+      "source_type": "string",
+      "description": "資料蒐集時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VDLive",
+      "source_field": "SrcUpdateTime",
+      "normalized_field": "src_update_time",
+      "source_type": "string",
+      "description": "本平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)\n<span class=\"emphasis fas fa-pen\" rel=\"與來源Inbound XML不同，為中心端處理完後提供資料的更新時間\"></span>",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VDLive",
+      "source_field": "UpdateTime",
+      "normalized_field": "update_time",
+      "source_type": "string",
+      "description": "來源端平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)\n<span class=\"emphasis fas fa-pen\" rel=\"為來源Inbound XML中的UpdateTime [該欄位由本平台自動產製]\"></span>",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VDLive",
+      "source_field": "InfoTime",
+      "normalized_field": "info_time",
+      "source_type": "string",
+      "description": "資料代表時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.JSON.VDLive",
+      "source_field": "InfoDate",
+      "normalized_field": "info_date",
+      "source_type": "string",
+      "description": "資料代表日期(格式:yyyy-MM-dd)",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.Commons.LinkFlow",
+      "source_field": "LinkID",
+      "normalized_field": "link_id",
+      "source_type": "string",
+      "description": "基礎路段代碼, 請參閱[**[基礎路段代碼表](https://motclink.gitbook.io/link/lu-duan-bian-ma-nei-rong/2code)**]",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.Commons.LinkFlow",
+      "source_field": "Lanes",
+      "normalized_field": "lanes",
+      "source_type": "array",
+      "description": "偵側路段車道資訊",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.Commons.Lane",
+      "source_field": "LaneID",
+      "normalized_field": "lane_id",
+      "source_type": "integer",
+      "description": "車道代碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.Commons.Lane",
+      "source_field": "LaneType",
+      "normalized_field": "lane_type",
+      "source_type": "integer",
+      "description": "車道種類 : [1:'一般車道',2:'快車道',3:'慢車道',4:'機車道',5:'高承載車道',6:'公車專用道',7:'轉向車道',8:'路肩',9:'輔助車道',10:'調撥車道',11:'其他']",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.Commons.Lane",
+      "source_field": "Speed",
+      "normalized_field": "speed",
+      "source_type": "number",
+      "description": "平均速率偵測值, -99=資料異常",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.Commons.Lane",
+      "source_field": "Occupancy",
+      "normalized_field": "occupancy",
+      "source_type": "number",
+      "description": "佔有率偵測值",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.Commons.Lane",
+      "source_field": "Vehicles",
+      "normalized_field": "vehicles",
+      "source_type": "array",
+      "description": "車道內車輛資訊",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.Commons.Lane",
+      "source_field": "ErrorDiags",
+      "normalized_field": "error_diags",
+      "source_type": "array",
+      "description": "車道內車流偵測資訊異常類型代碼, 請參閱[**[異常類型代碼](https://motc-traffic.gitbook.io/motc-traffic/ji-chu-jian-he-1/yi-chang-lei-xing-dai-ma)**]",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.Commons.Lane",
+      "source_field": "RecurrentTimes",
+      "normalized_field": "recurrent_times",
+      "source_type": "integer",
+      "description": "資料重複連續次數",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.Commons.Lane",
+      "source_field": "RecurrentZeroTimes",
+      "normalized_field": "recurrent_zero_times",
+      "source_type": "integer",
+      "description": "偵測值為0連續次數",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.Commons.Vehicle",
+      "source_field": "VehicleType",
+      "normalized_field": "vehicle_type",
+      "source_type": "string",
+      "description": "車種代碼, 請參閱[**[車種代碼](https://traffic-api-documentation.gitbook.io/traffic/xiang-dai-zhao-biao)**]",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.Commons.Vehicle",
+      "source_field": "Volume",
+      "normalized_field": "volume",
+      "source_type": "integer",
+      "description": "流量偵測值, -99=資料異常",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.Commons.Vehicle",
+      "source_field": "Speed",
+      "normalized_field": "speed",
+      "source_type": "number",
+      "description": "平均速率偵測值, -99=資料異常",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VDLive",
+      "source_field": "VDID",
+      "normalized_field": "vd_id",
+      "source_type": "string",
+      "description": "VD設備代碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VDLive",
+      "source_field": "HostAuthorityCode",
+      "normalized_field": "host_authority_code",
+      "source_type": "string",
+      "description": "實際所屬業管機關簡碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VDLive",
+      "source_field": "AuthorityCode",
+      "normalized_field": "authority_code",
+      "source_type": "string",
+      "description": "業管機關簡碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VDLive",
+      "source_field": "SubAuthorityCode",
+      "normalized_field": "sub_authority_code",
+      "source_type": "string",
+      "description": "業管子機關簡碼\n<span class=\"emphasis fas fa-pen\" rel=\"與Inbound XML不同，透過靜態資料對應設備的SubAuthorityCode取得\"></span>",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VDLive",
+      "source_field": "LinkFlowsLinkID",
+      "normalized_field": "link_flows_link_id",
+      "source_type": "string",
+      "description": "基礎路段代碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VDLive",
+      "source_field": "LinkFlowsLanesLaneID",
+      "normalized_field": "link_flows_lanes_lane_id",
+      "source_type": "integer",
+      "description": "車道代碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VDLive",
+      "source_field": "LinkFlowsLanesLaneType",
+      "normalized_field": "link_flows_lanes_lane_type",
+      "source_type": "integer",
+      "description": "車道種類 : [1:'一般車道',2:'快車道',3:'慢車道',4:'機車道',5:'高承載車道',6:'公車專用道',7:'轉向車道',8:'路肩',9:'輔助車道',10:'調撥車道',11:'其他']",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VDLive",
+      "source_field": "LinkFlowsLanesSpeed",
+      "normalized_field": "link_flows_lanes_speed",
+      "source_type": "number",
+      "description": "平均速率偵測值",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VDLive",
+      "source_field": "LinkFlowsLanesOccupancy",
+      "normalized_field": "link_flows_lanes_occupancy",
+      "source_type": "number",
+      "description": "佔有率偵測值",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VDLive",
+      "source_field": "LinkFlowsLanesVehiclesVehicleType",
+      "normalized_field": "link_flows_lanes_vehicles_vehicle_type",
+      "source_type": "string",
+      "description": "車種代碼",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VDLive",
+      "source_field": "LinkFlowsLanesVehiclesVolume",
+      "normalized_field": "link_flows_lanes_vehicles_volume",
+      "source_type": "integer",
+      "description": "流量偵測值",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VDLive",
+      "source_field": "LinkFlowsLanesVehiclesSpeed",
+      "normalized_field": "link_flows_lanes_vehicles_speed",
+      "source_type": "number",
+      "description": "平均速率偵測值",
+      "nullable": true
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VDLive",
+      "source_field": "LinkFlowsLanesErrorDiags",
+      "normalized_field": "link_flows_lanes_error_diags",
+      "source_type": "string",
+      "description": "車道內車流偵測資訊異常類型代碼, 請參閱[**[異常類型代碼](https://motc-traffic.gitbook.io/motc-traffic/ji-chu-jian-he-1/yi-chang-lei-xing-dai-ma)**]",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VDLive",
+      "source_field": "LinkFlowsLanesRecurrentTimes",
+      "normalized_field": "link_flows_lanes_recurrent_times",
+      "source_type": "integer",
+      "description": "資料重複連續次數",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VDLive",
+      "source_field": "LinkFlowsLanesRecurrentZeroTimes",
+      "normalized_field": "link_flows_lanes_recurrent_zero_times",
+      "source_type": "integer",
+      "description": "偵測值為0連續次數",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VDLive",
+      "source_field": "Status",
+      "normalized_field": "status",
+      "source_type": "integer",
+      "description": "設備狀態 : [0:'正常',1:'通訊異常',2:'停用或施工中',3:'設備故障']",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VDLive",
+      "source_field": "DataCollectTime",
+      "normalized_field": "data_collect_time",
+      "source_type": "string",
+      "description": "資料蒐集時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VDLive",
+      "source_field": "SrcUpdateTime",
+      "normalized_field": "src_update_time",
+      "source_type": "string",
+      "description": "本平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)\n<span class=\"emphasis fas fa-pen\" rel=\"與來源Inbound XML不同，為中心端處理完後提供資料的更新時間\"></span>",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VDLive",
+      "source_field": "UpdateTime",
+      "normalized_field": "update_time",
+      "source_type": "string",
+      "description": "來源端平台資料更新時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)\n<span class=\"emphasis fas fa-pen\" rel=\"為來源Inbound XML中的UpdateTime [該欄位由本平台自動產製]\"></span>",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VDLive",
+      "source_field": "InfoTime",
+      "normalized_field": "info_time",
+      "source_type": "string",
+      "description": "資料代表時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)",
+      "nullable": false
+    },
+    {
+      "service_category": "historical",
+      "model": "PTXPlus.Service.DTO.Historical.Specification.Traffic.V2.CSV.VDLive",
+      "source_field": "InfoDate",
+      "normalized_field": "info_date",
+      "source_type": "string",
+      "description": "資料代表日期(格式:yyyy-MM-dd)",
+      "nullable": false
+    }
+  ]
+}

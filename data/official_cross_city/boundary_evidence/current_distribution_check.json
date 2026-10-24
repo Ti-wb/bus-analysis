@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "dataset_id": "nlsc_current_boundary_distribution_acceptance",
+  "metadata": {
+    "record_count": 3,
+    "source_updated_at": null,
+    "baseline_archive": "map-data/raw/validation/villages.zip",
+    "baseline_layer": "VILLAGE_NLSC_1150817",
+    "current_layer": "VILLAGE_NLSC_1150817",
+    "current_download_source": {
+      "source_page": "https://data.gov.tw/dataset/7438",
+      "download_url": "https://www.tgos.tw/tgos/VirtualDir/Product/a04697c8-64db-450a-a105-3eb471c45abd/%E6%9D%91(%E9%87%8C)%E7%95%8C(TWD97%E7%B6%93%E7%B7%AF%E5%BA%A6).zip",
+      "effective_url": "https://www.tgos.tw/tgos/VirtualDir/Product/a04697c8-64db-450a-a105-3eb471c45abd/%E6%9D%91(%E9%87%8C)%E7%95%8C(TWD97%E7%B6%93%E7%B7%AF%E5%BA%A6).zip",
+      "downloaded_at": "2026-10-24T11:22:02+08:00",
+      "source_updated_at": null,
+      "http_status": 200,
+      "content_type": "application/x-zip-compressed",
+      "bytes": 21618481,
+      "raw_file": "map-data/raw/boundary_evidence/current_villages.zip"
+    },
+    "source_release_date": "2026-08-17",
+    "geometry_comparison": "Shapely topological equality, exact coordinate equality with tolerance 0, and complete DBF attribute equality, joined by exact VILLCODE",
+    "release_news_source": "https://whgis-nlsc.moi.gov.tw/nlscapi.ashx/MapOtherController/ListMapNews?Lan=MAP",
+    "release_news_returned_count": 10,
+    "observed_release_news": [
+      {
+        "news_id": "1277",
+        "publication_date": "2026-09-21",
+        "mentions_village_boundaries": false,
+        "topic": "land_use"
+      },
+      {
+        "news_id": "1274",
+        "publication_date": "2026-09-10",
+        "mentions_village_boundaries": false,
+        "topic": "three_dimensional_road_model"
+      },
+      {
+        "news_id": "1270",
+        "publication_date": "2026-08-26",
+        "mentions_village_boundaries": true,
+        "topic": "village_boundary_correction"
+      }
+    ],
+    "status": "current_official_distribution_checked",
+    "temporal_conclusion": "2026-10-24 官方目前下載成果為 VILLAGE_NLSC_1150817，北北基逐圖徵比較結果另列；未取得獨立 2026-09 幾何快照。",
+    "limitations": [
+      "目前發布成果一致不是地方在兩日期間沒有法定異動的證明。",
+      "News API 返回的清單沒有完備歷史涵蓋宣告，不以未列公告證明沒有異動。",
+      "人口2026-09可按已核實身分連接此明示版本圖層；分析須同時顯示人口月份與幾何版本。"
+    ],
+    "independent_review_status": "pending"
+  },
+  "records": [
+    {
+      "county_code": "63000",
+      "county_name": "臺北市",
+      "baseline_feature_count": 456,
+      "current_feature_count": 456,
+      "added_codes": [],
+      "removed_codes": [],
+      "geometry_changed_codes": [],
+      "coordinate_changed_codes": [],
+      "attribute_changed_codes": [],
+      "current_distribution_matches_baseline": true,
+      "same_month_geometry_verified": false
+    },
+    {
+      "county_code": "65000",
+      "county_name": "新北市",
+      "baseline_feature_count": 1056,
+      "current_feature_count": 1056,
+      "added_codes": [],
+      "removed_codes": [],
+      "geometry_changed_codes": [],
+      "coordinate_changed_codes": [],
+      "attribute_changed_codes": [],
+      "current_distribution_matches_baseline": true,
+      "same_month_geometry_verified": false
+    },
+    {
+      "county_code": "10017",
+      "county_name": "基隆市",
+      "baseline_feature_count": 165,
+      "current_feature_count": 165,
+      "added_codes": [],
+      "removed_codes": [],
+      "geometry_changed_codes": [],
+      "coordinate_changed_codes": [],
+      "attribute_changed_codes": [],
+      "current_distribution_matches_baseline": true,
+      "same_month_geometry_verified": false
+    }
+  ]
+}

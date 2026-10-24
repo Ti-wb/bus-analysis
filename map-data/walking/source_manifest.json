@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "dataset_id": "walking_transfer_sources",
+  "metadata": {
+    "source_updated_at": null,
+    "generated_at": "2026-10-24T11:42:39+08:00",
+    "record_count": 8,
+    "official_facility_diagnostics": {
+      "exits_total": 940,
+      "exits_selected": 22,
+      "exits_invalid_coordinates": 2,
+      "sidewalks_total": 15291,
+      "sidewalks_selected": 196,
+      "painted_sidewalks_total": 3529,
+      "painted_sidewalks_selected": 12,
+      "crossings_total": 1451,
+      "crossings_selected": 2,
+      "bus_stops_total": 19847,
+      "bus_stops_selected": 405
+    },
+    "legal_crossing_source": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=K0040013&flno=134"
+  },
+  "records": [
+    {
+      "source_id": "wheelroute_exits",
+      "url": "https://wheelroute.gov.taipei/wheelrouteApi/api/facility/Get/7",
+      "page_url": "https://data.taipei/dataset/detail?id=2b58f15a-dec6-4b9d-91be-4eaccfda5ae7",
+      "raw_file": "map-data/raw/walking/wheelroute_exits.json",
+      "bytes": 160058,
+      "downloaded_at": "2026-10-24T03:16:54.156044+00:00",
+      "source_updated_at": null,
+      "record_count": 940,
+      "license": {
+        "name": "政府資料開放授權條款-第1版",
+        "url": "https://data.gov.tw/license"
+      }
+    },
+    {
+      "source_id": "wheelroute_sidewalks",
+      "url": "https://wheelroute.gov.taipei/wheelrouteApi/api/facility/Get/11",
+      "page_url": "https://data.taipei/dataset/detail?id=2b58f15a-dec6-4b9d-91be-4eaccfda5ae7",
+      "raw_file": "map-data/raw/walking/wheelroute_sidewalks.json",
+      "bytes": 14669945,
+      "downloaded_at": "2026-10-24T03:16:57.314056+00:00",
+      "source_updated_at": null,
+      "record_count": 15291,
+      "license": {
+        "name": "政府資料開放授權條款-第1版",
+        "url": "https://data.gov.tw/license"
+      }
+    },
+    {
+      "source_id": "wheelroute_painted_sidewalks",
+      "url": "https://wheelroute.gov.taipei/wheelrouteApi/api/facility/Get/12",
+      "page_url": "https://data.taipei/dataset/detail?id=2b58f15a-dec6-4b9d-91be-4eaccfda5ae7",
+      "raw_file": "map-data/raw/walking/wheelroute_painted_sidewalks.json",
+      "bytes": 936092,
+      "downloaded_at": "2026-10-24T03:16:59.103999+00:00",
+      "source_updated_at": null,
+      "record_count": 3529,
+      "license": {
+        "name": "政府資料開放授權條款-第1版",
+        "url": "https://data.gov.tw/license"
+      }
+    },
+    {
+      "source_id": "wheelroute_crossings",
+      "url": "https://wheelroute.gov.taipei/wheelrouteApi/api/facility/Get/13",
+      "page_url": "https://data.taipei/dataset/detail?id=2b58f15a-dec6-4b9d-91be-4eaccfda5ae7",
+      "raw_file": "map-data/raw/walking/wheelroute_crossings.json",
+      "bytes": 364050,
+      "downloaded_at": "2026-10-24T03:17:00.292135+00:00",
+      "source_updated_at": null,
+      "record_count": 1451,
+      "license": {
+        "name": "政府資料開放授權條款-第1版",
+        "url": "https://data.gov.tw/license"
+      }
+    },
+    {
+      "source_id": "wheelroute_bus_stops",
+      "url": "https://wheelroute.gov.taipei/wheelrouteApi/api/facility/Get/18",
+      "page_url": "https://data.taipei/dataset/detail?id=2b58f15a-dec6-4b9d-91be-4eaccfda5ae7",
+      "raw_file": "map-data/raw/walking/wheelroute_bus_stops.json",
+      "bytes": 3803803,
+      "downloaded_at": "2026-10-24T03:17:02.031642+00:00",
+      "source_updated_at": null,
+      "record_count": 19847,
+      "license": {
+        "name": "政府資料開放授權條款-第1版",
+        "url": "https://data.gov.tw/license"
+      }
+    },
+    {
+      "source_id": "osm_shilin",
+      "url": "https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A45%5D%3B%28way%5Bhighway%5D%2825.089%2C121.52%2C25.098%2C121.532%29%3Bnode%5Brailway%3Dsubway_entrance%5D%2825.089%2C121.52%2C25.098%2C121.532%29%3Bnode%5Bhighway%3Dbus_stop%5D%2825.089%2C121.52%2C25.098%2C121.532%29%3Bnode%5Bbarrier%5D%2825.089%2C121.52%2C25.098%2C121.532%29%3Bway%5Bbarrier%5D%2825.089%2C121.52%2C25.098%2C121.532%29%3Brelation%5B%22restriction%3Afoot%22%5D%2825.089%2C121.52%2C25.098%2C121.532%29%3B%29%3B%28._%3B%3E%3B%29%3Bout+meta%3B",
+      "page_url": "https://www.openstreetmap.org/copyright",
+      "raw_file": "map-data/raw/walking/osm_shilin.json",
+      "bytes": 976223,
+      "downloaded_at": "2026-10-24T11:27:00+08:00",
+      "source_updated_at": "2026-10-24T03:24:54Z",
+      "record_count": 3776,
+      "license": {
+        "name": "ODbL 1.0",
+        "url": "https://www.openstreetmap.org/copyright",
+        "attribution": "© OpenStreetMap contributors"
+      }
+    },
+    {
+      "source_id": "osm_guandu",
+      "url": "https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A45%5D%3B%28way%5Bhighway%5D%2825.121%2C121.462%2C25.129%2C121.472%29%3Bnode%5Brailway%3Dsubway_entrance%5D%2825.121%2C121.462%2C25.129%2C121.472%29%3Bnode%5Bhighway%3Dbus_stop%5D%2825.121%2C121.462%2C25.129%2C121.472%29%3Bnode%5Bbarrier%5D%2825.121%2C121.462%2C25.129%2C121.472%29%3Bway%5Bbarrier%5D%2825.121%2C121.462%2C25.129%2C121.472%29%3Brelation%5B%22restriction%3Afoot%22%5D%2825.121%2C121.462%2C25.129%2C121.472%29%3B%29%3B%28._%3B%3E%3B%29%3Bout+meta%3B",
+      "page_url": "https://www.openstreetmap.org/copyright",
+      "raw_file": "map-data/raw/walking/osm_guandu.json",
+      "bytes": 497445,
+      "downloaded_at": "2026-10-24T11:27:36+08:00",
+      "source_updated_at": "2026-10-24T03:25:57Z",
+      "record_count": 1910,
+      "license": {
+        "name": "ODbL 1.0",
+        "url": "https://www.openstreetmap.org/copyright",
+        "attribution": "© OpenStreetMap contributors"
+      }
+    },
+    {
+      "source_id": "osm_xinzhuang",
+      "url": "https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A45%5D%3B%28way%5Bhighway%5D%2825.032%2C121.448%2C25.04%2C121.457%29%3Bnode%5Brailway%3Dsubway_entrance%5D%2825.032%2C121.448%2C25.04%2C121.457%29%3Bnode%5Bhighway%3Dbus_stop%5D%2825.032%2C121.448%2C25.04%2C121.457%29%3Bnode%5Bbarrier%5D%2825.032%2C121.448%2C25.04%2C121.457%29%3Bway%5Bbarrier%5D%2825.032%2C121.448%2C25.04%2C121.457%29%3Brelation%5B%22restriction%3Afoot%22%5D%2825.032%2C121.448%2C25.04%2C121.457%29%3B%29%3B%28._%3B%3E%3B%29%3Bout+meta%3B",
+      "page_url": "https://www.openstreetmap.org/copyright",
+      "raw_file": "map-data/raw/walking/osm_xinzhuang.json",
+      "bytes": 478295,
+      "downloaded_at": "2026-10-24T11:28:23+08:00",
+      "source_updated_at": "2026-10-24T03:26:42Z",
+      "record_count": 1885,
+      "license": {
+        "name": "ODbL 1.0",
+        "url": "https://www.openstreetmap.org/copyright",
+        "attribution": "© OpenStreetMap contributors"
+      }
+    }
+  ]
+}

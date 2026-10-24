@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "dataset_id": "ntpc_village_boundary_source_diagnostics",
+  "metadata": {
+    "record_count": 6,
+    "source_updated_at": null,
+    "source_page": "https://data.ntpc.gov.tw/datasets/8bbd1aca-752c-4df0-b515-1cfd88b36274",
+    "download_url": "https://data.ntpc.gov.tw/api/datasets/8bbd1aca-752c-4df0-b515-1cfd88b36274/csv?page=0&size=2000",
+    "downloaded_row_count": 1032,
+    "page_stated_dataset_count": 1039,
+    "page_preview_count": 1032,
+    "current_ris_new_taipei_count": 1039,
+    "limitations": [
+      "地方資料頁資料量顯示1039，API全頁取回及頁面預覽仍為1032；未核實其幾何日期，不替代NLSC版本。",
+      "admit_id與admiv_id為來源自身代碼；此診斷只列出候選tuple，不將補零拼接當作核實橋接。",
+      "瓦嗂、灰嗂、蜣寮及石嘈等字串與地方里長頁及戶政用字不一致，不採為正式別名。"
+    ],
+    "independent_review_status": "pending"
+  },
+  "records": [
+    {
+      "reference_village_code": "65000030017",
+      "district_name": "中和區",
+      "municipal_admit_id": "3",
+      "municipal_admiv_id": "17",
+      "municipal_name": "瓦嗂里",
+      "ris_name": "瓦󿾨里",
+      "status": "diagnostic_only_not_an_approved_id_bridge",
+      "geometry_used": false
+    },
+    {
+      "reference_village_code": "65000030054",
+      "district_name": "中和區",
+      "municipal_admit_id": "3",
+      "municipal_admiv_id": "54",
+      "municipal_name": "灰嗂里",
+      "ris_name": "灰󿾨里",
+      "status": "diagnostic_only_not_an_approved_id_bridge",
+      "geometry_used": false
+    },
+    {
+      "reference_village_code": "65000070007",
+      "district_name": "樹林區",
+      "municipal_admit_id": "7",
+      "municipal_admiv_id": "7",
+      "municipal_name": "蜣寮里",
+      "ris_name": "󿾵寮里",
+      "status": "diagnostic_only_not_an_approved_id_bridge",
+      "geometry_used": false
+    },
+    {
+      "reference_village_code": "65000120027",
+      "district_name": "瑞芳區",
+      "municipal_admit_id": "12",
+      "municipal_admiv_id": "27",
+      "municipal_name": "濂新里",
+      "ris_name": "濓新里",
+      "status": "diagnostic_only_not_an_approved_id_bridge",
+      "geometry_used": false
+    },
+    {
+      "reference_village_code": "65000120028",
+      "district_name": "瑞芳區",
+      "municipal_admit_id": "12",
+      "municipal_admiv_id": "28",
+      "municipal_name": "濂洞里",
+      "ris_name": "濓洞里",
+      "status": "diagnostic_only_not_an_approved_id_bridge",
+      "geometry_used": false
+    },
+    {
+      "reference_village_code": "65000200004",
+      "district_name": "坪林區",
+      "municipal_admit_id": "20",
+      "municipal_admiv_id": "4",
+      "municipal_name": "石嘈里",
+      "ris_name": "石𥕢里",
+      "status": "diagnostic_only_not_an_approved_id_bridge",
+      "geometry_used": false
+    }
+  ]
+}

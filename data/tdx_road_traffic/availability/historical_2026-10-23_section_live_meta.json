@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "dataset_id": "tdx_road_traffic_historical_2026-10-23_section_live_meta",
+  "metadata": {
+    "grain": "one requested service/date statistics response",
+    "data_kind": "availability_statistics",
+    "scope_status": "availability_statistics_only",
+    "source_updated_at": null,
+    "source_record_update_time_range": null,
+    "statistical_period": {
+      "requested_date": "2026-10-23",
+      "source_info_dates": [],
+      "data_collect_time_start": null,
+      "data_collect_time_end": null,
+      "data_collect_taipei_dates": [],
+      "period_validation_status": "no_observed_date_mismatch",
+      "source_info_date_mismatch_count": 0,
+      "data_collect_requested_taipei_day_mismatch_count": 0,
+      "data_collect_out_of_requested_date_ids": [],
+      "invalid_or_offset_missing_collect_time_count": 0
+    },
+    "time_zone": "Asia/Taipei; original source timestamp offsets retained",
+    "response_metadata": {},
+    "response_collection_field": null,
+    "response_schema_deviation": null,
+    "requires_source_review": false,
+    "out_of_requested_date_count": 0,
+    "out_of_requested_date_ids": [],
+    "out_of_requested_date_basis": "Literal source InfoDate; DataCollectTime is separately compared after converting its original offset to Asia/Taipei.",
+    "sources": [
+      {
+        "source_id": "historical_2026-10-23_section_live_meta",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/historical/4b4708cc-ab49-4037-a896-e24544d51609",
+        "download_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Road/Traffic/Live/City/Taipei?%24format=JSONL&Dates=2026-10-23&Meta=true",
+        "downloaded_at": "2026-10-24T10:48:35+08:00",
+        "source_updated_at": null,
+        "evidence_type": "api_availability_statistics",
+        "http_status": 249,
+        "content_type": "text/ndjson; charset=utf-8",
+        "raw_file": "raw_data/tdx_road_traffic/responses/historical_2026-10-23_section_live_meta.json",
+        "bytes": 64,
+        "status": "downloaded"
+      }
+    ],
+    "request": {
+      "source_id": "historical_2026-10-23_section_live_meta",
+      "key": "section_live",
+      "category": "historical",
+      "mode": "meta",
+      "date": "2026-10-23",
+      "data_kind": "availability_statistics",
+      "query_parameters": {
+        "$format": "JSONL",
+        "Dates": "2026-10-23",
+        "Meta": "true"
+      },
+      "request_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Road/Traffic/Live/City/Taipei?%24format=JSONL&Dates=2026-10-23&Meta=true"
+    },
+    "units": {
+      "travel_speed": "km/h",
+      "travel_time": "seconds",
+      "speed": null,
+      "volume": null,
+      "occupancy": null
+    },
+    "unit_notes": {
+      "speed": "VD average speed: official supplied OpenAPI omits its unit; not converted.",
+      "volume": "VD flow detection value: official supplied OpenAPI omits counting interval/unit; not interpreted as hourly volume.",
+      "occupancy": "Official supplied OpenAPI omits its scale/unit; not converted."
+    },
+    "field_dictionary": "data/tdx_road_traffic/field_dictionary.json",
+    "limitations": [
+      "Section 為路段定義；不得當作歷史速率或流量。",
+      "-99 等異常偵測值與設備狀態原值保留；缺值不補零。",
+      "VD 流量維持 link／lane／vehicle type 粒度，未跨車道、車種或時間加總。",
+      "外部來源 ID 不直接關聯；同一 TDX 服務也須按 AuthorityCode 及版本／日期核對。",
+      "歷史樣本只是來源前 N 筆，不代表整日或三年的分布。",
+      "歷史版與基礎版 OpenAPI 對 SrcUpdateTime/UpdateTime 描述相反，保留原欄位；DataCollectTime 才是動態觀測時間。"
+    ],
+    "license": {
+      "name": "TDX 服務條款",
+      "url": "https://tdx.transportdata.tw/term",
+      "note": "資料取用及再利用依 TDX 服務條款及原資料提供機關授權規定。"
+    },
+    "record_count": 1
+  },
+  "records": [
+    {
+      "dates": "2026-10-23",
+      "count": 1177920,
+      "size_bytes": 453326400
+    }
+  ]
+}

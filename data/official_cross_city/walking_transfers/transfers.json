@@ -1,0 +1,860 @@
+{
+  "schema_version": 1,
+  "dataset_id": "official_pedestrian_transfer_evidence",
+  "metadata": {
+    "source_updated_at": null,
+    "generated_at": "2026-10-24T11:42:39+08:00",
+    "record_count": 18,
+    "status_counts": {
+      "unverified": 18
+    },
+    "scope": "新莊、關渡、士林兩出口與直接 feed 明示捷運同站名站位的有限驗收；未代表全市或所有路線。",
+    "requires_source_review": true,
+    "source_manifest": "map-data/walking/source_manifest.json",
+    "license": {
+      "name": "ODbL 1.0",
+      "url": "https://www.openstreetmap.org/copyright",
+      "attribution": "© OpenStreetMap contributors"
+    },
+    "independent_review_status": "pending_separate_agent"
+  },
+  "records": [
+    {
+      "transfer_id": "shilin:exit:1:stop_location:10210",
+      "station_name": "士林",
+      "exit_number": "1",
+      "osm_entrance_node_id": "3273605596",
+      "official_exit_name": "士林站出口1-1",
+      "entrance_identity_distance_m": 13.429,
+      "entrance_identity_basis": "official station/exit designation, OSM entrance ref/name, coordinate consistency within 20 m; no connector is fabricated between these alternative representations",
+      "stop_location_id": "10210",
+      "bus_stop_name": "捷運士林站(中正)",
+      "bus_stop_address": "中正路203號(向東)",
+      "stop_coordinates": [
+        121.5267653,
+        25.09543483
+      ],
+      "boarding_eligible_records": [
+        {
+          "stop_id": "223047",
+          "route_id": "19759",
+          "stop_sequence": 11,
+          "direction_code": "1",
+          "boarding_alighting_code": "0"
+        }
+      ],
+      "unknown_boarding_record_count": 11,
+      "alighting_only_record_count": 2,
+      "status": "unverified",
+      "walking_distance_m": null,
+      "path_edge_ids": [],
+      "legal_use_conditions": [
+        "遵守現場交通指揮與行人號誌；靜態來源不證明即時綠燈或臨時施工狀態。"
+      ],
+      "source_files": [
+        "data/taipei_feeds/stops.geojson",
+        "map-data/raw/walking/osm_shilin.json",
+        "map-data/raw/walking/wheelroute_exits.json"
+      ],
+      "verified_connector_candidate_count": 0,
+      "reason": "no_official_facility_connector"
+    },
+    {
+      "transfer_id": "shilin:exit:1:stop_location:795",
+      "station_name": "士林",
+      "exit_number": "1",
+      "osm_entrance_node_id": "3273605596",
+      "official_exit_name": "士林站出口1-1",
+      "entrance_identity_distance_m": 13.429,
+      "entrance_identity_basis": "official station/exit designation, OSM entrance ref/name, coordinate consistency within 20 m; no connector is fabricated between these alternative representations",
+      "stop_location_id": "795",
+      "bus_stop_name": "捷運士林站(中正)",
+      "bus_stop_address": "中正路199號(向東)",
+      "stop_coordinates": [
+        121.5270438,
+        25.09550407
+      ],
+      "boarding_eligible_records": [],
+      "unknown_boarding_record_count": 17,
+      "alighting_only_record_count": 4,
+      "status": "unverified",
+      "walking_distance_m": null,
+      "path_edge_ids": [],
+      "legal_use_conditions": [
+        "遵守現場交通指揮與行人號誌；靜態來源不證明即時綠燈或臨時施工狀態。"
+      ],
+      "source_files": [
+        "data/taipei_feeds/stops.geojson",
+        "map-data/raw/walking/osm_shilin.json",
+        "map-data/raw/walking/wheelroute_exits.json"
+      ],
+      "reason": "no_explicit_boarding_permission_in_delivered_route_records"
+    },
+    {
+      "transfer_id": "shilin:exit:1:stop_location:796",
+      "station_name": "士林",
+      "exit_number": "1",
+      "osm_entrance_node_id": "3273605596",
+      "official_exit_name": "士林站出口1-1",
+      "entrance_identity_distance_m": 13.429,
+      "entrance_identity_basis": "official station/exit designation, OSM entrance ref/name, coordinate consistency within 20 m; no connector is fabricated between these alternative representations",
+      "stop_location_id": "796",
+      "bus_stop_name": "捷運士林站(中山)",
+      "bus_stop_address": "中山北路五段495號同向(向南)",
+      "stop_coordinates": [
+        121.5276799453955,
+        25.092853732851424
+      ],
+      "boarding_eligible_records": [
+        {
+          "stop_id": "185726",
+          "route_id": "15682",
+          "stop_sequence": 4,
+          "direction_code": "0",
+          "boarding_alighting_code": "0"
+        },
+        {
+          "stop_id": "223808",
+          "route_id": "17801",
+          "stop_sequence": 14,
+          "direction_code": "1",
+          "boarding_alighting_code": "0"
+        }
+      ],
+      "unknown_boarding_record_count": 16,
+      "alighting_only_record_count": 4,
+      "status": "unverified",
+      "walking_distance_m": null,
+      "path_edge_ids": [],
+      "legal_use_conditions": [
+        "遵守現場交通指揮與行人號誌；靜態來源不證明即時綠燈或臨時施工狀態。"
+      ],
+      "source_files": [
+        "data/taipei_feeds/stops.geojson",
+        "map-data/raw/walking/osm_shilin.json",
+        "map-data/raw/walking/wheelroute_exits.json"
+      ],
+      "verified_connector_candidate_count": 0,
+      "reason": "no_official_facility_connector",
+      "candidate_distance_m": 645.402,
+      "candidate_path_steps": [
+        {
+          "from_node_id": "3273605596",
+          "to_node_id": "7683124996",
+          "edge_id": "822901716:2"
+        },
+        {
+          "from_node_id": "7683124996",
+          "to_node_id": "7683111077",
+          "edge_id": "822901723:1"
+        },
+        {
+          "from_node_id": "7683111077",
+          "to_node_id": "7683111075",
+          "edge_id": "822901717:1"
+        },
+        {
+          "from_node_id": "7683111075",
+          "to_node_id": "7683111076",
+          "edge_id": "822901718:3"
+        },
+        {
+          "from_node_id": "7683111076",
+          "to_node_id": "3859737808",
+          "edge_id": "382754450:2"
+        },
+        {
+          "from_node_id": "3859737808",
+          "to_node_id": "3859737814",
+          "edge_id": "382754450:1"
+        },
+        {
+          "from_node_id": "3859737814",
+          "to_node_id": "1705928164",
+          "edge_id": "382754462:3"
+        },
+        {
+          "from_node_id": "1705928164",
+          "to_node_id": "4881696905",
+          "edge_id": "382754462:2"
+        },
+        {
+          "from_node_id": "4881696905",
+          "to_node_id": "4881696907",
+          "edge_id": "496469079:17"
+        },
+        {
+          "from_node_id": "4881696907",
+          "to_node_id": "5789714442",
+          "edge_id": "496469079:18"
+        },
+        {
+          "from_node_id": "5789714442",
+          "to_node_id": "5789714444",
+          "edge_id": "496469079:19"
+        },
+        {
+          "from_node_id": "5789714444",
+          "to_node_id": "5789714443",
+          "edge_id": "496469079:20"
+        },
+        {
+          "from_node_id": "5789714443",
+          "to_node_id": "7680560219",
+          "edge_id": "496469079:21"
+        },
+        {
+          "from_node_id": "7680560219",
+          "to_node_id": "7680560218",
+          "edge_id": "496469079:22"
+        },
+        {
+          "from_node_id": "7680560218",
+          "to_node_id": "6395490525",
+          "edge_id": "496469079:23"
+        },
+        {
+          "from_node_id": "6395490525",
+          "to_node_id": "6395490517",
+          "edge_id": "515126262:6"
+        },
+        {
+          "from_node_id": "6395490517",
+          "to_node_id": "6395490522",
+          "edge_id": "515126265:1"
+        },
+        {
+          "from_node_id": "6395490522",
+          "to_node_id": "6395490516",
+          "edge_id": "515126265:2"
+        },
+        {
+          "from_node_id": "6395490516",
+          "to_node_id": "7680560204",
+          "edge_id": "515126265:3"
+        },
+        {
+          "from_node_id": "7680560204",
+          "to_node_id": "6395490515",
+          "edge_id": "515126265:4"
+        },
+        {
+          "from_node_id": "6395490515",
+          "to_node_id": "6395490514",
+          "edge_id": "515126265:5"
+        },
+        {
+          "from_node_id": "6395490514",
+          "to_node_id": "6395490513",
+          "edge_id": "660149047:8"
+        },
+        {
+          "from_node_id": "6395490513",
+          "to_node_id": "7259862414",
+          "edge_id": "660149047:7"
+        },
+        {
+          "from_node_id": "7259862414",
+          "to_node_id": "target:0",
+          "edge_id": "777894153:1"
+        }
+      ],
+      "candidate_connector": {
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              121.5276799453955,
+              25.092853732851424
+            ],
+            [
+              121.52770810664333,
+              25.092850499075688
+            ]
+          ]
+        },
+        "length_m": 2.8630508509649846,
+        "official_facility_record_ids": [
+          "wheelroute:11:4532"
+        ],
+        "edge_id": "777894153:1"
+      },
+      "candidate_unverified_crossing_edge_ids": [
+        "496469079:22",
+        "496469079:23",
+        "515126265:3",
+        "515126265:4",
+        "777894153:1"
+      ],
+      "candidate_status": "requires_carriageway_crossing_review_not_a_legal_transfer"
+    },
+    {
+      "transfer_id": "shilin:exit:1:stop_location:797",
+      "station_name": "士林",
+      "exit_number": "1",
+      "osm_entrance_node_id": "3273605596",
+      "official_exit_name": "士林站出口1-1",
+      "entrance_identity_distance_m": 13.429,
+      "entrance_identity_basis": "official station/exit designation, OSM entrance ref/name, coordinate consistency within 20 m; no connector is fabricated between these alternative representations",
+      "stop_location_id": "797",
+      "bus_stop_name": "捷運士林站(中正)",
+      "bus_stop_address": "中正路208號同向(向西)",
+      "stop_coordinates": [
+        121.526622,
+        25.095583
+      ],
+      "boarding_eligible_records": [
+        {
+          "stop_id": "223042",
+          "route_id": "19759",
+          "stop_sequence": 1,
+          "direction_code": "0",
+          "boarding_alighting_code": "0"
+        }
+      ],
+      "unknown_boarding_record_count": 28,
+      "alighting_only_record_count": 2,
+      "status": "unverified",
+      "walking_distance_m": null,
+      "path_edge_ids": [],
+      "legal_use_conditions": [
+        "遵守現場交通指揮與行人號誌；靜態來源不證明即時綠燈或臨時施工狀態。"
+      ],
+      "source_files": [
+        "data/taipei_feeds/stops.geojson",
+        "map-data/raw/walking/osm_shilin.json",
+        "map-data/raw/walking/wheelroute_exits.json"
+      ],
+      "verified_connector_candidate_count": 0,
+      "reason": "no_official_facility_connector"
+    },
+    {
+      "transfer_id": "shilin:exit:2:stop_location:10210",
+      "station_name": "士林",
+      "exit_number": "2",
+      "osm_entrance_node_id": "3273605595",
+      "official_exit_name": "士林站出口2-2",
+      "entrance_identity_distance_m": 3.839,
+      "entrance_identity_basis": "official station/exit designation, OSM entrance ref/name, coordinate consistency within 20 m; no connector is fabricated between these alternative representations",
+      "stop_location_id": "10210",
+      "bus_stop_name": "捷運士林站(中正)",
+      "bus_stop_address": "中正路203號(向東)",
+      "stop_coordinates": [
+        121.5267653,
+        25.09543483
+      ],
+      "boarding_eligible_records": [
+        {
+          "stop_id": "223047",
+          "route_id": "19759",
+          "stop_sequence": 11,
+          "direction_code": "1",
+          "boarding_alighting_code": "0"
+        }
+      ],
+      "unknown_boarding_record_count": 11,
+      "alighting_only_record_count": 2,
+      "status": "unverified",
+      "walking_distance_m": null,
+      "path_edge_ids": [],
+      "legal_use_conditions": [
+        "遵守現場交通指揮與行人號誌；靜態來源不證明即時綠燈或臨時施工狀態。"
+      ],
+      "source_files": [
+        "data/taipei_feeds/stops.geojson",
+        "map-data/raw/walking/osm_shilin.json",
+        "map-data/raw/walking/wheelroute_exits.json"
+      ],
+      "verified_connector_candidate_count": 0,
+      "reason": "no_official_facility_connector"
+    },
+    {
+      "transfer_id": "shilin:exit:2:stop_location:795",
+      "station_name": "士林",
+      "exit_number": "2",
+      "osm_entrance_node_id": "3273605595",
+      "official_exit_name": "士林站出口2-2",
+      "entrance_identity_distance_m": 3.839,
+      "entrance_identity_basis": "official station/exit designation, OSM entrance ref/name, coordinate consistency within 20 m; no connector is fabricated between these alternative representations",
+      "stop_location_id": "795",
+      "bus_stop_name": "捷運士林站(中正)",
+      "bus_stop_address": "中正路199號(向東)",
+      "stop_coordinates": [
+        121.5270438,
+        25.09550407
+      ],
+      "boarding_eligible_records": [],
+      "unknown_boarding_record_count": 17,
+      "alighting_only_record_count": 4,
+      "status": "unverified",
+      "walking_distance_m": null,
+      "path_edge_ids": [],
+      "legal_use_conditions": [
+        "遵守現場交通指揮與行人號誌；靜態來源不證明即時綠燈或臨時施工狀態。"
+      ],
+      "source_files": [
+        "data/taipei_feeds/stops.geojson",
+        "map-data/raw/walking/osm_shilin.json",
+        "map-data/raw/walking/wheelroute_exits.json"
+      ],
+      "reason": "no_explicit_boarding_permission_in_delivered_route_records"
+    },
+    {
+      "transfer_id": "shilin:exit:2:stop_location:796",
+      "station_name": "士林",
+      "exit_number": "2",
+      "osm_entrance_node_id": "3273605595",
+      "official_exit_name": "士林站出口2-2",
+      "entrance_identity_distance_m": 3.839,
+      "entrance_identity_basis": "official station/exit designation, OSM entrance ref/name, coordinate consistency within 20 m; no connector is fabricated between these alternative representations",
+      "stop_location_id": "796",
+      "bus_stop_name": "捷運士林站(中山)",
+      "bus_stop_address": "中山北路五段495號同向(向南)",
+      "stop_coordinates": [
+        121.5276799453955,
+        25.092853732851424
+      ],
+      "boarding_eligible_records": [
+        {
+          "stop_id": "185726",
+          "route_id": "15682",
+          "stop_sequence": 4,
+          "direction_code": "0",
+          "boarding_alighting_code": "0"
+        },
+        {
+          "stop_id": "223808",
+          "route_id": "17801",
+          "stop_sequence": 14,
+          "direction_code": "1",
+          "boarding_alighting_code": "0"
+        }
+      ],
+      "unknown_boarding_record_count": 16,
+      "alighting_only_record_count": 4,
+      "status": "unverified",
+      "walking_distance_m": null,
+      "path_edge_ids": [],
+      "legal_use_conditions": [
+        "遵守現場交通指揮與行人號誌；靜態來源不證明即時綠燈或臨時施工狀態。"
+      ],
+      "source_files": [
+        "data/taipei_feeds/stops.geojson",
+        "map-data/raw/walking/osm_shilin.json",
+        "map-data/raw/walking/wheelroute_exits.json"
+      ],
+      "verified_connector_candidate_count": 0,
+      "reason": "no_official_facility_connector"
+    },
+    {
+      "transfer_id": "shilin:exit:2:stop_location:797",
+      "station_name": "士林",
+      "exit_number": "2",
+      "osm_entrance_node_id": "3273605595",
+      "official_exit_name": "士林站出口2-2",
+      "entrance_identity_distance_m": 3.839,
+      "entrance_identity_basis": "official station/exit designation, OSM entrance ref/name, coordinate consistency within 20 m; no connector is fabricated between these alternative representations",
+      "stop_location_id": "797",
+      "bus_stop_name": "捷運士林站(中正)",
+      "bus_stop_address": "中正路208號同向(向西)",
+      "stop_coordinates": [
+        121.526622,
+        25.095583
+      ],
+      "boarding_eligible_records": [
+        {
+          "stop_id": "223042",
+          "route_id": "19759",
+          "stop_sequence": 1,
+          "direction_code": "0",
+          "boarding_alighting_code": "0"
+        }
+      ],
+      "unknown_boarding_record_count": 28,
+      "alighting_only_record_count": 2,
+      "status": "unverified",
+      "walking_distance_m": null,
+      "path_edge_ids": [],
+      "legal_use_conditions": [
+        "遵守現場交通指揮與行人號誌；靜態來源不證明即時綠燈或臨時施工狀態。"
+      ],
+      "source_files": [
+        "data/taipei_feeds/stops.geojson",
+        "map-data/raw/walking/osm_shilin.json",
+        "map-data/raw/walking/wheelroute_exits.json"
+      ],
+      "verified_connector_candidate_count": 0,
+      "reason": "no_official_facility_connector"
+    },
+    {
+      "transfer_id": "guandu:exit:1:stop_location:70056",
+      "station_name": "關渡",
+      "exit_number": "1",
+      "osm_entrance_node_id": "4330703774",
+      "official_exit_name": "關渡站出口1-1",
+      "entrance_identity_distance_m": 5.658,
+      "entrance_identity_basis": "official station/exit designation, OSM entrance ref/name, coordinate consistency within 20 m; no connector is fabricated between these alternative representations",
+      "stop_location_id": "70056",
+      "bus_stop_name": "捷運關渡站",
+      "bus_stop_address": "捷運關渡站1號出口前(向南)",
+      "stop_coordinates": [
+        121.467024,
+        25.125124
+      ],
+      "boarding_eligible_records": [
+        {
+          "stop_id": "155576",
+          "route_id": "16749",
+          "stop_sequence": 0,
+          "direction_code": "0",
+          "boarding_alighting_code": "0"
+        },
+        {
+          "stop_id": "155591",
+          "route_id": "16749",
+          "stop_sequence": 17,
+          "direction_code": "1",
+          "boarding_alighting_code": "0"
+        },
+        {
+          "stop_id": "211203",
+          "route_id": "18868",
+          "stop_sequence": 0,
+          "direction_code": "0",
+          "boarding_alighting_code": "0"
+        },
+        {
+          "stop_id": "211212",
+          "route_id": "18868",
+          "stop_sequence": 11,
+          "direction_code": "1",
+          "boarding_alighting_code": "0"
+        }
+      ],
+      "unknown_boarding_record_count": 6,
+      "alighting_only_record_count": 1,
+      "status": "unverified",
+      "walking_distance_m": null,
+      "path_edge_ids": [],
+      "legal_use_conditions": [
+        "遵守現場交通指揮與行人號誌；靜態來源不證明即時綠燈或臨時施工狀態。"
+      ],
+      "source_files": [
+        "data/taipei_feeds/stops.geojson",
+        "map-data/raw/walking/osm_guandu.json",
+        "map-data/raw/walking/wheelroute_exits.json"
+      ],
+      "verified_connector_candidate_count": 0,
+      "reason": "no_official_facility_connector"
+    },
+    {
+      "transfer_id": "guandu:exit:2:stop_location:70056",
+      "station_name": "關渡",
+      "exit_number": "2",
+      "osm_entrance_node_id": "4330703773",
+      "official_exit_name": "關渡站出口2-2",
+      "entrance_identity_distance_m": 2.923,
+      "entrance_identity_basis": "official station/exit designation, OSM entrance ref/name, coordinate consistency within 20 m; no connector is fabricated between these alternative representations",
+      "stop_location_id": "70056",
+      "bus_stop_name": "捷運關渡站",
+      "bus_stop_address": "捷運關渡站1號出口前(向南)",
+      "stop_coordinates": [
+        121.467024,
+        25.125124
+      ],
+      "boarding_eligible_records": [
+        {
+          "stop_id": "155576",
+          "route_id": "16749",
+          "stop_sequence": 0,
+          "direction_code": "0",
+          "boarding_alighting_code": "0"
+        },
+        {
+          "stop_id": "155591",
+          "route_id": "16749",
+          "stop_sequence": 17,
+          "direction_code": "1",
+          "boarding_alighting_code": "0"
+        },
+        {
+          "stop_id": "211203",
+          "route_id": "18868",
+          "stop_sequence": 0,
+          "direction_code": "0",
+          "boarding_alighting_code": "0"
+        },
+        {
+          "stop_id": "211212",
+          "route_id": "18868",
+          "stop_sequence": 11,
+          "direction_code": "1",
+          "boarding_alighting_code": "0"
+        }
+      ],
+      "unknown_boarding_record_count": 6,
+      "alighting_only_record_count": 1,
+      "status": "unverified",
+      "walking_distance_m": null,
+      "path_edge_ids": [],
+      "legal_use_conditions": [
+        "遵守現場交通指揮與行人號誌；靜態來源不證明即時綠燈或臨時施工狀態。"
+      ],
+      "source_files": [
+        "data/taipei_feeds/stops.geojson",
+        "map-data/raw/walking/osm_guandu.json",
+        "map-data/raw/walking/wheelroute_exits.json"
+      ],
+      "verified_connector_candidate_count": 0,
+      "reason": "no_official_facility_connector"
+    },
+    {
+      "transfer_id": "xinzhuang:exit:1:stop_location:1000433",
+      "station_name": "新莊",
+      "exit_number": "1",
+      "osm_entrance_node_id": "2480231501",
+      "official_exit_name": "新莊站出口1-1",
+      "entrance_identity_distance_m": 1.958,
+      "entrance_identity_basis": "official station/exit designation, OSM entrance ref/name, coordinate consistency within 20 m; no connector is fabricated between these alternative representations",
+      "stop_location_id": "1000433",
+      "bus_stop_name": "捷運新莊站(新莊郵局)",
+      "bus_stop_address": "中正路257號(向東)",
+      "stop_coordinates": [
+        121.449908,
+        25.035445
+      ],
+      "boarding_eligible_records": [],
+      "unknown_boarding_record_count": 1,
+      "alighting_only_record_count": 2,
+      "status": "unverified",
+      "walking_distance_m": null,
+      "path_edge_ids": [],
+      "legal_use_conditions": [
+        "遵守現場交通指揮與行人號誌；靜態來源不證明即時綠燈或臨時施工狀態。"
+      ],
+      "source_files": [
+        "data/taipei_feeds/stops.geojson",
+        "map-data/raw/walking/osm_xinzhuang.json",
+        "map-data/raw/walking/wheelroute_exits.json"
+      ],
+      "reason": "no_explicit_boarding_permission_in_delivered_route_records"
+    },
+    {
+      "transfer_id": "xinzhuang:exit:1:stop_location:1000605",
+      "station_name": "新莊",
+      "exit_number": "1",
+      "osm_entrance_node_id": "2480231501",
+      "official_exit_name": "新莊站出口1-1",
+      "entrance_identity_distance_m": 1.958,
+      "entrance_identity_basis": "official station/exit designation, OSM entrance ref/name, coordinate consistency within 20 m; no connector is fabricated between these alternative representations",
+      "stop_location_id": "1000605",
+      "bus_stop_name": "捷運新莊站(地政事務所)",
+      "bus_stop_address": "中華路一段8號(向北)",
+      "stop_coordinates": [
+        121.4520762,
+        25.03679078
+      ],
+      "boarding_eligible_records": [],
+      "unknown_boarding_record_count": 1,
+      "alighting_only_record_count": 0,
+      "status": "unverified",
+      "walking_distance_m": null,
+      "path_edge_ids": [],
+      "legal_use_conditions": [
+        "遵守現場交通指揮與行人號誌；靜態來源不證明即時綠燈或臨時施工狀態。"
+      ],
+      "source_files": [
+        "data/taipei_feeds/stops.geojson",
+        "map-data/raw/walking/osm_xinzhuang.json",
+        "map-data/raw/walking/wheelroute_exits.json"
+      ],
+      "reason": "no_explicit_boarding_permission_in_delivered_route_records"
+    },
+    {
+      "transfer_id": "xinzhuang:exit:1:stop_location:1165604194",
+      "station_name": "新莊",
+      "exit_number": "1",
+      "osm_entrance_node_id": "2480231501",
+      "official_exit_name": "新莊站出口1-1",
+      "entrance_identity_distance_m": 1.958,
+      "entrance_identity_basis": "official station/exit designation, OSM entrance ref/name, coordinate consistency within 20 m; no connector is fabricated between these alternative representations",
+      "stop_location_id": "1165604194",
+      "bus_stop_name": "捷運新莊站(新莊郵局)",
+      "bus_stop_address": "中正路265號(向東)",
+      "stop_coordinates": [
+        121.449469,
+        25.035376
+      ],
+      "boarding_eligible_records": [],
+      "unknown_boarding_record_count": 0,
+      "alighting_only_record_count": 2,
+      "status": "unverified",
+      "walking_distance_m": null,
+      "path_edge_ids": [],
+      "legal_use_conditions": [
+        "遵守現場交通指揮與行人號誌；靜態來源不證明即時綠燈或臨時施工狀態。"
+      ],
+      "source_files": [
+        "data/taipei_feeds/stops.geojson",
+        "map-data/raw/walking/osm_xinzhuang.json",
+        "map-data/raw/walking/wheelroute_exits.json"
+      ],
+      "reason": "no_explicit_boarding_permission_in_delivered_route_records"
+    },
+    {
+      "transfer_id": "xinzhuang:exit:1:stop_location:3567",
+      "station_name": "新莊",
+      "exit_number": "1",
+      "osm_entrance_node_id": "2480231501",
+      "official_exit_name": "新莊站出口1-1",
+      "entrance_identity_distance_m": 1.958,
+      "entrance_identity_basis": "official station/exit designation, OSM entrance ref/name, coordinate consistency within 20 m; no connector is fabricated between these alternative representations",
+      "stop_location_id": "3567",
+      "bus_stop_name": "捷運新莊站(新莊郵局)",
+      "bus_stop_address": "中正路178號同向(向西)",
+      "stop_coordinates": [
+        121.449807,
+        25.035639
+      ],
+      "boarding_eligible_records": [],
+      "unknown_boarding_record_count": 1,
+      "alighting_only_record_count": 4,
+      "status": "unverified",
+      "walking_distance_m": null,
+      "path_edge_ids": [],
+      "legal_use_conditions": [
+        "遵守現場交通指揮與行人號誌；靜態來源不證明即時綠燈或臨時施工狀態。"
+      ],
+      "source_files": [
+        "data/taipei_feeds/stops.geojson",
+        "map-data/raw/walking/osm_xinzhuang.json",
+        "map-data/raw/walking/wheelroute_exits.json"
+      ],
+      "reason": "no_explicit_boarding_permission_in_delivered_route_records"
+    },
+    {
+      "transfer_id": "xinzhuang:exit:2:stop_location:1000433",
+      "station_name": "新莊",
+      "exit_number": "2",
+      "osm_entrance_node_id": "2480231500",
+      "official_exit_name": "新莊站出口2-2",
+      "entrance_identity_distance_m": 7.706,
+      "entrance_identity_basis": "official station/exit designation, OSM entrance ref/name, coordinate consistency within 20 m; no connector is fabricated between these alternative representations",
+      "stop_location_id": "1000433",
+      "bus_stop_name": "捷運新莊站(新莊郵局)",
+      "bus_stop_address": "中正路257號(向東)",
+      "stop_coordinates": [
+        121.449908,
+        25.035445
+      ],
+      "boarding_eligible_records": [],
+      "unknown_boarding_record_count": 1,
+      "alighting_only_record_count": 2,
+      "status": "unverified",
+      "walking_distance_m": null,
+      "path_edge_ids": [],
+      "legal_use_conditions": [
+        "遵守現場交通指揮與行人號誌；靜態來源不證明即時綠燈或臨時施工狀態。"
+      ],
+      "source_files": [
+        "data/taipei_feeds/stops.geojson",
+        "map-data/raw/walking/osm_xinzhuang.json",
+        "map-data/raw/walking/wheelroute_exits.json"
+      ],
+      "reason": "no_explicit_boarding_permission_in_delivered_route_records"
+    },
+    {
+      "transfer_id": "xinzhuang:exit:2:stop_location:1000605",
+      "station_name": "新莊",
+      "exit_number": "2",
+      "osm_entrance_node_id": "2480231500",
+      "official_exit_name": "新莊站出口2-2",
+      "entrance_identity_distance_m": 7.706,
+      "entrance_identity_basis": "official station/exit designation, OSM entrance ref/name, coordinate consistency within 20 m; no connector is fabricated between these alternative representations",
+      "stop_location_id": "1000605",
+      "bus_stop_name": "捷運新莊站(地政事務所)",
+      "bus_stop_address": "中華路一段8號(向北)",
+      "stop_coordinates": [
+        121.4520762,
+        25.03679078
+      ],
+      "boarding_eligible_records": [],
+      "unknown_boarding_record_count": 1,
+      "alighting_only_record_count": 0,
+      "status": "unverified",
+      "walking_distance_m": null,
+      "path_edge_ids": [],
+      "legal_use_conditions": [
+        "遵守現場交通指揮與行人號誌；靜態來源不證明即時綠燈或臨時施工狀態。"
+      ],
+      "source_files": [
+        "data/taipei_feeds/stops.geojson",
+        "map-data/raw/walking/osm_xinzhuang.json",
+        "map-data/raw/walking/wheelroute_exits.json"
+      ],
+      "reason": "no_explicit_boarding_permission_in_delivered_route_records"
+    },
+    {
+      "transfer_id": "xinzhuang:exit:2:stop_location:1165604194",
+      "station_name": "新莊",
+      "exit_number": "2",
+      "osm_entrance_node_id": "2480231500",
+      "official_exit_name": "新莊站出口2-2",
+      "entrance_identity_distance_m": 7.706,
+      "entrance_identity_basis": "official station/exit designation, OSM entrance ref/name, coordinate consistency within 20 m; no connector is fabricated between these alternative representations",
+      "stop_location_id": "1165604194",
+      "bus_stop_name": "捷運新莊站(新莊郵局)",
+      "bus_stop_address": "中正路265號(向東)",
+      "stop_coordinates": [
+        121.449469,
+        25.035376
+      ],
+      "boarding_eligible_records": [],
+      "unknown_boarding_record_count": 0,
+      "alighting_only_record_count": 2,
+      "status": "unverified",
+      "walking_distance_m": null,
+      "path_edge_ids": [],
+      "legal_use_conditions": [
+        "遵守現場交通指揮與行人號誌；靜態來源不證明即時綠燈或臨時施工狀態。"
+      ],
+      "source_files": [
+        "data/taipei_feeds/stops.geojson",
+        "map-data/raw/walking/osm_xinzhuang.json",
+        "map-data/raw/walking/wheelroute_exits.json"
+      ],
+      "reason": "no_explicit_boarding_permission_in_delivered_route_records"
+    },
+    {
+      "transfer_id": "xinzhuang:exit:2:stop_location:3567",
+      "station_name": "新莊",
+      "exit_number": "2",
+      "osm_entrance_node_id": "2480231500",
+      "official_exit_name": "新莊站出口2-2",
+      "entrance_identity_distance_m": 7.706,
+      "entrance_identity_basis": "official station/exit designation, OSM entrance ref/name, coordinate consistency within 20 m; no connector is fabricated between these alternative representations",
+      "stop_location_id": "3567",
+      "bus_stop_name": "捷運新莊站(新莊郵局)",
+      "bus_stop_address": "中正路178號同向(向西)",
+      "stop_coordinates": [
+        121.449807,
+        25.035639
+      ],
+      "boarding_eligible_records": [],
+      "unknown_boarding_record_count": 1,
+      "alighting_only_record_count": 4,
+      "status": "unverified",
+      "walking_distance_m": null,
+      "path_edge_ids": [],
+      "legal_use_conditions": [
+        "遵守現場交通指揮與行人號誌；靜態來源不證明即時綠燈或臨時施工狀態。"
+      ],
+      "source_files": [
+        "data/taipei_feeds/stops.geojson",
+        "map-data/raw/walking/osm_xinzhuang.json",
+        "map-data/raw/walking/wheelroute_exits.json"
+      ],
+      "reason": "no_explicit_boarding_permission_in_delivered_route_records"
+    }
+  ]
+}

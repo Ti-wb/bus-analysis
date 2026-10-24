@@ -1,0 +1,472 @@
+{
+  "schema_version": "1.0",
+  "dataset_id": "walking_additional_official_context",
+  "metadata": {
+    "generated_at": "2026-10-24T12:46:47+08:00",
+    "source_updated_at": null,
+    "statistical_period": null,
+    "record_count": 6,
+    "source_manifest": "raw_data/walking_additional/manifest.json",
+    "original_transfer_file": "data/official_cross_city/walking_transfers/transfers.json",
+    "grain": "one independently reviewable official project fact, restriction record or destination direction",
+    "scope": "New official context for existing Xinzhuang cases; no new transfer connector or crossing accepted.",
+    "data_kind": "official_context_evidence",
+    "sources": [
+      {
+        "source_id": "ntpc_2025_sidewalk_results.html",
+        "source_page": "https://www.maintenance.ntpc.gov.tw/home.jsp?id=293645b402fcfb2e",
+        "download_url": "https://www.maintenance.ntpc.gov.tw/home.jsp?id=293645b402fcfb2e",
+        "source_publication_date": null,
+        "source_updated_at": "2026-09-17",
+        "source_period": "2025-01/2025-12",
+        "downloaded_at": "2026-10-24T12:38:12+08:00",
+        "raw_file": "raw_data/walking_additional/ntpc_2025_sidewalk_results.html",
+        "receipt_file": "raw_data/walking_additional/ntpc_2025_sidewalk_results.html.source.json",
+        "http_status": 200,
+        "bytes": 103997,
+        "reuse_terms": "Official public source; source-specific open-data reuse permission not inferred."
+      },
+      {
+        "source_id": "ntpc_arcade_motorcycle_exclusion_20261001.pdf",
+        "source_page": "https://www.traffic.ntpc.gov.tw/websitedowndoc?file=traffic/202610021744310.pdf&filedisplay=%E9%99%84%E4%BB%B61-%E6%A9%9F%E8%BB%8A%E9%80%80%E5%87%BA%E9%A8%8E%E6%A8%93%E5%9F%B7%E8%A1%8C%E8%B7%AF%E6%AE%B5%E4%B8%80%E8%A6%BD%E8%A1%A8%28%E6%96%B0%E7%89%88%E6%9B%B4%E6%AD%A3%29.pdf",
+        "download_url": "https://www.traffic.ntpc.gov.tw/websitedowndoc?file=traffic/202610021744310.pdf&filedisplay=%E9%99%84%E4%BB%B61-%E6%A9%9F%E8%BB%8A%E9%80%80%E5%87%BA%E9%A8%8E%E6%A8%93%E5%9F%B7%E8%A1%8C%E8%B7%AF%E6%AE%B5%E4%B8%80%E8%A6%BD%E8%A1%A8%28%E6%96%B0%E7%89%88%E6%9B%B4%E6%AD%A3%29.pdf",
+        "source_publication_date": null,
+        "source_updated_at": null,
+        "source_period": "2026-10-01",
+        "downloaded_at": "2026-10-24T12:38:59+08:00",
+        "raw_file": "raw_data/walking_additional/ntpc_arcade_motorcycle_exclusion_20261001.pdf",
+        "receipt_file": "raw_data/walking_additional/ntpc_arcade_motorcycle_exclusion_20261001.pdf.source.json",
+        "http_status": 200,
+        "bytes": 1546462,
+        "reuse_terms": "Official public source; source-specific open-data reuse permission not inferred."
+      },
+      {
+        "source_id": "ntpc_award_20260805.html",
+        "source_page": "https://www.ntpc.gov.tw/ch/home.jsp?id=e8ca970cde5c00e1&dataserno=6b4066b6de995110d5ac84f79f22813d",
+        "download_url": "https://www.ntpc.gov.tw/ch/home.jsp?id=e8ca970cde5c00e1&dataserno=6b4066b6de995110d5ac84f79f22813d",
+        "source_publication_date": "2026-08-05",
+        "source_updated_at": null,
+        "source_period": null,
+        "downloaded_at": "2026-10-24T12:38:11+08:00",
+        "raw_file": "raw_data/walking_additional/ntpc_award_20260805.html",
+        "receipt_file": "raw_data/walking_additional/ntpc_award_20260805.html.source.json",
+        "http_status": 200,
+        "bytes": 139065,
+        "reuse_terms": "Official public source; source-specific open-data reuse permission not inferred."
+      },
+      {
+        "source_id": "xinzhuang_award_20260902.html",
+        "source_page": "https://www.xinzhuang.ntpc.gov.tw/home.jsp?id=ba26c54729af2d35&act=be4f48068b2b0031&dataserno=4239692ccd79049af193968a32f945a5&mserno=fc9c2587d927363868f1e0db45776806",
+        "download_url": "https://www.xinzhuang.ntpc.gov.tw/home.jsp?id=ba26c54729af2d35&act=be4f48068b2b0031&dataserno=4239692ccd79049af193968a32f945a5&mserno=fc9c2587d927363868f1e0db45776806",
+        "source_publication_date": "2026-08-05",
+        "source_updated_at": "2026-09-02",
+        "source_period": null,
+        "downloaded_at": "2026-10-24T12:38:11+08:00",
+        "raw_file": "raw_data/walking_additional/xinzhuang_award_20260902.html",
+        "receipt_file": "raw_data/walking_additional/xinzhuang_award_20260902.html.source.json",
+        "http_status": 200,
+        "bytes": 100554,
+        "reuse_terms": "Official public source; source-specific open-data reuse permission not inferred."
+      },
+      {
+        "source_id": "xinzhuang_award_image1.jpg",
+        "source_page": "https://www.xinzhuang.ntpc.gov.tw/uploaddowndoc?file=activepicture/2026090216575000_small.jpg&filedisplay=%E6%96%B0%E8%8E%8A%E5%8D%80%E5%85%AC%E6%89%80%E6%A6%AE%E7%8D%B2%E3%80%8C2026%E9%A6%AC%E8%B7%AF%E5%A5%BD%E8%A1%8C%E8%A9%95%E9%81%B8%E5%B7%A5%E7%A8%8B%E6%A1%88%E4%BB%B6-%E4%BD%B3%E4%BD%9C%E3%80%8D.jpg&flag=pic",
+        "download_url": "https://www.xinzhuang.ntpc.gov.tw/uploaddowndoc?file=activepicture/2026090216575000_small.jpg&filedisplay=%E6%96%B0%E8%8E%8A%E5%8D%80%E5%85%AC%E6%89%80%E6%A6%AE%E7%8D%B2%E3%80%8C2026%E9%A6%AC%E8%B7%AF%E5%A5%BD%E8%A1%8C%E8%A9%95%E9%81%B8%E5%B7%A5%E7%A8%8B%E6%A1%88%E4%BB%B6-%E4%BD%B3%E4%BD%9C%E3%80%8D.jpg&flag=pic",
+        "source_publication_date": null,
+        "source_updated_at": null,
+        "source_period": null,
+        "downloaded_at": "2026-10-24T12:38:12+08:00",
+        "raw_file": "raw_data/walking_additional/xinzhuang_award_image1.jpg",
+        "receipt_file": "raw_data/walking_additional/xinzhuang_award_image1.jpg.source.json",
+        "http_status": 200,
+        "bytes": 30178,
+        "reuse_terms": "Official public source; source-specific open-data reuse permission not inferred."
+      },
+      {
+        "source_id": "xinzhuang_award_image2.jpg",
+        "source_page": "https://www.xinzhuang.ntpc.gov.tw/uploaddowndoc?file=activepicture/2026090216575011_small.jpg&filedisplay=%E6%96%B0%E8%8E%8A%E5%8D%80%E5%85%AC%E6%89%80%E6%A6%AE%E7%8D%B2%E3%80%8C2026%E9%A6%AC%E8%B7%AF%E5%A5%BD%E8%A1%8C%E8%A9%95%E9%81%B8%E5%B7%A5%E7%A8%8B%E6%A1%88%E4%BB%B6-%E4%BD%B3%E4%BD%9C%E3%80%8D2.jpg&flag=pic",
+        "download_url": "https://www.xinzhuang.ntpc.gov.tw/uploaddowndoc?file=activepicture/2026090216575011_small.jpg&filedisplay=%E6%96%B0%E8%8E%8A%E5%8D%80%E5%85%AC%E6%89%80%E6%A6%AE%E7%8D%B2%E3%80%8C2026%E9%A6%AC%E8%B7%AF%E5%A5%BD%E8%A1%8C%E8%A9%95%E9%81%B8%E5%B7%A5%E7%A8%8B%E6%A1%88%E4%BB%B6-%E4%BD%B3%E4%BD%9C%E3%80%8D2.jpg&flag=pic",
+        "source_publication_date": null,
+        "source_updated_at": null,
+        "source_period": null,
+        "downloaded_at": "2026-10-24T12:38:13+08:00",
+        "raw_file": "raw_data/walking_additional/xinzhuang_award_image2.jpg",
+        "receipt_file": "raw_data/walking_additional/xinzhuang_award_image2.jpg.source.json",
+        "http_status": 200,
+        "bytes": 44183,
+        "reuse_terms": "Official public source; source-specific open-data reuse permission not inferred."
+      },
+      {
+        "source_id": "xinzhuang_land_traffic.html",
+        "source_page": "https://www.xinzhuang.land.ntpc.gov.tw/cp.aspx?n=2938",
+        "download_url": "https://www.xinzhuang.land.ntpc.gov.tw/cp.aspx?n=2938",
+        "source_publication_date": null,
+        "source_updated_at": "2026-08-25",
+        "source_period": null,
+        "downloaded_at": "2026-10-24T12:39:23+08:00",
+        "raw_file": "raw_data/walking_additional/xinzhuang_land_traffic.html",
+        "receipt_file": "raw_data/walking_additional/xinzhuang_land_traffic.html.source.json",
+        "http_status": 200,
+        "bytes": 87978,
+        "reuse_terms": "Official public source; source-specific open-data reuse permission not inferred."
+      },
+      {
+        "source_id": "xinzhuang_ris_traffic.html",
+        "source_page": "https://www.xinzhuang.ris.ca.ntpc.gov.tw/Site/ContentPage?wnd_id=245",
+        "download_url": "https://www.xinzhuang.ris.ca.ntpc.gov.tw/Site/ContentPage?wnd_id=245",
+        "source_publication_date": null,
+        "source_updated_at": null,
+        "source_period": null,
+        "downloaded_at": "2026-10-24T12:38:11+08:00",
+        "raw_file": "raw_data/walking_additional/xinzhuang_ris_traffic.html",
+        "receipt_file": "raw_data/walking_additional/xinzhuang_ris_traffic.html.source.json",
+        "http_status": 200,
+        "bytes": 37278,
+        "reuse_terms": "Official public source; source-specific open-data reuse permission not inferred."
+      }
+    ],
+    "accepted_new_transfer_count": 0,
+    "tdx_api_requests": 0,
+    "independent_review_status": "pending_separate_agent",
+    "independent_review_report": "map-data/quality/walking_additional_evidence_review.json",
+    "units": {
+      "*_m": "metres",
+      "*_m2": "square metres",
+      "source_stated_walk_minutes": "approximate minutes stated for the source destination; not the case transfer cost"
+    },
+    "limitations": [
+      "候選案例只標示地點背景，沒有藉地址或同名連接StopID。",
+      "停車管制、獲獎、工程總量及目的地交通說明均不足以證明現有案例的完整合法人行路徑。",
+      "原18案例、原圖網及既有驗收未變更；原source文字保留於raw，不包為整理欄位。"
+    ]
+  },
+  "records": [
+    {
+      "evidence_id": "xinzhuang_zhonghua_sidewalk_project_2025",
+      "evidence_type": "official_project_results",
+      "project_name": "新北市新莊區中華路一段(新莊捷運站至運動場段)人行道改善工程",
+      "district_name": "新莊區",
+      "source_record_number": 16,
+      "statistical_period": "2025-01/2025-12",
+      "improved_sidewalk_length_m": 395,
+      "improved_sidewalk_area_m2": 2711,
+      "improved_intersection_count": 13,
+      "case_links": [
+        {
+          "case_id": "xinzhuang:exit:1:stop_location:1000605",
+          "relation": "same_road_segment_context_only",
+          "verified_stop_id_identity": false,
+          "verified_exit_to_stop_connector": false
+        },
+        {
+          "case_id": "xinzhuang:exit:2:stop_location:1000605",
+          "relation": "same_road_segment_context_only",
+          "verified_stop_id_identity": false,
+          "verified_exit_to_stop_connector": false
+        }
+      ],
+      "sources": [
+        {
+          "source_id": "ntpc_2025_sidewalk_results.html",
+          "source_page": "https://www.maintenance.ntpc.gov.tw/home.jsp?id=293645b402fcfb2e",
+          "download_url": "https://www.maintenance.ntpc.gov.tw/home.jsp?id=293645b402fcfb2e",
+          "source_publication_date": null,
+          "source_updated_at": "2026-09-17",
+          "source_period": "2025-01/2025-12",
+          "downloaded_at": "2026-10-24T12:38:12+08:00",
+          "raw_file": "raw_data/walking_additional/ntpc_2025_sidewalk_results.html",
+          "receipt_file": "raw_data/walking_additional/ntpc_2025_sidewalk_results.html.source.json",
+          "http_status": 200,
+          "bytes": 103997,
+          "reuse_terms": "Official public source; source-specific open-data reuse permission not inferred."
+        }
+      ],
+      "limitations": [
+        "工程總量未逐一定位到出口、乘車側站牌或穿越位置；不作為當期開放與完整接線證明。"
+      ],
+      "evidence_status": "official_context_only_requires_independent_review",
+      "requires_source_review": true,
+      "legal_transfer_verified": false,
+      "usable_transfer_cost_minutes": null
+    },
+    {
+      "evidence_id": "xinzhuang_zhonghua_sidewalk_award_2026",
+      "evidence_type": "official_project_award",
+      "project_name": "新北市新莊區中華路一段(新莊捷運站至運動場段)人行道改善工程",
+      "award_name": "2026馬路好行評選工程案件",
+      "award_result": "佳作",
+      "awarding_date": "2026-08-05",
+      "publication_date": "2026-08-05",
+      "page_updated_at": "2026-09-02",
+      "case_links": [
+        {
+          "case_id": "xinzhuang:exit:1:stop_location:1000605",
+          "relation": "same_road_segment_context_only",
+          "verified_stop_id_identity": false,
+          "verified_exit_to_stop_connector": false
+        },
+        {
+          "case_id": "xinzhuang:exit:2:stop_location:1000605",
+          "relation": "same_road_segment_context_only",
+          "verified_stop_id_identity": false,
+          "verified_exit_to_stop_connector": false
+        }
+      ],
+      "sources": [
+        {
+          "source_id": "xinzhuang_award_20260902.html",
+          "source_page": "https://www.xinzhuang.ntpc.gov.tw/home.jsp?id=ba26c54729af2d35&act=be4f48068b2b0031&dataserno=4239692ccd79049af193968a32f945a5&mserno=fc9c2587d927363868f1e0db45776806",
+          "download_url": "https://www.xinzhuang.ntpc.gov.tw/home.jsp?id=ba26c54729af2d35&act=be4f48068b2b0031&dataserno=4239692ccd79049af193968a32f945a5&mserno=fc9c2587d927363868f1e0db45776806",
+          "source_publication_date": "2026-08-05",
+          "source_updated_at": "2026-09-02",
+          "source_period": null,
+          "downloaded_at": "2026-10-24T12:38:11+08:00",
+          "raw_file": "raw_data/walking_additional/xinzhuang_award_20260902.html",
+          "receipt_file": "raw_data/walking_additional/xinzhuang_award_20260902.html.source.json",
+          "http_status": 200,
+          "bytes": 100554,
+          "reuse_terms": "Official public source; source-specific open-data reuse permission not inferred."
+        },
+        {
+          "source_id": "ntpc_award_20260805.html",
+          "source_page": "https://www.ntpc.gov.tw/ch/home.jsp?id=e8ca970cde5c00e1&dataserno=6b4066b6de995110d5ac84f79f22813d",
+          "download_url": "https://www.ntpc.gov.tw/ch/home.jsp?id=e8ca970cde5c00e1&dataserno=6b4066b6de995110d5ac84f79f22813d",
+          "source_publication_date": "2026-08-05",
+          "source_updated_at": null,
+          "source_period": null,
+          "downloaded_at": "2026-10-24T12:38:11+08:00",
+          "raw_file": "raw_data/walking_additional/ntpc_award_20260805.html",
+          "receipt_file": "raw_data/walking_additional/ntpc_award_20260805.html.source.json",
+          "http_status": 200,
+          "bytes": 139065,
+          "reuse_terms": "Official public source; source-specific open-data reuse permission not inferred."
+        },
+        {
+          "source_id": "xinzhuang_award_image1.jpg",
+          "source_page": "https://www.xinzhuang.ntpc.gov.tw/uploaddowndoc?file=activepicture/2026090216575000_small.jpg&filedisplay=%E6%96%B0%E8%8E%8A%E5%8D%80%E5%85%AC%E6%89%80%E6%A6%AE%E7%8D%B2%E3%80%8C2026%E9%A6%AC%E8%B7%AF%E5%A5%BD%E8%A1%8C%E8%A9%95%E9%81%B8%E5%B7%A5%E7%A8%8B%E6%A1%88%E4%BB%B6-%E4%BD%B3%E4%BD%9C%E3%80%8D.jpg&flag=pic",
+          "download_url": "https://www.xinzhuang.ntpc.gov.tw/uploaddowndoc?file=activepicture/2026090216575000_small.jpg&filedisplay=%E6%96%B0%E8%8E%8A%E5%8D%80%E5%85%AC%E6%89%80%E6%A6%AE%E7%8D%B2%E3%80%8C2026%E9%A6%AC%E8%B7%AF%E5%A5%BD%E8%A1%8C%E8%A9%95%E9%81%B8%E5%B7%A5%E7%A8%8B%E6%A1%88%E4%BB%B6-%E4%BD%B3%E4%BD%9C%E3%80%8D.jpg&flag=pic",
+          "source_publication_date": null,
+          "source_updated_at": null,
+          "source_period": null,
+          "downloaded_at": "2026-10-24T12:38:12+08:00",
+          "raw_file": "raw_data/walking_additional/xinzhuang_award_image1.jpg",
+          "receipt_file": "raw_data/walking_additional/xinzhuang_award_image1.jpg.source.json",
+          "http_status": 200,
+          "bytes": 30178,
+          "reuse_terms": "Official public source; source-specific open-data reuse permission not inferred."
+        },
+        {
+          "source_id": "xinzhuang_award_image2.jpg",
+          "source_page": "https://www.xinzhuang.ntpc.gov.tw/uploaddowndoc?file=activepicture/2026090216575011_small.jpg&filedisplay=%E6%96%B0%E8%8E%8A%E5%8D%80%E5%85%AC%E6%89%80%E6%A6%AE%E7%8D%B2%E3%80%8C2026%E9%A6%AC%E8%B7%AF%E5%A5%BD%E8%A1%8C%E8%A9%95%E9%81%B8%E5%B7%A5%E7%A8%8B%E6%A1%88%E4%BB%B6-%E4%BD%B3%E4%BD%9C%E3%80%8D2.jpg&flag=pic",
+          "download_url": "https://www.xinzhuang.ntpc.gov.tw/uploaddowndoc?file=activepicture/2026090216575011_small.jpg&filedisplay=%E6%96%B0%E8%8E%8A%E5%8D%80%E5%85%AC%E6%89%80%E6%A6%AE%E7%8D%B2%E3%80%8C2026%E9%A6%AC%E8%B7%AF%E5%A5%BD%E8%A1%8C%E8%A9%95%E9%81%B8%E5%B7%A5%E7%A8%8B%E6%A1%88%E4%BB%B6-%E4%BD%B3%E4%BD%9C%E3%80%8D2.jpg&flag=pic",
+          "source_publication_date": null,
+          "source_updated_at": null,
+          "source_period": null,
+          "downloaded_at": "2026-10-24T12:38:13+08:00",
+          "raw_file": "raw_data/walking_additional/xinzhuang_award_image2.jpg",
+          "receipt_file": "raw_data/walking_additional/xinzhuang_award_image2.jpg.source.json",
+          "http_status": 200,
+          "bytes": 44183,
+          "reuse_terms": "Official public source; source-specific open-data reuse permission not inferred."
+        }
+      ],
+      "limitations": [
+        "獲獎不證明每個位置當期可通行；附圖為頒獎/獎狀，沒有站牌ID或可地理配準的接線。"
+      ],
+      "evidence_status": "official_context_only_requires_independent_review",
+      "requires_source_review": true,
+      "legal_transfer_verified": false,
+      "usable_transfer_cost_minutes": null
+    },
+    {
+      "evidence_id": "motorcycle_exclusion:莊-3-11",
+      "evidence_type": "official_motorcycle_parking_exclusion",
+      "restriction_id": "莊-3-11",
+      "district_name": "新莊區",
+      "source_category": "社區",
+      "source_address_or_segment": "中正路265號(新莊郵局)",
+      "implementation_length_m": 13.7,
+      "implementation_date": "2022-05-04",
+      "source_roc_implementation_date": "111.05.04",
+      "list_as_of_date": "2026-10-01",
+      "pdf_page": 14,
+      "extraction_status": "layout_extracted_requires_review",
+      "case_links": [
+        {
+          "case_id": "xinzhuang:exit:1:stop_location:1165604194",
+          "relation": "address_or_road_context_only",
+          "verified_stop_id_identity": false,
+          "verified_exit_to_stop_connector": false
+        },
+        {
+          "case_id": "xinzhuang:exit:2:stop_location:1165604194",
+          "relation": "address_or_road_context_only",
+          "verified_stop_id_identity": false,
+          "verified_exit_to_stop_connector": false
+        }
+      ],
+      "sources": [
+        {
+          "source_id": "ntpc_arcade_motorcycle_exclusion_20261001.pdf",
+          "source_page": "https://www.traffic.ntpc.gov.tw/websitedowndoc?file=traffic/202610021744310.pdf&filedisplay=%E9%99%84%E4%BB%B61-%E6%A9%9F%E8%BB%8A%E9%80%80%E5%87%BA%E9%A8%8E%E6%A8%93%E5%9F%B7%E8%A1%8C%E8%B7%AF%E6%AE%B5%E4%B8%80%E8%A6%BD%E8%A1%A8%28%E6%96%B0%E7%89%88%E6%9B%B4%E6%AD%A3%29.pdf",
+          "download_url": "https://www.traffic.ntpc.gov.tw/websitedowndoc?file=traffic/202610021744310.pdf&filedisplay=%E9%99%84%E4%BB%B61-%E6%A9%9F%E8%BB%8A%E9%80%80%E5%87%BA%E9%A8%8E%E6%A8%93%E5%9F%B7%E8%A1%8C%E8%B7%AF%E6%AE%B5%E4%B8%80%E8%A6%BD%E8%A1%A8%28%E6%96%B0%E7%89%88%E6%9B%B4%E6%AD%A3%29.pdf",
+          "source_publication_date": null,
+          "source_updated_at": null,
+          "source_period": "2026-10-01",
+          "downloaded_at": "2026-10-24T12:38:59+08:00",
+          "raw_file": "raw_data/walking_additional/ntpc_arcade_motorcycle_exclusion_20261001.pdf",
+          "receipt_file": "raw_data/walking_additional/ntpc_arcade_motorcycle_exclusion_20261001.pdf.source.json",
+          "http_status": 200,
+          "bytes": 1546462,
+          "reuse_terms": "Official public source; source-specific open-data reuse permission not inferred."
+        }
+      ],
+      "limitations": [
+        "實際管制範圍依現場標誌；未進行現場查核。",
+        "地址/路段相符不是StopID識別；機車禁停不證明特定穿越合法或出口至站牌接線。"
+      ],
+      "evidence_status": "official_context_only_requires_independent_review",
+      "requires_source_review": true,
+      "legal_transfer_verified": false,
+      "usable_transfer_cost_minutes": null
+    },
+    {
+      "evidence_id": "motorcycle_exclusion:莊-8-1",
+      "evidence_type": "official_motorcycle_parking_exclusion",
+      "restriction_id": "莊-8-1",
+      "district_name": "新莊區",
+      "source_category": "路段",
+      "source_address_or_segment": "中華路1段(中正路至公園路，人行道禁停)",
+      "implementation_length_m": 200.0,
+      "implementation_date": "2013-09-01",
+      "source_roc_implementation_date": "102.09.01",
+      "list_as_of_date": "2026-10-01",
+      "pdf_page": 15,
+      "extraction_status": "layout_extracted_requires_review",
+      "case_links": [
+        {
+          "case_id": "xinzhuang:exit:1:stop_location:1000605",
+          "relation": "address_or_road_context_only",
+          "verified_stop_id_identity": false,
+          "verified_exit_to_stop_connector": false
+        },
+        {
+          "case_id": "xinzhuang:exit:2:stop_location:1000605",
+          "relation": "address_or_road_context_only",
+          "verified_stop_id_identity": false,
+          "verified_exit_to_stop_connector": false
+        }
+      ],
+      "sources": [
+        {
+          "source_id": "ntpc_arcade_motorcycle_exclusion_20261001.pdf",
+          "source_page": "https://www.traffic.ntpc.gov.tw/websitedowndoc?file=traffic/202610021744310.pdf&filedisplay=%E9%99%84%E4%BB%B61-%E6%A9%9F%E8%BB%8A%E9%80%80%E5%87%BA%E9%A8%8E%E6%A8%93%E5%9F%B7%E8%A1%8C%E8%B7%AF%E6%AE%B5%E4%B8%80%E8%A6%BD%E8%A1%A8%28%E6%96%B0%E7%89%88%E6%9B%B4%E6%AD%A3%29.pdf",
+          "download_url": "https://www.traffic.ntpc.gov.tw/websitedowndoc?file=traffic/202610021744310.pdf&filedisplay=%E9%99%84%E4%BB%B61-%E6%A9%9F%E8%BB%8A%E9%80%80%E5%87%BA%E9%A8%8E%E6%A8%93%E5%9F%B7%E8%A1%8C%E8%B7%AF%E6%AE%B5%E4%B8%80%E8%A6%BD%E8%A1%A8%28%E6%96%B0%E7%89%88%E6%9B%B4%E6%AD%A3%29.pdf",
+          "source_publication_date": null,
+          "source_updated_at": null,
+          "source_period": "2026-10-01",
+          "downloaded_at": "2026-10-24T12:38:59+08:00",
+          "raw_file": "raw_data/walking_additional/ntpc_arcade_motorcycle_exclusion_20261001.pdf",
+          "receipt_file": "raw_data/walking_additional/ntpc_arcade_motorcycle_exclusion_20261001.pdf.source.json",
+          "http_status": 200,
+          "bytes": 1546462,
+          "reuse_terms": "Official public source; source-specific open-data reuse permission not inferred."
+        }
+      ],
+      "limitations": [
+        "實際管制範圍依現場標誌；未進行現場查核。",
+        "地址/路段相符不是StopID識別；機車禁停不證明特定穿越合法或出口至站牌接線。"
+      ],
+      "evidence_status": "official_context_only_requires_independent_review",
+      "requires_source_review": true,
+      "legal_transfer_verified": false,
+      "usable_transfer_cost_minutes": null
+    },
+    {
+      "evidence_id": "official_walking_directions:xinzhuang_land_traffic",
+      "evidence_type": "official_destination_access_directions",
+      "station_name": "新莊站",
+      "exit_number": "1",
+      "destination_name": "新莊地政事務所",
+      "destination_address": "新莊區中華路一段3號",
+      "source_stated_walk_minutes": 2,
+      "source_stated_walk_is_approximate": true,
+      "bus_stop_name_in_guidance": "捷運新莊站(地政事務所)",
+      "case_links": [
+        {
+          "case_id": "xinzhuang:exit:1:stop_location:1000605",
+          "relation": "station_exit_and_named_stop_context_only",
+          "verified_stop_id_identity": false,
+          "verified_exit_to_stop_connector": false
+        }
+      ],
+      "sources": [
+        {
+          "source_id": "xinzhuang_land_traffic.html",
+          "source_page": "https://www.xinzhuang.land.ntpc.gov.tw/cp.aspx?n=2938",
+          "download_url": "https://www.xinzhuang.land.ntpc.gov.tw/cp.aspx?n=2938",
+          "source_publication_date": null,
+          "source_updated_at": "2026-08-25",
+          "source_period": null,
+          "downloaded_at": "2026-10-24T12:39:23+08:00",
+          "raw_file": "raw_data/walking_additional/xinzhuang_land_traffic.html",
+          "receipt_file": "raw_data/walking_additional/xinzhuang_land_traffic.html.source.json",
+          "http_status": 200,
+          "bytes": 87978,
+          "reuse_terms": "Official public source; source-specific open-data reuse permission not inferred."
+        }
+      ],
+      "limitations": [
+        "來源目的地為中華路1號或3號；既有1000605來源地址為8號向北，未核實同側接線。",
+        "文字步行約2分鐘不是此案例實測步行成本；未明示站牌ID、穿越位置或連續幾何。"
+      ],
+      "evidence_status": "official_context_only_requires_independent_review",
+      "requires_source_review": true,
+      "legal_transfer_verified": false,
+      "usable_transfer_cost_minutes": null
+    },
+    {
+      "evidence_id": "official_walking_directions:xinzhuang_ris_traffic",
+      "evidence_type": "official_destination_access_directions",
+      "station_name": "新莊站",
+      "exit_number": "1",
+      "destination_name": "新莊戶政事務所",
+      "destination_address": "新北市新莊區中華路1段1號2樓",
+      "source_stated_walk_minutes": 2,
+      "source_stated_walk_is_approximate": true,
+      "bus_stop_name_in_guidance": "捷運新莊站(地政事務所)",
+      "case_links": [
+        {
+          "case_id": "xinzhuang:exit:1:stop_location:1000605",
+          "relation": "station_exit_and_named_stop_context_only",
+          "verified_stop_id_identity": false,
+          "verified_exit_to_stop_connector": false
+        }
+      ],
+      "sources": [
+        {
+          "source_id": "xinzhuang_ris_traffic.html",
+          "source_page": "https://www.xinzhuang.ris.ca.ntpc.gov.tw/Site/ContentPage?wnd_id=245",
+          "download_url": "https://www.xinzhuang.ris.ca.ntpc.gov.tw/Site/ContentPage?wnd_id=245",
+          "source_publication_date": null,
+          "source_updated_at": null,
+          "source_period": null,
+          "downloaded_at": "2026-10-24T12:38:11+08:00",
+          "raw_file": "raw_data/walking_additional/xinzhuang_ris_traffic.html",
+          "receipt_file": "raw_data/walking_additional/xinzhuang_ris_traffic.html.source.json",
+          "http_status": 200,
+          "bytes": 37278,
+          "reuse_terms": "Official public source; source-specific open-data reuse permission not inferred."
+        }
+      ],
+      "limitations": [
+        "來源目的地為中華路1號或3號；既有1000605來源地址為8號向北，未核實同側接線。",
+        "文字步行約2分鐘不是此案例實測步行成本；未明示站牌ID、穿越位置或連續幾何。"
+      ],
+      "evidence_status": "official_context_only_requires_independent_review",
+      "requires_source_review": true,
+      "legal_transfer_verified": false,
+      "usable_transfer_cost_minutes": null
+    }
+  ]
+}

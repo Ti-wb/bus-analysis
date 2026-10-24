@@ -1,0 +1,212 @@
+{
+  "schema_version": 1,
+  "dataset_id": "tdx_road_traffic_independent_review",
+  "metadata": {
+    "reviewer": "root; different agent from road-data producer",
+    "reviewed_at": "2026-10-24T11:01:08+08:00",
+    "method": "Independent JSON/JSONL per-field and nested source-row inspection; producer not imported.",
+    "independent_review_status": "pass_with_limitations",
+    "id_diagnostics_checked": 2,
+    "limitations": [
+      "Static Section history is not a speed or flow observation.",
+      "Historical speed/flow rows are first-N samples; complete historical volume not downloaded.",
+      "VD unit/aggregation period unspecified by source schema; negative sentinels retained.",
+      "Both historical dynamic samples contain 30 observations outside the requested Taipei civil day; not validated as observations within that day.",
+      "Named collection fields differ from current supplied OpenAPI Items; actual raw responses retained."
+    ]
+  },
+  "records": [
+    {
+      "output_path": "data/tdx_road_traffic/availability/historical_2026-10-23_section_meta.json",
+      "source_id": "historical_2026-10-23_section_meta",
+      "record_count": 1,
+      "review_status": "pass_with_limitations",
+      "all_source_fields_nested_values_and_ids_compared": true,
+      "raw_file": "raw_data/tdx_road_traffic/responses/historical_2026-10-23_section_meta.json",
+      "http_status": 249,
+      "requested_date": "2026-10-23",
+      "data_kind": "availability_statistics",
+      "scope_status": "availability_statistics_only",
+      "source_info_dates": [],
+      "data_collect_taipei_dates": [],
+      "source_info_date_mismatch_count": 0,
+      "data_collect_date_mismatch_count": 0,
+      "requires_source_review": false
+    },
+    {
+      "output_path": "data/tdx_road_traffic/availability/historical_2026-10-23_section_live_meta.json",
+      "source_id": "historical_2026-10-23_section_live_meta",
+      "record_count": 1,
+      "review_status": "pass_with_limitations",
+      "all_source_fields_nested_values_and_ids_compared": true,
+      "raw_file": "raw_data/tdx_road_traffic/responses/historical_2026-10-23_section_live_meta.json",
+      "http_status": 249,
+      "requested_date": "2026-10-23",
+      "data_kind": "availability_statistics",
+      "scope_status": "availability_statistics_only",
+      "source_info_dates": [],
+      "data_collect_taipei_dates": [],
+      "source_info_date_mismatch_count": 0,
+      "data_collect_date_mismatch_count": 0,
+      "requires_source_review": false
+    },
+    {
+      "output_path": "data/tdx_road_traffic/availability/historical_2026-10-23_vd_live_meta.json",
+      "source_id": "historical_2026-10-23_vd_live_meta",
+      "record_count": 1,
+      "review_status": "pass_with_limitations",
+      "all_source_fields_nested_values_and_ids_compared": true,
+      "raw_file": "raw_data/tdx_road_traffic/responses/historical_2026-10-23_vd_live_meta.json",
+      "http_status": 249,
+      "requested_date": "2026-10-23",
+      "data_kind": "availability_statistics",
+      "scope_status": "availability_statistics_only",
+      "source_info_dates": [],
+      "data_collect_taipei_dates": [],
+      "source_info_date_mismatch_count": 0,
+      "data_collect_date_mismatch_count": 0,
+      "requires_source_review": false
+    },
+    {
+      "output_path": "data/tdx_road_traffic/observations/current_section.json",
+      "source_id": "current_section",
+      "record_count": 818,
+      "review_status": "pass_with_limitations",
+      "all_source_fields_nested_values_and_ids_compared": true,
+      "raw_file": "raw_data/tdx_road_traffic/failures/current_section.invalid_response",
+      "http_status": 200,
+      "requested_date": null,
+      "data_kind": "road_definition",
+      "scope_status": "complete_requested_endpoint_by_response_count",
+      "source_info_dates": [],
+      "data_collect_taipei_dates": [],
+      "source_info_date_mismatch_count": null,
+      "data_collect_date_mismatch_count": null,
+      "requires_source_review": false
+    },
+    {
+      "output_path": "data/tdx_road_traffic/observations/historical_2026-10-23_section.json",
+      "source_id": "historical_2026-10-23_section",
+      "record_count": 818,
+      "review_status": "pass_with_limitations",
+      "all_source_fields_nested_values_and_ids_compared": true,
+      "raw_file": "raw_data/tdx_road_traffic/responses/historical_2026-10-23_section.jsonl",
+      "http_status": 200,
+      "requested_date": "2026-10-23",
+      "data_kind": "road_definition",
+      "scope_status": "complete_requested_date_by_meta_count",
+      "source_info_dates": [
+        "2026-10-23"
+      ],
+      "data_collect_taipei_dates": [],
+      "source_info_date_mismatch_count": 0,
+      "data_collect_date_mismatch_count": 0,
+      "requires_source_review": false
+    },
+    {
+      "output_path": "data/tdx_road_traffic/observations/historical_2026-10-23_section_live_sample.json",
+      "source_id": "historical_2026-10-23_section_live_sample",
+      "record_count": 30,
+      "review_status": "pass_with_limitations",
+      "all_source_fields_nested_values_and_ids_compared": true,
+      "raw_file": "raw_data/tdx_road_traffic/responses/historical_2026-10-23_section_live_sample.jsonl",
+      "http_status": 200,
+      "requested_date": "2026-10-23",
+      "data_kind": "section_speed_observation",
+      "scope_status": "sample_only",
+      "source_info_dates": [
+        "2026-10-23"
+      ],
+      "data_collect_taipei_dates": [
+        "2026-10-22"
+      ],
+      "source_info_date_mismatch_count": 0,
+      "data_collect_date_mismatch_count": 30,
+      "requires_source_review": true
+    },
+    {
+      "output_path": "data/tdx_road_traffic/observations/current_vd.json",
+      "source_id": "current_vd",
+      "record_count": 604,
+      "review_status": "pass_with_limitations",
+      "all_source_fields_nested_values_and_ids_compared": true,
+      "raw_file": "raw_data/tdx_road_traffic/failures/current_vd.invalid_response",
+      "http_status": 200,
+      "requested_date": null,
+      "data_kind": "detector_definition",
+      "scope_status": "complete_requested_endpoint_by_response_count",
+      "source_info_dates": [],
+      "data_collect_taipei_dates": [],
+      "source_info_date_mismatch_count": null,
+      "data_collect_date_mismatch_count": null,
+      "requires_source_review": false
+    },
+    {
+      "output_path": "data/tdx_road_traffic/observations/current_section_live.json",
+      "source_id": "current_section_live",
+      "record_count": 818,
+      "review_status": "pass_with_limitations",
+      "all_source_fields_nested_values_and_ids_compared": true,
+      "raw_file": "raw_data/tdx_road_traffic/failures/current_section_live.invalid_response",
+      "http_status": 200,
+      "requested_date": null,
+      "data_kind": "section_speed_observation",
+      "scope_status": "complete_requested_endpoint_by_response_count",
+      "source_info_dates": [],
+      "data_collect_taipei_dates": [
+        "2026-10-24"
+      ],
+      "source_info_date_mismatch_count": null,
+      "data_collect_date_mismatch_count": null,
+      "requires_source_review": false
+    },
+    {
+      "output_path": "data/tdx_road_traffic/observations/current_vd_live.json",
+      "source_id": "current_vd_live",
+      "record_count": 611,
+      "review_status": "pass_with_limitations",
+      "all_source_fields_nested_values_and_ids_compared": true,
+      "raw_file": "raw_data/tdx_road_traffic/failures/current_vd_live.invalid_response",
+      "http_status": 200,
+      "requested_date": null,
+      "data_kind": "detector_flow_observation",
+      "scope_status": "complete_requested_endpoint_by_response_count",
+      "source_info_dates": [],
+      "data_collect_taipei_dates": [
+        "2026-10-24"
+      ],
+      "source_info_date_mismatch_count": null,
+      "data_collect_date_mismatch_count": null,
+      "requires_source_review": false,
+      "vehicle_type_rows": 7952,
+      "known_volume_raw_sum": -23311,
+      "volume_missing_count": 0,
+      "sum_interpretation": "QA arithmetic only across source rows; no physical hourly/daily traffic interpretation."
+    },
+    {
+      "output_path": "data/tdx_road_traffic/observations/historical_2026-10-23_vd_live_sample.json",
+      "source_id": "historical_2026-10-23_vd_live_sample",
+      "record_count": 30,
+      "review_status": "pass_with_limitations",
+      "all_source_fields_nested_values_and_ids_compared": true,
+      "raw_file": "raw_data/tdx_road_traffic/failures/historical_2026-10-23_vd_live_sample.invalid_response",
+      "http_status": 200,
+      "requested_date": "2026-10-23",
+      "data_kind": "detector_flow_observation",
+      "scope_status": "sample_only",
+      "source_info_dates": [
+        "2026-10-22"
+      ],
+      "data_collect_taipei_dates": [
+        "2026-10-22"
+      ],
+      "source_info_date_mismatch_count": 30,
+      "data_collect_date_mismatch_count": 30,
+      "requires_source_review": true,
+      "vehicle_type_rows": 408,
+      "known_volume_raw_sum": -101,
+      "volume_missing_count": 0,
+      "sum_interpretation": "QA arithmetic only across source rows; no physical hourly/daily traffic interpretation."
+    }
+  ]
+}

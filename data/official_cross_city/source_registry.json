@@ -1,0 +1,277 @@
+{
+  "schema_version": 1,
+  "dataset_id": "official_cross_city_source_registry",
+  "metadata": {
+    "kind": "source_registry_not_transport_observations",
+    "record_count": 14,
+    "upstream_repository": "Ti-wb/bus-analysis",
+    "reviewed_base_commit": "1e26c9841c51c7eb61f6b461d9357b2962cda441",
+    "snapshot_status": "additive_normalized_snapshots_with_independent_reports",
+    "independent_review_status": "see_dataset_reports",
+    "limitations": [
+      "來源目錄不是交通觀測；各檔範圍、時間與限制以metadata為準。",
+      "部分跨來源ID與完整營運／步行驗收仍未完成，未知不是沒有服務。",
+      "TDX取用使用既有本機憑證及有界預算，不購買額度；條款另列，不沿用CSV授權。"
+    ],
+    "validation_catalog": "data/official_cross_city/validation_catalog.json",
+    "validation_status": "data/quality/pr_validation.json"
+  },
+  "records": [
+    {
+      "dataset_id": "ntpc_routes",
+      "title": "公車路線清單",
+      "provider": "新北市政府交通局",
+      "page_url": "https://data.gov.tw/dataset/123112",
+      "provider_page_url": "https://data.ntpc.gov.tw/datasets/0ee4e6bf-cee6-4ec8-8fe1-71f544015127",
+      "download_url": "https://data.ntpc.gov.tw/api/datasets/0ee4e6bf-cee6-4ec8-8fe1-71f544015127/csv/file",
+      "license": {
+        "name": "政府資料開放授權條款-第1版",
+        "url": "https://data.gov.tw/license"
+      },
+      "grain": "主線×附線×業者",
+      "auth_required": false,
+      "data_kind": "official_published_data",
+      "catalog_verification": "verified_from_official_pages",
+      "collector_status": "implemented_previously_live_checked_snapshot_not_committed",
+      "last_catalog_review_date": "2026-10-22",
+      "downloaded_at": null,
+      "source_data_time": null,
+      "snapshot_committed": false,
+      "complete_regional_coverage": false,
+      "last_live_validation_date": "2026-10-23",
+      "validation_scope": "Dated source snapshot only; not a current availability check or complete regional/boundary validation"
+    },
+    {
+      "dataset_id": "ntpc_stops",
+      "title": "公車站位資訊",
+      "provider": "新北市政府交通局",
+      "page_url": "https://data.gov.tw/dataset/123091",
+      "provider_page_url": "https://data.ntpc.gov.tw/datasets/34b402a8-53d9-483d-9406-24a682c2d6dc",
+      "download_url": "https://data.ntpc.gov.tw/api/datasets/34b402a8-53d9-483d-9406-24a682c2d6dc/csv/file",
+      "license": {
+        "name": "政府資料開放授權條款-第1版",
+        "url": "https://data.gov.tw/license"
+      },
+      "grain": "路線站牌×方向×站序",
+      "auth_required": false,
+      "data_kind": "official_published_data",
+      "catalog_verification": "verified_from_official_pages",
+      "collector_status": "implemented_previously_live_checked_snapshot_not_committed",
+      "last_catalog_review_date": "2026-10-22",
+      "downloaded_at": null,
+      "source_data_time": null,
+      "snapshot_committed": false,
+      "complete_regional_coverage": false,
+      "last_live_validation_date": "2026-10-23",
+      "validation_scope": "Dated source snapshot only; not a current availability check or complete regional/boundary validation"
+    },
+    {
+      "dataset_id": "ntpc_leapfrog",
+      "title": "跳蛙公車路線說明及示意圖",
+      "provider": "新北市政府交通局",
+      "page_url": "https://data.gov.tw/dataset/174364",
+      "provider_page_url": "https://data.ntpc.gov.tw/datasets/f5e9a430-f337-476f-801e-dc167a112aa2",
+      "download_url": "https://data.ntpc.gov.tw/api/datasets/f5e9a430-f337-476f-801e-dc167a112aa2/csv/file",
+      "license": {
+        "name": "政府資料開放授權條款-第1版",
+        "url": "https://data.gov.tw/license"
+      },
+      "grain": "清單項目",
+      "auth_required": false,
+      "data_kind": "official_published_data",
+      "catalog_verification": "verified_from_official_pages",
+      "collector_status": "implemented_previously_live_checked_snapshot_not_committed",
+      "last_catalog_review_date": "2026-10-22",
+      "downloaded_at": null,
+      "source_data_time": null,
+      "snapshot_committed": false,
+      "complete_regional_coverage": false,
+      "last_live_validation_date": "2026-10-23",
+      "validation_scope": "Dated source snapshot only; not a current availability check or complete regional/boundary validation"
+    },
+    {
+      "dataset_id": "regional_village_population",
+      "provider": "內政部戶政司",
+      "page_url": "https://data.gov.tw/dataset/77132",
+      "download_url": "https://opdadm.moi.gov.tw/api/v1/no-auth/resource/api/dataset/2C7688CB-B505-4D00-B11C-66C4D31B024F/resource/4B0C00ED-C271-4A3E-A547-3C00EE6BF3E4/download",
+      "download_selection": "Exact requested month from official catalog; fail if absent or ambiguous",
+      "license": {
+        "name": "政府資料開放授權條款-第1版",
+        "url": "https://data.gov.tw/license"
+      },
+      "grain": "月×來源區域代碼×村里",
+      "auth_required": false,
+      "scope": [
+        "臺北市",
+        "新北市",
+        "基隆市"
+      ],
+      "catalog_verification": "verified_from_official_page",
+      "collector_status": "downloaded_normalized_and_independently_reviewed",
+      "last_catalog_review_date": "2026-10-24",
+      "downloaded_at": "2026-10-24T10:45:15+08:00",
+      "snapshot_committed": true,
+      "last_live_validation_date": "2026-10-24",
+      "validation_scope": "Dated 2026-10-24 downloaded population snapshot independently checked; boundary name variants and cross-vintage geometry equivalence remain explicit.",
+      "output_file": "data/official_cross_city/population_2026-09.json",
+      "period": "2026-09",
+      "quality_report": "data/quality/regional_validation_review.json"
+    },
+    {
+      "dataset_id": "metro_corridor_od",
+      "provider": "臺北大眾捷運股份有限公司",
+      "page_url": "https://data.gov.tw/dataset/128506",
+      "resource_page_url": "https://data.taipei/dataset/detail?id=63f31c7e-7fc3-418b-bd82-b95158755b4d",
+      "download_url": null,
+      "download_selection": "Use existing data/metro/source_references.json for one explicit month",
+      "license": {
+        "name": "政府資料開放授權條款-第1版",
+        "url": "https://data.gov.tw/license"
+      },
+      "grain": "日期×小時×進站×出站",
+      "auth_required": false,
+      "catalog_verification": "verified_from_official_page",
+      "collector_status": "implemented_previously_live_checked_snapshot_not_committed",
+      "last_catalog_review_date": "2026-10-22",
+      "downloaded_at": null,
+      "snapshot_committed": false,
+      "bus_demand": false,
+      "last_live_validation_date": "2026-10-23",
+      "validation_scope": "Dated source snapshot only; not a current availability check or complete regional/boundary validation"
+    },
+    {
+      "dataset_id": "tdx_bus_travel_time",
+      "provider": "交通部 TDX",
+      "page_url": "https://tdx.transportdata.tw/api-service/swagger",
+      "specification_url": "https://tdx.transportdata.tw/webapi/File/Swagger/V3/b22c71d8-5af0-4de2-ab0a-be28983fa051",
+      "license": {
+        "name": "TDX 資料使用條款，非自動套用 OGDL",
+        "url": "https://tdx.transportdata.tw/term"
+      },
+      "collector_status": "bounded_live_snapshots_and_resumable_collector",
+      "auth_required": true,
+      "data_kind": "official_estimate",
+      "requested_cities": [
+        "Taipei",
+        "NewTaipei",
+        "Keelung",
+        "InterCity"
+      ],
+      "coverage_status": "partial_selected_routes",
+      "source_data_time": null,
+      "output_directory": "data/tdx_bus_travel_time/",
+      "quality_report": "data/quality/tdx_bus_travel_time_review.json"
+    },
+    {
+      "dataset_id": "keelung_bus_official_site",
+      "provider": "基隆市公車管理處",
+      "page_url": "https://www.klcba.gov.tw/",
+      "license": null,
+      "collector_status": "reference_only_requires_format_and_terms_review",
+      "coverage_status": "not_downloaded_in_this_patch",
+      "data_kind": "official_website_reference"
+    },
+    {
+      "dataset_id": "official_transfer_connections",
+      "provider": "各公共運輸主管機關／營運者",
+      "page_url": "https://data.gov.tw/dataset/128428",
+      "collector_status": "reference_only_requires_walkability_review",
+      "coverage_status": "insufficient_inputs_for_legal_walk_validation",
+      "license": {
+        "name": "政府資料開放授權條款-第1版",
+        "url": "https://data.gov.tw/license",
+        "evidence_page": "https://data.gov.tw/dataset/128428"
+      },
+      "limitation": "出口位置或直線距離不能直接當成可行步行連結；不生成未核實轉乘邊。",
+      "data_kind": "station_exit_coordinates_not_transfer_network",
+      "quality_report": "data/quality/remaining_validation_review.json"
+    },
+    {
+      "dataset_id": "ntpc_pathdetail",
+      "title": "新北公車附線站序明示關聯",
+      "provider": "臺北市公共運輸處（官方新北資料端點）",
+      "page_url": "https://data.taipei/dataset/detail?id=2a8f5f42-942c-4974-8366-b44e90ad9701",
+      "specification_page": "https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=C668AE404DCD2EFE",
+      "download_url": "https://tcgbusfs.blob.core.windows.net/ntpcbus/GetPathDetail.gz",
+      "license": {
+        "name": "政府資料開放授權條款-第1版",
+        "url": "https://data.taipei/rule",
+        "evidence": "官方目錄標示公開；網站授權規範，不沿用其他目錄授權"
+      },
+      "grain": "附線×站牌×原始序號",
+      "auth_required": false,
+      "data_kind": "official_published_data",
+      "catalog_verification": "verified_from_official_pages",
+      "collector_status": "implemented_live_checked_snapshot_not_committed",
+      "last_catalog_review_date": "2026-10-23",
+      "downloaded_at": "2026-10-23T14:05:38.461699+00:00",
+      "source_data_time_raw": "2026/10/23 21:02:56",
+      "snapshot_committed": false,
+      "limitations": [
+        "保留原始 Location 台北市文字；端點是官方文件列出的 ntpcbus。",
+        "ID 關聯只核本次 NTPC routes/stops 快照，不推論其他來源 namespace。",
+        "43582 筆關聯覆蓋 1008 附線、33200 站牌；33314 站牌中 114 尚未連結。",
+        "不套用其他來源 genus/方向碼或名稱對照，不等於全北北基覆蓋。"
+      ]
+    },
+    {
+      "dataset_id": "verified_bus_id_crosswalks",
+      "provider": "新北市交通局／大臺北公車／TDX",
+      "page_url": "https://ebus.gov.taipei/EBus2/RouteList2?ct=ntpc",
+      "collector_status": "downloaded_normalized_and_independently_reviewed",
+      "quality_report": "data/quality/id_crosswalk_review.json",
+      "usage_document": "docs/id-crosswalk.md",
+      "limitations": [
+        "65跳蛙CSV、10TDX主線及114站牌關聯仍未知。"
+      ]
+    },
+    {
+      "dataset_id": "regional_route_masters",
+      "provider": "交通部TDX",
+      "page_url": "https://tdx.transportdata.tw/data-service/historical",
+      "output_directory": "data/official_cross_city/regional_routes/",
+      "collector_status": "downloaded_normalized_and_independently_reviewed",
+      "period": "2026-10-23",
+      "quality_report": "data/quality/regional_validation_review.json",
+      "license": {
+        "url": "https://tdx.transportdata.tw/term"
+      },
+      "complete_regional_operational_coverage": false
+    },
+    {
+      "dataset_id": "population_boundary_crosswalk",
+      "provider": "內政部戶政司／國土測繪中心",
+      "page_url": "https://data.gov.tw/dataset/7438",
+      "output_file": "data/official_cross_city/population_boundary_crosswalk.json",
+      "collector_status": "downloaded_normalized_and_independently_reviewed",
+      "quality_report": "data/quality/regional_validation_review.json",
+      "limitations": [
+        "人口2026-09、里界2026-08-17；6名稱差異與25未編定村里保留。"
+      ]
+    },
+    {
+      "dataset_id": "keelung_villages",
+      "provider": "內政部國土測繪中心",
+      "page_url": "https://data.gov.tw/dataset/7438",
+      "output_file": "map-data/admin/keelung_villages.geojson",
+      "collector_status": "downloaded_normalized_and_independently_reviewed",
+      "quality_report": "map-data/quality/keelung_review.json",
+      "period": "2026-08-17"
+    },
+    {
+      "dataset_id": "tdx_road_traffic",
+      "provider": "交通部TDX",
+      "page_url": "https://tdx.transportdata.tw/data-service/historical",
+      "specified_endpoint": "https://tdx.transportdata.tw/api/historical/v2/Historical/Road/Traffic/Section/City/Taipei",
+      "output_directory": "data/tdx_road_traffic/",
+      "collector_status": "downloaded_normalized_and_independently_reviewed_with_source_period_exceptions",
+      "quality_report": "data/quality/tdx_road_traffic_review.json",
+      "license": {
+        "url": "https://tdx.transportdata.tw/term"
+      },
+      "limitations": [
+        "Section為路段定義歷史版本，速率與流量另由動態服務取得。"
+      ]
+    }
+  ]
+}

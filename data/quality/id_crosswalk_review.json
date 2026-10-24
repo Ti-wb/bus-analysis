@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "dataset_id": "id_crosswalk_independent_review",
+  "metadata": {
+    "reviewer": "root; different agent from crosswalk producer",
+    "reviewed_at": "2026-10-24T10:54:39.801189+08:00",
+    "method": "Independent raw CSV/gzip/HTML parser and per-record comparison; producer not imported.",
+    "independent_review_status": "pass_with_limitations",
+    "limitations": [
+      "Version-specific explicit identifier relations; no assertion of full regional operations.",
+      "65 CSV leapfrog links, 10 TDX links and 114 stop memberships remain unresolved."
+    ]
+  },
+  "records": [
+    {
+      "output_path": "data/official_cross_city/ntpc_feed_id_crosswalk.json",
+      "record_count": 1084,
+      "review_status": "pass_with_limitations",
+      "source_comparisons": {
+        "routes": {
+          "source_csv_rows": 1106,
+          "raw_feed_rows": 1106,
+          "matched_all_source_columns": 1106
+        },
+        "stops": {
+          "source_csv_rows": 33314,
+          "raw_feed_rows": 33314,
+          "matched_all_source_columns": 33314
+        }
+      },
+      "all_ids_and_source_row_numbers_verified": true
+    },
+    {
+      "output_path": "data/official_cross_city/ntpc_leapfrog_crosswalk.json",
+      "record_count": 70,
+      "review_status": "pass_with_limitations",
+      "all_official_category_nids_and_feed_relations_verified": true,
+      "unique_subroute_count": 95
+    },
+    {
+      "output_path": "data/official_cross_city/ntpc_leapfrog_list_crosswalk.json",
+      "record_count": 65,
+      "review_status": "pass_with_limitations",
+      "verified_route_id_count": 0,
+      "unresolved_count": 65,
+      "limitation": "CSV has no explicit route ID; all unknown links remain null."
+    },
+    {
+      "output_path": "data/official_cross_city/ntpc_unlinked_stops_crosswalk.json",
+      "record_count": 114,
+      "review_status": "pass_with_limitations",
+      "source_stop_count": 33314,
+      "pathdetail_rows": 43582,
+      "linked_stop_count": 33200,
+      "unlinked_stop_count": 114,
+      "source_label_counts": {
+        "暫時裁撤": 39,
+        "none": 74,
+        "施工取消停靠": 1
+      },
+      "limitation": "Source labels do not independently verify the cause or permanent service withdrawal."
+    },
+    {
+      "output_path": "data/official_cross_city/tdx_route_crosswalk.json",
+      "record_count": 1051,
+      "review_status": "pass_with_limitations",
+      "all_raw_tdx_and_direct_feed_ids_maps_uniqueness_verified": true,
+      "status_counts": {
+        "verified_unique_official_map_nid_and_explicit_route_id": 1041,
+        "unresolved_ambiguous_or_missing_official_map_bridge": 10
+      }
+    }
+  ]
+}

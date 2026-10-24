@@ -1,0 +1,293 @@
+{
+  "schema_version": 1,
+  "dataset_id": "tdx_road_traffic_delivery",
+  "metadata": {
+    "grain": "one parsed local output",
+    "source_updated_at": null,
+    "statistical_period": {
+      "planned_historical_date": "2026-10-23"
+    },
+    "failures": [],
+    "business_data_downloaded": true,
+    "independent_review_status": "pending",
+    "limitations": [
+      "現況只是下載時的單一快照，並非整日序列。",
+      "全量歷史動態不落地；保留近三年可取得目錄及小量真實樣本。",
+      "流量積分期間與 VD 速率單位尚未由所附官方規格定義。"
+    ],
+    "license": {
+      "name": "TDX 服務條款",
+      "url": "https://tdx.transportdata.tw/term",
+      "note": "資料取用及再利用依 TDX 服務條款及原資料提供機關授權規定。"
+    },
+    "record_count": 10
+  },
+  "records": [
+    {
+      "source_id": "historical_2026-10-23_section_meta",
+      "output_file": "data/tdx_road_traffic/availability/historical_2026-10-23_section_meta.json",
+      "record_count": 1,
+      "scope_status": "availability_statistics_only",
+      "data_kind": "availability_statistics",
+      "statistical_period": {
+        "requested_date": "2026-10-23",
+        "source_info_dates": [],
+        "data_collect_time_start": null,
+        "data_collect_time_end": null,
+        "data_collect_taipei_dates": [],
+        "period_validation_status": "no_observed_date_mismatch",
+        "source_info_date_mismatch_count": 0,
+        "data_collect_requested_taipei_day_mismatch_count": 0,
+        "data_collect_out_of_requested_date_ids": [],
+        "invalid_or_offset_missing_collect_time_count": 0
+      }
+    },
+    {
+      "source_id": "historical_2026-10-23_section_live_meta",
+      "output_file": "data/tdx_road_traffic/availability/historical_2026-10-23_section_live_meta.json",
+      "record_count": 1,
+      "scope_status": "availability_statistics_only",
+      "data_kind": "availability_statistics",
+      "statistical_period": {
+        "requested_date": "2026-10-23",
+        "source_info_dates": [],
+        "data_collect_time_start": null,
+        "data_collect_time_end": null,
+        "data_collect_taipei_dates": [],
+        "period_validation_status": "no_observed_date_mismatch",
+        "source_info_date_mismatch_count": 0,
+        "data_collect_requested_taipei_day_mismatch_count": 0,
+        "data_collect_out_of_requested_date_ids": [],
+        "invalid_or_offset_missing_collect_time_count": 0
+      }
+    },
+    {
+      "source_id": "historical_2026-10-23_vd_live_meta",
+      "output_file": "data/tdx_road_traffic/availability/historical_2026-10-23_vd_live_meta.json",
+      "record_count": 1,
+      "scope_status": "availability_statistics_only",
+      "data_kind": "availability_statistics",
+      "statistical_period": {
+        "requested_date": "2026-10-23",
+        "source_info_dates": [],
+        "data_collect_time_start": null,
+        "data_collect_time_end": null,
+        "data_collect_taipei_dates": [],
+        "period_validation_status": "no_observed_date_mismatch",
+        "source_info_date_mismatch_count": 0,
+        "data_collect_requested_taipei_day_mismatch_count": 0,
+        "data_collect_out_of_requested_date_ids": [],
+        "invalid_or_offset_missing_collect_time_count": 0
+      }
+    },
+    {
+      "source_id": "current_section",
+      "output_file": "data/tdx_road_traffic/observations/current_section.json",
+      "record_count": 818,
+      "scope_status": "complete_requested_endpoint_by_response_count",
+      "data_kind": "road_definition",
+      "statistical_period": {
+        "requested_date": null,
+        "source_info_dates": [],
+        "data_collect_time_start": null,
+        "data_collect_time_end": null,
+        "data_collect_taipei_dates": [],
+        "period_validation_status": "no_observed_date_mismatch",
+        "source_info_date_mismatch_count": null,
+        "data_collect_requested_taipei_day_mismatch_count": null,
+        "data_collect_out_of_requested_date_ids": [],
+        "invalid_or_offset_missing_collect_time_count": 0
+      }
+    },
+    {
+      "source_id": "historical_2026-10-23_section",
+      "output_file": "data/tdx_road_traffic/observations/historical_2026-10-23_section.json",
+      "record_count": 818,
+      "scope_status": "complete_requested_date_by_meta_count",
+      "data_kind": "road_definition",
+      "statistical_period": {
+        "requested_date": "2026-10-23",
+        "source_info_dates": [
+          "2026-10-23"
+        ],
+        "data_collect_time_start": null,
+        "data_collect_time_end": null,
+        "data_collect_taipei_dates": [],
+        "period_validation_status": "no_observed_date_mismatch",
+        "source_info_date_mismatch_count": 0,
+        "data_collect_requested_taipei_day_mismatch_count": 0,
+        "data_collect_out_of_requested_date_ids": [],
+        "invalid_or_offset_missing_collect_time_count": 0
+      }
+    },
+    {
+      "source_id": "historical_2026-10-23_section_live_sample",
+      "output_file": "data/tdx_road_traffic/observations/historical_2026-10-23_section_live_sample.json",
+      "record_count": 30,
+      "scope_status": "sample_only",
+      "data_kind": "section_speed_observation",
+      "statistical_period": {
+        "requested_date": "2026-10-23",
+        "source_info_dates": [
+          "2026-10-23"
+        ],
+        "data_collect_time_start": "2026-10-22T15:59:00+00:00",
+        "data_collect_time_end": "2026-10-22T15:59:00+00:00",
+        "data_collect_taipei_dates": [
+          "2026-10-22"
+        ],
+        "period_validation_status": "contains_observations_outside_requested_taipei_date",
+        "source_info_date_mismatch_count": 0,
+        "data_collect_requested_taipei_day_mismatch_count": 30,
+        "data_collect_out_of_requested_date_ids": [
+          "L_2000101011000A",
+          "L_2000401004010A",
+          "L_2000401107000A",
+          "L_2000500000000A",
+          "L_2000500100200A",
+          "L_2000601102000A",
+          "L_2000801110000A",
+          "L_2000900100600A",
+          "L_6000090400010A",
+          "L_6000300400040A",
+          "L_6000670000010A",
+          "L_6000840400000A",
+          "L_6000950200000A",
+          "L_6001500600010A",
+          "L_6001910200000A",
+          "L_6003340600020A",
+          "L_6003360600000A",
+          "L_6004670000040A",
+          "L_6005120600030A",
+          "L_6005250200020A",
+          "L_6005250600020A",
+          "L_6005380200010A",
+          "L_6005380200020A",
+          "L_6005390200020A",
+          "L_6005390600000A",
+          "L_6006270100010A",
+          "L_6007210000040A",
+          "L_6007310200020A",
+          "L_6007310600000A",
+          "L_6007760100030A"
+        ],
+        "invalid_or_offset_missing_collect_time_count": 0
+      }
+    },
+    {
+      "source_id": "current_vd",
+      "output_file": "data/tdx_road_traffic/observations/current_vd.json",
+      "record_count": 604,
+      "scope_status": "complete_requested_endpoint_by_response_count",
+      "data_kind": "detector_definition",
+      "statistical_period": {
+        "requested_date": null,
+        "source_info_dates": [],
+        "data_collect_time_start": null,
+        "data_collect_time_end": null,
+        "data_collect_taipei_dates": [],
+        "period_validation_status": "no_observed_date_mismatch",
+        "source_info_date_mismatch_count": null,
+        "data_collect_requested_taipei_day_mismatch_count": null,
+        "data_collect_out_of_requested_date_ids": [],
+        "invalid_or_offset_missing_collect_time_count": 0
+      }
+    },
+    {
+      "source_id": "current_section_live",
+      "output_file": "data/tdx_road_traffic/observations/current_section_live.json",
+      "record_count": 818,
+      "scope_status": "complete_requested_endpoint_by_response_count",
+      "data_kind": "section_speed_observation",
+      "statistical_period": {
+        "requested_date": null,
+        "source_info_dates": [],
+        "data_collect_time_start": "2026-10-24T10:50:00+08:00",
+        "data_collect_time_end": "2026-10-24T10:50:00+08:00",
+        "data_collect_taipei_dates": [
+          "2026-10-24"
+        ],
+        "period_validation_status": "no_observed_date_mismatch",
+        "source_info_date_mismatch_count": null,
+        "data_collect_requested_taipei_day_mismatch_count": null,
+        "data_collect_out_of_requested_date_ids": [],
+        "invalid_or_offset_missing_collect_time_count": 0
+      }
+    },
+    {
+      "source_id": "current_vd_live",
+      "output_file": "data/tdx_road_traffic/observations/current_vd_live.json",
+      "record_count": 611,
+      "scope_status": "complete_requested_endpoint_by_response_count",
+      "data_kind": "detector_flow_observation",
+      "statistical_period": {
+        "requested_date": null,
+        "source_info_dates": [],
+        "data_collect_time_start": "2026-10-24T10:49:00+08:00",
+        "data_collect_time_end": "2026-10-24T10:49:00+08:00",
+        "data_collect_taipei_dates": [
+          "2026-10-24"
+        ],
+        "period_validation_status": "no_observed_date_mismatch",
+        "source_info_date_mismatch_count": null,
+        "data_collect_requested_taipei_day_mismatch_count": null,
+        "data_collect_out_of_requested_date_ids": [],
+        "invalid_or_offset_missing_collect_time_count": 0
+      }
+    },
+    {
+      "source_id": "historical_2026-10-23_vd_live_sample",
+      "output_file": "data/tdx_road_traffic/observations/historical_2026-10-23_vd_live_sample.json",
+      "record_count": 30,
+      "scope_status": "sample_only",
+      "data_kind": "detector_flow_observation",
+      "statistical_period": {
+        "requested_date": "2026-10-23",
+        "source_info_dates": [
+          "2026-10-22"
+        ],
+        "data_collect_time_start": "2026-10-22T15:58:00+00:00",
+        "data_collect_time_end": "2026-10-22T15:58:00+00:00",
+        "data_collect_taipei_dates": [
+          "2026-10-22"
+        ],
+        "period_validation_status": "contains_observations_outside_requested_taipei_date",
+        "source_info_date_mismatch_count": 30,
+        "data_collect_requested_taipei_day_mismatch_count": 30,
+        "data_collect_out_of_requested_date_ids": [
+          "V03A0G0",
+          "V1001B0",
+          "V1010A1",
+          "V1021A0",
+          "V1050A0",
+          "V1IUI20",
+          "V1SNV00",
+          "V4250B0",
+          "V5050A0",
+          "V5080A0",
+          "V5AAF61",
+          "V6180A2",
+          "VCPKT40",
+          "VGLKW40",
+          "VHJS620",
+          "VHLM800",
+          "VHMKV20",
+          "VIME560",
+          "VIVS602",
+          "VJHKR21",
+          "VJHM701",
+          "VJMHU00",
+          "VJTFX00",
+          "VKII640",
+          "VM9QH20",
+          "VN0C0E1",
+          "VN7ST40",
+          "VQDLJ20",
+          "VQGFY00",
+          "VRHT600"
+        ],
+        "invalid_or_offset_missing_collect_time_count": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,836 @@
+{
+  "schema_version": 1,
+  "dataset_id": "tdx_road_traffic_api_catalog",
+  "metadata": {
+    "geographic_scope": "Taipei",
+    "source_updated_at": null,
+    "statistical_period": null,
+    "evidence_type": "official_specification_only",
+    "business_data_downloaded": false,
+    "sources": [
+      {
+        "source_id": "basic_spec",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/basic/7f07d940-91a4-495d-9465-1c9df89d709c",
+        "download_url": "https://tdx.transportdata.tw/webapi/File/Swagger/V3/7f07d940-91a4-495d-9465-1c9df89d709c",
+        "downloaded_at": "2026-10-24T10:46:56+08:00",
+        "source_updated_at": null,
+        "raw_file": "raw_data/tdx_road_traffic/basic_spec.json",
+        "bytes": 417608,
+        "http_status": 200,
+        "evidence_type": "official_openapi"
+      },
+      {
+        "source_id": "historical_spec",
+        "source_page": "https://tdx.transportdata.tw/api-service/swagger/historical/4b4708cc-ab49-4037-a896-e24544d51609",
+        "download_url": "https://tdx.transportdata.tw/webapi/File/Swagger/V3/4b4708cc-ab49-4037-a896-e24544d51609",
+        "downloaded_at": "2026-10-24T10:46:57+08:00",
+        "source_updated_at": null,
+        "raw_file": "raw_data/tdx_road_traffic/historical_spec.json",
+        "bytes": 370526,
+        "http_status": 200,
+        "evidence_type": "official_openapi"
+      }
+    ],
+    "grain": "one API operation",
+    "license": {
+      "name": "TDX 服務條款",
+      "url": "https://tdx.transportdata.tw/term",
+      "note": "資料取用及再利用依 TDX 服務條款及原資料提供機關授權規定。"
+    },
+    "record_count": 8
+  },
+  "records": [
+    {
+      "service_category": "basic",
+      "key": "section",
+      "data_kind": "road_definition",
+      "summary": "取得指定[縣市]發布路段",
+      "download_url": "https://tdx.transportdata.tw/api/basic/v2/Road/Traffic/Section/City/Taipei",
+      "path_template": "/v2/Road/Traffic/Section/City/{City}",
+      "parameters": [
+        {
+          "name": "City",
+          "in": "path",
+          "description": "指定縣市代碼",
+          "required": true,
+          "schema": {
+            "title": "String",
+            "enum": [
+              "YilanCounty",
+              "HsinchuCounty",
+              "ChanghuaCounty",
+              "YunlinCounty",
+              "PingtungCounty",
+              "Keelung",
+              "Taipei",
+              "Kaohsiung",
+              "NewTaipei",
+              "Taichung",
+              "Tainan",
+              "Taoyuan"
+            ],
+            "type": "string",
+            "xml": {}
+          }
+        },
+        {
+          "name": "$select",
+          "in": "query",
+          "description": "挑選",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "$filter",
+          "in": "query",
+          "description": "過濾",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "$orderby",
+          "in": "query",
+          "description": "排序",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "$top",
+          "in": "query",
+          "description": "取前幾筆",
+          "schema": {
+            "type": "integer",
+            "default": 30
+          }
+        },
+        {
+          "name": "$skip",
+          "in": "query",
+          "description": "跳過前幾筆",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "$count",
+          "in": "query",
+          "description": "查詢數量",
+          "schema": {
+            "enum": [
+              true,
+              false
+            ],
+            "type": "boolean"
+          }
+        },
+        {
+          "name": "health",
+          "in": "query",
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "schema": {
+            "enum": [
+              "true",
+              "false"
+            ],
+            "type": "string"
+          }
+        },
+        {
+          "name": "$format",
+          "in": "query",
+          "description": "指定來源格式",
+          "required": true,
+          "schema": {
+            "enum": [
+              "JSON",
+              "XML"
+            ],
+            "type": "string"
+          }
+        }
+      ],
+      "source_id": "basic_spec",
+      "source_updated_at": null,
+      "billing_policy": "1500 calls/point and 150 MB/point"
+    },
+    {
+      "service_category": "basic",
+      "key": "vd",
+      "data_kind": "detector_definition",
+      "summary": "取得指定[縣市]車輛偵測器",
+      "download_url": "https://tdx.transportdata.tw/api/basic/v2/Road/Traffic/VD/City/Taipei",
+      "path_template": "/v2/Road/Traffic/VD/City/{City}",
+      "parameters": [
+        {
+          "name": "City",
+          "in": "path",
+          "description": "指定縣市代碼",
+          "required": true,
+          "schema": {
+            "title": "String",
+            "enum": [
+              "HsinchuCounty",
+              "NantouCounty",
+              "YunlinCounty",
+              "ChiayiCounty",
+              "PingtungCounty",
+              "TaitungCounty",
+              "HualienCounty",
+              "Keelung",
+              "Taipei",
+              "Kaohsiung",
+              "Taichung",
+              "Tainan",
+              "Taoyuan",
+              "KinmenCounty"
+            ],
+            "type": "string",
+            "xml": {}
+          }
+        },
+        {
+          "name": "$select",
+          "in": "query",
+          "description": "挑選",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "$filter",
+          "in": "query",
+          "description": "過濾",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "$orderby",
+          "in": "query",
+          "description": "排序",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "$top",
+          "in": "query",
+          "description": "取前幾筆",
+          "schema": {
+            "type": "integer",
+            "default": 30
+          }
+        },
+        {
+          "name": "$skip",
+          "in": "query",
+          "description": "跳過前幾筆",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "$count",
+          "in": "query",
+          "description": "查詢數量",
+          "schema": {
+            "enum": [
+              true,
+              false
+            ],
+            "type": "boolean"
+          }
+        },
+        {
+          "name": "health",
+          "in": "query",
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "schema": {
+            "enum": [
+              "true",
+              "false"
+            ],
+            "type": "string"
+          }
+        },
+        {
+          "name": "$format",
+          "in": "query",
+          "description": "指定來源格式",
+          "required": true,
+          "schema": {
+            "enum": [
+              "JSON",
+              "XML"
+            ],
+            "type": "string"
+          }
+        }
+      ],
+      "source_id": "basic_spec",
+      "source_updated_at": null,
+      "billing_policy": "1500 calls/point and 150 MB/point"
+    },
+    {
+      "service_category": "basic",
+      "key": "section_live",
+      "data_kind": "section_speed_observation",
+      "summary": "取得指定[縣市]發布路段即時路況",
+      "download_url": "https://tdx.transportdata.tw/api/basic/v2/Road/Traffic/Live/City/Taipei",
+      "path_template": "/v2/Road/Traffic/Live/City/{City}",
+      "parameters": [
+        {
+          "name": "City",
+          "in": "path",
+          "description": "縣市代碼",
+          "required": true,
+          "schema": {
+            "title": "String",
+            "enum": [
+              "YilanCounty",
+              "ChanghuaCounty",
+              "YunlinCounty",
+              "PingtungCounty",
+              "Keelung",
+              "Taipei",
+              "Kaohsiung",
+              "Taichung",
+              "Tainan",
+              "Taoyuan"
+            ],
+            "type": "string",
+            "xml": {}
+          }
+        },
+        {
+          "name": "$select",
+          "in": "query",
+          "description": "挑選",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "$filter",
+          "in": "query",
+          "description": "過濾",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "$orderby",
+          "in": "query",
+          "description": "排序",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "$top",
+          "in": "query",
+          "description": "取前幾筆",
+          "schema": {
+            "type": "integer",
+            "default": 30
+          }
+        },
+        {
+          "name": "$skip",
+          "in": "query",
+          "description": "跳過前幾筆",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "$count",
+          "in": "query",
+          "description": "查詢數量",
+          "schema": {
+            "enum": [
+              true,
+              false
+            ],
+            "type": "boolean"
+          }
+        },
+        {
+          "name": "health",
+          "in": "query",
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "schema": {
+            "enum": [
+              "true",
+              "false"
+            ],
+            "type": "string"
+          }
+        },
+        {
+          "name": "$format",
+          "in": "query",
+          "description": "指定來源格式",
+          "required": true,
+          "schema": {
+            "enum": [
+              "JSON",
+              "XML"
+            ],
+            "type": "string"
+          }
+        }
+      ],
+      "source_id": "basic_spec",
+      "source_updated_at": null,
+      "billing_policy": "1500 calls/point and 150 MB/point"
+    },
+    {
+      "service_category": "basic",
+      "key": "vd_live",
+      "data_kind": "detector_flow_observation",
+      "summary": "取得指定[縣市]車輛偵測器即時路況",
+      "download_url": "https://tdx.transportdata.tw/api/basic/v2/Road/Traffic/Live/VD/City/Taipei",
+      "path_template": "/v2/Road/Traffic/Live/VD/City/{City}",
+      "parameters": [
+        {
+          "name": "City",
+          "in": "path",
+          "description": "指定縣市代碼",
+          "required": true,
+          "schema": {
+            "title": "String",
+            "enum": [
+              "HsinchuCounty",
+              "NantouCounty",
+              "YunlinCounty",
+              "ChiayiCounty",
+              "PingtungCounty",
+              "TaitungCounty",
+              "HualienCounty",
+              "Keelung",
+              "Taipei",
+              "Kaohsiung",
+              "Taichung",
+              "Tainan",
+              "Taoyuan",
+              "KinmenCounty"
+            ],
+            "type": "string",
+            "xml": {}
+          }
+        },
+        {
+          "name": "$select",
+          "in": "query",
+          "description": "挑選",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "$filter",
+          "in": "query",
+          "description": "過濾",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "$orderby",
+          "in": "query",
+          "description": "排序",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "$top",
+          "in": "query",
+          "description": "取前幾筆",
+          "schema": {
+            "type": "integer",
+            "default": 30
+          }
+        },
+        {
+          "name": "$skip",
+          "in": "query",
+          "description": "跳過前幾筆",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "$count",
+          "in": "query",
+          "description": "查詢數量",
+          "schema": {
+            "enum": [
+              true,
+              false
+            ],
+            "type": "boolean"
+          }
+        },
+        {
+          "name": "health",
+          "in": "query",
+          "description": "加入參數'?health=true'即可查詢此API服務的健康狀態",
+          "schema": {
+            "enum": [
+              "true",
+              "false"
+            ],
+            "type": "string"
+          }
+        },
+        {
+          "name": "$format",
+          "in": "query",
+          "description": "指定來源格式",
+          "required": true,
+          "schema": {
+            "enum": [
+              "JSON",
+              "XML"
+            ],
+            "type": "string"
+          }
+        }
+      ],
+      "source_id": "basic_spec",
+      "source_updated_at": null,
+      "billing_policy": "1500 calls/point and 150 MB/point"
+    },
+    {
+      "service_category": "historical",
+      "key": "section",
+      "data_kind": "road_definition",
+      "summary": "取得指定[日期],[縣市]的發佈路段歷史資料",
+      "download_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Road/Traffic/Section/City/Taipei",
+      "path_template": "/v2/Historical/Road/Traffic/Section/City/{City}",
+      "parameters": [
+        {
+          "name": "City",
+          "in": "path",
+          "description": "指定城市",
+          "required": true,
+          "schema": {
+            "title": "String",
+            "enum": [
+              "Taipei",
+              "NewTaipei",
+              "Taoyuan",
+              "Taichung",
+              "Tainan",
+              "Keelung",
+              "ChanghuaCounty",
+              "YilanCounty"
+            ],
+            "type": "string",
+            "xml": {}
+          }
+        },
+        {
+          "name": "Dates",
+          "in": "query",
+          "description": "本歷史資料提供範圍為2021年7月至昨天(每天早上8點更新)，欲查詢之日期 / 區間(日期格式為: 'yyyy-MM-dd'，查詢多筆使用逗號','分隔，查詢區間使用波浪號'~'分隔，查詢天數最多7日，例如: '2021-07-01,2021-07-03~2021-07-05')",
+          "required": true,
+          "schema": {
+            "title": "DateList",
+            "type": "string",
+            "xml": {
+              "name": "DateList"
+            }
+          }
+        },
+        {
+          "name": "$top",
+          "in": "query",
+          "description": "取前幾筆",
+          "schema": {
+            "type": "integer",
+            "default": 30
+          }
+        },
+        {
+          "name": "$format",
+          "in": "query",
+          "description": "指定來源格式",
+          "required": true,
+          "schema": {
+            "enum": [
+              "JSONL",
+              "CSV"
+            ],
+            "type": "string"
+          }
+        },
+        {
+          "name": "Meta",
+          "in": "query",
+          "description": "加入參數'?Meta=true'即可查詢此API服務的統計資訊",
+          "schema": {
+            "enum": [
+              "true"
+            ],
+            "type": "string",
+            "default": null
+          }
+        }
+      ],
+      "source_id": "historical_spec",
+      "source_updated_at": null,
+      "billing_policy": "10 calls/point and 20 MB/point"
+    },
+    {
+      "service_category": "historical",
+      "key": "vd",
+      "data_kind": "detector_definition",
+      "summary": "取得指定[日期],[縣市]的車輛偵測器歷史資料",
+      "download_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Road/Traffic/VD/City/Taipei",
+      "path_template": "/v2/Historical/Road/Traffic/VD/City/{City}",
+      "parameters": [
+        {
+          "name": "City",
+          "in": "path",
+          "description": "指定城市",
+          "required": true,
+          "schema": {
+            "title": "String",
+            "enum": [
+              "Taipei",
+              "NewTaipei",
+              "Taoyuan",
+              "Taichung",
+              "Tainan",
+              "Kaohsiung",
+              "Keelung",
+              "YilanCounty",
+              "TaitungCounty"
+            ],
+            "type": "string",
+            "xml": {}
+          }
+        },
+        {
+          "name": "Dates",
+          "in": "query",
+          "description": "本歷史資料提供範圍為2021年7月至昨天(每天早上8點更新)，欲查詢之日期 / 區間(日期格式為: 'yyyy-MM-dd'，查詢多筆使用逗號','分隔，查詢區間使用波浪號'~'分隔，查詢天數最多7日，例如: '2021-07-01,2021-07-03~2021-07-05')",
+          "required": true,
+          "schema": {
+            "title": "DateList",
+            "type": "string",
+            "xml": {
+              "name": "DateList"
+            }
+          }
+        },
+        {
+          "name": "$top",
+          "in": "query",
+          "description": "取前幾筆",
+          "schema": {
+            "type": "integer",
+            "default": 30
+          }
+        },
+        {
+          "name": "$format",
+          "in": "query",
+          "description": "指定來源格式",
+          "required": true,
+          "schema": {
+            "enum": [
+              "JSONL",
+              "CSV"
+            ],
+            "type": "string"
+          }
+        },
+        {
+          "name": "Meta",
+          "in": "query",
+          "description": "加入參數'?Meta=true'即可查詢此API服務的統計資訊",
+          "schema": {
+            "enum": [
+              "true"
+            ],
+            "type": "string",
+            "default": null
+          }
+        }
+      ],
+      "source_id": "historical_spec",
+      "source_updated_at": null,
+      "billing_policy": "10 calls/point and 20 MB/point"
+    },
+    {
+      "service_category": "historical",
+      "key": "section_live",
+      "data_kind": "section_speed_observation",
+      "summary": "取得指定[日期],[縣市]的發布路段即時路況歷史資料",
+      "download_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Road/Traffic/Live/City/Taipei",
+      "path_template": "/v2/Historical/Road/Traffic/Live/City/{City}",
+      "parameters": [
+        {
+          "name": "City",
+          "in": "path",
+          "description": "指定城市",
+          "required": true,
+          "schema": {
+            "title": "String",
+            "enum": [
+              "Taipei",
+              "NewTaipei",
+              "Taoyuan",
+              "Taichung",
+              "Tainan",
+              "Keelung",
+              "ChanghuaCounty",
+              "YilanCounty"
+            ],
+            "type": "string",
+            "xml": {}
+          }
+        },
+        {
+          "name": "Dates",
+          "in": "query",
+          "description": "本歷史資料提供範圍為2021年7月至昨天(每天早上8點更新)，欲查詢之日期 / 區間(日期格式為: 'yyyy-MM-dd'，查詢多筆使用逗號','分隔，查詢區間使用波浪號'~'分隔，查詢天數最多7日，例如: '2021-07-01,2021-07-03~2021-07-05')",
+          "required": true,
+          "schema": {
+            "title": "DateList",
+            "type": "string",
+            "xml": {
+              "name": "DateList"
+            }
+          }
+        },
+        {
+          "name": "$top",
+          "in": "query",
+          "description": "取前幾筆",
+          "schema": {
+            "type": "integer",
+            "default": 30
+          }
+        },
+        {
+          "name": "$format",
+          "in": "query",
+          "description": "指定來源格式",
+          "required": true,
+          "schema": {
+            "enum": [
+              "JSONL",
+              "CSV"
+            ],
+            "type": "string"
+          }
+        },
+        {
+          "name": "Meta",
+          "in": "query",
+          "description": "加入參數'?Meta=true'即可查詢此API服務的統計資訊",
+          "schema": {
+            "enum": [
+              "true"
+            ],
+            "type": "string",
+            "default": null
+          }
+        }
+      ],
+      "source_id": "historical_spec",
+      "source_updated_at": null,
+      "billing_policy": "10 calls/point and 20 MB/point"
+    },
+    {
+      "service_category": "historical",
+      "key": "vd_live",
+      "data_kind": "detector_flow_observation",
+      "summary": "取得指定[日期],[縣市]的車輛偵測器即時路況歷史資料",
+      "download_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Road/Traffic/Live/VD/City/Taipei",
+      "path_template": "/v2/Historical/Road/Traffic/Live/VD/City/{City}",
+      "parameters": [
+        {
+          "name": "City",
+          "in": "path",
+          "description": "指定城市",
+          "required": true,
+          "schema": {
+            "title": "String",
+            "enum": [
+              "Taipei",
+              "NewTaipei",
+              "Taoyuan",
+              "Taichung",
+              "Tainan",
+              "Kaohsiung",
+              "Keelung",
+              "YilanCounty",
+              "TaitungCounty"
+            ],
+            "type": "string",
+            "xml": {}
+          }
+        },
+        {
+          "name": "Dates",
+          "in": "query",
+          "description": "本歷史資料提供範圍為2021年7月至昨天(每天早上8點更新)，欲查詢之日期 / 區間(日期格式為: 'yyyy-MM-dd'，查詢多筆使用逗號','分隔，查詢區間使用波浪號'~'分隔，查詢天數最多7日，例如: '2021-07-01,2021-07-03~2021-07-05')",
+          "required": true,
+          "schema": {
+            "title": "DateList",
+            "type": "string",
+            "xml": {
+              "name": "DateList"
+            }
+          }
+        },
+        {
+          "name": "$top",
+          "in": "query",
+          "description": "取前幾筆",
+          "schema": {
+            "type": "integer",
+            "default": 30
+          }
+        },
+        {
+          "name": "$format",
+          "in": "query",
+          "description": "指定來源格式",
+          "required": true,
+          "schema": {
+            "enum": [
+              "JSONL",
+              "CSV"
+            ],
+            "type": "string"
+          }
+        },
+        {
+          "name": "Meta",
+          "in": "query",
+          "description": "加入參數'?Meta=true'即可查詢此API服務的統計資訊",
+          "schema": {
+            "enum": [
+              "true"
+            ],
+            "type": "string",
+            "default": null
+          }
+        }
+      ],
+      "source_id": "historical_spec",
+      "source_updated_at": null,
+      "billing_policy": "10 calls/point and 20 MB/point"
+    }
+  ]
+}

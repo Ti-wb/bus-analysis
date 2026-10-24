@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "dataset_id": "regional_validation_independent_review",
+  "metadata": {
+    "reviewed_at": "2026-10-24T10:53:24+08:00",
+    "reviewer": "independent_agent_travel_time",
+    "method": "independent CSV/DBF/ZIP and raw API row comparison; no producer parser/normalizer/matcher imported",
+    "source_updated_at": null,
+    "limitations": [
+      "人口月份與里界版本不同；未宣稱相同月份幾何相等。",
+      "六筆里名異體字/造字差異仍為requires_review，不自動改名。",
+      "公路客運保留全國主檔；完整主檔不代表完整站序/班表或北北基營運普查。"
+    ],
+    "overall_status": "passed_with_explicit_limitations"
+  },
+  "records": [
+    {
+      "check_id": "population_source_receipt",
+      "status": "passed",
+      "raw_file": "raw_data/official_cross_city/moi_population_2026-09.csv",
+      "source_url": "https://opdadm.moi.gov.tw/api/v1/no-auth/resource/api/dataset/2C7688CB-B505-4D00-B11C-66C4D31B024F/resource/4B0C00ED-C271-4A3E-A547-3C00EE6BF3E4/download",
+      "bytes": 4410232
+    },
+    {
+      "check_id": "population_official_catalog_exact_month_resource",
+      "status": "passed",
+      "advertised_month": "11509",
+      "advertised_resource_url": "https://opdadm.moi.gov.tw/api/v1/no-auth/resource/api/dataset/2C7688CB-B505-4D00-B11C-66C4D31B024F/resource/4B0C00ED-C271-4A3E-A547-3C00EE6BF3E4/download",
+      "exact_month_resource_match_count": 1
+    },
+    {
+      "check_id": "population_all_rows_and_2026_09_age_sex_totals",
+      "status": "passed",
+      "national_raw_row_count": 7781,
+      "selected_row_count": 1652,
+      "output_row_count": 1652,
+      "mismatch_codes": [],
+      "county_row_counts": {
+        "新北市": 1039,
+        "臺北市": 456,
+        "基隆市": 157
+      },
+      "county_totals": {
+        "新北市": {
+          "households": 1804655,
+          "population": 4034572,
+          "population_male": 1954846,
+          "population_female": 2079726,
+          "population_age_0_14": 421864,
+          "population_age_15_64": 2779217,
+          "population_age_65_plus": 833491
+        },
+        "臺北市": {
+          "households": 1084946,
+          "population": 2418872,
+          "population_male": 1138076,
+          "population_female": 1280796,
+          "population_age_0_14": 281133,
+          "population_age_15_64": 1536502,
+          "population_age_65_plus": 601237
+        },
+        "基隆市": {
+          "households": 169118,
+          "population": 357575,
+          "population_male": 176959,
+          "population_female": 180616,
+          "population_age_0_14": 32322,
+          "population_age_15_64": 242621,
+          "population_age_65_plus": 82632
+        }
+      }
+    },
+    {
+      "check_id": "population_to_official_boundary_all_exact_codes_and_hierarchy",
+      "status": "passed",
+      "population_row_count": 1652,
+      "regional_boundary_row_count": 1677,
+      "boundary_only_count": 25,
+      "boundary_version": "2026-08-17",
+      "variant_count": 6,
+      "name_variants": [
+        {
+          "area_code": "65000030017",
+          "population_name": "瓦󿾨里",
+          "boundary_name": "瓦[磘]里"
+        },
+        {
+          "area_code": "65000030054",
+          "population_name": "灰󿾨里",
+          "boundary_name": "灰[磘]里"
+        },
+        {
+          "area_code": "65000070007",
+          "population_name": "󿾵寮里",
+          "boundary_name": "[獇]寮里"
+        },
+        {
+          "area_code": "65000120027",
+          "population_name": "濓新里",
+          "boundary_name": "濂新里"
+        },
+        {
+          "area_code": "65000120028",
+          "population_name": "濓洞里",
+          "boundary_name": "濂洞里"
+        },
+        {
+          "area_code": "65000200004",
+          "population_name": "石𥕢里",
+          "boundary_name": "石[曹]里"
+        }
+      ],
+      "boundary_only_classification": {
+        "未編定村里": 25
+      },
+      "same_month_geometry_verified": false
+    },
+    {
+      "check_id": "tdx_full_route_master_NewTaipei",
+      "status": "passed",
+      "source_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/Route/Date/2026-10-23/City/NewTaipei?%24format=JSON&%24top=100000",
+      "raw_file": "raw_data/official_cross_city/regional_coverage/NewTaipei_2026-10-23.json",
+      "raw_count": 635,
+      "output_count": 635,
+      "nested_subroute_count": 1383,
+      "nested_operator_count": 673,
+      "source_version_start": "2026-10-19T00:00:00+08:00",
+      "source_version_end": "2026-10-23T23:59:59+08:00",
+      "field_level_mismatch_route_uids": [],
+      "geographic_crop_applied": false
+    },
+    {
+      "check_id": "tdx_full_route_master_Keelung",
+      "status": "passed",
+      "source_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/Route/Date/2026-10-23/City/Keelung?%24format=JSON&%24top=100000",
+      "raw_file": "raw_data/official_cross_city/regional_coverage/Keelung_2026-10-23.json",
+      "raw_count": 116,
+      "output_count": 116,
+      "nested_subroute_count": 168,
+      "nested_operator_count": 116,
+      "source_version_start": "2026-04-07T00:00:00+08:00",
+      "source_version_end": "2026-10-23T23:59:59+08:00",
+      "field_level_mismatch_route_uids": [],
+      "geographic_crop_applied": false
+    },
+    {
+      "check_id": "tdx_full_route_master_InterCity",
+      "status": "passed",
+      "source_url": "https://tdx.transportdata.tw/api/historical/v2/Historical/Bus/Route/Date/2026-10-23/InterCity?%24format=JSON&%24top=100000",
+      "raw_file": "raw_data/official_cross_city/regional_coverage/InterCity_2026-10-23.json",
+      "raw_count": 485,
+      "output_count": 485,
+      "nested_subroute_count": 1771,
+      "nested_operator_count": 513,
+      "source_version_start": "2026-10-15T00:00:00+08:00",
+      "source_version_end": "2026-10-23T23:59:59+08:00",
+      "field_level_mismatch_route_uids": [],
+      "geographic_crop_applied": false
+    }
+  ]
+}
