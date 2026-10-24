@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "dataset_id": "independent_walking_further_evidence_review",
+  "metadata": {
+    "reviewed_at": "2026-10-24T11:49:14+08:00",
+    "reviewer": "root",
+    "independent_of_producer": true,
+    "source_updated_at": null,
+    "record_count": 1,
+    "status": "passed_with_unresolved_crossing_requirements",
+    "method": "Independent raw OSM/CSV parsing, projected full/partial geometries, carriageway intersection distances, source receipts and visual inspection of four official diagrams",
+    "limitations": [
+      "Four conservative edges remain at two actual crossing locations; a full-edge false positive outside the used fragment is clarified separately.",
+      "Historical notices and signal proximity do not prove current crossing permission or absence of other facilities.",
+      "No new legal transfer was accepted; on-site evidence or explicit current pedestrian geometry is still needed."
+    ]
+  },
+  "records": [
+    {
+      "path": "map-data/walking/further_evidence.json",
+      "record_count": 6,
+      "status": "passed_with_source_limitations",
+      "source_files_checked": 13,
+      "source_signals": 2710,
+      "signals_with_coordinates": 2699,
+      "status_counts": {
+        "requires_source_review_unverified_lane_crossing": 2,
+        "requires_source_review_no_specific_driveway_crossing_evidence": 2,
+        "full_edge_intersections_outside_used_partial_geometry": 1,
+        "requires_source_review_no_explicit_external_pedestrian_geometry": 1
+      },
+      "accepted_new_transfers": 0,
+      "visual_diagrams_checked": [
+        "shilin_location.jpg",
+        "guandu_location.jpg",
+        "guandu_information.jpg",
+        "y26_april_diagram_1.jpg"
+      ]
+    }
+  ]
+}
