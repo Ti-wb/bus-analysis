@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import io
 import json
 import tempfile
@@ -108,7 +109,7 @@ class CommonTests(FixtureCase):
         (raw / "x.csv").write_text("a,b\n1,2\n")
         with self.assertRaises(ValueError):
             common.fetch(self.root, "x.csv", "https://data.ntpc.gov.tw/x", "p", {"data.ntpc.gov.tw"}, offline=True)
-        receipt = {"requested_url": "https://data.ntpc.gov.tw/x", "effective_url": "https://data.ntpc.gov.tw/x", "page_url": "p", "bytes": 8, "http_status": 200, "downloaded_at": "known"}
+        receipt = {"requested_url": "https://data.ntpc.gov.tw/x", "effective_url": "https://data.ntpc.gov.tw/x", "page_url": "p", "bytes": 8, "http_status": 200, "downloaded_at": "known", "sha256": hashlib.sha256(b"a,b\n1,2\n").hexdigest()}
         common.write_json(raw / "x.csv.source.json", receipt)
         path, _ = common.fetch(self.root, "x.csv", receipt["requested_url"], "p", {"data.ntpc.gov.tw"}, offline=True)
         self.assertEqual(path.stat().st_size, 8)

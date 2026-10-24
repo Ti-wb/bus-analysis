@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 import math
 import os
@@ -74,6 +75,13 @@ def fetch(root: Path, name: str, url: str, page_url: str, hosts: set[str],
                 or receipt.get("http_status") != 200 or not receipt.get("downloaded_at")):
             raise ValueError("Cached file provenance/size does not match this source")
         check_url(receipt["effective_url"], hosts)
+        expected_digest = receipt.get("sha256")
+        if not isinstance(expected_digest, str) or not re.fullmatch(r"[0-9a-f]{64}", expected_digest):
+            raise ValueError("Cached receipt has no valid content digest; re-fetch the source")
+        with path.open("rb") as source:
+            digest = hashlib.file_digest(source, "sha256").hexdigest()
+        if expected_digest != digest:
+            raise ValueError("Cached file content does not match its download receipt")
         return path, receipt
     if not 1 <= max_mb <= 1024:
         raise ValueError("max_mb must be between 1 and 1024")
@@ -99,6 +107,7 @@ def fetch(root: Path, name: str, url: str, page_url: str, hosts: set[str],
             if declared and int(declared) > limit:
                 raise ValueError("Response exceeds byte limit")
             count = 0
+            digest = hashlib.sha256()
             while block := response.read(1024 * 1024):
                 if time.monotonic() - started > 900:
                     raise ValueError("Download exceeded the total time budget")
@@ -106,6 +115,7 @@ def fetch(root: Path, name: str, url: str, page_url: str, hosts: set[str],
                 if count > limit:
                     raise ValueError("Streaming response exceeds byte limit")
                 out.write(block)
+                digest.update(block)
             if count == 0 or (declared and count != int(declared)):
                 raise ValueError("Empty or truncated response")
             receipt = {"page_url": page_url, "requested_url": url,
@@ -113,7 +123,8 @@ def fetch(root: Path, name: str, url: str, page_url: str, hosts: set[str],
                        "source_data_time": None, "http_status": response.status,
                        "http_last_modified": response.headers.get("Last-Modified"),
                        "content_type": response.headers.get("Content-Type"),
-                       "bytes": count, "raw_file": str(path.relative_to(root))}
+                       "bytes": count, "sha256": digest.hexdigest(),
+                       "raw_file": str(path.relative_to(root))}
         receipt_path.unlink(missing_ok=True)
         os.replace(temp_name, path)
         write_json(receipt_path, receipt)
@@ -288,7 +299,9 @@ def monthly_link(html: str, page_url: str, month: str, hosts: set[str]) -> str:
 
 
 def metadata(source: dict, provider: str, grain: str, limitations: list[str]) -> dict:
-    return {"provider": provider, "source": source, "license": OGDL,
+    # The digest protects the local cache; the raw receipt retains that detail.
+    provenance = {key: value for key, value in source.items() if key != "sha256"}
+    return {"provider": provider, "source": provenance, "license": OGDL,
             "grain": grain, "data_kind": "official_published_data",
             "source_data_time": None, "generated_at": now(),
             "independent_review_status": "pending",

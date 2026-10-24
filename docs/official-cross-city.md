@@ -57,8 +57,8 @@ TDX 模組從專案 `.env` 或環境讀取 `TDX_CLIENT_ID`、`TDX_CLIENT_SECRET`
 - JSON 使用 `schema_version`、`dataset_id`、`metadata`、`records`。缺值為 null，ID 為字串。
 - HTTPS host allowlist、TLS 驗證、大小與時間上限；HTML 錯誤頁、空檔、截斷、重複欄位、
   CSV 未閉合引號、欄數錯誤或衝突鍵均停止，保留上一版正規化資料。
-- receipt 核對來源 URL、HTTP 狀態、下載時間和大小；不是原始檔內容未變的密碼學證明。
-  本機 raw 必須視為唯讀快取，無法確認是否修改時重新下載。不保存不必要的雜湊。
+- 共用下載器的 raw receipt 保留 SHA-256；離線重建核對內容、來源 URL、HTTP 狀態、下載時間及大小。
+  舊 receipt 沒有摘要時須重新下載，不以現有快取補建可信紀錄；摘要只留在 raw receipt。
 - 完全相同列才去重並保留來源行號；同鍵內容衝突不任意選一筆。方向、重複經過站和多附線關係保留。
 - PathDetail 的 `sequenceNo` 從 0 起；`type`、`typeAttribute` 保留原碼，未驗證時不套用其他碼表。
 - 人口核對男＋女、單歲與年齡組加總。跨版里界對照保留兩端名稱與實際版本；未編定村里不補人口。
