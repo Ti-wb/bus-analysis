@@ -24,6 +24,7 @@ import { travelCollection } from '../regional';
 import { STATION_LAYERS, STATION_RADIUS, stationFromFeature } from '../stations';
 import { CoverageTooltip, FeatureTooltip, NeedTooltip, RoutePopup, type PopupFeature } from './FeatureInfo';
 import * as L from './layers';
+import { RouteLayers, ScenarioGrid, type EditorMapProps } from '../routeEditor/RouteLayers';
 import type { AppState, Coverage, Grid, LayerGroup, MapData, NeedGrid, StationSelection, ViewState } from '../types';
 
 const LABEL_NAME: ExpressionSpecification = ['coalesce', ['get', 'name:zh-Hant'], ['get', 'name:nonlatin'], ['get', 'name']];
@@ -35,6 +36,7 @@ const LAYER_GROUP_OF: Record<string, LayerGroup> = Object.fromEntries(
 );
 
 interface Props {
+  editor?: EditorMapProps;
   mapRef: RefObject<MapRef | null>;
   initialView: ViewState;
   data: MapData;
@@ -87,9 +89,14 @@ function addHatchPattern(map: MaplibreMap) {
   ctx.lineTo(size, 0);
   ctx.stroke();
   if (!map.hasImage('hatch-line')) map.addImage('hatch-line', ctx.getImageData(0, 0, size, size));
+  ctx.clearRect(0, 0, size, size);
+  ctx.strokeStyle = '#be4966';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(0, size); ctx.lineTo(size, 0); ctx.stroke();
+  if (!map.hasImage('scenario-hatch')) map.addImage('scenario-hatch', ctx.getImageData(0, 0, size, size));
 }
 
-export default function MapView({ mapRef, initialView, data, grid, gridData, coverage, coverageImage, coverageLines, need, state, station, onStation, onCloseStation, onReady, onMoveEnd }: Props) {
+export default function MapView({ editor, mapRef, initialView, data, grid, gridData, coverage, coverageImage, coverageLines, need, state, station, onStation, onCloseStation, onReady, onMoveEnd }: Props) {
   // First label layer of the base style: our layers go below it so road names stay on top.
   const [labelLayer, setLabelLayer] = useState<string | null>(null);
   const [styleLoaded, setStyleLoaded] = useState(false);
@@ -150,11 +157,14 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
       };
       stations.sort((a, b) => distance(a) - distance(b));
       const next = stations[0] && stationFromFeature(stations[0], data);
-      if (next) { event.preventDefault(); setHover(null); setPopup(null); onStation(next, canvas); }
+      if (next) { event.preventDefault(); setHover(null); setPopup(null);
+        if (editor?.interaction === 'stops' && next.type === 'bus' && editor.data.records.stops[next.id]) editor.onStop(next.id);
+        else onStation(next, canvas);
+      }
     };
     canvas.addEventListener('keydown', openStation);
     return () => canvas.removeEventListener('keydown', openStation);
-  }, [data, styleLoaded, mapRef, onStation, state.layers]);
+  }, [data, editor, styleLoaded, mapRef, onStation, state.layers]);
 
   const handleLoad = useCallback(() => {
     const map = mapRef.current!.getMap();
@@ -182,12 +192,15 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
 
   // The frequency grid belongs to frequency mode; coverage mode draws its own raster instead.
   const villageView = state.layers.has('villages');
-  const shown = (group: LayerGroup) => state.layers.has(group) && (group !== 'grid' || state.mode === 'frequency' && !villageView);
+  const shown = (group: LayerGroup) => state.layers.has(group) && (group !== 'grid' || (!editor && state.mode === 'frequency' && !villageView));
   const visible = (id: string) => (shown(LAYER_GROUP_OF[id]) ? 'visible' : 'none');
   const withVisibility = (layer: L.StyleLayer, beforeId?: string): LayerProps => ({
     ...layer,
     beforeId,
     layout: { ...(layer.layout ?? {}), visibility: visible(layer.id!) },
+    ...(editor && layer.id === 'bus-routes' ? { paint: { ...layer.paint, 'line-color': '#8aa2af', 'line-opacity': .025, 'line-width': .75 } } : {}),
+    ...(editor && (layer.id === 'mrt-lines' || layer.id === 'mrt-lines-casing') ? { paint: { ...layer.paint, 'line-opacity': .2 } } : {}),
+    ...(editor && layer.id === 'places' ? { paint: { ...layer.paint, 'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, 2, 15, 4], 'circle-opacity': .65, 'circle-stroke-width': 1 } } : {}),
   } as LayerProps);
 
   const placeMembers = useMemo(
@@ -228,10 +241,14 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
     const feature = featureAt(e);
     const id = feature?.layer.id;
     if (feature && STATION_LAYERS.includes(id!)) {
+      if (editor?.interaction === 'stops' && id === 'bus-stops') {
+        editor.onStop(String(feature.properties.id)); setHover(null); return;
+      }
       onStation(stationFromFeature(feature, data), mapRef.current!.getCanvas());
       setPopup(null);
       setHover(null);
     } else if (feature && ['bus-routes', 'regional-bus-routes', 'traffic-sections', 'bus-travel-times', 'villages-fill'].includes(id!)) {
+      if (editor && id === 'bus-routes') { editor.onRoute(String(feature.properties.route_id)); setHover(null); return; }
       onStation(null);
       setPopup({ feature, lngLat: [e.lngLat.lng, e.lngLat.lat] });
       setHover(null);
@@ -273,7 +290,7 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
         onMoveEnd={(e) => onMoveEnd({ center: [e.viewState.longitude, e.viewState.latitude], zoom: e.viewState.zoom })}
       >
         <NavigationControl position="top-right" visualizePitch={false} />
-        <AttributionControl position="top-right" compact customAttribution="公車：臺北市公共運輸處／新北市政府交通局｜人口與行政界：內政部" />
+        <AttributionControl position={editor ? 'bottom-right' : 'top-right'} compact customAttribution="公車：臺北市公共運輸處／新北市政府交通局｜人口與行政界：內政部" />
 
         {styleLoaded && (
           <>
@@ -285,6 +302,7 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
               <Layer {...withVisibility(L.gridFillLayer, below)} />
               <Layer {...withVisibility(L.gridHatchLayer, below)} />
             </Source>
+            {editor && <ScenarioGrid editor={editor} beforeId={below} />}
             {need && (
               <Source id="need" type="geojson" data={need.data}>
                 <Layer {...L.needFillLayer} beforeId={below} layout={{ visibility: state.mode === 'need' && !villageView ? 'visible' : 'none' }} />
@@ -349,6 +367,7 @@ export default function MapView({ mapRef, initialView, data, grid, gridData, cov
             <Source id="places" type="geojson" data={data.places}>
               <Layer {...withVisibility(L.placesLayer(placeMembers))} />
             </Source>
+            {editor && <RouteLayers editor={editor} beforeId={below} />}
           </>
         )}
 

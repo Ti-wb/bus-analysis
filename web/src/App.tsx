@@ -10,6 +10,7 @@ import { coverageGridLines, coverageImage } from './coverage';
 import { EMPTY_SUPPLEMENTAL, gridCollection, hourText, loadCoverage, loadGrid, loadMapData, loadNeed, loadSupplementalLayer, SUPPLEMENTAL_FILES, type SupplementalKey } from './data';
 import { readHash, writeHash } from './hashState';
 import MapView from './map/MapView';
+import RouteWorkspace, { type RouteWorkspaceHandle } from './routeEditor/RouteWorkspace';
 import { computeNeed, needCollection, quadrantOf } from './need';
 import { villagePeriod } from './regional';
 import type { AppState, CoreMapData, Coverage, Grid, NeedGrid, StationSelection, SupplementalData, ViewState } from './types';
@@ -42,6 +43,8 @@ export default function App() {
   const [explainerOpen, setExplainerOpen] = useState(true);
   const [prefsOpen, setPrefsOpen] = useState(false);
   const [station, setStation] = useState<StationSelection | null>(null);
+  const [routeTool, setRouteTool] = useState(false);
+  const editorRef = useRef<RouteWorkspaceHandle>(null);
   const stationOrigin = useRef<HTMLElement | null>(null);
   const focusFrame = useRef<number | null>(null);
 
@@ -74,7 +77,7 @@ export default function App() {
 
   useEffect(() => {
     const wanted: SupplementalKey[] = ['regional_bus_routes', 'regional_bus_stops', 'supplemental_manifest'];
-    if (state.layers.has('villages') || station) wanted.push('villages');
+    if (state.layers.has('villages') || station || routeTool) wanted.push('villages');
     if (state.layers.has('traffic')) wanted.push('traffic_sections');
     if (state.layers.has('bus_times')) wanted.push('bus_travel_times');
     for (const key of wanted) {
@@ -92,7 +95,7 @@ export default function App() {
         const next = new Set(previous); next.delete(key); return next;
       }));
     }
-  }, [state.layers, station, supplementalAttempt]);
+  }, [state.layers, station, routeTool, supplementalAttempt]);
 
   const retrySupplemental = () => {
     for (const key of supplementalFailed.current) supplementalRequested.current.delete(key);
@@ -181,8 +184,13 @@ export default function App() {
 
   return (
     <>
-      <Topbar mode={state.mode} onAbout={() => setAboutOpen(true)} aboutActive={aboutOpen} onPreferences={() => setPrefsOpen(true)} onShare={share} />
+      <Topbar mode={state.mode} onAbout={() => setAboutOpen(true)} aboutActive={aboutOpen}
+        routeTool={routeTool} onRoutes={() => { setRouteTool(true); setStation(null); setPlaying(false); setAboutOpen(false); }}
+        onExplore={() => { setAboutOpen(false); if (routeTool) editorRef.current?.leave(() => { setRouteTool(false); setMapReady(false); }); }}
+        onIndicators={() => editorRef.current?.indicators()}
+        onPreferences={() => routeTool ? editorRef.current?.preferences() : setPrefsOpen(true)} onShare={share} />
       <main className="stage">
+        {routeTool && data && grid && gridData ? <RouteWorkspace ref={editorRef} map={data} grid={grid} gridData={gridData} state={state} initialView={viewRef.current} /> : <>
         {data && grid && gridData && (
           <MapView
             mapRef={mapRef}
@@ -230,8 +238,9 @@ export default function App() {
           </div>
         )}
         {analysisError && <div className="card data-error" role="alert"><b>分析資料載入失敗</b><p>{analysisError.message}</p><p className="muted">其他已載入圖層仍可操作；請重新載入頁面後重試。</p></div>}
+        </>}
       </main>
-      {prefsOpen && <Preferences state={state} onApply={(patch) => { update(patch); setPrefsOpen(false); }} onClose={() => setPrefsOpen(false)} />}
+      {prefsOpen && <Preferences state={state} data={data} supplementalPending={supplementalPending} onRetrySupplemental={retrySupplemental} onApply={(patch) => { update(patch); setPrefsOpen(false); }} onClose={() => setPrefsOpen(false)} />}
       <AboutDialog open={aboutOpen} grid={grid} coverage={coverage} need={needGrid} supplemental={supplemental} onClose={() => setAboutOpen(false)} />
     </>
   );
