@@ -1,5 +1,6 @@
 import { forwardRef, useDeferredValue, useEffect, useImperativeHandle, useMemo, useRef, useState, type ReactNode } from 'react';
 import { DAY_LABELS } from '../config';
+import { dataURL } from '../data';
 import type { MapData } from '../types';
 import Dialog from '../routeEditor/Dialog';
 import Detail, { Mock, number, Score, Tags } from './Detail';
@@ -97,7 +98,7 @@ const ImprovementList = forwardRef<ImprovementHandle, Props>(function Improvemen
   useEffect(() => { saveFilters(filters); onTime(filters); }, [filters, onTime]);
   useEffect(() => {
     const abort = new AbortController(); setError('');
-    fetch(`${import.meta.env.BASE_URL}data/improvements.json`, { signal: abort.signal }).then((r) => { if (!r.ok) throw new Error(); return r.json(); })
+    fetch(dataURL('improvements.json'), { signal: abort.signal }).then((r) => { if (!r.ok) throw new Error(); return r.json(); })
       .then((d: ImprovementData) => { if (d.schema_version !== '1.0' || !Array.isArray(d.records)) throw new Error(); setData(d); })
       .catch((e: Error) => { if (e.name !== 'AbortError') setError('改善清單資料暫時無法載入。'); });
     return () => abort.abort();

@@ -1,14 +1,21 @@
 import type { Feature, FeatureCollection, Polygon } from 'geojson';
 import { retryableLoader } from './age';
-import { createStationAgeLoader, loadCompressedJSON, parseVillageAges } from './ageLoader';
+import { createStationAgeLoader, loadCompressedJSON, parseStationAgeShard, parseVillageAges } from './ageLoader';
 import { ALL_DAY, DAY_COLUMN, NO_SCHEDULE, NO_STOP, SCALES } from './config';
 import { decodeRegionalGrid } from './regionalGrid';
 import type { AppState, CoreMapData, Coverage, Grid, GridCell, NeedGrid, StationCatchments, SupplementalData } from './types';
 
 const DATA = `${import.meta.env.BASE_URL}data/`;
+// Data paths are fixed while the app bundle is renamed on every build; a per-build query keeps a
+// new deploy from reading files cached for the previous one. Empty in the dev server.
+const VERSION: string = import.meta.env.VITE_DATA_VERSION || '';
+const versioned = (url: string) => VERSION ? `${url}?v=${encodeURIComponent(VERSION)}` : url;
+export const dataURL = (name: string) => versioned(DATA + name);
+// For loaders that derive sibling paths (such as `.gz`) before fetching.
+const fetchData: typeof fetch = (input, init) => fetch(typeof input === 'string' ? versioned(input) : input, init);
 
 async function loadJSON<T>(name: string): Promise<T> {
-  const response = await fetch(DATA + name);
+  const response = await fetch(dataURL(name));
   if (!response.ok) throw new Error(`${name}: HTTP ${response.status}`);
   return response.json() as Promise<T>;
 }
@@ -76,8 +83,9 @@ export function loadCatchments(): Promise<StationCatchments> {
   return catchments;
 }
 
-export const loadVillageAges = retryableLoader(() => loadCompressedJSON(DATA + 'village_age.geojson', parseVillageAges));
-export const loadStationAges = createStationAgeLoader(DATA);
+export const loadVillageAges = retryableLoader(() => loadCompressedJSON(DATA + 'village_age.geojson', parseVillageAges, { fetcher: fetchData }));
+export const loadStationAges = createStationAgeLoader(DATA,
+  (url, index) => loadCompressedJSON(url, (value) => parseStationAgeShard(value, index), { fetcher: fetchData }));
 
 export function scaleFor(state: Pick<AppState, 'cell' | 'hour'>) {
   return SCALES[state.cell][state.hour === ALL_DAY ? 'daily' : 'hourly'];
