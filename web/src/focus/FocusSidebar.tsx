@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { nearby } from '../catchment';
 import { StationIcon } from '../components/StationInfo';
+import { COVERAGE_ALPHA, COVERAGE_LAYERS, COVERAGE_OPACITY } from '../config';
 import { STATION_RADIUS } from '../stations';
 import type { MapData } from '../types';
 import NearbyMap from './NearbyMap';
@@ -78,7 +79,7 @@ export default function FocusSidebar({ station, data, focus, onClose, onOverview
     </section>
 
     <footer className="focus-footer">
-      <div><i className="focus-legend-coverage" />沿線公車站 350 m 直線覆蓋</div>
+      <div><i className="focus-legend-coverage" style={{ background: `linear-gradient(90deg, ${COVERAGE_ALPHA.map((alpha) => `rgba(${COVERAGE_LAYERS.walk.rgb.join(',')},${alpha * COVERAGE_OPACITY})`).join(',')})` }} />沿線公車站 350 m 直線覆蓋</div>
       <div><i className="focus-legend-circle" />本站 350 m 直線範圍</div>
       <div><i className="focus-legend-route" />其他路線暫時淡化</div>
       <p>橙色越深，距已開啟路線的公車站越近。班次為全日計畫發車，非本站到站時刻；周邊站數依來源站位計算。</p>

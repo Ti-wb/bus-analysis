@@ -218,11 +218,17 @@ export default function App() {
     setState((s) => s.day === filters.day && s.hour === hour ? s : { ...s, day: filters.day, hour });
   }, []);
 
+  const timeControlsVisible = page === 'explore' && !isBusFocus
+    && (state.mode === 'frequency' || state.layers.has('bus_times'));
   useEffect(() => {
-    if (!playing) return undefined;
+    if (!timeControlsVisible) setPlaying(false);
+  }, [timeControlsVisible]);
+
+  useEffect(() => {
+    if (!playing || !timeControlsVisible) return undefined;
     const timer = setInterval(() => setState((s) => ({ ...s, hour: s.hour >= 23 ? 0 : s.hour + 1 })), 900);
     return () => clearInterval(timer);
-  }, [playing]);
+  }, [playing, timeControlsVisible]);
 
   const regionalReady = regionalGrid?.cell_m === state.cell;
   const shownGrid = state.mode === 'frequency' && !routeTool && regionalReady ? regionalGrid : grid;
@@ -397,16 +403,16 @@ export default function App() {
         </div>
         <section className={`card explainer${explainerOpen ? '' : ' is-collapsed'}`}>
           <div className="explainer-head">
-            <h3>{ageMode ? '村里人口與站圈估算怎麼看？' : state.layers.has('villages') ? '里人口與年齡怎麼看？' : frequency ? '班次網格怎麼看？' : needMode ? '需求落差怎麼看？' : '從站心出發，看見步行與騎乘的不同尺度。'}</h3>
+            <h3>{ageMode ? '村里人口與站圈估算怎麼看？' : state.layers.has('villages') ? '里人口與年齡怎麼看？' : frequency ? '班次網格怎麼看？' : needMode ? '需求落差怎麼看？' : '站點覆蓋怎麼看？'}</h3>
             <button className="icon-btn" aria-label={explainerOpen ? '收合說明' : '展開說明'} onClick={() => setExplainerOpen((o) => !o)}>ⓘ</button>
           </div>
           {ageMode
             ? <p>色彩是整個村里所選年齡層占戶籍人口的比例，灰色是未匹配、缺值或比例無分母。全國清冊與里界已另行核對，地圖只呈現北北基；里界版本與人口月份不同。點選站點可查看直線 350 m 內按村里面積分攤的年齡估算，只有涵蓋完整才顯示全站圈比例；人口不是實際搭乘量。</p>
             : state.layers.has('villages') ? <p>每個色塊是一個完整里，呈現{populationPeriod ? ` ${populationPeriod} ` : ''}戶籍人口或 65 歲以上人口占比；灰色表示缺值或代碼與名稱未核對。點選查看三個年齡組的人數。整里統計不是站點 350 m 人口估算；關閉此圖層即可恢復原分析填色。</p> : needMode
-            ? <p>每格約 250 m。需求由居住人口、重要地點（依時段加權）與附近捷運進出量的排名加權而成；供給由附近公車班次與捷運距離算出。兩者都是同一時段內的排名，橘色偏「需求高、供給低」，藍色偏「供給多於需求」。這是研究草案，權重是假設值，不是實際搭乘量。</p>
+            ? <p>每格約 250 m。需求指標綜合居住人口、重要地點與捷運進出量；供給指標綜合附近公車班次與捷運距離。顏色比較同時段的相對排名：橘色偏需求排名高，藍色偏供給排名高。這是研究用指標，不能直接判定服務不足、過量或實際搭乘需求。</p>
             : frequency
             ? <p>北北基共用 100、150、250 或 500 m 計畫班次網格，依 TDX 官方路線、附線、方向與班表彙整；100／150 m 僅顯示距站位約 350 m 內的分析區域。缺班表保留未知，不補為零。依起站發車時刻歸入小時，未計沿途行駛時間；不代表實際載客或步行可達性。</p>
-            : <p>每格約 {state.coverageCell} m，依格心到最近站點的直線距離上色：橙色是走到公車、捷運或 YouBike 站，青綠是從 YouBike 站騎出去。兩層都只是半徑示意，未計入路網、河川阻隔、班次多寡與即時可借車輛。</p>}
+            : <p>每格約 {state.coverageCell} m，依格心到最近站點的直線距離上色。橘色為步行到站、藍色為 YouBike 騎乘範圍；色越深，離站越近。重疊處優先顯示步行。範圍未計道路、河川阻隔、班次或即時可借車輛。</p>}
         </section></>}
         {loading && <div className="loading">載入地圖資料中…</div>}
         {error && (

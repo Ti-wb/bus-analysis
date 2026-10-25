@@ -95,9 +95,9 @@ function addHatchPattern(map: MaplibreMap) {
   const canvas = document.createElement('canvas');
   canvas.width = canvas.height = size;
   const ctx = canvas.getContext('2d')!;
-  ctx.fillStyle = 'rgba(245,245,245,0.9)';
+  ctx.fillStyle = '#e8edf2';
   ctx.fillRect(0, 0, size, size);
-  ctx.strokeStyle = '#c8c8c8';
+  ctx.strokeStyle = '#9aabba';
   ctx.lineWidth = 1.5;
   ctx.beginPath();
   ctx.moveTo(0, size);
@@ -357,6 +357,15 @@ export default function MapView({ villageAges = null, villageData = null, select
     ...layer,
     beforeId,
     layout: { ...(layer.layout ?? {}), visibility: pickingStops && layer.id === 'bus-stops' ? 'none' : visible(layer.id!) },
+    // Keep stops discoverable at city scale without letting thousands of rings dominate the heatmap.
+    ...(!editor && !activeFocus && ['bus-stops', 'regional-bus-stops'].includes(layer.id!) ? { paint: { ...layer.paint,
+      'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, 1.2, 14, 3.5, 17, 6],
+      'circle-stroke-opacity': ['interpolate', ['linear'], ['zoom'], 11, .55, 14, 1],
+      'circle-opacity': ['interpolate', ['linear'], ['zoom'], 11, .65, 14, 1],
+    } } : {}),
+    ...(!editor && !activeFocus && layer.id === 'regional-bus-routes' ? { paint: { ...layer.paint,
+      'line-opacity': ['interpolate', ['linear'], ['zoom'], 9, .06, 12, .12, 15, .38],
+    } } : {}),
     ...(editingRouteStops && ['bus-stops', 'regional-bus-stops'].includes(layer.id!) ? { paint: { ...layer.paint,
       'circle-color': '#e4e8eb', 'circle-opacity': .6, 'circle-stroke-color': '#9aa5ae',
       'circle-stroke-opacity': .7, 'circle-stroke-width': 1.2 } } : {}),

@@ -1,9 +1,20 @@
-import type { CellSize, CoverageCell, CoverageLayer, DayType, LayerGroup, NeedBand, NeedWeights, StationType } from './types';
+import type { AnalysisMode, CellSize, CoverageCell, CoverageLayer, DayType, LayerGroup, NeedBand, NeedWeights, StationType } from './types';
+
+export const ANALYSIS_MODES: { key: AnalysisMode; label: string; note: string }[] = [
+  { key: 'coverage', label: '站點覆蓋', note: '站點周邊的直線範圍；色越深，離站越近' },
+  { key: 'frequency', label: '公車班次', note: '每格計畫發車數；色越深，班次越多' },
+  { key: 'need', label: '需求落差', note: '比較同時段需求與供給的相對排名' },
+  { key: 'village_age', label: '村里年齡', note: '北北基戶籍年齡比例；不代表乘車需求' },
+];
 
 export const ALL_DAY = 24;
 export const DAY_LABELS: Record<DayType, string> = { weekday: '平日', saturday: '週六', sunday: '週日' };
 export const DAY_COLUMN: Record<DayType, 5 | 6 | 7> = { weekday: 5, saturday: 6, sunday: 7 };
-export const COLORS = ['#f1d6cf', '#ecdcb8', '#cfe3d6', '#a6d2c9', '#6fb8ad', '#2f8f86'];
+// Sequential light-to-dark teal: colour encodes volume, not a good/bad judgement.
+export const COLORS = ['#f0f2f5', '#d3ece7', '#9bd2c8', '#5ab0a4', '#278477', '#12594f'];
+export const NO_STOP_COLOR = '#f7f8fa';
+export const NO_STOP_OPACITY = 0.18;
+export const GRID_OPACITY = 0.84;
 
 interface Scale {
   breaks: number[];
@@ -95,8 +106,8 @@ export const STATION_TYPES: { key: StationType; label: string; walkLabel: string
 ];
 // Radius ranges stay within the 3 km cap of the coverage data.
 export const COVERAGE_LAYERS: Record<CoverageLayer, { label: string; min: number; max: number; step: number; radius: number; rgb: [number, number, number] }> = {
-  walk: { label: '步行到站', min: 100, max: 1000, step: 50, radius: 350, rgb: [232, 132, 66] },
-  ride: { label: 'YouBike 騎乘', min: 500, max: 3000, step: 100, radius: 1000, rgb: [47, 158, 143] },
+  walk: { label: '步行到站', min: 100, max: 1000, step: 50, radius: 350, rgb: [194, 100, 36] },
+  ride: { label: 'YouBike 騎乘', min: 500, max: 3000, step: 100, radius: 1000, rgb: [52, 110, 160] },
 };
 export const COVERAGE_CELLS: { cell: CoverageCell; label: string }[] = [
   { cell: 50, label: '細緻' },
@@ -105,7 +116,8 @@ export const COVERAGE_CELLS: { cell: CoverageCell; label: string }[] = [
 ];
 export const DEFAULT_COVERAGE_CELL: CoverageCell = 100;
 /** Opacity of the five distance bands, from the station outwards. */
-export const COVERAGE_ALPHA = [0.6, 0.48, 0.37, 0.27, 0.18];
+export const COVERAGE_ALPHA = [0.78, 0.62, 0.46, 0.31, 0.18];
+export const COVERAGE_OPACITY = 0.85;
 export const COVERAGE_BANDS = COVERAGE_ALPHA.length;
 
 // Transport-need gap (docs/12): demand vs supply ranks on the 250 m grid.
@@ -121,17 +133,17 @@ export const NEED_WEIGHT_LABELS = ['居住人口', '重要地點', '捷運活動
 export const DEFAULT_NEED_WEIGHTS: NeedWeights = [50, 30, 20];
 /** Bivariate colours: NEED_COLORS[demand tercile][supply tercile], low to high. */
 export const NEED_COLORS = [
-  ['#e8e8e8', '#b5d3e6', '#6aa9d1'],
-  ['#e4c3a8', '#adb3b5', '#5d8eb3'],
-  ['#d9875a', '#a5705a', '#52627a'],
+  ['#edf0ef', '#b4d2df', '#598fb3'],
+  ['#edc9a6', '#b9b8b5', '#677f97'],
+  ['#cd8547', '#a98169', '#4b4a66'],
 ];
-/** Diverging gap colours from oversupplied (−1) to underserved (+1). */
-export const GAP_COLORS = ['#2f6e9e', '#7fb0d3', '#ececec', '#f0a776', '#c2481d'];
+/** Diverging rank difference: supply rank higher (−1) to demand rank higher (+1). */
+export const GAP_COLORS = ['#346a9a', '#9dc3de', '#f0efeb', '#edc08c', '#b85e20'];
 export const GAP_BREAKS = [-0.4, -0.15, 0.15, 0.4];
 export const QUADRANTS = {
-  priority: { label: '優先補強', note: '需求高、供給低' },
-  saturated: { label: '已飽和', note: '需求高、供給高' },
-  oversupplied: { label: '可能過量', note: '需求低、供給高' },
-  low_low: { label: 'DRTS 候選', note: '需求低、供給低' },
+  priority: { label: '補強候選', note: '需求排名高、供給排名低' },
+  saturated: { label: '供需皆高', note: '需求與供給排名皆高' },
+  oversupplied: { label: '供給偏高', note: '需求排名低、供給排名高' },
+  low_low: { label: '供需皆低', note: '需求與供給排名皆低' },
 } as const;
 export type Quadrant = keyof typeof QUADRANTS;

@@ -1,6 +1,6 @@
 import type { ExpressionSpecification } from 'maplibre-gl';
 import type { LayerProps } from 'react-map-gl/maplibre';
-import { COLORS, ELDERLY_COLORS, NO_SCHEDULE, NO_STOP, PLACE_BY_CATEGORY, VILLAGE_COLORS } from '../config';
+import { COLORS, COVERAGE_OPACITY, ELDERLY_COLORS, GRID_OPACITY, NO_SCHEDULE, NO_STOP, NO_STOP_COLOR, NO_STOP_OPACITY, PLACE_BY_CATEGORY, VILLAGE_COLORS } from '../config';
 import type { BusFocusState } from '../focus/model';
 
 /** Style layers only; react-map-gl's LayerProps also admits custom WebGL layers. */
@@ -35,9 +35,9 @@ export const gridFillLayer: StyleLayer = {
   type: 'fill',
   filter: ['!=', ['get', 'k'], NO_SCHEDULE],
   paint: {
-    'fill-color': ['match', ['get', 'k'], NO_STOP, COLORS[0], 0, COLORS[0], 1, COLORS[1], 2, COLORS[2], 3, COLORS[3], 4, COLORS[4], COLORS[5]],
-    'fill-opacity': ['case', ['==', ['get', 'k'], NO_STOP], 0.28, 0.82],
-    'fill-outline-color': 'rgba(255,255,255,0.7)',
+    'fill-color': ['match', ['get', 'k'], NO_STOP, NO_STOP_COLOR, 0, COLORS[0], 1, COLORS[1], 2, COLORS[2], 3, COLORS[3], 4, COLORS[4], COLORS[5]],
+    'fill-opacity': ['case', ['==', ['get', 'k'], NO_STOP], NO_STOP_OPACITY, GRID_OPACITY],
+    'fill-outline-color': 'rgba(255,255,255,0.4)',
   },
 };
 
@@ -77,7 +77,7 @@ export const needRobustLayer: StyleLayer = {
 export const coverageLayer: StyleLayer = {
   id: 'coverage',
   type: 'raster',
-  paint: { 'raster-resampling': 'nearest', 'raster-fade-duration': 0, 'raster-opacity': 0.85 },
+  paint: { 'raster-resampling': 'nearest', 'raster-fade-duration': 0, 'raster-opacity': COVERAGE_OPACITY },
 };
 
 /** White cell edges over the coverage raster; they fade in once a cell is about 10 px wide. */

@@ -30,7 +30,7 @@ function band(units: number, coverage: Coverage, radius: number): number {
   return metres > radius || units >= coverage.cap ? -1 : Math.min(COVERAGE_BANDS - 1, Math.floor((metres / radius) * COVERAGE_BANDS));
 }
 
-/** Paints one pixel per cell, walking reach composited over riding reach. */
+/** One pixel per cell. Walking takes precedence in overlaps; no unlabelled mixed hue. */
 export function coverageImage(coverage: Coverage, state: Pick<CoverageState, 'coverage' | 'walkTypes' | 'walkRadii' | 'rideRadius'>): CoverageImage {
   const [cols, rows] = coverage.size;
   const f = fields(coverage);
@@ -63,12 +63,12 @@ export function coverageImage(coverage: Coverage, state: Pick<CoverageState, 'co
       }
       if (best >= 0) wa = COVERAGE_ALPHA[best];
     }
-    const a = wa + ra * (1 - wa);
+    const a = wa || ra;
     if (!a) continue;
     const o = i * 4;
-    px[o] = (wr * wa + rr * ra * (1 - wa)) / a;
-    px[o + 1] = (wg * wa + rg * ra * (1 - wa)) / a;
-    px[o + 2] = (wb * wa + rb * ra * (1 - wa)) / a;
+    px[o] = wa ? wr : rr;
+    px[o + 1] = wa ? wg : rg;
+    px[o + 2] = wa ? wb : rb;
     px[o + 3] = a * 255;
   }
   ctx.putImageData(image, 0, 0);

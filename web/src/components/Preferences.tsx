@@ -1,5 +1,5 @@
 import { useEffect, useId, useState, type CSSProperties } from 'react';
-import { CELL_SIZES, COLORS, COVERAGE_CELLS, COVERAGE_LAYERS, DAY_LABELS, DEFAULT_COVERAGE_CELL, DEFAULT_LAYERS, DEFAULT_NEED_WEIGHTS, NEED_BANDS, NEED_WEIGHT_LABELS, PLACE_CATEGORIES, STATION_TYPES } from '../config';
+import { ANALYSIS_MODES, CELL_SIZES, COLORS, COVERAGE_CELLS, COVERAGE_LAYERS, DAY_LABELS, DEFAULT_COVERAGE_CELL, DEFAULT_LAYERS, DEFAULT_NEED_WEIGHTS, NEED_BANDS, NEED_WEIGHT_LABELS, PLACE_CATEGORIES, STATION_TYPES } from '../config';
 import { isDefaultWeights } from '../need';
 import type { SupplementalKey } from '../data';
 import type { AnalysisMode, AppState, CoverageLayer, DayType, LayerGroup, MapData, NeedView, NeedWeights, StationType } from '../types';
@@ -20,12 +20,7 @@ interface Props {
   onClose: () => void;
 }
 
-export const MODES: { key: AnalysisMode; label: string; note: string }[] = [
-  { key: 'coverage', label: '站點覆蓋', note: '步行到站與 YouBike 騎乘的直線範圍' },
-  { key: 'frequency', label: '班次網格', note: '每格公車計畫發車數，可依小時播放' },
-  { key: 'need', label: '需求落差', note: '同時段需求與供給排名的比較' },
-  { key: 'village_age', label: '村里年齡', note: '北北基村里戶籍年齡比例；人口背景不代表乘車需求' },
-];
+export const MODES = ANALYSIS_MODES;
 
 const NEED_VIEWS: { key: NeedView; label: string }[] = [
   { key: 'quadrant', label: '需求 × 供給' },
@@ -195,7 +190,7 @@ export default function Preferences({ state, data, supplementalPending, onRetryS
         <header className="prefs-head">
           <div>
             <h2 id="prefs-title">偏好設定</h2>
-            <p>調整地圖顯示與站點覆蓋範圍</p>
+            <p>選擇分析內容與範圍，按「套用設定」更新地圖</p>
           </div>
           <button className="prefs-close" aria-label="關閉偏好設定" onClick={onClose}>✕</button>
         </header>
@@ -204,7 +199,7 @@ export default function Preferences({ state, data, supplementalPending, onRetryS
           <section>
             <h3 className="prefs-section-head">
               分析圖層
-              <button className="link-btn" onClick={() => { setDraft(defaults(draft.mode)); setResets((n) => n + 1); }}>重設預設</button>
+              <button className="link-btn" onClick={() => { setDraft(defaults(draft.mode)); setResets((n) => n + 1); }}>恢復預設值</button>
             </h3>
             <Choice label="分析圖層" columns={2} options={MODES} value={draft.mode} onChange={(m) => set({ mode: m })} />
             <p className="prefs-note">{MODES.find((m) => m.key === draft.mode)!.note}</p>
@@ -230,7 +225,7 @@ export default function Preferences({ state, data, supplementalPending, onRetryS
               </section>
 
               <section>
-                <h3>站點擴散範圍</h3>
+                <h3>站點直線半徑</h3>
                 <p className="prefs-note">由站點向外擴散，以直線半徑計算</p>
                 {STATION_TYPES.map((t) => (
                   <RadiusControl
@@ -245,7 +240,7 @@ export default function Preferences({ state, data, supplementalPending, onRetryS
                   />
                 ))}
                 <RadiusControl key={`ride-${resets}`} label="YouBike・騎乘延伸" layer="ride" value={draft.rideRadius} onChange={(r) => set({ rideRadius: r })} onValidity={validityOf.ride} />
-                <p className="prefs-note">橙色表示步行範圍，青綠表示騎乘範圍；取消勾選的站點類型不計入步行範圍。</p>
+                <p className="prefs-note">橘色為步行、藍色為騎乘，重疊處優先顯示步行。取消勾選的站點類型不計入步行範圍。</p>
               </section>
             </>
           )}

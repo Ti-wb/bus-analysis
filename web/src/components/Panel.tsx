@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from 'react';
 import type { VillageAges } from '../age';
 import { AgeControls, AgeLegend } from './VillageAge';
-import { ALL_DAY, COLORS, COVERAGE_ALPHA, COVERAGE_LAYERS, DAY_LABELS, ELDERLY_COLORS, GAP_COLORS, NEED_BANDS, NEED_COLORS, QUADRANTS, STATION_TYPES, VILLAGE_COLORS, type Quadrant } from '../config';
+import { ALL_DAY, ANALYSIS_MODES, COLORS, COVERAGE_ALPHA, COVERAGE_LAYERS, COVERAGE_OPACITY, DAY_LABELS, ELDERLY_COLORS, GAP_COLORS, GRID_OPACITY, NEED_BANDS, NEED_COLORS, NO_STOP_COLOR, NO_STOP_OPACITY, QUADRANTS, STATION_TYPES, VILLAGE_COLORS, type Quadrant } from '../config';
 import { distanceText } from '../coverage';
 import { hourText, scaleFor, type SupplementalKey } from '../data';
 import { isDefaultWeights } from '../need';
@@ -92,8 +92,8 @@ function ExtraLegend({ state, data }: Pick<Props, 'state' | 'data'>) {
   const village = state.layers.has('villages') && state.mode !== 'village_age';
   const trafficRecord = data?.supplemental_manifest?.records.find((record) => record.id === 'traffic_sections');
   const trafficTime = trafficRecord ? snapshotPeriodText({ ...trafficRecord, period: data?.traffic_sections?.metadata?.period ?? trafficRecord.period }) : '觀測快照時間未提供';
-  return <section className="card legend extra-legend">
-    <h3>跨市圖層圖例與快照</h3>
+  return <details className="card legend extra-legend" open={village || state.layers.has('traffic') || state.layers.has('bus_times') || undefined}>
+    <summary>路網與補充圖層</summary>
     {state.layers.has('regional_routes') && <><p className="legend-note"><span className="swatch swatch-regional" />新北路線 <span className="swatch swatch-frog" />跳蛙路線</p><p className="layer-scope-note">依站序連線的示意路網，不是實際道路軌跡。</p></>}
     {state.layers.has('regional_stops') && <p className="legend-note"><span className="swatch swatch-regional-stop" />新北站位在縮放 11 級以上顯示</p>}
     {village && <>
@@ -119,7 +119,7 @@ function ExtraLegend({ state, data }: Pick<Props, 'state' | 'data'>) {
       })}
       <p>完整來源連結見右上角「資料與方法」。</p>
     </details>
-  </section>;
+  </details>;
 }
 
 const rgba = (layer: CoverageLayer, alpha = 1) => `rgba(${COVERAGE_LAYERS[layer].rgb.join(',')},${alpha})`;
@@ -171,7 +171,7 @@ function Summary({ rows, foot, onPreferences, children }: { rows: SummaryRow[]; 
       {children}
       <div className="summary-foot">
         <span>{foot}</span>
-        <button className="link-btn" onClick={onPreferences}>到「偏好」調整</button>
+        <button className="link-btn" onClick={onPreferences}>調整圖層與範圍 →</button>
       </div>
     </div>
   );
@@ -183,7 +183,7 @@ function TimeControls({ state, playing, onChange, onTogglePlay }: Pick<Props, 's
       <button className={`icon-btn${playing ? ' is-playing' : ''}`} title="播放 24 小時" aria-label={playing ? '暫停' : '播放'} onClick={onTogglePlay}>
         {playing ? '❚❚' : '▶'}
       </button>
-      <input type="range" min={0} max={ALL_DAY} step={1} value={state.hour} aria-label="小時" onChange={(e) => onChange({ hour: Number(e.target.value) })} />
+      <input type="range" min={0} max={ALL_DAY} step={1} value={state.hour} aria-label="小時" aria-valuetext={hourText(state.hour)} onChange={(e) => onChange({ hour: Number(e.target.value) })} />
     </div>
     <div className="hour-label">
       <span className="hour-text">{hourText(state.hour)}</span>
@@ -196,17 +196,20 @@ function CoverageLegend({ state }: { state: AppState }) {
   const layers = (Object.keys(COVERAGE_LAYERS) as CoverageLayer[]).filter((layer) => state.coverage.has(layer));
   return (
     <section className="card legend">
-      <h3>同一張網格，兩種移動範圍</h3>
+      <h3>站點距離圖例</h3>
+      <p className="legend-description">色越深，離站越近</p>
       {layers.map((layer) => (
         <div key={layer} className="coverage-legend">
           <p>{COVERAGE_LAYERS[layer].label} · {layer === 'walk' ? walkText(state) : distanceText(state.rideRadius)}</p>
           <div className="legend-scale legend-scale-5">
-            {COVERAGE_ALPHA.map((a) => <span key={a} style={{ background: rgba(layer, a) }} />)}
+            {COVERAGE_ALPHA.map((a) => <span key={a} style={{ background: rgba(layer, a * COVERAGE_OPACITY) }} />)}
           </div>
-          <div className="legend-ends"><span>{layer === 'walk' ? '近站' : '站心'}</span><span>外圍</span></div>
+          <div className="legend-ends"><span>近站 · 0 m</span><span>半徑邊緣 · {layer === 'walk' ? walkText(state) : distanceText(state.rideRadius)}</span></div>
         </div>
       ))}
       {!layers.length && <p className="muted">兩個覆蓋圖層都已關閉。</p>}
+      {layers.length > 0 && <p className="legend-note">直線距離示意，不代表實際步行或騎乘路徑。</p>}
+      {layers.length === 2 && <p className="legend-note">重疊處顯示步行色；關閉步行可單獨查看騎乘範圍。</p>}
     </section>
   );
 }
@@ -216,14 +219,16 @@ function NeedLegend({ state, counts }: { state: AppState; counts: Record<Quadran
     <section className="card legend">
       {state.needView === 'quadrant' ? (
         <>
-          <h3>需求 × 供給（同時段排名三等分）</h3>
+          <h3>需求 × 供給</h3>
+          <p className="legend-description">同時段排名，各分低、中、高三等分</p>
           <div className="bivariate">
-            <span className="bivariate-y">需求 →</span>
+            <span className="bivariate-y"><span>高</span><span>需<br />求<br />排<br />名</span><span>低</span></span>
             <div className="bivariate-grid">
-              {[2, 1, 0].map((d) => [0, 1, 2].map((s) => <span key={`${d}${s}`} style={{ background: NEED_COLORS[d][s] }} />))}
+              {[2, 1, 0].map((d) => [0, 1, 2].map((s) => <span key={`${d}${s}`} title={`需求${['低', '中', '高'][d]}・供給${['低', '中', '高'][s]}`} style={{ background: NEED_COLORS[d][s] }} />))}
             </div>
-            <span className="bivariate-x">供給 →</span>
+            <span className="bivariate-x">供給排名　低 → 高</span>
           </div>
+          <p className="legend-note">以下以排名 50% 為界，分成四類：</p>
           <ul className="quadrant-list">
             {(Object.keys(QUADRANTS) as Quadrant[]).map((q) => (
               <li key={q}><b>{QUADRANTS[q].label}</b> {QUADRANTS[q].note}{counts && <span className="muted"> · {counts[q]} 格</span>}</li>
@@ -232,9 +237,12 @@ function NeedLegend({ state, counts }: { state: AppState; counts: Record<Quadran
         </>
       ) : (
         <>
-          <h3>落差＝需求排名 − 供給排名</h3>
+          <h3>需求與供給的排名差</h3>
+          <p className="legend-description">需求排名 − 供給排名 · −1 至 +1</p>
           <div className="legend-scale legend-scale-5">{GAP_COLORS.map((c) => <span key={c} style={{ background: c }} />)}</div>
-          <div className="legend-ends"><span>供給多於需求</span><span>需求多於供給</span></div>
+          <div className="gap-legend-ticks">{['−0.4', '−0.15', '0.15', '0.4'].map((label, i) => <span key={label} style={{ left: `${(i + 1) * 20}%` }}>{label}</span>)}</div>
+          <div className="legend-ends"><span>供給排名較高</span><span>需求排名較高</span></div>
+          <p className="legend-note">中間淺色表示排名接近，不代表供需平衡。</p>
         </>
       )}
       {isDefaultWeights(state.weights)
@@ -252,10 +260,12 @@ export default function Panel({ villageAges, ageError, onRetryAges, selectedVill
   return (
     <aside className="panel">
       <section className="card intro">
-        <h1>城市裡的連結，<br />一眼看見。</h1>
-        <p className="muted">雙北公車路網、里人口與交通快照。點選站點，查看所在里年齡與周邊設施。</p>
+        <h1>看見交通服務的分布</h1>
+        <p className="muted">切換分析圖層，點選站點查看周邊人口與設施。</p>
 
-        <button className="age-entry link-btn" onClick={() => onChange({ mode: state.mode === 'village_age' ? 'coverage' : 'village_age' })}>{state.mode === 'village_age' ? '返回站點覆蓋' : '查看村里年齡'}</button>
+        <div className="analysis-modes" role="group" aria-label="切換分析圖層">
+          {ANALYSIS_MODES.map(({ key, label }) => <button key={key} aria-pressed={state.mode === key} onClick={() => onChange({ mode: key })}>{label}</button>)}
+        </div>
         {state.mode === 'village_age' && <AgeControls state={state} data={villageAges} error={ageError} onChange={onChange} onRetry={onRetryAges} selectedVillage={selectedVillage} onVillage={onVillage} />}
 
         {state.mode === 'coverage' && <Summary rows={coverageRows(state)} foot={`${state.coverageCell} m 網格`} onPreferences={onPreferences} />}
@@ -272,20 +282,24 @@ export default function Panel({ villageAges, ageError, onRetryAges, selectedVill
         <ExtraStatus data={data} supplementalPending={supplementalPending} onRetrySupplemental={onRetrySupplemental} />
       </section>
 
-      <ExtraLegend state={state} data={data} />
-
       {(state.mode === 'village_age' || !state.layers.has('villages')) && (frequency ? (
         <section className="card legend">
-          <h3>{state.hour === ALL_DAY ? '全日' : '每小時'}計畫發車數（每 {state.cell} m 格）</h3>
+          <h3>公車計畫班次</h3>
+          <p className="legend-description">色越深，班次越多 · 每 {state.cell} m 格／{state.hour === ALL_DAY ? '全日' : '小時'}</p>
           <div className="legend-scale">
             {labels.map((label, i) => (
-              <div key={label}><span style={{ background: COLORS[i] }} />{label}</div>
+              <div key={label}><span style={{ background: COLORS[i], opacity: GRID_OPACITY }} />{label}</div>
             ))}
           </div>
-          <p className="legend-note"><span className="hatch" />斜紋＝格內附線都沒有班表（資料缺漏，非 0）</p>
-          <p className="legend-note"><span className="nostop" />淡色＝格內沒有公車站牌</p>
+          <div className="legend-ends"><span>少</span><span>多 · 班</span></div>
+          <p className="legend-note"><span className="zero-swatch" style={{ background: COLORS[0], opacity: GRID_OPACITY }} />0 班：已知班表於此時段為 0</p>
+          <p className="legend-note"><span className="hatch" />班表缺漏：無法計算，並非 0 班</p>
+          <p className="legend-note"><span className="nostop" style={{ background: NO_STOP_COLOR, opacity: NO_STOP_OPACITY }} />無站牌：格內沒有公車站牌</p>
+          <p className="legend-note">部分班表缺漏時僅計已知班次，移至格子可查看。</p>
+          <p className="legend-note">依起站時刻計算，非本站到站班次或實際載客量。</p>
         </section>
       ) : state.mode === 'village_age' ? <AgeLegend data={villageAges} groupKey={state.ageGroup} ageSet={state.ageSet} /> : state.mode === 'need' ? <NeedLegend state={state} counts={needCounts} /> : <CoverageLegend state={state} />)}
+      <ExtraLegend state={state} data={data} />
     </aside>
   );
 }
