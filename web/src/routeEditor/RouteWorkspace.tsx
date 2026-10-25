@@ -2,9 +2,10 @@ import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRe
 import type { MapRef } from 'react-map-gl/maplibre';
 import type { FeatureCollection, Polygon } from 'geojson';
 import MapView from '../map/MapView';
+import { COLORS } from '../config';
 import { dataURL } from '../data';
 import Search from '../components/Search';
-import type { AppState, Grid, MapData, StationSelection, ViewState } from '../types';
+import type { AppState, Grid, LayerGroup, MapData, StationSelection, ViewState } from '../types';
 import type { Filters } from '../improvements/types';
 import { draftChanges, frequency, gridFeatures, routePath, routesWithChanges } from './engine';
 import { buildExistingServices } from './existingServices';
@@ -63,9 +64,12 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
   const [dialog, setDialog] = useState<'discard' | 'metrics' | 'preferences' | null>(null);
   const exit = useRef<(() => void) | null>(null);
   const [station, setStation] = useState<StationSelection | null>(null);
-  const [desktop, setDesktop] = useState(() => window.matchMedia('(min-width: 901px)').matches);
+  const [viewportWidth, setViewportWidth] = useState(() => window.innerWidth);
+  const desktop = viewportWidth > 900;
   const [highlightedServiceRouteId, setHighlightedServiceRouteId] = useState<string | null>(null);
-  const [settings, setSettings] = useState({ gridLines: true, bike: true, labels: state.labels, speed: 18, dwell: 30 });
+  const [settings, setSettings] = useState({ gridLines: false, bike: false, labels: state.labels, speed: 18, dwell: 30 });
+  const [showNetwork, setShowNetwork] = useState(false);
+  const [comparisonLayer, setComparisonLayer] = useState<'changes' | 'frequency'>('changes');
   const [prefDraft, setPrefDraft] = useState(settings);
   const [retry, setRetry] = useState(0);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -75,7 +79,7 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
   const activeDraft = step === 'review' && last ? { kind: last.kind, route: last.route, original: last.original, band: last.band } : draft;
   const effectiveBand = activeDraft?.band ?? band;
   const selectedStopIds = draft?.route.stop_ids;
-  const showExistingServices = desktop && step === 'edit' && draft?.kind === 'add';
+  const showExistingServices = desktop && step === 'edit' && interaction === 'stops' && draft?.kind === 'add';
   const existingServices = useMemo(() => showExistingServices && selectedStopIds
     ? buildExistingServices(data, routes, selectedStopIds, effectiveBand) : null,
   [data, routes, selectedStopIds, effectiveBand, showExistingServices]);
@@ -90,10 +94,9 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
   const dirty = draft !== null && JSON.stringify(draft.route) !== JSON.stringify(draft.kind === 'add' ? edits[0] : draft.original);
 
   useEffect(() => {
-    const query = window.matchMedia('(min-width: 901px)');
-    const update = () => setDesktop(query.matches);
-    update(); query.addEventListener('change', update);
-    return () => query.removeEventListener('change', update);
+    const update = () => setViewportWidth(window.innerWidth);
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
   }, []);
   useEffect(() => {
     if (highlightedServiceRouteId !== activeServiceRouteId) setHighlightedServiceRouteId(null);
@@ -107,7 +110,7 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
     const timer = setTimeout(() => worker.postMessage({ id: 1, data, map, changes: request.changes, band: request.band }), 100);
     return () => { clearTimeout(timer); worker.terminate(); };
   }, [data, map, request]);
-  const raster = useMemo(() => response?.result ? gridFeatures(data, response.result) : null, [data, response]);
+  const raster = useMemo(() => result ? gridFeatures(data, result) : null, [data, result]);
 
   const clearDraft = () => { setDraft(null); setStep('overview'); setStation(null); setInteraction('stops'); setStopQuery(''); };
   const leave = (done: () => void) => {
@@ -127,7 +130,7 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
     return () => clearTimeout(timer);
   }, [message]);
   useEffect(() => {
-    stageRef.current?.querySelector<HTMLElement>('h1, .route-impact h2')?.focus({ preventScroll: true });
+    stageRef.current?.querySelector<HTMLElement>(step === 'preview' || step === 'review' ? '.route-impact h2' : 'h1')?.focus({ preventScroll: true });
   }, [step]);
   useEffect(() => {
     const list = stageRef.current?.querySelector<HTMLElement>('.route-list');
@@ -139,12 +142,17 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
     const pts = routePath(r, data);
     if (!pts.length) return;
     const lng = pts.map((p) => p[0]), lat = pts.map((p) => p[1]);
-    const narrow = window.innerWidth < 900;
+    const width = window.innerWidth;
+    const narrow = width <= 900;
+    const height = mapRef.current?.getContainer().clientHeight ?? window.innerHeight;
+    const comparing = step === 'preview' || step === 'review';
     mapRef.current?.fitBounds([[Math.min(...lng), Math.min(...lat)], [Math.max(...lng), Math.max(...lat)]], {
-      padding: narrow ? { top: 90, bottom: window.innerHeight * .5, left: 30, right: 30 } : { top: 100, bottom: 130, left: 400, right: 400 },
+      padding: narrow ? { top: Math.min(200, height * .28), bottom: height * (comparing ? .48 : .56), left: 30, right: 48 }
+        : { top: 100, bottom: 130, left: width <= 1100 ? 330 : 384,
+          right: comparing ? width <= 1100 ? 430 : width <= 1450 ? 472 : 554 : width <= 1100 ? 292 : width <= 1450 ? 334 : 384 },
       absolutePadding: true, duration: 700, maxZoom: 14.5,
     });
-  }, [data]);
+  }, [data, step]);
   const locate = (at: [number, number]) => mapRef.current?.flyTo({ center: at, zoom: 15, padding: window.innerWidth >= 900 ? { left: 370, right: step === 'preview' || step === 'review' ? 510 : 360, top: 100, bottom: 120 } : { left: 0, right: 0, top: 60, bottom: window.innerHeight * .48 } });
   const select = (r: Route) => { setSelectedId(r.id); setStation(null); fitRoute(r); };
   const begin = (kind: Draft['kind']) => {
@@ -155,6 +163,7 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
     const next: Draft = { kind, route, original: kind === 'add' ? null : structuredClone(selected!), band };
     setDraft(next); setEdits([route]); setEditIndex(0); setInteraction('stops'); setStation(null); setStopQuery(''); setInsertAfter(-1);
     setStep(kind === 'delete' ? 'preview' : 'edit');
+    setComparisonLayer('changes');
     if (route.stop_ids.length) fitRoute(route);
   };
   const openedTarget = useRef(false);
@@ -209,22 +218,26 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
   const matches = useMemo(() => searchRouteGroups(groups, query), [groups, query]);
   const stopMatches = useMemo(() => stopQuery.trim() ? Object.entries(data.records.stops).filter(([id, s]) => `${s.name} ${id}`.includes(stopQuery.trim())).slice(0, 20) : [], [data, stopQuery]);
   const activeRoute = activeDraft?.route ?? selected;
-  const editor: EditorMapProps = { data, grid: raster, route: activeRoute, original: activeDraft?.original ?? null, deleting: activeDraft?.kind === 'delete', showStopNumbers: step !== 'overview',
+  useEffect(() => {
+    if ((step === 'preview' || step === 'review') && activeRoute) fitRoute(activeRoute);
+  }, [step, viewportWidth, fitRoute]);
+  const gridView = step === 'edit' ? 'none' : step === 'overview' ? showNetwork ? 'frequency' : 'none' : comparisonLayer;
+  const editor: EditorMapProps = { data, grid: raster, gridView, route: activeRoute, original: activeDraft?.original ?? null, deleting: activeDraft?.kind === 'delete', showStopNumbers: step !== 'overview',
     interaction: step === 'edit' ? interaction : 'select', insertIndex, gridLines: settings.gridLines, bike: settings.bike,
     existingServices, highlightedServiceRouteId: activeServiceRouteId,
     onStop: addStop, onRoute: (id) => { if (step === 'overview') { const r = routes.find((r) => r.route_id === id); if (r) select(r); } },
     onPath: (path) => draft && changeRoute({ ...draft.route, path }) };
   const mapState = useMemo((): AppState => ({ ...state, mode: 'frequency', labels: settings.labels,
-    layers: new Set(['routes', 'stops', 'mrt', 'places', ...(settings.bike ? ['youbike' as const] : [])]) }), [state, settings]);
+    layers: new Set<LayerGroup>(step === 'edit' ? interaction === 'stops' ? ['stops'] : [] : ['routes', 'stops', 'mrt', 'places']) }), [state, settings, step, interaction]);
   const removed = draft?.original?.stop_ids.filter((id) => !draft.route.stop_ids.includes(id)) ?? [];
   const added = draft?.route.stop_ids.filter((id) => !draft.original?.stop_ids.includes(id)) ?? [];
 
-  return <div ref={stageRef} className={`route-workspace route-step-${step}`}>
+  return <div ref={stageRef} className={`route-workspace route-step-${step}`} data-interaction={step === 'edit' ? interaction : 'select'}>
     <MapView mapRef={mapRef} initialView={initialView} data={map} grid={grid} gridData={gridData} coverage={null} coverageImage={null} coverageLines={null}
       need={null} state={mapState} station={station} onStation={setStation} onCloseStation={() => setStation(null)} onReady={() => selected && fitRoute(selected)} onMoveEnd={() => {}} editor={editor} />
     <Search data={map} onChoose={(item) => {
       if (step === 'edit' && item.station?.type === 'bus' && interaction === 'stops' && data.records.stops[item.station.id]) addStop(item.station.id);
-      else setStation(item.station ?? null);
+      else if (step !== 'edit') setStation(item.station ?? null);
       locate(item.at);
     }} />
     <div className="route-context"><label><span className="sr-only">評估時段</span><select aria-label="評估時段" value={effectiveBand} disabled={step === 'review'} onChange={(e) => {
@@ -259,7 +272,7 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
     {step === 'edit' && draft && <>
       <aside className="card route-sidebar">
         <div className="route-sidebar-head"><button className="btn-outline" onClick={() => leave(clearDraft)}>← 路線工具</button><h1 tabIndex={-1}>{draft.kind === 'add' ? '新增路線' : `編輯${draft.original?.name}`}</h1>
-          <p className="route-step-label">1 調整路線　→　2 預覽影響</p>
+          <ol className="route-steps" aria-label="規劃步驟"><li aria-current="step">1 調整路線</li><li>2 比較影響</li><li>3 套用方案</li></ol>
           <label>路線名稱<input maxLength={100} value={draft.route.name} placeholder="為這條路線命名" onChange={(e) => changeRoute({ ...draft.route, name: e.target.value })} /></label>
           <div className="route-field-row"><label>編輯方向<input aria-label="編輯方向" maxLength={60} value={draft.route.direction_label} onChange={(e) => changeRoute({ ...draft.route, direction_label: e.target.value })} /></label>
             <label>每小時班次<input aria-label="每小時班次" type="number" min={0} max={60} step={.5} placeholder="未提供" value={f === null || !Number.isFinite(f) ? '' : Number(f.toFixed(2))} onChange={(e) => changeRoute({ ...draft.route, frequencies: { ...draft.route.frequencies, [draft.band]: e.target.value === '' ? NaN : Number(e.target.value) } })} /></label></div>
@@ -280,38 +293,46 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
         {!!removed.length && <details className="route-removed"><summary>取消停靠 {removed.length} 站</summary>{removed.map((id, i) => <div key={i}><s>{data.records.stops[id].name}</s><button className="link-btn" onClick={() => addStop(id)}>加回</button></div>)}</details>}
         <div className="route-sidebar-bottom"><Duration draft={draft} data={data} speed={settings.speed} dwell={settings.dwell} />
           {!valid && <p className="route-note" role="status">請填路線名稱、加入至少 2 個不同站點，班次須為 0–60。</p>}
-          <button className="route-primary" disabled={!valid} onClick={() => { setStation(null); setStep('preview'); }}>預覽影響 →</button></div>
+          <button className="route-primary" disabled={!valid} onClick={() => { setStation(null); setComparisonLayer('changes'); setStep('preview'); }}>預覽影響 →</button></div>
       </aside>
       <div className="route-toolbar" role="toolbar" aria-label="路線調整工具">
-        <button aria-pressed={interaction === 'stops'} onClick={() => setInteraction('stops')}>選擇站點</button><button aria-pressed={interaction === 'path'} disabled={draft.route.stop_ids.length < 2} onClick={() => { setInteraction('path'); if (!draft.route.path) changeRoute({ ...draft.route, path: routePath(draft.route, data) }); }}>調整路徑</button>
+        <button aria-pressed={interaction === 'stops'} onClick={() => setInteraction('stops')}>選擇站點</button><button aria-pressed={interaction === 'path'} disabled={draft.route.stop_ids.length < 2} onClick={() => { setStation(null); setInteraction('path'); if (!draft.route.path) changeRoute({ ...draft.route, path: routePath(draft.route, data) }); }}>調整路徑</button>
         <button disabled={editIndex === 0} onClick={() => undoDraft(editIndex - 1)}>復原</button><button disabled={editIndex >= edits.length - 1} onClick={() => undoDraft(editIndex + 1)}>重做</button>
       </div>
       <p className="route-map-hint">{interaction === 'stops'
         ? <><span className="route-stop-key" aria-hidden="true" />點選灰色站點加入第 {insertIndex + 1} 站 · 已選站顯示藍色編號</>
-        : '拖曳控制點調整路徑；＋新增點，方向鍵微調，Delete 移除。'}<br />站序變動會重建連線；圖上路徑不代表可行駛導航。</p>
+        : '拖曳圓點調整路徑 · 按 ＋ 加入控制點'}<small>{interaction === 'stops' ? '藍線是目前草稿；人口與班次差異在下一步比較。' : '方向鍵微調、Delete 移除。站序變動會重建連線；草圖非行車導航。'}</small></p>
       {existingServices !== null ? <ExistingServicesPanel data={data} services={existingServices} selectedStopIds={draft.route.stop_ids} band={effectiveBand}
         draft={draft} draftFrequency={f} applied={Object.keys(changes).length > 0} highlightedRouteId={activeServiceRouteId} onHighlight={setHighlightedServiceRouteId} />
-        : <section className="card route-draft-summary"><h3>{draft.route.name || '未命名路線'}・草稿</h3><span className="route-tag">{ACTION_LABELS[draft.kind]}</span>
+        : interaction !== 'path' && <section className="card route-draft-summary"><h3>{draft.route.name || '未命名路線'}・草稿</h3><span className="route-tag">{ACTION_LABELS[draft.kind]}</span>
         <b>{draft.route.direction_label}</b><p>{draft.route.stop_ids.length} 個停靠站 · 每小時 {rate(f)} 班</p>
         {draft.original && <p>新增 {added.length} 站／取消 {removed.length} 站</p>}<p className="route-note">人口與設施影響請至下一步比較。</p></section>}
     </>}
 
     {(step === 'preview' || step === 'review') && activeDraft && <>
-      <section className="card route-change-summary"><p className="route-eyebrow">{step === 'review' ? '已套用方案' : '本次模擬'}</p><h1 tabIndex={-1}>{activeDraft.route.name}</h1><span className={`route-tag ${activeDraft.kind === 'delete' ? 'loss' : ''}`}>{ACTION_LABELS[activeDraft.kind]}</span>
+      <section className="card route-change-summary"><p className="route-eyebrow">{step === 'review' ? '已套用方案' : '本次模擬'}</p><h1 tabIndex={-1}>{activeDraft.route.name}</h1>
+        <ol className="route-steps" aria-label="規劃步驟"><li>1 調整路線</li><li aria-current={step === 'preview' ? 'step' : undefined}>2 比較影響</li><li aria-current={step === 'review' ? 'step' : undefined}>{step === 'review' ? '3 已套用' : '3 套用方案'}</li></ol>
+        <span className={`route-tag ${activeDraft.kind === 'delete' ? 'loss' : ''}`}>{ACTION_LABELS[activeDraft.kind]}</span>
         <p>{activeDraft.kind === 'delete' ? '移除整條路線及所有附線去回程服務' : `${activeDraft.route.stop_ids.length} 個停靠站 · 每小時 ${rate(frequency(activeDraft.route, activeDraft.band))} 班`}</p>
         <p className="route-note">保留其他路線；人口以臺北市範圍去重。</p></section>
       <Impact key={`${step}:${activeDraft.route.id}`} draft={activeDraft} data={data} result={result} busy={busy} error={error} review={step === 'review'} speed={step === 'review' && last ? last.speed : settings.speed} dwell={step === 'review' && last ? last.dwell : settings.dwell}
         onBack={() => { if (step === 'review' || activeDraft.kind === 'delete') clearDraft(); else setStep('edit'); }} onApply={apply} onRetry={() => setRetry((n) => n + 1)} onLocate={locate} />
     </>}
-    <section className="card route-legend"><b>{step === 'preview' || step === 'review' ? '影響差異' : '地圖圖例'}</b>
-      <div><span className="route-legend-frequency">{['#ffe3c6', '#fbc48d', '#f5a459', '#ed8733', '#d76b20'].map((c, i) => <span key={c}><i style={{ background: c }} />{['1–3', '4–7', '8–15', '16–23', '24+'][i]}</span>)}<small>班/h</small></span>
-        <span><i className="route-legend-mrt" />捷運／班次未知</span>{settings.bike && <span><i className="route-legend-bike" />YouBike 1 km</span>}<span><i className="route-legend-gain" />服務增加</span><span><i className="route-legend-loss" />服務減少（含班次）</span></div>
-      <small>100 m 網格 · 公車橙色深淺依班次，不隨距離衰減</small></section>
+    {step !== 'edit' && <section className="card route-legend" aria-label="目前地圖圖例">
+      {step === 'overview' ? <label className="route-network-toggle"><input type="checkbox" checked={showNetwork} onChange={(e) => setShowNetwork(e.target.checked)} />顯示全路網班次</label>
+        : <div className="route-map-modes" role="group" aria-label="比較地圖內容"><button aria-pressed={comparisonLayer === 'changes'} onClick={() => setComparisonLayer('changes')}>服務增減</button><button aria-pressed={comparisonLayer === 'frequency'} onClick={() => setComparisonLayer('frequency')}>方案班次</button></div>}
+      <div><span><i className={activeDraft?.kind === 'delete' ? 'route-legend-deleted' : 'route-legend-route'} />{activeDraft?.kind === 'delete' ? '刪除路線' : '目前路線'}</span>
+        {gridView === 'frequency' && <><span className="route-legend-frequency">{COLORS.slice(1).map((c, i) => <span key={c}><i style={{ background: c }} />{['<4', '4–<8', '8–<16', '16–<24', '24+'][i]}</span>)}<small>班/h</small></span>
+          <span><i className="route-legend-mrt" />僅捷運可達</span><span><i className="hatch" />含缺班表路線</span>{settings.bike && <span><i className="route-legend-bike" />YouBike 1 km</span>}</>}
+        {gridView === 'changes' && <><span><i className="route-legend-gain" />服務增加</span><span><i className="route-legend-loss" />服務減少</span></>}
+      </div>
+      {gridView !== 'none' && <small role="status">{busy ? '正在更新試算，完成後顯示網格…' : error ? '試算尚未完成，請重試。' : gridView === 'changes' ? '與原始現況比較 · 色塊含班次變動，不等同新增／失去可達人口' : '100 m 網格 · 公車／捷運 350 m 內的服務；缺班表以斜線標示'}</small>}
+    </section>}
     {message && <div className="route-toast" role="status">{message}</div>}
 
     {dialog === 'discard' && <Dialog title="離開前，保留這次調整？" onClose={() => setDialog(null)}><p>站序與班次尚未套用至方案。繼續編輯可保留目前的停靠點與設定。</p><div className="route-actions"><button className="route-primary" onClick={() => setDialog(null)}>繼續編輯</button><button className="btn-outline route-negative" onClick={() => { const done = exit.current; setDialog(null); clearDraft(); done?.(); }}>放棄變更</button></div></Dialog>}
     {dialog === 'metrics' && <Dialog title="怎麼看影響？" onClose={() => setDialog(null)}><h3>可達人口</h3><p>臺北市同一時段，以 100 m 格心距公車／捷運站 350 m 判斷，2024-12 戶籍人口按統計區面積分攤並去重。新增、失去與淨變化分列；班次降低仍可達的居民另外列出。區間包含缺班表的可能覆蓋。</p><h3>高齡與學生</h3><p>65 歲以上與就學身分資料未接入，顯示未估算；不以年齡代理學生，兩個族群也不能相加。</p><h3>設施與時間</h3><p>比較最近可服務站距與 350 m 內公車班次；捷運無班表，不加造班次。草圖單程以偏好的速度、停站秒數估算，無路況與導航驗證；刪除後不適用。</p><h3>班表與範圍</h3><p>班表未分方向，假設同一附線班表套用各方向；同一附線方向同格去重。僅臺北市公運處路線，不能代表完整雙北。YouBike 1 km 是參考，不加入步行可達人口。</p><button className="route-primary" onClick={() => setDialog(null)}>了解</button></Dialog>}
-    {dialog === 'preferences' && <Dialog title="路線工具偏好" onClose={() => setDialog(null)}><p>評估固定使用 100 m 網格、公車／捷運 350 m；探索地圖的偏好另行保留。</p><div className="route-preferences">
+    {dialog === 'preferences' && <Dialog title="路線工具偏好" onClose={() => setDialog(null)}><p>評估固定使用 100 m 網格、公車／捷運 350 m。網格線與 YouBike 參考僅在檢視班次時顯示；編輯中聚焦草稿。探索地圖的偏好另行保留。</p><div className="route-preferences">
       <label><input type="checkbox" checked={prefDraft.gridLines} onChange={(e) => setPrefDraft({ ...prefDraft, gridLines: e.target.checked })} />顯示網格線</label><label><input type="checkbox" checked={prefDraft.bike} onChange={(e) => setPrefDraft({ ...prefDraft, bike: e.target.checked })} />顯示 YouBike 1 km 參考</label><label><input type="checkbox" checked={prefDraft.labels} onChange={(e) => setPrefDraft({ ...prefDraft, labels: e.target.checked })} />顯示底圖地名</label>
       <label>草圖平均速度（km/h）<input type="number" min={5} max={60} value={prefDraft.speed} onChange={(e) => setPrefDraft({ ...prefDraft, speed: Number(e.target.value) })} /></label><label>每站停靠（秒）<input type="number" min={0} max={180} value={prefDraft.dwell} onChange={(e) => setPrefDraft({ ...prefDraft, dwell: Number(e.target.value) })} /></label></div>
       <div className="route-actions"><button className="btn-outline" onClick={() => setDialog(null)}>取消</button><button className="route-primary" disabled={!Number.isFinite(prefDraft.speed) || prefDraft.speed < 5 || prefDraft.speed > 60 || !Number.isFinite(prefDraft.dwell) || prefDraft.dwell < 0 || prefDraft.dwell > 180} onClick={() => { setSettings(prefDraft); setDialog(null); }}>套用設定</button></div></Dialog>}

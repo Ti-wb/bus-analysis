@@ -15,7 +15,7 @@ interface Column { key: SortKey; title: string; render: (r: Ranked) => ReactNode
 const PAGE_SIZE = 10;
 const frequency = (r: Ranked, n = r.frequency) => `${number(n)}${r.partial && n !== null ? '†' : ''}`;
 
-function Meter({ value, color = '#8c6bc7' }: { value: number | null; color?: string }) {
+function Meter({ value, color = '#7c91a2' }: { value: number | null; color?: string }) {
   return <span className="im-meter"><b>{number(value, 0)}{value === null ? '' : '%'}</b><i><span style={{ width: `${value ?? 0}%`, background: color }} /></i></span>;
 }
 const common: Record<string, Column> = {
@@ -35,7 +35,7 @@ function columns(kind: Kind): Column[] {
   if (kind === 'routes') return [name, common.score, common.problems,
     { key: 'geometry', title: '幾何', className: 'im-overlap-cell', render: (r) => <Meter value={r.geometry_overlap} /> },
     { key: 'station', title: '站點', className: 'im-overlap-cell', render: (r) => <Meter value={r.station_overlap} /> },
-    { key: 'trip', title: '旅次*', className: 'im-overlap-cell', render: (r) => <Meter value={r.trip} color="#6e4ba4" /> },
+    { key: 'trip', title: '旅次*', className: 'im-overlap-cell', render: (r) => <Meter value={r.trip} color="#7c91a2" /> },
     common.shared, common.passengers, common.cold, common.recommendation];
   if (kind === 'stops') return [name, common.score, { ...common.shared, title: '停靠路線數' },
     { key: 'frequency', title: '班次／小時 · 尖峰｜離峰', render: (r) => <span className="im-frequencies"><b>{frequency(r, r.peak)}</b><span>｜</span>{frequency(r, r.offpeak)}<small>已知計畫班表</small></span> },
@@ -43,7 +43,7 @@ function columns(kind: Kind): Column[] {
   if (kind === 'drts') return [name, common.score,
     { key: 'population', title: '居住人口（推估）', render: (r) => <><b>{number(r.population, 0)}</b><small>2024-12{r.population_missing_cells ? '・部分缺資料' : ''}</small></> },
     common.routes, { key: 'frequency', title: '計畫班次／小時', render: (r) => frequency(r) }, common.passengers,
-    { key: 'cold', title: '冷區比例*', render: (r) => <Meter value={r.coldShare * 100} color="#4b8ca0" /> }, common.problems, common.recommendation];
+    { key: 'cold', title: '冷區比例*', render: (r) => <Meter value={r.coldShare * 100} color="#7c91a2" /> }, common.problems, common.recommendation];
   return [name, common.score, common.routes,
     { key: 'uninterrupted', title: '連續行駛*', render: (r) => <b className={r.uninterrupted > 75 ? 'im-warning' : ''}>{r.uninterrupted} 分</b> },
     { key: 'rest', title: '端點休息*', render: (r) => `${r.rest} 分` },
@@ -87,6 +87,7 @@ const ImprovementList = forwardRef<ImprovementHandle, Props>(function Improvemen
   const [dialog, setDialog] = useState<'weights' | 'methods' | null>(null);
   const [weights, setWeights] = useState<Weights>(filters.weights);
   const [message, setMessage] = useState('');
+  const [detailOpen, setDetailOpen] = useState(true);
   const scroll = useRef<HTMLDivElement>(null);
   const returnFocus = useRef<HTMLElement | null>(null);
   const deferred = useDeferredValue(filters);
@@ -118,9 +119,20 @@ const ImprovementList = forwardRef<ImprovementHandle, Props>(function Improvemen
   const cols = columns(filters.kind);
   const close = () => { update({ selected: null }); requestAnimationFrame(() => returnFocus.current?.isConnected && returnFocus.current.focus({ preventScroll: true })); };
   const select = (id: string, origin?: HTMLElement | null) => {
-    if (id === filters.selected) { close(); return; }
+    if (id === filters.selected && detailOpen) { close(); return; }
+    setDetailOpen(true);
     returnFocus.current = origin ?? document.activeElement as HTMLElement;
     setFilters((old) => ({ ...old, selected: id }));
+  };
+  const showOnMap = () => {
+    update({ view: 'map' });
+    if (window.innerWidth <= 900) {
+      setDetailOpen(false);
+      requestAnimationFrame(() => {
+        document.querySelector('.im-results')?.scrollIntoView({ block: 'start' });
+        document.querySelector<HTMLButtonElement>('.im-open-selection')?.focus({ preventScroll: true });
+      });
+    }
   };
   useImperativeHandle(ref, () => ({ preferences: () => { setWeights(filters.weights); setDialog('weights'); }, exportCsv: () => {
     if (!data) { setMessage('資料仍在載入，請稍後再匯出。'); return; }
@@ -147,6 +159,8 @@ const ImprovementList = forwardRef<ImprovementHandle, Props>(function Improvemen
     </div>
     <div className="sr-only" role="status" aria-live="polite" aria-atomic="true">{data && !error && !busy && !rows.length ? empty.title : ''}</div>
     <div className="im-results" aria-busy={busy}>
+      {filters.view === 'list' && <p className="im-scroll-hint">表格可左右滑動 · 點路線或站位名稱查看詳情</p>}
+      {selected && !detailOpen && <button className="im-open-selection" onClick={() => setDetailOpen(true)}>查看{selected.name}詳情</button>}
       {busy && <div className="im-computing" role="status">正在重算分數與排序…</div>}
       {!data ? <div className="im-empty" role={error ? 'alert' : 'status'}><h2>{error || '正在載入改善清單…'}</h2><p>準備路線、站位、班表與空間重疊指標</p>{error && <button className="im-primary" onClick={() => setRetry((n) => n + 1)}>重新載入</button>}</div>
       : !rows.length ? <div className="im-empty"><span>⌕</span><h2>{empty.title}</h2><p>{empty.hint}</p><div>{deferred.query.trim() && <button className="im-primary" onClick={() => update({ query: '' })}>清除搜尋</button>}<button className="btn-outline" onClick={reset}>重設為預設值</button>{empty.showLow && !filters.showLow && <button className="btn-outline" onClick={() => update({ showLow: true })}>顯示低優先項目</button>}</div></div>
@@ -162,8 +176,8 @@ const ImprovementList = forwardRef<ImprovementHandle, Props>(function Improvemen
           <button aria-label="下一頁" disabled={currentPage === totalPages} onClick={() => { setPage(currentPage + 1); scroll.current?.scrollTo(0, 0); }}>›</button></nav>}
       </footer>
     </div>
-    {selected && <Detail row={selected} rank={rows.indexOf(selected) + 1} total={rows.length} filters={deferred} lookup={lookup} onClose={close}
-      onMap={() => update({ view: 'map' })} onEdit={(id) => onEdit(id, filters)} onMethods={() => setDialog('methods')} />}
+    {selected && detailOpen && <Detail row={selected} rank={rows.indexOf(selected) + 1} total={rows.length} filters={deferred} lookup={lookup} onClose={close}
+      onMap={showOnMap} onEdit={(id) => onEdit(id, filters)} onMethods={() => setDialog('methods')} />}
     {dialog === 'weights' && <Dialog title="改善清單偏好" onClose={() => setDialog(null)}><p>調整四項指標權重，總分會依比例換算為 100 分。需求與旅次使用 Mock Data。</p>
       <div className="im-weight-fields">{['捷運重疊', '路線堆疊', '低載程度', '冷區比例'].map((label, i) => <label key={label}>{label}<input type="range" min="0" max="100" value={weights[i]} onChange={(e) => setWeights(weights.map((w, j) => i === j ? +e.target.value : w) as Weights)} /><b>{weights[i]}</b></label>)}</div>
       <footer><button className="btn-outline" onClick={() => setWeights(DEFAULTS.weights)}>恢復預設權重</button><button className="im-primary" disabled={!weights.some((n) => n > 0)} onClick={() => { update({ weights }); setDialog(null); }}>套用</button></footer></Dialog>}

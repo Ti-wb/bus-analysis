@@ -6,6 +6,31 @@ import type { BusFocusState } from '../focus/model';
 /** Style layers only; react-map-gl's LayerProps also admits custom WebGL layers. */
 export type StyleLayer = Exclude<LayerProps, { type: 'custom' }>;
 
+/** Analysis owns colour; transport and facilities provide quiet, selectable context. */
+export function analysisContextLayer(layer: StyleLayer): StyleLayer {
+  const id = layer.id;
+  if (layer.type === 'line' && ['bus-routes', 'regional-bus-routes', 'mrt-lines'].includes(id ?? '')) {
+    return { ...layer, paint: { ...layer.paint, 'line-color': '#788894',
+      'line-opacity': id === 'mrt-lines' ? .5 : ['interpolate', ['linear'], ['zoom'], 10, .025, 13, .08, 16, .22],
+      'line-width': id === 'mrt-lines' ? ['interpolate', ['linear'], ['zoom'], 10, 1, 15, 2.5] : ['interpolate', ['linear'], ['zoom'], 10, .5, 15, 1.2] } };
+  }
+  if (layer.type === 'circle' && ['bus-stops', 'regional-bus-stops', 'mrt-stations', 'youbike', 'places'].includes(id ?? '')) {
+    const metro = id === 'mrt-stations';
+    const place = id === 'places';
+    return { ...layer, minzoom: metro ? 11 : place || id === 'youbike' ? 14 : 12.5,
+      paint: { ...layer.paint, 'circle-color': place || id === 'youbike' ? '#9aa7af' : '#ffffff',
+        'circle-stroke-color': '#718491',
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, metro ? 2.5 : 1, 14, metro ? 4 : 2.5, 17, metro ? 6 : 5],
+        'circle-stroke-width': metro ? 1.3 : .9,
+        'circle-opacity': ['interpolate', ['linear'], ['zoom'], 11, .4, 15, .85],
+        'circle-stroke-opacity': ['interpolate', ['linear'], ['zoom'], 11, .4, 15, .85] } };
+  }
+  if (id === 'mrt-lines-casing' && layer.type === 'line') {
+    return { ...layer, paint: { ...layer.paint, 'line-width': 3, 'line-opacity': .5 } };
+  }
+  return layer;
+}
+
 export const roadsLayer: StyleLayer = {
   id: 'roads',
   type: 'line',

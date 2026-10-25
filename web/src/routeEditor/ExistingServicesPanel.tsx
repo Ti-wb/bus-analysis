@@ -52,8 +52,8 @@ export default function ExistingServicesPanel({ data, services, selectedStopIds,
       <p className="route-services-scope">已選站周邊直線 350 m</p>
       <p className="route-services-band"><b>{BANDS.find((item) => item.id === band)?.label}</b><span>時段平均班次 · 班/h</span></p>
       <div className="route-services-count"><b aria-live="polite">{groups.length} 條路線<span>／{selectedAreas.size} 個已選站區</span></b>
-        {highlightedRouteId !== null && <button className="link-btn" onClick={() => onHighlight(null)}>顯示全部</button>}</div>
-      <p className="route-note">點路線展開明細並在地圖強調；再點可收合。</p>
+        {highlightedRouteId !== null && <button className="link-btn" onClick={() => onHighlight(null)}>收起參考線</button>}</div>
+      <p className="route-note">點選一條路線，才會顯示參考線；收合後回到草稿。</p>
       <div className="route-services-key" aria-label="既有服務地圖圖例"><span><i />既有路線</span><span><i className="is-zero" />本時段 0 班</span><span><i className="is-unknown" />班表未提供</span></div>
       <p className="route-services-assumption route-note">班表未分方向，同一附線各方向沿用相同班表。</p>
     </header>

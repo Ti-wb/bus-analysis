@@ -36,8 +36,8 @@ export default function Impact({ draft, data, result, busy, error, review, speed
   const lostFacilities = result?.facilities.filter((f) => f.status === 'loss').length ?? 0;
   return <section className="card route-impact" aria-label={review ? '已套用影響回顧' : '影響預覽'} aria-busy={busy}>
     <div className="route-impact-body">
-      <p className="route-eyebrow">{review ? '已套用方案・影響回顧' : `${ACTION_LABELS[draft.kind]}・影響預覽`}</p>
-      <h2>{draft.route.name}</h2>
+      <p className="route-eyebrow">{review ? '3 已套用方案・影響回顧' : `2 比較影響・${ACTION_LABELS[draft.kind]}`}</p>
+      <h2 tabIndex={-1}>{draft.route.name}</h2>
       <p className="muted route-note">與原始現況路網比較 · {BANDS.find((b) => b.id === draft.band)!.label}</p>
       {busy && <div className="route-notice" role="status">正在比較人口、設施與班次…<br />完成後才能套用，返回會保留草稿。</div>}
       {error && <div className="route-notice danger" role="alert">{error} <button className="link-btn" onClick={onRetry}>重新試算</button></div>}

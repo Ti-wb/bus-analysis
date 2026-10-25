@@ -148,8 +148,7 @@ export default function MapView({ villageAges = null, villageData = null, select
   const [hover, setHover] = useState<Hover | null>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const pickingStops = editor?.interaction === 'stops';
-  const editingRouteStops = pickingStops || editor?.interaction === 'path';
-  useEffect(() => { setHover(null); }, [editor?.interaction]);
+  useEffect(() => { setHover(null); setPopup(null); }, [editor?.interaction]);
 
   // Keep the tooltip inside the map: place it below-right of the cursor, flipping to the
   // other side when it would cross the right or bottom edge.
@@ -273,11 +272,12 @@ export default function MapView({ villageAges = null, villageData = null, select
     const canvas = map.getCanvas();
     canvas.setAttribute('aria-label', pickingStops
       ? '選擇公車站；方向鍵移動，Enter 加入畫面中央最近的可選公車站'
+      : editor?.interaction === 'path' ? '調整路徑；Tab 選取路徑控制點，方向鍵微調，Delete 移除'
       : state.mode === 'village_age' && !editor && !activeFocus
       ? '互動地圖；方向鍵移動，Enter 查詢畫面中央的村里年齡，Escape 關閉資訊'
       : '互動地圖；方向鍵移動，Enter 開啟畫面中央最近的可見站點，Escape 關閉資訊');
     const openStation = (event: KeyboardEvent) => {
-      if (event.key !== 'Enter') return;
+      if (event.key !== 'Enter' || editor?.interaction === 'path') return;
       if (!editor && !activeFocus && state.mode === 'village_age' && map.getLayer('village-age-fill')) {
         const centre: [number, number] = [canvas.clientWidth / 2, canvas.clientHeight / 2];
         const village = map.queryRenderedFeatures(centre, { layers: ['village-age-fill'] })[0];
@@ -353,30 +353,18 @@ export default function MapView({ villageAges = null, villageData = null, select
     && !(activeFocus && ['grid', 'villages', 'traffic', 'bus_times'].includes(group))
     && (group !== 'grid' || (!editor && state.mode === 'frequency' && !villageView));
   const visible = (id: string) => (shown(LAYER_GROUP_OF[id]) ? 'visible' : 'none');
-  const withVisibility = (layer: L.StyleLayer, beforeId?: string): LayerProps => ({
-    ...layer,
-    beforeId,
-    layout: { ...(layer.layout ?? {}), visibility: pickingStops && layer.id === 'bus-stops' ? 'none' : visible(layer.id!) },
-    // Keep stops discoverable at city scale without letting thousands of rings dominate the heatmap.
-    ...(!editor && !activeFocus && ['bus-stops', 'regional-bus-stops'].includes(layer.id!) ? { paint: { ...layer.paint,
-      'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, 1.2, 14, 3.5, 17, 6],
-      'circle-stroke-opacity': ['interpolate', ['linear'], ['zoom'], 11, .55, 14, 1],
-      'circle-opacity': ['interpolate', ['linear'], ['zoom'], 11, .65, 14, 1],
-    } } : {}),
-    ...(!editor && !activeFocus && layer.id === 'regional-bus-routes' ? { paint: { ...layer.paint,
-      'line-opacity': ['interpolate', ['linear'], ['zoom'], 9, .06, 12, .12, 15, .38],
-    } } : {}),
-    ...(editingRouteStops && ['bus-stops', 'regional-bus-stops'].includes(layer.id!) ? { paint: { ...layer.paint,
-      'circle-color': '#e4e8eb', 'circle-opacity': .6, 'circle-stroke-color': '#9aa5ae',
-      'circle-stroke-opacity': .7, 'circle-stroke-width': 1.2 } } : {}),
-    ...(editor && layer.id === 'bus-routes' ? { paint: { ...layer.paint, 'line-color': '#8aa2af', 'line-opacity': .025, 'line-width': .75 } } : {}),
-    ...(editor && (layer.id === 'mrt-lines' || layer.id === 'mrt-lines-casing') ? { paint: { ...layer.paint, 'line-opacity': .2 } } : {}),
-    ...(editor && layer.id === 'places' ? { paint: { ...layer.paint, 'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, 2, 15, 4], 'circle-opacity': .65, 'circle-stroke-width': 1 } } : {}),
-    ...(activeFocus && ['bus-routes', 'regional-bus-routes'].includes(layer.id!) ? { paint: { ...layer.paint, 'line-color': '#b7c1c6', 'line-opacity': .2, 'line-width': .8 } } : {}),
-    ...(activeFocus && layer.id === 'mrt-lines' ? { paint: { ...layer.paint, 'line-color': '#b7c1c6', 'line-opacity': .3, 'line-width': 1.4 } } : {}),
-    ...(activeFocus && layer.id === 'mrt-lines-casing' ? { paint: { ...layer.paint, 'line-opacity': .3 } } : {}),
-    ...(activeFocus && ['bus-stops', 'regional-bus-stops', 'mrt-stations', 'youbike', 'places'].includes(layer.id!) ? { paint: { ...layer.paint, 'circle-opacity': .2, 'circle-stroke-opacity': .2 } } : {}),
-  } as LayerProps);
+  const withVisibility = (source: L.StyleLayer, beforeId?: string): LayerProps => {
+    const layer = activeFocus ? source : L.analysisContextLayer(source);
+    return {
+      ...layer, beforeId,
+      layout: { ...(layer.layout ?? {}), visibility: pickingStops && layer.id === 'bus-stops' ? 'none' : visible(layer.id!) },
+      ...(editor && layer.id === 'bus-routes' ? { paint: { ...layer.paint, 'line-opacity': .025, 'line-width': .75 } } : {}),
+      ...(activeFocus && ['bus-routes', 'regional-bus-routes'].includes(layer.id!) ? { paint: { ...layer.paint, 'line-color': '#b7c1c6', 'line-opacity': .2, 'line-width': .8 } } : {}),
+      ...(activeFocus && layer.id === 'mrt-lines' ? { paint: { ...layer.paint, 'line-color': '#b7c1c6', 'line-opacity': .3, 'line-width': 1.4 } } : {}),
+      ...(activeFocus && layer.id === 'mrt-lines-casing' ? { paint: { ...layer.paint, 'line-opacity': .3 } } : {}),
+      ...(activeFocus && ['bus-stops', 'regional-bus-stops', 'mrt-stations', 'youbike', 'places'].includes(layer.id!) ? { paint: { ...layer.paint, 'circle-color': '#b7c1c6', 'circle-stroke-color': '#91a0ab', 'circle-opacity': .2, 'circle-stroke-opacity': .2 } } : {}),
+    } as LayerProps;
+  };
 
   const placeMembers = useMemo(
     () => PLACE_CATEGORIES.filter((c) => state.places.has(c.key)).flatMap((c) => c.members),
@@ -384,6 +372,7 @@ export default function MapView({ villageAges = null, villageData = null, select
   );
 
   const featureAt = (e: MapLayerMouseEvent): MapGeoJSONFeature | undefined => {
+    if (editor?.interaction === 'path') return;
     const map = mapRef.current!.getMap();
     const { x, y } = e.point;
     if (pickingStops) {
@@ -398,10 +387,12 @@ export default function MapView({ villageAges = null, villageData = null, select
       return stops.reduce<MapGeoJSONFeature | undefined>((best, f) => !best || distance(f) < distance(best) ? f : best, undefined);
     }
     const layers = [...(activeFocus ? Object.keys(FOCUS_ORIGINAL_LAYERS) : []), ...HOVER_LAYERS.filter((id) => (!activeFocus || !['bus-routes', 'regional-bus-routes'].includes(id)) && shown(LAYER_GROUP_OF[id]))].filter((id) => map.getLayer(id));
-    // In need mode the grid cell outranks route lines, but point markers still win.
-    if (!activeFocus && state.mode === 'need' && !villageView && map.getLayer('need-fill')) {
+    // Analysis cells outrank muted background lines; visible station markers still win.
+    const analysisLayers = state.mode === 'need' ? ['need-fill'] : state.mode === 'frequency' && shown('grid') ? ['grid-fill', 'grid-hatch'] : [];
+    if (!editor && !activeFocus && !villageView && analysisLayers.length) {
+      for (const id of analysisLayers) { const i = layers.indexOf(id); if (i !== -1) layers.splice(i, 1); }
       const firstLine = layers.findIndex((id) => id === 'bus-routes' || id === 'mrt-lines' || id === 'regional-bus-routes');
-      layers.splice(firstLine < 0 ? layers.length : firstLine, 0, 'need-fill');
+      layers.splice(firstLine < 0 ? layers.length : firstLine, 0, ...analysisLayers.filter((id) => map.getLayer(id)));
     }
     if (ageView && map.getLayer('village-age-fill')) {
       // Analysis polygons outrank supplemental lines; station points remain selectable.

@@ -80,13 +80,13 @@ h1, h2, h3, p { margin: 0; }
 .layer-toggle small { margin-left: auto; color: var(--muted); font-size: 12px; }
 .swatch { width: 18px; height: 12px; border-radius: 3px; display: inline-block; }
 .swatch-grid { background: linear-gradient(90deg, #ecdcb8, #a6d2c9, #2f8f86); }
-.swatch-bus { height: 3px; background: var(--bus); }
-.swatch-youbike { width: 8px; height: 8px; border-radius: 50%; background: var(--youbike); border: 1.5px solid #fff; box-shadow: 0 0 0 1px var(--youbike-edge); margin: 0 5px; }
-.swatch-stop { width: 8px; height: 8px; border-radius: 50%; background: #fff; border: 2px solid var(--bus); margin: 0 5px; }
-.swatch-mrt { height: 4px; background: linear-gradient(90deg, #e3002c, #0070bd, #008659, #f8b61c); }
-.swatch-regional { height: 3px; background: repeating-linear-gradient(90deg, #1d559f 0 6px, transparent 6px 8px); }
+.swatch-bus { height: 3px; background: #788894; }
+.swatch-youbike { width: 8px; height: 8px; border-radius: 50%; background: #9aa7af; border: 1.5px solid #fff; box-shadow: 0 0 0 1px #718491; margin: 0 5px; }
+.swatch-stop { width: 8px; height: 8px; border-radius: 50%; background: #fff; border: 1.5px solid #718491; margin: 0 5px; }
+.swatch-mrt { height: 4px; background: #788894; }
+.swatch-regional { height: 3px; background: repeating-linear-gradient(90deg, #788894 0 6px, transparent 6px 8px); }
 .swatch-frog { height: 3px; background: #a64a85; }
-.swatch-regional-stop { width: 8px; height: 8px; margin: 0 5px; border-radius: 50%; border: 1.5px solid #1d559f; background: #fff; }
+.swatch-regional-stop { width: 8px; height: 8px; margin: 0 5px; border-radius: 50%; border: 1.5px solid #718491; background: #fff; }
 .swatch-village { background: linear-gradient(90deg, #c8ddbd, #28674c); }
 .swatch-traffic { height: 4px; background: linear-gradient(90deg, #c34e42, #e59043, #398f81); }
 .swatch-travel { height: 3px; background: linear-gradient(90deg, #71b6b1, #327caf, #963c87); }
@@ -427,3 +427,5 @@ dialog.about .close { position: absolute; right: 16px; top: 12px; border: 0; bac
   .village-dialog { right: 12px; top: 68px; max-height: calc(100% - 92px); }
   .age-controls .age-help { font-size: 10px; }
 }
+
+.map-context-note { border-top: 1px solid var(--line); padding-top: 10px; margin-top: 14px; }

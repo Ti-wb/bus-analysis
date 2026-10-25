@@ -2,9 +2,15 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import Map, { AttributionControl, Layer, NavigationControl, Source, type MapRef } from 'react-map-gl/maplibre';
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url';
 import type { Feature, FeatureCollection } from 'geojson';
+import type { ExpressionSpecification } from 'maplibre-gl';
 import { BASE_STYLE, DEFAULT_VIEW } from '../config';
 import type { MapData } from '../types';
 import type { Ranked } from './types';
+
+const CANDIDATE = '#7b8c9a';
+const PRIORITY = '#b76c30';
+const SELECTION = '#1d559f';
+const candidateColor: ExpressionSpecification = ['case', ['>=', ['get', 'score'], 80], PRIORITY, CANDIDATE];
 
 export default function ImprovementMap({ rows, selected, map, onSelect }: { rows: Ranked[]; selected: Ranked | null; map: MapData; onSelect: (id: string) => void }) {
   const ref = useRef<MapRef>(null);
@@ -19,8 +25,9 @@ export default function ImprovementMap({ rows, selected, map, onSelect }: { rows
     if (!ready || !selected) return;
     const pts = selected.path?.length ? selected.path : selected.bounds ?? [selected.at];
     const xs = pts.map((p) => p[0]), ys = pts.map((p) => p[1]);
+    const compact = window.innerWidth <= 900;
     ref.current?.fitBounds([[Math.min(...xs), Math.min(...ys)], [Math.max(...xs), Math.max(...ys)]],
-      { absolutePadding: true, padding: { top: 60, left: 60, bottom: 60, right: 560 }, duration: 600, maxZoom: pts.length === 1 ? 15.5 : 14.5 });
+      { absolutePadding: true, padding: { top: compact ? 140 : 60, left: 40, bottom: 60, right: compact ? 40 : 560 }, duration: 600, maxZoom: pts.length === 1 ? 15.5 : 14.5 });
   }, [ready, selected]);
   const selectedData: FeatureCollection = { type: 'FeatureCollection', features: data.features.filter((f) => f.properties?.id === selected?.id) };
   return <div className={`im-map${selected ? ' has-selection' : ''}`}>
@@ -36,19 +43,23 @@ export default function ImprovementMap({ rows, selected, map, onSelect }: { rows
         setReady(true);
       }} interactiveLayerIds={['im-candidate-lines', 'im-candidate-points', 'im-candidate-blocks']}
       onClick={(e) => { const id = e.features?.[0]?.properties?.id; if (typeof id === 'string') onSelect(id); }} cursor="pointer">
-      <Source id="im-mrt" type="geojson" data={map.mrt_lines}><Layer id="im-mrt-lines" type="line" paint={{ 'line-color': ['get', 'color'], 'line-width': 2.5, 'line-opacity': .55 }} /></Source>
+      <Source id="im-mrt" type="geojson" data={map.mrt_lines}><Layer id="im-mrt-lines" type="line" paint={{ 'line-color': '#a6b0b7', 'line-width': 1.5, 'line-opacity': .4 }} /></Source>
       <Source id="im-candidates" type="geojson" data={data}>
-        <Layer id="im-candidate-blocks" type="fill" filter={['==', '$type', 'Polygon']} paint={{ 'fill-color': '#337cda', 'fill-opacity': .2, 'fill-outline-color': '#1d559f' }} />
-        <Layer id="im-candidate-lines" type="line" filter={['==', '$type', 'LineString']} paint={{ 'line-color': ['case', ['>=', ['get', 'score'], 80], '#ed8733', '#607f9f'], 'line-width': 2, 'line-opacity': .45 }} />
-        <Layer id="im-candidate-points" type="circle" filter={['==', '$type', 'Point']} paint={{ 'circle-color': ['case', ['>=', ['get', 'score'], 80], '#ed8733', '#337cda'], 'circle-radius': 5, 'circle-stroke-color': '#fff', 'circle-stroke-width': 1.5 }} />
+        <Layer id="im-candidate-blocks" type="fill" filter={['==', '$type', 'Polygon']} layout={{ 'fill-sort-key': ['get', 'score'] }}
+          paint={{ 'fill-color': [...candidateColor], 'fill-opacity': selected ? .08 : ['case', ['>=', ['get', 'score'], 80], .3, .12], 'fill-outline-color': [...candidateColor] }} />
+        <Layer id="im-candidate-lines" type="line" filter={['==', '$type', 'LineString']} layout={{ 'line-sort-key': ['get', 'score'] }}
+          paint={{ 'line-color': [...candidateColor], 'line-width': ['case', ['>=', ['get', 'score'], 80], 2.6, 1.2], 'line-opacity': selected ? .12 : ['case', ['>=', ['get', 'score'], 80], .88, .28] }} />
+        <Layer id="im-candidate-points" type="circle" filter={['==', '$type', 'Point']} layout={{ 'circle-sort-key': ['get', 'score'] }}
+          paint={{ 'circle-color': [...candidateColor], 'circle-radius': ['case', ['>=', ['get', 'score'], 80], 6, 4], 'circle-stroke-color': '#fff', 'circle-stroke-width': 1.5, 'circle-opacity': selected ? .3 : .9, 'circle-stroke-opacity': selected ? .3 : 1 }} />
       </Source>
       <Source id="im-selection" type="geojson" data={selectedData}>
-        <Layer id="im-selected-line" type="line" filter={['!=', '$type', 'Point']} paint={{ 'line-color': '#1759a8', 'line-width': 5 }} />
-        <Layer id="im-selected-point" type="circle" filter={['==', '$type', 'Point']} paint={{ 'circle-color': '#fd5f19', 'circle-radius': 9, 'circle-stroke-color': '#fff', 'circle-stroke-width': 3 }} />
+        <Layer id="im-selected-casing" type="line" filter={['!=', '$type', 'Point']} paint={{ 'line-color': '#ffffff', 'line-width': 8 }} />
+        <Layer id="im-selected-line" type="line" filter={['!=', '$type', 'Point']} paint={{ 'line-color': SELECTION, 'line-width': 4 }} />
+        <Layer id="im-selected-point" type="circle" filter={['==', '$type', 'Point']} paint={{ 'circle-color': SELECTION, 'circle-radius': 9, 'circle-stroke-color': '#fff', 'circle-stroke-width': 3 }} />
       </Source>
       <NavigationControl position="bottom-left" showCompass={false} /><AttributionControl position="bottom-right" compact customAttribution="公車：臺北市公共運輸處" />
     </Map>
-    <div className="im-map-legend"><b>{rows.length.toLocaleString()} 個符合條件項目</b><span><i />高優先 ≥80 <i />其他候選</span><small>分數含 Mock Data · 點擊路線、站位或區塊檢視</small>
+    <div className="im-map-legend"><b>{rows.length.toLocaleString()} 個符合條件項目</b><span><i style={{ background: PRIORITY }} />高優先 ≥80 <i style={{ background: CANDIDATE }} />其他候選 <i style={{ background: SELECTION }} />目前選取</span><small>分數含 Mock Data · 點擊路線、站位或區塊檢視</small>
       {rows[0]?.kind === 'routes' && <small>各路線顯示代表附線方向；缺線形以站序連線示意。</small>}
       {selected?.kind === 'routes' && <small>選取：{selected.name} · {selected.profile_direction} · {selected.path_is_stop_connection ? '站序示意連線' : '來源線形'}</small>}
     </div>

@@ -299,15 +299,15 @@ export default function Preferences({ state, data, supplementalPending, onRetryS
           {draft.mode === 'frequency' && (
               <Switch label="公車班次網格" color={COLORS[4]} checked={draft.layers.has('grid')} onChange={() => toggleLayer('grid')} />
             )}
-            <Switch label="臺北公車路線" color="var(--bus)" checked={draft.layers.has('routes')} onChange={() => toggleLayer('routes')} />
-            <Switch label="重要地點" color="#c2549d" checked={draft.layers.has('places')} onChange={() => toggleLayer('places')} />
+            <Switch label="臺北公車路線" color={NEUTRAL} checked={draft.layers.has('routes')} onChange={() => toggleLayer('routes')} />
+            <Switch label="重要地點" color={NEUTRAL} checked={draft.layers.has('places')} onChange={() => toggleLayer('places')} />
             {draft.layers.has('places') && (
               <div className="place-chips prefs-place-chips">
                 {PLACE_CATEGORIES.map((c) => (
                   <button
                     key={c.key}
                     className={`place-chip${draft.places.has(c.key) ? ' is-on' : ''}`}
-                    style={{ '--c': c.color } as CSSProperties}
+                    style={{ '--c': NEUTRAL } as CSSProperties}
                     aria-pressed={draft.places.has(c.key)}
                     onClick={() => set({ places: toggled(draft.places, c.key) })}
                   >

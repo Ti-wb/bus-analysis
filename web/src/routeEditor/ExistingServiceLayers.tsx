@@ -37,8 +37,8 @@ export default function ExistingServiceLayers({ data, services, selectedStopIds,
       type: 'FeatureCollection', features: [],
     };
 
-    for (const service of services) {
-      const emphasized = highlightedRouteId === null || service.route.route_id === highlightedRouteId;
+    for (const service of services.filter((item) => item.route.route_id === highlightedRouteId)) {
+      const emphasized = true;
       const status = serviceStatus(service.frequency);
       const coordinates = routePath(service.route, data);
       if (coordinates.length > 1) routes.features.push({

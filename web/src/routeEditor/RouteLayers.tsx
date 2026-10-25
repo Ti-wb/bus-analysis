@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import type { ExpressionSpecification } from 'maplibre-gl';
 import type { FeatureCollection, Polygon } from 'geojson';
 import { routePath } from './engine';
+import { COLORS } from '../config';
 import ExistingServiceLayers from './ExistingServiceLayers';
 import type { ExistingService } from './existingServices';
 import type { Coordinate, Route, ScenarioData } from './types';
@@ -10,6 +11,7 @@ import type { Coordinate, Route, ScenarioData } from './types';
 export interface EditorMapProps {
   data: ScenarioData;
   grid: FeatureCollection<Polygon> | null;
+  gridView: 'none' | 'frequency' | 'changes';
   route: Route | null;
   original: Route | null;
   deleting: boolean;
@@ -50,19 +52,24 @@ export function RouteStopPicker({ editor, hoveredId }: { editor: EditorMapProps;
 }
 
 export function ScenarioGrid({ editor, beforeId }: { editor: EditorMapProps; beforeId?: string }) {
-  if (!editor.grid) return null;
+  if (!editor.grid || editor.gridView === 'none') return null;
+  const frequency = editor.gridView === 'frequency';
   return <Source id="scenario-grid" type="geojson" data={editor.grid}>
-    {editor.bike && <Layer id="scenario-bike" type="fill" beforeId={beforeId} filter={['==', ['get', 'bike'], true]}
-      paint={{ 'fill-color': '#88ceca', 'fill-opacity': .24 }} />}
-    <Layer id="scenario-walk" type="fill" beforeId={beforeId} filter={['==', ['get', 'walk'], true]}
-      paint={{ 'fill-color': ['case', ['==', ['get', 'frequency'], 0], '#e4dfd5',
-        ['step', ['get', 'frequency'], '#ffe3c6', 4, '#fbc48d', 8, '#f5a459', 16, '#ed8733', 24, '#d76b20']], 'fill-opacity': .46 }} />
-    <Layer id="scenario-grid-lines" type="line" beforeId={beforeId} layout={{ visibility: editor.gridLines ? 'visible' : 'none' }}
-      paint={{ 'line-color': '#a0b4ba', 'line-opacity': .25, 'line-width': .35 }} />
-    <Layer id="scenario-gain" type="line" beforeId={beforeId} filter={['==', ['get', 'increased'], true]}
-      paint={{ 'line-color': '#337cda', 'line-width': 1, 'line-opacity': .85 }} />
-    <Layer id="scenario-loss" type="fill" beforeId={beforeId} filter={['==', ['get', 'decreased'], true]}
-      paint={{ 'fill-pattern': 'scenario-hatch', 'fill-opacity': .85 }} />
+    {frequency && editor.bike && <Layer source="scenario-grid" id="scenario-bike" type="fill" beforeId={beforeId} filter={['==', ['get', 'bike'], true]}
+      paint={{ 'fill-color': '#8da9bf', 'fill-opacity': .15 }} />}
+    {frequency && <Layer source="scenario-grid" id="scenario-walk" type="fill" beforeId={beforeId} filter={['==', ['get', 'walk'], true]}
+      paint={{ 'fill-color': ['case', ['==', ['get', 'frequency'], 0], '#e1e6e9',
+        ['step', ['get', 'frequency'], COLORS[1], 4, COLORS[2], 8, COLORS[3], 16, COLORS[4], 24, COLORS[5]]], 'fill-opacity': .65 }} />}
+    {frequency && <Layer source="scenario-grid" id="scenario-unknown" type="fill" beforeId={beforeId} filter={['==', ['get', 'unknown'], true]}
+      paint={{ 'fill-pattern': 'hatch-line', 'fill-opacity': .5 }} />}
+    {frequency && <Layer source="scenario-grid" id="scenario-grid-lines" type="line" beforeId={beforeId} layout={{ visibility: editor.gridLines ? 'visible' : 'none' }}
+      paint={{ 'line-color': '#ffffff', 'line-opacity': .5, 'line-width': .5 }} />}
+    {!frequency && <Layer source="scenario-grid" id="scenario-gain-fill" type="fill" beforeId={beforeId} filter={['==', ['get', 'increased'], true]}
+      paint={{ 'fill-color': '#278477', 'fill-opacity': .2 }} />}
+    {!frequency && <Layer source="scenario-grid" id="scenario-gain" type="line" beforeId={beforeId} filter={['==', ['get', 'increased'], true]}
+      paint={{ 'line-color': '#278477', 'line-width': 1, 'line-opacity': .8 }} />}
+    {!frequency && <Layer source="scenario-grid" id="scenario-loss" type="fill" beforeId={beforeId} filter={['==', ['get', 'decreased'], true]}
+      paint={{ 'fill-pattern': 'scenario-hatch', 'fill-opacity': .85 }} />}
   </Source>;
 }
 
@@ -86,20 +93,22 @@ export function RouteLayers({ editor, beforeId }: { editor: EditorMapProps; befo
     </Source>
     {/* Keep services below the draft, including when the overlay mounts mid-session.
         On the local basemap, also leave the stop picker above these context layers. */}
-    {editor.existingServices && <ExistingServiceLayers data={data} services={editor.existingServices}
+    {interaction === 'stops' && editor.highlightedServiceRouteId && editor.existingServices && <ExistingServiceLayers data={data} services={editor.existingServices}
       selectedStopIds={route.stop_ids} highlightedRouteId={editor.highlightedServiceRouteId ?? null}
       beforeId={interaction === 'stops' && !beforeId ? 'scenario-stop-halo' : 'scenario-route-casing'} />}
     {route.stop_ids.map((id, i) => {
       const s = data.records.stops[id];
+      // Keep the comparison readable even when a whole route fits in a small viewport.
+      const numbered = interaction === 'stops' || i === 0 || i === route.stop_ids.length - 1 || (!!original && !oldStops.has(id));
       return <Marker key={`${id}:${i}`} longitude={s.at[0]} latitude={s.at[1]}>
-        {editor.showStopNumbers ? <button className={`route-map-stop${deleting ? ' is-removed' : interaction === 'select' && oldStops.has(id) ? ' is-existing' : ''}`}
+        {editor.showStopNumbers && interaction !== 'path' && numbered ? <button className={`route-map-stop${deleting ? ' is-removed' : ''}`}
           aria-label={`${i + 1} ${s.name}${interaction === 'stops' ? '，定位停靠站' : ''}`} title={`${i + 1}. ${s.name}`}
           onClick={(e) => { e.stopPropagation(); document.getElementById(`route-stop-${i}`)?.scrollIntoView({ block: 'nearest' }); }}>
           {deleting ? '×' : i + 1}
-        </button> : <span className="route-map-dot" />}
+        </button> : <span className={`route-map-dot${deleting ? ' is-removed' : ''}`} title={`${i + 1}. ${s.name}`} />}
       </Marker>;
     })}
-    {removed.map((id, i) => <Marker key={`removed:${i}`} longitude={data.records.stops[id].at[0]} latitude={data.records.stops[id].at[1]}>
+    {interaction !== 'path' && removed.map((id, i) => <Marker key={`removed:${i}`} longitude={data.records.stops[id].at[0]} latitude={data.records.stops[id].at[1]}>
       {interaction === 'stops'
         ? <button className="route-map-stop is-removed" aria-label={`加回 ${data.records.stops[id].name}`} title={`點擊加回：${data.records.stops[id].name}`}
           onClick={(e) => { e.stopPropagation(); editor.onStop(id); }}>×</button>
