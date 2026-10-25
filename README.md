@@ -59,3 +59,7 @@
 - [研究文件與方法索引](docs/README.md#研究文件) · [Agent 協作規則](AGENTS.md)
 
 原始檔與中間產物放 `raw_data/`，整理資料放 `data/`，GIS 圖層放 `map-data/`；地圖原始檔放 `map-data/raw/`，不進 Git。保留來源、期間與限制，各來源獨立更新。
+
+## 授權
+
+本專案採用 [MIT License](LICENSE)。外部資料、圖資及第三方套件仍依各自來源的授權條款使用。
