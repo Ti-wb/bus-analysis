@@ -1,4 +1,5 @@
 import { TOUR_STEPS } from './content';
+import { COLORS } from '../config';
 
 function Explore() {
   return <div className="tour-map">
@@ -6,7 +7,7 @@ function Explore() {
       <rect width="598" height="366" fill="#ebf2f5" />
       <rect x="42" y="48" width="86" height="64" rx="12" fill="#dce9df" />
       <path d="M70-10C145 80 5 126 95 195S153 268 76 360" fill="none" stroke="#c4e4ec" strokeWidth="54" />
-      <g fill="#f3d9cb">
+      <g fill={COLORS[2]}>
         {[0, 1, 2, 3, 4].flatMap((row) => [0, 1, 2, 3, 4].filter((column) => row > 0 && row < 4 || column > 0 && column < 4).map((column) =>
           <rect key={`${row}-${column}`} x={128 + column * 21} y={128 + row * 21} width="19" height="19" />))}
         {[0, 1, 2, 3, 4].flatMap((row) => [0, 1, 2].map((column) =>
@@ -15,7 +16,7 @@ function Explore() {
       </g>
       <path d="M0 84H598M0 176H598M0 269H598M180 24V366M300 24V366M420 24V366" stroke="white" strokeWidth="12" />
       <path d="M0 84H598M0 176H598M0 269H598M180 24V366M300 24V366M420 24V366" stroke="#e1eaf3" strokeWidth="1" />
-      <path d="M180 24V366" stroke="#9281b2" strokeWidth="4" />
+      <path d="M180 24V366" stroke="#788894" strokeWidth="3" />
       <path d="M24 180H420V290H574" fill="none" stroke="#1d559f" strokeWidth="5" />
       <path d="M180 186H290" stroke="#fd5f19" strokeWidth="2" strokeDasharray="4 4" />
       <circle cx="180" cy="180" r="9" fill="white" stroke="#fd5f19" strokeWidth="3" />
@@ -29,7 +30,7 @@ function Explore() {
       <p>350 m 直線範圍</p>
       <p>人口與年齡分布<br />學校、醫療與重要設施</p>
     </div>
-    <span className="tour-map-preferences">到「偏好」切換分析圖層</span>
+    <span className="tour-map-preferences">在分析面板切換圖層</span>
   </div>;
 }
 
@@ -59,11 +60,11 @@ function Routes() {
       <div className="tour-route-sketch">
         <b>調整站序與停靠</b>
         <svg viewBox="0 0 238 160" aria-label="原始路徑由 A 站經 B 站向南，方案由 B 站斜接新增站" role="img">
-          <path d="M28 40H108V110H208" fill="none" stroke="#a7bed7" strokeWidth="5" />
-          <path d="M28 40H108L208 110" fill="none" stroke="#fd5f19" strokeWidth="5" />
-          <g fill="white" stroke="#1d559f" strokeWidth="3"><circle cx="28" cy="40" r="8" /><circle cx="108" cy="40" r="8" /></g>
-          <circle cx="208" cy="110" r="8" fill="white" stroke="#fd5f19" strokeWidth="3" />
-          <g fill="currentColor" fontSize="12"><text x="13" y="74">A 站</text><text x="91" y="19">B 站</text><text x="177" y="146" fill="#9d3d0b">新增站</text></g>
+          <path d="M28 40H108V110H208" fill="none" stroke="#7b8c9a" strokeWidth="4" strokeDasharray="6 4" />
+          <path d="M28 40H108L208 110" fill="none" stroke="#337cda" strokeWidth="5" />
+          <g fill="white" stroke="#337cda" strokeWidth="3"><circle cx="28" cy="40" r="8" /><circle cx="108" cy="40" r="8" /></g>
+          <circle cx="208" cy="110" r="8" fill="white" stroke="#337cda" strokeWidth="3" />
+          <g fill="currentColor" fontSize="12"><text x="13" y="74">A 站</text><text x="91" y="19">B 站</text><text x="177" y="146" fill="#1d559f">新增站</text></g>
         </svg>
         <div className="tour-route-key"><span>原始</span><span>方案</span></div>
       </div>

@@ -73,13 +73,12 @@ dialog.onboarding {
 .tour-route-sketch > svg { display: block; width: 100%; height: 152px; }
 .tour-route-key { display: flex; justify-content: space-between; margin: 2px 4px 0 2px; font-size: 12px; color: #526e92; }
 .tour-route-key span { display: flex; align-items: center; gap: 6px; }
-.tour-route-key span::before { content: ''; width: 22px; height: 3px; background: #a7bed7; }
-.tour-route-key span:last-child::before { background: var(--bcs-orange); }
+.tour-route-key span::before { content: ''; width: 22px; border-top: 3px dashed #7b8c9a; }
+.tour-route-key span:last-child::before { border-top: 3px solid #337cda; }
 .tour-impacts { padding-top: 6px; }
 .tour-impacts > b { display: block; font-size: 14px; margin-bottom: 18px; }
 .tour-impacts > span { display: block; border-radius: 7px; padding: 7px 12px; margin-bottom: 8px; color: #28796c; background: #c7e8df; line-height: 20px; }
-.tour-impacts > span:nth-of-type(2) { color: #ae4f44; background: #f8d8d2; }
-.tour-impacts > span:nth-of-type(3) { color: #94611c; background: #fae5bf; }
+.tour-impacts > span:nth-of-type(n+2) { color: #a52e54; background: #f8e7ec; }
 .tour-impacts small { display: block; margin-top: 18px; font-size: 12px; color: #526e92; }
 .tour-route-demo { gap: 20px; }
 .tour-share-demo { padding: 24px 40px; gap: 0; }
@@ -149,8 +148,16 @@ dialog.about .about-tour h3 { margin: 0 0 6px; font-size: 16px; }
   .tour-copy { grid-row: 1; padding: 0 4px; }
   .tour-copy h1 { font-size: 28px; }
   .tour-points { margin-top: 24px; gap: 20px; }
-  .tour-illustration { padding-inline: 12px; overflow: auto; }
-  .tour-map, .tour-demo { min-width: 400px; }
+  .tour-illustration { padding-inline: 12px; }
+  .tour-map, .tour-demo { min-width: 0; width: 100%; }
+  .tour-map { min-height: 440px; }
+  .tour-map > .tour-tag { left: 12px; right: auto; width: auto; }
+  .tour-map > .tour-map-time { top: 54px; }
+  .tour-map-area { top: 103px; left: 12px; }
+  .tour-station { top: 138px; left: 12px; right: 12px; width: auto; }
+  .tour-map-preferences { left: 12px; right: 12px; bottom: 12px; padding-inline: 12px; }
+  .tour-comparison { grid-template-columns: minmax(0, 1fr); }
+  .tour-share-actions { flex-wrap: wrap; }
   .tour-footer { flex-wrap: wrap; gap: 12px; margin-inline: 0; padding-top: 12px; }
   .tour-footer > span { flex: 1; }
   .tour-back { min-width: auto; }
