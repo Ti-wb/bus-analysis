@@ -106,7 +106,7 @@ export const STATION_TYPES: { key: StationType; label: string; walkLabel: string
 ];
 // Radius ranges stay within the 3 km cap of the coverage data.
 export const COVERAGE_LAYERS: Record<CoverageLayer, { label: string; min: number; max: number; step: number; radius: number; rgb: [number, number, number] }> = {
-  walk: { label: '步行到站', min: 100, max: 1000, step: 50, radius: 350, rgb: [194, 100, 36] },
+  walk: { label: '步行到站', min: 100, max: 1000, step: 50, radius: 350, rgb: [190, 88, 28] },
   ride: { label: 'YouBike 騎乘', min: 500, max: 3000, step: 100, radius: 1000, rgb: [52, 110, 160] },
 };
 export const COVERAGE_CELLS: { cell: CoverageCell; label: string }[] = [
@@ -116,8 +116,8 @@ export const COVERAGE_CELLS: { cell: CoverageCell; label: string }[] = [
 ];
 export const DEFAULT_COVERAGE_CELL: CoverageCell = 100;
 /** Opacity of the five distance bands, from the station outwards. */
-export const COVERAGE_ALPHA = [0.78, 0.62, 0.46, 0.31, 0.18];
-export const COVERAGE_OPACITY = 0.85;
+export const COVERAGE_ALPHA = [0.82, 0.62, 0.42, 0.24, 0.09];
+export const COVERAGE_OPACITY = 0.9;
 export const COVERAGE_BANDS = COVERAGE_ALPHA.length;
 
 // Transport-need gap (docs/12): demand vs supply ranks on the 250 m grid.
