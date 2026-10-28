@@ -1,4 +1,6 @@
-import type { DayType } from '../types';
+import type { DayType, MapData } from '../types';
+
+export type AssessmentMap = Pick<MapData, 'places' | 'mrt_stations'>;
 
 export type Coordinate = [number, number];
 export type Band = 'am' | 'midday' | 'pm' | 'evening' | 'saturday' | 'sunday' | 'weekday_all' | `${'saturday' | 'sunday'}_${'all' | 'am' | 'midday' | 'pm' | 'evening'}`;

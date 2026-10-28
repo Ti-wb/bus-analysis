@@ -1,9 +1,57 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { INITIAL_MAP_LOAD, MAP_LOAD_TIMEOUT, mapLoadReducer, type MapLoadEvent, type MapLoadState } from '../src/map/loadState';
+import { loadCoverage, loadGrid, loadMapData, loadNeed } from '../src/data';
+import { readHash } from '../src/hashState';
+import { DEFAULT_VIEW } from '../src/config';
 
 type AttemptEvent = Exclude<MapLoadEvent, { type: 'retry' }>['type'];
 const send = (state: MapLoadState, type: AttemptEvent) => mapLoadReducer(state, { type, attempt: state.attempt });
+
+test('data retries fetch only failures, share pending requests and preserve successful sizes/layers', async () => {
+  const originalFetch = globalThis.fetch;
+  const calls = new Map<string, number>();
+  globalThis.fetch = async (input) => {
+    const name = String(input).split('/').at(-1)!;
+    const count = (calls.get(name) ?? 0) + 1;
+    calls.set(name, count);
+    const fail = count === 1 && ['coverage_50.json', 'bus_grid_100.json', 'transport_need_250.json', 'bus_stops.geojson'].includes(name);
+    return new Response(JSON.stringify({ name }), { status: fail ? 503 : 200 });
+  };
+  try {
+    const otherSize = await loadCoverage(100);
+    for (const load of [() => loadCoverage(50), () => loadGrid(100), loadNeed, loadMapData]) {
+      const pending = load();
+      assert.equal(load(), pending);
+      await assert.rejects(pending, /503/);
+      const recovered = await load();
+      assert.equal(await load(), recovered);
+    }
+    assert.equal(await loadCoverage(100), otherSize);
+    assert.equal(calls.get('coverage_100.json'), 1);
+    assert.equal(calls.get('roads.geojson'), 1);
+    assert.equal(calls.get('bus_stops.geojson'), 2);
+    assert.equal(calls.get('transport_need_250.json'), 2);
+  } finally { globalThis.fetch = originalFetch; }
+});
+
+test('shared URLs reject inherited enum names and invalid camera coordinates before map creation', () => {
+  const previous = Object.getOwnPropertyDescriptor(globalThis, 'window');
+  try {
+    for (const hash of ['#day=constructor&layers=__proto__,stops&cov=toString,walk&c=121,95&z=Infinity', '#c=999,25&z=-1']) {
+      Object.defineProperty(globalThis, 'window', { configurable: true, value: { location: { hash } } });
+      const state = readHash();
+      assert.equal(state.day, 'weekday');
+      assert.deepEqual(state.center, DEFAULT_VIEW.center);
+      assert.equal(state.zoom, DEFAULT_VIEW.zoom);
+      assert.equal(state.layers.has('__proto__' as never), false);
+      assert.equal(state.coverage.has('toString' as never), false);
+    }
+  } finally {
+    if (previous) Object.defineProperty(globalThis, 'window', previous);
+    else Reflect.deleteProperty(globalThis, 'window');
+  }
+});
 
 test('normal map load becomes ready and an expired load timer cannot replace the working map', () => {
   assert.equal(MAP_LOAD_TIMEOUT, 12_000);

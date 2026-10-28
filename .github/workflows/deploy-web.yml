@@ -114,14 +114,8 @@ jobs:
           cache: npm
           cache-dependency-path: web/package-lock.json
       - run: npm ci --prefix web
-      - name: Verify route scenario calculations
-        run: npm run test:routes --prefix web
-      - name: Verify regional grid dataset loading
-        run: npm run test:regional --prefix web
-      - name: Verify population age presentation
-        run: npm run test:age --prefix web
-      - name: Verify improvement rankings and exports
-        run: npm run test:improvements --prefix web
+      - name: Verify web calculations, loading, and station focus
+        run: npm test --prefix web
       - name: Type-check and build
         run: npm run build --prefix web
       - if: github.event_name != 'pull_request'

@@ -178,10 +178,10 @@ const ImprovementList = forwardRef<ImprovementHandle, Props>(function Improvemen
     </div>
     {selected && detailOpen && <Detail row={selected} rank={rows.indexOf(selected) + 1} total={rows.length} filters={deferred} lookup={lookup} onClose={close}
       onMap={showOnMap} onEdit={(id) => onEdit(id, filters)} onMethods={() => setDialog('methods')} />}
-    {dialog === 'weights' && <Dialog title="改善清單偏好" onClose={() => setDialog(null)}><p>調整四項指標權重，總分會依比例換算為 100 分。需求與旅次使用 Mock Data。</p>
+    {dialog === 'weights' && <Dialog title="改善清單偏好" onClose={() => setDialog(null)}>{(dismiss) => <><p>調整四項指標權重，總分會依比例換算為 100 分。需求與旅次使用 Mock Data。</p>
       <div className="im-weight-fields">{['捷運重疊', '路線堆疊', '低載程度', '冷區比例'].map((label, i) => <label key={label}>{label}<input type="range" min="0" max="100" value={weights[i]} onChange={(e) => setWeights(weights.map((w, j) => i === j ? +e.target.value : w) as Weights)} /><b>{weights[i]}</b></label>)}</div>
-      <footer><button className="btn-outline" onClick={() => setWeights(DEFAULTS.weights)}>恢復預設權重</button><button className="im-primary" disabled={!weights.some((n) => n > 0)} onClick={() => { update({ weights }); setDialog(null); }}>套用</button></footer></Dialog>}
-    {dialog === 'methods' && <Dialog title="改善清單・指標定義與資料來源" onClose={() => setDialog(null)}><div className="im-methods">
+      <footer><button className="btn-outline" onClick={() => setWeights(DEFAULTS.weights)}>恢復預設權重</button><button className="im-primary" disabled={!weights.some((n) => n > 0)} onClick={() => dismiss(() => { update({ weights }); setDialog(null); })}>套用</button></footer></>}</Dialog>}
+    {dialog === 'methods' && <Dialog title="改善清單・指標定義與資料來源" onClose={() => setDialog(null)}>{(dismiss) => <><div className="im-methods">
       <p><Mock /> 分數、問題標籤、載客量、旅次重疊、冷區、勤務休息與建議影響含固定種子的模擬資料。切換時段可展示互動，不代表營運實測。</p>
       <h3>優先分數與門檻</h3><p>捷運 {filters.weights[0]}、堆疊 {filters.weights[1]}、低載 {filters.weights[2]}、冷區 {filters.weights[3]}，按權重總和正規化至 100 分。高優先 ≥80，中優先 60–79，低於 60 預設收合。</p>
       <p>捷運項以旅次重疊相對 40% 的比例（75%）與站點相對目前門檻的比例（25%）計分，各自上限 1。堆疊取共站路線／30 與班次／同類別前 10% 班次門檻的較大值，上限 1。低載取 1−載客量／兩倍人數門檻，最低 0；冷區採 Mock 比例。</p>
@@ -191,7 +191,7 @@ const ImprovementList = forwardRef<ImprovementHandle, Props>(function Improvemen
       <p>DRTS 以 1 km TM2 地理方格呈現，人口來自 2024-12 統計與 2015 統計區界之面積分攤，按既有 100 m 格心彙整；候選區不是 H3/Gi* 的實測冷點。端點是站序首末站，不等同核實的調度場站。</p>
       <p>公車快照：{data?.metadata.source_data_time ?? '載入中'}。僅臺北市主管機關路線，保留跨市服務；新北市專屬路線未涵蓋。</p>
       <p><a href="https://pto.gov.taipei/News_Content.aspx?n=A1DF07A86105B6BB&s=55E8ADD164E4F579" target="_blank" rel="noreferrer">公運處來源與 API 規格 ↗</a> · <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OSM 圖資 ↗</a> · <a href="https://data.taipei/dataset/detail?id=ca205b54-a06f-4d84-894c-d6ab5079ce79" target="_blank" rel="noreferrer">臺北市公廁 ↗</a></p>
-    </div><footer><button className="im-primary" onClick={() => setDialog(null)}>了解</button></footer></Dialog>}
+    </div><footer><button className="im-primary" onClick={() => dismiss()}>了解</button></footer></>}</Dialog>}
     {message && <div className="im-toast" role="status">{message}</div>}
   </div>;
 });

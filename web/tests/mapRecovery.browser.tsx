@@ -6,7 +6,7 @@ import { createRoot } from 'react-dom/client';
 import App from '../src/App';
 import type { MapRef } from 'react-map-gl/maplibre';
 import { BASE_STYLE } from '../src/config';
-import { EMPTY_SUPPLEMENTAL, gridCollection, loadGrid, loadMapData } from '../src/data';
+import { EMPTY_SUPPLEMENTAL, loadGrid, loadMapData } from '../src/data';
 import { readHash } from '../src/hashState';
 import MapView from '../src/map/MapView';
 import type { MapStatus } from '../src/map/loadState';
@@ -31,7 +31,6 @@ HTMLCanvasElement.prototype.getContext = function (this: HTMLCanvasElement, ...a
 const initial = readHash();
 const [core, grid] = await Promise.all([loadMapData(), loadGrid(initial.cell)]);
 const data = { ...core, ...EMPTY_SUPPLEMENTAL };
-const gridData = gridCollection(grid, initial);
 
 function Fixture() {
   const mapRef = useRef<MapRef>(null);
@@ -100,7 +99,7 @@ function Fixture() {
       <output style={{ width: '100%' }}>{report} · 狀態序列：{events.join(' → ')}</output>
     </header>
     <main style={{ position: 'absolute', inset: '145px 0 0' }}>
-      <MapView mapRef={mapRef} initialView={initial} data={data} grid={grid} gridData={gridData} state={initial}
+      <MapView mapRef={mapRef} initialView={initial} data={data} grid={grid} state={initial}
         coverage={null} coverageImage={null} coverageLines={null} need={null} station={station} onStation={setStation} onCloseStation={() => setStation(null)}
         onReady={() => setReadyCount((count) => count + 1)} onStatusChange={(next) => {
           setStatus(next); setEvents((previous) => previous.at(-1) === next ? previous : [...previous, next]);

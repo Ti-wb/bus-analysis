@@ -1,8 +1,7 @@
 import type { FeatureCollection, Polygon } from 'geojson';
 import { metresBetween } from '../catchment';
 import { PLACE_CATEGORIES } from '../config';
-import type { MapData } from '../types';
-import { BANDS, type Assessment, type Band, type Changes, type Draft, type FacilityImpact, type Network, type Route, type ScenarioData } from './types';
+import { BANDS, type Assessment, type AssessmentMap, type Band, type Changes, type Draft, type FacilityImpact, type Network, type Route, type ScenarioData } from './types';
 
 export function frequency(route: Route, band: Band): number | null {
   const override = route.frequencies?.[band];
@@ -67,7 +66,7 @@ function facilityServices(routes: Route[], band: Band) {
   return memberships;
 }
 
-function facilities(data: ScenarioData, map: MapData, routes: Route[], baseRoutes: Route[], band: Band, changedStops: Set<string>): FacilityImpact[] {
+function facilities(data: ScenarioData, map: AssessmentMap, routes: Route[], baseRoutes: Route[], band: Band, changedStops: Set<string>): FacilityImpact[] {
   if (!changedStops.size) return [];
   const changed = [...changedStops].map((id) => data.records.stops[id]?.at).filter((p) => p !== undefined);
   const beforeServices = facilityServices(baseRoutes, band);
@@ -109,7 +108,7 @@ function facilities(data: ScenarioData, map: MapData, routes: Route[], baseRoute
     });
 }
 
-export function assess(data: ScenarioData, map: MapData, changes: Changes, band: Band): Assessment {
+export function assess(data: ScenarioData, map: AssessmentMap, changes: Changes, band: Band): Assessment {
   const routes = routesWithChanges(data, changes);
   const base = network(data, data.records.routes, band);
   const next = network(data, routes, band);

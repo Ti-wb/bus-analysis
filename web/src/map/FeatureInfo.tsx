@@ -65,7 +65,7 @@ export function CoverageTooltip({ distances, state }: { distances: { metres: Rec
 }
 
 /** Hover text; JSX escapes every value taken from the data. */
-export function FeatureTooltip({ feature, grid, state }: { feature: MapGeoJSONFeature; grid: Grid; state: AppState }) {
+export function FeatureTooltip({ feature, grid, state }: { feature: MapGeoJSONFeature; grid: Grid | null; state: AppState }) {
   const p = feature.properties;
   switch (feature.layer.id) {
     case 'bus-stops':
@@ -97,7 +97,7 @@ export function FeatureTooltip({ feature, grid, state }: { feature: MapGeoJSONFe
         </>
       );
     default:
-      return <GridTooltip id={Number(feature.id)} grid={grid} state={state} />;
+      return grid ? <GridTooltip id={Number(feature.id)} grid={grid} state={state} /> : null;
   }
 }
 

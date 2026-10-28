@@ -9,7 +9,7 @@ import Panel from '../src/components/Panel';
 import StationInfo from '../src/components/StationInfo';
 import type { AppState, MapData, StationSelection } from '../src/types';
 import { createStationAgeLoader, loadCompressedJSON, parseStationAges, parseStationAgeShard, parseVillageAges, stationAgeShard } from '../src/ageLoader';
-import { AGE_COLORS, AGE_UNKNOWN, catchmentGroupValue, groupFor, retryableLoader, villageAgeCollection,
+import { AGE_COLORS, AGE_UNKNOWN, catchmentGroupValue, groupFor, villageAgeCollection,
   villageMeasure, type AgeCatchment, type AgeGroup, type AgeMetadata, type StationAgeCatchments, type VillageAgeProps, type VillageAges } from '../src/age';
 import { readHash, writeHash } from '../src/hashState';
 
@@ -83,16 +83,6 @@ test('no matching population is unknown; an observed complete zero stays zero', 
 });
 test('geometry conflict blocks percentages even if candidate counts exist', () => {
   assert.equal(catchmentGroupValue(catchment({ status: 'geometry_conflict' }), 'age_65_plus').share, null);
-});
-test('retry issues a fresh request after failure and shares successful requests', async () => {
-  let calls = 0;
-  const loader = retryableLoader(async () => { calls++; if (calls === 1) throw new Error('offline'); return 42; });
-  const first = loader();
-  assert.equal(loader(), first);
-  await assert.rejects(first, /offline/);
-  assert.equal(await loader(), 42);
-  assert.equal(await loader(), 42);
-  assert.equal(calls, 2);
 });
 test('age mode, group and set round-trip through shareable URL', () => {
   let hash = '#mode=village_age&ag=age_75_plus&aset=planning';

@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from 'react';
+import { useState, type CSSProperties, type ReactNode } from 'react';
 import type { VillageAges } from '../age';
 import { AgeControls, AgeLegend } from './VillageAge';
 import { ALL_DAY, ANALYSIS_MODES, COLORS, COVERAGE_ALPHA, COVERAGE_LAYERS, COVERAGE_OPACITY, DAY_LABELS, ELDERLY_COLORS, GAP_COLORS, GRID_OPACITY, NEED_BANDS, NEED_COLORS, NO_STOP_COLOR, NO_STOP_OPACITY, QUADRANTS, STATION_TYPES, VILLAGE_COLORS, type Quadrant } from '../config';
@@ -180,7 +180,7 @@ function Summary({ rows, foot, onPreferences, children }: { rows: SummaryRow[]; 
 function TimeControls({ state, playing, onChange, onTogglePlay }: Pick<Props, 'state' | 'playing' | 'onChange' | 'onTogglePlay'>) {
   return <>
     <div className="hour-row">
-      <button className={`icon-btn${playing ? ' is-playing' : ''}`} title="播放 24 小時" aria-label={playing ? '暫停' : '播放'} onClick={onTogglePlay}>
+      <button className={`icon-btn${playing ? ' is-playing' : ''}`} title={playing ? '暫停播放' : '播放 24 小時'} aria-label={playing ? '暫停' : '播放'} aria-pressed={playing} onClick={onTogglePlay}>
         {playing ? '❚❚' : '▶'}
       </button>
       <input type="range" min={0} max={ALL_DAY} step={1} value={state.hour} aria-label="小時" aria-valuetext={hourText(state.hour)} onChange={(e) => onChange({ hour: Number(e.target.value) })} />
@@ -255,10 +255,17 @@ function NeedLegend({ state, counts }: { state: AppState; counts: Record<Quadran
 }
 
 export default function Panel({ villageAges, ageError, onRetryAges, selectedVillage, onVillage, state, playing, needCounts, data, supplementalPending, onRetrySupplemental, onChange, onTogglePlay, onPreferences }: Props) {
+  const [collapsed, setCollapsed] = useState(false);
   const { labels } = scaleFor(state);
   const frequency = state.mode === 'frequency';
   return (
-    <aside className="panel">
+    <aside className={`panel${collapsed ? ' is-collapsed' : ''}`} aria-label="地圖分析與圖例">
+      <button className="panel-toggle" aria-expanded={!collapsed} aria-controls="analysis-panel-content" onClick={() => setCollapsed((value) => !value)}>
+        <span>{ANALYSIS_MODES.find((mode) => mode.key === state.mode)!.label}</span><span>{collapsed ? '展開分析與圖例' : '收合分析與圖例'}
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d={collapsed ? 'm5 7 5 5 5-5' : 'm5 12 5-5 5 5'} /></svg>
+        </span>
+      </button>
+      <div id="analysis-panel-content" className="panel-content">
       <section className="card intro">
         <h1>看見交通服務的分布</h1>
         <p className="muted">切換分析圖層，點選站點查看周邊人口與設施。</p>
@@ -301,6 +308,7 @@ export default function Panel({ villageAges, ageError, onRetryAges, selectedVill
         </section>
       ) : state.mode === 'village_age' ? <AgeLegend data={villageAges} groupKey={state.ageGroup} ageSet={state.ageSet} /> : state.mode === 'need' ? <NeedLegend state={state} counts={needCounts} /> : <CoverageLegend state={state} />)}
       <ExtraLegend state={state} data={data} />
+      </div>
     </aside>
   );
 }

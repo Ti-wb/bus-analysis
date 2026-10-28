@@ -1,26 +1,27 @@
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import type { MapRef } from 'react-map-gl/maplibre';
-import type { FeatureCollection, Polygon } from 'geojson';
 import MapView from '../map/MapView';
 import { COLORS } from '../config';
 import { dataURL } from '../data';
 import Search from '../components/Search';
-import type { AppState, Grid, LayerGroup, MapData, StationSelection, ViewState } from '../types';
+import type { AppState, LayerGroup, MapData, StationSelection, ViewState } from '../types';
 import type { Filters } from '../improvements/types';
 import { draftChanges, frequency, gridFeatures, routePath, routesWithChanges } from './engine';
 import { buildExistingServices } from './existingServices';
+import { useAssessment } from './useAssessment';
+import { motionDuration } from '../motion';
 import { loadScenario, saveScenario } from './storage';
 import { searchRouteGroups } from './search';
 import Dialog from './Dialog';
 import ExistingServicesPanel from './ExistingServicesPanel';
 import Impact, { Duration, PopulationSummary, rate } from './Impact';
-import { ACTION_LABELS, BANDS, type AppliedAction, type Assessment, type Band, type Changes, type Draft, type Route, type ScenarioData } from './types';
+import { ACTION_LABELS, BANDS, type AppliedAction, type Band, type Changes, type Draft, type Route, type ScenarioData } from './types';
 import type { EditorMapProps } from './RouteLayers';
 import './routeEditor.css';
 
 export interface RouteWorkspaceHandle { leave: (done: () => void) => void; preferences: () => void; indicators: () => void }
 export interface RouteTarget { variant: string; day: Filters['day']; period: Filters['period'] }
-interface Props { map: MapData; grid: Grid; gridData: FeatureCollection<Polygon, { k: number }>; state: AppState; initialView: ViewState; target?: RouteTarget | null }
+interface Props { map: MapData; state: AppState; initialView: ViewState; target?: RouteTarget | null }
 
 const RouteWorkspace = forwardRef<RouteWorkspaceHandle, Props>(function RouteWorkspace(props, ref) {
   const [data, setData] = useState<ScenarioData | null>(null);
@@ -44,7 +45,7 @@ const RouteWorkspace = forwardRef<RouteWorkspaceHandle, Props>(function RouteWor
 });
 export default RouteWorkspace;
 
-const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData }>(function Workspace({ data, map, grid, gridData, state, initialView, target }, ref) {
+const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData }>(function Workspace({ data, map, state, initialView, target }, ref) {
   const mapRef = useRef<MapRef>(null);
   const [saved] = useState(() => loadScenario(data));
   const [history, setHistory] = useState<AppliedAction[]>(saved.history);
@@ -85,12 +86,8 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
   [data, routes, selectedStopIds, effectiveBand, showExistingServices]);
   const activeServiceRouteId = existingServices?.some((service) => service.route.route_id === highlightedServiceRouteId) ? highlightedServiceRouteId : null;
   const evaluated = useMemo(() => draft ? draftChanges(data, changes, draft) : changes, [data, changes, draft]);
-  const request = useMemo(() => ({ changes: evaluated, band: effectiveBand, retry }), [evaluated, effectiveBand, retry]);
-  const [response, setResponse] = useState<{ request: typeof request; result?: Assessment; error?: string } | null>(null);
-  // Match during render, rather than waiting for an effect to invalidate the previous result.
-  const busy = response?.request !== request;
-  const result = !busy ? response?.result ?? null : null;
-  const error = !busy ? response?.error ?? '' : '';
+  const assessmentMap = useMemo(() => ({ places: map.places, mrt_stations: map.mrt_stations }), [map.places, map.mrt_stations]);
+  const { busy, result, error } = useAssessment(data, assessmentMap, evaluated, effectiveBand, retry);
   const dirty = draft !== null && JSON.stringify(draft.route) !== JSON.stringify(draft.kind === 'add' ? edits[0] : draft.original);
 
   useEffect(() => {
@@ -101,15 +98,6 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
   useEffect(() => {
     if (highlightedServiceRouteId !== activeServiceRouteId) setHighlightedServiceRouteId(null);
   }, [activeServiceRouteId, highlightedServiceRouteId]);
-  useEffect(() => {
-    const worker = new Worker(new URL('./worker.ts', import.meta.url), { type: 'module' });
-    worker.onmessage = (event: MessageEvent<{ result?: Assessment; error?: string }>) => {
-      setResponse({ request, ...event.data });
-    };
-    worker.onerror = () => setResponse({ request, error: '試算暫時無法執行，請重試。草稿仍保留。' });
-    const timer = setTimeout(() => worker.postMessage({ id: 1, data, map, changes: request.changes, band: request.band }), 100);
-    return () => { clearTimeout(timer); worker.terminate(); };
-  }, [data, map, request]);
   const raster = useMemo(() => result ? gridFeatures(data, result) : null, [data, result]);
 
   const clearDraft = () => { setDraft(null); setStep('overview'); setStation(null); setInteraction('stops'); setStopQuery(''); };
@@ -150,10 +138,10 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
       padding: narrow ? { top: Math.min(200, height * .28), bottom: height * (comparing ? .48 : .56), left: 30, right: 48 }
         : { top: 100, bottom: 130, left: width <= 1100 ? 330 : 384,
           right: comparing ? width <= 1100 ? 430 : width <= 1450 ? 472 : 554 : width <= 1100 ? 292 : width <= 1450 ? 334 : 384 },
-      absolutePadding: true, duration: 700, maxZoom: 14.5,
+      absolutePadding: true, duration: motionDuration(500), maxZoom: 14.5,
     });
   }, [data, step]);
-  const locate = (at: [number, number]) => mapRef.current?.flyTo({ center: at, zoom: 15, padding: window.innerWidth >= 900 ? { left: 370, right: step === 'preview' || step === 'review' ? 510 : 360, top: 100, bottom: 120 } : { left: 0, right: 0, top: 60, bottom: window.innerHeight * .48 } });
+  const locate = (at: [number, number]) => mapRef.current?.flyTo({ center: at, zoom: 15, duration: motionDuration(500), padding: window.innerWidth >= 900 ? { left: 370, right: step === 'preview' || step === 'review' ? 510 : 360, top: 100, bottom: 120 } : { left: 0, right: 0, top: 60, bottom: window.innerHeight * .48 } });
   const select = (r: Route) => { setSelectedId(r.id); setStation(null); fitRoute(r); };
   const begin = (kind: Draft['kind']) => {
     if (kind !== 'add' && !selected) return;
@@ -233,7 +221,7 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
   const added = draft?.route.stop_ids.filter((id) => !draft.original?.stop_ids.includes(id)) ?? [];
 
   return <div ref={stageRef} className={`route-workspace route-step-${step}`} data-interaction={step === 'edit' ? interaction : 'select'}>
-    <MapView mapRef={mapRef} initialView={initialView} data={map} grid={grid} gridData={gridData} coverage={null} coverageImage={null} coverageLines={null}
+    <MapView mapRef={mapRef} initialView={initialView} data={map} grid={null} coverage={null} coverageImage={null} coverageLines={null}
       need={null} state={mapState} station={station} onStation={setStation} onCloseStation={() => setStation(null)} onReady={() => selected && fitRoute(selected)} onMoveEnd={() => {}} editor={editor} />
     <Search data={map} onChoose={(item) => {
       if (step === 'edit' && item.station?.type === 'bus' && interaction === 'stops' && data.records.stops[item.station.id]) addStop(item.station.id);
@@ -301,7 +289,7 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
       </div>
       <p className="route-map-hint">{interaction === 'stops'
         ? <><span className="route-stop-key" aria-hidden="true" />點選灰色站點加入第 {insertIndex + 1} 站 · 已選站顯示藍色編號</>
-        : '拖曳圓點調整路徑 · 按 ＋ 加入控制點'}<small>{interaction === 'stops' ? '藍線是目前草稿；人口與班次差異在下一步比較。' : '方向鍵微調、Delete 移除。站序變動會重建連線；草圖非行車導航。'}</small></p>
+        : '拖曳圓點調整路徑 · 按 ＋ 加入控制點 · 放大可顯示更多控制點'}<small>{interaction === 'stops' ? '藍線是目前草稿；人口與班次差異在下一步比較。' : 'Tab 逐點查看；方向鍵微調、Insert 加點、Delete 移除。草圖非行車導航。'}</small></p>
       {existingServices !== null ? <ExistingServicesPanel data={data} services={existingServices} selectedStopIds={draft.route.stop_ids} band={effectiveBand}
         draft={draft} draftFrequency={f} applied={Object.keys(changes).length > 0} highlightedRouteId={activeServiceRouteId} onHighlight={setHighlightedServiceRouteId} />
         : interaction !== 'path' && <section className="card route-draft-summary"><h3>{draft.route.name || '未命名路線'}・草稿</h3><span className="route-tag">{ACTION_LABELS[draft.kind]}</span>
@@ -330,11 +318,11 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
     </section>}
     {message && <div className="route-toast" role="status">{message}</div>}
 
-    {dialog === 'discard' && <Dialog title="離開前，保留這次調整？" onClose={() => setDialog(null)}><p>站序與班次尚未套用至方案。繼續編輯可保留目前的停靠點與設定。</p><div className="route-actions"><button className="route-primary" onClick={() => setDialog(null)}>繼續編輯</button><button className="btn-outline route-negative" onClick={() => { const done = exit.current; setDialog(null); clearDraft(); done?.(); }}>放棄變更</button></div></Dialog>}
-    {dialog === 'metrics' && <Dialog title="怎麼看影響？" onClose={() => setDialog(null)}><h3>可達人口</h3><p>臺北市同一時段，以 100 m 格心距公車／捷運站 350 m 判斷，2024-12 戶籍人口按統計區面積分攤並去重。新增、失去與淨變化分列；班次降低仍可達的居民另外列出。區間包含缺班表的可能覆蓋。</p><h3>高齡與學生</h3><p>65 歲以上與就學身分資料未接入，顯示未估算；不以年齡代理學生，兩個族群也不能相加。</p><h3>設施與時間</h3><p>比較最近可服務站距與 350 m 內公車班次；捷運無班表，不加造班次。草圖單程以偏好的速度、停站秒數估算，無路況與導航驗證；刪除後不適用。</p><h3>班表與範圍</h3><p>班表未分方向，假設同一附線班表套用各方向；同一附線方向同格去重。僅臺北市公運處路線，不能代表完整雙北。YouBike 1 km 是參考，不加入步行可達人口。</p><button className="route-primary" onClick={() => setDialog(null)}>了解</button></Dialog>}
-    {dialog === 'preferences' && <Dialog title="路線工具偏好" onClose={() => setDialog(null)}><p>評估固定使用 100 m 網格、公車／捷運 350 m。網格線與 YouBike 參考僅在檢視班次時顯示；編輯中聚焦草稿。探索地圖的偏好另行保留。</p><div className="route-preferences">
+    {dialog === 'discard' && <Dialog title="離開前，保留這次調整？" onClose={() => setDialog(null)}>{(dismiss) => <><p>站序與班次尚未套用至方案。繼續編輯可保留目前的停靠點與設定。</p><div className="route-actions"><button className="route-primary" onClick={() => dismiss()}>繼續編輯</button><button className="btn-outline route-negative" onClick={() => dismiss(() => { const done = exit.current; setDialog(null); clearDraft(); done?.(); })}>放棄變更</button></div></>}</Dialog>}
+    {dialog === 'metrics' && <Dialog title="怎麼看影響？" onClose={() => setDialog(null)}>{(dismiss) => <><h3>可達人口</h3><p>臺北市同一時段，以 100 m 格心距公車／捷運站 350 m 判斷，2024-12 戶籍人口按統計區面積分攤並去重。新增、失去與淨變化分列；班次降低仍可達的居民另外列出。區間包含缺班表的可能覆蓋。</p><h3>高齡與學生</h3><p>65 歲以上與就學身分資料未接入，顯示未估算；不以年齡代理學生，兩個族群也不能相加。</p><h3>設施與時間</h3><p>比較最近可服務站距與 350 m 內公車班次；捷運無班表，不加造班次。草圖單程以偏好的速度、停站秒數估算，無路況與導航驗證；刪除後不適用。</p><h3>班表與範圍</h3><p>班表未分方向，假設同一附線班表套用各方向；同一附線方向同格去重。僅臺北市公運處路線，不能代表完整雙北。YouBike 1 km 是參考，不加入步行可達人口。</p><button className="route-primary" onClick={() => dismiss()}>了解</button></>}</Dialog>}
+    {dialog === 'preferences' && <Dialog title="路線工具偏好" onClose={() => setDialog(null)}>{(dismiss) => <><p>評估固定使用 100 m 網格、公車／捷運 350 m。網格線與 YouBike 參考僅在檢視班次時顯示；編輯中聚焦草稿。探索地圖的偏好另行保留。</p><div className="route-preferences">
       <label><input type="checkbox" checked={prefDraft.gridLines} onChange={(e) => setPrefDraft({ ...prefDraft, gridLines: e.target.checked })} />顯示網格線</label><label><input type="checkbox" checked={prefDraft.bike} onChange={(e) => setPrefDraft({ ...prefDraft, bike: e.target.checked })} />顯示 YouBike 1 km 參考</label><label><input type="checkbox" checked={prefDraft.labels} onChange={(e) => setPrefDraft({ ...prefDraft, labels: e.target.checked })} />顯示底圖地名</label>
       <label>草圖平均速度（km/h）<input type="number" min={5} max={60} value={prefDraft.speed} onChange={(e) => setPrefDraft({ ...prefDraft, speed: Number(e.target.value) })} /></label><label>每站停靠（秒）<input type="number" min={0} max={180} value={prefDraft.dwell} onChange={(e) => setPrefDraft({ ...prefDraft, dwell: Number(e.target.value) })} /></label></div>
-      <div className="route-actions"><button className="btn-outline" onClick={() => setDialog(null)}>取消</button><button className="route-primary" disabled={!Number.isFinite(prefDraft.speed) || prefDraft.speed < 5 || prefDraft.speed > 60 || !Number.isFinite(prefDraft.dwell) || prefDraft.dwell < 0 || prefDraft.dwell > 180} onClick={() => { setSettings(prefDraft); setDialog(null); }}>套用設定</button></div></Dialog>}
+      <div className="route-actions"><button className="btn-outline" onClick={() => dismiss()}>取消</button><button className="route-primary" disabled={!Number.isFinite(prefDraft.speed) || prefDraft.speed < 5 || prefDraft.speed > 60 || !Number.isFinite(prefDraft.dwell) || prefDraft.dwell < 0 || prefDraft.dwell > 180} onClick={() => dismiss(() => { setSettings(prefDraft); setDialog(null); })}>套用設定</button></div></>}</Dialog>}
   </div>;
 });

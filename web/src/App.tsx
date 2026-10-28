@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { MapRef } from 'react-map-gl/maplibre';
-import { groupFor, villageAgeCollection, villageCenter, type VillageAges } from './age';
+import { groupFor, villageAgeCollection, villageCenter } from './age';
 import AboutDialog from './components/AboutDialog';
 import Panel from './components/Panel';
 import Preferences from './components/Preferences';
@@ -8,7 +8,8 @@ import Search, { type SearchItem } from './components/Search';
 import Topbar from './components/Topbar';
 import { DAY_LABELS, NEED_BANDS, type Quadrant } from './config';
 import { coverageGridLines, coverageImage } from './coverage';
-import { EMPTY_SUPPLEMENTAL, gridCollection, hourText, loadCoverage, loadGrid, loadRegionalGrid, loadMapData, loadNeed, loadVillageAges, loadSupplementalLayer, SUPPLEMENTAL_FILES, type SupplementalKey } from './data';
+import { EMPTY_SUPPLEMENTAL, hourText, loadCoverage, loadRegionalGrid, loadMapData, loadNeed, loadVillageAges, loadSupplementalLayer, SUPPLEMENTAL_FILES, type SupplementalKey } from './data';
+import { useData } from './useData';
 import { readHash, writeHash } from './hashState';
 import MapView from './map/MapView';
 import type { MapStatus } from './map/loadState';
@@ -20,9 +21,10 @@ import { PERIODS, type Filters } from './improvements/types';
 import type { RouteTarget } from './routeEditor/RouteWorkspace';
 import { computeNeed, needCollection, quadrantOf } from './need';
 import { villagePeriod } from './regional';
-import type { AppState, CoreMapData, Coverage, Grid, NeedGrid, StationSelection, SupplementalData, ViewState } from './types';
+import type { AppState, StationSelection, SupplementalData, ViewState } from './types';
 import Onboarding from './onboarding/Onboarding';
 import { markOnboardingSeen, shouldShowOnboarding } from './onboarding/state';
+import { motionDuration } from './motion';
 
 const initial = readHash();
 const initialOnboarding = shouldShowOnboarding(window.location.hash);
@@ -38,30 +40,21 @@ export default function App() {
     const { center: _center, zoom: _zoom, ...rest } = initial;
     return rest;
   });
-  const [coverage, setCoverage] = useState<Coverage | null>(null);
-  const [needGrid, setNeedGrid] = useState<NeedGrid | null>(null);
-  const [villageAges, setVillageAges] = useState<VillageAges | null>(null);
-  const [ageError, setAgeError] = useState<Error | null>(null);
-  const [ageAttempt, setAgeAttempt] = useState(0);
   const [selectedVillage, setSelectedVillage] = useState<string | null>(null);
-  const [baseData, setBaseData] = useState<CoreMapData | null>(null);
+  const core = useData(loadMapData);
+  const { data: baseData, error } = core;
   const [supplemental, setSupplemental] = useState<SupplementalData>(EMPTY_SUPPLEMENTAL);
   const [supplementalPending, setSupplementalPending] = useState<Set<SupplementalKey>>(new Set());
   const [supplementalAttempt, setSupplementalAttempt] = useState(0);
   const supplementalRequested = useRef(new Set<SupplementalKey>());
   const supplementalFailed = useRef(new Set<SupplementalKey>());
-  const [dataAttempt, setDataAttempt] = useState(0);
   const data = useMemo(() => baseData ? { ...baseData, ...supplemental } : null, [baseData, supplemental]);
-  const [grid, setGrid] = useState<Grid | null>(null);
-  const [regionalGrid, setRegionalGrid] = useState<Grid | null>(null);
   const [mapStatus, setMapStatus] = useState<MapStatus>('loading');
-  const [error, setError] = useState<Error | null>(null);
-  const [analysisError, setAnalysisError] = useState<Error | null>(null);
   const [playing, setPlaying] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [onboarding, setOnboarding] = useState<'first' | 'replay' | null>(initialOnboarding ? 'first' : null);
   const [firstTask, setFirstTask] = useState(false);
-  const [explainerOpen, setExplainerOpen] = useState(true);
+  const [explainerOpen, setExplainerOpen] = useState(() => !window.matchMedia('(max-width: 600px)').matches);
   const [prefsOpen, setPrefsOpen] = useState(false);
   const [station, setStation] = useState<StationSelection | null>(null);
   const [busFocus, setBusFocus] = useState<BusFocusState | null>(null);
@@ -70,6 +63,16 @@ export default function App() {
     return value === 'improvements' || value === 'routes' ? value : 'explore';
   });
   const routeTool = page === 'routes';
+  const exploring = page === 'explore';
+  const regional = useData(useCallback(() => loadRegionalGrid(state.cell), [state.cell]), exploring && state.mode === 'frequency');
+  const coverageLoad = useData(useCallback(() => loadCoverage(state.coverageCell), [state.coverageCell]), exploring && state.mode === 'coverage');
+  const needLoad = useData(loadNeed, exploring && state.mode === 'need');
+  const ages = useData(loadVillageAges, exploring && state.mode === 'village_age');
+  const { data: coverage } = coverageLoad;
+  const { data: needGrid } = needLoad;
+  const { data: villageAges, error: ageError } = ages;
+  const analysis = state.mode === 'frequency' ? regional : state.mode === 'coverage' ? coverageLoad : state.mode === 'need' ? needLoad : ages;
+  const analysisError = state.mode === 'village_age' ? null : analysis.error;
   const [routeTarget, setRouteTarget] = useState<RouteTarget | null>(null);
   const improvementRef = useRef<ImprovementHandle>(null);
   const editorRef = useRef<RouteWorkspaceHandle>(null);
@@ -115,7 +118,7 @@ export default function App() {
       map?.stop();
       viewRef.current = { center: previous.center, zoom: previous.zoom };
       map?.easeTo({ ...previous, padding: { top: 0, bottom: 0, left: 0, right: 0 },
-        duration: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 400 });
+        duration: motionDuration(400) });
     }
     setStation(null);
     setBusFocus(null);
@@ -130,14 +133,10 @@ export default function App() {
   const selectRoute = useCallback((routeId: string) => setBusFocus((focus) => focus && selectFocusRoute(focus, routeId)), []);
   const isBusFocus = isCoreBusStation(station) && busFocus !== null;
 
-  const update = useCallback((patch: Partial<AppState>) => setState((s) => ({ ...s, ...patch })), []);
-
-  useEffect(() => {
-    let current = true;
-    setError(null);
-    loadMapData().then((value) => { if (current) setBaseData(value); }, (reason: Error) => { if (current) setError(reason); });
-    return () => { current = false; };
-  }, [dataAttempt]);
+  const update = useCallback((patch: Partial<AppState>) => {
+    if (patch.hour !== undefined) setPlaying(false);
+    setState((s) => ({ ...s, ...patch }));
+  }, []);
 
   useEffect(() => {
     const wanted: SupplementalKey[] = ['regional_bus_routes', 'regional_bus_stops', 'supplemental_manifest'];
@@ -167,47 +166,6 @@ export default function App() {
     setSupplementalAttempt((value) => value + 1);
   };
 
-  useEffect(() => {
-    let current = true;
-    loadGrid(state.cell).then((g) => { if (current) { setGrid(g); setAnalysisError(null); } }, (reason: Error) => { if (current) setAnalysisError(reason); });
-    return () => { current = false; };
-  }, [state.cell]);
-
-  // TDX cross-city service belongs only to frequency exploration. Route editor and
-  // supply/demand analysis must retain their current Taipei-specific inputs.
-  useEffect(() => {
-    if (state.mode !== 'frequency' || routeTool) return undefined;
-    let current = true;
-    loadRegionalGrid(state.cell).then(
-      (value) => { if (current) { setRegionalGrid(value); setAnalysisError(null); } },
-      (reason: Error) => { if (current) setAnalysisError(reason); },
-    );
-    return () => { current = false; };
-  }, [state.mode, state.cell, routeTool]);
-
-  // Coverage data is only fetched once the coverage mode is first opened, one file per cell size.
-  useEffect(() => {
-    if (state.mode !== 'coverage') return undefined;
-    let current = true;
-    loadCoverage(state.coverageCell).then((c) => { if (current) { setCoverage(c); setAnalysisError(null); } }, (reason: Error) => { if (current) setAnalysisError(reason); });
-    return () => { current = false; };
-  }, [state.mode, state.coverageCell]);
-
-  useEffect(() => {
-    if (state.mode === 'need' && !needGrid) loadNeed().then((value) => { setNeedGrid(value); setAnalysisError(null); }, setAnalysisError);
-  }, [state.mode, needGrid]);
-
-  useEffect(() => {
-    if (state.mode !== 'village_age' || villageAges) return;
-    let current = true;
-    loadVillageAges().then((value) => {
-      if (current) { setVillageAges(value); setAgeError(null); }
-    }, (reason: unknown) => {
-      if (current) setAgeError(reason instanceof Error ? reason : new Error(String(reason)));
-    });
-    return () => { current = false; };
-  }, [state.mode, villageAges, ageAttempt]);
-
   useEffect(() => writeHash(state, viewRef.current), [state]);
   useEffect(() => {
     const params = new URLSearchParams(window.location.hash.slice(1));
@@ -221,8 +179,14 @@ export default function App() {
   const timeControlsVisible = page === 'explore' && !isBusFocus
     && (state.mode === 'frequency' || state.layers.has('bus_times'));
   useEffect(() => {
-    if (!timeControlsVisible) setPlaying(false);
-  }, [timeControlsVisible]);
+    if (!timeControlsVisible || prefsOpen || aboutOpen || onboarding) setPlaying(false);
+  }, [timeControlsVisible, prefsOpen, aboutOpen, onboarding]);
+
+  useEffect(() => {
+    const pauseWhenHidden = () => { if (document.hidden) setPlaying(false); };
+    document.addEventListener('visibilitychange', pauseWhenHidden);
+    return () => document.removeEventListener('visibilitychange', pauseWhenHidden);
+  }, []);
 
   useEffect(() => {
     if (!playing || !timeControlsVisible) return undefined;
@@ -230,16 +194,8 @@ export default function App() {
     return () => clearInterval(timer);
   }, [playing, timeControlsVisible]);
 
-  const regionalReady = regionalGrid?.cell_m === state.cell;
-  const shownGrid = state.mode === 'frequency' && !routeTool && regionalReady ? regionalGrid : grid;
-  // Rebuilding tens of thousands of polygons on an unrelated UI/layer toggle
-  // is expensive; geometry/classes only depend on size and service day/hour.
-  const { cell, day, hour } = state;
-  const gridData = useMemo(
-    () => (shownGrid && shownGrid.cell_m === cell ? gridCollection(shownGrid, { cell, day, hour }) : null),
-    [shownGrid, cell, day, hour],
-  );
-
+  const shownGrid = regional.data;
+  const regionalReady = shownGrid !== null;
   const { coverage: coverageLayers, walkTypes, walkRadii, rideRadius } = state;
   const coverageRaster = useMemo(
     () => (coverage ? coverageImage(coverage, { coverage: coverageLayers, walkTypes, walkRadii, rideRadius }) : null),
@@ -264,11 +220,11 @@ export default function App() {
       if (focusFrame.current !== null) cancelAnimationFrame(focusFrame.current);
       focusFrame.current = null;
       villageOrigin.current = fly ? document.activeElement as HTMLElement : mapRef.current?.getCanvas() ?? null;
-      setStation(null);
+      selectStation(null);
       const feature = villageAges?.features.find((village) => village.properties.boundary_id === id);
-      if (feature && fly) mapRef.current?.flyTo({ center: villageCenter(feature), zoom: 13.8 });
+      if (feature && fly) mapRef.current?.flyTo({ center: villageCenter(feature), zoom: 13.8, duration: motionDuration(500) });
     }
-  }, [villageAges]);
+  }, [villageAges, selectStation]);
   const closeVillage = useCallback(() => {
     setSelectedVillage(null);
     if (focusFrame.current !== null) cancelAnimationFrame(focusFrame.current);
@@ -297,7 +253,7 @@ export default function App() {
     }
     selectStation(item.station ?? null);
     // Bus Focus fits the complete service network and owns restoring the previous view.
-    if (!entersFocus) mapRef.current?.flyTo({ center: item.at, zoom: item.zoom });
+    if (!entersFocus) mapRef.current?.flyTo({ center: item.at, zoom: item.zoom, duration: motionDuration(500) });
   };
 
   const share = async (): Promise<boolean> => {
@@ -310,7 +266,7 @@ export default function App() {
     }
   };
 
-  const loading = !error && !analysisError && mapStatus !== 'failed' && (!(data && gridData) || mapStatus === 'loading' || (frequency && !routeTool && !regionalReady));
+  const loading = !error && !analysis.error && mapStatus !== 'failed' && (!data || mapStatus === 'loading' || analysis.loading);
   const finishOnboarding = () => {
     markOnboardingSeen();
     setOnboarding(null);
@@ -352,14 +308,13 @@ export default function App() {
       <main ref={mainRef} tabIndex={-1} aria-label="主要內容" className={`stage${isBusFocus && page === 'explore' ? ' is-bus-focus' : ''}`}>
         {page === 'improvements' ? <ImprovementList ref={improvementRef} map={data} onTime={improvementTime} onEdit={(variant, filters) => {
           setRouteTarget({ variant, day: filters.day, period: filters.period }); navigate('routes');
-        }} /> : routeTool && data && grid && gridData ? <RouteWorkspace ref={editorRef} target={routeTarget} map={data} grid={grid} gridData={gridData} state={state} initialView={viewRef.current} /> : <>
-        {data && grid && gridData && (
+        }} /> : routeTool && data ? <RouteWorkspace ref={editorRef} target={routeTarget} map={data} state={state} initialView={viewRef.current} /> : <>
+        {data && (
           <MapView
             mapRef={mapRef}
             initialView={viewRef.current}
             data={data}
-            grid={shownGrid ?? grid}
-            gridData={gridData}
+            grid={shownGrid}
             coverage={coverage}
             coverageImage={coverageRaster}
             coverageLines={coverageLines}
@@ -387,7 +342,7 @@ export default function App() {
           onToggleRoute={(routeId) => setBusFocus((focus) => focus && toggleFocusRoute(focus, routeId))}
           onHoverRoute={(routeId) => setBusFocus((focus) => focus && ({ ...focus, hovered_route_id: routeId }))}
           onShowAll={() => setBusFocus((focus) => focus && showAllFocusRoutes(focus))} />
-          : <Panel villageAges={villageAges} ageError={ageError} onRetryAges={() => { setAgeError(null); setAgeAttempt((attempt) => attempt + 1); }} selectedVillage={selectedVillage} onVillage={selectVillage} state={state} playing={playing} needCounts={need?.counts ?? null} data={data} supplementalPending={supplementalPending} onRetrySupplemental={retrySupplemental} onChange={update} onTogglePlay={() => setPlaying((p) => !p)} onPreferences={() => setPrefsOpen(true)} />}
+          : <Panel villageAges={villageAges} ageError={ageError} onRetryAges={ages.retry} selectedVillage={selectedVillage} onVillage={selectVillage} state={state} playing={playing} needCounts={need?.counts ?? null} data={data} supplementalPending={supplementalPending} onRetrySupplemental={retrySupplemental} onChange={update} onTogglePlay={() => setPlaying((p) => !p)} onPreferences={() => setPrefsOpen(true)} />}
         {data && <Search inputRef={searchRef} data={data} onChoose={handleSearch} />}
         {firstTask && data && !station && <aside className="first-task-hint" aria-labelledby="first-task-title">
           <button aria-label="關閉站點探索提示" onClick={() => { setFirstTask(false); searchRef.current?.focus({ preventScroll: true }); }}>×</button>
@@ -397,15 +352,18 @@ export default function App() {
         {!isBusFocus && <><div className="status-chip">
           {ageMode ? `村里年齡 · ${villageAges?.metadata.population_period ?? '載入中'} · 北北基`
             : state.layers.has('villages') ? `里${state.villageMetric === 'population' ? '人口' : '高齡占比'}${populationPeriod ? ` · ${populationPeriod}` : ''}`
-            : frequency ? `${regionalReady ? '北北基' : '臺北市（跨市網格尚未載入）'} · ${DAY_LABELS[state.day]} · ${hourText(state.hour)}`
+            : frequency ? `${regionalReady ? '北北基' : '北北基網格尚未載入'} · ${DAY_LABELS[state.day]} · ${hourText(state.hour)}`
             : needMode ? `需求落差 · ${NEED_BANDS.find((b) => b.key === state.band)!.label}`
             : '站點覆蓋 · 直線距離，不分時段'}
         </div>
         <section className={`card explainer${explainerOpen ? '' : ' is-collapsed'}`}>
           <div className="explainer-head">
             <h3>{ageMode ? '村里人口與站圈估算怎麼看？' : state.layers.has('villages') ? '里人口與年齡怎麼看？' : frequency ? '班次網格怎麼看？' : needMode ? '需求落差怎麼看？' : '站點覆蓋怎麼看？'}</h3>
-            <button className="icon-btn" aria-label={explainerOpen ? '收合說明' : '展開說明'} onClick={() => setExplainerOpen((o) => !o)}>ⓘ</button>
+            <button className="icon-btn" aria-label={explainerOpen ? '收合說明' : '展開說明'} aria-expanded={explainerOpen} aria-controls="explainer-content" onClick={() => setExplainerOpen((o) => !o)}>
+              <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d={explainerOpen ? 'm5 7 5 5 5-5' : 'm5 12 5-5 5 5'} /></svg>
+            </button>
           </div>
+          <div id="explainer-content" className="explainer-content" hidden={!explainerOpen}>
           {ageMode
             ? <p>色彩是整個村里所選年齡層占戶籍人口的比例，灰色是未匹配、缺值或比例無分母。全國清冊與里界已另行核對，地圖只呈現北北基；里界版本與人口月份不同。點選站點可查看直線 350 m 內按村里面積分攤的年齡估算，只有涵蓋完整才顯示全站圈比例；人口不是實際搭乘量。</p>
             : state.layers.has('villages') ? <p>每個色塊是一個完整里，呈現{populationPeriod ? ` ${populationPeriod} ` : ''}戶籍人口或 65 歲以上人口占比；灰色表示缺值或代碼與名稱未核對。點選查看三個年齡組的人數。整里統計不是站點 350 m 人口估算；關閉此圖層即可恢復原分析填色。</p> : needMode
@@ -413,20 +371,21 @@ export default function App() {
             : frequency
             ? <p>北北基共用 100、150、250 或 500 m 計畫班次網格，依 TDX 官方路線、附線、方向與班表彙整；100／150 m 僅顯示距站位約 350 m 內的分析區域。缺班表保留未知，不補為零。依起站發車時刻歸入小時，未計沿途行駛時間；不代表實際載客或步行可達性。</p>
             : <p>每格約 {state.coverageCell} m，依格心到最近站點的直線距離上色。橘色為步行到站、藍色為 YouBike 騎乘範圍；色越深，離站越近。重疊處優先顯示步行。範圍未計道路、河川阻隔、班次或即時可借車輛。</p>}
+          </div>
         </section></>}
-        {loading && <div className="loading">載入地圖資料中…</div>}
+        {loading && <div className="loading" role="status">{!data ? '載入地圖資料中…' : mapStatus === 'loading' ? '準備地圖中…' : '更新分析圖層中…'}</div>}
+        {analysisError && <div className="card data-error" role="alert"><b>分析資料載入失敗</b><p>{analysisError.message}</p><p className="muted">其他已載入圖層仍可操作。</p><button className="retry-button" onClick={analysis.retry}>重新載入分析資料</button></div>}
+        </>}
         {error && (
           <div className="card data-error">
             <b>地圖資料載入失敗</b>
             <p className="muted">請確認網路連線後重試。<br />{error.message}</p>
-            <button className="retry-button" onClick={() => setDataAttempt((value) => value + 1)}>重新載入</button>
+            <button className="retry-button" onClick={core.retry}>重新載入</button>
           </div>
         )}
-        {analysisError && <div className="card data-error" role="alert"><b>分析資料載入失敗</b><p>{analysisError.message}</p><p className="muted">其他已載入圖層仍可操作；請重新載入頁面後重試。</p></div>}
-        </>}
       </main>
       {prefsOpen && <Preferences state={state} data={data} supplementalPending={supplementalPending} onRetrySupplemental={retrySupplemental} onApply={(patch) => { update(patch); setPrefsOpen(false); }} onClose={() => setPrefsOpen(false)} />}
-      <AboutDialog open={aboutOpen} grid={shownGrid ?? grid} coverage={coverage} need={needGrid} ages={villageAges} supplemental={supplemental} onClose={() => setAboutOpen(false)} onReplay={() => setOnboarding('replay')} />
+      {aboutOpen && <AboutDialog grid={shownGrid} coverage={coverage} need={needGrid} ages={villageAges} supplemental={supplemental} onClose={() => setAboutOpen(false)} onReplay={() => setOnboarding('replay')} />}
       {onboarding && <Onboarding onFinish={finishOnboarding} />}
     </>
   );

@@ -3,9 +3,10 @@ import type { MapRef } from 'react-map-gl/maplibre';
 import StationAge from './StationAge';
 import { nearby } from '../catchment';
 import { loadCatchments } from '../data';
+import { useData } from '../useData';
 import { countText, percentText, villageAt } from '../regional';
 import { STATION_LABELS, STATION_RADIUS } from '../stations';
-import type { MapData, StationCatchments, StationSelection, StationType } from '../types';
+import type { MapData, StationSelection, StationType } from '../types';
 
 export function StationIcon({ type }: { type: StationType }) {
   return (
@@ -53,21 +54,11 @@ interface Props {
 export default function StationInfo({ mode = 'popup', station, mapRef, mapReady = true, data, placeKeys, onClose }: Props) {
   const cardRef = useRef<HTMLElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
-  const [catchments, setCatchments] = useState<StationCatchments | null>(null);
-  const [failed, setFailed] = useState(false);
-  const [attempt, setAttempt] = useState(0);
   const [expanded, setExpanded] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState(false);
   const regionalBus = station.type === 'bus' && Boolean(station.properties.source_scope);
 
-  useEffect(() => {
-    if (regionalBus) return undefined;
-    let current = true;
-    loadCatchments().then((value) => {
-      if (current) { setCatchments(value); setFailed(false); }
-    }, () => { if (current) setFailed(true); });
-    return () => { current = false; };
-  }, [attempt, regionalBus]);
+  const { data: catchments, error: failed, retry, loading } = useData(loadCatchments, !regionalBus);
 
   useEffect(() => {
     closeRef.current?.focus({ preventScroll: true });
@@ -95,24 +86,30 @@ export default function StationInfo({ mode = 'popup', station, mapRef, mapReady 
     if (mode === 'focus') {
       card.style.left = '';
       card.style.top = '';
+      card.style.transform = '';
       return;
     }
     const container = map.getContainer();
+    card.style.left = card.style.top = '0';
+    let width = 0, height = 0, cardWidth = 0, cardHeight = 0;
     const position = () => {
       const { x, y } = map.project(station.at);
-      const width = container.clientWidth;
-      const height = container.clientHeight;
       const margin = 12;
       const gap = 28;
-      const cardWidth = card.offsetWidth;
-      const cardHeight = card.offsetHeight;
       // Prefer the side with room; clamp on narrow screens without changing the view.
       const preferred = x + gap + cardWidth <= width - margin ? x + gap : x - gap - cardWidth;
-      card.style.left = `${Math.max(margin, Math.min(preferred, width - cardWidth - margin))}px`;
-      card.style.top = `${Math.max(margin, Math.min(y - cardHeight / 3, height - cardHeight - margin))}px`;
+      const left = Math.max(margin, Math.min(preferred, width - cardWidth - margin));
+      const top = Math.max(margin, Math.min(y - cardHeight / 3, height - cardHeight - margin));
+      card.style.transform = `translate3d(${left}px, ${top}px, 0)`;
     };
-    position();
-    const observer = new ResizeObserver(position);
+    // Dimensions change on resize/content updates, not on every camera frame.
+    const measure = () => {
+      width = container.clientWidth; height = container.clientHeight;
+      cardWidth = card.offsetWidth; cardHeight = card.offsetHeight;
+      position();
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
     observer.observe(card);
     observer.observe(container);
     map.on('move', position);
@@ -126,7 +123,6 @@ export default function StationInfo({ mode = 'popup', station, mapRef, mapReady 
   const value = !regionalBus ? catchments?.records[station.type]?.[station.id]?.[catchments.radii.indexOf(STATION_RADIUS)] : undefined;
   const [people, households, share, ages] = value ?? [null, null, 0, null];
   const catchmentAgeGroups = catchments?.age_groups;
-  const loading = !regionalBus && !catchments && !failed;
   const facilities = expanded ? surroundings.facilities : surroundings.facilities.slice(0, 3);
   const period = catchments?.metadata.population_period.end;
   const agePeriod = catchments?.metadata.age_period?.end ?? period;
@@ -154,7 +150,7 @@ export default function StationInfo({ mode = 'popup', station, mapRef, mapReady 
         <div className="station-section-head"><h3>周邊 {STATION_RADIUS} m 統計區人口</h3><span className="station-badge">臺北戶籍估算</span></div>
         {loading ? <p className="station-empty-title">人口資料載入中…</p>
           : regionalBus ? <p className="station-empty">此來源未提供新北站位的 {STATION_RADIUS} m 統計區人口估算；下方另列整里統計與村里年齡分攤。</p>
-          : failed ? <div className="station-empty"><b>人口資料載入失敗</b><p>設施資訊仍可查閱。</p><button className="station-text-button" onClick={() => { setFailed(false); setAttempt((a) => a + 1); }}>重新載入</button></div>
+          : failed ? <div className="station-empty"><b>人口資料載入失敗</b><p>設施資訊仍可查閱。</p><button className="station-text-button" onClick={retry}>重新載入</button></div>
             : people === null ? <div className="station-empty"><b>尚無人口資料</b><p>此範圍尚無可用的臺北市戶籍人口資料。</p></div>
               : <><p className="station-population-value">{people.toLocaleString('zh-TW')}<span>人</span></p>
                 <p className="station-meta">約 {households?.toLocaleString('zh-TW') ?? '—'} 戶 · {period} 戶籍人口</p>

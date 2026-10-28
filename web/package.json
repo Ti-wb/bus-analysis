@@ -5,16 +5,17 @@
   "description": "Bus coming soon：開放資料公車路網 GIS 地圖",
   "type": "module",
   "scripts": {
-    "test:improvements": "node tests/run-routes.mjs improvements",
-    "test:routes": "node tests/run-routes.mjs",
-    "test:regional": "node tests/run-routes.mjs regional",
-    "test:map": "node tests/run-routes.mjs map",
-    "test:focus": "node tests/run-focus.mjs",
+    "test": "node tests/run-tests.mjs",
+    "test:improvements": "node tests/run-tests.mjs improvements",
+    "test:routes": "node tests/run-tests.mjs routes",
+    "test:regional": "node tests/run-tests.mjs regional",
+    "test:map": "node tests/run-tests.mjs map",
+    "test:focus": "node tests/run-tests.mjs focus",
     "dev": "vite",
     "typecheck": "tsc --noEmit",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "test:age": "node tests/run-age.mjs"
+    "test:age": "node tests/run-tests.mjs age"
   },
   "dependencies": {
     "maplibre-gl": "^6.15.0",

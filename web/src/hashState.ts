@@ -7,6 +7,7 @@ export function readHash(): AppState & ViewState {
   const hour = Number(params.get('h'));
   const cell = Number(params.get('cell'));
   const center = (params.get('c') ?? '').split(',').map(Number);
+  const zoom = Number(params.get('z'));
   const day = params.get('day');
   const list = (key: string) => (params.get(key) ?? '').split(',').filter(Boolean);
   const radius = (value: number, layer: CoverageLayer) => {
@@ -20,10 +21,10 @@ export function readHash(): AppState & ViewState {
   const band = params.get('band');
   const weights = list('nw').map(Number);
   return {
-    day: day && day in DAY_LABELS ? (day as DayType) : 'weekday',
+    day: day && Object.hasOwn(DAY_LABELS, day) ? (day as DayType) : 'weekday',
     hour: params.has('h') && Number.isInteger(hour) && hour >= 0 && hour <= ALL_DAY ? hour : 8,
     cell: (CELL_SIZES as readonly number[]).includes(cell) ? (cell as CellSize) : 500,
-    layers: new Set(params.has('layers') ? list('layers').filter((l): l is LayerGroup => l in LAYER_GROUPS) : DEFAULT_LAYERS),
+    layers: new Set(params.has('layers') ? list('layers').filter((l): l is LayerGroup => Object.hasOwn(LAYER_GROUPS, l)) : DEFAULT_LAYERS),
     places: new Set(params.has('places')
       ? list('places').filter((k) => PLACE_CATEGORIES.some((c) => c.key === k))
       : PLACE_CATEGORIES.filter((c) => c.on).map((c) => c.key)),
@@ -35,7 +36,7 @@ export function readHash(): AppState & ViewState {
     weights: weights.length === 3 && weights.every((w) => Number.isInteger(w) && w >= 0 && w <= 100) && weights.some((w) => w > 0)
       ? (weights as NeedWeights)
       : DEFAULT_NEED_WEIGHTS,
-    coverage: new Set(params.has('cov') ? list('cov').filter((l): l is CoverageLayer => l in COVERAGE_LAYERS) : ['walk', 'ride']),
+    coverage: new Set(params.has('cov') ? list('cov').filter((l): l is CoverageLayer => Object.hasOwn(COVERAGE_LAYERS, l)) : ['walk', 'ride']),
     walkTypes: new Set(params.has('st')
       ? list('st').filter((t): t is StationType => STATION_TYPES.some((s) => s.key === t))
       : STATION_TYPES.map((s) => s.key)),
@@ -46,8 +47,9 @@ export function readHash(): AppState & ViewState {
     labels: params.get('lbl') !== '0',
     leapfrogOnly: params.get('frog') === '1',
     villageMetric: params.get('village') === 'elderly_share' ? 'elderly_share' : 'population',
-    center: center.length === 2 && center.every(Number.isFinite) ? (center as [number, number]) : DEFAULT_VIEW.center,
-    zoom: Number(params.get('z')) || DEFAULT_VIEW.zoom,
+    center: center.length === 2 && center.every(Number.isFinite) && Math.abs(center[0]) <= 180 && Math.abs(center[1]) <= 90
+      ? (center as [number, number]) : DEFAULT_VIEW.center,
+    zoom: params.has('z') && Number.isFinite(zoom) && zoom >= 8 && zoom <= 17 ? zoom : DEFAULT_VIEW.zoom,
   };
 }
 

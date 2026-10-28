@@ -1,13 +1,18 @@
 import { assess } from './engine';
-import type { Band, Changes, ScenarioData } from './types';
-import type { MapData } from '../types';
+import type { AssessmentMap, Band, Changes, ScenarioData } from './types';
+
+export type AssessmentRequest = { type: 'init'; data: ScenarioData; map: AssessmentMap }
+  | { type: 'assess'; id: number; changes: Changes; band: Band };
 
 let data: ScenarioData;
-let map: MapData;
-self.onmessage = (event: MessageEvent<{ id: number; data?: ScenarioData; map?: MapData; changes: Changes; band: Band }>) => {
+let map: AssessmentMap;
+self.onmessage = (event: MessageEvent<AssessmentRequest>) => {
   const request = event.data;
-  if (request.data) data = request.data;
-  if (request.map) map = request.map;
+  if (request.type === 'init') {
+    data = request.data;
+    map = request.map;
+    return;
+  }
   try {
     self.postMessage({ id: request.id, result: assess(data, map, request.changes, request.band) });
   } catch {

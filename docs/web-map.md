@@ -26,7 +26,7 @@ npm --prefix web run build
 
 地圖區分載入中、可操作與載入失敗。部分圖磚或資料來源出錯時會保留已載入內容並顯示警告，不會重新顯示載入中；可選「重試地圖」。若本地簡圖仍超過 12 秒未完成、地圖初始化失敗或繪圖連線中斷，會停止載入提示並提供重試。重試與底圖切換保留目前鏡頭的位置、縮放、旋轉、傾斜及側欄留白，也保留選取與路線草稿；重新載入整個網頁則依各工具的儲存規則處理。
 
-回歸狀態測試使用 `npm --prefix web run test:map`，既有 CI 的 `test:routes` 入口也會執行這組測試。產生前端資料並啟動開發伺服器後，可開啟 `http://localhost:5173/tests/mapRecovery.browser.html`，檢查實際 MapView 的載入、圖層警告、重試及完整鏡頭保留；加上 `?fault=style` 模擬外部樣式載入失敗，或 `?fault=webgl` 模擬 WebGL 無法初始化，再用測試頁的「解除測試限制」與地圖重試按鈕確認復原。加上 `app=1`（例如 `?app=1&fault=webgl`）可直接驗收 App 的 loading 與未套用草稿保留。這是僅供開發的測試頁，故障為模擬；正式頁面與真實網路仍須另行操作驗收。
+回歸狀態測試使用 `npm --prefix web run test:map`，`npm test --prefix web` 會執行全部前端回歸（CI 使用此入口），也可用 `test:routes`、`test:focus`、`test:age`、`test:regional`、`test:improvements` 分組執行。產生前端資料並啟動開發伺服器後，可開啟 `http://localhost:5173/tests/mapRecovery.browser.html`，檢查實際 MapView 的載入、圖層警告、重試及完整鏡頭保留；加上 `?fault=style` 模擬外部樣式載入失敗，或 `?fault=webgl` 模擬 WebGL 無法初始化，再用測試頁的「解除測試限制」與地圖重試按鈕確認復原。加上 `app=1`（例如 `?app=1&fault=webgl`）可直接驗收 App 的 loading 與未套用草稿保留。這是僅供開發的測試頁，故障為模擬；正式頁面與真實網路仍須另行操作驗收。
 
 站點卡復原以桌面寬度驗收：按「選取捷運站」與「保存站點卡」，展開設施後模擬 WebGL 中斷；「檢查重試按鈕」須通過，滑鼠可直接點擊重試。地圖就緒後按「檢查站點卡平移」，須保留同一張資訊卡、展開狀態，並隨標記平移；另以圖層警告切換本地簡圖重做一次。
 

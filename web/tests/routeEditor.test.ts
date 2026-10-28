@@ -4,8 +4,22 @@ import { assess, draftChanges, duration, frequency, network, routesWithChanges }
 import { buildExistingServices } from '../src/routeEditor/existingServices';
 import { loadScenario, saveScenario } from '../src/routeEditor/storage';
 import { searchRouteGroups } from '../src/routeEditor/search';
+import { pathHandles } from '../src/routeEditor/pathHandles';
 import type { MapData } from '../src/types';
-import type { AppliedAction, Route, ScenarioData } from '../src/routeEditor/types';
+import type { AppliedAction, Coordinate, Route, ScenarioData } from '../src/routeEditor/types';
+
+test('dense path controls retain original indices, endpoints and focus while zoom reveals detail', () => {
+  const path: Coordinate[] = Array.from({ length: 201 }, (_, i) => [i, 50]);
+  const original = JSON.stringify(path);
+  const overview = pathHandles(path, ([x, y]) => ({ x, y }), 300, 150, 101);
+  assert.ok(overview.vertices.length < 15);
+  for (const i of [0, 101, 200]) assert.ok(overview.vertices.includes(i));
+  const detail = pathHandles(path, ([x, y]) => ({ x: (x - 100) * 60, y }), 300, 150);
+  assert.deepEqual(detail.vertices, [100, 101, 102, 103, 104, 105]);
+  assert.deepEqual(detail.midpoints, [100, 101, 102, 103, 104]);
+  assert.equal(JSON.stringify(path), original, 'display filtering must not change saved geometry');
+  assert.deepEqual(pathHandles([], ([x, y]) => ({ x, y }), 300, 150), { vertices: [], midpoints: [] });
+});
 
 function route(id: string, routeId: string, stops: string[], value: number | null): Route {
   return { id, route_id: routeId, subroute_id: id, name: routeId, branch_name: routeId, direction: '0', direction_label: '去程', stop_ids: stops,
@@ -127,6 +141,10 @@ test('local persistence validates source version, stop IDs and histories; undo s
   assert.deepEqual(loadScenario(data).history[0].before, {});
   saveScenario(data, { [a.id]: { ...changed, stop_ids: ['missing', 's1'] } }, [action]);
   assert.deepEqual(loadScenario(data).history, []);
+  for (const patch of [{ branch_name: null }, { direction: 0 }, { frequencies: [] }, { stop_ids: ['constructor', 's1'] }]) {
+    saveScenario(data, { [a.id]: { ...changed, ...patch } as Route }, []);
+    assert.deepEqual(loadScenario(data).changes, {}, JSON.stringify(patch));
+  }
   saveScenario(data, changes, [action]); data.metadata.source_data_time = 'new';
   assert.deepEqual(loadScenario(data).changes, {});
 });

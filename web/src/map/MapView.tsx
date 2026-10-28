@@ -3,7 +3,7 @@ import type { ExpressionSpecification, MapGeoJSONFeature, Map as MaplibreMap, Pa
 import 'maplibre-gl/dist/maplibre-gl.css';
 // MapLibre 6 resolves its worker next to its own module, which the bundle does not copy; ship it as an asset.
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url';
-import { useCallback, useEffect, useLayoutEffect, useMemo, useReducer, useRef, useState, type RefObject } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState, type RefObject } from 'react';
 import Map, {
   AttributionControl,
   Layer,
@@ -17,6 +17,9 @@ import Map, {
   type MapRef,
 } from 'react-map-gl/maplibre';
 import { groupFor, type VillageAges, type VillageAgeMap } from '../age';
+import MapHover, { type MapHoverHandle } from './MapHover';
+import FrequencyGrid from './FrequencyGrid';
+import { motionDuration } from '../motion';
 import { VillageDialog, VillageFacts } from '../components/VillageAge';
 import { circle } from '../catchment';
 import StationInfo, { StationIcon } from '../components/StationInfo';
@@ -55,8 +58,7 @@ interface Props {
   mapRef: RefObject<MapRef | null>;
   initialView: ViewState;
   data: MapData;
-  grid: Grid;
-  gridData: FeatureCollection<Polygon, { k: number }>;
+  grid: Grid | null;
   coverage: Coverage | null;
   coverageImage: CoverageImage | null;
   coverageLines: FeatureCollection<MultiLineString> | null;
@@ -70,8 +72,6 @@ interface Props {
   onMoveEnd: (view: ViewState) => void;
 }
 
-// Distance between the cursor and the tooltip, in pixels.
-const TOOLTIP_GAP = 12;
 const FOCUS_ORIGINAL_LAYERS: Record<string, string> = {
   'focus-bus-stops': 'bus-stops',
   'focus-mrt-stations': 'mrt-stations',
@@ -80,15 +80,6 @@ const FOCUS_ORIGINAL_LAYERS: Record<string, string> = {
   'bus-focus-route-emphasis': 'bus-routes',
   'bus-focus-routes': 'bus-routes',
 };
-
-interface Hover {
-  feature?: MapGeoJSONFeature;
-  /** Nearest-station distances when no feature is under the cursor in coverage mode. */
-  distances?: NonNullable<ReturnType<typeof distancesAt>>;
-  focusDistance?: number;
-  x: number;
-  y: number;
-}
 
 function addHatchPattern(map: MaplibreMap) {
   const size = 8;
@@ -134,7 +125,7 @@ function addHatchPattern(map: MaplibreMap) {
   }
 }
 
-export default function MapView({ villageAges = null, villageData = null, selectedVillage = null, onVillage, onCloseVillage, editor, focus, onFocusRoute, mapRef, initialView, data, grid, gridData, coverage, coverageImage, coverageLines, need, state, station, onStation, onCloseStation, onReady, onStatusChange, onMoveEnd }: Props) {
+export default function MapView({ villageAges = null, villageData = null, selectedVillage = null, onVillage, onCloseVillage, editor, focus, onFocusRoute, mapRef, initialView, data, grid, coverage, coverageImage, coverageLines, need, state, station, onStation, onCloseStation, onReady, onStatusChange, onMoveEnd }: Props) {
   // First label layer of the base style: our layers go below it so road names stay on top.
   const [labelLayer, setLabelLayer] = useState<string | null>(null);
   const [mapLoad, dispatchMapLoad] = useReducer(mapLoadReducer, INITIAL_MAP_LOAD);
@@ -145,23 +136,23 @@ export default function MapView({ villageAges = null, villageData = null, select
   const [noticeOpen, setNoticeOpen] = useState(true);
   useEffect(() => { setNoticeOpen(true); }, [mapLoad.attempt, mapLoad.issue]);
   const baseLabels = useRef<string[]>([]);
-  const [hover, setHover] = useState<Hover | null>(null);
-  const tooltipRef = useRef<HTMLDivElement>(null);
+  const hoverRef = useRef<MapHoverHandle>(null);
+  const hoverFrame = useRef<number | null>(null);
+  const hoverEvent = useRef<MapLayerMouseEvent | null>(null);
+  const [hoveredStopId, setHoveredStopId] = useState<string | null>(null);
   const pickingStops = editor?.interaction === 'stops';
-  useEffect(() => { setHover(null); setPopup(null); }, [editor?.interaction]);
+  const clearHover = useCallback(() => {
+    if (hoverFrame.current !== null) cancelAnimationFrame(hoverFrame.current);
+    hoverFrame.current = null;
+    hoverEvent.current = null;
+    hoverRef.current?.show(null);
+    setHoveredStopId(null);
+    const canvas = mapRef.current?.getCanvas();
+    if (canvas) canvas.style.cursor = '';
+  }, [mapRef]);
+  useEffect(() => clearHover, [clearHover]);
+  useEffect(() => { clearHover(); setPopup(null); }, [editor?.interaction, mapLoad.attempt, clearHover]);
 
-  // Keep the tooltip inside the map: place it below-right of the cursor, flipping to the
-  // other side when it would cross the right or bottom edge.
-  useLayoutEffect(() => {
-    const tip = tooltipRef.current;
-    const box = mapRef.current?.getContainer();
-    if (!hover || !tip || !box) return;
-    const fitsRight = hover.x + TOOLTIP_GAP + tip.offsetWidth <= box.clientWidth;
-    const fitsBelow = hover.y + TOOLTIP_GAP + tip.offsetHeight <= box.clientHeight;
-    const dx = fitsRight ? TOOLTIP_GAP : -TOOLTIP_GAP - tip.offsetWidth;
-    const dy = fitsBelow ? TOOLTIP_GAP : -TOOLTIP_GAP - tip.offsetHeight;
-    tip.style.transform = `translate(${dx}px, ${dy}px)`;
-  }, [hover, mapRef]);
   const [popup, setPopup] = useState<PopupFeature | null>(null);
   const [showDistrictLabels, setShowDistrictLabels] = useState(true);
   const catchmentShape = useMemo(() => (station ? circle(station.at, STATION_RADIUS) : null), [station]);
@@ -178,7 +169,6 @@ export default function MapView({ villageAges = null, villageData = null, select
   useEffect(() => {
     const map = mapRef.current?.getMap();
     if (!map || !styleLoaded) return;
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!activeFocus || station?.type !== 'bus') {
       cameraRequest.current = null;
       cameraStation.current = null;
@@ -213,7 +203,7 @@ export default function MapView({ villageAges = null, villageData = null, select
       maxZoom: routeBounds ? 15.5 : 16,
       bearing: 0,
       pitch: 0,
-      duration: reducedMotion ? 0 : 550,
+      duration: motionDuration(500),
     });
   }, [activeFocus, data, styleLoaded, mapRef, station, visibleRouteIds]);
   const travelData = useMemo(() => travelCollection(data.bus_travel_times, state), [data.bus_travel_times, state.day, state.hour]);
@@ -262,9 +252,9 @@ export default function MapView({ villageAges = null, villageData = null, select
   }, [mapRef, onCloseVillage]);
 
   // Search and map clicks share one selected station; a route popup must not linger.
-  useEffect(() => { if (station || selectedVillage) { setPopup(null); setHover(null); } }, [station, selectedVillage]);
+  useEffect(() => { if (station || selectedVillage) { setPopup(null); clearHover(); } }, [station, selectedVillage, clearHover]);
   // MapLibre event features are snapshots: discard values when their time or filter changes.
-  useEffect(() => { setPopup(null); setHover(null); }, [state.day, state.hour, state.villageMetric, state.leapfrogOnly, state.layers, state.mode, state.ageGroup, state.ageSet]);
+  useEffect(() => { setPopup(null); clearHover(); }, [clearHover, grid, coverage, state.day, state.hour, state.villageMetric, state.leapfrogOnly, state.layers, state.mode, state.ageGroup, state.ageSet]);
 
   useEffect(() => {
     if (!styleLoaded) return;
@@ -281,7 +271,7 @@ export default function MapView({ villageAges = null, villageData = null, select
       if (!editor && !activeFocus && state.mode === 'village_age' && map.getLayer('village-age-fill')) {
         const centre: [number, number] = [canvas.clientWidth / 2, canvas.clientHeight / 2];
         const village = map.queryRenderedFeatures(centre, { layers: ['village-age-fill'] })[0];
-        if (village) { event.preventDefault(); onStation(null); onVillage?.(String(village.properties.boundary_id), false); setHover(null); }
+        if (village) { event.preventDefault(); onStation(null); onVillage?.(String(village.properties.boundary_id), false); clearHover(); }
         return;
       }
       const layers = pickingStops ? (map.getLayer(ROUTE_STOP_PICKER) ? [ROUTE_STOP_PICKER] : [])
@@ -295,18 +285,18 @@ export default function MapView({ villageAges = null, villageData = null, select
       };
       stations.sort((a, b) => distance(a) - distance(b));
       if (pickingStops && editor && stations[0]) {
-        event.preventDefault(); setHover(null); setPopup(null);
+        event.preventDefault(); clearHover(); setPopup(null);
         editor.onStop(String(stations[0].properties.id)); return;
       }
       const feature = stations[0];
       const next = feature && stationFromFeature({ ...feature, geometry: feature.geometry, layer: { ...feature.layer, id: FOCUS_ORIGINAL_LAYERS[feature.layer.id] ?? feature.layer.id } } as MapGeoJSONFeature, data);
-      if (next) { event.preventDefault(); setHover(null); setPopup(null);
+      if (next) { event.preventDefault(); clearHover(); setPopup(null);
         onStation(next, canvas);
       }
     };
     canvas.addEventListener('keydown', openStation);
     return () => canvas.removeEventListener('keydown', openStation);
-  }, [activeFocus !== null, data, editor, styleLoaded, mapRef, onStation, onVillage, pickingStops, state.layers, state.mode]);
+  }, [activeFocus !== null, data, editor, styleLoaded, mapRef, onStation, onVillage, pickingStops, state.layers, state.mode, clearHover]);
 
   const handleLoad = useCallback((event: MapEvent) => {
     const map = event.target;
@@ -372,8 +362,8 @@ export default function MapView({ villageAges = null, villageData = null, select
   );
 
   const featureAt = (e: MapLayerMouseEvent): MapGeoJSONFeature | undefined => {
-    if (editor?.interaction === 'path') return;
-    const map = mapRef.current!.getMap();
+    const map = mapRef.current?.getMap();
+    if (!map || !styleLoaded || editor?.interaction === 'path') return;
     const { x, y } = e.point;
     if (pickingStops) {
       if (!map.getLayer(ROUTE_STOP_PICKER)) return;
@@ -399,57 +389,66 @@ export default function MapView({ villageAges = null, villageData = null, select
       const firstNonPoint = layers.findIndex((id) => id !== 'places' && !STATION_LAYERS.includes(id));
       layers.splice(firstNonPoint < 0 ? layers.length : firstNonPoint, 0, 'village-age-fill');
     }
-    const features = map.queryRenderedFeatures([[x - 4, y - 4], [x + 4, y + 4]], { layers }).map((feature) => {
-      const original = FOCUS_ORIGINAL_LAYERS[feature.layer.id];
-      return original ? { ...feature, geometry: feature.geometry, layer: { ...feature.layer, id: original } } as MapGeoJSONFeature : feature;
-    });
-    // Station points win; retain the analysis mode's priority for all other features.
-    const stationFeature = features.find((f) => STATION_LAYERS.includes(f.layer.id));
-    if (stationFeature) return stationFeature;
-    const priority = (f: MapGeoJSONFeature) => layers.findIndex((id) => (FOCUS_ORIGINAL_LAYERS[id] ?? id) === f.layer.id);
-    return features.reduce<MapGeoJSONFeature | undefined>((best, f) => (!best || priority(f) < priority(best) ? f : best), undefined);
+    const features = map.queryRenderedFeatures([[x - 4, y - 4], [x + 4, y + 4]], { layers });
+    // Select first, then normalize only the winner. Reading every matched route's
+    // geometry needlessly materializes large line strings during pointer movement.
+    const originalId = (f: MapGeoJSONFeature) => FOCUS_ORIGINAL_LAYERS[f.layer.id] ?? f.layer.id;
+    const winner = features.find((f) => STATION_LAYERS.includes(originalId(f)))
+      ?? features.reduce<MapGeoJSONFeature | undefined>((best, f) =>
+        !best || layers.indexOf(f.layer.id) < layers.indexOf(best.layer.id) ? f : best, undefined);
+    if (!winner || !FOCUS_ORIGINAL_LAYERS[winner.layer.id]) return winner;
+    return { ...winner, geometry: winner.geometry, layer: { ...winner.layer, id: originalId(winner) } } as MapGeoJSONFeature;
   };
 
-  const handleMouseMove = (e: MapLayerMouseEvent) => {
+  const updateHover = (e: MapLayerMouseEvent) => {
+    const map = mapRef.current?.getMap();
+    if (!map || !styleLoaded || map.isMoving() || e.originalEvent.buttons) { clearHover(); return; }
     const feature = featureAt(e);
-    const canvas = mapRef.current!.getCanvas();
     const clickable = feature && (STATION_LAYERS.includes(feature.layer.id)
       || POPUP_LAYERS.includes(feature.layer.id) || feature.layer.id === 'village-age-fill' || feature.layer.id === ROUTE_STOP_PICKER);
-    canvas.style.cursor = clickable ? 'pointer' : '';
+    map.getCanvas().style.cursor = clickable ? 'pointer' : '';
+    setHoveredStopId(feature?.layer.id === ROUTE_STOP_PICKER ? String(feature.properties.id) : null);
     const { x, y } = e.point;
-    if (feature) setHover({ feature, x, y });
+    if (feature) hoverRef.current?.show({ feature, x, y });
     else if (focusedCoverage) {
       const focusDistance = focusDistanceAt(focusedCoverage, e.lngLat.lng, e.lngLat.lat);
-      setHover(focusDistance === null ? null : { focusDistance, x, y });
-    }
-    else if (!activeFocus && state.mode === 'coverage' && !villageView && coverage) {
+      hoverRef.current?.show(focusDistance === null ? null : { focusDistance, x, y });
+    } else if (!activeFocus && state.mode === 'coverage' && !villageView && coverage) {
       const distances = distancesAt(coverage, e.lngLat.lng, e.lngLat.lat);
-      setHover(distances ? { distances, x, y } : null);
-    } else setHover(null);
+      hoverRef.current?.show(distances ? { distances, x, y } : null);
+    } else hoverRef.current?.show(null);
+  };
+  const handleMouseMove = (e: MapLayerMouseEvent) => {
+    hoverEvent.current = e;
+    if (hoverFrame.current !== null) return;
+    hoverFrame.current = requestAnimationFrame(() => {
+      hoverFrame.current = null;
+      if (hoverEvent.current) updateHover(hoverEvent.current);
+    });
   };
 
   const handleClick = (e: MapLayerMouseEvent) => {
     const feature = featureAt(e);
     const id = feature?.layer.id;
     if (feature && id === ROUTE_STOP_PICKER && pickingStops && editor) {
-      editor.onStop(String(feature.properties.id)); setHover(null); setPopup(null); return;
+      editor.onStop(String(feature.properties.id)); clearHover(); setPopup(null); return;
     }
     if (feature && STATION_LAYERS.includes(id!)) {
       onStation(stationFromFeature(feature, data), mapRef.current!.getCanvas());
       setPopup(null);
-      setHover(null);
+      clearHover();
     } else if (feature && id === 'village-age-fill') {
       onStation(null);
       onVillage?.(String(feature.properties.boundary_id), false);
       setPopup(null);
-      setHover(null);
+      clearHover();
     } else if (feature && POPUP_LAYERS.includes(id!)) {
-      if (editor && id === 'bus-routes') { editor.onRoute(String(feature.properties.route_id)); setHover(null); return; }
-      if (activeFocus && id === 'bus-routes') { onFocusRoute?.(String(feature.properties.route_id)); setHover(null); return; }
+      if (editor && id === 'bus-routes') { editor.onRoute(String(feature.properties.route_id)); clearHover(); return; }
+      if (activeFocus && id === 'bus-routes') { onFocusRoute?.(String(feature.properties.route_id)); clearHover(); return; }
       onStation(null);
       onVillage?.(null, false);
       setPopup({ feature, lngLat: [e.lngLat.lng, e.lngLat.lat] });
-      setHover(null);
+      clearHover();
     } else {
       setPopup(null);
       onVillage?.(null, false);
@@ -490,7 +489,9 @@ export default function MapView({ villageAges = null, villageData = null, select
         onLoad={handleLoad}
         onError={(event) => dispatchMapLoad({ type: event.target ? 'resource-error' : 'initialization-error', attempt: mapLoad.attempt })}
         onMouseMove={handleMouseMove}
-        onMouseOut={() => { setHover(null); const canvas = mapRef.current?.getCanvas(); if (canvas) canvas.style.cursor = ''; }}
+        onMouseOut={clearHover}
+        onMouseDown={clearHover}
+        onMoveStart={clearHover}
         onClick={handleClick}
         onZoom={(e) => {
           const zoom = e.viewState.zoom;
@@ -509,10 +510,7 @@ export default function MapView({ villageAges = null, villageData = null, select
               <Layer {...withVisibility(L.villagesFillLayer(state.villageMetric), below)} />
               <Layer {...withVisibility(L.villagesLineLayer, below)} />
             </Source>}
-            <Source id="grid" type="geojson" data={gridData}>
-              <Layer {...withVisibility(L.gridFillLayer, below)} />
-              <Layer {...withVisibility(L.gridHatchLayer, below)} />
-            </Source>
+            {!editor && grid && state.mode === 'frequency' && <FrequencyGrid grid={grid} state={state} visible={shown('grid')} beforeId={below} />}
             {editor && <ScenarioGrid editor={editor} beforeId={below} />}
             {!editor && villageData && (
               <Source id="village-age" type="geojson" data={villageData}>
@@ -610,7 +608,7 @@ export default function MapView({ villageAges = null, villageData = null, select
               </Source>
             </>}
             {pickingStops && editor && <RouteStopPicker editor={editor}
-              hoveredId={hover?.feature?.layer.id === ROUTE_STOP_PICKER ? String(hover.feature.properties.id) : null} />}
+              hoveredId={hoveredStopId} />}
             {editor && <RouteLayers editor={editor} beforeId={below} />}
           </>
         )}
@@ -648,9 +646,8 @@ export default function MapView({ villageAges = null, villageData = null, select
 
       {station && <StationInfo station={station} mode={activeFocus ? 'focus' : 'popup'} mapRef={mapRef} mapReady={styleLoaded} data={data} placeKeys={state.places} onClose={onCloseStation} />}
 
-      {hover && (
-        <div ref={tooltipRef} className="tooltip" style={{ left: hover.x, top: hover.y }}>
-          {hover.feature?.layer.id === ROUTE_STOP_PICKER && pickingStops && editor
+      <MapHover ref={hoverRef} mapRef={mapRef}>{(hover) =>
+          hover.feature?.layer.id === ROUTE_STOP_PICKER && pickingStops && editor
             ? <><b>{hover.feature.properties.name}</b><br />公車站位 #{hover.feature.properties.id}
               <strong className="route-stop-pick-action">＋ 點擊加入第 {editor.insertIndex + 1} 站</strong></>
             : hover.feature?.layer.id === 'village-age-fill' && villageAges && currentAgeGroup && villageIndex.get(String(hover.feature.properties.boundary_id))
@@ -661,9 +658,8 @@ export default function MapView({ villageAges = null, villageData = null, select
             ? <FeatureTooltip feature={hover.feature} grid={grid} state={state} />
             : hover.focusDistance !== undefined
             ? <><b>沿線公車站 350 m 覆蓋</b><br />距已開啟路線停靠站或本站約 {Math.round(hover.focusDistance)} m（格心直線距離）</>
-            : hover.distances && <CoverageTooltip distances={hover.distances} state={state} />}
-        </div>
-      )}
+            : hover.distances && <CoverageTooltip distances={hover.distances} state={state} />
+      }</MapHover>
     </>
   );
 }

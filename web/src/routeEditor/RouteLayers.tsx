@@ -5,6 +5,7 @@ import type { FeatureCollection, Polygon } from 'geojson';
 import { routePath } from './engine';
 import { COLORS } from '../config';
 import ExistingServiceLayers from './ExistingServiceLayers';
+import PathHandles from './PathHandles';
 import type { ExistingService } from './existingServices';
 import type { Coordinate, Route, ScenarioData } from './types';
 
@@ -114,23 +115,6 @@ export function RouteLayers({ editor, beforeId }: { editor: EditorMapProps; befo
           onClick={(e) => { e.stopPropagation(); editor.onStop(id); }}>×</button>
         : <span className="route-map-stop is-removed" title={`取消停靠：${data.records.stops[id].name}`}>×</span>}
     </Marker>)}
-    {interaction === 'path' && path.map((at, i) => <Marker key={`vertex:${i}`} longitude={at[0]} latitude={at[1]} draggable
-      onDragEnd={(e) => editor.onPath(path.map((p, j) => j === i ? [e.lngLat.lng, e.lngLat.lat] : p))}>
-      <button className="route-vertex" aria-label={`路徑控制點 ${i + 1}；Delete 移除`} title="拖曳調整；Delete 移除"
-        onClick={(e) => e.stopPropagation()} onKeyDown={(e) => {
-          if ((e.key === 'Delete' || e.key === 'Backspace') && path.length > 2) { e.preventDefault(); editor.onPath(path.filter((_, j) => i !== j)); }
-          const delta = .0001;
-          if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
-            e.preventDefault(); e.stopPropagation();
-            const next: Coordinate = [at[0] + (e.key === 'ArrowLeft' ? -delta : e.key === 'ArrowRight' ? delta : 0), at[1] + (e.key === 'ArrowDown' ? -delta : e.key === 'ArrowUp' ? delta : 0)];
-            editor.onPath(path.map((p, j) => j === i ? next : p));
-          }
-        }} />
-    </Marker>)}
-    {interaction === 'path' && path.slice(1).map((at, i) => <Marker key={`mid:${i}`} longitude={(path[i][0] + at[0]) / 2} latitude={(path[i][1] + at[1]) / 2}>
-      <button className="route-midpoint" title="新增路徑控制點" aria-label={`在路徑第 ${i + 1} 段新增控制點`} onClick={(e) => {
-        e.stopPropagation(); editor.onPath([...path.slice(0, i + 1), [(path[i][0] + at[0]) / 2, (path[i][1] + at[1]) / 2], ...path.slice(i + 1)]);
-      }}>+</button>
-    </Marker>)}
+    {interaction === 'path' && <PathHandles path={path} onChange={editor.onPath} />}
   </>;
 }

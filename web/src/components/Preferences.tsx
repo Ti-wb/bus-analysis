@@ -4,6 +4,7 @@ import { isDefaultWeights } from '../need';
 import type { SupplementalKey } from '../data';
 import type { AnalysisMode, AppState, CoverageLayer, DayType, LayerGroup, MapData, NeedView, NeedWeights, StationType } from '../types';
 import { ExtraControls } from './Panel';
+import Modal from './Modal';
 
 /** Settings edited here; nothing changes on the map until they are applied. */
 export type PreferencePatch = Pick<AppState,
@@ -145,9 +146,16 @@ interface ChoiceProps<T extends string | number> {
 
 function Choice<T extends string | number>({ label, options, value, onChange, columns = options.length }: ChoiceProps<T>) {
   return (
-    <div className="prefs-cells" role="radiogroup" aria-label={label} style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}>
+    <div className="prefs-cells" role="radiogroup" aria-label={label} style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }} onKeyDown={(event) => {
+      const direction = ['ArrowRight', 'ArrowDown'].includes(event.key) ? 1 : ['ArrowLeft', 'ArrowUp'].includes(event.key) ? -1 : 0;
+      if (!direction) return;
+      event.preventDefault();
+      const next = (options.findIndex((option) => option.key === value) + direction + options.length) % options.length;
+      onChange(options[next].key);
+      event.currentTarget.querySelectorAll<HTMLButtonElement>('[role="radio"]')[next]?.focus();
+    }}>
       {options.map((o) => (
-        <button key={o.key} role="radio" aria-checked={value === o.key} title={o.title} className={value === o.key ? 'is-active' : ''} onClick={() => onChange(o.key)}>
+        <button key={o.key} role="radio" aria-checked={value === o.key} tabIndex={value === o.key ? 0 : -1} title={o.title} className={value === o.key ? 'is-active' : ''} onClick={() => onChange(o.key)}>
           {o.label}
         </button>
       ))}
@@ -178,21 +186,14 @@ export default function Preferences({ state, data, supplementalPending, onRetryS
   const [resets, setResets] = useState(0);
   const weightTotal = draft.weights.reduce((a, b) => a + b, 0) || 1;
 
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [onClose]);
-
   return (
-    <div className="prefs-backdrop" onClick={onClose}>
-      <aside className="prefs" role="dialog" aria-modal="true" aria-labelledby="prefs-title" onClick={(e) => e.stopPropagation()}>
+    <Modal className="prefs" labelledBy="prefs-title" onClose={onClose} dismissOnBackdrop>{(dismiss) => <>
         <header className="prefs-head">
           <div>
             <h2 id="prefs-title">偏好設定</h2>
             <p>選擇分析內容與範圍，按「套用設定」更新地圖</p>
           </div>
-          <button className="prefs-close" aria-label="關閉偏好設定" onClick={onClose}>✕</button>
+          <button className="prefs-close" aria-label="關閉偏好設定" onClick={() => dismiss()}>✕</button>
         </header>
 
         <div className="prefs-body">
@@ -331,10 +332,9 @@ export default function Preferences({ state, data, supplementalPending, onRetryS
 
         <footer className="prefs-foot">
           {invalid.size > 0 && <p className="prefs-foot-note" role="status">修正範圍外的數值後才能套用</p>}
-          <button className="prefs-cancel" onClick={onClose}>取消</button>
-          <button className="prefs-apply" disabled={invalid.size > 0} onClick={() => onApply(draft)}>套用設定</button>
+          <button className="prefs-cancel" onClick={() => dismiss()}>取消</button>
+          <button className="prefs-apply" disabled={invalid.size > 0} onClick={() => dismiss(() => onApply(draft))}>套用設定</button>
         </footer>
-      </aside>
-    </div>
+    </>}</Modal>
   );
 }

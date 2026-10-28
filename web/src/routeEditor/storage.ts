@@ -10,15 +10,17 @@ export function loadScenario(data: ScenarioData): { changes: Changes; history: A
     if (saved.source !== data.metadata.source_data_time || saved.version !== 1) return { changes: {}, history: [], message: '基準資料已更新；本次使用新基準，舊方案未載入。' };
     const known = new Set(data.records.routes.map((r) => r.id));
     const validRoute = (r: Route) => r && typeof r.id === 'string' && typeof r.route_id === 'string'
+      && ['subroute_id', 'branch_name', 'direction', 'direction_label'].every((key) => typeof r[key as keyof Route] === 'string')
       && typeof r.name === 'string' && r.name.trim().length > 0 && r.name.length <= 100
       && (known.has(r.id) || r.id.startsWith('custom:')) && Array.isArray(r.stop_ids) && r.stop_ids.length <= 300
-      && new Set(r.stop_ids).size >= 2 && r.stop_ids.every((id) => typeof id === 'string' && data.records.stops[id])
+      && new Set(r.stop_ids).size >= 2 && r.stop_ids.every((id) => typeof id === 'string' && Object.hasOwn(data.records.stops, id))
       && (r.path === null || (Array.isArray(r.path) && r.path.length >= 2 && r.path.length <= 3000
         && r.path.every((p) => Array.isArray(p) && p.length === 2 && p.every(Number.isFinite) && Math.abs(p[0]) <= 180 && Math.abs(p[1]) <= 90)))
       && r.hourly && ['weekday', 'saturday', 'sunday'].every((d) => {
         const h = r.hourly[d as keyof Route['hourly']];
         return h === null || (Array.isArray(h) && h.length === 24 && h.every((n) => Number.isFinite(n) && n >= 0));
-      }) && (!r.frequencies || Object.entries(r.frequencies).every(([b, f]) => BANDS.some((v) => v.id === b) && Number.isFinite(f) && f >= 0 && f <= 60));
+      }) && (r.frequencies === undefined || (r.frequencies !== null && typeof r.frequencies === 'object' && !Array.isArray(r.frequencies)
+        && Object.entries(r.frequencies).every(([b, f]) => BANDS.some((v) => v.id === b) && Number.isFinite(f) && f >= 0 && f <= 60)));
     const validChanges = (changes: Changes) => changes && typeof changes === 'object' && !Array.isArray(changes)
       && Object.entries(changes).length <= 2000 && Object.entries(changes).every(([id, r]) =>
         (known.has(id) || id.startsWith('custom:')) && (r === null || (r.id === id && validRoute(r))));

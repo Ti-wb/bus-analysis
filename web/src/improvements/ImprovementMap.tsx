@@ -6,6 +6,7 @@ import type { ExpressionSpecification } from 'maplibre-gl';
 import { BASE_STYLE, DEFAULT_VIEW } from '../config';
 import type { MapData } from '../types';
 import type { Ranked } from './types';
+import { motionDuration } from '../motion';
 
 const CANDIDATE = '#7b8c9a';
 const PRIORITY = '#b76c30';
@@ -27,7 +28,7 @@ export default function ImprovementMap({ rows, selected, map, onSelect }: { rows
     const xs = pts.map((p) => p[0]), ys = pts.map((p) => p[1]);
     const compact = window.innerWidth <= 900;
     ref.current?.fitBounds([[Math.min(...xs), Math.min(...ys)], [Math.max(...xs), Math.max(...ys)]],
-      { absolutePadding: true, padding: { top: compact ? 140 : 60, left: 40, bottom: 60, right: compact ? 40 : 560 }, duration: 600, maxZoom: pts.length === 1 ? 15.5 : 14.5 });
+      { absolutePadding: true, padding: { top: compact ? 140 : 60, left: 40, bottom: 60, right: compact ? 40 : 560 }, duration: motionDuration(500), maxZoom: pts.length === 1 ? 15.5 : 14.5 });
   }, [ready, selected]);
   const selectedData: FeatureCollection = { type: 'FeatureCollection', features: data.features.filter((f) => f.properties?.id === selected?.id) };
   return <div className={`im-map${selected ? ' has-selection' : ''}`}>

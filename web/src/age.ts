@@ -134,15 +134,6 @@ export function catchmentGroupValue(value: AgeCatchment, key: string) {
 export const percentText = (share: number) => `${(share * 100).toLocaleString('zh-TW', { maximumFractionDigits: 1 })}%`;
 export const estimateText = (value: number) => value.toLocaleString('zh-TW', { maximumFractionDigits: 1 });
 
-/** Share in-flight/successful requests, but never cache failure: the retry button must issue a new request. */
-export function retryableLoader<T>(load: () => Promise<T>): () => Promise<T> {
-  let pending: Promise<T> | null = null;
-  return () => {
-    pending ??= load().catch((error: unknown) => { pending = null; throw error; });
-    return pending;
-  };
-}
-
 /** Bounding-box centre is used only to position the view, never for population calculations. */
 export function villageCenter(feature: VillageAges['features'][number]): [number, number] {
   const coordinates = feature.geometry.type === 'Polygon'

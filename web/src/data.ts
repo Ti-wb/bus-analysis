@@ -1,5 +1,5 @@
 import type { Feature, FeatureCollection, Polygon } from 'geojson';
-import { retryableLoader } from './age';
+import { cachedLoader, retryableLoader } from './load';
 import { createStationAgeLoader, loadCompressedJSON, parseStationAgeShard, parseVillageAges } from './ageLoader';
 import { ALL_DAY, DAY_COLUMN, NO_SCHEDULE, NO_STOP, SCALES } from './config';
 import { decodeRegionalGrid } from './regionalGrid';
@@ -21,11 +21,12 @@ async function loadJSON<T>(name: string): Promise<T> {
 }
 
 const LAYER_FILES = ['roads', 'districts', 'taipei_boundary', 'bus_routes', 'bus_stops', 'mrt_lines', 'mrt_stations', 'district_labels', 'places', 'youbike_stations'] as const;
+const loadMapLayer = cachedLoader((name: string) => loadJSON<FeatureCollection>(`${name}.geojson`));
 
-export async function loadMapData(): Promise<CoreMapData> {
-  const docs = await Promise.all(LAYER_FILES.map((name) => loadJSON<FeatureCollection>(`${name}.geojson`)));
+export const loadMapData = retryableLoader(async (): Promise<CoreMapData> => {
+  const docs = await Promise.all(LAYER_FILES.map(loadMapLayer));
   return Object.fromEntries(LAYER_FILES.map((name, i) => [name, docs[i]])) as unknown as CoreMapData;
-}
+});
 
 export const EMPTY_SUPPLEMENTAL: SupplementalData = {
   regional_bus_routes: null, regional_bus_stops: null, villages: null,
@@ -48,40 +49,14 @@ export async function loadSupplementalLayer<K extends SupplementalKey>(key: K): 
   return document as SupplementalData[K];
 }
 
-const grids = new Map<number, Promise<Grid>>();
-export function loadGrid(cell: number): Promise<Grid> {
-  if (!grids.has(cell)) grids.set(cell, loadJSON<Grid>(`bus_grid_${cell}.json`));
-  return grids.get(cell)!;
-}
+export const loadGrid = cachedLoader((cell: number) => loadJSON<Grid>(`bus_grid_${cell}.json`));
 
 // Regional TDX service is separate from Taipei-only route-editor supply.
-const regionalGrids = new Map<number, Promise<Grid>>();
-export function loadRegionalGrid(cell: number): Promise<Grid> {
-  if (!regionalGrids.has(cell)) regionalGrids.set(cell,
-    loadJSON<unknown>(`regional_bus_grid_${cell}.json`).then((document) => decodeRegionalGrid(document, cell)));
-  return regionalGrids.get(cell)!;
-}
-
-const coverages = new Map<number, Promise<Coverage>>();
-export function loadCoverage(cell: number): Promise<Coverage> {
-  if (!coverages.has(cell)) coverages.set(cell, loadJSON<Coverage>(`coverage_${cell}.json`));
-  return coverages.get(cell)!;
-}
-
-let need: Promise<NeedGrid> | null = null;
-export function loadNeed(): Promise<NeedGrid> {
-  need ??= loadJSON<NeedGrid>('transport_need_250.json');
-  return need;
-}
-
-let catchments: Promise<StationCatchments> | null = null;
-export function loadCatchments(): Promise<StationCatchments> {
-  catchments ??= loadJSON<StationCatchments>('station_catchments.json').catch((error: unknown) => {
-    catchments = null; // A failed request must be retryable from the station card.
-    throw error;
-  });
-  return catchments;
-}
+export const loadRegionalGrid = cachedLoader((cell: number) =>
+  loadJSON<unknown>(`regional_bus_grid_${cell}.json`).then((document) => decodeRegionalGrid(document, cell)));
+export const loadCoverage = cachedLoader((cell: number) => loadJSON<Coverage>(`coverage_${cell}.json`));
+export const loadNeed = retryableLoader(() => loadJSON<NeedGrid>('transport_need_250.json'));
+export const loadCatchments = retryableLoader(() => loadJSON<StationCatchments>('station_catchments.json'));
 
 export const loadVillageAges = retryableLoader(() => loadCompressedJSON(DATA + 'village_age.geojson', parseVillageAges, { fetcher: fetchData }));
 export const loadStationAges = createStationAgeLoader(DATA,
@@ -105,23 +80,28 @@ function classify(value: number, breaks: number[]): number {
   return k;
 }
 
+/** Colour classes change with time; polygon coordinates do not. */
+export function gridClasses(grid: Grid, state: Pick<AppState, 'cell' | 'day' | 'hour'>): Int8Array {
+  const { breaks } = scaleFor(state);
+  return Int8Array.from(grid.cells, (cell) => {
+    if (!cell[3]) return NO_STOP;
+    const value = cellValue(cell, state);
+    return value === null ? NO_SCHEDULE : classify(value, breaks);
+  });
+}
+
 /** Cell polygons with a colour class `k` for the current day, hour and scale. */
 export function gridCollection(grid: Grid, state: Pick<AppState, 'cell' | 'day' | 'hour'>): FeatureCollection<Polygon, { k: number }> {
-  const { breaks } = scaleFor(state);
+  const classes = gridClasses(grid, state);
   const [ox, oy] = grid.origin;
   const [sx, sy] = grid.step;
   const features: Feature<Polygon, { k: number }>[] = grid.cells.map((cell, id) => {
     const x0 = ox + cell[0] * sx;
     const y0 = oy + cell[1] * sy;
-    const value = cellValue(cell, state);
-    let k: number;
-    if (!cell[3]) k = NO_STOP;
-    else if (value === null) k = NO_SCHEDULE;
-    else k = classify(value, breaks);
     return {
       type: 'Feature',
       id,
-      properties: { k },
+      properties: { k: classes[id] },
       geometry: { type: 'Polygon', coordinates: [[[x0, y0], [x0 + sx, y0], [x0 + sx, y0 + sy], [x0, y0 + sy], [x0, y0]]] },
     };
   });
