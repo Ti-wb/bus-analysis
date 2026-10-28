@@ -1,4 +1,4 @@
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { MapRef } from 'react-map-gl/maplibre';
 import MapView from '../map/MapView';
 import { COLORS } from '../config';
@@ -64,6 +64,7 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
   const [stopQuery, setStopQuery] = useState('');
   const [insertAfter, setInsertAfter] = useState(-1);
   const [dragIndex, setDragIndex] = useState<number | null>(null);
+  const stopFocus = useRef<{ index: number; action: 'up' | 'down' | 'remove' } | null>(null);
   const [dialog, setDialog] = useState<'discard' | 'unsaved' | 'metrics' | 'preferences' | null>(null);
   const exit = useRef<(() => void) | null>(null);
   const [station, setStation] = useState<StationSelection | null>(null);
@@ -131,6 +132,16 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
     const item = list?.querySelector<HTMLElement>('.is-selected');
     if (list && item) list.scrollTop = item.offsetTop - list.offsetTop - list.clientHeight / 2 + item.clientHeight / 2;
   }, [selectedId, step]);
+  useLayoutEffect(() => {
+    const target = stopFocus.current;
+    if (!target) return;
+    stopFocus.current = null;
+    const row = stageRef.current?.querySelector(`#route-stop-${target.index}`);
+    const control = row?.querySelector<HTMLButtonElement>(`[data-stop-action="${target.action}"]:not(:disabled)`)
+      ?? row?.querySelector<HTMLButtonElement>('.route-stop-name')
+      ?? stageRef.current?.querySelector<HTMLInputElement>('.route-stop-search input');
+    control?.focus();
+  }, [draft?.route.stop_ids]);
 
   const fitRoute = useCallback((r: Route) => {
     const pts = routePath(r, data);
@@ -185,10 +196,18 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
     ids.splice(at, 0, id); changeRoute({ ...draft.route, stop_ids: ids, path: null });
     setInsertAfter(at); setStopQuery(''); setStation(null); setMessage(`已加入 ${data.records.stops[id].name}`);
   };
-  const moveStop = (from: number, to: number) => {
+  const moveStop = (from: number, to: number, action?: 'up' | 'down') => {
     if (!draft || to < 0 || to >= draft.route.stop_ids.length || from === to) return;
     const ids = [...draft.route.stop_ids]; ids.splice(to, 0, ids.splice(from, 1)[0]);
+    if (action) stopFocus.current = { index: to, action };
     changeRoute({ ...draft.route, stop_ids: ids, path: null }); setInsertAfter(-1);
+  };
+  const removeStop = (index: number) => {
+    if (!draft) return;
+    const ids = draft.route.stop_ids.filter((_, i) => i !== index);
+    stopFocus.current = { index: Math.min(index, ids.length - 1), action: 'remove' };
+    changeRoute({ ...draft.route, stop_ids: ids, path: null }); setInsertAfter(-1);
+    if (ids.length < 2) setInteraction('stops');
   };
   const persist = (nextChanges: Changes, nextHistory: AppliedAction[]) => {
     const success = saveScenario(data, nextChanges, nextHistory);
@@ -296,7 +315,7 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
         <ol className="route-stop-list">
           {draft.route.stop_ids.map((id, i) => <li key={`${i}:${id}`} id={`route-stop-${i}`} draggable onDragStart={(e) => { setDragIndex(i); e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', String(i)); }} onDragEnd={() => setDragIndex(null)} onDragOver={(e) => e.preventDefault()} onDrop={(e) => { e.preventDefault(); if (dragIndex !== null) moveStop(dragIndex, i); setDragIndex(null); }} className={draft.original && !draft.original.stop_ids.includes(id) ? 'is-added' : ''}>
             <span className="route-drag" aria-hidden="true">⠿</span><span className="route-number">{i + 1}</span><button className="route-stop-name" onClick={() => locate(data.records.stops[id].at)}>{data.records.stops[id].name}</button>
-            <div className="route-stop-actions"><button disabled={i === 0} aria-label={`上移第 ${i + 1} 站`} onClick={() => moveStop(i, i - 1)}>↑</button><button disabled={i === draft.route.stop_ids.length - 1} aria-label={`下移第 ${i + 1} 站`} onClick={() => moveStop(i, i + 1)}>↓</button><button aria-label={`取消停靠第 ${i + 1} 站`} onClick={() => { changeRoute({ ...draft.route, stop_ids: draft.route.stop_ids.filter((_, k) => k !== i), path: null }); setInsertAfter(-1); }}>×</button></div>
+            <div className="route-stop-actions"><button data-stop-action="up" disabled={i === 0} aria-label={`上移第 ${i + 1} 站`} onClick={() => moveStop(i, i - 1, 'up')}>↑</button><button data-stop-action="down" disabled={i === draft.route.stop_ids.length - 1} aria-label={`下移第 ${i + 1} 站`} onClick={() => moveStop(i, i + 1, 'down')}>↓</button><button data-stop-action="remove" aria-label={`取消停靠第 ${i + 1} 站`} onClick={() => removeStop(i)}>×</button></div>
           </li>)}
           {!draft.route.stop_ids.length && <li className="route-empty">點選地圖上的灰色站點加入第一站，<br />也可搜尋站名；至少需要 2 個不同站點。</li>}
         </ol>
@@ -314,7 +333,7 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
       </div>
       <p className="route-map-hint">{interaction === 'stops'
         ? <><span className="route-stop-key" aria-hidden="true" />點選灰色站點加入第 {insertIndex + 1} 站 · 已選站顯示藍色編號</>
-        : '拖曳圓點調整路徑 · 按 ＋ 加入控制點 · 放大可顯示更多控制點'}<small>{interaction === 'stops' ? '藍線是目前草稿；人口與班次差異在下一步比較。' : 'Tab 逐點查看；方向鍵微調、Insert 加點、Delete 移除。草圖非行車導航。'}</small></p>
+        : '拖曳圓點調整路徑 · 按 ＋ 加入控制點 · 放大可顯示更多控制點'}<small>{interaction === 'stops' ? '藍線是目前草稿；人口與班次差異在下一步比較。' : 'Tab 逐點查看；方向鍵微調、Insert 加點、Delete 移除、Esc 返回地圖。草圖非行車導航。'}</small></p>
       {existingServices !== null ? <ExistingServicesPanel data={data} services={existingServices} selectedStopIds={draft.route.stop_ids} band={effectiveBand}
         draft={draft} draftFrequency={f} applied={Object.keys(changes).length > 0} highlightedRouteId={activeServiceRouteId} onHighlight={setHighlightedServiceRouteId} />
         : interaction !== 'path' && <section className="card route-draft-summary"><h3>{draft.route.name || '未命名路線'}・草稿</h3><span className="route-tag">{ACTION_LABELS[draft.kind]}</span>

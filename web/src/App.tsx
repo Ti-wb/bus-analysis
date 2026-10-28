@@ -245,6 +245,7 @@ export default function App() {
   }, [state]);
 
   const handleSearch = (item: SearchItem) => {
+    setSelectedVillage(null);
     const entersFocus = isCoreBusStation(item.station);
     if (item.layer && !entersFocus) {
       const layers = new Set(state.layers).add(item.layer);
