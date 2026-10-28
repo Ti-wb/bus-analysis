@@ -177,8 +177,15 @@
 .route-map-dot { display: block; width: 6px; height: 6px; border-radius: 50%; background: #337cda; border: 1px solid white; }
 .route-map-dot.is-removed { background: #be4966; }
 .route-step-preview .route-map-stop.is-removed, .route-step-review .route-map-stop.is-removed { min-width: 18px; height: 18px; padding: 0 2px; font-size: 11px; box-shadow: none; }
-.route-vertex { width: 14px; height: 14px; border: 2px solid #337cda; background: white; border-radius: 50%; cursor: move; }
+.route-vertex { display: block; width: 14px; height: 14px; padding: 0; border: 2px solid #337cda; background: white; border-radius: 50%; cursor: move; }
 .route-midpoint { width: 19px; height: 19px; display: grid; place-items: center; padding: 0; border: 1px solid #337cda; color: #337cda; border-radius: 50%; background: white; }
+@media (pointer: coarse) {
+  .route-keyboard-hint { display: none; }
+  .route-vertex { width: 44px; height: 44px; padding: 15px; border: 0; background: none; touch-action: none; }
+  .route-vertex::before { content: ''; display: block; width: 14px; height: 14px; box-sizing: border-box; border: 2px solid #337cda; border-radius: 50%; background: white; }
+  .route-midpoint { position: relative; isolation: isolate; width: 44px; height: 44px; border: 0; background: none; touch-action: manipulation; }
+  .route-midpoint::before { content: ''; position: absolute; z-index: -1; width: 24px; height: 24px; border: 1px solid #337cda; border-radius: 50%; background: white; }
+}
 .route-change-summary { position: absolute; top: 24px; left: 24px; width: 336px; padding: 24px 20px; border: 1px solid var(--line); z-index: 2; }
 .route-change-summary > p:not(:first-child) { margin-top: 20px; line-height: 1.6; }
 .route-impact { position: absolute; right: 24px; top: 24px; bottom: 24px; width: 512px; z-index: 2; border: 1px solid var(--line); display: flex; flex-direction: column; }

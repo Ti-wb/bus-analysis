@@ -1,25 +1,51 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Marker, useMap } from 'react-map-gl/maplibre';
+import type { GeoJSONSource } from 'maplibre-gl';
 import { pathHandles } from './pathHandles';
 import type { Coordinate } from './types';
 
-export default function PathHandles({ path, onChange }: { path: Coordinate[]; onChange: (path: Coordinate[]) => void }) {
+export default function PathHandles({ path, sourceId, onChange }: { path: Coordinate[]; sourceId: string; onChange: (path: Coordinate[]) => void }) {
   const { current: map } = useMap();
   const [view, setView] = useState(0);
   const [focused, setFocused] = useState<number | null>(null);
   const focusRequested = useRef(false);
+  const drag = useRef<{ index: number; at: Coordinate } | null>(null);
+  const dragFrame = useRef<number | null>(null);
   const focusVertex = (index: number) => { focusRequested.current = true; setFocused(index); };
+  const movedPath = (index: number, at: Coordinate) => path.map((point, i) => i === index ? at : point);
+  const showPath = (coordinates: Coordinate[]) => {
+    if (!map?.getStyle()?.sources[sourceId]) return;
+    void map.getSource<GeoJSONSource>(sourceId)?.setData({ type: 'FeatureCollection', features: [
+      { type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates } },
+    ] });
+  };
+  const cancelDragFrame = () => { if (dragFrame.current !== null) cancelAnimationFrame(dragFrame.current); dragFrame.current = null; };
+  const previewDrag = (index: number, at: Coordinate) => {
+    // Preview only the line; record one draft edit when the gesture ends.
+    drag.current = { index, at };
+    if (dragFrame.current !== null) return;
+    dragFrame.current = requestAnimationFrame(() => {
+      dragFrame.current = null;
+      if (drag.current) showPath(movedPath(drag.current.index, drag.current.at));
+    });
+  };
+  useEffect(() => () => {
+    cancelDragFrame();
+    if (drag.current) { drag.current = null; showPath(path); }
+  }, [map, path, sourceId]);
   useEffect(() => {
     if (!map) return;
     const update = () => setView((value) => value + 1);
+    const pointer = window.matchMedia('(pointer: coarse)');
     // Existing handles move with MapLibre; update the visible set only after a gesture.
     map.on('moveend', update); map.on('resize', update);
-    return () => { map.off('moveend', update); map.off('resize', update); };
+    pointer.addEventListener('change', update);
+    return () => { map.off('moveend', update); map.off('resize', update); pointer.removeEventListener('change', update); };
   }, [map]);
   const handles = useMemo(() => {
     if (!map) return { vertices: [], midpoints: [] };
     const container = map.getContainer();
-    return pathHandles(path, (point) => map.project(point), container.clientWidth, container.clientHeight, focused);
+    return pathHandles(path, (point) => map.project(point), container.clientWidth, container.clientHeight, focused, window.matchMedia('(pointer: coarse)').matches ? 48 : 24);
   }, [path, map, view, focused]);
   // Marker effects attach (and in development reattach) their portal before the next frame.
   useEffect(() => {
@@ -38,7 +64,15 @@ export default function PathHandles({ path, onChange }: { path: Coordinate[]; on
     {handles.vertices.map((i) => {
       const at = path[i];
       return <Marker key={`vertex:${i}`} longitude={at[0]} latitude={at[1]} draggable
-        onDragEnd={(e) => onChange(path.map((p, j) => j === i ? [e.lngLat.lng, e.lngLat.lat] : p))}>
+        onDragStart={() => map?.stop()}
+        onDrag={(e) => previewDrag(i, [e.lngLat.lng, e.lngLat.lat])}
+        onDragEnd={(e) => {
+          cancelDragFrame(); drag.current = null;
+          const next: Coordinate = [e.lngLat.lng, e.lngLat.lat];
+          // Returning to the start can differ slightly because markers round to pixels.
+          if (map && map.project(at).dist(map.project(next)) < 1) { e.target.setLngLat(at); showPath(path); return; }
+          focusVertex(i); onChange(movedPath(i, next));
+        }}>
         <button className="route-vertex" data-path-index={i} aria-label={`路徑控制點 ${i + 1}；Delete 移除`} title="拖曳調整；Tab 逐點查看，Insert 加點，Delete 移除，Esc 返回地圖"
           onFocus={() => setFocused(i)} onBlur={() => { if (!focusRequested.current) setFocused(null); }}
           onClick={(e) => e.stopPropagation()} onKeyDown={(e) => {

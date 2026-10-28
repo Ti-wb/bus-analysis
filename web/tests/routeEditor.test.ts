@@ -14,6 +14,9 @@ test('dense path controls retain original indices, endpoints and focus while zoo
   const overview = pathHandles(path, ([x, y]) => ({ x, y }), 300, 150, 101);
   assert.ok(overview.vertices.length < 15);
   for (const i of [0, 101, 200]) assert.ok(overview.vertices.includes(i));
+  const touch = pathHandles(path, ([x, y]) => ({ x, y }), 300, 150, 101, 48);
+  for (const i of [0, 101, 200]) assert.ok(touch.vertices.includes(i));
+  assert.ok(touch.vertices.every((i, j) => j === 0 || i - touch.vertices[j - 1] >= 48), 'touch targets must not overlap');
   const detail = pathHandles(path, ([x, y]) => ({ x: (x - 100) * 60, y }), 300, 150);
   assert.deepEqual(detail.vertices, [100, 101, 102, 103, 104, 105]);
   assert.deepEqual(detail.midpoints, [100, 101, 102, 103, 104]);

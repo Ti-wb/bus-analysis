@@ -1,8 +1,7 @@
 import type { Coordinate } from './types';
 
 /** Choose usable screen targets without simplifying or changing the route geometry. */
-export function pathHandles(path: Coordinate[], project: (point: Coordinate) => { x: number; y: number }, width: number, height: number, focused: number | null = null) {
-  const spacing = 24;
+export function pathHandles(path: Coordinate[], project: (point: Coordinate) => { x: number; y: number }, width: number, height: number, focused: number | null = null, spacing = 24) {
   const buckets = new Map<string, { x: number; y: number }[]>();
   const inside = ({ x, y }: { x: number; y: number }) => Number.isFinite(x) && Number.isFinite(y)
     && x >= -spacing && y >= -spacing && x <= width + spacing && y <= height + spacing;

@@ -74,21 +74,23 @@ export function ScenarioGrid({ editor, beforeId }: { editor: EditorMapProps; bef
   </Source>;
 }
 
+const line = (coordinates: Coordinate[]): FeatureCollection => ({ type: 'FeatureCollection', features: coordinates.length < 2 ? [] : [
+  { type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates } },
+] });
+
 export function RouteLayers({ editor, beforeId }: { editor: EditorMapProps; beforeId?: string }) {
   const { route, original, data, interaction, deleting } = editor;
+  const path = useMemo(() => route ? routePath(route, data) : [], [route, data]);
+  const routeLine = useMemo(() => line(path), [path]);
+  const originalLine = useMemo(() => original ? line(routePath(original, data)) : null, [original, data]);
   if (!route) return null;
-  const path = routePath(route, data);
-  const old = original && routePath(original, data);
-  const line = (coordinates: Coordinate[]): FeatureCollection => ({ type: 'FeatureCollection', features: coordinates.length < 2 ? [] : [
-    { type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates } },
-  ] });
   const oldStops = new Set(original?.stop_ids);
   const removed = original?.stop_ids.filter((id) => !route.stop_ids.includes(id)) ?? [];
   return <>
-    {old && <Source id="scenario-original" type="geojson" data={line(old)}>
+    {originalLine && <Source id="scenario-original" type="geojson" data={originalLine}>
       <Layer id="scenario-original-line" type="line" beforeId={beforeId} paint={{ 'line-color': '#627e91', 'line-width': 3, 'line-opacity': .6, 'line-dasharray': [2, 2] }} />
     </Source>}
-    <Source id="scenario-route" type="geojson" data={line(path)}>
+    <Source id="scenario-route" type="geojson" data={routeLine}>
       <Layer id="scenario-route-line" type="line" beforeId={beforeId} paint={{ 'line-color': deleting ? '#be4966' : '#337cda', 'line-width': 3.5, ...(deleting ? { 'line-dasharray': [2, 2] } : {}) }} />
       <Layer id="scenario-route-casing" type="line" beforeId="scenario-route-line" paint={{ 'line-color': '#ffffff', 'line-width': 7 }} />
     </Source>
@@ -115,6 +117,6 @@ export function RouteLayers({ editor, beforeId }: { editor: EditorMapProps; befo
           onClick={(e) => { e.stopPropagation(); editor.onStop(id); }}>×</button>
         : <span className="route-map-stop is-removed" title={`取消停靠：${data.records.stops[id].name}`}>×</span>}
     </Marker>)}
-    {interaction === 'path' && <PathHandles path={path} onChange={editor.onPath} />}
+    {interaction === 'path' && <PathHandles path={path} sourceId="scenario-route" onChange={editor.onPath} />}
   </>;
 }

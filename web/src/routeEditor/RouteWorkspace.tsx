@@ -328,12 +328,12 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
           <button className="route-primary" disabled={!valid} onClick={() => { setStation(null); setComparisonLayer('changes'); setStep('preview'); }}>預覽影響 →</button></div>
       </aside>
       <div className="route-toolbar" role="toolbar" aria-label="路線調整工具">
-        <button aria-pressed={interaction === 'stops'} onClick={() => setInteraction('stops')}>選擇站點</button><button aria-pressed={interaction === 'path'} disabled={draft.route.stop_ids.length < 2} onClick={() => { setStation(null); setInteraction('path'); if (!draft.route.path) changeRoute({ ...draft.route, path: routePath(draft.route, data) }); }}>調整路徑</button>
+        <button aria-pressed={interaction === 'stops'} onClick={() => setInteraction('stops')}>選擇站點</button><button aria-pressed={interaction === 'path'} disabled={draft.route.stop_ids.length < 2} onClick={() => { setStation(null); setInteraction('path'); }}>調整路徑</button>
         <button title="復原最近 20 步草稿調整" disabled={editIndex === 0} onClick={() => undoDraft(editIndex - 1)}>復原</button><button disabled={editIndex >= edits.length - 1} onClick={() => undoDraft(editIndex + 1)}>重做</button>
       </div>
       <p className="route-map-hint">{interaction === 'stops'
         ? <><span className="route-stop-key" aria-hidden="true" />點選灰色站點加入第 {insertIndex + 1} 站 · 已選站顯示藍色編號</>
-        : '拖曳圓點調整路徑 · 按 ＋ 加入控制點 · 放大可顯示更多控制點'}<small>{interaction === 'stops' ? '藍線是目前草稿；人口與班次差異在下一步比較。' : 'Tab 逐點查看；方向鍵微調、Insert 加點、Delete 移除、Esc 返回地圖。草圖非行車導航。'}</small></p>
+        : '拖曳圓點調整 · 按 ＋ 加點 · 放大可編輯細節'}<small>{interaction === 'stops' ? '藍線是目前草稿；人口與班次差異在下一步比較。' : <><span className="route-keyboard-hint">Tab 逐點查看；方向鍵微調、Insert 加點、Delete 移除、Esc 返回地圖。</span>草圖非行車導航。</>}</small></p>
       {existingServices !== null ? <ExistingServicesPanel data={data} services={existingServices} selectedStopIds={draft.route.stop_ids} band={effectiveBand}
         draft={draft} draftFrequency={f} applied={Object.keys(changes).length > 0} highlightedRouteId={activeServiceRouteId} onHighlight={setHighlightedServiceRouteId} />
         : interaction !== 'path' && <section className="card route-draft-summary"><h3>{draft.route.name || '未命名路線'}・草稿</h3><span className="route-tag">{ACTION_LABELS[draft.kind]}</span>
