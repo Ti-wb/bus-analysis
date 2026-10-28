@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { assess, draftChanges, duration, frequency, network, routesWithChanges } from '../src/routeEditor/engine';
 import { buildExistingServices } from '../src/routeEditor/existingServices';
-import { loadScenario, saveScenario } from '../src/routeEditor/storage';
+import { loadScenario, saveScenario, SCENARIO_HISTORY_LIMIT } from '../src/routeEditor/storage';
 import { searchRouteGroups } from '../src/routeEditor/search';
 import { pathHandles } from '../src/routeEditor/pathHandles';
 import type { MapData } from '../src/types';
@@ -139,6 +139,29 @@ test('local persistence validates source version, stop IDs and histories; undo s
   assert.equal(saveScenario(data, changes, [action]), true);
   assert.deepEqual(loadScenario(data).changes, changes);
   assert.deepEqual(loadScenario(data).history[0].before, {});
+  const key = [...memory.keys()][0];
+  const longRoute = { ...a, path: Array.from({ length: 500 }, (_, i): Coordinate => [121.5 + i / 100000, 25]) };
+  let prior = {};
+  const legacyHistory: AppliedAction[] = Array.from({ length: 20 }, (_, i) => {
+    const edited = { ...longRoute, name: `調整 ${i + 1}` }, after = { [a.id]: edited };
+    const next = { ...action, route: edited, original: longRoute, before: prior, after };
+    prior = after;
+    return next;
+  });
+  // Existing plans keep all changes when their older, longer undo history is trimmed.
+  const legacy = { version: 1, source: data.metadata.source_data_time, changes: prior, history: legacyHistory };
+  memory.set(key, JSON.stringify(legacy));
+  assert.deepEqual(loadScenario(data).changes, prior);
+  assert.deepEqual(loadScenario(data).history, legacyHistory.slice(-SCENARIO_HISTORY_LIMIT));
+  assert.equal(saveScenario(data, prior, legacyHistory), true);
+  assert.deepEqual(loadScenario(data).history, legacyHistory.slice(-SCENARIO_HISTORY_LIMIT));
+  assert.deepEqual(loadScenario(data).changes, prior);
+  assert.ok(memory.get(key)!.length < JSON.stringify({ ...legacy, history: legacyHistory.slice(-SCENARIO_HISTORY_LIMIT) }).length / 2);
+  const compact = JSON.parse(memory.get(key)!);
+  for (const index of [-1, 0.5, '0', compact.routes.length]) {
+    memory.set(key, JSON.stringify({ ...compact, changes: { [a.id]: index } }));
+    assert.deepEqual(loadScenario(data).changes, {});
+  }
   saveScenario(data, { [a.id]: { ...changed, stop_ids: ['missing', 's1'] } }, [action]);
   assert.deepEqual(loadScenario(data).history, []);
   for (const patch of [{ branch_name: null }, { direction: 0 }, { frequencies: [] }, { stop_ids: ['constructor', 's1'] }]) {
@@ -147,6 +170,10 @@ test('local persistence validates source version, stop IDs and histories; undo s
   }
   saveScenario(data, changes, [action]); data.metadata.source_data_time = 'new';
   assert.deepEqual(loadScenario(data).changes, {});
+  const lastSaved = memory.get(key);
+  Object.defineProperty(globalThis, 'localStorage', { configurable: true, value: { setItem: () => { throw new Error('quota'); } } });
+  assert.equal(saveScenario(data, changes, [action]), false);
+  assert.equal(memory.get(key), lastSaved);
 });
 
 test('route search prefers names while retaining and explaining source ID and branch matches', () => {

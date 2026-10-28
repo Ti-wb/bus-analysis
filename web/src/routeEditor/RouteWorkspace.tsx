@@ -10,7 +10,7 @@ import { draftChanges, frequency, gridFeatures, routePath, routesWithChanges } f
 import { buildExistingServices } from './existingServices';
 import { useAssessment } from './useAssessment';
 import { motionDuration } from '../motion';
-import { loadScenario, saveScenario } from './storage';
+import { loadScenario, saveScenario, SCENARIO_HISTORY_LIMIT } from './storage';
 import { searchRouteGroups } from './search';
 import Dialog from './Dialog';
 import ExistingServicesPanel from './ExistingServicesPanel';
@@ -50,11 +50,13 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
   const [saved] = useState(() => loadScenario(data));
   const [history, setHistory] = useState<AppliedAction[]>(saved.history);
   const [changes, setChanges] = useState<Changes>(saved.changes);
+  const [unsaved, setUnsaved] = useState(false);
   const [message, setMessage] = useState(saved.message);
   const [band, setBand] = useState<Band>(() => target ? target.day === 'weekday' && target.period !== 'all' ? target.period : `${target.day}_${target.period}` as Band : history.at(-1)?.band ?? 'am');
   const [query, setQuery] = useState('');
   const [selectedId, setSelectedId] = useState(() => target?.variant ?? data.records.routes.find((r) => r.name === '仁愛幹線' && r.direction === '1')?.id ?? data.records.routes[0].id);
   const [draft, setDraft] = useState<Draft | null>(null);
+  const draftStart = useRef('');
   const [step, setStep] = useState<'overview' | 'edit' | 'preview' | 'review'>('overview');
   const [interaction, setInteraction] = useState<'stops' | 'path'>('stops');
   const [edits, setEdits] = useState<Route[]>([]);
@@ -62,7 +64,7 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
   const [stopQuery, setStopQuery] = useState('');
   const [insertAfter, setInsertAfter] = useState(-1);
   const [dragIndex, setDragIndex] = useState<number | null>(null);
-  const [dialog, setDialog] = useState<'discard' | 'metrics' | 'preferences' | null>(null);
+  const [dialog, setDialog] = useState<'discard' | 'unsaved' | 'metrics' | 'preferences' | null>(null);
   const exit = useRef<(() => void) | null>(null);
   const [station, setStation] = useState<StationSelection | null>(null);
   const [viewportWidth, setViewportWidth] = useState(() => window.innerWidth);
@@ -88,7 +90,7 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
   const evaluated = useMemo(() => draft ? draftChanges(data, changes, draft) : changes, [data, changes, draft]);
   const assessmentMap = useMemo(() => ({ places: map.places, mrt_stations: map.mrt_stations }), [map.places, map.mrt_stations]);
   const { busy, result, error } = useAssessment(data, assessmentMap, evaluated, effectiveBand, retry);
-  const dirty = draft !== null && JSON.stringify(draft.route) !== JSON.stringify(draft.kind === 'add' ? edits[0] : draft.original);
+  const dirty = draft !== null && JSON.stringify(draft.route) !== draftStart.current;
 
   useEffect(() => {
     const update = () => setViewportWidth(window.innerWidth);
@@ -101,17 +103,21 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
   const raster = useMemo(() => result ? gridFeatures(data, result) : null, [data, result]);
 
   const clearDraft = () => { setDraft(null); setStep('overview'); setStation(null); setInteraction('stops'); setStopQuery(''); };
-  const leave = (done: () => void) => {
-    if (dirty) { exit.current = done; setDialog('discard'); }
-    else { clearDraft(); done(); }
+  const leave = (done: () => void, exitingWorkspace = true) => {
+    const proceed = () => {
+      if (unsaved && exitingWorkspace) { exit.current = done; setDialog('unsaved'); }
+      else { clearDraft(); done(); }
+    };
+    if (dirty) { exit.current = proceed; setDialog('discard'); }
+    else proceed();
   };
   useImperativeHandle(ref, () => ({ leave, preferences: () => { setPrefDraft(settings); setDialog('preferences'); }, indicators: () => setDialog('metrics') }));
   useEffect(() => {
-    if (!dirty) return;
+    if (!dirty && !unsaved) return;
     const beforeUnload = (e: BeforeUnloadEvent) => e.preventDefault();
     window.addEventListener('beforeunload', beforeUnload);
     return () => window.removeEventListener('beforeunload', beforeUnload);
-  }, [dirty]);
+  }, [dirty, unsaved]);
   useEffect(() => {
     if (!message) return;
     const timer = setTimeout(() => setMessage(''), 6000);
@@ -149,6 +155,7 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
     const route: Route = kind === 'add' ? { id, route_id: id, subroute_id: id, name: '', branch_name: '', direction: '0', direction_label: '去程', stop_ids: [], path: null,
       hourly: { weekday: null, saturday: null, sunday: null }, frequencies: { [band]: 4 } } : structuredClone(selected!);
     const next: Draft = { kind, route, original: kind === 'add' ? null : structuredClone(selected!), band };
+    draftStart.current = JSON.stringify(route);
     setDraft(next); setEdits([route]); setEditIndex(0); setInteraction('stops'); setStation(null); setStopQuery(''); setInsertAfter(-1);
     setStep(kind === 'delete' ? 'preview' : 'edit');
     setComparisonLayer('changes');
@@ -164,7 +171,7 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
   const changeRoute = (next: Route) => {
     if (!draft) return;
     setDraft({ ...draft, route: next });
-    const nextEdits = [...edits.slice(0, editIndex + 1), next].slice(-60);
+    const nextEdits = [...edits.slice(0, editIndex + 1), next].slice(-21);
     setEdits(nextEdits); setEditIndex(nextEdits.length - 1);
   };
   const undoDraft = (index: number) => { if (draft && edits[index]) { setEditIndex(index); setDraft({ ...draft, route: edits[index] }); setInsertAfter(-1); setInteraction('stops'); } };
@@ -183,21 +190,35 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
     const ids = [...draft.route.stop_ids]; ids.splice(to, 0, ids.splice(from, 1)[0]);
     changeRoute({ ...draft.route, stop_ids: ids, path: null }); setInsertAfter(-1);
   };
+  const persist = (nextChanges: Changes, nextHistory: AppliedAction[]) => {
+    const success = saveScenario(data, nextChanges, nextHistory);
+    setUnsaved(!success);
+    return success;
+  };
+  const retrySave = () => {
+    const success = persist(changes, history);
+    setMessage(success ? '已儲存目前方案至此裝置。' : '仍無法儲存；方案暫時保留在這個頁面。');
+    return success;
+  };
   const apply = () => {
     if (!draft || busy || error || !result) return;
-    const next = [...history, { ...draft, speed: settings.speed, dwell: settings.dwell, name: draft.route.name, before: changes, after: evaluated }].slice(-20);
+    const next = [...history, { ...draft, speed: settings.speed, dwell: settings.dwell, name: draft.route.name, before: changes, after: evaluated }].slice(-SCENARIO_HISTORY_LIMIT);
     setHistory(next); setChanges(evaluated); setSelectedId(draft.route.id); setBand(draft.band); clearDraft();
-    setMessage(saveScenario(data, evaluated, next) ? '已套用並儲存至此裝置，可再次檢視影響或復原。' : '已套用；此瀏覽器無法保存，重新整理後方案會遺失。');
+    setMessage(persist(evaluated, next) ? '已套用並儲存至此裝置，可再次檢視影響或復原。' : '已套用；尚未儲存，請重試儲存後再離開。');
   };
   const restore = () => {
     if (!last) return;
     const next = history.slice(0, -1);
     setHistory(next); setChanges(last.before); setSelectedId(last.route.id); clearDraft();
-    setMessage(saveScenario(data, last.before, next) ? '已復原上一次變更。' : '已復原；無法保存至此裝置。');
+    setMessage(persist(last.before, next) ? '已復原上一次變更。' : '已復原；尚未儲存，請重試儲存後再離開。');
   };
   const f = draft ? frequency(draft.route, draft.band) : null;
+  const invalidBands = draft ? BANDS.filter((b) => {
+    const value = draft.route.frequencies?.[b.id];
+    return value !== undefined && (!Number.isFinite(value) || value < 0 || value > 60);
+  }) : [];
   const valid = !!draft && draft.route.name.trim().length > 0 && new Set(draft.route.stop_ids).size >= 2
-    && (f === null || (Number.isFinite(f) && f >= 0 && f <= 60));
+    && invalidBands.length === 0;
   const groups = useMemo(() => {
     const grouped = new Map<string, Route[]>();
     for (const r of routes) grouped.set(r.route_id, [...(grouped.get(r.route_id) ?? []), r]);
@@ -246,11 +267,12 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
           {!matches.length && <p className="route-note">找不到路線，請換個名稱或編號。</p>}
         </div>
         <div className="route-sidebar-bottom">
+          {unsaved && <div className="route-save-notice" role="alert"><p>方案尚未儲存。離開或重新整理會遺失最新變更。</p><button className="btn-outline" onClick={retrySave}>重試儲存</button></div>}
           {selected && <><label>已選取：{selected.name}<select aria-label="選擇附線與方向" value={selected.id} onChange={(e) => { const r = routes.find((r) => r.id === e.target.value); if (r) select(r); }}>
             {routes.filter((r) => r.route_id === selected.route_id).map((r) => <option key={r.id} value={r.id}>{r.branch_name || r.name} · {r.direction_label} · {r.stop_ids.length} 站</option>)}
           </select></label><div className="route-actions"><button className="route-primary" onClick={() => begin('edit')}>編輯路線</button><button className="btn-outline route-negative" onClick={() => begin('delete')}>刪除路線</button></div></>}
           {last && <div className="route-applied"><b>已套用：{last.name}</b><div className="route-actions"><button className="link-btn" onClick={() => { setStep('review'); fitRoute(last.route); }}>再次檢視影響</button><button className="link-btn route-negative" onClick={restore}>復原變更</button></div></div>}
-          <p className="route-note">變更儲存在此裝置的模擬方案。現況路網作為固定比較基準；班表未分方向，以相同班表試算各方向。</p>
+          <p className="route-note">已套用方案可復原最近 {SCENARIO_HISTORY_LIMIT} 次。現況路網作為固定比較基準；班表未分方向，以相同班表試算各方向。</p>
         </div>
       </aside>
       <PopulationSummary result={result} applied={Object.keys(changes).length > 0} busy={busy} />
@@ -259,7 +281,7 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
 
     {step === 'edit' && draft && <>
       <aside className="card route-sidebar">
-        <div className="route-sidebar-head"><button className="btn-outline" onClick={() => leave(clearDraft)}>← 路線工具</button><h1 tabIndex={-1}>{draft.kind === 'add' ? '新增路線' : `編輯${draft.original?.name}`}</h1>
+        <div className="route-sidebar-head"><button className="btn-outline" onClick={() => leave(clearDraft, false)}>← 路線工具</button><h1 tabIndex={-1}>{draft.kind === 'add' ? '新增路線' : `編輯${draft.original?.name}`}</h1>
           <ol className="route-steps" aria-label="規劃步驟"><li aria-current="step">1 調整路線</li><li>2 比較影響</li><li>3 套用方案</li></ol>
           <label>路線名稱<input maxLength={100} value={draft.route.name} placeholder="為這條路線命名" onChange={(e) => changeRoute({ ...draft.route, name: e.target.value })} /></label>
           <div className="route-field-row"><label>編輯方向<input aria-label="編輯方向" maxLength={60} value={draft.route.direction_label} onChange={(e) => changeRoute({ ...draft.route, direction_label: e.target.value })} /></label>
@@ -280,12 +302,15 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
         </ol>
         {!!removed.length && <details className="route-removed"><summary>取消停靠 {removed.length} 站</summary>{removed.map((id, i) => <div key={i}><s>{data.records.stops[id].name}</s><button className="link-btn" onClick={() => addStop(id)}>加回</button></div>)}</details>}
         <div className="route-sidebar-bottom"><Duration draft={draft} data={data} speed={settings.speed} dwell={settings.dwell} />
-          {!valid && <p className="route-note" role="status">請填路線名稱、加入至少 2 個不同站點，班次須為 0–60。</p>}
+          {!valid && <p className="route-note" role="status">{invalidBands.length ? <>{invalidBands.map((b) => b.label).join('、')} 的班次須為 0–60。<button className="link-btn" onClick={() => {
+            setBand(invalidBands[0].id); setDraft({ ...draft, band: invalidBands[0].id });
+            requestAnimationFrame(() => stageRef.current?.querySelector<HTMLInputElement>('[aria-label="每小時班次"]')?.focus());
+          }}>修正班次</button></> : '請填路線名稱、加入至少 2 個不同站點。'}</p>}
           <button className="route-primary" disabled={!valid} onClick={() => { setStation(null); setComparisonLayer('changes'); setStep('preview'); }}>預覽影響 →</button></div>
       </aside>
       <div className="route-toolbar" role="toolbar" aria-label="路線調整工具">
         <button aria-pressed={interaction === 'stops'} onClick={() => setInteraction('stops')}>選擇站點</button><button aria-pressed={interaction === 'path'} disabled={draft.route.stop_ids.length < 2} onClick={() => { setStation(null); setInteraction('path'); if (!draft.route.path) changeRoute({ ...draft.route, path: routePath(draft.route, data) }); }}>調整路徑</button>
-        <button disabled={editIndex === 0} onClick={() => undoDraft(editIndex - 1)}>復原</button><button disabled={editIndex >= edits.length - 1} onClick={() => undoDraft(editIndex + 1)}>重做</button>
+        <button title="復原最近 20 步草稿調整" disabled={editIndex === 0} onClick={() => undoDraft(editIndex - 1)}>復原</button><button disabled={editIndex >= edits.length - 1} onClick={() => undoDraft(editIndex + 1)}>重做</button>
       </div>
       <p className="route-map-hint">{interaction === 'stops'
         ? <><span className="route-stop-key" aria-hidden="true" />點選灰色站點加入第 {insertIndex + 1} 站 · 已選站顯示藍色編號</>
@@ -319,6 +344,7 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
     {message && <div className="route-toast" role="status">{message}</div>}
 
     {dialog === 'discard' && <Dialog title="離開前，保留這次調整？" onClose={() => setDialog(null)}>{(dismiss) => <><p>站序與班次尚未套用至方案。繼續編輯可保留目前的停靠點與設定。</p><div className="route-actions"><button className="route-primary" onClick={() => dismiss()}>繼續編輯</button><button className="btn-outline route-negative" onClick={() => dismiss(() => { const done = exit.current; setDialog(null); clearDraft(); done?.(); })}>放棄變更</button></div></>}</Dialog>}
+    {dialog === 'unsaved' && <Dialog title="方案尚未儲存" onClose={() => setDialog(null)}>{(dismiss) => <><p>最新套用或復原的變更只保留在這個頁面。可以重試儲存；直接離開會遺失這些變更。</p><div className="route-actions"><button className="route-primary" onClick={() => { if (retrySave()) dismiss(() => exit.current?.()); }}>儲存後離開</button><button className="btn-outline" onClick={() => dismiss()}>留在此頁</button></div><button className="link-btn route-negative route-unsaved-discard" onClick={() => dismiss(() => exit.current?.())}>捨棄未儲存變更並離開</button></>}</Dialog>}
     {dialog === 'metrics' && <Dialog title="怎麼看影響？" onClose={() => setDialog(null)}>{(dismiss) => <><h3>可達人口</h3><p>臺北市同一時段，以 100 m 格心距公車／捷運站 350 m 判斷，2024-12 戶籍人口按統計區面積分攤並去重。新增、失去與淨變化分列；班次降低仍可達的居民另外列出。區間包含缺班表的可能覆蓋。</p><h3>高齡與學生</h3><p>65 歲以上與就學身分資料未接入，顯示未估算；不以年齡代理學生，兩個族群也不能相加。</p><h3>設施與時間</h3><p>比較最近可服務站距與 350 m 內公車班次；捷運無班表，不加造班次。草圖單程以偏好的速度、停站秒數估算，無路況與導航驗證；刪除後不適用。</p><h3>班表與範圍</h3><p>班表未分方向，假設同一附線班表套用各方向；同一附線方向同格去重。僅臺北市公運處路線，不能代表完整雙北。YouBike 1 km 是參考，不加入步行可達人口。</p><button className="route-primary" onClick={() => dismiss()}>了解</button></>}</Dialog>}
     {dialog === 'preferences' && <Dialog title="路線工具偏好" onClose={() => setDialog(null)}>{(dismiss) => <><p>評估固定使用 100 m 網格、公車／捷運 350 m。網格線與 YouBike 參考僅在檢視班次時顯示；編輯中聚焦草稿。探索地圖的偏好另行保留。</p><div className="route-preferences">
       <label><input type="checkbox" checked={prefDraft.gridLines} onChange={(e) => setPrefDraft({ ...prefDraft, gridLines: e.target.checked })} />顯示網格線</label><label><input type="checkbox" checked={prefDraft.bike} onChange={(e) => setPrefDraft({ ...prefDraft, bike: e.target.checked })} />顯示 YouBike 1 km 參考</label><label><input type="checkbox" checked={prefDraft.labels} onChange={(e) => setPrefDraft({ ...prefDraft, labels: e.target.checked })} />顯示底圖地名</label>
