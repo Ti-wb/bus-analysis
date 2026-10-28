@@ -12,7 +12,10 @@ from pyproj import Transformer
 from shapely import STRtree
 from shapely.geometry import LineString, Point, box, shape
 
-from build_web_data import FEEDS, MAP, OUT, ROOT, read, subroute_departures, write
+if __package__:
+    from .build_web_data import FEEDS, MAP, OUT, ROOT, read, subroute_departures, write
+else:
+    from build_web_data import FEEDS, MAP, OUT, ROOT, read, subroute_departures, write
 
 DAYS = ("weekday", "saturday", "sunday")
 

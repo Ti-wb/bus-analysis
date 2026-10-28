@@ -716,12 +716,13 @@ def main():
     if __package__:
         from .build_regional_bus_grid import build_all as build_regional_bus_grid
         from .build_route_scenario import main as build_route_scenario
+        from .build_improvements import main as build_improvements
     else:
         from build_regional_bus_grid import build_all as build_regional_bus_grid
         from build_route_scenario import main as build_route_scenario
+        from build_improvements import main as build_improvements
     build_regional_bus_grid(ROOT, OUT, built_at)
     build_route_scenario()
-    from build_improvements import main as build_improvements
     build_improvements()
 
 

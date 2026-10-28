@@ -13,7 +13,10 @@ from pyproj import Transformer
 from shapely import STRtree
 from shapely.geometry import box, shape
 
-from build_web_data import FEEDS, MAP, OUT, POPULATION, ROOT, read, rounded, subroute_departures, write
+if __package__:
+    from .build_web_data import FEEDS, MAP, OUT, POPULATION, ROOT, read, rounded, subroute_departures, write
+else:
+    from build_web_data import FEEDS, MAP, OUT, POPULATION, ROOT, read, rounded, subroute_departures, write
 
 
 def main():
