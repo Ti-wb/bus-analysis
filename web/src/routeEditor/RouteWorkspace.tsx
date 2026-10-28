@@ -68,8 +68,8 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
   const [dialog, setDialog] = useState<'discard' | 'unsaved' | 'metrics' | 'preferences' | null>(null);
   const exit = useRef<(() => void) | null>(null);
   const [station, setStation] = useState<StationSelection | null>(null);
-  const [viewportWidth, setViewportWidth] = useState(() => window.innerWidth);
-  const desktop = viewportWidth > 900;
+  const [viewport, setViewport] = useState(() => ({ width: window.innerWidth, height: window.innerHeight }));
+  const desktop = viewport.width > 900;
   const [highlightedServiceRouteId, setHighlightedServiceRouteId] = useState<string | null>(null);
   const [settings, setSettings] = useState({ gridLines: false, bike: false, labels: state.labels, speed: 18, dwell: 30 });
   const [showNetwork, setShowNetwork] = useState(false);
@@ -94,9 +94,13 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
   const dirty = draft !== null && JSON.stringify(draft.route) !== draftStart.current;
 
   useEffect(() => {
-    const update = () => setViewportWidth(window.innerWidth);
+    let frame = 0;
+    const update = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => { frame = 0; setViewport({ width: window.innerWidth, height: window.innerHeight }); });
+    };
     window.addEventListener('resize', update);
-    return () => window.removeEventListener('resize', update);
+    return () => { window.removeEventListener('resize', update); cancelAnimationFrame(frame); };
   }, []);
   useEffect(() => {
     if (highlightedServiceRouteId !== activeServiceRouteId) setHighlightedServiceRouteId(null);
@@ -143,22 +147,32 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
     control?.focus();
   }, [draft?.route.stop_ids]);
 
-  const fitRoute = useCallback((r: Route) => {
-    const pts = routePath(r, data);
-    if (!pts.length) return;
-    const lng = pts.map((p) => p[0]), lat = pts.map((p) => p[1]);
+  const cameraPadding = useCallback(() => {
     const width = window.innerWidth;
     const narrow = width <= 900;
     const height = mapRef.current?.getContainer().clientHeight ?? window.innerHeight;
     const comparing = step === 'preview' || step === 'review';
+    if (width > 600 && narrow && window.innerHeight <= 600) return { top: 170, bottom: 40, left: 320, right: 48 };
+    return narrow ? { top: Math.min(200, height * .28), bottom: height * (comparing ? .48 : .56), left: 30, right: 48 }
+      : { top: 100, bottom: 130, left: width <= 1100 ? 330 : 384,
+        right: comparing ? width <= 1100 ? 430 : width <= 1450 ? 472 : 554 : width <= 1100 ? 292 : width <= 1450 ? 334 : 384 };
+  }, [step]);
+  const paddingPending = useRef(false);
+  const applyCameraPadding = useCallback(() => {
+    paddingPending.current = !mapRef.current;
+    mapRef.current?.setPadding(cameraPadding());
+  }, [cameraPadding]);
+  useEffect(applyCameraPadding, [viewport, applyCameraPadding]);
+  const fitRoute = useCallback((r: Route) => {
+    const pts = routePath(r, data);
+    if (!pts.length) return;
+    const lng = pts.map((p) => p[0]), lat = pts.map((p) => p[1]);
     mapRef.current?.fitBounds([[Math.min(...lng), Math.min(...lat)], [Math.max(...lng), Math.max(...lat)]], {
-      padding: narrow ? { top: Math.min(200, height * .28), bottom: height * (comparing ? .48 : .56), left: 30, right: 48 }
-        : { top: 100, bottom: 130, left: width <= 1100 ? 330 : 384,
-          right: comparing ? width <= 1100 ? 430 : width <= 1450 ? 472 : 554 : width <= 1100 ? 292 : width <= 1450 ? 334 : 384 },
+      padding: cameraPadding(),
       absolutePadding: true, duration: motionDuration(500), maxZoom: 14.5,
     });
-  }, [data, step]);
-  const locate = (at: [number, number]) => mapRef.current?.flyTo({ center: at, zoom: 15, duration: motionDuration(500), padding: window.innerWidth >= 900 ? { left: 370, right: step === 'preview' || step === 'review' ? 510 : 360, top: 100, bottom: 120 } : { left: 0, right: 0, top: 60, bottom: window.innerHeight * .48 } });
+  }, [data, cameraPadding]);
+  const locate = (at: [number, number]) => mapRef.current?.flyTo({ center: at, zoom: 15, duration: motionDuration(500), padding: cameraPadding() });
   const select = (r: Route) => { setSelectedId(r.id); setStation(null); fitRoute(r); };
   const begin = (kind: Draft['kind']) => {
     if (kind !== 'add' && !selected) return;
@@ -248,7 +262,7 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
   const activeRoute = activeDraft?.route ?? selected;
   useEffect(() => {
     if ((step === 'preview' || step === 'review') && activeRoute) fitRoute(activeRoute);
-  }, [step, viewportWidth, fitRoute]);
+  }, [step, fitRoute]);
   const gridView = step === 'edit' ? 'none' : step === 'overview' ? showNetwork ? 'frequency' : 'none' : comparisonLayer;
   const editor: EditorMapProps = { data, grid: raster, gridView, route: activeRoute, original: activeDraft?.original ?? null, deleting: activeDraft?.kind === 'delete', showStopNumbers: step !== 'overview',
     interaction: step === 'edit' ? interaction : 'select', insertIndex, gridLines: settings.gridLines, bike: settings.bike,
@@ -262,7 +276,8 @@ const Workspace = forwardRef<RouteWorkspaceHandle, Props & { data: ScenarioData 
 
   return <div ref={stageRef} className={`route-workspace route-step-${step}`} data-interaction={step === 'edit' ? interaction : 'select'}>
     <MapView mapRef={mapRef} initialView={initialView} data={map} grid={null} coverage={null} coverageImage={null} coverageLines={null}
-      need={null} state={mapState} station={station} onStation={setStation} onCloseStation={() => setStation(null)} onReady={() => selected && fitRoute(selected)} onMoveEnd={() => {}} editor={editor} />
+      need={null} state={mapState} station={station} onStation={setStation} onCloseStation={() => setStation(null)} onReady={() => selected && fitRoute(selected)}
+      onStatusChange={(status) => { if (status === 'ready' && paddingPending.current) applyCameraPadding(); }} onMoveEnd={() => {}} editor={editor} />
     <Search data={map} onChoose={(item) => {
       if (step === 'edit' && item.station?.type === 'bus' && interaction === 'stops' && data.records.stops[item.station.id]) addStop(item.station.id);
       else if (step !== 'edit') setStation(item.station ?? null);

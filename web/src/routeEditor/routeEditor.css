@@ -316,6 +316,15 @@
   .topbar-right .btn-prefs svg { display: none; }
   .route-toast { bottom: calc(54% + 8px); font-size: 11px; }
 }
+@media (min-width: 601px) and (max-width: 900px) and (max-height: 600px) {
+  .route-sidebar, .route-impact { left: 12px; right: auto; top: 12px; bottom: 12px; width: 288px; }
+  .route-workspace .search { left: 320px; right: 150px; width: auto; max-width: none; }
+  .route-toolbar { left: 320px; max-width: calc(100vw - 332px); }
+  .route-map-hint { left: 320px; right: 56px; }
+  .route-legend { left: 320px; right: 12px; top: auto; bottom: 36px; }
+  .route-step-preview .route-legend, .route-step-review .route-legend { left: 320px; right: 12px; }
+  .route-map-alert { left: 320px; right: 12px; top: 116px; }
+}
 
 .route-demographics > div, .route-population-row .route-tag { background: #f3f5f7; color: var(--muted); }
 @media (min-width: 901px) {
