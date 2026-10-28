@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { DAY_LABELS } from '../config';
 import { sample } from './model';
 import { KINDS, PERIODS, PROBLEMS, type Entry, type Filters, type Ranked } from './types';
@@ -46,8 +46,26 @@ function Schedule({ row, filters }: { row: Ranked; filters: Filters }) {
 interface Props { row: Ranked; rank: number; total: number; filters: Filters; lookup: Map<string, Entry>;
   onClose: () => void; onMap: () => void; onEdit: (id: string) => void; onMethods: () => void }
 export default function Detail({ row, rank, total, filters, lookup, onClose, onMap, onEdit, onMethods }: Props) {
+  const panel = useRef<HTMLElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const [routeId, setRouteId] = useState(row.route_ids[0] ?? '');
+  useLayoutEffect(() => {
+    const compact = window.matchMedia('(max-width: 900px)');
+    const previous = new Map<HTMLElement, boolean>();
+    const restore = () => { previous.forEach((inert, element) => { element.inert = inert; }); previous.clear(); };
+    const sync = () => {
+      restore();
+      if (!compact.matches || !panel.current?.parentElement) return;
+      // The compact detail covers this page; the global navigation remains available.
+      const covered = [...panel.current.parentElement.children].filter((element): element is HTMLElement =>
+        element instanceof HTMLElement && element !== panel.current && element.tagName !== 'DIALOG' && element.getAttribute('role') !== 'status');
+      const focusCovered = covered.some((element) => element.contains(document.activeElement));
+      covered.forEach((element) => { previous.set(element, element.inert); element.inert = true; });
+      if (focusCovered) heading.current?.focus({ preventScroll: true });
+    };
+    sync(); compact.addEventListener('change', sync);
+    return () => { compact.removeEventListener('change', sync); restore(); };
+  }, []);
   useEffect(() => { setRouteId(row.route_ids[0] ?? ''); heading.current?.focus({ preventScroll: true }); }, [row.id, row.route_ids]);
   useEffect(() => {
     const key = (e: KeyboardEvent) => { if (e.key === 'Escape' && !document.querySelector('dialog[open]')) onClose(); };
@@ -55,7 +73,7 @@ export default function Detail({ row, rank, total, filters, lookup, onClose, onM
   }, [onClose]);
   const weighted = filters.weights.map((w) => w * 100 / filters.weights.reduce((a, b) => a + b, 0));
   const target = row.kind === 'routes' ? row.variant_id : lookup.get(`route:${routeId}`)?.variant_id;
-  return <aside className="im-detail" aria-label={`${row.name}詳情`}>
+  return <aside ref={panel} className="im-detail" aria-label={`${row.name}詳情`}>
     <div className="im-detail-scroll">
       <header><p className="im-small">{KINDS[row.kind]}詳情 · 優先排名 #{rank}</p><button className="icon-btn" aria-label="關閉詳情" onClick={onClose}>✕</button>
         <h2 ref={heading} tabIndex={-1}>{row.name}</h2>
