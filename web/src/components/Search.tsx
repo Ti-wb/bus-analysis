@@ -54,6 +54,7 @@ function buildIndex(data: MapData): SearchItem[] {
 export default function Search({ data, onChoose, inputRef }: { data: MapData; onChoose: (item: SearchItem) => void; inputRef?: Ref<HTMLInputElement> }) {
   const field = useRef<HTMLInputElement>(null);
   const results = useRef<HTMLUListElement>(null);
+  const resultPointer = useRef<string | null>(null);
   const resultsId = useId();
   const connectInput = useCallback((node: HTMLInputElement | null) => {
     field.current = node;
@@ -86,7 +87,8 @@ export default function Search({ data, onChoose, inputRef }: { data: MapData; on
     }
   }, [active, visible, matches]);
 
-  const choose = (item: SearchItem | undefined) => {
+  const choose = (item: SearchItem | undefined, touch = false) => {
+    resultPointer.current = null;
     if (!item) return;
     setQuery(item.name);
     // A station name can also match a district or another station type. Keep the
@@ -94,6 +96,7 @@ export default function Search({ data, onChoose, inputRef }: { data: MapData; on
     setActive(Math.max(0, index.filter((candidate) => candidate.name.includes(item.name)).slice(0, 12).indexOf(item)));
     setOpen(false);
     onChoose(item);
+    if (touch) field.current?.blur();
   };
 
   return (
@@ -132,7 +135,8 @@ export default function Search({ data, onChoose, inputRef }: { data: MapData; on
       {visible && matches.length > 0 && (
         <ul ref={results} className="search-results" id={resultsId} role="listbox" aria-label="搜尋結果">
           {matches.map((m, i) => (
-            <li key={`${m.kind}-${m.name}-${i}`} id={`${resultsId}-${i}`} role="option" aria-selected={i === active} className={i === active ? 'is-active' : ''} onMouseDown={(e) => e.preventDefault()} onClick={() => choose(m)}>
+            <li key={`${m.kind}-${m.name}-${i}`} id={`${resultsId}-${i}`} role="option" aria-selected={i === active} className={i === active ? 'is-active' : ''}
+              onPointerDown={(e) => { resultPointer.current = e.pointerType; }} onMouseDown={(e) => e.preventDefault()} onClick={() => choose(m, resultPointer.current === 'touch')}>
               {m.name}<small>{m.kind}</small>
             </li>
           ))}
