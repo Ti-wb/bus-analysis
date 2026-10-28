@@ -38,7 +38,7 @@ export default function ImprovementMap({ rows, selected, map, onSelect }: { rows
     ref.current?.fitBounds([[Math.min(...xs), Math.min(...ys)], [Math.max(...xs), Math.max(...ys)]],
       { absolutePadding: true, padding: { top: compact ? 140 : 60, left: 40, bottom: 60, right: compact ? 40 : 560 }, duration: motionDuration(500), maxZoom: pts.length === 1 ? 15.5 : 14.5 });
   }, [ready, selected]);
-  const selectedData: FeatureCollection = { type: 'FeatureCollection', features: data.features.filter((f) => f.properties?.id === selected?.id) };
+  const selectedData = useMemo<FeatureCollection>(() => ({ type: 'FeatureCollection', features: data.features.filter((f) => f.properties?.id === selected?.id) }), [data, selected?.id]);
   const view = fallbackView ?? DEFAULT_VIEW;
   return <div className={`im-map${selected ? ' has-selection' : ''}`}>
     <Map key={mapLoad.attempt} ref={ref} initialViewState={{ ...view, longitude: view.center[0], latitude: view.center[1], zoom: fallbackView?.zoom ?? 11.8 }} mapStyle={localBase ? LOCAL_STYLE : BASE_STYLE}

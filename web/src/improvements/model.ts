@@ -12,7 +12,7 @@ export function mean(series: number[] | null, start: number, end: number): numbe
   return series ? series.slice(start, end).reduce((a, b) => a + b, 0) / (end - start) : null;
 }
 
-export function rankEntries(entries: Entry[], f: Filters): Ranked[] {
+export function rankEntries(entries: Entry[], f: Pick<Filters, 'day' | 'period' | 'weights' | 'overlap' | 'passengers'>): Ranked[] {
   const { start, end } = PERIODS[f.period];
   const freq = entries.map((r) => mean(r.hourly[f.day], start, end));
   const sorted = freq.filter((n): n is number => n !== null).sort((a, b) => a - b);
@@ -57,7 +57,7 @@ export function rankEntries(entries: Entry[], f: Filters): Ranked[] {
   });
 }
 
-export function matches(r: Ranked, f: Filters): boolean {
+export function matches(r: Ranked, f: Pick<Filters, 'district' | 'query' | 'problems'>): boolean {
   const query = f.query.trim().toLocaleLowerCase();
   return (!f.district || r.districts.includes(f.district))
     && (!query || `${r.name} ${r.subtitle ?? ''} ${r.source_id} ${r.districts.join(' ')}`.toLocaleLowerCase().includes(query))
@@ -93,7 +93,7 @@ export function sortValue(r: Ranked, key: SortKey): string | number | null {
     default: return r[key];
   }
 }
-export function sortRows(rows: Ranked[], f: Filters): Ranked[] {
+export function sortRows(rows: Ranked[], f: Pick<Filters, 'sort' | 'descending'>): Ranked[] {
   return [...rows].sort((a, b) => {
     const av = sortValue(a, f.sort), bv = sortValue(b, f.sort);
     if (av === null || bv === null) return av === bv ? a.id.localeCompare(b.id) : av === null ? 1 : -1;

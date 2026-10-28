@@ -91,7 +91,8 @@ const ImprovementList = forwardRef<ImprovementHandle, Props>(function Improvemen
   const scroll = useRef<HTMLDivElement>(null);
   const returnFocus = useRef<HTMLElement | null>(null);
   const deferred = useDeferredValue(filters);
-  const busy = filters !== deferred;
+  const busy = filters !== deferred && Object.entries(filters).some(([key, value]) =>
+    key !== 'selected' && key !== 'view' && value !== deferred[key as keyof Filters]);
   const update = (patch: Partial<Filters>) => {
     setFilters((old) => ({ ...old, ...patch }));
     if (Object.keys(patch).some((key) => key !== 'view' && key !== 'selected')) { setPage(1); scroll.current?.scrollTo(0, 0); }
@@ -106,13 +107,14 @@ const ImprovementList = forwardRef<ImprovementHandle, Props>(function Improvemen
   }, [retry]);
   useEffect(() => { if (!message) return; const timer = setTimeout(() => setMessage(''), 4500); return () => clearTimeout(timer); }, [message]);
   const all = useMemo(() => data?.records.filter((r) => r.kind === deferred.kind) ?? [], [data, deferred.kind]);
-  const ranked = useMemo(() => rankEntries(all, deferred), [all, deferred]);
-  const matched = useMemo(() => ranked.filter((r) => matches(r, deferred)), [ranked, deferred]);
-  const rows = useMemo(() => sortRows(matched.filter((r) => deferred.showLow || r.score >= 60), deferred), [matched, deferred]);
+  // Selecting a candidate must not rebuild scores or every candidate's GeoJSON.
+  const ranked = useMemo(() => rankEntries(all, deferred), [all, deferred.day, deferred.period, deferred.weights, deferred.overlap, deferred.passengers]);
+  const matched = useMemo(() => ranked.filter((r) => matches(r, deferred)), [ranked, deferred.district, deferred.query, deferred.problems]);
+  const rows = useMemo(() => sortRows(matched.filter((r) => deferred.showLow || r.score >= 60), deferred), [matched, deferred.showLow, deferred.sort, deferred.descending]);
   const empty = useMemo(() => emptyResults(deferred, !deferred.query.trim() || ranked.some((r) => matches(r, { ...deferred, district: '', problems: [] })), matched.length), [ranked, deferred, matched.length]);
   const lookup = useMemo(() => new Map<string, Entry>(data?.records.map((r) => [r.id, r])), [data]);
   const districts = useMemo(() => [...new Set(data?.records.flatMap((r) => r.districts) ?? [])].sort(), [data]);
-  const selected = rows.find((r) => r.id === deferred.selected) ?? null;
+  const selected = rows.find((r) => r.id === filters.selected) ?? null;
   const totalPages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
   const currentPage = Math.min(page, totalPages);
   const visible = rows.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
