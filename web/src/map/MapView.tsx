@@ -1,9 +1,9 @@
 import type { FeatureCollection, MultiLineString, Point, Polygon } from 'geojson';
-import type { ExpressionSpecification, MapGeoJSONFeature, Map as MaplibreMap, PaddingOptions, StyleSpecification } from 'maplibre-gl';
+import type { ExpressionSpecification, MapGeoJSONFeature, Map as MaplibreMap } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 // MapLibre 6 resolves its worker next to its own module, which the bundle does not copy; ship it as an asset.
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url';
-import { useCallback, useEffect, useMemo, useReducer, useRef, useState, type RefObject } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type RefObject } from 'react';
 import Map, {
   AttributionControl,
   Layer,
@@ -33,14 +33,13 @@ import { CoverageTooltip, FeatureTooltip, NeedTooltip, RoutePopup, type PopupFea
 import * as L from './layers';
 import { focusLocalBounds, focusRouteBounds, focusStops } from './focusGeometry';
 import { buildFocusCoverage, focusCoverageGridLines, focusCoverageImage, focusDistanceAt } from './focusCoverage';
-import { INITIAL_MAP_LOAD, MAP_LOAD_TIMEOUT, mapLoadReducer, type Basemap, type MapStatus } from './loadState';
+import type { MapStatus } from './loadState';
+import { LOCAL_STYLE, useMapRecovery } from './useMapRecovery';
+import MapNotice from './MapNotice';
 import { ROUTE_STOP_PICKER, RouteLayers, RouteStopPicker, ScenarioGrid, type EditorMapProps } from '../routeEditor/RouteLayers';
 import type { AppState, Coverage, Grid, LayerGroup, MapData, NeedGrid, StationSelection, ViewState } from '../types';
 
 const LABEL_NAME: ExpressionSpecification = ['coalesce', ['get', 'name:zh-Hant'], ['get', 'name:nonlatin'], ['get', 'name']];
-const LOCAL_STYLE: StyleSpecification = {
-  version: 8, sources: {}, layers: [{ id: 'local-background', type: 'background', paint: { 'background-color': '#eef3f7' } }],
-};
 const LAYER_GROUP_OF: Record<string, LayerGroup> = Object.fromEntries(
   Object.entries(LAYER_GROUPS).flatMap(([group, ids]) => ids.map((id) => [id, group as LayerGroup])),
 );
@@ -128,13 +127,10 @@ function addHatchPattern(map: MaplibreMap) {
 export default function MapView({ villageAges = null, villageData = null, selectedVillage = null, onVillage, onCloseVillage, editor, focus, onFocusRoute, mapRef, initialView, data, grid, coverage, coverageImage, coverageLines, need, state, station, onStation, onCloseStation, onReady, onStatusChange, onMoveEnd }: Props) {
   // First label layer of the base style: our layers go below it so road names stay on top.
   const [labelLayer, setLabelLayer] = useState<string | null>(null);
-  const [mapLoad, dispatchMapLoad] = useReducer(mapLoadReducer, INITIAL_MAP_LOAD);
+  const { mapLoad, dispatchMapLoad, fallbackView, retryMap } = useMapRecovery(mapRef);
   const styleLoaded = mapLoad.status === 'ready';
   const localBase = mapLoad.base === 'local';
-  const [fallbackView, setFallbackView] = useState<(ViewState & { bearing: number; pitch: number; padding: PaddingOptions }) | null>(null);
   const notifiedReady = useRef(false);
-  const [noticeOpen, setNoticeOpen] = useState(true);
-  useEffect(() => { setNoticeOpen(true); }, [mapLoad.attempt, mapLoad.issue]);
   const baseLabels = useRef<string[]>([]);
   const hoverRef = useRef<MapHoverHandle>(null);
   const hoverFrame = useRef<number | null>(null);
@@ -207,41 +203,7 @@ export default function MapView({ villageAges = null, villageData = null, select
     });
   }, [activeFocus, data, styleLoaded, mapRef, station, visibleRouteIds]);
   const travelData = useMemo(() => travelCollection(data.bus_travel_times, state), [data.bus_travel_times, state.day, state.hour]);
-  const retainCamera = useCallback(() => {
-    const map = mapRef.current;
-    if (map) {
-      const center = map.getCenter();
-      setFallbackView({ center: [center.lng, center.lat], zoom: map.getZoom(), bearing: map.getBearing(), pitch: map.getPitch(), padding: map.getPadding() });
-    }
-  }, [mapRef]);
-  const retryMap = useCallback((base: Basemap) => {
-    retainCamera();
-    setLabelLayer(null);
-    baseLabels.current = [];
-    dispatchMapLoad({ type: 'retry', base });
-  }, [retainCamera]);
-
-  useEffect(() => {
-    if (mapLoad.status !== 'loading') return;
-    const timer = setTimeout(() => {
-      retainCamera();
-      setLabelLayer(null);
-      baseLabels.current = [];
-      dispatchMapLoad({ type: 'timeout', attempt: mapLoad.attempt });
-    }, MAP_LOAD_TIMEOUT);
-    return () => clearTimeout(timer);
-  }, [mapLoad.status, mapLoad.attempt, retainCamera]);
   useEffect(() => { onStatusChange?.(mapLoad.status); }, [mapLoad.status, onStatusChange]);
-  useEffect(() => {
-    const map = mapRef.current?.getMap();
-    if (!map || !styleLoaded) return;
-    const lost = () => {
-      retainCamera();
-      dispatchMapLoad({ type: 'context-lost', attempt: mapLoad.attempt });
-    };
-    map.on('webglcontextlost', lost);
-    return () => { map.off('webglcontextlost', lost); };
-  }, [mapRef, styleLoaded, mapLoad.attempt, retainCamera]);
 
   const villageIndex = useMemo(() => new globalThis.Map(villageAges?.features.map((feature) => [feature.properties.boundary_id, feature.properties]) ?? []), [villageAges]);
   const currentAgeGroup = villageAges && groupFor(villageAges.metadata, state.ageGroup, state.ageSet);
@@ -461,16 +423,6 @@ export default function MapView({ villageAges = null, villageData = null, select
       : station?.type === 'bus' && !station.properties.source_scope ? station.properties.route_ids ?? [] : null;
   const below = labelLayer ?? undefined;
   const mapView = fallbackView ?? initialView;
-  const mapNotice = mapLoad.status === 'failed'
-    ? mapLoad.issue === 'context' ? '地圖繪圖連線已中斷。請重試地圖；目前選取與路線草稿仍保留。'
-      : '地圖無法完成載入。請重試地圖；目前選取與路線草稿仍保留。'
-    : mapLoad.issue === 'resource'
-      ? localBase ? '部分資料圖層載入失敗；已載入內容仍可操作，請重試地圖。'
-        : '部分底圖或資料圖層載入失敗；已載入內容仍可操作。可重試地圖或使用本地簡圖。'
-      : localBase ? styleLoaded
-        ? '已使用本地簡圖；道路、行政界與資料圖層可繼續操作，沒有線上底圖路名。'
-        : '正在載入本地簡圖…'
-      : null;
 
   return (
     <>
@@ -634,14 +586,7 @@ export default function MapView({ villageAges = null, villageData = null, select
 
       {ageView && selectedVillageProps && villageAges && currentAgeGroup && <VillageDialog properties={selectedVillageProps} metadata={villageAges.metadata} group={currentAgeGroup} onClose={closeVillage} />}
 
-      {mapNotice && (noticeOpen || mapLoad.status !== 'ready') && <div className="map-notice" role={mapLoad.status === 'failed' ? 'alert' : 'status'}>
-        <span>{mapNotice}</span>
-        {mapLoad.status !== 'loading' && <button onClick={() => retryMap(mapLoad.base)}>重試地圖</button>}
-        {!localBase && <button onClick={() => retryMap('local')}>使用本地簡圖</button>}
-        {localBase && <button onClick={() => retryMap('online')}>重試線上底圖</button>}
-        {mapLoad.status === 'ready' && <button className="notice-close" aria-label="關閉底圖提示" onClick={() => localBase ? setNoticeOpen(false) : dispatchMapLoad({ type: 'dismiss', attempt: mapLoad.attempt })}>×</button>}
-      </div>}
-      {localBase && !noticeOpen && styleLoaded && <button className="map-base-options" onClick={() => setNoticeOpen(true)}>本地簡圖・底圖選項</button>}
+      <MapNotice state={mapLoad} onRetry={retryMap} onDismiss={() => dispatchMapLoad({ type: 'dismiss', attempt: mapLoad.attempt })} />
       {editor && mapLoad.status === 'loading' && <div className="loading" role="status">載入地圖中…</div>}
 
       {station && <StationInfo station={station} mode={activeFocus ? 'focus' : 'popup'} mapRef={mapRef} mapReady={styleLoaded} data={data} placeKeys={state.places} onClose={onCloseStation} />}
